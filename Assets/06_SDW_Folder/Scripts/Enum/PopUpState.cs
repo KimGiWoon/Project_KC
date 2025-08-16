@@ -1,11 +1,14 @@
-﻿public enum PopupState
+﻿namespace SDW
 {
-    SignIn,
-    FirstSignUp,
-    SecondSignUp,
-    NickName,
-    UserData,
-    EmailVerification,
-    Error,
-    Success
+    public enum PopupState
+    {
+        SignIn,
+        FirstSignUp,
+        SecondSignUp,
+        NickName,
+        UserData,
+        EmailVerification,
+        Error,
+        Success
+    }
 }
