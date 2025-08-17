@@ -13,6 +13,9 @@ namespace SDW
         private UIManager _ui;
         public UIManager UI => _ui;
 
+        private MySceneManager _scene;
+        public MySceneManager Scene => _scene;
+
         private void Awake()
         {
             if (_instance == null)
@@ -25,6 +28,7 @@ namespace SDW
 
             _firebase = GetComponent<FirebaseManager>();
             _ui = GetComponent<UIManager>();
+            _scene = GetComponent<MySceneManager>();
         }
 
         private void Start()

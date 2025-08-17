@@ -9,7 +9,7 @@ namespace SDW
     public class SetNicknameUI : BaseUI
     {
         private TMP_InputField _nicknameInputField;
-        private TextMeshProUGUI _nicknameText;
+        private TextMeshProUGUI _nicknameErrorText;
         private Button _nicknameButton;
 
         public Action<string> OnNicknameChange;
@@ -22,7 +22,7 @@ namespace SDW
         {
             _panelContainer.SetActive(false);
             _nicknameInputField = _panelContainer.GetComponentInChildren<TMP_InputField>(true);
-            _nicknameText = _panelContainer.GetComponentInChildren<TextMeshProUGUI>(true);
+            _nicknameErrorText = _panelContainer.GetComponentInChildren<TextMeshProUGUI>(true);
             _nicknameButton = _panelContainer.GetComponentInChildren<Button>(true);
             _nicknameButton.onClick.AddListener(ApplyButtonClicked);
         }
@@ -35,11 +35,11 @@ namespace SDW
         {
             if (string.IsNullOrEmpty(_nicknameInputField.text))
             {
-                _nicknameText.text = "닉네임을 입력해주세요.";
+                _nicknameErrorText.text = "닉네임을 입력해주세요.";
                 return;
             }
 
-            _nicknameText.text = "";
+            _nicknameErrorText.text = "";
             OnNicknameChange?.Invoke(_nicknameInputField.text);
         }
     }

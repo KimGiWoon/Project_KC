@@ -20,13 +20,7 @@ namespace SDW
         private DatabaseReference _db;
         public DatabaseReference DB => _db;
 
-        private string _checkedEmail;
-        private bool _canDelete;
-        private Coroutine _coroutine;
-        private WaitForSeconds _verificationTime = new WaitForSeconds(2f);
-
         public Action<ButtonType> OnSignInSetButtonType;
-        public Action OnNicknameLoaded;
 
         [SerializeField] private FirebaseDataSO _cliendData;
         private string _googleClientId;
@@ -136,6 +130,10 @@ namespace SDW
             });
         }
 
+        /// <summary>
+        /// Firebase 사용자 인증을 위한 Google ID 토큰을 Firebase 인증 시스템에 전달
+        /// </summary>
+        /// <param name="googleIdToken">Google 로그인을 통해 얻은 ID 토큰 문자열</param>
         private void FirebaseAuthentication(string googleIdToken)
         {
             var credential = GoogleAuthProvider.GetCredential(googleIdToken, null);
@@ -161,6 +159,10 @@ namespace SDW
             });
         }
 
+        /// <summary>
+        /// 사용자 정보가 데이터베이스에 존재하는지 확인하고, 존재하면 데이터를 로드하거나 존재하지 않으면 새로운 데이터를 저장하는 메서드
+        /// </summary>
+        /// <param name="user">Firebase 사용자 정보</param>
         private void CheckUserInDatabase(FirebaseUser user)
         {
             string userId = user.UserId;
@@ -182,6 +184,10 @@ namespace SDW
             });
         }
 
+        /// <summary>
+        /// 사용자의 데이터베이스에서 로드된 데이터를 처리하여 UserData 객체를 초기화
+        /// </summary>
+        /// <param name="result">사용자 데이터를 포함하는 Firebase DataSnapshot 객체</param>
         private void LoadUserData(DataSnapshot result)
         {
             var userData = result.Value as Dictionary<string, object>;
@@ -253,7 +259,7 @@ namespace SDW
         /// </summary>
         private void OnSignInComplete()
         {
-            Debug.Log("Login 완료");
+            GameManager.Instance.Scene.LoadSceneAsync(SceneName.SDW_LobbyScene);
         }
 
         public void SetNickname(string nickname)
@@ -287,15 +293,14 @@ namespace SDW
         /// </summary>
         public void SignOut()
         {
-            if (_auth.CurrentUser != null)
-            {
-                _auth.SignOut();
-                GoogleSignIn.DefaultInstance.SignOut();
+            if (_auth.CurrentUser == null) return;
 
-                _userData = null;
+            _auth.SignOut();
+            GoogleSignIn.DefaultInstance.SignOut();
 
-                Debug.Log("로그아웃 완료");
-            }
+            _userData = null;
+
+            Debug.Log("로그아웃 완료");
         }
 
         /// <summary>

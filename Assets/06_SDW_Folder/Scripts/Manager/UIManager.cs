@@ -1,26 +1,38 @@
 ﻿using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace SDW
 {
-    public class UIManager : MonoBehaviour
+    public class UIManager : MonoBehaviour, ISceneLoadable
     {
+        //todo Addressable에서 사용 - 다운로드 관련 UI 추가 필요
         private Dictionary<UIName, BaseUI> _uiDic = new Dictionary<UIName, BaseUI>();
-
-        //todo Addressable에서 사용 - 다운로드 관련 UI
-        [Header("Loading Panel")]
-        private GameObject _loadingPanel;
 
         private FirebaseManager _firebase;
 
+        //# Loading Settings 
+        private GameObject _loadingCanvas;
+        private TMP_Text _loadingText;
+        private TMP_Text _loadingProgressText;
+        private Slider _loadingProgressBar;
+
+        /// <summary>
+        /// Firebase 컴포넌트 연결 
+        /// </summary>
         private void Awake()
         {
             _firebase = GetComponent<FirebaseManager>();
         }
 
+        /// <summary>
+        /// Firebase 연결 초기화
+        /// </summary>
         private void Start()
         {
             _firebase.ConnectToFirebase();
+            ConnectLoading();
         }
 
         #region Panel Methods
@@ -81,6 +93,54 @@ namespace SDW
         /// </summary>
         /// <param name="ui">제거할 BaseUI 파생 클래스 인스턴스</param>
         public void RemovePanel(BaseUI ui) => _uiDic.Remove(ui.Name);
+
+        #endregion
+
+        #region Loading Methods
+
+        private void ConnectLoading()
+        {
+            var loadingObject = Resources.Load<GameObject>("UI/LoadingCanvas");
+            _loadingCanvas = Instantiate(loadingObject, transform);
+            _loadingCanvas.SetActive(false);
+
+            var children = loadingObject.GetComponentsInChildren<RectTransform>(true);
+
+            foreach (var child in children)
+            {
+                if (child.gameObject.name.Equals("Loading Text")) _loadingText = child.GetComponent<TMP_Text>();
+                else if (child.gameObject.name.Equals("Loading Progress Bar")) _loadingProgressBar = child.GetComponent<Slider>();
+                else if (child.gameObject.name.Equals("Loading Progress Text"))
+                    _loadingProgressText = child.GetComponent<TMP_Text>();
+            }
+        }
+
+        public void InitSceneLoadingUI()
+        {
+            _loadingCanvas.SetActive(true);
+
+            //# 로딩 UI 초기화
+            if (_loadingProgressBar != null) _loadingProgressBar.value = 0f;
+            if (_loadingProgressText != null) _loadingProgressText.text = "0%";
+            if (_loadingText != null) _loadingText.text = "Loading...";
+        }
+        public void UpdateLoadingUI(float progress)
+        {
+            if (_loadingProgressBar != null) _loadingProgressBar.value = progress;
+
+            if (_loadingProgressText != null) _loadingProgressText.text = $"{Mathf.FloorToInt(progress * 100)}%";
+
+            if (_loadingText != null)
+            {
+                int dotCount = Mathf.FloorToInt(Time.unscaledTime * 2) % 4;
+                _loadingText.text = "Loading" + new string('.', dotCount);
+            }
+        }
+        public void CompleteSceneLoading()
+        {
+            if (_loadingText != null) _loadingText.text = "Complete!";
+            _loadingCanvas.SetActive(false);
+        }
 
         #endregion
     }
