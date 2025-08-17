@@ -43,6 +43,7 @@ namespace SDW
         /// <param name="uiName">활성화할 패널의 이름</param>
         public void OpenPanel(UIName uiName)
         {
+            Debug.Log($"Open UI name : {uiName}");
             _uiDic[uiName].Open();
 
             switch (uiName)
@@ -56,6 +57,15 @@ namespace SDW
                 case UIName.SetNicknameUI:
                     var setNicknameUI = _uiDic[uiName] as SetNicknameUI;
                     setNicknameUI.OnNicknameChange += _firebase.SetNickname;
+                    break;
+                case UIName.MainLobbyUI:
+                    var mainLobbyUI = _uiDic[uiName] as MainLobbyUI;
+                    mainLobbyUI.OnButtonClicked += OpenPanel;
+                    break;
+                case UIName.UserInfoUI:
+                    var userInfoUI = _uiDic[uiName] as UserInfoUI;
+                    userInfoUI.OnSignOutButtonClicked += _firebase.SignOut;
+                    userInfoUI.OnDeleteButtonClicked += _firebase.DeleteAccount;
                     break;
             }
         }
@@ -78,6 +88,15 @@ namespace SDW
                 case UIName.SetNicknameUI:
                     var setNicknameUI = _uiDic[uiName] as SetNicknameUI;
                     setNicknameUI.OnNicknameChange -= _firebase.SetNickname;
+                    break;
+                case UIName.MainLobbyUI:
+                    var mainLobbyUI = _uiDic[uiName] as MainLobbyUI;
+                    mainLobbyUI.OnButtonClicked -= OpenPanel;
+                    break;
+                case UIName.UserInfoUI:
+                    var userInfoUI = _uiDic[uiName] as UserInfoUI;
+                    userInfoUI.OnSignOutButtonClicked -= _firebase.SignOut;
+                    userInfoUI.OnDeleteButtonClicked -= _firebase.DeleteAccount;
                     break;
             }
         }
@@ -139,7 +158,13 @@ namespace SDW
         public void CompleteSceneLoading()
         {
             if (_loadingText != null) _loadingText.text = "Complete!";
+
             _loadingCanvas.SetActive(false);
+
+            if (GameManager.Instance.Scene.GetActiveScene() == nameof(SceneName.SDW_LobbyScene))
+            {
+                OpenPanel(UIName.MainLobbyUI);
+            }
         }
 
         #endregion

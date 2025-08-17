@@ -10,6 +10,7 @@ namespace SDW
 
         [Header("Button Sprites")]
         [SerializeField] private Sprite _signUpSprite;
+        [SerializeField] private Sprite _signInSprite;
         [SerializeField] private Sprite _continueWithGoogleSprite;
         private Image _signInImage;
 
@@ -41,6 +42,9 @@ namespace SDW
             {
                 case ButtonType.SignUpButton:
                     _signInImage.sprite = _signUpSprite;
+                    break;
+                case ButtonType.SignInButton:
+                    _signInImage.sprite = _signInSprite;
                     break;
                 case ButtonType.ContinueButton:
                     _signInImage.sprite = _continueWithGoogleSprite;

@@ -4,7 +4,10 @@ namespace SDW
 {
     public class BaseUI : MonoBehaviour
     {
+        [Header("UI Name Setting")]
         public UIName Name;
+
+        [Header("UI Panel Setting")]
         public GameObject _panelContainer;
 
         /// <summary>

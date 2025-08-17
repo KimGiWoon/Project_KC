@@ -68,10 +68,15 @@ namespace SDW
                         Debug.Log("기존 유저");
                         OnSignInSetButtonType?.Invoke(ButtonType.ContinueButton);
                     }
-                    else
+                    else if (PlayerPrefs.GetInt("SignedUp", 0) == 0)
                     {
                         Debug.Log("신규 유저");
                         OnSignInSetButtonType?.Invoke(ButtonType.SignUpButton);
+                    }
+                    else
+                    {
+                        Debug.Log("가입한 이력이 있는 유저");
+                        OnSignInSetButtonType?.Invoke(ButtonType.SignInButton);
                     }
 
                     InitializeGoogleSignIn();
@@ -152,8 +157,10 @@ namespace SDW
                     return;
                 }
 
-                // OnPopupMessage?.Invoke($"로그인 성공: {user.DisplayName}", PopupState.Success);
                 var result = task.Result;
+
+                PlayerPrefs.SetInt("SignedUp", 1);
+                PlayerPrefs.Save();
 
                 CheckUserInDatabase(result.User);
             });
@@ -233,6 +240,7 @@ namespace SDW
                 }
 
                 Debug.Log("사용자 데이터가 성공적으로 저장되었습니다.");
+
                 CheckNicknameRequired();
             });
         }
@@ -250,6 +258,7 @@ namespace SDW
             else
             {
                 Debug.Log($"닉네임이 존재함 : {_userData.Nickname}");
+
                 OnSignInComplete();
             }
         }
@@ -278,9 +287,12 @@ namespace SDW
                     Debug.LogError($"닉네임 저장 실패: {task.Exception.Message}");
                     return;
                 }
+
                 Debug.Log($"닉네임 설정 완료 : {nickname}");
 
                 _ui.ClosePanel(UIName.SetNicknameUI);
+
+                OnSignInComplete();
             });
         }
 
@@ -334,9 +346,11 @@ namespace SDW
                         return;
                     }
 
-                    GoogleSignIn.DefaultInstance.SignOut();
-
                     _userData = null;
+
+                    GoogleSignIn.DefaultInstance.SignOut();
+                    PlayerPrefs.SetInt("SignedUp", 0);
+                    PlayerPrefs.Save();
 
                     Debug.Log("계정 삭제 완료");
                 });
