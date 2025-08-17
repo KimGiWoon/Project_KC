@@ -3,6 +3,6 @@
     public enum UIName
     {
         SignInUI,
-        NicknameUI
+        SetNicknameUI
     }
 }

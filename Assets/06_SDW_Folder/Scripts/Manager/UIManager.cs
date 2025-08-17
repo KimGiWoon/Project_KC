@@ -40,10 +40,10 @@ namespace SDW
                     signUI.OnSignInButtonClicked += _firebase.SignInWithGoogle;
                     _firebase.OnSignInSetButtonType += signUI.SetButtonImage;
 
-                    //# Test Code
-                    _firebase.OnPlayerSigned += ClosePanel;
                     break;
-                case UIName.NicknameUI:
+                case UIName.SetNicknameUI:
+                    var setNicknameUI = _uiDic[uiName] as SetNicknameUI;
+                    setNicknameUI.OnNicknameChange += _firebase.SetNickname;
                     break;
             }
         }
@@ -62,11 +62,10 @@ namespace SDW
                     var signUI = _uiDic[uiName] as SignInUI;
                     signUI.OnSignInButtonClicked -= _firebase.SignInWithGoogle;
                     _firebase.OnSignInSetButtonType -= signUI.SetButtonImage;
-
-                    //# Test Code
-                    _firebase.OnPlayerSigned -= ClosePanel;
                     break;
-                case UIName.NicknameUI:
+                case UIName.SetNicknameUI:
+                    var setNicknameUI = _uiDic[uiName] as SetNicknameUI;
+                    setNicknameUI.OnNicknameChange -= _firebase.SetNickname;
                     break;
             }
         }
@@ -75,16 +74,7 @@ namespace SDW
         /// 지정된 UI 패널을 관리자에 추가
         /// </summary>
         /// <param name="ui">추가할 BaseUI 파생 클래스 인스턴스</param>
-        public void AddPanel(BaseUI ui)
-        {
-            _uiDic[ui.Name] = ui;
-
-            //# Test Code
-            if (ui.Name == UIName.SignInUI)
-            {
-                OpenPanel(ui.Name);
-            }
-        }
+        public void AddPanel(BaseUI ui) => _uiDic[ui.Name] = ui;
 
         /// <summary>
         /// 지정된 UI 패널을 UIManager에서 제거
