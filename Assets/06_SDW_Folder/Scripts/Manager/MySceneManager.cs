@@ -16,6 +16,8 @@ namespace SDW
         private SceneName _prevSceneName = SceneName.SDW_SignInScene;
         private int _prevSceneIndex = 0;
 
+        private WaitForSeconds _waitForSeconds = new WaitForSeconds(0.05f);
+
         /// <summary>
         /// Scene Loading UI 요소에 대한 컴포넌트 연결
         /// </summary>
@@ -83,6 +85,7 @@ namespace SDW
         private void LoadScene(SceneName sceneName)
         {
             _levelSceneOperation = SceneManager.LoadSceneAsync(sceneName.ToString());
+            _levelSceneOperation.allowSceneActivation = false;
             _levelSceneOperation.completed += (op) => { CompleteSceneLoading(); };
         }
 
@@ -93,6 +96,7 @@ namespace SDW
         private void LoadScene(int sceneIndex)
         {
             _levelSceneOperation = SceneManager.LoadSceneAsync(sceneIndex);
+            _levelSceneOperation.allowSceneActivation = false;
             _levelSceneOperation.completed += (op) => { CompleteSceneLoading(); };
         }
 
@@ -115,17 +119,27 @@ namespace SDW
         {
             float totalProgress = 0f;
             float currentProgress = 0f;
+
             while (!_levelSceneOperation.isDone)
             {
-                //# 씬 활성화 및 씬이 완전히 로드될 때까지 대기
-                if (_levelSceneOperation.progress >= 0.88f)
-                    totalProgress = currentProgress;
-                else
-                    totalProgress = _levelSceneOperation.progress;
+                totalProgress = _levelSceneOperation.progress;
 
-                //# 로딩 진행률 (0.0 ~ 0.9)
+                //# 로딩 진행률 (0.0 ~ 0.88)
+                if (totalProgress >= 0.88f)
+                {
+                    totalProgress = currentProgress;
+                    break;
+                }
 
                 currentProgress = UpdateLoadingUI(totalProgress);
+                yield return null;
+            }
+
+            while (true)
+            {
+                currentProgress = UpdateLoadingUI(currentProgress);
+
+                // Debug.Log($"currentProgress: {currentProgress}");
 
                 if (Mathf.Abs(currentProgress - 1f) < 0.01f)
                 {
@@ -136,6 +150,7 @@ namespace SDW
                 yield return null;
             }
 
+            _levelSceneOperation.allowSceneActivation = true;
             yield return _levelSceneOperation;
         }
 
