@@ -104,19 +104,13 @@ namespace SDW
 #if UNITY_EDITOR
             string email = "team11@test.com";
             string password = "kga1111";
-            _auth.SignInWithEmailAndPasswordAsync(email, password).ContinueWithOnMainThread(task =>
-            {
-                if (task.IsFaulted)
-                {
-                    Debug.LogWarning($"로그인에 실패하였습니다 : {task.Exception.Message}");
-                    return;
-                }
 
-                PlayerPrefs.SetInt("SignedUp", 1);
-                PlayerPrefs.Save();
-
-                CheckUserInDatabase(task.Result.User);
-            });
+            if (_auth.CurrentUser != null)
+                SignIn(email, password);
+            else if (PlayerPrefs.GetInt("SignedUp", 0) == 0)
+                SignUp(email, password);
+            else
+                SignIn(email, password);
 #else
             GoogleSignIn.Configuration = _googleConfig;
             GoogleSignIn.DefaultInstance.SignIn().ContinueWithOnMainThread(task =>
@@ -139,6 +133,107 @@ namespace SDW
             });
 #endif
         }
+
+#if UNITY_EDITOR
+        /// <summary>
+        /// 사용자 인증을 위한 이메일과 비밀번호로 Firebase에 로그인하는 메서드
+        /// </summary>
+        /// <param name="email">로그인하려는 사용자의 이메일 주소</param>
+        /// <param name="password">로그인하려는 사용자의 비밀번호</param
+        private void SignIn(string email, string password)
+        {
+            _auth.SignInWithEmailAndPasswordAsync(email, password).ContinueWithOnMainThread(task =>
+            {
+                if (task.IsFaulted)
+                {
+                    Debug.LogWarning($"로그인에 실패하였습니다 : {task.Exception.Message}");
+                    return;
+                }
+
+                PlayerPrefs.SetInt("SignedUp", 1);
+                PlayerPrefs.Save();
+
+                CheckUserData(email, task.Result.User);
+            });
+        }
+
+        /// <summary>
+        /// 이메일과 비밀번호로 Firebase에 회원가입을 하는 메서드
+        /// </summary>
+        /// <param name="email">로그인하려는 사용자의 이메일 주소</param>
+        /// <param name="password">로그인하려는 사용자의 비밀번호</param>
+        private void SignUp(string email, string password)
+        {
+            _auth.CreateUserWithEmailAndPasswordAsync(email, password)
+                .ContinueWithOnMainThread(task =>
+                {
+                    //# 가입이 실패한 경우
+                    if (task.IsFaulted)
+                    {
+                        Debug.LogWarning($"가입 실패 : {task.Exception.Message}");
+                        return;
+                    }
+
+                    PlayerPrefs.SetInt("SignedUp", 1);
+                    PlayerPrefs.Save();
+
+                    CheckUserData(email, task.Result.User);
+                });
+        }
+
+        /// <summary>
+        /// 사용자 데이터 확인 및 업데이트 로직 수행
+        /// </summary>
+        /// <param name="email">사용자의 이메일 주소</param>
+        /// <param name="user">Auth의 유저 정보</param>
+        private void CheckUserData(string email, FirebaseUser user)
+        {
+            string uid = _auth.CurrentUser.UserId;
+            var usernameRef = _db.Child("users").Child(uid);
+
+            usernameRef.GetValueAsync().ContinueWithOnMainThread(task =>
+            {
+                if (task.IsFaulted)
+                {
+                    Debug.Log($"유저 정보 확인 실패 : {task.Exception?.Message}");
+                    return;
+                }
+
+                var result = task.Result;
+
+                if (!result.Exists) RegisterEmail(email, uid, user);
+                else CheckUserInDatabase(user);
+            });
+        }
+
+        /// <summary>
+        /// Firebase에 등록된 사용자 데이터를 서버에 저장
+        /// </summary>
+        /// <param name="email">사용자의 이메일 주소</param>
+        /// <param name="uid">사용자의 고유 ID</param>
+        /// <param name="user">Auth의 유저 정보</param>
+        private void RegisterEmail(string email, string uid, FirebaseUser user)
+        {
+            var userData = new Dictionary<string, object>
+            {
+                { "email", email },
+                { "lastLogin", DateTime.UtcNow.AddHours(9).ToString("yyyy-MM-dd HH:mm:ss") },
+                { "nickname", "" }
+            };
+
+            _db.Child("users").Child(uid).SetValueAsync(userData).ContinueWithOnMainThread(task =>
+            {
+                if (task.IsFaulted)
+                {
+                    Debug.LogWarning($"이메일 등록 실패 : {task.Exception.Message}");
+
+                    _auth.SignOut();
+                    return;
+                }
+                CheckUserInDatabase(user);
+            });
+        }
+#endif
 
         /// <summary>
         /// Firebase 사용자 인증을 위한 Google ID 토큰을 Firebase 인증 시스템에 전달
@@ -303,7 +398,7 @@ namespace SDW
 
             _auth.SignOut();
 
-#if PLATFORM_ANDROID
+#if !UNITY_EDITOR
             GoogleSignIn.DefaultInstance.SignOut();
 #endif
 
@@ -341,7 +436,7 @@ namespace SDW
 
                     _userData = null;
 
-#if PLATFORM_ANDROID
+#if !UNITY_EDITOR
                     GoogleSignIn.DefaultInstance.SignOut();
 #endif
 
