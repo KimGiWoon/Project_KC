@@ -74,10 +74,15 @@ namespace SDW
                 case UIName.UserInfoUI:
                     var userInfoUI = _uiDic[uiName] as UserInfoUI;
 
+                    userInfoUI.OnCloseButtonClicked += ClosePanel;
+
                     if (_firebase != null)
                     {
+                        _firebase.OnSendUserInfo += userInfoUI.UpdateUserInfo;
+                        userInfoUI.OnEditButtonClicked += _firebase.SetNickname;
                         userInfoUI.OnSignOutButtonClicked += _firebase.SignOut;
                         userInfoUI.OnDeleteButtonClicked += _firebase.DeleteAccount;
+                        _firebase.RequestUserInfo();
                     }
                     break;
             }
@@ -118,8 +123,12 @@ namespace SDW
                 case UIName.UserInfoUI:
                     var userInfoUI = _uiDic[uiName] as UserInfoUI;
 
+                    userInfoUI.OnCloseButtonClicked -= ClosePanel;
+
                     if (_firebase != null)
                     {
+                        _firebase.OnSendUserInfo += userInfoUI.UpdateUserInfo;
+                        userInfoUI.OnEditButtonClicked -= _firebase.SetNickname;
                         userInfoUI.OnSignOutButtonClicked -= _firebase.SignOut;
                         userInfoUI.OnDeleteButtonClicked -= _firebase.DeleteAccount;
                     }
@@ -149,7 +158,7 @@ namespace SDW
             _loadingCanvas = Instantiate(loadingObject, transform);
             _loadingCanvas.SetActive(false);
 
-            var children = loadingObject.GetComponentsInChildren<RectTransform>(true);
+            var children = _loadingCanvas.GetComponentsInChildren<RectTransform>(true);
 
             foreach (var child in children)
             {
@@ -171,6 +180,7 @@ namespace SDW
             if (_loadingProgressText != null) _loadingProgressText.text = "0%";
             if (_loadingText != null) _loadingText.text = "Loading...";
         }
+
         public void UpdateLoadingUI(float progress)
         {
             if (_loadingProgressBar != null) _loadingProgressBar.value = progress;
@@ -183,6 +193,7 @@ namespace SDW
                 _loadingText.text = "Loading" + new string('.', dotCount);
             }
         }
+
         public void CompleteSceneLoading()
         {
             if (_loadingText != null) _loadingText.text = "Complete!";
@@ -190,6 +201,7 @@ namespace SDW
             _loadingCanvas.SetActive(false);
 
             var activeScene = (SceneName)Enum.Parse(typeof(SceneName), GameManager.Instance.Scene.GetActiveScene());
+
             switch (activeScene)
             {
                 case SceneName.SDW_SignInScene:

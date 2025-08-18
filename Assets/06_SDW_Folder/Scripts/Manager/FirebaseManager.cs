@@ -21,6 +21,7 @@ namespace SDW
         public DatabaseReference DB => _db;
 
         public Action<ButtonType> OnSignInSetButtonType;
+        public Action<string, string> OnSendUserInfo;
 
         [SerializeField] private FirebaseDataSO _cliendData;
         private string _googleClientId;
@@ -366,12 +367,12 @@ namespace SDW
         {
             _userData.Nickname = nickname;
 
-            var updateDate = new Dictionary<string, object>
+            var updateData = new Dictionary<string, object>
             {
                 { "nickname", nickname }
             };
 
-            _db.Child("users").Child(_auth.CurrentUser.UserId).UpdateChildrenAsync(updateDate).ContinueWithOnMainThread(task =>
+            _db.Child("users").Child(_auth.CurrentUser.UserId).UpdateChildrenAsync(updateData).ContinueWithOnMainThread(task =>
             {
                 if (task.IsFaulted)
                 {
@@ -379,9 +380,19 @@ namespace SDW
                     return;
                 }
 
-                _ui.ClosePanel(UIName.SetNicknameUI);
 
-                OnSignInComplete();
+                var activeScene = (SceneName)Enum.Parse(typeof(SceneName), GameManager.Instance.Scene.GetActiveScene());
+
+                switch (activeScene)
+                {
+                    case SceneName.SDW_SignInScene:
+                        _ui.ClosePanel(UIName.SetNicknameUI);
+                        OnSignInComplete();
+                        break;
+                    case SceneName.SDW_LobbyScene:
+                        RequestUserInfo();
+                        break;
+                }
             });
         }
 
@@ -455,6 +466,13 @@ namespace SDW
                 });
             });
         }
+
+        #endregion
+
+        #region Custom Methods
+
+        //todo Nickname을 얻기 위한 메서드
+        public void RequestUserInfo() => OnSendUserInfo?.Invoke(_userData.Email, _userData.Nickname);
 
         #endregion
     }
