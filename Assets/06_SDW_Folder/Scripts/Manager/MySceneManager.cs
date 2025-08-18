@@ -1,4 +1,6 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -165,10 +167,9 @@ namespace SDW
         /// </summary>
         private IEnumerator WaitCoroutine()
         {
-            yield return new WaitForSeconds(1f);
+            yield return new WaitForSeconds(0.1f);
 
-            if (GetActiveScene() == nameof(SceneName.SDW_LobbyScene))
-                _sceneLoadUI.CompleteSceneLoading();
+            _sceneLoadUI.CompleteSceneLoading();
 
             _isLoading = false;
             _levelSceneOperation = null;

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -31,7 +32,7 @@ namespace SDW
         /// </summary>
         private void Start()
         {
-            _firebase.ConnectToFirebase();
+            _firebase?.ConnectToFirebase();
             ConnectLoading();
         }
 
@@ -50,13 +51,21 @@ namespace SDW
             {
                 case UIName.SignInUI:
                     var signUI = _uiDic[uiName] as SignInUI;
-                    signUI.OnSignInButtonClicked += _firebase.SignInWithGoogle;
-                    _firebase.OnSignInSetButtonType += signUI.SetButtonImage;
+
+                    if (_firebase != null)
+                    {
+                        signUI.OnSignInButtonClicked += _firebase.SignInWithGoogle;
+                        _firebase.OnSignInSetButtonType += signUI.SetButtonImage;
+                    }
 
                     break;
                 case UIName.SetNicknameUI:
                     var setNicknameUI = _uiDic[uiName] as SetNicknameUI;
-                    setNicknameUI.OnNicknameChange += _firebase.SetNickname;
+
+                    if (_firebase != null)
+                    {
+                        setNicknameUI.OnNicknameChange += _firebase.SetNickname;
+                    }
                     break;
                 case UIName.MainLobbyUI:
                     var mainLobbyUI = _uiDic[uiName] as MainLobbyUI;
@@ -64,8 +73,12 @@ namespace SDW
                     break;
                 case UIName.UserInfoUI:
                     var userInfoUI = _uiDic[uiName] as UserInfoUI;
-                    userInfoUI.OnSignOutButtonClicked += _firebase.SignOut;
-                    userInfoUI.OnDeleteButtonClicked += _firebase.DeleteAccount;
+
+                    if (_firebase != null)
+                    {
+                        userInfoUI.OnSignOutButtonClicked += _firebase.SignOut;
+                        userInfoUI.OnDeleteButtonClicked += _firebase.DeleteAccount;
+                    }
                     break;
             }
         }
@@ -83,12 +96,20 @@ namespace SDW
             {
                 case UIName.SignInUI:
                     var signUI = _uiDic[uiName] as SignInUI;
-                    signUI.OnSignInButtonClicked -= _firebase.SignInWithGoogle;
-                    _firebase.OnSignInSetButtonType -= signUI.SetButtonImage;
+
+                    if (_firebase != null)
+                    {
+                        signUI.OnSignInButtonClicked -= _firebase.SignInWithGoogle;
+                        _firebase.OnSignInSetButtonType -= signUI.SetButtonImage;
+                    }
                     break;
                 case UIName.SetNicknameUI:
                     var setNicknameUI = _uiDic[uiName] as SetNicknameUI;
-                    setNicknameUI.OnNicknameChange -= _firebase.SetNickname;
+
+                    if (_firebase != null)
+                    {
+                        setNicknameUI.OnNicknameChange -= _firebase.SetNickname;
+                    }
                     break;
                 case UIName.MainLobbyUI:
                     var mainLobbyUI = _uiDic[uiName] as MainLobbyUI;
@@ -96,8 +117,12 @@ namespace SDW
                     break;
                 case UIName.UserInfoUI:
                     var userInfoUI = _uiDic[uiName] as UserInfoUI;
-                    userInfoUI.OnSignOutButtonClicked -= _firebase.SignOut;
-                    userInfoUI.OnDeleteButtonClicked -= _firebase.DeleteAccount;
+
+                    if (_firebase != null)
+                    {
+                        userInfoUI.OnSignOutButtonClicked -= _firebase.SignOut;
+                        userInfoUI.OnDeleteButtonClicked -= _firebase.DeleteAccount;
+                    }
                     break;
             }
         }
@@ -164,8 +189,16 @@ namespace SDW
 
             _loadingCanvas.SetActive(false);
 
-            if (GameManager.Instance.Scene.GetActiveScene() == nameof(SceneName.SDW_LobbyScene))
-                OpenPanel(UIName.MainLobbyUI);
+            var activeScene = (SceneName)Enum.Parse(typeof(SceneName), GameManager.Instance.Scene.GetActiveScene());
+            switch (activeScene)
+            {
+                case SceneName.SDW_SignInScene:
+                    _firebase.ConnectToFirebase();
+                    break;
+                case SceneName.SDW_LobbyScene:
+                    OpenPanel(UIName.MainLobbyUI);
+                    break;
+            }
         }
 
         #endregion

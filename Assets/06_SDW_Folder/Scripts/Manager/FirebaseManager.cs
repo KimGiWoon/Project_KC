@@ -403,6 +403,11 @@ namespace SDW
 #endif
 
             _userData = null;
+
+            _ui.ClosePanel(UIName.MainLobbyUI);
+            _ui.ClosePanel(UIName.UserInfoUI);
+
+            GameManager.Instance.Scene.LoadSceneAsync(SceneName.SDW_SignInScene);
         }
 
         /// <summary>
@@ -442,6 +447,11 @@ namespace SDW
 
                     PlayerPrefs.SetInt("SignedUp", 0);
                     PlayerPrefs.Save();
+
+                    _ui.ClosePanel(UIName.MainLobbyUI);
+                    _ui.ClosePanel(UIName.UserInfoUI);
+
+                    GameManager.Instance.Scene.LoadSceneAsync(SceneName.SDW_SignInScene);
                 });
             });
         }
