@@ -76,6 +76,7 @@ namespace SDW
         /// <param name="uiName">비활성화할 패널의 이름</param>
         public void ClosePanel(UIName uiName)
         {
+            Debug.Log($"Close UI name : {uiName}");
             _uiDic[uiName].Close();
 
             switch (uiName)
@@ -127,8 +128,10 @@ namespace SDW
 
             foreach (var child in children)
             {
-                if (child.gameObject.name.Equals("Loading Text")) _loadingText = child.GetComponent<TMP_Text>();
-                else if (child.gameObject.name.Equals("Loading Progress Bar")) _loadingProgressBar = child.GetComponent<Slider>();
+                if (child.gameObject.name.Equals("Loading Text"))
+                    _loadingText = child.GetComponent<TMP_Text>();
+                else if (child.gameObject.name.Equals("Loading Progress Bar"))
+                    _loadingProgressBar = child.GetComponent<Slider>();
                 else if (child.gameObject.name.Equals("Loading Progress Text"))
                     _loadingProgressText = child.GetComponent<TMP_Text>();
             }
@@ -162,9 +165,7 @@ namespace SDW
             _loadingCanvas.SetActive(false);
 
             if (GameManager.Instance.Scene.GetActiveScene() == nameof(SceneName.SDW_LobbyScene))
-            {
                 OpenPanel(UIName.MainLobbyUI);
-            }
         }
 
         #endregion

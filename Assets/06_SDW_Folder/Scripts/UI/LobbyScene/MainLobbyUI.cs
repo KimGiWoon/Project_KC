@@ -13,12 +13,18 @@ namespace SDW
 
         public Action<UIName> OnButtonClicked;
 
+        /// <summary>
+        /// UI 컴포넌트 활성화 설정 및 이벤트 리스너 할당을 수행
+        /// </summary>
         private void Awake()
         {
             _panelContainer.SetActive(false);
             _userInfoButton.onClick.AddListener(UserInfoButtonClicked);
         }
 
+        /// <summary>
+        /// 사용자 정보 버튼 클릭 이벤트 핸들러 메서드 호출
+        /// </summary>
         private void UserInfoButtonClicked()
         {
             OnButtonClicked?.Invoke(UIName.UserInfoUI);

@@ -53,37 +53,24 @@ namespace SDW
 
                 if (result == DependencyStatus.Available)
                 {
-                    Debug.Log("파이어 베이스 설정이 정상적으로 완료되었습니다.");
-
                     _app = FirebaseApp.DefaultInstance;
                     _auth = FirebaseAuth.DefaultInstance;
                     _db = FirebaseDatabase.DefaultInstance.RootReference;
 
-                    Debug.Log($"Current User : {_auth.CurrentUser}");
-
                     _ui.OpenPanel(UIName.SignInUI);
 
                     if (_auth.CurrentUser != null)
-                    {
-                        Debug.Log("기존 유저");
                         OnSignInSetButtonType?.Invoke(ButtonType.ContinueButton);
-                    }
                     else if (PlayerPrefs.GetInt("SignedUp", 0) == 0)
-                    {
-                        Debug.Log("신규 유저");
                         OnSignInSetButtonType?.Invoke(ButtonType.SignUpButton);
-                    }
                     else
-                    {
-                        Debug.Log("가입한 이력이 있는 유저");
                         OnSignInSetButtonType?.Invoke(ButtonType.SignInButton);
-                    }
 
                     InitializeGoogleSignIn();
                 }
                 else
                 {
-                    Debug.LogError($"파이어 베이스 설정이 충족되지 않아 실패했습니다 : {result}");
+                    Debug.LogWarning($"파이어 베이스 설정이 충족되지 않아 실패했습니다 : {result}");
                     _app = null;
                     _auth = null;
                     _db = null;
@@ -114,12 +101,29 @@ namespace SDW
         /// </summary>
         public void SignInWithGoogle()
         {
+#if UNITY_EDITOR
+            string email = "team11@test.com";
+            string password = "kga1111";
+            _auth.SignInWithEmailAndPasswordAsync(email, password).ContinueWithOnMainThread(task =>
+            {
+                if (task.IsFaulted)
+                {
+                    Debug.LogWarning($"로그인에 실패하였습니다 : {task.Exception.Message}");
+                    return;
+                }
+
+                PlayerPrefs.SetInt("SignedUp", 1);
+                PlayerPrefs.Save();
+
+                CheckUserInDatabase(task.Result.User);
+            });
+#else
             GoogleSignIn.Configuration = _googleConfig;
             GoogleSignIn.DefaultInstance.SignIn().ContinueWithOnMainThread(task =>
             {
                 if (task.IsFaulted)
                 {
-                    Debug.LogError($"로그인에 실패하였습니다 : {task.Exception.Message}");
+                    Debug.LogWarning($"로그인에 실패하였습니다 : {task.Exception.Message}");
                     return;
                 }
 
@@ -127,12 +131,13 @@ namespace SDW
 
                 if (string.IsNullOrEmpty(result.IdToken))
                 {
-                    Debug.LogError("Google ID 토큰을 가져오지 못했습니다.");
+                    Debug.LogWarning("Google ID 토큰을 가져오지 못했습니다.");
                     return;
                 }
 
                 FirebaseAuthentication(result.IdToken);
             });
+#endif
         }
 
         /// <summary>
@@ -147,13 +152,13 @@ namespace SDW
             {
                 if (task.IsCanceled)
                 {
-                    Debug.LogError("로그인 취소");
+                    Debug.LogWarning("로그인 취소");
                     return;
                 }
 
                 if (task.IsFaulted)
                 {
-                    Debug.LogError($"로그인에 실패하였습니다 : {task.Exception.Message}");
+                    Debug.LogWarning($"로그인에 실패하였습니다 : {task.Exception.Message}");
                     return;
                 }
 
@@ -178,7 +183,7 @@ namespace SDW
             {
                 if (task.IsFaulted)
                 {
-                    Debug.LogError($"데이터베이스 읽기 실패 : {task.Exception.Message}");
+                    Debug.LogWarning($"데이터베이스 읽기 실패 : {task.Exception.Message}");
                     return;
                 }
 
@@ -209,7 +214,7 @@ namespace SDW
 
                 CheckNicknameRequired();
             }
-            else Debug.LogError("사용자 데이터를 Dictionary로 변환할 수 없습니다");
+            else Debug.LogWarning("사용자 데이터를 Dictionary로 변환할 수 없습니다");
         }
 
         /// <summary>
@@ -235,11 +240,9 @@ namespace SDW
             {
                 if (task.IsFaulted)
                 {
-                    Debug.LogError("사용자 데이터 저장에 실패했습니다.");
+                    Debug.LogWarning("사용자 데이터 저장에 실패했습니다.");
                     return;
                 }
-
-                Debug.Log("사용자 데이터가 성공적으로 저장되었습니다.");
 
                 CheckNicknameRequired();
             });
@@ -251,16 +254,9 @@ namespace SDW
         private void CheckNicknameRequired()
         {
             if (string.IsNullOrEmpty(_userData.Nickname))
-            {
-                Debug.Log("닉네임 설정창 열기");
                 _ui.OpenPanel(UIName.SetNicknameUI);
-            }
             else
-            {
-                Debug.Log($"닉네임이 존재함 : {_userData.Nickname}");
-
                 OnSignInComplete();
-            }
         }
 
         /// <summary>
@@ -284,11 +280,9 @@ namespace SDW
             {
                 if (task.IsFaulted)
                 {
-                    Debug.LogError($"닉네임 저장 실패: {task.Exception.Message}");
+                    Debug.LogWarning($"닉네임 저장 실패: {task.Exception.Message}");
                     return;
                 }
-
-                Debug.Log($"닉네임 설정 완료 : {nickname}");
 
                 _ui.ClosePanel(UIName.SetNicknameUI);
 
@@ -308,11 +302,12 @@ namespace SDW
             if (_auth.CurrentUser == null) return;
 
             _auth.SignOut();
+
+#if PLATFORM_ANDROID
             GoogleSignIn.DefaultInstance.SignOut();
+#endif
 
             _userData = null;
-
-            Debug.Log("로그아웃 완료");
         }
 
         /// <summary>
@@ -322,7 +317,7 @@ namespace SDW
         {
             if (_auth.CurrentUser == null)
             {
-                Debug.Log("로그인된 사용가자 없습니다.");
+                Debug.LogWarning("로그인된 사용가자 없습니다.");
                 return;
             }
 
@@ -332,27 +327,26 @@ namespace SDW
             {
                 if (task.IsFaulted)
                 {
-                    Debug.LogError($"데이터베이스 삭제 실패: {task.Exception.Message}");
+                    Debug.LogWarning($"데이터베이스 삭제 실패: {task.Exception.Message}");
                     return;
                 }
-
-                Debug.Log("데이터베이스에서 사용자 데이터 삭제 완료");
 
                 _auth.CurrentUser.DeleteAsync().ContinueWithOnMainThread(deleteTask =>
                 {
                     if (deleteTask.IsFaulted)
                     {
-                        Debug.LogError($"Firebase 계정 삭제 실패: {deleteTask.Exception.Message}");
+                        Debug.LogWarning($"Firebase 계정 삭제 실패: {deleteTask.Exception.Message}");
                         return;
                     }
 
                     _userData = null;
 
+#if PLATFORM_ANDROID
                     GoogleSignIn.DefaultInstance.SignOut();
+#endif
+
                     PlayerPrefs.SetInt("SignedUp", 0);
                     PlayerPrefs.Save();
-
-                    Debug.Log("계정 삭제 완료");
                 });
             });
         }
