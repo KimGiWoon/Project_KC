@@ -3,11 +3,9 @@
     public enum PopupState
     {
         SignIn,
-        FirstSignUp,
-        SecondSignUp,
+        SignUp,
         NickName,
         UserData,
-        EmailVerification,
         Error,
         Success
     }
