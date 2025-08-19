@@ -9,6 +9,10 @@ namespace SDW
         public string MonName;
         public string Description;
 
+        /// <summary>
+        /// MonsterAnimationFileData를 초기화
+        /// </summary>
+        /// <param name="fields">초기화 데이터</param>
         public MonsterAnimationFileData(string[] fields)
         {
             MonAnimID = int.Parse(fields[0]);

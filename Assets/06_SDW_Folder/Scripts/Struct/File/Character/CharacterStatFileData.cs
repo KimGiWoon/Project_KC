@@ -18,6 +18,10 @@
         public float ChaCritDmg;
         public float ChaReg;
 
+        /// <summary>
+        /// CharacterStatFileData를 초기화
+        /// </summary>
+        /// <param name="fields">초기화 데이터</param>
         public CharacterStatFileData(string[] fields)
         {
             ChaId = int.Parse(fields[0]);

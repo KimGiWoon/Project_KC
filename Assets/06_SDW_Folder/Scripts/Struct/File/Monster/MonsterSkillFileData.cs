@@ -22,6 +22,10 @@ namespace SDW
         public string MonSkillImg;
         public string MonSkillEffect;
 
+        /// <summary>
+        /// MonsterSkillData를 초기화
+        /// </summary>
+        /// <param name="fields">초기화 데이터</param>
         public MonsterSkillFileData(string[] fields)
         {
             MonSkillID = int.Parse(fields[0]);

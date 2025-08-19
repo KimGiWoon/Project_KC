@@ -40,11 +40,6 @@ namespace SDW
             //# Close Button
             _closeButton.onClick.AddListener(CloseButtonClicked);
 
-            //# User Info
-            //todo 의코드
-            //@ UI 창 오픈 -> Firebase에서 유저에 대한 정보를 가져옴
-            //@ UI 창 오픈 -> Invoke -> Firebase에서 return에 대한 Invoke -> Update
-
             //# Change Nickname
             _editButton.onClick.AddListener(EditButtonClicked);
 
@@ -55,7 +50,7 @@ namespace SDW
 
         private void CloseButtonClicked() => OnCloseButtonClicked?.Invoke(UIName.UserInfoUI);
 
-        #region Request User Info
+        #region Update User Info
 
         public void UpdateUserInfo(string email, string nickname)
         {

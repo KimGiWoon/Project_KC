@@ -20,6 +20,10 @@ namespace SDW
         public string ChaSkillImg;
         public string ChaSkillEffect;
 
+        /// <summary>
+        /// CharacterSkillFileData를 초기화
+        /// </summary>
+        /// <param name="fields">초기화 데이터</param>
         public CharacterSkillFileData(string[] fields)
         {
             ChaSkillID = int.Parse(fields[0]);

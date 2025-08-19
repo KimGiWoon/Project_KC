@@ -5,7 +5,6 @@ namespace SDW
     [Serializable]
     public class UserData
     {
-        //# 한글 주석
         public string Email;
         public string JoinDate;
         public string Nickname;
@@ -18,7 +17,6 @@ namespace SDW
         /// <param name="nickname">설정할 nickname</param>
         public UserData(string email, string joinDate, string nickname)
         {
-            //# 초기 설정
             Email = email;
             JoinDate = joinDate;
             Nickname = nickname;

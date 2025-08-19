@@ -139,8 +139,6 @@ namespace SDW
             {
                 currentProgress = UpdateLoadingUI(currentProgress);
 
-                // Debug.Log($"currentProgress: {currentProgress}");
-
                 if (Mathf.Abs(currentProgress - 1f) < 0.01f)
                 {
                     _sceneLoadUI.UpdateLoadingUI(1.0f);
@@ -171,11 +169,7 @@ namespace SDW
         /// <summary>
         /// 지정된 비동기 로딩 프로세스를 완료하고 관련 로딩 UI 요소를 처리하는 메서드
         /// </summary>
-        // private void CompleteSceneLoading(Scene scene, LoadSceneMode mode)
-        private void CompleteSceneLoading()
-        {
-            StartCoroutine(WaitCoroutine());
-        }
+        private void CompleteSceneLoading() => StartCoroutine(WaitCoroutine());
 
         /// <summary>
         /// 장면 로딩 완료를 기다리는 비동기 코루틴 메서드
