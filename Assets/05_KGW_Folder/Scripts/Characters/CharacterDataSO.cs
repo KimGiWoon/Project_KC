@@ -31,7 +31,7 @@ public class CharacterDataSO : ScriptableObject
 
     [Header("Character Stat Setting")]
     public float _moveSpeed;                    // 캐릭터 이동 속도 
-    //public float _attackRange;                // 캐릭터 공격 사거리
+    public float _attackRange;                  // 캐릭터 공격 사거리
     public float _attackSpeed;                  // 캐릭터 공격 속도
     public float _maxMp;                        // 캐릭터 마력
     public float _maxHp;                        // 캐릭터 체력

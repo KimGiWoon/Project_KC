@@ -10,7 +10,7 @@ public class BattleManager : MonoBehaviour
     [SerializeField] Transform[] _characterSpawnPoint;
 
     [Header("Monster Spawn Point Setting")]
-    [SerializeField] Transform _monsterSpawnPoint;
+    [SerializeField] Transform[] _monsterSpawnPoint;
 
     [Header("Monster List")]
     [SerializeField] public List<MonsterDataSO> _monsterList;
@@ -78,14 +78,10 @@ public class BattleManager : MonoBehaviour
             MonsterDataSO mosterData = _monsterList[i];
 
             //// 몬스터 스폰위치 설정
-            //Transform spawnPoint = _monsterSpawnPoint[Random.Range(0, 2)];
-
-            // 완전한 겹칩이 아닌 약간의 간격을 주도록 설정
-            Vector3 intervalSpawnPoint = _monsterSpawnPoint.position;
-            intervalSpawnPoint += new Vector3(UnityEngine.Random.Range(-0.2f, 0.2f), UnityEngine.Random.Range(-1f, 1f), 0f);
+            Transform spawnPoint = _monsterSpawnPoint[i];
 
             // 몬스터 생성
-            GameObject monster = Instantiate(mosterData._prefab, intervalSpawnPoint, _monsterSpawnPoint.rotation);
+            GameObject monster = Instantiate(mosterData._prefab, spawnPoint.position, spawnPoint.rotation);
         }
     }
 
