@@ -33,6 +33,20 @@ namespace SDW
 
         private void Start()
         {
+            FixPortrait();
+        }
+
+        /// <summary>
+        /// 런타임에 화면 방향을 세로 모드를 강제로 설정하기 위한 메서드
+        /// </summary>
+        private void FixPortrait()
+        {
+            Screen.orientation = ScreenOrientation.Portrait;
+
+            Screen.autorotateToPortrait = true;
+            Screen.autorotateToPortraitUpsideDown = false;
+            Screen.autorotateToLandscapeLeft = false;
+            Screen.autorotateToLandscapeRight = false;
         }
     }
 }

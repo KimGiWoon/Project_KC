@@ -66,19 +66,33 @@ namespace SDW
                     {
                         setNicknameUI.OnNicknameChange += _firebase.SetNickname;
                     }
+
                     break;
                 case UIName.MainLobbyUI:
                     var mainLobbyUI = _uiDic[uiName] as MainLobbyUI;
                     mainLobbyUI.OnButtonClicked += OpenPanel;
+
+                    if (_firebase != null)
+                    {
+                        _firebase.OnSendUserInfo += mainLobbyUI.UpdateUserInfo;
+                        _firebase.RequestUserInfo();
+                    }
+
                     break;
                 case UIName.UserInfoUI:
                     var userInfoUI = _uiDic[uiName] as UserInfoUI;
 
+                    userInfoUI.OnCloseButtonClicked += ClosePanel;
+
                     if (_firebase != null)
                     {
+                        _firebase.OnSendUserInfo += userInfoUI.UpdateUserInfo;
+                        userInfoUI.OnEditButtonClicked += _firebase.SetNickname;
                         userInfoUI.OnSignOutButtonClicked += _firebase.SignOut;
                         userInfoUI.OnDeleteButtonClicked += _firebase.DeleteAccount;
+                        _firebase.RequestUserInfo();
                     }
+
                     break;
             }
         }
@@ -102,24 +116,32 @@ namespace SDW
                         signUI.OnSignInButtonClicked -= _firebase.SignInWithGoogle;
                         _firebase.OnSignInSetButtonType -= signUI.SetButtonImage;
                     }
+
                     break;
                 case UIName.SetNicknameUI:
                     var setNicknameUI = _uiDic[uiName] as SetNicknameUI;
 
                     if (_firebase != null)
-                    {
                         setNicknameUI.OnNicknameChange -= _firebase.SetNickname;
-                    }
+
                     break;
                 case UIName.MainLobbyUI:
                     var mainLobbyUI = _uiDic[uiName] as MainLobbyUI;
                     mainLobbyUI.OnButtonClicked -= OpenPanel;
+
+                    if (_firebase != null)
+                        _firebase.OnSendUserInfo -= mainLobbyUI.UpdateUserInfo;
+
                     break;
                 case UIName.UserInfoUI:
                     var userInfoUI = _uiDic[uiName] as UserInfoUI;
 
+                    userInfoUI.OnCloseButtonClicked -= ClosePanel;
+
                     if (_firebase != null)
                     {
+                        _firebase.OnSendUserInfo += userInfoUI.UpdateUserInfo;
+                        userInfoUI.OnEditButtonClicked -= _firebase.SetNickname;
                         userInfoUI.OnSignOutButtonClicked -= _firebase.SignOut;
                         userInfoUI.OnDeleteButtonClicked -= _firebase.DeleteAccount;
                     }
@@ -143,13 +165,16 @@ namespace SDW
 
         #region Loading Methods
 
+        /// <summary>
+        /// 초기 로딩 화면을 설정하고 로딩 관련 UI 컴포넌트를 초기화
+        /// </summary>
         private void ConnectLoading()
         {
             var loadingObject = Resources.Load<GameObject>("UI/LoadingCanvas");
             _loadingCanvas = Instantiate(loadingObject, transform);
             _loadingCanvas.SetActive(false);
 
-            var children = loadingObject.GetComponentsInChildren<RectTransform>(true);
+            var children = _loadingCanvas.GetComponentsInChildren<RectTransform>(true);
 
             foreach (var child in children)
             {
@@ -162,6 +187,9 @@ namespace SDW
             }
         }
 
+        /// <summary>
+        /// Scene Loading과 관련된 UI 요소를 초기화하고 로딩 화면, Progress bar 등의 시각적인 요소를 초기화
+        /// </summary>
         public void InitSceneLoadingUI()
         {
             _loadingCanvas.SetActive(true);
@@ -171,6 +199,11 @@ namespace SDW
             if (_loadingProgressText != null) _loadingProgressText.text = "0%";
             if (_loadingText != null) _loadingText.text = "Loading...";
         }
+
+        /// <summary>
+        /// Scene 로딩 중인 UI 요소의 진행 상황을 업데이트
+        /// </summary>
+        /// <param name="progress">로딩 진행률 (0.0f부터 1.0f 사이의 값)</param>
         public void UpdateLoadingUI(float progress)
         {
             if (_loadingProgressBar != null) _loadingProgressBar.value = progress;
@@ -183,6 +216,11 @@ namespace SDW
                 _loadingText.text = "Loading" + new string('.', dotCount);
             }
         }
+
+        /// <summary>
+        /// 지정된 장면 로딩을 완료하고 관련 로딩 UI 요소를 해제
+        /// 로딩 완료 메시지 표시와 함께 로딩 화면을 비활성화
+        /// </summary>
         public void CompleteSceneLoading()
         {
             if (_loadingText != null) _loadingText.text = "Complete!";
@@ -190,6 +228,7 @@ namespace SDW
             _loadingCanvas.SetActive(false);
 
             var activeScene = (SceneName)Enum.Parse(typeof(SceneName), GameManager.Instance.Scene.GetActiveScene());
+
             switch (activeScene)
             {
                 case SceneName.SDW_SignInScene:
