@@ -6,18 +6,29 @@ namespace JJY
 {
     public class CoinManager : MonoBehaviour
     {
+        public static CoinManager Instance { get; private set; }
+        void Awake()
+        {
+            if (Instance == null) Instance = this;
+            else Destroy(gameObject);
+
+            // TODO : Firebase와 연동
+            items.Add(beek, 0);
+            items.Add(fineDining, 0);
+            items.Add(masterChef, 0);
+        } 
+
+
         public int inGameCoin { get; private set; } // 인게임 재화
         public int totalInGameCoin { get; private set; } // 인게임에서 얻은 총 재화량
         // 아웃게임 아이템
         private Dictionary<string, int> items = new Dictionary<string, int>();
-
-        // TODO : Firebase에서 저장된 값을 가져와야함. 없다면 추가.
-        void Start()
-        {
-            items.Add("Beek's Recipe Book", 0);
-            items.Add("Fine Dining Recipe Book", 0);
-            items.Add("Master Chef Recipe Book", 0);
-        }
+        private string _beek = "Beek's Recipe Book";
+        private string _fineDining = "Fine Dining Recipe Book";
+        private string _masterChef = "Master Chef Recipe Book";
+        public string beek { get { return _beek; } }
+        public string fineDining { get { return _fineDining; } }
+        public string masterChef { get { return _masterChef; } }
 
         /// <summary>
         /// 아이템의 수량을 받아오는 함수.
