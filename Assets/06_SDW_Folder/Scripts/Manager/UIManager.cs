@@ -66,10 +66,18 @@ namespace SDW
                     {
                         setNicknameUI.OnNicknameChange += _firebase.SetNickname;
                     }
+
                     break;
                 case UIName.MainLobbyUI:
                     var mainLobbyUI = _uiDic[uiName] as MainLobbyUI;
                     mainLobbyUI.OnButtonClicked += OpenPanel;
+
+                    if (_firebase != null)
+                    {
+                        _firebase.OnSendUserInfo += mainLobbyUI.UpdateUserInfo;
+                        _firebase.RequestUserInfo();
+                    }
+
                     break;
                 case UIName.UserInfoUI:
                     var userInfoUI = _uiDic[uiName] as UserInfoUI;
@@ -84,6 +92,7 @@ namespace SDW
                         userInfoUI.OnDeleteButtonClicked += _firebase.DeleteAccount;
                         _firebase.RequestUserInfo();
                     }
+
                     break;
             }
         }
@@ -107,18 +116,22 @@ namespace SDW
                         signUI.OnSignInButtonClicked -= _firebase.SignInWithGoogle;
                         _firebase.OnSignInSetButtonType -= signUI.SetButtonImage;
                     }
+
                     break;
                 case UIName.SetNicknameUI:
                     var setNicknameUI = _uiDic[uiName] as SetNicknameUI;
 
                     if (_firebase != null)
-                    {
                         setNicknameUI.OnNicknameChange -= _firebase.SetNickname;
-                    }
+
                     break;
                 case UIName.MainLobbyUI:
                     var mainLobbyUI = _uiDic[uiName] as MainLobbyUI;
                     mainLobbyUI.OnButtonClicked -= OpenPanel;
+
+                    if (_firebase != null)
+                        _firebase.OnSendUserInfo -= mainLobbyUI.UpdateUserInfo;
+
                     break;
                 case UIName.UserInfoUI:
                     var userInfoUI = _uiDic[uiName] as UserInfoUI;

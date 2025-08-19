@@ -50,7 +50,7 @@ namespace SDW
 
         private void CloseButtonClicked() => OnCloseButtonClicked?.Invoke(UIName.UserInfoUI);
 
-        #region Request User Info
+        #region Update User Info
 
         public void UpdateUserInfo(string email, string nickname)
         {
