@@ -24,6 +24,10 @@ namespace SDW
         public int ChaAniAttack;
         public int ChaAnimDeath;
 
+        /// <summary>
+        /// CharacterDataFileData를 초기화
+        /// </summary>
+        /// <param name="fields">초기화 데이터</param>
         public CharacterDataFileData(string[] fields)
         {
             ChaID = int.Parse(fields[0]);

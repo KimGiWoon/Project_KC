@@ -16,6 +16,10 @@
         public float MonAvoid;
         public float MonReg;
 
+        /// <summary>
+        /// MonsterStatFileData를 초기화
+        /// </summary>
+        /// <param name="fields">초기화 데이터</param>
         public MonsterStatFileData(string[] fields)
         {
             MomID = int.Parse(fields[0]);

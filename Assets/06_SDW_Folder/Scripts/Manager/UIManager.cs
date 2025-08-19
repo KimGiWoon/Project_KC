@@ -152,6 +152,9 @@ namespace SDW
 
         #region Loading Methods
 
+        /// <summary>
+        /// 초기 로딩 화면을 설정하고 로딩 관련 UI 컴포넌트를 초기화
+        /// </summary>
         private void ConnectLoading()
         {
             var loadingObject = Resources.Load<GameObject>("UI/LoadingCanvas");
@@ -171,6 +174,9 @@ namespace SDW
             }
         }
 
+        /// <summary>
+        /// Scene Loading과 관련된 UI 요소를 초기화하고 로딩 화면, Progress bar 등의 시각적인 요소를 초기화
+        /// </summary>
         public void InitSceneLoadingUI()
         {
             _loadingCanvas.SetActive(true);
@@ -181,6 +187,10 @@ namespace SDW
             if (_loadingText != null) _loadingText.text = "Loading...";
         }
 
+        /// <summary>
+        /// Scene 로딩 중인 UI 요소의 진행 상황을 업데이트
+        /// </summary>
+        /// <param name="progress">로딩 진행률 (0.0f부터 1.0f 사이의 값)</param>
         public void UpdateLoadingUI(float progress)
         {
             if (_loadingProgressBar != null) _loadingProgressBar.value = progress;
@@ -194,6 +204,10 @@ namespace SDW
             }
         }
 
+        /// <summary>
+        /// 지정된 장면 로딩을 완료하고 관련 로딩 UI 요소를 해제
+        /// 로딩 완료 메시지 표시와 함께 로딩 화면을 비활성화
+        /// </summary>
         public void CompleteSceneLoading()
         {
             if (_loadingText != null) _loadingText.text = "Complete!";

@@ -471,7 +471,9 @@ namespace SDW
 
         #region Custom Methods
 
-        //todo Nickname을 얻기 위한 메서드
+        /// <summary>
+        /// 유저에 대한 정보를 UI로 전달
+        /// </summary>
         public void RequestUserInfo() => OnSendUserInfo?.Invoke(_userData.Email, _userData.Nickname);
 
         #endregion

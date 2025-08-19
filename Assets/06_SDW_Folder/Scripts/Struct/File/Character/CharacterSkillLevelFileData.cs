@@ -2,7 +2,7 @@
 
 namespace SDW
 {
-    public struct CharacterSkillLevel
+    public struct CharacterSkillLevelFileData
     {
         public int ChaSkillID;
         public int ChaSkillLevel;
@@ -14,7 +14,11 @@ namespace SDW
         public float ChaSkillTick;
         public float ChaSkillValue;
 
-        public CharacterSkillLevel(string[] fields)
+        /// <summary>
+        /// CharacterSkillLevelFileData를 초기화
+        /// </summary>
+        /// <param name="fields">초기화 데이터</param>
+        public CharacterSkillLevelFileData(string[] fields)
         {
             ChaSkillID = int.Parse(fields[0]);
             ChaSkillLevel = int.Parse(fields[1]);

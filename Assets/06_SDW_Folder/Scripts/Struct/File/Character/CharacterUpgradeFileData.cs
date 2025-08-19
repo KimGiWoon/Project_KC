@@ -1,6 +1,6 @@
 ﻿namespace SDW
 {
-    public struct CharacterUpgrade
+    public struct CharacterUpgradeFileData
     {
         public int ChaId;
         public string ChaUpID;
@@ -15,7 +15,11 @@
         public float ChaReg;
         public int ChaCkillID;
 
-        public CharacterUpgrade(string[] fields)
+        /// <summary>
+        /// CharacterUpgradeFileData를 초기화
+        /// </summary>
+        /// <param name="fields">초기화 데이터</param>
+        public CharacterUpgradeFileData(string[] fields)
         {
             ChaId = int.Parse(fields[0]);
             ChaUpID = fields[1];
