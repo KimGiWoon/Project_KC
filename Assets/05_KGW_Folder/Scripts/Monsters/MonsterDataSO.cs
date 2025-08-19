@@ -23,6 +23,7 @@ public class MonsterDataSO : ScriptableObject
     [Header("Monster Stat Setting")]
     public float _moveSpeed;                // 몬스터 이동 속도
     public float _attackSpeed;              // 몬스터 공격 속도
+    public float _attackRange;              // 몬스터 공격 사거리
     public float _maxHp;                    // 몬스터 체력
     public float _attackDamage;             // 몬스터 데미지
     public float _attackDefense;            // 몬스터 방어력

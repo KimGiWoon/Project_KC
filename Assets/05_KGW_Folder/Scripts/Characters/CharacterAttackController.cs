@@ -21,10 +21,10 @@ public class CharacterAttackController : MonoBehaviour
                 _controller._attackTargets.Add(monster);
 
                 // 현재 공격 대상이 없으면
-                if (_controller._currentTarget == null)
+                if (_controller._attackTarget == null)
                 {
                     // 감지된 몬스터를 공격 대상에 지정
-                    _controller._currentTarget = monster;
+                    _controller._attackTarget = monster;
                 }
             }
         }
@@ -45,10 +45,10 @@ public class CharacterAttackController : MonoBehaviour
             }
 
             // 현재의 타깃이 사거리에서 벗어나면
-            if (_controller._currentTarget == monster)
+            if (_controller._attackTarget == monster)
             {
                 // 다음 순서의 몬스터가 있으면 현재 공격 대상으로 변경
-                _controller._currentTarget = _controller._attackTargets.Count > 0 ? _controller._attackTargets[0] : null;
+                _controller._attackTarget = _controller._attackTargets.Count > 0 ? _controller._attackTargets[0] : null;
             }
         }
     }
