@@ -4,7 +4,7 @@ using System.Linq;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
-public class MapData : MonoBehaviour
+public class MapData
 {
     public readonly List<List<Node>> Map;       // 2D Grid 구조 (floors x width)
     public readonly List<Node> Nodes;           // 실제로 배치된 모든 유효 노드 (NotAssgined 제외)

@@ -1,67 +1,52 @@
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
-using static TreeEditor.TreeEditorHelper;
 
 public class MapGenerator : MonoBehaviour
 {
+    // 맵 좌표 배치 관련 설정값
     private int _xDist;
     private int _yGap;
     private int _placementRandomness;
 
+    // 맵의 크기 관련 설정값
     private int _floors;
     private int _mapWidth;
-    private int _paths;
 
-    private float _BattleNodeWeight;
-    private float _ShopNodeWeight;
-    private float _EventNodeWeight;
+    // 전투 노드 제한 설정값
+    private int _battleCount = 0;
+    private const int MaxBattleCount = 3;
+    private bool _forceMidBattleUsed = false; // 중간층 강제 Battle 사용 여부
 
-    private List<float> _randomWeightList = new()
-        {
-            0f, // NotAssigned
-            0f, // Battle
-            0f, // Shop
-            0f, // Event
-            0f  // Boss
-        };
 
-    private float _totalWeight = 0f;
-
+    // 전체 맵 구조 (층별 노드)
     private List<List<Node>> _map;
+
+    // 시작 → 보스까지의 가능한 경로들
     private List<List<Node>> _allPath;
 
-    //  MapConfig 기반으로 맵 생성
+    // 메인 진입점: 맵 생성 실행
     public MapData GenerateMap(MapConfig config)
     {
         InitSetting(config);
         _map = GenerateInitialGrid();
 
-        List<int> startingPoints = GetRandomStartingPoints();
-
-        for (int j = 0; j < startingPoints.Count; j++)
-        {
-            int currentJ = startingPoints[j];
-            for (int i = 2; i < _floors - 2; i++)
-            {
-                currentJ = SetUpConnection(i, currentJ);
-            }
-        }
-
+        // 4층: 시작 → 3층 연결
         Node startNode = SetUpStartAndFloorOne();
+
+        // 3층 → 2층 연결
+        ConnectFloorToNext(3);
+
+        // 2층 → 1층(Event) → 0층(Boss) 연결
         Node bossNode = SetUpBeforBossAndBoss();
 
+        // 모든 경로 수집 (DFS)
         _allPath = GetAllPaths(startNode, bossNode);
-
-        SetUpRandomNodeWeights();
-        SetUpNodeType();
 
         return new MapData(_map, _allPath, startNode, bossNode);
     }
 
-    //  설정 초기화
+    // 설정값 초기화
     private void InitSetting(MapConfig config)
     {
         _xDist = config.xDist;
@@ -70,13 +55,9 @@ public class MapGenerator : MonoBehaviour
 
         _floors = config.floors;
         _mapWidth = config.mapWidth;
-        _paths = config.paths;
-
-        _BattleNodeWeight = config.BattleNodeWeight;
-        _EventNodeWeight = config.EventNodeWeight;
     }
 
-    //  초기 Grid 생성
+    // 2D 맵 그리드 초기 생성
     private List<List<Node>> GenerateInitialGrid()
     {
         List<List<Node>> grid = new(_floors);
@@ -87,6 +68,7 @@ public class MapGenerator : MonoBehaviour
             for (int j = 0; j < _mapWidth; j++)
             {
                 Node node = new Node(i, j);
+                node.nodeType = NodeType.NotAssgined;   // 초기 상태
                 node.nextNodes.Clear();
                 floorRooms.Add(node);
             }
@@ -96,183 +78,147 @@ public class MapGenerator : MonoBehaviour
         return grid;
     }
 
-    //  랜덤한 시작 포인트 선정
-    private List<int> GetRandomStartingPoints()
+    // 랜덤으로 Battle 또는 Event 노드 반환
+    private NodeType GetRandomRoomType()
     {
-        List<int> yCoordinates = new();
-        int uniquePoints = 0;
+        if (_battleCount >= MaxBattleCount - 1)
+            return NodeType.Event;
 
-        while (uniquePoints < 2)
-        {
-            uniquePoints = 0;
-            yCoordinates.Clear();
+        NodeType type = (Random.value < 0.5f) ? NodeType.Battle : NodeType.Event;
 
-            for (int i = 0; i < _paths; i++)
-            {
-                int point = Random.Range(0, _mapWidth);
-                if (!yCoordinates.Contains(point)) uniquePoints++;
-                yCoordinates.Add(point);
-            }
-        }
+        if (type == NodeType.Battle)
+            _battleCount++;
 
-        return yCoordinates;
+        return type;
     }
 
-    //  노드 연결 설정
-    private int SetUpConnection(int i, int j)
-    {
-        Node currentNode = _map[i][j];
-        Node nextNode = null;
-
-        while (nextNode == null || IsCrossingPath(i, j, nextNode))
-        {
-            int randJ = Mathf.Clamp(Random.Range(j - 1, j + 2), 0, _mapWidth - 1);
-            nextNode = _map[i + 1][randJ];
-        }
-
-        currentNode.nextNodes.Add(nextNode);
-        return nextNode.column;
-    }
-
-    private bool IsCrossingPath(int i, int j, Node node)
-    {
-        Node left = j > 0 ? _map[i][j - 1] : null;
-        Node right = j < _mapWidth - 1 ? _map[i][j + 1] : null;
-
-        if (right != null && node.column > j)
-        {
-            if (right.nextNodes.Any(n => n.column < node.column))
-                return true;
-        }
-
-        if (left != null && node.column < j)
-        {
-            if (left.nextNodes.Any(n => n.column > node.column))
-                return true;
-        }
-
-        return false;
-    }
-
-    //  시작 + 1층 설정
+    // 시작층(4층)과 3층 설정
     private Node SetUpStartAndFloorOne()
     {
         int middle = _mapWidth / 2;
-        Node start = _map[0][middle];
-        Node floor1 = _map[1][middle];
 
+        // 4층 중앙에 시작 노드 생성
+        Node start = _map[4][middle];
         start.nodeType = NodeType.Battle;
-        floor1.nodeType = NodeType.Event;
-        start.nextNodes.Add(floor1);
+        _battleCount++; // 시작 전투 1회
 
+        // 3층: 1~3개의 랜덤 노드 생성
+        List<Node> floor3Nodes = new();
         for (int j = 0; j < _mapWidth; j++)
         {
-            if (_map[2][j].HasConnections())
-                floor1.nextNodes.Add(_map[2][j]);
+            if (Random.value < 0.4f && floor3Nodes.Count < 3)
+            {
+                Node node = _map[3][j];
+                node.nodeType = GetRandomRoomType();
+                floor3Nodes.Add(node);
+            }
         }
+
+        // 노드가 없을 경우 중앙에 1개 강제 생성
+        if (floor3Nodes.Count == 0)
+        {
+            Node fallback = _map[3][middle];
+            fallback.nodeType = GetRandomRoomType();
+            floor3Nodes.Add(fallback);
+        }
+
+        // 시작 노드 → 3층 노드들 연결
+        foreach (var node in floor3Nodes)
+            start.nextNodes.Add(node);
 
         return start;
     }
 
-    //  보스층 설정
+    // upperRow → upperRow - 1 연결 (ex. 3층 → 2층)
+    private void ConnectFloorToNext(int upperRow)
+    {
+        List<Node> upperNodes = _map[upperRow].Where(n => n.nodeType != NodeType.NotAssgined).ToList();
+        List<Node> lowerNodes = new();
+
+        // 2층: 1~3개 랜덤 노드 생성
+        for (int j = 0; j < _mapWidth; j++)
+        {
+            if (Random.value < 0.4f && lowerNodes.Count < 3)
+            {
+                Node node = _map[upperRow - 1][j];
+                node.nodeType = GetRandomRoomType();
+                lowerNodes.Add(node);
+            }
+        }
+
+        // 노드 없을 시 중앙 노드 강제 생성
+        if (lowerNodes.Count == 0)
+        {
+            Node fallback = _map[upperRow - 1][_mapWidth / 2];
+            fallback.nodeType = GetRandomRoomType();
+            lowerNodes.Add(fallback);
+        }
+
+        // 상위층 → 하위층 연결
+        foreach (var from in upperNodes)
+        {
+            foreach (var to in lowerNodes)
+            {
+                from.nextNodes.Add(to);
+            }
+        }
+
+        if (_battleCount < MaxBattleCount && !_forceMidBattleUsed)
+        {
+            Node forceBattle = lowerNodes[Random.Range(0, lowerNodes.Count)];
+            forceBattle.nodeType = NodeType.Battle;
+            _battleCount++;
+            _forceMidBattleUsed = true;
+        }
+    }
+
+    // 보스층(0)과 이벤트층(1), 2층 연결
     private Node SetUpBeforBossAndBoss()
     {
         int middle = _mapWidth / 2;
-        Node boss = _map[_floors - 1][middle];
-        Node beforeBoss = _map[_floors - 2][middle];
 
+        // 0층 중앙에 보스 노드 생성
+        Node boss = _map[0][middle];
         boss.nodeType = NodeType.Boss;
+        _battleCount++; // 보스 전투 1회
 
-        beforeBoss.nextNodes.Add(boss);
-
+        // 1층: 1~3개의 이벤트 노드 생성
+        List<Node> beforeBossNodes = new();
         for (int j = 0; j < _mapWidth; j++)
         {
-            if (_map[_floors - 3][j].HasConnections())
+            if (Random.value < 0.4f && beforeBossNodes.Count < 3)
             {
-                _map[_floors - 3][j].nextNodes.Clear();
-                _map[_floors - 3][j].nextNodes.Add(beforeBoss);
+                Node node = _map[1][j];
+                node.nodeType = NodeType.Event;
+                node.nextNodes.Add(boss);
+                beforeBossNodes.Add(node);
+            }
+        }
+
+        // 없으면 중앙에 1개 강제 생성
+        if (beforeBossNodes.Count == 0)
+        {
+            Node fallback = _map[1][middle];
+            fallback.nodeType = NodeType.Event;
+            fallback.nextNodes.Add(boss);
+            beforeBossNodes.Add(fallback);
+        }
+
+        // 2층 노드들 → 1층 이벤트 노드 연결
+        for (int j = 0; j < _mapWidth; j++)
+        {
+            Node node = _map[2][j];
+            if (node.nodeType != NodeType.NotAssgined)
+            {
+                Node selected = beforeBossNodes[Random.Range(0, beforeBossNodes.Count)];
+                node.nextNodes.Add(selected);
             }
         }
 
         return boss;
     }
 
-    //  타입 가중치 초기화
-    private void SetUpRandomNodeWeights()
-    {
-        _randomWeightList[(int)NodeType.Battle] = _BattleNodeWeight;
-        _randomWeightList[(int)NodeType.Event] = _BattleNodeWeight + _EventNodeWeight;
-
-        _totalWeight = _randomWeightList[(int)NodeType.Event];
-    }
-
-    //  노드 타입 랜덤 지정
-    private void SetUpNodeType()
-    {
-
-        foreach (List<Node> path in _allPath)
-        {
-            int battleCount = path.Count(n => n.nodeType == NodeType.Battle);
-            List<Node> candidates = path.Where(n => n.nodeType == NodeType.NotAssgined).ToList();
-            List<Node> shuffled = candidates.OrderBy(_ => Random.value).ToList();
-
-            foreach (Node node in shuffled)
-            {
-                if (battleCount < 3)
-                {
-                    node.nodeType = NodeType.Battle;
-                    battleCount++;
-                }
-                else
-                {
-                    if (node.row == _floors - 3)
-                    {
-                        node.nodeType = NodeType.Event;
-                    }
-                    else
-                    {
-                        NodeType type;
-                        do
-                        {
-                            type = GetRandomRoomTypeByWeight();
-                        } while (type == NodeType.Event && HasParentOfType(node, NodeType.Event));
-
-                        node.nodeType = type;
-                    }
-                }
-            }
-        }
-    }
-
-    private NodeType GetRandomRoomTypeByWeight()
-    {
-        float roll = Random.Range(0f, _totalWeight);
-        for (int i = 0; i < _randomWeightList.Count; i++)
-        {
-            if (_randomWeightList[i] > roll)
-                return (NodeType)i;
-        }
-
-        return NodeType.Event;
-    }
-
-    private bool HasParentOfType(Node node, NodeType type)
-    {
-        List<Node> parentCandidates = new();
-
-        if (node.row > 0)
-        {
-            if (node.column > 0)
-                parentCandidates.Add(_map[node.row - 1][node.column - 1]);
-            parentCandidates.Add(_map[node.row - 1][node.column]);
-            if (node.column < _mapWidth - 1)
-                parentCandidates.Add(_map[node.row - 1][node.column + 1]);
-        }
-
-        return parentCandidates.Any(p => p.nextNodes.Contains(node) && p.nodeType == type);
-    }
-
-    //  모든 경로 찾기 (DFS)
+    // DFS를 통한 시작 → 보스 경로 탐색
     private List<List<Node>> GetAllPaths(Node start, Node end)
     {
         List<List<Node>> paths = new();
@@ -281,9 +227,11 @@ public class MapGenerator : MonoBehaviour
         return paths;
     }
 
+    // 깊이 우선 탐색
     private void DFS(Node current, Node end, List<Node> path, List<List<Node>> allPaths)
     {
         path.Add(current);
+
         if (current == end)
         {
             allPaths.Add(new List<Node>(path));
