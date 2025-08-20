@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,14 +10,18 @@ namespace JJY
         public static CoinManager Instance { get; private set; }
         void Awake()
         {
-            if (Instance == null) Instance = this;
+            if (Instance == null)
+            {
+                Instance = this;
+                DontDestroyOnLoad(gameObject);
+            }
             else Destroy(gameObject);
 
             // TODO : Firebase와 연동
             items.Add(beek, 0);
             items.Add(fineDining, 0);
             items.Add(masterChef, 0);
-        } 
+        }
 
 
         public int inGameCoin { get; private set; } // 인게임 재화
@@ -29,6 +34,7 @@ namespace JJY
         public string beek { get { return _beek; } }
         public string fineDining { get { return _fineDining; } }
         public string masterChef { get { return _masterChef; } }
+        public Action OnItemsChanged;
 
         /// <summary>
         /// 아이템의 수량을 받아오는 함수.
@@ -53,24 +59,27 @@ namespace JJY
             if (items.ContainsKey(itemName))
             {
                 items[itemName] += value;
+                OnItemsChanged?.Invoke();
             }
             else Debug.LogError($"{itemName} : 아이템 이름 오류");
         }
         /// <summary>
         /// 아웃게임 아이템 소모
         /// </summary>
-        public void UseRecipeItem(string itemName, int value)
+        public void SubtractRecipeItem(string itemName, int value)
         {
             if (items.ContainsKey(itemName))
             {
-                if (items[itemName] > value)
+                if (items[itemName] >= value)
                 {
                     items[itemName] -= value;
+                    OnItemsChanged?.Invoke();
                 }
                 else
                 {
                     value = GetRecipeItemCount(itemName);
                     items[itemName] -= value;
+                    OnItemsChanged?.Invoke();
                     Debug.Log($"현재 선택된 아이템의 개수 : {items[itemName]}, 사용하려는 아이템의 개수{value}\t {items[itemName]}을 최대 개수만큼 사용합니다.");
                 }
             }
@@ -95,5 +104,18 @@ namespace JJY
             inGameCoin -= value;
             totalInGameCoin -= value;
         }
+
+#if UNITY_EDITOR
+        /// <summary>
+        /// 레시피 획득 테스트 전용 코드
+        /// </summary>
+        public void TestGetRecipe()
+        {
+            items[masterChef]++;
+            items[fineDining]++;
+            items[beek]++;
+            OnItemsChanged?.Invoke();
+        }
+#endif
     }
 }
