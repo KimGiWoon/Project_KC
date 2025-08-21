@@ -1,8 +1,6 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class BattleManager : MonoBehaviour
 {
@@ -15,14 +13,21 @@ public class BattleManager : MonoBehaviour
     [Header("Monster List")]
     [SerializeField] public List<MonsterDataSO> _monsterList;
 
-    [Header("UI Setting")]
-    [SerializeField] GameObject _clearPanel;
+    // 생성된 캐릭터 보관
+    List<CharacterController> _characters = new();
+    List<MonsterController> _monsters = new();
 
+    BattleUIManager _battleUIManager;
     List<CharacterDataSO> _selectCharacters;
     public int _monsterCount;
     public int _characterCount;
-    public bool _isClear = false;
-    Coroutine _clearRoutine;
+    public bool _isClear;
+    public bool _isGameOver;
+    public int _timer;
+    public float _monsterTotalHp;
+
+    // 게임 결과 확인 이벤트
+    public event Action<bool> OnGameResult;
 
     private void Awake()
     {
@@ -31,6 +36,8 @@ public class BattleManager : MonoBehaviour
 
     private void Start()
     {
+        _battleUIManager = FindObjectOfType<BattleUIManager>();
+
         CharacterSpawn();
         MonsterSpawn();
     }
@@ -39,9 +46,11 @@ public class BattleManager : MonoBehaviour
     private void Init()
     {
         _selectCharacters = CharacterSelectManager.Instance._characterSelectList;
-        _monsterCount = _monsterList.Count;
-        _characterCount = _selectCharacters.Count;
-
+        _isClear = false;
+        _isGameOver = false;
+        _timer = 20;
+        _characters.Clear();
+        _monsters.Clear();
     }
 
     // 캐릭터 스폰
@@ -66,7 +75,18 @@ public class BattleManager : MonoBehaviour
 
             // 캐릭터 생성
             GameObject character = Instantiate(characterData._prefab, spawnPoint.position, spawnPoint.rotation);
+
+            // 생성된 캐릭터 저장
+            CharacterController createCharacter = character.GetComponent<CharacterController>();
+            _characters.Add(createCharacter);
+
+            // 캐릭터 데이터 전달
+            _battleUIManager._infoSlot[i].GetCharacterData(characterData);
+            _battleUIManager._infoSlot[i].GetCharacterController(createCharacter);
         }
+
+        // 생성된 캐릭터 수 저장
+        _characterCount = _characters.Count;
     }
 
     // 몬스터 스폰
@@ -82,7 +102,21 @@ public class BattleManager : MonoBehaviour
 
             // 몬스터 생성
             GameObject monster = Instantiate(mosterData._prefab, spawnPoint.position, spawnPoint.rotation);
+
+            // 생성된 캐릭터 저장
+            MonsterController createMonster = monster.GetComponent<MonsterController>();
+            _monsters.Add(createMonster);
+
+            _monsterTotalHp += _monsterList[i]._maxHp;
+            _battleUIManager.GetMonsterController(createMonster);
         }
+
+        // 통합 몬스터 체력 전달
+        _battleUIManager._currentTotalHp = _monsterTotalHp;
+        _battleUIManager._TotalHp = _monsterTotalHp;
+
+        // 생성된 몬스터 수 저장
+        _monsterCount = _monsters.Count;
     }
 
     // 스폰위치 섞기 (Fisher Yates Shuffle 알고리즘 사용)
@@ -100,7 +134,7 @@ public class BattleManager : MonoBehaviour
     // 몬스터 사망 체크
     public void MonsterDeathCheck()
     {
-        _monsterCount = (int)MathF.Max(0, _monsterCount - 1);
+        _monsterCount = Math.Max(0, _monsterCount - 1);
 
         // 클리어 체크
         BattleClearCheck();
@@ -109,7 +143,7 @@ public class BattleManager : MonoBehaviour
     // 캐릭터 사망 체크
     public void CharacterDeathCheck()
     {
-        _characterCount = (int)MathF.Max(0, _characterCount - 1);
+        _characterCount = Math.Max(0, _characterCount - 1);
 
         // 클리어 체크
         BattleClearCheck();
@@ -122,35 +156,25 @@ public class BattleManager : MonoBehaviour
         if (_monsterCount == 0)
         {
             Debug.Log("클리어 성공!");
+
             _isClear = true;
+            _isGameOver = true;
 
-            // 코루틴 null 확인
-            if(_clearRoutine != null)
-            {
-                StopCoroutine(_clearRoutine);
-                _clearRoutine = null;
-            }
-
-            // 클리어 루틴 스타트
-            _clearRoutine = StartCoroutine(ClearPanelCoroutine());
+            // 이벤트 호출
+            OnGameResult?.Invoke(_isClear);
         }
 
         // 남아있는 플레이어가 없으면
         if (_characterCount == 0)
         {
             Debug.Log("클리어 실패!");
-            //SceneManager.LoadScene("KGW_TestLobbyScene");
+            _isClear = false;
+            _isGameOver = true;
+
+            // 이벤트 호출
+            OnGameResult?.Invoke(_isClear);
         }
     }
 
-    // 클리어 패널 코루틴
-    private IEnumerator ClearPanelCoroutine()
-    {
-        _clearPanel.SetActive(true);
-
-        yield return new WaitForSeconds(2f);
-
-        _isClear = false;
-        SceneManager.LoadScene("KGW_TestLobbyScene");
-    }
+    
 }

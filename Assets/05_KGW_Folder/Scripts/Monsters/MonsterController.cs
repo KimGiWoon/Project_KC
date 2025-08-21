@@ -1,12 +1,14 @@
-using System.Collections;
+using System;
 using System.Collections.Generic;
 using UnityEditor.U2D.Animation;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class MonsterController : UnitBaseData
 {
     [Header("Monster Data Setting")]
     [SerializeField] public MonsterDataSO _monsterData;  // 몬스터 데이터
+    [SerializeField] Slider _monsterHp;
 
     [Header("Attack Unit List")]
     public List<CharacterController> _attackTargets = new();    // 공격 사거리에 들어온 캐릭터 데이터
@@ -15,6 +17,8 @@ public class MonsterController : UnitBaseData
     [Header("Research Unit List")]
     public CharacterController _researchTarget;    // 현재 탬색 대상
 
+    // 전체 체력 변화 이벤트
+    public event Action<float> OnTotalHpChange;
 
     // 몬스터 생성 초기화
     protected override void Init()
@@ -23,6 +27,13 @@ public class MonsterController : UnitBaseData
         base._moveDir = Vector3.left;
         base._isAlive = true;
         base._isAttack = false;
+        base._monData = _monsterData;
+
+        // 체력 게이지 최소, 최대값 초기화
+        if (_monsterHp) { _monsterHp.minValue = 0; _monsterHp.maxValue = 1; }
+
+        // 현재 체력으로 세팅
+        _monsterHp.value = _currentHp / _monsterData._maxHp;
     }
 
     // 몬스터 이동
@@ -84,6 +95,17 @@ public class MonsterController : UnitBaseData
             // 공격 쿨타임 초기화
             base._attackCoolTimer = _monsterData._attackSpeed;
         }
+    }
+
+    public override void TakeDamage(float damage)
+    {
+        base.TakeDamage(damage);
+
+        // 체력 변화에 체력바 변화
+        _monsterHp.value = _currentHp / _monsterData._maxHp;
+
+        // 몬스터 전체 체력바 변화에 대한 이벤트 호출
+        OnTotalHpChange?.Invoke(damage);
     }
 
     // 몬스터 사망
