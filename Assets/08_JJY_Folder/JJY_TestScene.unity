@@ -1172,6 +1172,7 @@ MonoBehaviour:
   userLevelText: {fileID: 1353093577}
   curExpText: {fileID: 1947952895}
   addedExpText: {fileID: 1466904818}
+  addedLevelText: {fileID: 1608009660}
   expBar: {fileID: 1365470766}
   beeksCountText: {fileID: 2104933575}
   finediningCountText: {fileID: 1191159128}
@@ -1180,7 +1181,8 @@ MonoBehaviour:
   itemBar: {fileID: 1420313093}
   itemBarSlider: {fileID: 191203118}
   useItemPanel: {fileID: 943756002}
-  dialog: {fileID: 1712356493}
+  dialogPanelColor: {fileID: 733407286}
+  dialogText: {fileID: 1712356493}
   backBtn: {fileID: 601068869}
   useItemBtn: {fileID: 513966055}
   beekBtn: {fileID: 1903130431}
@@ -1277,7 +1279,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 0.8117647}
+  m_Color: {r: 0, g: 0, b: 0, a: 0}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -2716,7 +2718,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: +20000
+  m_text: nnn
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8acbccae5d4b2714a882ddd964298e8f, type: 2}
   m_sharedMaterial: {fileID: 8563348190837384743, guid: 8acbccae5d4b2714a882ddd964298e8f, type: 2}
@@ -2969,7 +2971,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: +1
+  m_text: nnn
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8acbccae5d4b2714a882ddd964298e8f, type: 2}
   m_sharedMaterial: {fileID: 8563348190837384743, guid: 8acbccae5d4b2714a882ddd964298e8f, type: 2}
@@ -3153,8 +3155,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+    rgba: 16777215
+  m_fontColor: {r: 1, g: 1, b: 1, a: 0}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:

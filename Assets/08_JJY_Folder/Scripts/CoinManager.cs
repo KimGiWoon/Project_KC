@@ -4,7 +4,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace JJY
-{
+{   
+    // TODO : GameManager 연결
     public class CoinManager : MonoBehaviour
     {
         public static CoinManager Instance { get; private set; }
