@@ -31,6 +31,7 @@ namespace JJY
         [SerializeField] TextMeshProUGUI useItemCountText;      // 선택된 아이템의 사용량 (1 / 현재 보유량)
         [SerializeField] Image itemBar;                         // 아이템 사용 슬라이더 게이지
         [SerializeField] Slider itemBarSlider;                  // 아이템 사용 슬라이더
+        [SerializeField] GameObject useItemPanel;               // 아이템 버튼 클릭 시, SetActive true가 될 Panel.
 
         [Header("Dialog Text")]
         [SerializeField] TextMeshProUGUI dialog;    // dialog 표시
@@ -108,7 +109,12 @@ namespace JJY
         }
         private void InitItemBar()
         {
-            if (selectedItemMaxCount <= 0) return;
+            if (selectedItemMaxCount <= 0)
+            {
+                if (useItemPanel.activeSelf) useItemPanel.SetActive(false);
+                return;
+            }
+            if (!useItemPanel.activeSelf) useItemPanel.SetActive(true);
 
             itemBarSlider.minValue = 1f / selectedItemMaxCount;
             itemBarSlider.maxValue = 1f;
@@ -141,14 +147,14 @@ namespace JJY
 
             int gainedExp;
             if (selectedItem == CoinManager.Instance.beek) gainedExp = 300 * selectedItemUseCount;
-            else if (selectedItem == CoinManager.Instance.fineDining) gainedExp = 1000 * selectedItemUseCount;
-            else if (selectedItem == CoinManager.Instance.masterChef) gainedExp = 2000 * selectedItemUseCount;
+            else if (selectedItem == CoinManager.Instance.fineDining) gainedExp = 500 * selectedItemUseCount;
+            else if (selectedItem == CoinManager.Instance.masterChef) gainedExp = 1000 * selectedItemUseCount;
             else gainedExp = 0;
 
             if (gainedExp <= 0) return;
             StartCoroutine(AddExpRoutine(gainedExp));
 
-            InitItemBar();
+            useItemPanel.SetActive(false);
         }
         /// <summary>
         /// 경험치 증가 + 레벨업 처리
