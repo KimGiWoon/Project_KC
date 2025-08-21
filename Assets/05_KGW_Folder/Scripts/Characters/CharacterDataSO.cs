@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 // 캐릭터 타입
@@ -34,6 +32,7 @@ public class CharacterDataSO : ScriptableObject
     public float _attackRange;                  // 캐릭터 공격 사거리
     public float _attackSpeed;                  // 캐릭터 공격 속도
     public float _maxMp;                        // 캐릭터 마력
+    public int _recoveryMp;                   // 캐릭터 초당 마력 회복량
     public float _maxHp;                        // 캐릭터 체력
     public float _attackDamage;                 // 캐릭터 데미지
     public float _attackDefense;                // 캐릭터 방어력

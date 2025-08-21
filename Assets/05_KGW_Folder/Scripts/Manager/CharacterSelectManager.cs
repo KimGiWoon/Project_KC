@@ -1,11 +1,7 @@
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
-// using UnityEditor.SearchService;
 using UnityEngine;
-using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 
 public class CharacterSelectManager : SingletonManager<CharacterSelectManager> 
 {
@@ -19,12 +15,34 @@ public class CharacterSelectManager : SingletonManager<CharacterSelectManager>
     [Header("Character Select Setting")]
     [SerializeField] int _partNumber = 3;   // 전투 참가 인원
 
+    public bool _canBettle = false;
+
     protected override void Awake()
     {
         base.Awake();
     }
 
-    public bool _canBettle = false;
+    // 다시 생성될 선택한 캐릭터 슬롯 위치 설정
+    public void SelectSlotReset(Transform slotPos)
+    {
+        _characterSelectSlot = slotPos;
+        RebuildSelectUI();
+    }
+
+    // 선택한 캐릭터 재생성
+    private void RebuildSelectUI()
+    {
+        // 중복 생성 방지로 이미 있던 슬롯 삭제 후 재생성
+        for (int i = _characterSelectSlot.childCount - 1; i >= 0; i--)
+        {
+            Destroy(_characterSelectSlot.GetChild(i));
+        }
+
+        foreach(var selectSlot in _characterSelectList.Take(_partNumber))
+        {
+            CreateSelectUI(selectSlot);
+        }
+    }
 
     // 캐릭터 선택
     public void CharacterSelect(CharacterDataSO characterData)

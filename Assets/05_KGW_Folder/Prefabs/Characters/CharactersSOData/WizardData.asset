@@ -15,13 +15,14 @@ MonoBehaviour:
   _characterName: ParkWizard
   _characterType: 1
   _characterRating: 0
-  _characterSprite: {fileID: 0}
+  _characterSprite: {fileID: 21300000, guid: ae718e6ca9e5fde49b1a81d47cd6be50, type: 3}
   _prefab: {fileID: 3040210829558697001, guid: 6861ca5fd7922654b851134b76556b08, type: 3}
   _moveSpeed: 1
   _attackRange: 3
   _attackSpeed: 1
   _maxMp: 100
-  _maxHp: 20
-  _attackDamage: 20
+  _recoveryMp: 10
+  _maxHp: 100
+  _attackDamage: 10
   _attackDefense: 2
   _skills: []

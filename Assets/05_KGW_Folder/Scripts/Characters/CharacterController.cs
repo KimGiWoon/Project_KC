@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.ShaderGraph.Internal;
 using UnityEngine;
 
 public class CharacterController : UnitBaseData
@@ -14,13 +16,36 @@ public class CharacterController : UnitBaseData
     [Header("Research Unit Target")]
     public MonsterController _researchTarget;    // 현재 탬색 대상
 
+    Coroutine _manaRoutine;
+    bool _isManaFull;
+    float _manaChageValue;
+    WaitForSeconds _time;
+
+    // 체력과 마나의 변화 이벤트
+    public event Action<float> OnHpChange;
+    public event Action<float> OnMpChange;
+
     // 캐릭터 생성 초기화
     protected override void Init()
     {
         base._currentHp = _characterData._maxHp;
+        base._currentMp = 0f;
         base._moveDir = Vector3.right;
         base._isAlive = true;
         base._isAttack = false;
+        base._chaData = _characterData;
+
+        _isManaFull = false;
+
+        // 체력, 마나 게이지 현재값 초기화
+        OnHpChange?.Invoke(_currentHp / _characterData._maxHp);
+        OnMpChange?.Invoke(_currentMp / _characterData._maxMp);
+
+        _manaChageValue = _characterData._recoveryMp;
+        _time = new WaitForSeconds(1f);
+
+        // 마나 충전 
+        ManaRecovery();
     }
 
     // 캐릭터 이동
@@ -87,17 +112,44 @@ public class CharacterController : UnitBaseData
         }
     }
 
+    // 데미지를 받음
+    public override void TakeDamage(float damage)
+    {
+        base.TakeDamage(damage);
+
+        // 체력 변화에 대한 이벤트 호출
+        OnHpChange?.Invoke(Mathf.Clamp01(_currentHp / _characterData._maxHp));
+    }
+
+    // 마나 회복
+    public void ManaRecovery()
+    {
+        // 마나가 풀이면 회복 불가
+        if (_isManaFull) return;
+
+        _manaRoutine = StartCoroutine(ManaRecoveryCoroutine());
+    }
+
+    public void StopManaRecovery()
+    {
+        if (_manaRoutine != null)
+        {
+            StopCoroutine(_manaRoutine);
+            _manaRoutine = null;
+        }
+    }
+
     // 캐릭터 스킬사용 (버튼으로 사용)
     private void UseSkill()
     {
         // 레어 캐릭터만 스킬 사용 가능
-        if(_characterData._characterRating == characterRating.Rare)
+        if (_characterData._characterRating == characterRating.Rare)
         {
             // 보유한 스킬이 없거나 타겟이 없으면 미사용
             if (_characterData._skills == null || _attackTarget == null) return;
 
             // 보유한 스킬을 순회
-            foreach(var skill in _characterData._skills)
+            foreach (var skill in _characterData._skills)
             {
                 if (skill._canUseSkill)
                 {
@@ -115,7 +167,33 @@ public class CharacterController : UnitBaseData
     {
         base.Death();
 
+        StopManaRecovery();
         // 매니저에 사망 보고
         base._battleManager.CharacterDeathCheck();
+    }
+
+    // 마나 회복
+    private IEnumerator ManaRecoveryCoroutine()
+    {
+        while (!_isManaFull)
+        {
+            yield return _time;
+
+            _currentMp += _manaChageValue;
+
+            // 마나 변화에 대한 이벤트 호출
+            OnMpChange?.Invoke(Mathf.Clamp01(_currentMp / _characterData._maxMp));
+
+            if (_currentMp >= _chaData._maxMp)
+            {
+                _isManaFull = true;
+                _currentMp = _chaData._maxMp;
+
+                // 마나 변화에 대한 이벤트 호출
+                OnMpChange?.Invoke(Mathf.Clamp01(_currentMp / _characterData._maxMp));
+            }
+        }
+
+        _manaRoutine = null;
     }
 }
