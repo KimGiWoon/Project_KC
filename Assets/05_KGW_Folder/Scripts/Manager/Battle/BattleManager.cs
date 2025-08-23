@@ -10,8 +10,17 @@ public class BattleManager : MonoBehaviour
     [Header("Monster Spawn Point Setting")]
     [SerializeField] Transform[] _monsterSpawnPoint;
 
-    [Header("Monster List")]
+    [Header("Boss Spawn Point Setting")]
+    [SerializeField] Transform _bossSpawnPoint;
+
+    [Header("Monster List Setting")]
     [SerializeField] public List<MonsterDataSO> _monsterList;
+
+    [Header("Boss List Setting")]
+    [SerializeField] public List<MonsterDataSO> _bossList;
+
+    [Header("Battle Type Setting")]
+    [SerializeField] public bool _isBoss;
 
     // 생성된 캐릭터 보관
     List<CharacterController> _characters = new();
@@ -24,10 +33,14 @@ public class BattleManager : MonoBehaviour
     public bool _isClear;
     public bool _isGameOver;
     public int _timer;
-    public float _monsterTotalHp;
+    public float _monsterTotalMaxHp;
+    public float _monsterTotalCurrentHp;
 
     // 게임 결과 확인 이벤트
     public event Action<bool> OnGameResult;
+    // 전체 체력 변화 이벤트
+    public event Action<float, float> OnTotalHpChange;
+
 
     private void Awake()
     {
@@ -39,7 +52,15 @@ public class BattleManager : MonoBehaviour
         _battleUIManager = FindObjectOfType<BattleUIManager>();
 
         CharacterSpawn();
-        MonsterSpawn();
+        
+        if (_isBoss)
+        {
+            BossSpawn();
+        }
+        else
+        {
+            MonsterSpawn();
+        }
     }
 
     // 초기화
@@ -95,28 +116,52 @@ public class BattleManager : MonoBehaviour
         for (int i = 0; i < _monsterList.Count; i++)
         {
             // 생성을 위한 몬스터의 정보 확인
-            MonsterDataSO mosterData = _monsterList[i];
+            MonsterDataSO monsterData = _monsterList[i];
 
             //// 몬스터 스폰위치 설정
             Transform spawnPoint = _monsterSpawnPoint[i];
 
             // 몬스터 생성
-            GameObject monster = Instantiate(mosterData._prefab, spawnPoint.position, spawnPoint.rotation);
+            GameObject monster = Instantiate(monsterData._prefab, spawnPoint.position, spawnPoint.rotation);
 
             // 생성된 캐릭터 저장
             MonsterController createMonster = monster.GetComponent<MonsterController>();
             _monsters.Add(createMonster);
 
-            _monsterTotalHp += _monsterList[i]._maxHp;
-            _battleUIManager.GetMonsterController(createMonster);
+            _monsterTotalMaxHp += monsterData._maxHp;
         }
 
-        // 통합 몬스터 체력 전달
-        _battleUIManager._currentTotalHp = _monsterTotalHp;
-        _battleUIManager._TotalHp = _monsterTotalHp;
-
+        _monsterTotalCurrentHp = _monsterTotalMaxHp;
         // 생성된 몬스터 수 저장
         _monsterCount = _monsters.Count;
+
+        // 통합 체력 초기화
+        OnTotalHpChange?.Invoke(_monsterTotalCurrentHp, _monsterTotalMaxHp);
+    }
+
+    private void BossSpawn()
+    {
+        for (int i = 0; i < _bossList.Count; i++)
+        {
+
+        }
+    }
+
+    // 몬스터의 개별 데미지를 확인
+    public void ReportMonsterDamage(float damage)
+    {
+        // 통합 체력 계산
+        _monsterTotalCurrentHp -= damage;
+
+        // 현재 체력이 0보다 작으면
+        if(_monsterTotalCurrentHp < 0)
+        {
+            // 0으로 세팅
+            _monsterTotalCurrentHp = 0;
+        }
+
+        // 통합 체력 변화
+        OnTotalHpChange?.Invoke(_monsterTotalCurrentHp, _monsterTotalMaxHp);
     }
 
     // 스폰위치 섞기 (Fisher Yates Shuffle 알고리즘 사용)
