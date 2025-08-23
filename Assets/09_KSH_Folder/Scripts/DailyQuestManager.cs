@@ -1,11 +1,92 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-public class DailyQuestManager : MonoBehaviour
+using System;
+using System.Linq;
+using UnityEngine.UI;
+public class DailyQuestManager : SingletonManager<DailyQuestManager>
 {
     [SerializeField] private List<DailyQuest> dailyQuests = new List<DailyQuest>();
+    [SerializeField] private Button rewardButton;
+    private QuestUI[] questUIList;
+    private bool reward = false;
     public int currentQuestGoal = 3;
+
+    public event Action OnQuestComplete;
+
+    protected override void Awake()
+    {
+        base.Awake();
+        InitQuest();
+        AddQuestUI();
+    }
+
+    private void Start()
+    {
+        rewardButton.onClick.AddListener(Reward);
+        if (TimeManager.Instance != null)
+        {
+            TimeManager.Instance.OnDailyReset += InitQuest;
+        }
+    }
+    
+    protected override void OnDestroy()
+    {
+        if (TimeManager.Instance != null)
+        {
+            TimeManager.Instance.OnDailyReset -= InitQuest;
+        }
+        
+        base.OnDestroy();
+    }
+
+    private void Update() //테스트용
+    {
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            CompleteQuest(QuestType.ChallengeDungeon, 1);
+        }
+
+        if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            CompleteQuest(QuestType.UseFood, 3);
+        }
+
+        if (Input.GetKeyDown(KeyCode.Alpha3))
+        {
+            CompleteQuest(QuestType.GetArtifact, 5);
+        }
+    }
+    
+    public void AddQuestUI()
+    {
+        //퀘스트UI 이름에서 숫자만 뽑아서 순서대로 나열하여 저장
+        questUIList = FindObjectsOfType<QuestUI>().OrderBy((q => ExtractNumber(q.gameObject.name))).ToArray();
+        
+        for (int i = 0; i < dailyQuests.Count; i++)
+        {
+            questUIList[i].dailyQuest = dailyQuests[i];
+            questUIList[i].InitUI();
+        }
+    }
+
+    public void InitQuest() //퀘스트 초기화
+    {
+        foreach (var quest in dailyQuests)
+        {
+            quest.isComplete = false;
+            quest.currentProgress = 0;
+        }
+        
+        rewardButton.interactable = false;
+        reward = false;
+        Debug.Log("리셋");
+    }
+
+    public int ExtractNumber(string name) //이름에서 숫자만 뽑기
+    {
+        string number = new string(name.Where(char.IsDigit).ToArray());
+        return int.TryParse(number, out int result) ? result : 0;
+    }
     
     public void CompleteQuest(QuestType questType, int amount) //퀘스트가 완료되었는지 확인
     {
@@ -18,7 +99,9 @@ public class DailyQuestManager : MonoBehaviour
 
             if (quest.currentProgress >= quest.questGoal) //퀘스트 목표가 같거나 높으면
             {
+                Debug.Log("퀘스트완료");
                 quest.isComplete = true; //완료
+                OnQuestComplete?.Invoke();
                 CheckQuests();
             }
         }
@@ -34,15 +117,24 @@ public class DailyQuestManager : MonoBehaviour
                 completedQuests++; 
         }
 
-        if (completedQuests >= currentQuestGoal) //완료된 퀘스트가 3회 이상이거나 같으면
+        if (!reward && completedQuests >= currentQuestGoal) //완료된 퀘스트가 3회 이상이거나 같으면
         {
-            Reward();
+            rewardButton.interactable = true; //버튼 활성화
+        }
+        else
+        {
+            rewardButton.interactable = false;
         }
     }
     
     public void Reward()
     {
-        //보상지급
-        Debug.Log("보상이 지급되었습니다.");
+        if (!reward)
+        {
+            //보상지급적어야함
+            Debug.Log("보상이 지급되었습니다.");
+            reward = true;
+            rewardButton.interactable = false;
+        }
     }
 }
