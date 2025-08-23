@@ -1,7 +1,5 @@
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class MapData
@@ -24,7 +22,7 @@ public class MapData
 
         // 유효한 노드만 포함
         Nodes = map.SelectMany(floor => floor)
-                   .Where(node => node.nodeType != NodeType.NotAssgined)
+                   .Where(node => node.nodeType != NodeType.NotAssigned)
                    .ToList();
 
         Path = new List<Vector2Int>();

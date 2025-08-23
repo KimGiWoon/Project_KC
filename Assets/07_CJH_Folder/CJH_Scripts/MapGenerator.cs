@@ -1,237 +1,183 @@
-using System.Collections.Generic;
+ï»¿using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
 public class MapGenerator : MonoBehaviour
 {
-    // ¸Ê ÁÂÇ¥ ¹èÄ¡ °ü·Ã ¼³Á¤°ª
-    private int _xDist;
-    private int _yGap;
-    private int _placementRandomness;
+    [Header("í”„ë¦¬íŒ¹ ì„¤ì •")]
+    public GameObject mapTemplatePrefab;
 
-    // ¸ÊÀÇ Å©±â °ü·Ã ¼³Á¤°ª
     private int _floors;
     private int _mapWidth;
-
-    // ÀüÅõ ³ëµå Á¦ÇÑ ¼³Á¤°ª
-    private int _battleCount = 0;
-    private const int MaxBattleCount = 3;
-    private bool _forceMidBattleUsed = false; // Áß°£Ãş °­Á¦ Battle »ç¿ë ¿©ºÎ
-
-
-    // ÀüÃ¼ ¸Ê ±¸Á¶ (Ãşº° ³ëµå)
     private List<List<Node>> _map;
 
-    // ½ÃÀÛ ¡æ º¸½º±îÁöÀÇ °¡´ÉÇÑ °æ·Îµé
-    private List<List<Node>> _allPath;
-
-    // ¸ŞÀÎ ÁøÀÔÁ¡: ¸Ê »ı¼º ½ÇÇà
     public MapData GenerateMap(MapConfig config)
     {
+        Debug.Log("--- ë§µ ìƒì„± ì‹œì‘ ---");
+
         InitSetting(config);
         _map = GenerateInitialGrid();
 
-        // 4Ãş: ½ÃÀÛ ¡æ 3Ãş ¿¬°á
-        Node startNode = SetUpStartAndFloorOne();
+        var nodeIdentifiers = mapTemplatePrefab.GetComponentsInChildren<MapNodeIdentifier>();
+        ActivateNodesFromPrefab(nodeIdentifiers);
+        BuildConnectionsFromPrefab(nodeIdentifiers);
 
-        // 3Ãş ¡æ 2Ãş ¿¬°á
-        ConnectFloorToNext(3);
+        Node startNode = _map.SelectMany(f => f).FirstOrDefault(n => n.nodeType == NodeType.Start);
+        Node bossNode = _map.SelectMany(f => f).FirstOrDefault(n => n.nodeType == NodeType.Boss);
 
-        // 2Ãş ¡æ 1Ãş(Event) ¡æ 0Ãş(Boss) ¿¬°á
-        Node bossNode = SetUpBeforBossAndBoss();
+        if (startNode == null || bossNode == null)
+        {
+            Debug.LogError("í”„ë¦¬íŒ¹ì—ì„œ ì‹œì‘ ë˜ëŠ” ë³´ìŠ¤ ë…¸ë“œë¥¼ ì°¾ì„ ìˆ˜ ì—†ìŠµë‹ˆë‹¤. floorIndexë¥¼ í™•ì¸í•˜ì„¸ìš”.");
+            return null;
+        }
 
-        // ¸ğµç °æ·Î ¼öÁı (DFS)
-        _allPath = GetAllPaths(startNode, bossNode);
+        AssignNodeTypesToPaths(startNode, bossNode);
 
-        return new MapData(_map, _allPath, startNode, bossNode);
+        Debug.Log("--- ëª¨ë“  ë§µ ìƒì„± ê³¼ì • ì™„ë£Œ ---");
+        List<List<Node>> allPaths = GetAllPaths(startNode, bossNode);
+        return new MapData(_map, allPaths, startNode, bossNode);
     }
 
-    // ¼³Á¤°ª ÃÊ±âÈ­
     private void InitSetting(MapConfig config)
     {
-        _xDist = config.xDist;
-        _yGap = config.yGap;
-        _placementRandomness = config.placementRandomness;
-
         _floors = config.floors;
         _mapWidth = config.mapWidth;
     }
 
-    // 2D ¸Ê ±×¸®µå ÃÊ±â »ı¼º
     private List<List<Node>> GenerateInitialGrid()
     {
-        List<List<Node>> grid = new(_floors);
-
+        var grid = new List<List<Node>>(_floors);
         for (int i = 0; i < _floors; i++)
         {
-            List<Node> floorRooms = new List<Node>(_mapWidth);
+            var floor = new List<Node>(_mapWidth);
             for (int j = 0; j < _mapWidth; j++)
             {
-                Node node = new Node(i, j);
-                node.nodeType = NodeType.NotAssgined;   // ÃÊ±â »óÅÂ
-                node.nextNodes.Clear();
-                floorRooms.Add(node);
+                floor.Add(new Node(i, j) { nodeType = NodeType.NotAssigned });
             }
-            grid.Add(floorRooms);
+            grid.Add(floor);
         }
-
         return grid;
     }
 
-    // ·£´ıÀ¸·Î Battle ¶Ç´Â Event ³ëµå ¹İÈ¯
-    private NodeType GetRandomRoomType()
+    private void ActivateNodesFromPrefab(IEnumerable<MapNodeIdentifier> identifiers)
     {
-        if (_battleCount >= MaxBattleCount - 1)
-            return NodeType.Event;
+        Debug.Log("--- [ë‹¨ê³„ 1] í”„ë¦¬íŒ¹ì—ì„œ ë…¸ë“œ í™œì„±í™” ---");
+        int maxFloorIndex = identifiers.Max(id => id.floorIndex);
 
-        NodeType type = (Random.value < 0.5f) ? NodeType.Battle : NodeType.Event;
-
-        if (type == NodeType.Battle)
-            _battleCount++;
-
-        return type;
-    }
-
-    // ½ÃÀÛÃş(4Ãş)°ú 3Ãş ¼³Á¤
-    private Node SetUpStartAndFloorOne()
-    {
-        int middle = _mapWidth / 2;
-
-        // 4Ãş Áß¾Ó¿¡ ½ÃÀÛ ³ëµå »ı¼º
-        Node start = _map[4][middle];
-        start.nodeType = NodeType.Battle;
-        _battleCount++; // ½ÃÀÛ ÀüÅõ 1È¸
-
-        // 3Ãş: 1~3°³ÀÇ ·£´ı ³ëµå »ı¼º
-        List<Node> floor3Nodes = new();
-        for (int j = 0; j < _mapWidth; j++)
+        foreach (var id in identifiers)
         {
-            if (Random.value < 0.4f && floor3Nodes.Count < 3)
-            {
-                Node node = _map[3][j];
-                node.nodeType = GetRandomRoomType();
-                floor3Nodes.Add(node);
-            }
-        }
+            Node node = _map[id.floorIndex][id.nodeIndexInFloor];
 
-        // ³ëµå°¡ ¾øÀ» °æ¿ì Áß¾Ó¿¡ 1°³ °­Á¦ »ı¼º
-        if (floor3Nodes.Count == 0)
-        {
-            Node fallback = _map[3][middle];
-            fallback.nodeType = GetRandomRoomType();
-            floor3Nodes.Add(fallback);
-        }
+            if (id.floorIndex == 0) node.nodeType = NodeType.Boss;
+            else if (id.floorIndex == maxFloorIndex) node.nodeType = NodeType.Start;
+            else node.nodeType = NodeType.Event;
 
-        // ½ÃÀÛ ³ëµå ¡æ 3Ãş ³ëµåµé ¿¬°á
-        foreach (var node in floor3Nodes)
-            start.nextNodes.Add(node);
-
-        return start;
-    }
-
-    // upperRow ¡æ upperRow - 1 ¿¬°á (ex. 3Ãş ¡æ 2Ãş)
-    private void ConnectFloorToNext(int upperRow)
-    {
-        List<Node> upperNodes = _map[upperRow].Where(n => n.nodeType != NodeType.NotAssgined).ToList();
-        List<Node> lowerNodes = new();
-
-        // 2Ãş: 1~3°³ ·£´ı ³ëµå »ı¼º
-        for (int j = 0; j < _mapWidth; j++)
-        {
-            if (Random.value < 0.4f && lowerNodes.Count < 3)
-            {
-                Node node = _map[upperRow - 1][j];
-                node.nodeType = GetRandomRoomType();
-                lowerNodes.Add(node);
-            }
-        }
-
-        // ³ëµå ¾øÀ» ½Ã Áß¾Ó ³ëµå °­Á¦ »ı¼º
-        if (lowerNodes.Count == 0)
-        {
-            Node fallback = _map[upperRow - 1][_mapWidth / 2];
-            fallback.nodeType = GetRandomRoomType();
-            lowerNodes.Add(fallback);
-        }
-
-        // »óÀ§Ãş ¡æ ÇÏÀ§Ãş ¿¬°á
-        foreach (var from in upperNodes)
-        {
-            foreach (var to in lowerNodes)
-            {
-                from.nextNodes.Add(to);
-            }
-        }
-
-        if (_battleCount < MaxBattleCount && !_forceMidBattleUsed)
-        {
-            Node forceBattle = lowerNodes[Random.Range(0, lowerNodes.Count)];
-            forceBattle.nodeType = NodeType.Battle;
-            _battleCount++;
-            _forceMidBattleUsed = true;
+            Debug.Log($"Node({node.point.x}, {node.point.y}) í™œì„±í™”, ì´ˆê¸° íƒ€ì…: {node.nodeType}");
         }
     }
 
-    // º¸½ºÃş(0)°ú ÀÌº¥Æ®Ãş(1), 2Ãş ¿¬°á
-    private Node SetUpBeforBossAndBoss()
+    private void BuildConnectionsFromPrefab(MapNodeIdentifier[] identifiers)
     {
-        int middle = _mapWidth / 2;
+        Debug.Log("--- [ë‹¨ê³„ 2] í”„ë¦¬íŒ¹ì—ì„œ ì—°ê²° ì •ë³´ ì½ê¸° ì‹œì‘ ---");
+        var identifierToNodeMap = identifiers.ToDictionary(
+            id => id,
+            id => _map[id.floorIndex][id.nodeIndexInFloor]
+        );
 
-        // 0Ãş Áß¾Ó¿¡ º¸½º ³ëµå »ı¼º
-        Node boss = _map[0][middle];
-        boss.nodeType = NodeType.Boss;
-        _battleCount++; // º¸½º ÀüÅõ 1È¸
+        int totalConnectionsFound = 0;
 
-        // 1Ãş: 1~3°³ÀÇ ÀÌº¥Æ® ³ëµå »ı¼º
-        List<Node> beforeBossNodes = new();
-        for (int j = 0; j < _mapWidth; j++)
+        foreach (var parentId in identifiers)
         {
-            if (Random.value < 0.4f && beforeBossNodes.Count < 3)
+            // ê° ë¶€ëª¨ ë…¸ë“œê°€ í”„ë¦¬íŒ¹ì— ëª‡ ê°œì˜ ìì‹ì„ ì—°ê²°í•˜ê³  ìˆëŠ”ì§€ ë¡œê·¸ë¡œ í™•ì¸í•©ë‹ˆë‹¤.
+            if (parentId.connections != null && parentId.connections.Any())
             {
-                Node node = _map[1][j];
-                node.nodeType = NodeType.Event;
-                node.nextNodes.Add(boss);
-                beforeBossNodes.Add(node);
+                Debug.Log($"í”„ë¦¬íŒ¹ ì •ë³´ í™•ì¸: ë¶€ëª¨ {parentId.gameObject.name} ({parentId.floorIndex},{parentId.nodeIndexInFloor}) / ì—°ê²°ëœ ìì‹ ìˆ˜: {parentId.connections.Count}");
+
+                Node parentNode = identifierToNodeMap[parentId];
+
+                foreach (var childId in parentId.connections)
+                {
+                    if (childId == null) continue;
+
+                    Node childNode = identifierToNodeMap[childId];
+                    if (!parentNode.nextNodes.Contains(childNode))
+                    {
+                        parentNode.nextNodes.Add(childNode);
+                        childNode.previousNodes.Add(parentNode);
+                        totalConnectionsFound++;
+                    }
+                }
             }
         }
-
-        // ¾øÀ¸¸é Áß¾Ó¿¡ 1°³ °­Á¦ »ı¼º
-        if (beforeBossNodes.Count == 0)
-        {
-            Node fallback = _map[1][middle];
-            fallback.nodeType = NodeType.Event;
-            fallback.nextNodes.Add(boss);
-            beforeBossNodes.Add(fallback);
-        }
-
-        // 2Ãş ³ëµåµé ¡æ 1Ãş ÀÌº¥Æ® ³ëµå ¿¬°á
-        for (int j = 0; j < _mapWidth; j++)
-        {
-            Node node = _map[2][j];
-            if (node.nodeType != NodeType.NotAssgined)
-            {
-                Node selected = beforeBossNodes[Random.Range(0, beforeBossNodes.Count)];
-                node.nextNodes.Add(selected);
-            }
-        }
-
-        return boss;
+        Debug.Log($"í”„ë¦¬íŒ¹ìœ¼ë¡œë¶€í„° ì´ {totalConnectionsFound}ê°œì˜ ì—°ê²°ì„ ì„¤ì •í–ˆìŠµë‹ˆë‹¤.");
     }
 
-    // DFS¸¦ ÅëÇÑ ½ÃÀÛ ¡æ º¸½º °æ·Î Å½»ö
+    // MapGenerator.cs íŒŒì¼ì—ì„œ ì´ í•¨ìˆ˜ë„ ì°¾ì•„ì„œ êµì²´í•´ì£¼ì„¸ìš”. (í›¨ì”¬ ê°„ë‹¨í•´ì§‘ë‹ˆë‹¤)
+    private void AssignNodeTypesToPaths(Node start, Node end)
+    {
+        Debug.Log("--- [ë‹¨ê³„ 3] ë…¸ë“œ íƒ€ì…(ìƒ‰ìƒ) í• ë‹¹ ì‹œì‘ ---");
+
+        // ê³ ì • ê·œì¹™: 1ì¸µì€ ì „íˆ¬, 4ì¸µì€ ì´ë²¤íŠ¸
+        foreach (var node in _map[start.point.x - 1].Where(n => n.nodeType == NodeType.Event))
+            node.nodeType = NodeType.Battle;
+
+        foreach (var node in _map[1].Where(n => n.nodeType == NodeType.Event))
+            node.nodeType = NodeType.Event; // ì´ ê·œì¹™ì€ ê·¸ëŒ€ë¡œ Eventë¡œ ë‘ê² ìŠµë‹ˆë‹¤.
+
+        Debug.Log("ê³ ì • ê·œì¹™ ì ìš© ì™„ë£Œ: 1ì¸µ(Battle), 4ì¸µ(Event)");
+
+        // 2ì¸µ(ë¶€ëª¨) ë…¸ë“œë“¤ì˜ íƒ€ì…ì„ ëª¨ë‘ ë¬´ì‘ìœ„ë¡œ ê²°ì •
+        Debug.Log("--- 2ì¸µ(ë¶€ëª¨) ë…¸ë“œ íƒ€ì… ë¬´ì‘ìœ„ ê²°ì • ---");
+        var floor2Nodes = _map[3].Where(n => n.nodeType == NodeType.Event).ToList();
+        foreach (var node2 in floor2Nodes)
+        {
+            node2.nodeType = (Random.value > 0.5f) ? NodeType.Battle : NodeType.Event;
+            Debug.Log($"Node ({node2.point.x}, {node2.point.y}) íƒ€ì… ë¬´ì‘ìœ„ ê²°ì •: {node2.nodeType}");
+        }
+
+        // 3ì¸µ(ìì‹) ë…¸ë“œë“¤ì˜ íƒ€ì…ì„ ê²°ì • (ì´ì œ childToParentsMapì´ í•„ìš” ì—†ìŠµë‹ˆë‹¤!)
+        Debug.Log("--- 3ì¸µ(ìì‹) ë…¸ë“œ ìµœì¢… íƒ€ì… ê²°ì • ---");
+        var floor3Nodes = _map[2].Where(n => n.nodeType != NodeType.NotAssigned && n.nodeType != NodeType.Start && n.nodeType != NodeType.Boss).ToList();
+
+        foreach (var childNode in floor3Nodes)
+        {
+            // ê° ìì‹ ë…¸ë“œê°€ ì§ì ‘ ê¸°ì–µí•˜ê³  ìˆëŠ” ë¶€ëª¨ ë¦¬ìŠ¤íŠ¸(previousNodes)ë¥¼ ì‚¬ìš©í•©ë‹ˆë‹¤.
+            List<Node> parents = childNode.previousNodes;
+
+            string parentTypes = string.Join(", ", parents.Select(p => p.nodeType.ToString()));
+            Debug.Log($"ì²˜ë¦¬ ì‹œì‘: Node({childNode.point.x}, {childNode.point.y}). ì—°ê²°ëœ ë¶€ëª¨ ìˆ˜: {parents.Count}. ë¶€ëª¨ íƒ€ì…: [{parentTypes}]");
+
+            if (parents.Any())
+            {
+                bool hasEventParent = parents.Any(p => p.nodeType == NodeType.Event);
+                if (hasEventParent)
+                {
+                    childNode.nodeType = NodeType.Battle;
+                    Debug.Log($"===> ê²°ê³¼: ë¶€ëª¨ ì¤‘ Event(íŒŒë€ìƒ‰) ìˆìŒ. ìµœì¢… íƒ€ì…ì„ Battle(ë³´ë¼ìƒ‰)ìœ¼ë¡œ ê²°ì •.");
+                }
+                else
+                {
+                    childNode.nodeType = NodeType.Event;
+                    Debug.Log($"===> ê²°ê³¼: ëª¨ë“  ë¶€ëª¨ê°€ Battle(ë³´ë¼ìƒ‰). ìµœì¢… íƒ€ì…ì„ Event(íŒŒë€ìƒ‰)ìœ¼ë¡œ ê²°ì •.");
+                }
+            }
+            else
+            {
+                Debug.Log($"===> ê²°ê³¼: ì—°ê²°ëœ ë¶€ëª¨ ì—†ìŒ. ê¸°ë³¸ íƒ€ì… ìœ ì§€.");
+            }
+        }
+    }
+
     private List<List<Node>> GetAllPaths(Node start, Node end)
     {
-        List<List<Node>> paths = new();
-        List<Node> currentPath = new();
-        DFS(start, end, currentPath, paths);
+        var paths = new List<List<Node>>();
+        DFS(start, end, new List<Node>(), paths);
         return paths;
     }
 
-    // ±íÀÌ ¿ì¼± Å½»ö
     private void DFS(Node current, Node end, List<Node> path, List<List<Node>> allPaths)
     {
         path.Add(current);
-
         if (current == end)
         {
             allPaths.Add(new List<Node>(path));
@@ -243,7 +189,6 @@ public class MapGenerator : MonoBehaviour
                 DFS(next, end, path, allPaths);
             }
         }
-
         path.RemoveAt(path.Count - 1);
     }
 }
