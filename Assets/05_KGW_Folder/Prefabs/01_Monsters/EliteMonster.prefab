@@ -28,7 +28,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.5, y: 1.5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7920221253077946429}
@@ -74,8 +74,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 1
-  m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
-  m_Color: {r: 0.5188679, g: 0.22761656, b: 0.22761656, a: 1}
+  m_Sprite: {fileID: 21300000, guid: 0ccc508108fa6ed4fa11b4a467d7f609, type: 3}
+  m_Color: {r: 0.7221175, g: 0, b: 0.9607843, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -214,8 +214,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.25}
   m_AnchorMax: {x: 1, y: 0.75}
-  m_AnchoredPosition: {x: -5, y: 0}
-  m_SizeDelta: {x: -20, y: 0}
+  m_AnchoredPosition: {x: 4.64, y: 0}
+  m_SizeDelta: {x: -0.72, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &3833880438077353650
 GameObject:
@@ -230,7 +230,7 @@ GameObject:
   - component: {fileID: 6828142723617585276}
   - component: {fileID: 4924309309312894332}
   m_Layer: 7
-  m_Name: CommonMonster
+  m_Name: EliteMonster
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -334,7 +334,7 @@ MonoBehaviour:
   _currentHp: 0
   _currentMp: 0
   _isAlive: 0
-  _monsterData: {fileID: 11400000, guid: 64427ff466a91b547a9fe286fa731173, type: 2}
+  _monsterData: {fileID: 11400000, guid: 19604d7662fe72e4f8c6a7cc6ff59a2d, type: 2}
   _monsterHp: {fileID: 2928197131278624699}
   _attackTargets: []
   _attackTarget: {fileID: 0}
@@ -575,7 +575,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8307013932140259865}
-  - component: {fileID: 1382656796501093475}
+  - component: {fileID: 710565060145318211}
   - component: {fileID: 8317944059534632652}
   m_Layer: 0
   m_Name: AttackRange
@@ -599,8 +599,8 @@ Transform:
   m_Children: []
   m_Father: {fileID: 7920221253077946429}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!61 &1382656796501093475
-BoxCollider2D:
+--- !u!58 &710565060145318211
+CircleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -631,19 +631,9 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -1, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
+  m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Size: {x: 1, y: 1}
-  m_EdgeRadius: 0
+  m_Radius: 1
 --- !u!114 &8317944059534632652
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -724,7 +714,7 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 3
+  m_Radius: 1.5
 --- !u!114 &3584961344346739219
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -772,8 +762,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 10, y: 0}
+  m_AnchoredPosition: {x: -4.5, y: 0}
+  m_SizeDelta: {x: 0.09, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3206445998111152849
 CanvasRenderer:

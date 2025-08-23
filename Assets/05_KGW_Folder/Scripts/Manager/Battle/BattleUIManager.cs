@@ -18,58 +18,41 @@ public class BattleUIManager : MonoBehaviour
 
     [Header("Option UI Setting")]
     [SerializeField] Button _optionButton;
-    [SerializeField] Button _fastButton;
+    [SerializeField] Button _fastButtonX1;
+    [SerializeField] Button _fastButtonX2;
     [SerializeField] TMP_Text _timerText;
     [SerializeField] TMP_Text _stageInfo;
+    [SerializeField] TMP_Text _totalHpText;
     [SerializeField] Slider _totalMonsterHp;
 
-    MonsterController _monsterController;
     Coroutine _gameResultRoutine;
     Coroutine _timerRoutine;
     float _time;
     public float _currentTotalHp;
     public float _TotalHp;
 
-    private void Awake()
+    private void OnEnable()
     {
-        // 체력 게이지 최소, 최대값 초기화
-        if (_totalMonsterHp) { _totalMonsterHp.minValue = 0; _totalMonsterHp.maxValue = 1; }
+        // 게임 결과 확인 이벤트 구독
+        _battleManager.OnGameResult += GamePlayResultCheck;
+        // 몬스터 통합 체력 변화 이벤트 구독
+        _battleManager.OnTotalHpChange += MonsterTotalHpChange;
     }
 
     private void Start()
     {
         _time = _battleManager._timer;
 
-        _totalMonsterHp.value = _currentTotalHp / _TotalHp;
-
         // 타이머 코루틴 시작
         _timerRoutine = StartCoroutine(TimerCoroutine());
-
-        // 게임 결과 확인 이벤트 구독
-        _battleManager.OnGameResult += GamePlayResultCheck;
     }
 
     private void OnDestroy()
     {
         // 게임 결과 확인 이벤트 구독 해제
         _battleManager.OnGameResult -= GamePlayResultCheck;
-        // 몬스터 통합 체력 변화 이벤트 구족 해제
-        _monsterController.OnTotalHpChange -= MonsterTotalHpChange;
-    }
-
-    // 몬스터 컨트롤러 가져오기
-    public void GetMonsterController(MonsterController monData)
-    {
-        // 기존에 구독되어 있으면 해제
-        if (_monsterController != null)
-        {
-            _monsterController.OnTotalHpChange -= MonsterTotalHpChange;
-        }
-
-        _monsterController = monData;
-
-        // 체력 변화 이벤트 구독
-        _monsterController.OnTotalHpChange += MonsterTotalHpChange;
+        // 몬스터 통합 체력 변화 이벤트 구독 해제
+        _battleManager.OnTotalHpChange -= MonsterTotalHpChange;
     }
 
     // 게임 결과 확인
@@ -105,11 +88,14 @@ public class BattleUIManager : MonoBehaviour
     }
 
     // 몬스터 총합 체력 변화
-    public void MonsterTotalHpChange(float damage)
+    public void MonsterTotalHpChange(float totalCurrnetHp, float totalMaxHp)
     {
-        _currentTotalHp -= damage;
+        _totalMonsterHp.minValue = 0f;
+        _totalMonsterHp.maxValue = 1f;
 
-        _totalMonsterHp.value = _currentTotalHp / _TotalHp;
+        _totalHpText.text = totalCurrnetHp.ToString();
+
+        _totalMonsterHp.value = totalCurrnetHp / totalMaxHp;
     }
 
     // 클리어 패널 코루틴
@@ -160,6 +146,15 @@ public class BattleUIManager : MonoBehaviour
         {
             // 실패 코루틴 진행
             _gameResultRoutine = StartCoroutine(DefeatPanelCoroutine());
+            // 타이머 코루틴 정지
+            StopTimeCoroutine();
         }
+    }
+
+    // 타이머 코루틴 정지
+    private void StopTimeCoroutine()
+    {
+        _timerRoutine = null;
+        StopCoroutine(_timerRoutine);
     }
 }
