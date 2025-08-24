@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using UnityEngine;
-using static TreeEditor.TreeEditorHelper;
 
 [CreateAssetMenu(menuName = "Map/MapConfig")]
 public class MapConfig : ScriptableObject
