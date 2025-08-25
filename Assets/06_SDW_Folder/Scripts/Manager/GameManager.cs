@@ -1,0 +1,52 @@
+﻿using UnityEngine;
+
+namespace SDW
+{
+    public class GameManager : MonoBehaviour
+    {
+        private static GameManager _instance;
+        public static GameManager Instance => _instance;
+
+        private FirebaseManager _firebase;
+        public FirebaseManager Firebase => _firebase;
+
+        private UIManager _ui;
+        public UIManager UI => _ui;
+
+        private MySceneManager _scene;
+        public MySceneManager Scene => _scene;
+
+        private void Awake()
+        {
+            if (_instance == null)
+            {
+                _instance = this;
+                DontDestroyOnLoad(this);
+            }
+            else
+                Destroy(gameObject);
+
+            _firebase = GetComponent<FirebaseManager>();
+            _ui = GetComponent<UIManager>();
+            _scene = GetComponent<MySceneManager>();
+        }
+
+        private void Start()
+        {
+            FixPortrait();
+        }
+
+        /// <summary>
+        /// 런타임에 화면 방향을 세로 모드를 강제로 설정하기 위한 메서드
+        /// </summary>
+        private void FixPortrait()
+        {
+            Screen.orientation = ScreenOrientation.Portrait;
+
+            Screen.autorotateToPortrait = true;
+            Screen.autorotateToPortraitUpsideDown = false;
+            Screen.autorotateToLandscapeLeft = false;
+            Screen.autorotateToLandscapeRight = false;
+        }
+    }
+}

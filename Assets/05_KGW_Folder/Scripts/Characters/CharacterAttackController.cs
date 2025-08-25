@@ -1,0 +1,63 @@
+using UnityEngine;
+
+public class CharacterAttackController : MonoBehaviour
+{
+    [Header("Controller Reference")]
+    [SerializeField] CharacterController _controller;
+
+    // 몬스터와 보스 레이어
+    int _monsterLayer;
+    int _bossLayer;
+
+    private void Awake()
+    {
+        _monsterLayer = LayerMask.NameToLayer("Monster");
+        _bossLayer = LayerMask.NameToLayer("Boss");
+    }
+
+    // 사거리에 들어온 몬스터
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.layer == _monsterLayer || collision.gameObject.layer == _bossLayer)
+        {
+            MonsterController monster = collision.GetComponent<MonsterController>();
+
+            // 공격 가능한 몬스터에 해당 몬스터가 없으면
+            if (!_controller._attackTargets.Contains(monster))
+            {
+                // 감지된 몬스터 추가
+                _controller._attackTargets.Add(monster);
+
+                // 현재 공격 대상이 없으면
+                if (_controller._attackTarget == null)
+                {
+                    // 감지된 몬스터를 공격 대상에 지정
+                    _controller._attackTarget = monster;
+                }
+            }
+        }
+    }
+
+    // 사거리에서 벗어난 몬스터
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.gameObject.layer == _monsterLayer || collision.gameObject.layer == _bossLayer)
+        {
+            MonsterController monster = collision.GetComponent<MonsterController>();
+
+            // 공격 가능한 몬스터에 해당 몬스터가 있으면
+            if (_controller._attackTargets.Contains(monster))
+            {
+                // 몬스터 삭제
+                _controller._attackTargets.Remove(monster);
+
+                // 현재의 타겟이 사거리에서 벗어나면
+                if (_controller._attackTarget == monster)
+                {
+                    // 다음 순서의 몬스터가 있으면 현재 공격 대상으로 변경
+                    _controller._attackTarget = _controller._attackTargets.Count > 0 ? _controller._attackTargets[0] : null;
+                }
+            }
+        }
+    }
+}
