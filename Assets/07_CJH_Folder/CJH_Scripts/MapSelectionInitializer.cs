@@ -17,14 +17,20 @@ public class MapSelectionInitializer : MonoBehaviour
 
         for (int i = 0; i < numberOfMaps; i++)
         {
-            MapData map = generator.GenerateMap(config); // Mapdata 생성
+            // 1. MapData를 생성합니다.
+            MapData map = generator.GenerateMap(config);
             maps.Add(map);
 
-            mapView.CreateMapView(map); // 맵 UI 생성
-            Sprite preview = previewRenderer.CapturePreview(); // 미리보기 생성
+            // 2. MapView에 맵을 그려 미리보기용으로 준비합니다.
+            mapView.CreateMapView(map);
+
+            // 3. 현재 그려진 맵을 미리보기로 캡처합니다.
+            Sprite preview = previewRenderer.CapturePreview();
             previews.Add(preview);
         }
 
-        selectionManager.Initialize(maps, previews); // 선택을 UI에 반영
+        // 4. 모든 맵 생성 및 미리보기 캡처가 끝난 후 UI를 초기화합니다.
+        selectionManager.Initialize(maps, previews);
+
     }
 }
