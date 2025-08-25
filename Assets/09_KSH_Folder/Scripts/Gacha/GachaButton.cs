@@ -16,13 +16,29 @@ public class GachaButton : MonoBehaviour
     {
         singleButton.onClick.AddListener(() =>
         {
-            GatchaUI.SetActive(false);
-            gacha.SingleGacha();
+            if (RewardChangeManager.Instance.starCandy >= 150)
+            {
+                GatchaUI.SetActive(false);
+                RewardChangeManager.Instance.starCandy -= 150;
+                gacha.SingleGacha();
+            }
+            else
+            {
+                Debug.Log("별사탕이 부족합니다.");
+            }
         });
         multipleButton.onClick.AddListener(() =>
         {
-            GatchaUI.SetActive(false);
-            gacha.TenGacha();
+            if (RewardChangeManager.Instance.starCandy >= 1500)
+            {
+                GatchaUI.SetActive(false);
+                RewardChangeManager.Instance.starCandy -= 1500;
+                gacha.TenGacha();    
+            }
+            else
+            {
+                Debug.Log("별사탕이 부족합니다.");
+            }
         });
     }
 }

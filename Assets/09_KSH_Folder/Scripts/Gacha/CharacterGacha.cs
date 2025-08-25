@@ -1,10 +1,8 @@
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.TextCore.Text;
 
-public class CharacterGacha : MonoBehaviour
+public class CharacterGacha : SingletonManager<CharacterGacha>
 {
     [Header("캐릭터들")] 
     [SerializeField] private List<CharacterData> chracterLists;
@@ -17,8 +15,9 @@ public class CharacterGacha : MonoBehaviour
     private const int pityStart = 43; // 천장 뽑기
     private const float pityIncrease = 0.14f; //확률 증가
 
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake();
         rarityPicker = new WeightedRandom<Rarity>();
         rarityPicker.Add(Rarity.Common, 98);
         rarityPicker.Add(Rarity.Rare, 2);
@@ -57,6 +56,7 @@ public class CharacterGacha : MonoBehaviour
     public void SingleGacha() //1회 뽑기
     {
         CharacterData result = GetRandomCharacter();
+        RewardChangeManager.Instance.ProcessCharacter(result);
         gachaResultUI.Show(new List<CharacterData> { result });
     }
 
@@ -65,7 +65,9 @@ public class CharacterGacha : MonoBehaviour
         List<CharacterData> result = new List<CharacterData>();
         for (int i = 0; i < 10; i++)
         {
-            result.Add(GetRandomCharacter());
+            CharacterData character = GetRandomCharacter();
+            RewardChangeManager.Instance.ProcessCharacter(character);
+            result.Add(character);
         }
         gachaResultUI.Show(result);
     }
