@@ -69,7 +69,7 @@ public class BattleManager : MonoBehaviour
         _selectCharacters = CharacterSelectManager.Instance._characterSelectList;
         _isClear = false;
         _isGameOver = false;
-        _timer = 20;
+        _timer = 100;
         _characters.Clear();
         _monsters.Clear();
     }
@@ -118,7 +118,7 @@ public class BattleManager : MonoBehaviour
             // 생성을 위한 몬스터의 정보 확인
             MonsterDataSO monsterData = _monsterList[i];
 
-            //// 몬스터 스폰위치 설정
+            // 몬스터 스폰위치 설정
             Transform spawnPoint = _monsterSpawnPoint[i];
 
             // 몬스터 생성
@@ -128,6 +128,7 @@ public class BattleManager : MonoBehaviour
             MonsterController createMonster = monster.GetComponent<MonsterController>();
             _monsters.Add(createMonster);
 
+            // 통합 제력 저장
             _monsterTotalMaxHp += monsterData._maxHp;
         }
 
@@ -143,8 +144,29 @@ public class BattleManager : MonoBehaviour
     {
         for (int i = 0; i < _bossList.Count; i++)
         {
+            // 보스의 정보 확인
+            MonsterDataSO bossData = _bossList[i];
 
+            // 보스의 스폰위치 설정
+            Transform spawnPoint = _bossSpawnPoint;
+
+            // 보스 생성
+            GameObject bossMonster = Instantiate(bossData._prefab, spawnPoint.position, spawnPoint.rotation);
+
+            // 성생된 보스 저장
+            MonsterController createBossMonster = bossMonster.GetComponent<MonsterController>();
+            _monsters.Add(createBossMonster);
+
+            // 통합 제력 저장
+            _monsterTotalMaxHp += bossData._maxHp;
         }
+
+        _monsterTotalCurrentHp = _monsterTotalMaxHp;
+        // 생성된 몬스터 수 저장
+        _monsterCount = _monsters.Count;
+
+        // 통합 체력 초기화
+        OnTotalHpChange?.Invoke(_monsterTotalCurrentHp, _monsterTotalMaxHp);
     }
 
     // 몬스터의 개별 데미지를 확인

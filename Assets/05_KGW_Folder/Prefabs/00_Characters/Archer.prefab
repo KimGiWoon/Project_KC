@@ -313,12 +313,11 @@ MonoBehaviour:
   _currentHp: 0
   _currentMp: 0
   _isAlive: 0
+  _isAttack: 0
   _characterData: {fileID: 11400000, guid: 33635fde53e81f140b4e56ff38ec45b0, type: 2}
   _attackTargets: []
   _attackTarget: {fileID: 0}
   _researchTarget: {fileID: 0}
-  _isManaFull: 0
-  _canUseSkill: 0
 --- !u!1 &6522983719120484990
 GameObject:
   m_ObjectHideFlags: 0
