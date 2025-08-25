@@ -2,9 +2,17 @@
 {
     public enum UIName
     {
+        //# Login Scene
         SignInUI,
         SetNicknameUI,
+
+        //# Lobby Scene
+        MainLobbyUI,
         UserInfoUI,
-        MainLobbyUI
+        DeleteAccountUI,
+        EditUsernameUI,
+        ChangeIconUI
+
+        //#
     }
 }

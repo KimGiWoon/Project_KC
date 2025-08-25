@@ -1,103 +1,133 @@
 using System;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 namespace SDW
 {
     public class UserInfoUI : BaseUI
     {
-        [Header("Close Setting")]
-        [SerializeField] private Button _closeButton;
-        public Action<UIName> OnCloseButtonClicked;
-
         [Header("User Info Settings")]
-        [SerializeField] private TextMeshProUGUI _emialInfoText;
+        [SerializeField] private TextMeshProUGUI _uidInfoText;
         [SerializeField] private TextMeshProUGUI _nicknameInfoText;
 
-        [Header("Change Nickname Settings")]
-        [SerializeField] private TMP_InputField _nicknameInputField;
-        [SerializeField] private Button _editButton;
-        [SerializeField] private TextMeshProUGUI _errorText;
-        public Action<string> OnEditButtonClicked;
+        [Header("Panels")]
+        [SerializeField] private GameObject _backgroundPanel;
+        [SerializeField] private GameObject _userInfoPanel;
+        [SerializeField] private GameObject _medalPanel;
+        // [SerializeField] private GameObject _deleteAccountPanel;
+        // [SerializeField] private GameObject _editUserNamePanel;
+        // [SerializeField] private GameObject _changeIconPanel;
 
-        [Header("Sign Out & Delete Buttons")]
-        [SerializeField] private Button _deleteButton;
+        [Header("Buttons")]
+        [SerializeField] private Button _deleteAccountButton;
         [SerializeField] private Button _signOutButton;
+        [SerializeField] private Button _editUserNameButton;
+        [SerializeField] private Button _changeIconButton;
 
-        public Action OnDeleteButtonClicked;
+        public Action<UIName> OnUICloseRequsted;
+        public Action<UIName> OnUIOpenButtonClicked;
         public Action OnSignOutButtonClicked;
 
-        private string _currentNickname;
+        private RectTransform _userInfoPanelRect;
+        private Stack<UIName> _uiStack = new Stack<UIName>();
 
         /// <summary>
         /// UI 컴포넌트 활성화 설정 및 이벤트 리스너 할당을 수행
         /// </summary>
         private void Awake()
         {
+            _userInfoPanelRect = _panelContainer.GetComponent<RectTransform>();
             _panelContainer.SetActive(false);
-
-            //# Close Button
-            _closeButton.onClick.AddListener(CloseButtonClicked);
-
-            //# Change Nickname
-            _editButton.onClick.AddListener(EditButtonClicked);
+            _backgroundPanel.SetActive(false);
+            _medalPanel.SetActive(false);
 
             //# Sign Out & Delete Buttons
+            _deleteAccountButton.onClick.AddListener(DeleteAccountButtonClicked);
             _signOutButton.onClick.AddListener(SignOutButtonClicked);
-            _deleteButton.onClick.AddListener(DeleteButtonClicked);
+
+            //# Change Nickname
+            _editUserNameButton.onClick.AddListener(EditUserNameButtonClicked);
+            _changeIconButton.onClick.AddListener(ChangeIconButtonClicked);
         }
 
-        private void CloseButtonClicked() => OnCloseButtonClicked?.Invoke(UIName.UserInfoUI);
+        public override void Open()
+        {
+            base.Open();
+            _backgroundPanel.SetActive(true);
+            _medalPanel.SetActive(true);
+            _uiStack.Push(UIName.UserInfoUI);
+        }
+
+        public override void Close()
+        {
+            base.Close();
+            _backgroundPanel.SetActive(false);
+            _medalPanel.SetActive(false);
+            _uiStack.Clear();
+        }
+
+        public void Update()
+        {
+            if (!_panelContainer.activeSelf) return;
+
+            //# 안드로이드 터치 감지
+            if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began)
+            {
+                var touchPos = Input.GetTouch(0).position;
+
+                //todo 영역이 각 panel의 영억으로 변경해야 함
+
+                //# 패널 안에 터치가 있는지 확인
+                if (!RectTransformUtility.RectangleContainsScreenPoint(_userInfoPanelRect, touchPos))
+                {
+                    OnUICloseRequsted?.Invoke(_uiStack.Pop());
+                }
+            }
+        }
 
         #region Update User Info
 
-        public void UpdateUserInfo(string email, string nickname)
+        public void UpdateUserInfo(string nickname, string email, string uid)
         {
-            _emialInfoText.text = $"Email : {email}";
-            _nicknameInfoText.text = $"Nickname : {nickname}";
-            _currentNickname = nickname;
+            _uidInfoText.text = $"uid : {uid}";
+            _nicknameInfoText.text = $"{nickname}";
         }
 
         #endregion
 
-        #region Changed Nickname Info
+        #region Buttons Methods
 
-        private void EditButtonClicked()
+        /// <summary>
+        /// Delete Account 버튼 클릭 이벤트 핸들러
+        /// </summary>
+        private void DeleteAccountButtonClicked()
         {
-            string nickname = _nicknameInputField.text;
-
-            if (string.IsNullOrEmpty(nickname))
-            {
-                _errorText.text = "닉네임을 입력해주세요";
-                _nicknameInputField.text = "";
-                return;
-            }
-
-            if (_currentNickname.Equals(nickname))
-            {
-                _errorText.text = "기존 닉네임과 동일합니다.";
-                _nicknameInputField.text = "";
-                return;
-            }
-
-            _errorText.text = "";
-            OnEditButtonClicked?.Invoke(nickname);
+            _uiStack.Push(UIName.DeleteAccountUI);
+            OnUIOpenButtonClicked?.Invoke(UIName.DeleteAccountUI);
         }
-
-        #endregion
-
-        #region Sign Out & Delete Buttons
 
         /// <summary>
         /// 호출된 경우 사용자 정보 UI에서로그아웃 기능을 실행하는 이벤트 핸들러 메소드
         /// </summary>
         private void SignOutButtonClicked() => OnSignOutButtonClicked?.Invoke();
 
+        private void EditUserNameButtonClicked()
+        {
+            _uiStack.Push(UIName.EditUsernameUI);
+            OnUIOpenButtonClicked?.Invoke(UIName.EditUsernameUI);
+        }
+
         /// <summary>
-        /// Delete 버튼 클릭 이벤트 핸들러
+        /// Change Icon 버튼 클릭 이벤트 핸들러
         /// </summary>
-        private void DeleteButtonClicked() => OnDeleteButtonClicked?.Invoke();
+        private void ChangeIconButtonClicked()
+        {
+            _uiStack.Push(UIName.ChangeIconUI);
+            OnUIOpenButtonClicked?.Invoke(UIName.ChangeIconUI);
+        }
 
         #endregion
     }
