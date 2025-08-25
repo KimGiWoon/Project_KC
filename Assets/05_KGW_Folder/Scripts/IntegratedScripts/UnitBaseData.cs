@@ -48,23 +48,27 @@ public abstract class UnitBaseData : MonoBehaviour
         // 데미지를 받음, 방어력에 대한 것은??
         _currentHp -= damage;
 
-        // 50%확률로 넉백 
-        if (UnityEngine.Random.value <= 0.5f)
-        {
-            // 넉백 코루틴 null 체크
-            if (_knockbackRoutine != null)
-            {
-                StopCoroutine(_knockbackRoutine);
-                _knockbackRoutine = null;
-            }
-
-            _knockbackRoutine = StartCoroutine(KnockBackCoroutine());
-        }
-        
         if (_currentHp <= 0)
         {
             // 유닛의 죽음
             Death();
+        }
+
+        // 보스가 아니면 넉백 가능
+        if(gameObject.layer != LayerMask.NameToLayer("Boss"))
+        {
+            // 50%확률로 넉백 
+            if (UnityEngine.Random.value <= 0.5f)
+            {
+                // 넉백 코루틴 null 체크
+                if (_knockbackRoutine != null)
+                {
+                    StopCoroutine(_knockbackRoutine);
+                    _knockbackRoutine = null;
+                }
+
+                _knockbackRoutine = StartCoroutine(KnockBackCoroutine());
+            }
         }
     }
 

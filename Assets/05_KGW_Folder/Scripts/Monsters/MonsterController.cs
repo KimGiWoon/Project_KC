@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using UnityEditor.U2D.Animation;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -16,9 +15,6 @@ public class MonsterController : UnitBaseData
 
     [Header("Research Unit List")]
     public CharacterController _researchTarget;    // 현재 탬색 대상
-
-    // 전체 체력 변화 이벤트
-    public event Action<float> OnTotalHpChange;
 
     // 몬스터 생성 초기화
     protected override void Init()
@@ -99,13 +95,22 @@ public class MonsterController : UnitBaseData
 
     public override void TakeDamage(float damage)
     {
+        // 데미지 받기 전 체력 저장
+        float saveCurHp = _currentHp;
+
         base.TakeDamage(damage);
 
         // 체력 변화에 체력바 변화
         _monsterHp.value = _currentHp / _monsterData._maxHp;
 
-        // 몬스터 전체 체력바 변화에 대한 이벤트 호출
-        OnTotalHpChange?.Invoke(damage);
+        // 보스전이면 생성된 몬스터는 통합체력에 영향을 주면 안됨
+        if (_battleManager._isBoss) return;
+
+        // 실제 줄어든 체력
+        float decreaseHp = MathF.Max(0f, saveCurHp - _currentHp);
+
+        // 실제 줄어든 체력 전달
+        _battleManager.ReportMonsterDamage(decreaseHp);
     }
 
     // 몬스터 사망

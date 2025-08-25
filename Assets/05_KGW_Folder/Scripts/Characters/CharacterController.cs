@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.ShaderGraph.Internal;
 using UnityEngine;
 
 public class CharacterController : UnitBaseData
@@ -24,6 +23,8 @@ public class CharacterController : UnitBaseData
     // 체력과 마나의 변화 이벤트
     public event Action<float> OnHpChange;
     public event Action<float> OnMpChange;
+    // 스킬 사용 모드 변화 이벤트
+    public event Action<bool> OnSkillModeChange;
 
     // 캐릭터 생성 초기화
     protected override void Init()
@@ -51,6 +52,9 @@ public class CharacterController : UnitBaseData
     // 캐릭터 이동
     protected override void Movement()
     {
+        // 게임이 종료되면 움직이지 않는다.
+        if (_battleManager._isGameOver) return;
+
         // 타겟이 없으면 
         if (_researchTarget == null)
         {
@@ -124,12 +128,16 @@ public class CharacterController : UnitBaseData
     // 마나 회복
     public void ManaRecovery()
     {
+        // 캐릭터의 등급이 레어등급만 마나회복 가능
+        if (_characterData._characterRating != characterRating.Rare) return;
+
         // 마나가 풀이면 회복 불가
         if (_isManaFull) return;
 
         _manaRoutine = StartCoroutine(ManaRecoveryCoroutine());
     }
 
+    // 마나 회복 정지
     public void StopManaRecovery()
     {
         if (_manaRoutine != null)
@@ -140,7 +148,7 @@ public class CharacterController : UnitBaseData
     }
 
     // 캐릭터 스킬사용 (버튼으로 사용)
-    private void UseSkill()
+    public void UseSkill()
     {
         // 레어 캐릭터만 스킬 사용 가능
         if (_characterData._characterRating == characterRating.Rare)
@@ -151,13 +159,21 @@ public class CharacterController : UnitBaseData
             // 보유한 스킬을 순회
             foreach (var skill in _characterData._skills)
             {
-                if (skill._canUseSkill)
-                {
-                    // 스킬 사용
-                    skill.UseSkill(transform, _attackTarget);
+                // 스킬 사용
+                skill.UseSkill(transform, _attackTarget);
 
-                    // 스킬 사용 쿨타임이 있으면 계산 
-                }
+                // 마나 초기화
+                _currentMp = 0f;
+                // 마나 변화에 대한 이벤트 호출
+                OnMpChange?.Invoke(Mathf.Clamp01(_currentMp / _characterData._maxMp));
+
+                // 마나 제로
+                _isManaFull = false;
+                // 스킬 사용 모드 전환 이벤트 호출
+                OnSkillModeChange?.Invoke(_isManaFull);
+
+                // 마나 회복
+                _manaRoutine = StartCoroutine(ManaRecoveryCoroutine());
             }
         }
     }
@@ -181,6 +197,12 @@ public class CharacterController : UnitBaseData
 
             _currentMp += _manaChageValue;
 
+            // 게임이 종료되면 마나회복 중지
+            if (_battleManager._isGameOver)
+            {
+                StopCoroutine(_manaRoutine);
+            }
+
             // 마나 변화에 대한 이벤트 호출
             OnMpChange?.Invoke(Mathf.Clamp01(_currentMp / _characterData._maxMp));
 
@@ -188,6 +210,9 @@ public class CharacterController : UnitBaseData
             {
                 _isManaFull = true;
                 _currentMp = _chaData._maxMp;
+
+                // 스킬 사용 모드 전환 이벤트 호출
+                OnSkillModeChange?.Invoke(_isManaFull);
 
                 // 마나 변화에 대한 이벤트 호출
                 OnMpChange?.Invoke(Mathf.Clamp01(_currentMp / _characterData._maxMp));
