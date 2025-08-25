@@ -468,7 +468,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.392}
+  m_Color: {r: 0, g: 0, b: 0, a: 0.392}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -1053,11 +1053,6 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
---- !u!224 &1709579105 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 3135974269222534188, guid: 9eedd0bb30fb0284a924d07842591b86, type: 3}
-  m_PrefabInstance: {fileID: 341035974780212052}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1712792166
 GameObject:
   m_ObjectHideFlags: 0
@@ -1200,7 +1195,7 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1709579105}
+  - {fileID: 341035974780212053}
   - {fileID: 625127139}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1459,6 +1454,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9eedd0bb30fb0284a924d07842591b86, type: 3}
+--- !u!224 &341035974780212053 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 3135974269222534188, guid: 9eedd0bb30fb0284a924d07842591b86, type: 3}
+  m_PrefabInstance: {fileID: 341035974780212052}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
