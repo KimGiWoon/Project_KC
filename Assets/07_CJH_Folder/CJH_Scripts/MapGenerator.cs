@@ -61,7 +61,7 @@ public class MapGenerator : MonoBehaviour
 
     private void ActivateNodesFromPrefab(IEnumerable<MapNodeIdentifier> identifiers)
     {
-        Debug.Log("--- [단계 1] 프리팹에서 노드 활성화 ---");
+        Debug.Log("--- 단계 1 프리팹에서 노드 활성화 ---");
         int maxFloorIndex = identifiers.Max(id => id.floorIndex);
 
         foreach (var id in identifiers)
@@ -78,7 +78,7 @@ public class MapGenerator : MonoBehaviour
 
     private void BuildConnectionsFromPrefab(MapNodeIdentifier[] identifiers)
     {
-        Debug.Log("--- [단계 2] 프리팹에서 연결 정보 읽기 시작 ---");
+        Debug.Log("--- 단계 2 프리팹에서 연결 정보 읽기 시작 ---");
         var identifierToNodeMap = identifiers.ToDictionary(
             id => id,
             id => _map[id.floorIndex][id.nodeIndexInFloor]
@@ -115,7 +115,7 @@ public class MapGenerator : MonoBehaviour
     // MapGenerator.cs 파일에서 이 함수도 찾아서 교체해주세요. (훨씬 간단해집니다)
     private void AssignNodeTypesToPaths(Node start, Node end)
     {
-        Debug.Log("--- [단계 3] 노드 타입(색상) 할당 시작 ---");
+        Debug.Log("--- 단계 3 노드 타입(색상) 할당 시작 ---");
 
         // 고정 규칙: 1층은 전투, 4층은 이벤트
         foreach (var node in _map[start.point.x - 1].Where(n => n.nodeType == NodeType.Event))
