@@ -34,7 +34,7 @@ namespace SDW
         /// </summary>
         /// <param name="email">사용자의 이메일 주소</param>
         /// <param name="nickname">업데이트할 사용자의 닉네임</param>
-        public void UpdateUserInfo(string email, string nickname) => _nicknameText.text = nickname;
+        public void UpdateUserInfo(string nickname, string email = null, string uid = null) => _nicknameText.text = nickname;
 
         #endregion
     }
