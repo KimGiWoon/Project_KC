@@ -5,26 +5,37 @@ public class Node
 {
     public NodeType nodeType;
     public Vector2Int point;
-    public int row, column;
     public List<Node> nextNodes;
-    public bool selected;
+    public List<Node> previousNodes;
 
     public Node(int row, int column)
     {
-        this.row = row;
-        this.column = column;
         point = new Vector2Int(row, column);
         nextNodes = new List<Node>();
-        selected = false;
+        previousNodes = new List<Node>();
     }
 
-    public bool HasConnections()
+    // C#에게 Node 객체를 좌표 기준으로 비교하도록 알려주는 필수 코드입니다.
+    public override bool Equals(object obj)
     {
-        return nextNodes.Count > 0;
+        return Equals(obj as Node);
     }
 
+    public bool Equals(Node other)
+    {
+        return other != null &&
+               this.point.x == other.point.x &&
+               this.point.y == other.point.y;
+    }
+
+    public override int GetHashCode()
+    {
+        return System.HashCode.Combine(this.point.x, this.point.y);
+    }
+
+    // [수정된 부분] column 대신 point.y를 사용합니다.
     public override string ToString()
     {
-        return $"{column} ({nodeType.ToString()[0]})";
+        return $"{point.y} ({nodeType.ToString()[0]})";
     }
 }
