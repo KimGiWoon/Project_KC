@@ -114,6 +114,7 @@ namespace SDW
                 SignIn(email, password);
 #else
             GoogleSignIn.Configuration = _googleConfig;
+            GoogleSignIn.DefaultInstance.EnableDebugLogging(true);
             GoogleSignIn.DefaultInstance.SignIn().ContinueWithOnMainThread(task =>
             {
                 if (task.IsFaulted)
