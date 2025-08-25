@@ -9,7 +9,7 @@ public class Explosion : SkillDataSO
     {
         // 스킬 레벨에 대한 계산 추가 예정
 
-        // 스킬 생성
+        // 스킬 사용 이미지 생성
         GameObject explosion = Instantiate(base._skillPrefab, caster.position, caster.rotation);
         ExplosionController explosionController = explosion.GetComponent<ExplosionController>();
 

@@ -11,7 +11,7 @@ public abstract class UnitBaseData : MonoBehaviour
     public float _currentHp;     // 유닛의 현재 체력
     public float _currentMp;     // 유닛의 현재 마나
     public bool _isAlive;        // 유닛의 생존 여부
-    protected bool _isAttack;       // 유닛의 공격 여부
+    public bool _isAttack;       // 유닛의 공격 여부
     protected float _attackCoolTimer;     // 공격 쿨타임
     protected Vector3 _moveDir;     // 유닛의 이동 방향
     Coroutine _knockbackRoutine;

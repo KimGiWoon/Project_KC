@@ -27,5 +27,6 @@ public class MonsterDataSO : ScriptableObject
     public float _attackDefense;            // 몬스터 방어력
 
     [Header("Skills Setting")]
+    public float _useSkillTime;             // 스킬 사용 시간
     public SkillDataSO[] _skills;           // 몬스터의 보유 스킬
 }

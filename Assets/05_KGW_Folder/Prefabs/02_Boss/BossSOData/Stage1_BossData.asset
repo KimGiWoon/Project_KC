@@ -14,11 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _monsterName: Stage1_LocalBoss
   _monsterRating: 2
-  _prefab: {fileID: 0}
+  _prefab: {fileID: 3833880438077353650, guid: a1d9d3e5155e58744b310115c45b456a, type: 3}
   _moveSpeed: 0
   _attackSpeed: 0
   _attackRange: 0
   _maxHp: 2000
   _attackDamage: 0
   _attackDefense: 0
-  _skills: []
+  _useSkillTime: 10
+  _skills:
+  - {fileID: 11400000, guid: e517e72d588b0224c9ca5af351d20648, type: 2}

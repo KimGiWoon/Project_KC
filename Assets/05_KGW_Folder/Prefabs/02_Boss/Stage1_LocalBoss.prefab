@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2943237424791489955}
   m_Layer: 0
-  m_Name: Point3
+  m_Name: RecallPoint3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -147,7 +147,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8281647997662854277}
   m_Layer: 0
-  m_Name: Point1
+  m_Name: RecallPoint1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -180,6 +180,7 @@ GameObject:
   - component: {fileID: 7877254512941228254}
   - component: {fileID: 6828142723617585276}
   - component: {fileID: 4924309309312894332}
+  - component: {fileID: 8367841818794511618}
   m_Layer: 8
   m_Name: Stage1_LocalBoss
   m_TagString: Untagged
@@ -276,7 +277,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 4
+  m_Constraints: 7
 --- !u!114 &4924309309312894332
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -294,11 +295,28 @@ MonoBehaviour:
   _currentHp: 0
   _currentMp: 0
   _isAlive: 0
-  _monsterData: {fileID: 11400000, guid: 64427ff466a91b547a9fe286fa731173, type: 2}
+  _monsterData: {fileID: 11400000, guid: 75b5c5ed3129cfa43ab948f173297283, type: 2}
   _monsterHp: {fileID: 0}
   _attackTargets: []
   _attackTarget: {fileID: 0}
   _researchTarget: {fileID: 0}
+  _isDetect: 0
+--- !u!114 &8367841818794511618
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3833880438077353650}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7b04db07b445684083e89a7fb27da7d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _point:
+  - {fileID: 8281647997662854277}
+  - {fileID: 6119964474177655045}
+  - {fileID: 2943237424791489955}
 --- !u!1 &8226727675962996526
 GameObject:
   m_ObjectHideFlags: 0
@@ -400,7 +418,7 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 3.5
+  m_Radius: 5
 --- !u!114 &3584961344346739219
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -424,7 +442,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6119964474177655045}
   m_Layer: 0
-  m_Name: Point2
+  m_Name: RecallPoint2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
