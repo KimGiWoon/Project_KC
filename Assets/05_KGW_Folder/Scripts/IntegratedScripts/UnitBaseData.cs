@@ -12,25 +12,38 @@ public abstract class UnitBaseData : MonoBehaviour
     public float _currentMp;     // 유닛의 현재 마나
     public bool _isAlive;        // 유닛의 생존 여부
     public bool _isAttack;       // 유닛의 공격 여부
+    public int _gameSpeed;       // 게임 속도
     protected float _attackCoolTimer;     // 공격 쿨타임
     protected Vector3 _moveDir;     // 유닛의 이동 방향
     Coroutine _knockbackRoutine;
     protected BattleManager _battleManager;
+    protected BattleUIManager _battleUIManager;
     protected CharacterDataSO _chaData;
     protected MonsterDataSO _monData;
+
+    private void Awake()
+    {
+        _battleManager = FindObjectOfType<BattleManager>();
+        _battleUIManager = FindObjectOfType<BattleUIManager>();
+    }
 
     // 유닛 생성시 초기화
     protected virtual void Start()
     {
         Init();
-        _battleManager = FindObjectOfType<BattleManager>();
     }
 
     // 유닛의 동작 관리
     protected virtual void Update()
     {
+        // 게임이 종료되면 움직이지 않는다.
+        if (_battleManager._isGameOver) return;
+
         Movement();
         Attack();
+
+        // 게임 속도에 따른 유닛의 이동 속도 변경
+        _gameSpeed = CharacterSelectManager.Instance._isFastGame ? 2 : 1;
     }
 
     // 유닛의 초기화
