@@ -1,17 +1,21 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class BattleManager : MonoBehaviour
 {
     [Header("Character Spawn Point Setting")]
-    [SerializeField] Transform[] _characterSpawnPoint;
+    [SerializeField]
+    private Transform[] _characterSpawnPoint;
 
     [Header("Monster Spawn Point Setting")]
-    [SerializeField] Transform[] _monsterSpawnPoint;
+    [SerializeField]
+    private Transform[] _monsterSpawnPoint;
 
     [Header("Boss Spawn Point Setting")]
-    [SerializeField] Transform _bossSpawnPoint;
+    [SerializeField]
+    private Transform _bossSpawnPoint;
 
     [Header("Monster List Setting")]
     [SerializeField] public List<MonsterDataSO> _monsterList;
@@ -23,11 +27,11 @@ public class BattleManager : MonoBehaviour
     [SerializeField] public bool _isBoss;
 
     // 생성된 캐릭터 보관
-    List<CharacterController> _characters = new();
-    List<MonsterController> _monsters = new();
+    private List<CharacterController> _characters = new List<CharacterController>();
+    private List<MonsterController> _monsters = new List<MonsterController>();
 
-    BattleUIManager _battleUIManager;
-    List<CharacterDataSO> _selectCharacters;
+    private BattleUI battleUI;
+    private List<CharacterDataSO> _selectCharacters;
     public int _monsterCount;
     public int _characterCount;
     public bool _isClear;
@@ -38,9 +42,9 @@ public class BattleManager : MonoBehaviour
 
     // 게임 결과 확인 이벤트
     public event Action<bool> OnGameResult;
+
     // 전체 체력 변화 이벤트
     public event Action<float, float> OnTotalHpChange;
-
 
     private void Awake()
     {
@@ -49,10 +53,17 @@ public class BattleManager : MonoBehaviour
 
     private void Start()
     {
-        _battleUIManager = FindObjectOfType<BattleUIManager>();
+        battleUI = FindObjectOfType<BattleUI>();
+        StartCoroutine(Spwan());
+    }
+
+    private IEnumerator Spwan()
+    {
+        yield return new WaitForSeconds(0.5f);
+
 
         CharacterSpawn();
-        
+
         if (_isBoss)
         {
             BossSpawn();
@@ -89,21 +100,21 @@ public class BattleManager : MonoBehaviour
         for (int i = 0; i < count; i++)
         {
             // 생성을 위한 선택한 캐릭터의 정보 확인
-            CharacterDataSO characterData = _selectCharacters[i];
+            var characterData = _selectCharacters[i];
 
             // 캐릭터 스폰위치 설정
-            Transform spawnPoint = Points[i];
+            var spawnPoint = Points[i];
 
             // 캐릭터 생성
-            GameObject character = Instantiate(characterData._prefab, spawnPoint.position, spawnPoint.rotation);
+            var character = Instantiate(characterData._prefab, spawnPoint.position, spawnPoint.rotation);
 
             // 생성된 캐릭터 저장
-            CharacterController createCharacter = character.GetComponent<CharacterController>();
+            var createCharacter = character.GetComponent<CharacterController>();
             _characters.Add(createCharacter);
 
             // 캐릭터 데이터 전달
-            _battleUIManager._infoSlot[i].GetCharacterData(characterData);
-            _battleUIManager._infoSlot[i].GetCharacterController(createCharacter);
+            battleUI._infoSlot[i].GetCharacterData(characterData);
+            battleUI._infoSlot[i].GetCharacterController(createCharacter);
         }
 
         // 생성된 캐릭터 수 저장
@@ -116,16 +127,16 @@ public class BattleManager : MonoBehaviour
         for (int i = 0; i < _monsterList.Count; i++)
         {
             // 생성을 위한 몬스터의 정보 확인
-            MonsterDataSO monsterData = _monsterList[i];
+            var monsterData = _monsterList[i];
 
             // 몬스터 스폰위치 설정
-            Transform spawnPoint = _monsterSpawnPoint[i];
+            var spawnPoint = _monsterSpawnPoint[i];
 
             // 몬스터 생성
-            GameObject monster = Instantiate(monsterData._prefab, spawnPoint.position, spawnPoint.rotation);
+            var monster = Instantiate(monsterData._prefab, spawnPoint.position, spawnPoint.rotation);
 
             // 생성된 캐릭터 저장
-            MonsterController createMonster = monster.GetComponent<MonsterController>();
+            var createMonster = monster.GetComponent<MonsterController>();
             _monsters.Add(createMonster);
 
             // 통합 제력 저장
@@ -145,16 +156,16 @@ public class BattleManager : MonoBehaviour
         for (int i = 0; i < _bossList.Count; i++)
         {
             // 보스의 정보 확인
-            MonsterDataSO bossData = _bossList[i];
+            var bossData = _bossList[i];
 
             // 보스의 스폰위치 설정
-            Transform spawnPoint = _bossSpawnPoint;
+            var spawnPoint = _bossSpawnPoint;
 
             // 보스 생성
-            GameObject bossMonster = Instantiate(bossData._prefab, spawnPoint.position, spawnPoint.rotation);
+            var bossMonster = Instantiate(bossData._prefab, spawnPoint.position, spawnPoint.rotation);
 
             // 성생된 보스 저장
-            MonsterController createBossMonster = bossMonster.GetComponent<MonsterController>();
+            var createBossMonster = bossMonster.GetComponent<MonsterController>();
             _monsters.Add(createBossMonster);
 
             // 통합 제력 저장
@@ -176,7 +187,7 @@ public class BattleManager : MonoBehaviour
         _monsterTotalCurrentHp -= damage;
 
         // 현재 체력이 0보다 작으면
-        if(_monsterTotalCurrentHp < 0)
+        if (_monsterTotalCurrentHp < 0)
         {
             // 0으로 세팅
             _monsterTotalCurrentHp = 0;
@@ -242,6 +253,4 @@ public class BattleManager : MonoBehaviour
             OnGameResult?.Invoke(_isClear);
         }
     }
-
-    
 }

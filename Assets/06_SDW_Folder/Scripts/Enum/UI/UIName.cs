@@ -12,8 +12,18 @@
         UserInfoUI,
         DeleteAccountUI,
         EditUsernameUI,
-        ChangeIconUI
+        ChangeIconUI,
 
-        //#
+        //# Stage Scene
+        KGW_StageSelectUI,
+        KGW_CharacterSelectUI,
+
+        //# Battle Scene
+        BattleUI,
+        ClearChapterUI,
+        DefeatChapterUI,
+
+        //# None
+        None
     }
 }

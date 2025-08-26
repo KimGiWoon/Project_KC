@@ -3,42 +3,46 @@ using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using SDW;
 
-public class BattleUIManager : MonoBehaviour
+public class BattleUI : BaseUI
 {
     [Header("Battle Manager Reference")]
-    [SerializeField] BattleManager _battleManager;
-    [SerializeField] GameObject _wall;
+    [SerializeField]
+    private BattleManager _battleManager;
+    [SerializeField] private GameObject _wall;
 
     [Header("Character UI Setting")]
     [SerializeField] public CharacterInfoSlotUI[] _infoSlot = new CharacterInfoSlotUI[3];
 
     [Header("Panel UI Reference")]
     [SerializeField] public GameObject _menuUI;
-    [SerializeField] public GameObject _clearChapterUI;
     [SerializeField] public GameObject _clearStageUI;
     [SerializeField] public GameObject _noneRemoveADUI;
     [SerializeField] public GameObject _RemoveADUI;
-    [SerializeField] public GameObject _defeatChapterUI;
 
     [Header("Option UI Setting")]
-    [SerializeField] Button _optionButton;
-    [SerializeField] Button _fastButtonX1;
-    [SerializeField] Button _fastButtonX2;
-    [SerializeField] TMP_Text _timerText;
-    [SerializeField] TMP_Text _stageInfo;
-    [SerializeField] TMP_Text _totalHpText;
-    [SerializeField] Slider _totalMonsterHp;
+    [SerializeField]
+    private Button _optionButton;
+    [SerializeField] private Button _fastButtonX1;
+    [SerializeField] private Button _fastButtonX2;
+    [SerializeField] private TMP_Text _timerText;
+    [SerializeField] private TMP_Text _stageInfo;
+    [SerializeField] private TMP_Text _totalHpText;
+    [SerializeField] private Slider _totalMonsterHp;
 
-    Coroutine _timerRoutine;
+    private Coroutine _timerRoutine;
     public WaitForSeconds _playTime;
-    float _time;
-    float _count;
+    private float _time;
+    private float _count;
     public float _currentTotalHp;
     public float _TotalHp;
 
+    public Action<UIName> OnUIOpenRequested;
+
     private void Awake()
     {
+        _panelContainer.SetActive(false);
         _fastButtonX1.onClick.AddListener(X1FastButtonClick);
         _fastButtonX2.onClick.AddListener(X2FastButtonClick);
     }
@@ -53,6 +57,7 @@ public class BattleUIManager : MonoBehaviour
 
     private void Start()
     {
+        base.Start();
         _time = _battleManager._timer;
         _count = 5f;
         _wall.gameObject.SetActive(false);
@@ -64,7 +69,7 @@ public class BattleUIManager : MonoBehaviour
         }
         else
         {
-            _fastButtonX1 .gameObject.SetActive(false);
+            _fastButtonX1.gameObject.SetActive(false);
             _fastButtonX2.gameObject.SetActive(true);
         }
 
@@ -76,40 +81,26 @@ public class BattleUIManager : MonoBehaviour
 
     private void OnDestroy()
     {
+        base.OnDestroy();
         // 게임 결과 확인 이벤트 구독 해제
         _battleManager.OnGameResult -= GamePlayResultCheck;
         // 몬스터 통합 체력 변화 이벤트 구독 해제
         _battleManager.OnTotalHpChange -= MonsterTotalHpChange;
     }
 
+    public override void Open()
+    {
+    }
+
     // 게임 결과 확인
     public void GamePlayResultCheck(bool result)
     {
+        _panelContainer.SetActive(true);
         // 게임 클리어
         if (result)
-        {
-            if (_clearChapterUI)
-            {
-                Debug.Log("클리어 UI 오픈");
-
-                // 챕터 클리어 UI 오픈
-                _clearChapterUI.SetActive(true);
-            }
-            // TODO : 김기운 : 추후에 UI매니저에서 관리
-            //GameManager.Instance.UI.OpenPanel(UIName.ClearChapterUI);
-        }
-        else    // 게임 실패
-        {
-            if (_defeatChapterUI)
-            {
-                Debug.Log("클리어 실패 UI 오픈");
-
-                // 클리어 실패 UI 오픈
-                _defeatChapterUI.SetActive(true);
-            }
-            // TODO : 김기운 : 추후에 UI매니저에서 관리
-            //GameManager.Instance.UI.OpenPanel(UIName.DefeatChapterUI);
-        }
+            OnUIOpenRequested?.Invoke(UIName.ClearChapterUI);
+        else // 게임 실패
+            OnUIOpenRequested?.Invoke(UIName.DefeatChapterUI);
     }
 
     // 몬스터 총합 체력 변화
@@ -145,7 +136,7 @@ public class BattleUIManager : MonoBehaviour
 
         ChangeGameTimer();
     }
-    
+
     // X2 속도 버튼 클릭
     private void X2FastButtonClick()
     {
@@ -162,7 +153,6 @@ public class BattleUIManager : MonoBehaviour
     // 메뉴 버튼 클릭
     private void MenuButtonClick()
     {
-
     }
 
     // 타이머 코루틴
@@ -199,7 +189,7 @@ public class BattleUIManager : MonoBehaviour
     // 타이머 코루틴 정지
     private void StopTimeCoroutine()
     {
-        if(_timerRoutine != null)
+        if (_timerRoutine != null)
         {
             StopCoroutine(_timerRoutine);
             _timerRoutine = null;
