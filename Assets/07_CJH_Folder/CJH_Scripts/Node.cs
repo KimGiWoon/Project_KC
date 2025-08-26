@@ -4,7 +4,7 @@ using UnityEngine;
 public class Node
 {
     public NodeType nodeType;
-    public EventTypeKC EventTypeKc;
+    public EventTypeKC EventTypeKC;
     public Vector2Int point;
     public List<Node> nextNodes;
     public List<Node> previousNodes;

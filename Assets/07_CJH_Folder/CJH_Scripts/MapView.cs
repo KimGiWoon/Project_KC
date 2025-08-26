@@ -1,25 +1,20 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class MapView : MonoBehaviour
 {
-
     public Transform mapParent;
-
-
-    // 사용할 맵 템플릿 프리팹을 여기에 연결
-    [Header("Template Settings")]
     public GameObject mapTemplatePrefab;
+    public MapConfig mapConfig;
 
-
-    private GameObject currentMapInstance; // 현재 생성된 맵 인스턴스를 저장할 변수
+    private GameObject currentMapInstance;
     private MapData currentMap;
-    private Dictionary<Vector2Int, MapNode> nodeObjects; // 좌표로 MapNode를 빠르게 찾기 위한 Dictionary
-    public static MapView Instance; // 다른 스크립트에서 MapView에 쉽게 접근하기 위한 변수
+    private Dictionary<Vector2Int, MapNode> nodeObjects;
+    public static MapView Instance;
 
     private void Awake()
     {
-        // 싱글톤 패턴: 이 클래스의 인스턴스가 단 하나만 존재하도록 보장
         if (Instance == null)
         {
             Instance = this;
@@ -42,9 +37,8 @@ public class MapView : MonoBehaviour
         currentMapInstance = Instantiate(mapTemplatePrefab, mapParent);
         currentMap = map;
 
-        nodeObjects = new Dictionary<Vector2Int, MapNode>(); // Dictionary 초기화
+        nodeObjects = new Dictionary<Vector2Int, MapNode>();
 
-        // 템플릿의 모든 노드를 Dictionary에 저장
         foreach (var placeholder in currentMapInstance.GetComponentsInChildren<MapNodeIdentifier>())
         {
             var point = new Vector2Int(placeholder.floorIndex, placeholder.nodeIndexInFloor);
@@ -52,22 +46,31 @@ public class MapView : MonoBehaviour
             {
                 nodeObjects.Add(point, placeholder.GetComponent<MapNode>());
             }
-            placeholder.gameObject.SetActive(false); // 우선 모든 노드 비활성화
+            placeholder.gameObject.SetActive(false);
         }
 
-        // 맵 데이터의 노드를 순회하며 활성화 및 Setup
+        int maxFloorIndex = map.Map.Count - 1;
+
         foreach (var dataNode in map.Nodes)
         {
-            if (nodeObjects.TryGetValue(dataNode.point, out MapNode mapNode))
+            int visualFloor = maxFloorIndex - dataNode.point.x;
+            var visualPoint = new Vector2Int(visualFloor, dataNode.point.y);
+
+            if (nodeObjects.TryGetValue(visualPoint, out MapNode mapNode))
             {
-                mapNode.Setup(dataNode);
+                mapNode.Setup(dataNode, mapConfig);
                 mapNode.gameObject.SetActive(true);
+            }
+            else
+            {
+                Debug.LogError($"[MapView] 프리팹에서 좌표({visualPoint.x}, {visualPoint.y})에 해당하는 MapNode를 찾을 수 없습니다! MapData 좌표는 ({dataNode.point.x}, {dataNode.point.y}) 였습니다.");
             }
         }
 
-        // 시작 노드를 찾아 즉시 '선택'하여 다음 노드들을 밝힙니다.
-        var startMapNode = nodeObjects[map.StartNode.point];
-        if (startMapNode != null)
+        int startVisualFloor = maxFloorIndex - map.StartNode.point.x;
+        var startVisualPoint = new Vector2Int(startVisualFloor, map.StartNode.point.y);
+
+        if (nodeObjects.TryGetValue(startVisualPoint, out MapNode startMapNode))
         {
             SelectNode(startMapNode);
         }
@@ -83,15 +86,19 @@ public class MapView : MonoBehaviour
 
     public void SelectNode(MapNode selectedNode)
     {
+        // 현재 맵의 최대 층 인덱스를 가져옵니다.
+        int maxFloorIndex = currentMap.Map.Count - 1;
         Debug.Log(selectedNode.nodeData.point + " 노드를 선택했습니다. 다음 노드들을 공개합니다.");
 
-        // 선택된 노드에서 갈 수 있는 모든 다음 노드(자식 노드)들을 순회합니다.
         foreach (var nextNodeData in selectedNode.nodeData.nextNodes)
         {
-            // 데이터에 해당하는 MapNode 게임 오브젝트를 Dictionary에서 찾습니다.
-            if (nodeObjects.TryGetValue(nextNodeData.point, out MapNode nextMapNode))
+            // 다음 노드의 논리적 좌표를 프리팹의 시각적 좌표로 변환합니다.
+            int visualFloor = maxFloorIndex - nextNodeData.point.x;
+            var visualPoint = new Vector2Int(visualFloor, nextNodeData.point.y);
+
+            // 변환된 시각적 좌표로 Dictionary에서 다음 노드를 찾습니다.
+            if (nodeObjects.TryGetValue(visualPoint, out MapNode nextMapNode))
             {
-                // 해당 MapNode의 Reveal() 함수를 호출합니다.
                 nextMapNode.Reveal();
             }
         }

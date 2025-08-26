@@ -1,3 +1,4 @@
+using System.Linq;
 using UnityEngine;
 
 public class MapNode : MonoBehaviour
@@ -5,35 +6,25 @@ public class MapNode : MonoBehaviour
     public Node nodeData { get; private set; }
     public bool isRevealed { get; private set; } = false;
 
-    [Header("노드 프리팹 설정")]
-    [Tooltip("시작 지점에 생성될 노드 프리팹")]
-    public GameObject startNodePrefab;
-    [Tooltip("보스 지점에 생성될 노드 프리팹")]
-    public GameObject bossNodePrefab;
-    [Tooltip("전투 지점에 생성될 노드 프리팹")]
-    public GameObject battleNodePrefab;
-    [Tooltip("숨겨진 상태일 때 보여줄 프리팹 (물음표)")]
-    public GameObject mysteryNodePrefab;
+    // MapConfig는 MapView를 통해 받아옵니다.
+    private MapConfig _mapConfig;
+    private SpriteRenderer _spriteRenderer;
 
-    [Header("이벤트 노드 프리팹 (랜덤 등장)")]
-    [Tooltip("긍정적 이벤트(보상)에 해당하는 프리팹 목록")]
-    public GameObject[] positiveEventPrefabs;
-    [Tooltip("부정적 이벤트(패널티)에 해당하는 프리팹 목록")]
-    public GameObject[] negativeEventPrefabs;
-    [Tooltip("중립적 이벤트(선택)에 해당하는 프리팹 목록")]
-    public GameObject[] neutralEventPrefabs;
-
-    // 현재 생성된 노드의 비주얼(프리팹 인스턴스)을 저장하는 변수
-    private GameObject currentNodeVisual;
-
-    // 맵 생성 시, 노드의 데이터를 설정하고 초기 상태의 프리팹을 생성
-    public void Setup(Node dataNode)
+    // 맵 생성 시, 노드의 데이터를 설정하고 초기 상태의 스프라이트를 적용
+    public void Setup(Node dataNode, MapConfig config)
     {
-        nodeData = dataNode;
-        isRevealed = false;
+        this.nodeData = dataNode;
+        this._mapConfig = config;
 
-        // 이전에 생성된 비주얼이 있다면 삭제
-        if (currentNodeVisual != null) Destroy(currentNodeVisual);
+        //  SpriteRenderer 컴포넌트를 연결
+        _spriteRenderer = GetComponent<SpriteRenderer>();
+        if (_spriteRenderer == null)
+        {
+            Debug.LogError("MapNode 오브젝트에 SpriteRenderer가 없습니다!", gameObject);
+            return;
+        }
+
+        isRevealed = false;
 
         // 시작, 전투, 보스 노드는 처음부터 바로 공개
         if (nodeData.nodeType == NodeType.Start || nodeData.nodeType == NodeType.Battle || nodeData.nodeType == NodeType.Boss)
@@ -43,82 +34,48 @@ public class MapNode : MonoBehaviour
         // 그 외(이벤트 노드)는 미스터리 상태로 시작
         else
         {
-            InstantiatePrefab(mysteryNodePrefab);
+            // 미스테리 타입을 가진 NodeTemplate을 찾아서 스프라이트를 적용
+            ApplySprite(NodeType.Mystery);
         }
     }
 
-    // 노드의 실제 타입을 해당하는 프리팹으로 교체하여 공개
+    // 노드의 실제 타입을 해당하는 스프라이트로 교체하여 공개
     public void Reveal()
     {
         if (isRevealed) return;
         isRevealed = true;
 
-        if (currentNodeVisual != null) Destroy(currentNodeVisual);
-
-        GameObject prefabToInstantiate = null;
-
-        switch (nodeData.nodeType)
-        {
-            case NodeType.Start:
-                prefabToInstantiate = startNodePrefab;
-                break;
-            case NodeType.Boss:
-                prefabToInstantiate = bossNodePrefab;
-                break;
-            case NodeType.Battle:
-                prefabToInstantiate = battleNodePrefab;
-                break;
-            case NodeType.Event:
-                switch (nodeData.EventTypeKc)
-                {
-                    case EventTypeKC.Positive:
-                        // 긍정적 프리팹 배열에서 하나를 랜덤으로 선택
-                        if (positiveEventPrefabs != null && positiveEventPrefabs.Length > 0)
-                        {
-                            int randomIndex = Random.Range(0, positiveEventPrefabs.Length);
-                            prefabToInstantiate = positiveEventPrefabs[randomIndex];
-                        }
-                        break;
-                    case EventTypeKC.Negative:
-                        // 부정적 프리팹 배열에서 하나를 랜덤으로 선택
-                        if (negativeEventPrefabs != null && negativeEventPrefabs.Length > 0)
-                        {
-                            int randomIndex = Random.Range(0, negativeEventPrefabs.Length);
-                            prefabToInstantiate = negativeEventPrefabs[randomIndex];
-                        }
-                        break;
-                    case EventTypeKC.Neutral:
-                        // 중립적 프리팹 배열에서 하나를 랜덤으로 선택
-                        if (neutralEventPrefabs != null && neutralEventPrefabs.Length > 0)
-                        {
-                            int randomIndex = Random.Range(0, neutralEventPrefabs.Length);
-                            prefabToInstantiate = neutralEventPrefabs[randomIndex];
-                        }
-                        break;
-                }
-                break;
-        }
-
-        InstantiatePrefab(prefabToInstantiate);
+        // 이벤트 노드의 경우, 이제서야 실제 이벤트 타입(긍정/부정/중립)이 결정됩니다.
+        // 현재는 이벤트 타입을 별도로 구분하지 않으므로, 그냥 Event 타입 스프라이트를 적용합니다.
+        // 만약 긍정/부정/중립 아이콘이 다르다면 이 부분을 확장해야 합니다.
+        ApplySprite(nodeData.nodeType);
     }
 
-    // 프리팹을 생성하고 위치를 맞추는 함수
-    private void InstantiatePrefab(GameObject prefab)
+    // NodeType에 맞는 스프라이트를 찾아서 적용하는 함수
+    private void ApplySprite(NodeType type)
     {
-        if (prefab != null)
-        {
-            // 이 MapNode 오브젝트의 자식으로 프리팹을 생성
-            currentNodeVisual = Instantiate(prefab, transform);
+        if (_mapConfig == null || _mapConfig.NodeTemplates == null) return;
 
-            // 시작/보스 노드의 경우 특별히 크기를 키워줌
-            if (nodeData.nodeType == NodeType.Start || nodeData.nodeType == NodeType.Boss)
-            {
-                transform.localScale = new Vector3(1.5f, 1.5f, 1f); // 크기는 원하는 대로 조절
-            }
+        // MapConfig에 있는 NodeTemplates 리스트에서 타입이 일치하는 첫 번째 템플릿을 찾습니다.
+        NodeTemplate template = _mapConfig.NodeTemplates.FirstOrDefault(t => t.nodeType == type);
+
+        if (template != null && template.sprite != null)
+        {
+            _spriteRenderer.sprite = template.sprite;
         }
         else
         {
-            Debug.LogWarning($"{nodeData.nodeType} 타입에 해당하는 프리팹이 비어있습니다!");
+            Debug.LogWarning($"{type} 타입에 해당하는 NodeTemplate 또는 스프라이트가 MapConfig에 없습니다!");
+        }
+
+        // 시작/보스 노드의 경우 특별히 크기를 키워줌
+        if (type == NodeType.Start || type == NodeType.Boss)
+        {
+            transform.localScale = new Vector3(1.5f, 1.5f, 1f);
+        }
+        else
+        {
+            transform.localScale = Vector3.one; // 그 외 노드는 기본 크기
         }
     }
 }

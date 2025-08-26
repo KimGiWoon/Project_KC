@@ -190,7 +190,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 5
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -214,24 +214,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 610f467cf3f06d74e8b5874dd0817ae4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startNodePrefab: {fileID: 5314003597019483800, guid: 61372402dea568f4b8b767fc6dcafed3, type: 3}
-  bossNodePrefab: {fileID: 498622147187084010, guid: ba5a7751b65d20147940200707ffb7eb, type: 3}
-  battleNodePrefab: {fileID: 1514414336498856512, guid: ab1aedb034b0a4e4cb049b41afbc5718, type: 3}
-  mysteryNodePrefab: {fileID: 2755358439549087703, guid: a281b11ae9dd6af48b5a8d46fdcac424, type: 3}
-  positiveEventPrefabs:
-  - {fileID: 3793427718622945488, guid: 0ab807aeeeae9fb48ba316e8412e0615, type: 3}
-  - {fileID: 5222239933796657268, guid: 1d0a2f5432ccc774c89946a6207ac53a, type: 3}
-  - {fileID: 5387835674950664529, guid: 7d852de3378d2814a9f07f4c9cf77f75, type: 3}
-  - {fileID: 3326747457531553642, guid: b11f8ca804f3bb844a1ccc0170f58dc1, type: 3}
-  - {fileID: 5710313095065501714, guid: bb5b90d847c796d4a9620fa384ee82d3, type: 3}
-  negativeEventPrefabs:
-  - {fileID: 7879890245647903979, guid: ed4fab66bd164024b86ed3103f3bff5c, type: 3}
-  - {fileID: 3961563289447007994, guid: d13ca6952c6c37248938d11fedfcdb67, type: 3}
-  - {fileID: 833716009620442187, guid: 17a3e3b30c62620408260aa631f12ced, type: 3}
-  neutralEventPrefabs:
-  - {fileID: 3110019165571113519, guid: 39c972ee71d9cb340b5b15086665a423, type: 3}
-  - {fileID: 5744790494778299404, guid: bafa091f53896834e9c0d40e81c22781, type: 3}
-  - {fileID: 6831852497013820213, guid: e6cf8afbedd64654398fe452f256aa4a, type: 3}
 --- !u!114 &2169504364885769922
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -355,7 +337,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 5
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
   m_Color: {r: 1, g: 0.12740919, b: 0.11792451, a: 1}
   m_FlipX: 0
@@ -379,13 +361,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 610f467cf3f06d74e8b5874dd0817ae4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startNodePrefab: {fileID: 5314003597019483800, guid: 61372402dea568f4b8b767fc6dcafed3, type: 3}
-  bossNodePrefab: {fileID: 498622147187084010, guid: ba5a7751b65d20147940200707ffb7eb, type: 3}
-  battleNodePrefab: {fileID: 1514414336498856512, guid: ab1aedb034b0a4e4cb049b41afbc5718, type: 3}
-  mysteryNodePrefab: {fileID: 2755358439549087703, guid: a281b11ae9dd6af48b5a8d46fdcac424, type: 3}
-  positiveEventPrefabs: []
-  negativeEventPrefabs: []
-  neutralEventPrefabs: []
 --- !u!114 &7566616153402350821
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -603,7 +578,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 5
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -627,24 +602,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 610f467cf3f06d74e8b5874dd0817ae4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startNodePrefab: {fileID: 5314003597019483800, guid: 61372402dea568f4b8b767fc6dcafed3, type: 3}
-  bossNodePrefab: {fileID: 498622147187084010, guid: ba5a7751b65d20147940200707ffb7eb, type: 3}
-  battleNodePrefab: {fileID: 1514414336498856512, guid: ab1aedb034b0a4e4cb049b41afbc5718, type: 3}
-  mysteryNodePrefab: {fileID: 2755358439549087703, guid: a281b11ae9dd6af48b5a8d46fdcac424, type: 3}
-  positiveEventPrefabs:
-  - {fileID: 3793427718622945488, guid: 0ab807aeeeae9fb48ba316e8412e0615, type: 3}
-  - {fileID: 5222239933796657268, guid: 1d0a2f5432ccc774c89946a6207ac53a, type: 3}
-  - {fileID: 5387835674950664529, guid: 7d852de3378d2814a9f07f4c9cf77f75, type: 3}
-  - {fileID: 3326747457531553642, guid: b11f8ca804f3bb844a1ccc0170f58dc1, type: 3}
-  - {fileID: 5710313095065501714, guid: bb5b90d847c796d4a9620fa384ee82d3, type: 3}
-  negativeEventPrefabs:
-  - {fileID: 7879890245647903979, guid: ed4fab66bd164024b86ed3103f3bff5c, type: 3}
-  - {fileID: 3961563289447007994, guid: d13ca6952c6c37248938d11fedfcdb67, type: 3}
-  - {fileID: 833716009620442187, guid: 17a3e3b30c62620408260aa631f12ced, type: 3}
-  neutralEventPrefabs:
-  - {fileID: 3110019165571113519, guid: 39c972ee71d9cb340b5b15086665a423, type: 3}
-  - {fileID: 5744790494778299404, guid: bafa091f53896834e9c0d40e81c22781, type: 3}
-  - {fileID: 6831852497013820213, guid: e6cf8afbedd64654398fe452f256aa4a, type: 3}
 --- !u!114 &1968606803728998955
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -734,7 +691,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 5
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -758,24 +715,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 610f467cf3f06d74e8b5874dd0817ae4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startNodePrefab: {fileID: 5314003597019483800, guid: 61372402dea568f4b8b767fc6dcafed3, type: 3}
-  bossNodePrefab: {fileID: 498622147187084010, guid: ba5a7751b65d20147940200707ffb7eb, type: 3}
-  battleNodePrefab: {fileID: 1514414336498856512, guid: ab1aedb034b0a4e4cb049b41afbc5718, type: 3}
-  mysteryNodePrefab: {fileID: 2755358439549087703, guid: a281b11ae9dd6af48b5a8d46fdcac424, type: 3}
-  positiveEventPrefabs:
-  - {fileID: 3793427718622945488, guid: 0ab807aeeeae9fb48ba316e8412e0615, type: 3}
-  - {fileID: 5222239933796657268, guid: 1d0a2f5432ccc774c89946a6207ac53a, type: 3}
-  - {fileID: 5387835674950664529, guid: 7d852de3378d2814a9f07f4c9cf77f75, type: 3}
-  - {fileID: 3326747457531553642, guid: b11f8ca804f3bb844a1ccc0170f58dc1, type: 3}
-  - {fileID: 5710313095065501714, guid: bb5b90d847c796d4a9620fa384ee82d3, type: 3}
-  negativeEventPrefabs:
-  - {fileID: 7879890245647903979, guid: ed4fab66bd164024b86ed3103f3bff5c, type: 3}
-  - {fileID: 3961563289447007994, guid: d13ca6952c6c37248938d11fedfcdb67, type: 3}
-  - {fileID: 833716009620442187, guid: 17a3e3b30c62620408260aa631f12ced, type: 3}
-  neutralEventPrefabs:
-  - {fileID: 3110019165571113519, guid: 39c972ee71d9cb340b5b15086665a423, type: 3}
-  - {fileID: 5744790494778299404, guid: bafa091f53896834e9c0d40e81c22781, type: 3}
-  - {fileID: 6831852497013820213, guid: e6cf8afbedd64654398fe452f256aa4a, type: 3}
 --- !u!114 &1832019606819410442
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1357,7 +1296,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 5
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -1381,24 +1320,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 610f467cf3f06d74e8b5874dd0817ae4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startNodePrefab: {fileID: 5314003597019483800, guid: 61372402dea568f4b8b767fc6dcafed3, type: 3}
-  bossNodePrefab: {fileID: 498622147187084010, guid: ba5a7751b65d20147940200707ffb7eb, type: 3}
-  battleNodePrefab: {fileID: 1514414336498856512, guid: ab1aedb034b0a4e4cb049b41afbc5718, type: 3}
-  mysteryNodePrefab: {fileID: 2755358439549087703, guid: a281b11ae9dd6af48b5a8d46fdcac424, type: 3}
-  positiveEventPrefabs:
-  - {fileID: 3793427718622945488, guid: 0ab807aeeeae9fb48ba316e8412e0615, type: 3}
-  - {fileID: 5222239933796657268, guid: 1d0a2f5432ccc774c89946a6207ac53a, type: 3}
-  - {fileID: 5387835674950664529, guid: 7d852de3378d2814a9f07f4c9cf77f75, type: 3}
-  - {fileID: 3326747457531553642, guid: b11f8ca804f3bb844a1ccc0170f58dc1, type: 3}
-  - {fileID: 5710313095065501714, guid: bb5b90d847c796d4a9620fa384ee82d3, type: 3}
-  negativeEventPrefabs:
-  - {fileID: 7879890245647903979, guid: ed4fab66bd164024b86ed3103f3bff5c, type: 3}
-  - {fileID: 3961563289447007994, guid: d13ca6952c6c37248938d11fedfcdb67, type: 3}
-  - {fileID: 833716009620442187, guid: 17a3e3b30c62620408260aa631f12ced, type: 3}
-  neutralEventPrefabs:
-  - {fileID: 3110019165571113519, guid: 39c972ee71d9cb340b5b15086665a423, type: 3}
-  - {fileID: 5744790494778299404, guid: bafa091f53896834e9c0d40e81c22781, type: 3}
-  - {fileID: 6831852497013820213, guid: e6cf8afbedd64654398fe452f256aa4a, type: 3}
 --- !u!114 &6797909828693076441
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1572,7 +1493,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 5
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -1596,24 +1517,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 610f467cf3f06d74e8b5874dd0817ae4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startNodePrefab: {fileID: 5314003597019483800, guid: 61372402dea568f4b8b767fc6dcafed3, type: 3}
-  bossNodePrefab: {fileID: 498622147187084010, guid: ba5a7751b65d20147940200707ffb7eb, type: 3}
-  battleNodePrefab: {fileID: 1514414336498856512, guid: ab1aedb034b0a4e4cb049b41afbc5718, type: 3}
-  mysteryNodePrefab: {fileID: 2755358439549087703, guid: a281b11ae9dd6af48b5a8d46fdcac424, type: 3}
-  positiveEventPrefabs:
-  - {fileID: 3793427718622945488, guid: 0ab807aeeeae9fb48ba316e8412e0615, type: 3}
-  - {fileID: 5222239933796657268, guid: 1d0a2f5432ccc774c89946a6207ac53a, type: 3}
-  - {fileID: 5387835674950664529, guid: 7d852de3378d2814a9f07f4c9cf77f75, type: 3}
-  - {fileID: 3326747457531553642, guid: b11f8ca804f3bb844a1ccc0170f58dc1, type: 3}
-  - {fileID: 5710313095065501714, guid: bb5b90d847c796d4a9620fa384ee82d3, type: 3}
-  negativeEventPrefabs:
-  - {fileID: 7879890245647903979, guid: ed4fab66bd164024b86ed3103f3bff5c, type: 3}
-  - {fileID: 3961563289447007994, guid: d13ca6952c6c37248938d11fedfcdb67, type: 3}
-  - {fileID: 833716009620442187, guid: 17a3e3b30c62620408260aa631f12ced, type: 3}
-  neutralEventPrefabs:
-  - {fileID: 3110019165571113519, guid: 39c972ee71d9cb340b5b15086665a423, type: 3}
-  - {fileID: 5744790494778299404, guid: bafa091f53896834e9c0d40e81c22781, type: 3}
-  - {fileID: 6831852497013820213, guid: e6cf8afbedd64654398fe452f256aa4a, type: 3}
 --- !u!114 &5926732412090255939
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1738,7 +1641,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 5
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
   m_Color: {r: 0.44729152, g: 1, b: 0.43867922, a: 1}
   m_FlipX: 0
@@ -1762,13 +1665,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 610f467cf3f06d74e8b5874dd0817ae4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startNodePrefab: {fileID: 5314003597019483800, guid: 61372402dea568f4b8b767fc6dcafed3, type: 3}
-  bossNodePrefab: {fileID: 498622147187084010, guid: ba5a7751b65d20147940200707ffb7eb, type: 3}
-  battleNodePrefab: {fileID: 1514414336498856512, guid: ab1aedb034b0a4e4cb049b41afbc5718, type: 3}
-  mysteryNodePrefab: {fileID: 2755358439549087703, guid: a281b11ae9dd6af48b5a8d46fdcac424, type: 3}
-  positiveEventPrefabs: []
-  negativeEventPrefabs: []
-  neutralEventPrefabs: []
 --- !u!114 &6931246404612419381
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2026,7 +1922,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 5
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -2050,24 +1946,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 610f467cf3f06d74e8b5874dd0817ae4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startNodePrefab: {fileID: 5314003597019483800, guid: 61372402dea568f4b8b767fc6dcafed3, type: 3}
-  bossNodePrefab: {fileID: 498622147187084010, guid: ba5a7751b65d20147940200707ffb7eb, type: 3}
-  battleNodePrefab: {fileID: 1514414336498856512, guid: ab1aedb034b0a4e4cb049b41afbc5718, type: 3}
-  mysteryNodePrefab: {fileID: 2755358439549087703, guid: a281b11ae9dd6af48b5a8d46fdcac424, type: 3}
-  positiveEventPrefabs:
-  - {fileID: 3793427718622945488, guid: 0ab807aeeeae9fb48ba316e8412e0615, type: 3}
-  - {fileID: 5222239933796657268, guid: 1d0a2f5432ccc774c89946a6207ac53a, type: 3}
-  - {fileID: 5387835674950664529, guid: 7d852de3378d2814a9f07f4c9cf77f75, type: 3}
-  - {fileID: 3326747457531553642, guid: b11f8ca804f3bb844a1ccc0170f58dc1, type: 3}
-  - {fileID: 5710313095065501714, guid: bb5b90d847c796d4a9620fa384ee82d3, type: 3}
-  negativeEventPrefabs:
-  - {fileID: 7879890245647903979, guid: ed4fab66bd164024b86ed3103f3bff5c, type: 3}
-  - {fileID: 3961563289447007994, guid: d13ca6952c6c37248938d11fedfcdb67, type: 3}
-  - {fileID: 833716009620442187, guid: 17a3e3b30c62620408260aa631f12ced, type: 3}
-  neutralEventPrefabs:
-  - {fileID: 3110019165571113519, guid: 39c972ee71d9cb340b5b15086665a423, type: 3}
-  - {fileID: 5744790494778299404, guid: bafa091f53896834e9c0d40e81c22781, type: 3}
-  - {fileID: 6831852497013820213, guid: e6cf8afbedd64654398fe452f256aa4a, type: 3}
 --- !u!114 &4611928887123723422
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2158,7 +2036,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 5
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -2182,24 +2060,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 610f467cf3f06d74e8b5874dd0817ae4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startNodePrefab: {fileID: 5314003597019483800, guid: 61372402dea568f4b8b767fc6dcafed3, type: 3}
-  bossNodePrefab: {fileID: 498622147187084010, guid: ba5a7751b65d20147940200707ffb7eb, type: 3}
-  battleNodePrefab: {fileID: 1514414336498856512, guid: ab1aedb034b0a4e4cb049b41afbc5718, type: 3}
-  mysteryNodePrefab: {fileID: 2755358439549087703, guid: a281b11ae9dd6af48b5a8d46fdcac424, type: 3}
-  positiveEventPrefabs:
-  - {fileID: 3793427718622945488, guid: 0ab807aeeeae9fb48ba316e8412e0615, type: 3}
-  - {fileID: 5222239933796657268, guid: 1d0a2f5432ccc774c89946a6207ac53a, type: 3}
-  - {fileID: 5387835674950664529, guid: 7d852de3378d2814a9f07f4c9cf77f75, type: 3}
-  - {fileID: 3326747457531553642, guid: b11f8ca804f3bb844a1ccc0170f58dc1, type: 3}
-  - {fileID: 5710313095065501714, guid: bb5b90d847c796d4a9620fa384ee82d3, type: 3}
-  negativeEventPrefabs:
-  - {fileID: 7879890245647903979, guid: ed4fab66bd164024b86ed3103f3bff5c, type: 3}
-  - {fileID: 3961563289447007994, guid: d13ca6952c6c37248938d11fedfcdb67, type: 3}
-  - {fileID: 833716009620442187, guid: 17a3e3b30c62620408260aa631f12ced, type: 3}
-  neutralEventPrefabs:
-  - {fileID: 3110019165571113519, guid: 39c972ee71d9cb340b5b15086665a423, type: 3}
-  - {fileID: 5744790494778299404, guid: bafa091f53896834e9c0d40e81c22781, type: 3}
-  - {fileID: 6831852497013820213, guid: e6cf8afbedd64654398fe452f256aa4a, type: 3}
 --- !u!114 &175676090770098927
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2373,7 +2233,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 5
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -2397,24 +2257,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 610f467cf3f06d74e8b5874dd0817ae4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startNodePrefab: {fileID: 5314003597019483800, guid: 61372402dea568f4b8b767fc6dcafed3, type: 3}
-  bossNodePrefab: {fileID: 498622147187084010, guid: ba5a7751b65d20147940200707ffb7eb, type: 3}
-  battleNodePrefab: {fileID: 1514414336498856512, guid: ab1aedb034b0a4e4cb049b41afbc5718, type: 3}
-  mysteryNodePrefab: {fileID: 2755358439549087703, guid: a281b11ae9dd6af48b5a8d46fdcac424, type: 3}
-  positiveEventPrefabs:
-  - {fileID: 3793427718622945488, guid: 0ab807aeeeae9fb48ba316e8412e0615, type: 3}
-  - {fileID: 5222239933796657268, guid: 1d0a2f5432ccc774c89946a6207ac53a, type: 3}
-  - {fileID: 5387835674950664529, guid: 7d852de3378d2814a9f07f4c9cf77f75, type: 3}
-  - {fileID: 3326747457531553642, guid: b11f8ca804f3bb844a1ccc0170f58dc1, type: 3}
-  - {fileID: 5710313095065501714, guid: bb5b90d847c796d4a9620fa384ee82d3, type: 3}
-  negativeEventPrefabs:
-  - {fileID: 7879890245647903979, guid: ed4fab66bd164024b86ed3103f3bff5c, type: 3}
-  - {fileID: 3961563289447007994, guid: d13ca6952c6c37248938d11fedfcdb67, type: 3}
-  - {fileID: 833716009620442187, guid: 17a3e3b30c62620408260aa631f12ced, type: 3}
-  neutralEventPrefabs:
-  - {fileID: 3110019165571113519, guid: 39c972ee71d9cb340b5b15086665a423, type: 3}
-  - {fileID: 5744790494778299404, guid: bafa091f53896834e9c0d40e81c22781, type: 3}
-  - {fileID: 6831852497013820213, guid: e6cf8afbedd64654398fe452f256aa4a, type: 3}
 --- !u!114 &4568990430555376281
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2588,7 +2430,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 5
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -2612,24 +2454,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 610f467cf3f06d74e8b5874dd0817ae4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startNodePrefab: {fileID: 5314003597019483800, guid: 61372402dea568f4b8b767fc6dcafed3, type: 3}
-  bossNodePrefab: {fileID: 498622147187084010, guid: ba5a7751b65d20147940200707ffb7eb, type: 3}
-  battleNodePrefab: {fileID: 1514414336498856512, guid: ab1aedb034b0a4e4cb049b41afbc5718, type: 3}
-  mysteryNodePrefab: {fileID: 2755358439549087703, guid: a281b11ae9dd6af48b5a8d46fdcac424, type: 3}
-  positiveEventPrefabs:
-  - {fileID: 3793427718622945488, guid: 0ab807aeeeae9fb48ba316e8412e0615, type: 3}
-  - {fileID: 5222239933796657268, guid: 1d0a2f5432ccc774c89946a6207ac53a, type: 3}
-  - {fileID: 5387835674950664529, guid: 7d852de3378d2814a9f07f4c9cf77f75, type: 3}
-  - {fileID: 3326747457531553642, guid: b11f8ca804f3bb844a1ccc0170f58dc1, type: 3}
-  - {fileID: 5710313095065501714, guid: bb5b90d847c796d4a9620fa384ee82d3, type: 3}
-  negativeEventPrefabs:
-  - {fileID: 7879890245647903979, guid: ed4fab66bd164024b86ed3103f3bff5c, type: 3}
-  - {fileID: 3961563289447007994, guid: d13ca6952c6c37248938d11fedfcdb67, type: 3}
-  - {fileID: 833716009620442187, guid: 17a3e3b30c62620408260aa631f12ced, type: 3}
-  neutralEventPrefabs:
-  - {fileID: 3110019165571113519, guid: 39c972ee71d9cb340b5b15086665a423, type: 3}
-  - {fileID: 5744790494778299404, guid: bafa091f53896834e9c0d40e81c22781, type: 3}
-  - {fileID: 6831852497013820213, guid: e6cf8afbedd64654398fe452f256aa4a, type: 3}
 --- !u!114 &7726804832154796314
 MonoBehaviour:
   m_ObjectHideFlags: 0
