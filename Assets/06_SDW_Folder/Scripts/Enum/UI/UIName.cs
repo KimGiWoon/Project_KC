@@ -5,6 +5,7 @@
         //# Login Scene
         SignInUI,
         SetNicknameUI,
+        DownloadUI,
 
         //# Lobby Scene
         MainLobbyUI,

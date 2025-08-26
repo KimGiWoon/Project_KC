@@ -2334,6 +2334,7 @@ GameObject:
   - component: {fileID: 324102092}
   - component: {fileID: 324102091}
   - component: {fileID: 324102090}
+  - component: {fileID: 324102094}
   m_Layer: 5
   m_Name: LobbySceneCanvas
   m_TagString: Untagged
@@ -2425,6 +2426,19 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &324102094
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 324102089}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be2b34b329cf0154c81c3cc384bd432b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _mappingSo: {fileID: 11400000, guid: 2544d073cf277b648a468f09aa084000, type: 2}
 --- !u!1 &328587834
 GameObject:
   m_ObjectHideFlags: 0
@@ -6625,7 +6639,7 @@ MonoBehaviour:
   m_CaretWidth: 1
   m_ReadOnly: 0
   m_RichText: 1
-  m_GlobalFontAsset: {fileID: 11400000, guid: 3a6050e03328bad4598160b2d2285549, type: 2}
+  m_GlobalFontAsset: {fileID: 11400000, guid: 8acbccae5d4b2714a882ddd964298e8f, type: 2}
   m_OnFocusSelectAll: 1
   m_ResetOnDeActivation: 1
   m_RestoreOriginalTextOnEscape: 1
@@ -7143,7 +7157,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c01a68f0e6964b52b7285e06e014f9fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Name: 6
+  Name: 7
   _panelContainer: {fileID: 298114096}
   _confirmButton: {fileID: 655210480}
 --- !u!1 &1306367547
@@ -7200,7 +7214,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62b6e204c05bccd4baa7ba0519d3639f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Name: 3
+  Name: 4
   _panelContainer: {fileID: 1444624222}
   _uidInfoText: {fileID: 314264478}
   _nicknameInfoText: {fileID: 919920542}
@@ -8169,7 +8183,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca277fcef6554d5e85644aa5157d470c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Name: 4
+  Name: 5
   _panelContainer: {fileID: 1698010574}
   _cancelButton: {fileID: 965343245}
   _acceptButton: {fileID: 201963140}
@@ -8477,7 +8491,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3055c50925637d4f943ad574888af3c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Name: 2
+  Name: 3
   _panelContainer: {fileID: 1556829532}
   _userInfoButton: {fileID: 1767847819}
   _nicknameText: {fileID: 958288097}
@@ -8557,7 +8571,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 044a5f23de7d434c8e0b434b39838b45, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Name: 5
+  Name: 6
   _panelContainer: {fileID: 223796076}
   _nicknameInputField: {fileID: 1060878984}
   _errorText: {fileID: 74800083}
