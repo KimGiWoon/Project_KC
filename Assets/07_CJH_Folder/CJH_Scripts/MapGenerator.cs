@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -165,6 +165,19 @@ public class MapGenerator : MonoBehaviour
             {
                 Debug.Log($"===> 결과: 연결된 부모 없음. 기본 타입 유지.");
             }
+        }
+
+        Debug.Log("--- 이벤트 노드 세부 타입 랜덤 할당 ---");
+        // 맵에 있는 모든 'Event' 타입 노드를 찾습니다.
+        var eventNodes = _map.SelectMany(floor => floor)
+                              .Where(node => node.nodeType == NodeType.Event);
+
+        foreach (var eventNode in eventNodes)
+        {
+            // EventType Enum에서 NotAssigned(0)를 제외하고 1, 2, 3 중에서 랜덤 선택
+            int randomIndex = Random.Range(1, System.Enum.GetNames(typeof(EventType)).Length);
+            eventNode.eventType = (EventType)randomIndex;
+            Debug.Log($"Node ({eventNode.point.x}, {eventNode.point.y})의 이벤트 타입을 '{eventNode.eventType}'로 결정");
         }
     }
 

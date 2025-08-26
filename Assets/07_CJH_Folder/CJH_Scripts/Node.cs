@@ -4,6 +4,7 @@ using UnityEngine;
 public class Node
 {
     public NodeType nodeType;
+    public EventType eventType;
     public Vector2Int point;
     public List<Node> nextNodes;
     public List<Node> previousNodes;
@@ -15,7 +16,7 @@ public class Node
         previousNodes = new List<Node>();
     }
 
-    // C#¿¡°Ô Node °´Ã¼¸¦ ÁÂÇ¥ ±âÁØÀ¸·Î ºñ±³ÇÏµµ·Ï ¾Ë·ÁÁÖ´Â ÇÊ¼ö ÄÚµåÀÔ´Ï´Ù.
+    // C#ì—ê²Œ Node ê°ì²´ë¥¼ ì¢Œí‘œ ê¸°ì¤€ìœ¼ë¡œ ë¹„êµí•˜ë„ë¡ ì•Œë ¤ì£¼ëŠ” í•„ìˆ˜ ì½”ë“œì…ë‹ˆë‹¤.
     public override bool Equals(object obj)
     {
         return Equals(obj as Node);
@@ -33,7 +34,7 @@ public class Node
         return System.HashCode.Combine(this.point.x, this.point.y);
     }
 
-    // [¼öÁ¤µÈ ºÎºĞ] column ´ë½Å point.y¸¦ »ç¿ëÇÕ´Ï´Ù.
+    // [ìˆ˜ì •ëœ ë¶€ë¶„] column ëŒ€ì‹  point.yë¥¼ ì‚¬ìš©í•©ë‹ˆë‹¤.
     public override string ToString()
     {
         return $"{point.y} ({nodeType.ToString()[0]})";

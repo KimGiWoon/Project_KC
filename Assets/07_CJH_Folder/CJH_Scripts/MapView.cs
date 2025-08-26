@@ -7,62 +7,69 @@ public class MapView : MonoBehaviour
     public Transform mapParent;
 
 
-    // »ç¿ëÇÒ ¸Ê ÅÛÇÃ¸´ ÇÁ¸®ÆÕÀ» ¿©±â¿¡ ¿¬°á
+    // ì‚¬ìš©í•  ë§µ í…œí”Œë¦¿ í”„ë¦¬íŒ¹ì„ ì—¬ê¸°ì— ì—°ê²°
     [Header("Template Settings")]
     public GameObject mapTemplatePrefab;
 
 
-    private GameObject currentMapInstance; // ÇöÀç »ı¼ºµÈ ¸Ê ÀÎ½ºÅÏ½º¸¦ ÀúÀåÇÒ º¯¼ö
+    private GameObject currentMapInstance; // í˜„ì¬ ìƒì„±ëœ ë§µ ì¸ìŠ¤í„´ìŠ¤ë¥¼ ì €ì¥í•  ë³€ìˆ˜
     private MapData currentMap;
+    private Dictionary<Vector2Int, MapNode> nodeObjects; // ì¢Œí‘œë¡œ MapNodeë¥¼ ë¹ ë¥´ê²Œ ì°¾ê¸° ìœ„í•œ Dictionary
+    public static MapView Instance; // ë‹¤ë¥¸ ìŠ¤í¬ë¦½íŠ¸ì—ì„œ MapViewì— ì‰½ê²Œ ì ‘ê·¼í•˜ê¸° ìœ„í•œ ë³€ìˆ˜
 
-
+    private void Awake()
+    {
+        // ì‹±ê¸€í†¤ íŒ¨í„´: ì´ í´ë˜ìŠ¤ì˜ ì¸ìŠ¤í„´ìŠ¤ê°€ ë‹¨ í•˜ë‚˜ë§Œ ì¡´ì¬í•˜ë„ë¡ ë³´ì¥
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
     public void CreateMapView(MapData map)
     {
         ClearMap();
 
         if (mapTemplatePrefab == null)
         {
-            Debug.LogError("Map Template PrefabÀÌ ÁöÁ¤µÇÁö ¾Ê¾Ò½À´Ï´Ù!");
+            Debug.LogError("Map Template Prefabì´ ì§€ì •ë˜ì§€ ì•Šì•˜ìŠµë‹ˆë‹¤!");
             return;
         }
 
         currentMapInstance = Instantiate(mapTemplatePrefab, mapParent);
         currentMap = map;
 
-        // 1. ÅÛÇÃ¸´ÀÇ ¸ğµç ³ëµå ½Äº°ÀÚ¸¦ °¡Á®¿Í¼­ Dictionary¿¡ ÀúÀå (ºü¸¥ Á¶È¸¸¦ À§ÇÔ)
-        var placeholders = new Dictionary<Vector2Int, MapNodeIdentifier>();
-        foreach (var p in currentMapInstance.GetComponentsInChildren<MapNodeIdentifier>())
+        nodeObjects = new Dictionary<Vector2Int, MapNode>(); // Dictionary ì´ˆê¸°í™”
+
+        // í…œí”Œë¦¿ì˜ ëª¨ë“  ë…¸ë“œë¥¼ Dictionaryì— ì €ì¥
+        foreach (var placeholder in currentMapInstance.GetComponentsInChildren<MapNodeIdentifier>())
         {
-            var point = new Vector2Int(p.floorIndex, p.nodeIndexInFloor);
-            if (!placeholders.ContainsKey(point))
+            var point = new Vector2Int(placeholder.floorIndex, placeholder.nodeIndexInFloor);
+            if (!nodeObjects.ContainsKey(point))
             {
-                placeholders.Add(point, p);
+                nodeObjects.Add(point, placeholder.GetComponent<MapNode>());
             }
-            else
-            {
-                Debug.LogWarning($"Áßº¹µÈ ³ëµå ½Äº°ÀÚ ¹ß°ß: ({p.floorIndex}, {p.nodeIndexInFloor})");
-            }
-            // ¿ì¼± ¸ğµç ³ëµå¸¦ ºñÈ°¼ºÈ­
-            p.gameObject.SetActive(false);
+            placeholder.gameObject.SetActive(false); // ìš°ì„  ëª¨ë“  ë…¸ë“œ ë¹„í™œì„±í™”
         }
 
-        // 2. ¸Ê µ¥ÀÌÅÍÀÇ ³ëµå¸¦ ¼øÈ¸ÇÏ¸ç ÅÛÇÃ¸´ÀÇ À§Ä¡¿¡ ¸ÅÄªÇÏ°í È°¼ºÈ­
+        // ë§µ ë°ì´í„°ì˜ ë…¸ë“œë¥¼ ìˆœíšŒí•˜ë©° í™œì„±í™” ë° Setup
         foreach (var dataNode in map.Nodes)
         {
-            var point = new Vector2Int(dataNode.point.x, dataNode.point.y);
-            if (placeholders.TryGetValue(point, out MapNodeIdentifier placeholder))
+            if (nodeObjects.TryGetValue(dataNode.point, out MapNode mapNode))
             {
-                MapNode mapNode = placeholder.GetComponent<MapNode>();
-                if (mapNode != null)
-                {
-                    mapNode.Setup(dataNode);
-                    placeholder.gameObject.SetActive(true); // µ¥ÀÌÅÍ°¡ ÀÖ´Â ³ëµå¸¸ È°¼ºÈ­
-                }
+                mapNode.Setup(dataNode);
+                mapNode.gameObject.SetActive(true);
             }
-            else
-            {
-                Debug.LogWarning($"¸Ê µ¥ÀÌÅÍÀÇ ³ëµå ({point.x}, {point.y})¿¡ ÇØ´çÇÏ´Â À§Ä¡¸¦ ÇÁ¸®ÆÕ¿¡¼­ Ã£À» ¼ö ¾ø½À´Ï´Ù.");
-            }
+        }
+
+        // ì‹œì‘ ë…¸ë“œë¥¼ ì°¾ì•„ ì¦‰ì‹œ 'ì„ íƒ'í•˜ì—¬ ë‹¤ìŒ ë…¸ë“œë“¤ì„ ë°í™ë‹ˆë‹¤.
+        var startMapNode = nodeObjects[map.StartNode.point];
+        if (startMapNode != null)
+        {
+            SelectNode(startMapNode);
         }
     }
 
@@ -74,4 +81,19 @@ public class MapView : MonoBehaviour
         }
     }
 
+    public void SelectNode(MapNode selectedNode)
+    {
+        Debug.Log(selectedNode.nodeData.point + " ë…¸ë“œë¥¼ ì„ íƒí–ˆìŠµë‹ˆë‹¤. ë‹¤ìŒ ë…¸ë“œë“¤ì„ ê³µê°œí•©ë‹ˆë‹¤.");
+
+        // ì„ íƒëœ ë…¸ë“œì—ì„œ ê°ˆ ìˆ˜ ìˆëŠ” ëª¨ë“  ë‹¤ìŒ ë…¸ë“œ(ìì‹ ë…¸ë“œ)ë“¤ì„ ìˆœíšŒí•©ë‹ˆë‹¤.
+        foreach (var nextNodeData in selectedNode.nodeData.nextNodes)
+        {
+            // ë°ì´í„°ì— í•´ë‹¹í•˜ëŠ” MapNode ê²Œì„ ì˜¤ë¸Œì íŠ¸ë¥¼ Dictionaryì—ì„œ ì°¾ìŠµë‹ˆë‹¤.
+            if (nodeObjects.TryGetValue(nextNodeData.point, out MapNode nextMapNode))
+            {
+                // í•´ë‹¹ MapNodeì˜ Reveal() í•¨ìˆ˜ë¥¼ í˜¸ì¶œí•©ë‹ˆë‹¤.
+                nextMapNode.Reveal();
+            }
+        }
+    }
 }
