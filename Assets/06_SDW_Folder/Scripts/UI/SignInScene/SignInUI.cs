@@ -30,7 +30,11 @@ namespace SDW
         /// <summary>
         /// SignIn 버튼 클릭 이벤트 핸들러 호출 메서드
         /// </summary>
-        private void SignInButtonClicked() => OnSignInButtonClicked?.Invoke();
+        private void SignInButtonClicked()
+        {
+            OnSignInButtonClicked?.Invoke();
+            _signInButton.interactable = false;
+        }
 
         /// <summary>
         /// 지정된 버튼 타입에 따라 버튼 이미지를 설정

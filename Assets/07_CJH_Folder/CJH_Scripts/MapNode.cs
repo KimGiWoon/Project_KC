@@ -3,57 +3,122 @@ using UnityEngine;
 public class MapNode : MonoBehaviour
 {
     public Node nodeData { get; private set; }
+    public bool isRevealed { get; private set; } = false;
 
-    // Inspector Ã¢¿¡ ³ëÃâµÇÁö ¾Êµµ·Ï privateÀ¸·Î ¼±¾ğÇÕ´Ï´Ù.
-    private SpriteRenderer spriteRenderer;
+    [Header("ë…¸ë“œ í”„ë¦¬íŒ¹ ì„¤ì •")]
+    [Tooltip("ì‹œì‘ ì§€ì ì— ìƒì„±ë  ë…¸ë“œ í”„ë¦¬íŒ¹")]
+    public GameObject startNodePrefab;
+    [Tooltip("ë³´ìŠ¤ ì§€ì ì— ìƒì„±ë  ë…¸ë“œ í”„ë¦¬íŒ¹")]
+    public GameObject bossNodePrefab;
+    [Tooltip("ì „íˆ¬ ì§€ì ì— ìƒì„±ë  ë…¸ë“œ í”„ë¦¬íŒ¹")]
+    public GameObject battleNodePrefab;
+    [Tooltip("ìˆ¨ê²¨ì§„ ìƒíƒœì¼ ë•Œ ë³´ì—¬ì¤„ í”„ë¦¬íŒ¹ (ë¬¼ìŒí‘œ)")]
+    public GameObject mysteryNodePrefab;
 
-    // °¢ ³ëµå Å¸ÀÔ¿¡ ¸Â´Â »ö»ó Á¤ÀÇ
-    private readonly Color startColor = new Color(0.447f, 1f, 0.438f); // ³ì»ö
-    private readonly Color bossColor = new Color(1f, 0.127f, 0.117f);  // »¡°£»ö
-    private readonly Color battleColor = new Color(0.8f, 0.4f, 1f);   // º¸¶ó»ö
-    private readonly Color eventColor = new Color(0.2f, 0.5f, 1f);    // ÆÄ¶õ»ö
+    [Header("ì´ë²¤íŠ¸ ë…¸ë“œ í”„ë¦¬íŒ¹ (ëœë¤ ë“±ì¥)")]
+    [Tooltip("ê¸ì •ì  ì´ë²¤íŠ¸(ë³´ìƒ)ì— í•´ë‹¹í•˜ëŠ” í”„ë¦¬íŒ¹ ëª©ë¡")]
+    public GameObject[] positiveEventPrefabs;
+    [Tooltip("ë¶€ì •ì  ì´ë²¤íŠ¸(íŒ¨ë„í‹°)ì— í•´ë‹¹í•˜ëŠ” í”„ë¦¬íŒ¹ ëª©ë¡")]
+    public GameObject[] negativeEventPrefabs;
+    [Tooltip("ì¤‘ë¦½ì  ì´ë²¤íŠ¸(ì„ íƒ)ì— í•´ë‹¹í•˜ëŠ” í”„ë¦¬íŒ¹ ëª©ë¡")]
+    public GameObject[] neutralEventPrefabs;
 
-    // ÀÌ ½ºÅ©¸³Æ®°¡ È°¼ºÈ­µÉ ¶§ ÃÖÃÊ ÇÑ ¹ø¸¸ ½ÇÇàµÇ´Â ÇÔ¼öÀÔ´Ï´Ù.
-    void Awake()
+    // í˜„ì¬ ìƒì„±ëœ ë…¸ë“œì˜ ë¹„ì£¼ì–¼(í”„ë¦¬íŒ¹ ì¸ìŠ¤í„´ìŠ¤)ì„ ì €ì¥í•˜ëŠ” ë³€ìˆ˜
+    private GameObject currentNodeVisual;
+
+    // ë§µ ìƒì„± ì‹œ, ë…¸ë“œì˜ ë°ì´í„°ë¥¼ ì„¤ì •í•˜ê³  ì´ˆê¸° ìƒíƒœì˜ í”„ë¦¬íŒ¹ì„ ìƒì„±
+    public void Setup(Node dataNode)
     {
-        // ÀÚ±â ÀÚ½ÅÀÌ ºÙ¾îÀÖ´Â °ÔÀÓ ¿ÀºêÁ§Æ®¿¡¼­ SpriteRenderer ÄÄÆ÷³ÍÆ®¸¦ ½º½º·Î Ã£½À´Ï´Ù.
-        spriteRenderer = GetComponent<SpriteRenderer>();
+        nodeData = dataNode;
+        isRevealed = false;
 
-        // ¸¸¾à SpriteRenderer°¡ ¾ø´Ù¸é È®½ÇÇÏ°Ô ¿¡·¯¸¦ Ãâ·ÂÇÕ´Ï´Ù.
-        if (spriteRenderer == null)
+        // ì´ì „ì— ìƒì„±ëœ ë¹„ì£¼ì–¼ì´ ìˆë‹¤ë©´ ì‚­ì œ
+        if (currentNodeVisual != null) Destroy(currentNodeVisual);
+
+        // ì‹œì‘, ì „íˆ¬, ë³´ìŠ¤ ë…¸ë“œëŠ” ì²˜ìŒë¶€í„° ë°”ë¡œ ê³µê°œ
+        if (nodeData.nodeType == NodeType.Start || nodeData.nodeType == NodeType.Battle || nodeData.nodeType == NodeType.Boss)
         {
-            Debug.LogError("MapNode ¿ÀºêÁ§Æ®¿¡ SpriteRenderer ÄÄÆ÷³ÍÆ®°¡ ¾ø½À´Ï´Ù!", this.gameObject);
+            Reveal();
+        }
+        // ê·¸ ì™¸(ì´ë²¤íŠ¸ ë…¸ë“œ)ëŠ” ë¯¸ìŠ¤í„°ë¦¬ ìƒíƒœë¡œ ì‹œì‘
+        else
+        {
+            InstantiatePrefab(mysteryNodePrefab);
         }
     }
 
-    // MapView.cs¿¡¼­ µ¥ÀÌÅÍ¸¦ ¹Ş¾Æ¿Í ³ëµåÀÇ ¿ÜÇüÀ» ¼³Á¤ÇÏ´Â ÇÔ¼öÀÔ´Ï´Ù.
-    public void Setup(Node dataNode)
+    // ë…¸ë“œì˜ ì‹¤ì œ íƒ€ì…ì„ í•´ë‹¹í•˜ëŠ” í”„ë¦¬íŒ¹ìœ¼ë¡œ êµì²´í•˜ì—¬ ê³µê°œ
+    public void Reveal()
     {
-        this.nodeData = dataNode;
+        if (isRevealed) return;
+        isRevealed = true;
 
-        // Awake()¿¡¼­ Ã£¾Æ¿Â spriteRenderer¸¦ »ç¿ëÇØ »ö»ó°ú Å©±â¸¦ º¯°æÇÕ´Ï´Ù.
-        if (spriteRenderer != null)
+        if (currentNodeVisual != null) Destroy(currentNodeVisual);
+
+        GameObject prefabToInstantiate = null;
+
+        switch (nodeData.nodeType)
         {
-            // Å©±â¸¦ ¸ÕÀú ±âº»°ªÀ¸·Î µÇµ¹¸³´Ï´Ù.
-            transform.localScale = Vector3.one;
+            case NodeType.Start:
+                prefabToInstantiate = startNodePrefab;
+                break;
+            case NodeType.Boss:
+                prefabToInstantiate = bossNodePrefab;
+                break;
+            case NodeType.Battle:
+                prefabToInstantiate = battleNodePrefab;
+                break;
+            case NodeType.Event:
+                switch (nodeData.EventTypeKc)
+                {
+                    case EventTypeKC.Positive:
+                        // ê¸ì •ì  í”„ë¦¬íŒ¹ ë°°ì—´ì—ì„œ í•˜ë‚˜ë¥¼ ëœë¤ìœ¼ë¡œ ì„ íƒ
+                        if (positiveEventPrefabs != null && positiveEventPrefabs.Length > 0)
+                        {
+                            int randomIndex = Random.Range(0, positiveEventPrefabs.Length);
+                            prefabToInstantiate = positiveEventPrefabs[randomIndex];
+                        }
+                        break;
+                    case EventTypeKC.Negative:
+                        // ë¶€ì •ì  í”„ë¦¬íŒ¹ ë°°ì—´ì—ì„œ í•˜ë‚˜ë¥¼ ëœë¤ìœ¼ë¡œ ì„ íƒ
+                        if (negativeEventPrefabs != null && negativeEventPrefabs.Length > 0)
+                        {
+                            int randomIndex = Random.Range(0, negativeEventPrefabs.Length);
+                            prefabToInstantiate = negativeEventPrefabs[randomIndex];
+                        }
+                        break;
+                    case EventTypeKC.Neutral:
+                        // ì¤‘ë¦½ì  í”„ë¦¬íŒ¹ ë°°ì—´ì—ì„œ í•˜ë‚˜ë¥¼ ëœë¤ìœ¼ë¡œ ì„ íƒ
+                        if (neutralEventPrefabs != null && neutralEventPrefabs.Length > 0)
+                        {
+                            int randomIndex = Random.Range(0, neutralEventPrefabs.Length);
+                            prefabToInstantiate = neutralEventPrefabs[randomIndex];
+                        }
+                        break;
+                }
+                break;
+        }
 
-            switch (dataNode.nodeType)
+        InstantiatePrefab(prefabToInstantiate);
+    }
+
+    // í”„ë¦¬íŒ¹ì„ ìƒì„±í•˜ê³  ìœ„ì¹˜ë¥¼ ë§ì¶”ëŠ” í•¨ìˆ˜
+    private void InstantiatePrefab(GameObject prefab)
+    {
+        if (prefab != null)
+        {
+            // ì´ MapNode ì˜¤ë¸Œì íŠ¸ì˜ ìì‹ìœ¼ë¡œ í”„ë¦¬íŒ¹ì„ ìƒì„±
+            currentNodeVisual = Instantiate(prefab, transform);
+
+            // ì‹œì‘/ë³´ìŠ¤ ë…¸ë“œì˜ ê²½ìš° íŠ¹ë³„íˆ í¬ê¸°ë¥¼ í‚¤ì›Œì¤Œ
+            if (nodeData.nodeType == NodeType.Start || nodeData.nodeType == NodeType.Boss)
             {
-                case NodeType.Start:
-                    spriteRenderer.color = startColor;
-                    transform.localScale = new Vector3(2f, 2f, 1f); // ½ÃÀÛ ³ëµå Å©±â º¯°æ
-                    break;
-                case NodeType.Boss:
-                    spriteRenderer.color = bossColor;
-                    transform.localScale = new Vector3(2f, 2f, 1f); // º¸½º ³ëµå Å©±â º¯°æ
-                    break;
-                case NodeType.Battle:
-                    spriteRenderer.color = battleColor;
-                    break;
-                case NodeType.Event:
-                    spriteRenderer.color = eventColor;
-                    break;
+                transform.localScale = new Vector3(1.5f, 1.5f, 1f); // í¬ê¸°ëŠ” ì›í•˜ëŠ” ëŒ€ë¡œ ì¡°ì ˆ
             }
+        }
+        else
+        {
+            Debug.LogWarning($"{nodeData.nodeType} íƒ€ì…ì— í•´ë‹¹í•˜ëŠ” í”„ë¦¬íŒ¹ì´ ë¹„ì–´ìˆìŠµë‹ˆë‹¤!");
         }
     }
 }

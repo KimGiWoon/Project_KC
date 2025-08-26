@@ -4,6 +4,7 @@ using UnityEngine;
 public class Node
 {
     public NodeType nodeType;
+    public EventTypeKC EventTypeKc;
     public Vector2Int point;
     public List<Node> nextNodes;
     public List<Node> previousNodes;
@@ -15,27 +16,15 @@ public class Node
         previousNodes = new List<Node>();
     }
 
-    // C#¿¡°Ô Node °´Ã¼¸¦ ÁÂÇ¥ ±âÁØÀ¸·Î ºñ±³ÇÏµµ·Ï ¾Ë·ÁÁÖ´Â ÇÊ¼ö ÄÚµåÀÔ´Ï´Ù.
-    public override bool Equals(object obj)
-    {
-        return Equals(obj as Node);
-    }
+    // C#ì—ê²Œ Node ê°ì²´ë¥¼ ì¢Œí‘œ ê¸°ì¤€ìœ¼ë¡œ ë¹„êµí•˜ë„ë¡ ì•Œë ¤ì£¼ëŠ” í•„ìˆ˜ ì½”ë“œìž…ë‹ˆë‹¤.
+    public override bool Equals(object obj) => Equals(obj as Node);
 
-    public bool Equals(Node other)
-    {
-        return other != null &&
-               this.point.x == other.point.x &&
-               this.point.y == other.point.y;
-    }
+    public bool Equals(Node other) => other != null &&
+                                      point.x == other.point.x &&
+                                      point.y == other.point.y;
 
-    public override int GetHashCode()
-    {
-        return System.HashCode.Combine(this.point.x, this.point.y);
-    }
+    public override int GetHashCode() => System.HashCode.Combine(point.x, point.y);
 
-    // [¼öÁ¤µÈ ºÎºÐ] column ´ë½Å point.y¸¦ »ç¿ëÇÕ´Ï´Ù.
-    public override string ToString()
-    {
-        return $"{point.y} ({nodeType.ToString()[0]})";
-    }
+    // [ìˆ˜ì •ëœ ë¶€ë¶„] column ëŒ€ì‹  point.yë¥¼ ì‚¬ìš©í•©ë‹ˆë‹¤.
+    public override string ToString() => $"{point.y} ({nodeType.ToString()[0]})";
 }

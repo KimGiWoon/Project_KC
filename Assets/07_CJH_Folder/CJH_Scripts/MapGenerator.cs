@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -22,8 +22,8 @@ public class MapGenerator : MonoBehaviour
         ActivateNodesFromPrefab(nodeIdentifiers);
         BuildConnectionsFromPrefab(nodeIdentifiers);
 
-        Node startNode = _map.SelectMany(f => f).FirstOrDefault(n => n.nodeType == NodeType.Start);
-        Node bossNode = _map.SelectMany(f => f).FirstOrDefault(n => n.nodeType == NodeType.Boss);
+        var startNode = _map.SelectMany(f => f).FirstOrDefault(n => n.nodeType == NodeType.Start);
+        var bossNode = _map.SelectMany(f => f).FirstOrDefault(n => n.nodeType == NodeType.Boss);
 
         if (startNode == null || bossNode == null)
         {
@@ -34,7 +34,7 @@ public class MapGenerator : MonoBehaviour
         AssignNodeTypesToPaths(startNode, bossNode);
 
         Debug.Log("--- 모든 맵 생성 과정 완료 ---");
-        List<List<Node>> allPaths = GetAllPaths(startNode, bossNode);
+        var allPaths = GetAllPaths(startNode, bossNode);
         return new MapData(_map, allPaths, startNode, bossNode);
     }
 
@@ -66,7 +66,7 @@ public class MapGenerator : MonoBehaviour
 
         foreach (var id in identifiers)
         {
-            Node node = _map[id.floorIndex][id.nodeIndexInFloor];
+            var node = _map[id.floorIndex][id.nodeIndexInFloor];
 
             if (id.floorIndex == 0) node.nodeType = NodeType.Boss;
             else if (id.floorIndex == maxFloorIndex) node.nodeType = NodeType.Start;
@@ -91,15 +91,16 @@ public class MapGenerator : MonoBehaviour
             // 각 부모 노드가 프리팹에 몇 개의 자식을 연결하고 있는지 로그로 확인합니다.
             if (parentId.connections != null && parentId.connections.Any())
             {
-                Debug.Log($"프리팹 정보 확인: 부모 {parentId.gameObject.name} ({parentId.floorIndex},{parentId.nodeIndexInFloor}) / 연결된 자식 수: {parentId.connections.Count}");
+                Debug.Log(
+                    $"프리팹 정보 확인: 부모 {parentId.gameObject.name} ({parentId.floorIndex},{parentId.nodeIndexInFloor}) / 연결된 자식 수: {parentId.connections.Count}");
 
-                Node parentNode = identifierToNodeMap[parentId];
+                var parentNode = identifierToNodeMap[parentId];
 
                 foreach (var childId in parentId.connections)
                 {
                     if (childId == null) continue;
 
-                    Node childNode = identifierToNodeMap[childId];
+                    var childNode = identifierToNodeMap[childId];
                     if (!parentNode.nextNodes.Contains(childNode))
                     {
                         parentNode.nextNodes.Add(childNode);
@@ -119,10 +120,14 @@ public class MapGenerator : MonoBehaviour
 
         // 고정 규칙: 1층은 전투, 4층은 이벤트
         foreach (var node in _map[start.point.x - 1].Where(n => n.nodeType == NodeType.Event))
+        {
             node.nodeType = NodeType.Battle;
+        }
 
         foreach (var node in _map[1].Where(n => n.nodeType == NodeType.Event))
+        {
             node.nodeType = NodeType.Event; // 이 규칙은 그대로 Event로 두겠습니다.
+        }
 
         Debug.Log("고정 규칙 적용 완료: 1층(Battle), 4층(Event)");
 
@@ -131,21 +136,23 @@ public class MapGenerator : MonoBehaviour
         var floor2Nodes = _map[3].Where(n => n.nodeType == NodeType.Event).ToList();
         foreach (var node2 in floor2Nodes)
         {
-            node2.nodeType = (Random.value > 0.5f) ? NodeType.Battle : NodeType.Event;
+            node2.nodeType = Random.value > 0.5f ? NodeType.Battle : NodeType.Event;
             Debug.Log($"Node ({node2.point.x}, {node2.point.y}) 타입 무작위 결정: {node2.nodeType}");
         }
 
         // 3층(자식) 노드들의 타입을 결정 (이제 childToParentsMap이 필요 없습니다!)
         Debug.Log("--- 3층(자식) 노드 최종 타입 결정 ---");
-        var floor3Nodes = _map[2].Where(n => n.nodeType != NodeType.NotAssigned && n.nodeType != NodeType.Start && n.nodeType != NodeType.Boss).ToList();
+        var floor3Nodes = _map[2].Where(n =>
+            n.nodeType != NodeType.NotAssigned && n.nodeType != NodeType.Start && n.nodeType != NodeType.Boss).ToList();
 
         foreach (var childNode in floor3Nodes)
         {
             // 각 자식 노드가 직접 기억하고 있는 부모 리스트(previousNodes)를 사용합니다.
-            List<Node> parents = childNode.previousNodes;
+            var parents = childNode.previousNodes;
 
             string parentTypes = string.Join(", ", parents.Select(p => p.nodeType.ToString()));
-            Debug.Log($"처리 시작: Node({childNode.point.x}, {childNode.point.y}). 연결된 부모 수: {parents.Count}. 부모 타입: [{parentTypes}]");
+            Debug.Log(
+                $"처리 시작: Node({childNode.point.x}, {childNode.point.y}). 연결된 부모 수: {parents.Count}. 부모 타입: [{parentTypes}]");
 
             if (parents.Any())
             {
@@ -166,6 +173,19 @@ public class MapGenerator : MonoBehaviour
                 Debug.Log($"===> 결과: 연결된 부모 없음. 기본 타입 유지.");
             }
         }
+
+        Debug.Log("--- 이벤트 노드 세부 타입 랜덤 할당 ---");
+        // 맵에 있는 모든 'Event' 타입 노드를 찾습니다.
+        var eventNodes = _map.SelectMany(floor => floor)
+            .Where(node => node.nodeType == NodeType.Event);
+
+        foreach (var eventNode in eventNodes)
+        {
+            // EventType Enum에서 NotAssigned(0)를 제외하고 1, 2, 3 중에서 랜덤 선택
+            int randomIndex = Random.Range(1, System.Enum.GetNames(typeof(EventTypeKC)).Length);
+            eventNode.EventTypeKc = (EventTypeKC)randomIndex;
+            Debug.Log($"Node ({eventNode.point.x}, {eventNode.point.y})의 이벤트 타입을 '{eventNode.EventTypeKc}'로 결정");
+        }
     }
 
     private List<List<Node>> GetAllPaths(Node start, Node end)
@@ -184,7 +204,7 @@ public class MapGenerator : MonoBehaviour
         }
         else
         {
-            foreach (Node next in current.nextNodes)
+            foreach (var next in current.nextNodes)
             {
                 DFS(next, end, path, allPaths);
             }

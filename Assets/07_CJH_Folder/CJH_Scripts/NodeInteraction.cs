@@ -1,27 +1,46 @@
 using UnityEngine;
 using DG.Tweening;
 
+
 public class NodeInteraction : MonoBehaviour
 {
-    // ¾Ö´Ï¸ŞÀÌ¼Ç ¼³Á¤°ªµéÀ» ÀÎ½ºÆåÅÍ¿¡¼­ ÆíÇÏ°Ô ¼öÁ¤ÇÒ ¼ö ÀÖµµ·Ï º¯¼ö·Î ¸¸µì´Ï´Ù.
+    // ì• ë‹ˆë©”ì´ì…˜ ì„¤ì •ê°’ë“¤ì„ ì¸ìŠ¤í™í„°ì—ì„œ í¸í•˜ê²Œ ìˆ˜ì •í•  ìˆ˜ ìˆë„ë¡ ë³€ìˆ˜ë¡œ ë§Œë“­ë‹ˆë‹¤.
     [Header("Animation Settings")]
-    public float punchScale = 0.2f;   // ¾ó¸¶³ª Å©°Ô ¸¸µé °ÍÀÎ°¡
-    public float duration = 0.5f;     // ¾Ö´Ï¸ŞÀÌ¼Ç ½Ã°£ (ÃÊ)
-    public int vibrato = 10;          // ¶³¸² È½¼ö
-    public float elasticity = 1f;     // Åº¼º (0~1 »çÀÌ)
+    public float punchScale = 0.2f;   // ì–¼ë§ˆë‚˜ í¬ê²Œ ë§Œë“¤ ê²ƒì¸ê°€
+    public float duration = 0.5f;     // ì• ë‹ˆë©”ì´ì…˜ ì‹œê°„ (ì´ˆ)
+    public int vibrato = 10;          // ë–¨ë¦¼ íšŸìˆ˜
+    public float elasticity = 1f;     // íƒ„ì„± (0~1 ì‚¬ì´)
 
-    // ÀÌ ½ºÅ©¸³Æ®°¡ Àû¿ëµÈ °ÔÀÓ ¿ÀºêÁ§Æ®¿¡ ¸¶¿ì½º Å¬¸¯ÀÌ °¨ÁöµÇ¸é ÀÚµ¿À¸·Î È£ÃâµÇ´Â ÇÔ¼öÀÔ´Ï´Ù.
+    private MapNode mapNode;
+
+    private void Awake()
+    {
+        // ìŠ¤í¬ë¦½íŠ¸ê°€ ì‹œì‘ë  ë•Œ ìì‹ ì˜ MapNode ì»´í¬ë„ŒíŠ¸ë¥¼ ì°¾ì•„ ì €ì¥í•´ë‘¡ë‹ˆë‹¤.
+        mapNode = GetComponent<MapNode>();
+    }
+
+    // ì´ ìŠ¤í¬ë¦½íŠ¸ê°€ ì ìš©ëœ ê²Œì„ ì˜¤ë¸Œì íŠ¸ì— ë§ˆìš°ìŠ¤ í´ë¦­ì´ ê°ì§€ë˜ë©´ ìë™ìœ¼ë¡œ í˜¸ì¶œë˜ëŠ” í•¨ìˆ˜ì…ë‹ˆë‹¤.
     private void OnMouseDown()
     {
-        Debug.Log(gameObject.name + " ³ëµå°¡ Å¬¸¯µÇ¾ú½À´Ï´Ù!");
 
-        // DoTweenÀÇ DOPunchScale ÇÔ¼ö¸¦ È£ÃâÇÏ¿© ¾Ö´Ï¸ŞÀÌ¼ÇÀ» ½ÇÇàÇÕ´Ï´Ù.
-        // transform: ÀÌ ½ºÅ©¸³Æ®°¡ ºÙ¾îÀÖ´Â °ÔÀÓ ¿ÀºêÁ§Æ®ÀÇ Transform ÄÄÆ÷³ÍÆ®
+        // ì•„ì§ ê³µê°œë˜ì§€ ì•Šì€ ë¯¸ìŠ¤í„°ë¦¬ ë…¸ë“œëŠ” í´ë¦­í•  ìˆ˜ ì—†ë„ë¡ ë§‰ìŠµë‹ˆë‹¤.
+        if (!mapNode.isRevealed)
+        {
+            Debug.Log("ì•„ì§ ê³µê°œë˜ì§€ ì•Šì€ ë…¸ë“œì…ë‹ˆë‹¤!");
+            return;
+        }
+
+        Debug.Log(gameObject.name + " ë…¸ë“œê°€ í´ë¦­ë˜ì—ˆìŠµë‹ˆë‹¤!");
+
+        // DoTweenì˜ DOPunchScale í•¨ìˆ˜ë¥¼ í˜¸ì¶œí•˜ì—¬ ì• ë‹ˆë©”ì´ì…˜ì„ ì‹¤í–‰í•©ë‹ˆë‹¤.
+        // transform: ì´ ìŠ¤í¬ë¦½íŠ¸ê°€ ë¶™ì–´ìˆëŠ” ê²Œì„ ì˜¤ë¸Œì íŠ¸ì˜ Transform ì»´í¬ë„ŒíŠ¸
         transform.DOPunchScale(
-            new Vector3(punchScale, punchScale, 0), // x, y ¹æÇâÀ¸·Î punchScale ¸¸Å­ Å©±â¸¦ Å°¿ó´Ï´Ù.
-            duration,                               // ¾Ö´Ï¸ŞÀÌ¼Ç Áö¼Ó ½Ã°£
-            vibrato,                                // Áøµ¿ È½¼ö
-            elasticity                              // Åº¼º Á¤µµ
+            new Vector3(punchScale, punchScale, 0), // x, y ë°©í–¥ìœ¼ë¡œ punchScale ë§Œí¼ í¬ê¸°ë¥¼ í‚¤ì›ë‹ˆë‹¤.
+            duration,                               // ì• ë‹ˆë©”ì´ì…˜ ì§€ì† ì‹œê°„
+            vibrato,                                // ì§„ë™ íšŸìˆ˜
+            elasticity                              // íƒ„ì„± ì •ë„
         );
+
+        MapView.Instance.SelectNode(mapNode);
     }
 }
