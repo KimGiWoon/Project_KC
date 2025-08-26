@@ -22,6 +22,7 @@ namespace SDW
 
         public Action<ButtonType> OnSignInSetButtonType;
         public Action<string, string, string> OnSendUserInfo;
+        public Action OnCheckUpdate;
 
         [SerializeField] private FirebaseDataSO _cliendData;
         private string _googleClientId;
@@ -221,7 +222,6 @@ namespace SDW
                 { "email", email },
                 { "lastLogin", DateTime.UtcNow.AddHours(9).ToString("yyyy-MM-dd HH:mm:ss") },
                 { "nickname", "" }
-                // { "uid", uid }
             };
 
             _db.Child("users").Child(uid).SetValueAsync(userData).ContinueWithOnMainThread(task =>
@@ -287,10 +287,10 @@ namespace SDW
 
                 var result = task.Result;
 
+                _ui.ClosePanel(UIName.SignInUI);
+
                 if (result.Exists) LoadUserData(result);
                 else SaveUserData(user);
-
-                _ui.ClosePanel(UIName.SignInUI);
             });
         }
 
@@ -308,7 +308,6 @@ namespace SDW
                     userData.ContainsKey("email") ? userData["email"].ToString() : "",
                     userData.ContainsKey("joinDate") ? userData["joinDate"].ToString() : "",
                     userData.ContainsKey("nickname") ? userData["nickname"].ToString() : ""
-                    // userData.ContainsKey("uid") ? userData["ui"].ToString() : ""
                 );
 
                 CheckNicknameRequired();
@@ -334,7 +333,6 @@ namespace SDW
                 userData.ContainsKey("email") ? userData["email"].ToString() : "",
                 userData.ContainsKey("joinDate") ? userData["joinDate"].ToString() : "",
                 userData.ContainsKey("nickname") ? userData["nickname"].ToString() : ""
-                // userData.ContainsKey("uid") ? userData["uid"].ToString() : ""
             );
 
             _db.Child("users").Child(user.UserId).SetValueAsync(userData).ContinueWithOnMainThread(task =>
@@ -365,7 +363,8 @@ namespace SDW
         /// </summary>
         private void OnSignInComplete()
         {
-            GameManager.Instance.Scene.LoadSceneAsync(SceneName.SDW_LobbyScene);
+            _ui.OpenPanel(UIName.DownloadUI);
+            OnCheckUpdate?.Invoke();
         }
 
         public void SetNickname(string nickname)

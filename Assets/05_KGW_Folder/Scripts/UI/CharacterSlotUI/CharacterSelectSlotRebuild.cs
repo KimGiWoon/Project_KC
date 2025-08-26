@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SelectSlotRebuild : MonoBehaviour
+public class CharacterSelectSlotRebuild : MonoBehaviour
 {
     private void Start()
     {
