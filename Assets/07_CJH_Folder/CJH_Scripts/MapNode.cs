@@ -1,6 +1,5 @@
 using UnityEngine;
 
-
 public class MapNode : MonoBehaviour
 {
     public Node nodeData { get; private set; }
@@ -30,7 +29,7 @@ public class MapNode : MonoBehaviour
     // 맵 생성 시, 노드의 데이터를 설정하고 초기 상태의 프리팹을 생성
     public void Setup(Node dataNode)
     {
-        this.nodeData = dataNode;
+        nodeData = dataNode;
         isRevealed = false;
 
         // 이전에 생성된 비주얼이 있다면 삭제
@@ -70,9 +69,9 @@ public class MapNode : MonoBehaviour
                 prefabToInstantiate = battleNodePrefab;
                 break;
             case NodeType.Event:
-                switch (nodeData.eventType)
+                switch (nodeData.EventTypeKc)
                 {
-                    case EventType.Positive:
+                    case EventTypeKC.Positive:
                         // 긍정적 프리팹 배열에서 하나를 랜덤으로 선택
                         if (positiveEventPrefabs != null && positiveEventPrefabs.Length > 0)
                         {
@@ -80,7 +79,7 @@ public class MapNode : MonoBehaviour
                             prefabToInstantiate = positiveEventPrefabs[randomIndex];
                         }
                         break;
-                    case EventType.Negative:
+                    case EventTypeKC.Negative:
                         // 부정적 프리팹 배열에서 하나를 랜덤으로 선택
                         if (negativeEventPrefabs != null && negativeEventPrefabs.Length > 0)
                         {
@@ -88,7 +87,7 @@ public class MapNode : MonoBehaviour
                             prefabToInstantiate = negativeEventPrefabs[randomIndex];
                         }
                         break;
-                    case EventType.Neutral:
+                    case EventTypeKC.Neutral:
                         // 중립적 프리팹 배열에서 하나를 랜덤으로 선택
                         if (neutralEventPrefabs != null && neutralEventPrefabs.Length > 0)
                         {
