@@ -2,7 +2,9 @@ using System.Collections;
 using UnityEngine;
 using System;
 
-public class TimeManager : SingletonManager<TimeManager>
+namespace KSH
+{
+    public class TimeManager : SingletonManager<TimeManager>
 {
     private DateTime nextDailyResetTime; //일일 리셋 시간
     private const string NextDailyResetKey = "NextDailyReset";
@@ -64,4 +66,5 @@ public class TimeManager : SingletonManager<TimeManager>
             yield return new WaitForSeconds(1f);
         }
     }
+}
 }

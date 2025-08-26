@@ -3,7 +3,10 @@ using UnityEngine;
 using System;
 using System.Linq;
 using UnityEngine.UI;
-public class DailyQuestManager : SingletonManager<DailyQuestManager>
+
+namespace KSH
+{
+    public class DailyQuestManager : SingletonManager<DailyQuestManager>
 {
     [SerializeField] private List<DailyQuest> dailyQuests = new List<DailyQuest>();
     [SerializeField] private Button rewardButton;
@@ -137,4 +140,6 @@ public class DailyQuestManager : SingletonManager<DailyQuestManager>
             rewardButton.interactable = false;
         }
     }
+}
+    
 }
