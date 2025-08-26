@@ -34,15 +34,6 @@ public class CharacterAttackController : MonoBehaviour
                     // 감지된 몬스터를 공격 대상에 지정
                     _controller._attackTarget = monster;
                 }
-                else // 공격 대상이 있지만
-                {
-                    // 공격 대상이 보스몬스터이고 감지된 몬스터가 몬스터이면 (몬스터 우선 공격)
-                    if (_controller._attackTarget.gameObject.layer == _bossLayer && monster.gameObject.layer == _monsterLayer)
-                    {
-                        // 몬스터를 공격 타겟으로 설정
-                        _controller._attackTarget = monster;
-                    }
-                }              
             }
         }
     }

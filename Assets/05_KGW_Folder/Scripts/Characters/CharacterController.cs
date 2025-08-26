@@ -18,11 +18,11 @@ public class CharacterController : UnitBaseData
     Coroutine _manaRoutine;
     bool _isManaFull;
     float _manaChageValue;
+    WaitForSeconds _time;
 
     // 체력과 마나의 변화 이벤트
     public event Action<float> OnHpChange;
     public event Action<float> OnMpChange;
-
     // 스킬 사용 모드 변화 이벤트
     public event Action<bool> OnSkillModeChange;
 
@@ -43,6 +43,7 @@ public class CharacterController : UnitBaseData
         OnMpChange?.Invoke(_currentMp / _characterData._maxMp);
 
         _manaChageValue = _characterData._recoveryMp;
+        _time = new WaitForSeconds(1f);
 
         // 마나 충전 
         ManaRecovery();
@@ -51,11 +52,14 @@ public class CharacterController : UnitBaseData
     // 캐릭터 이동
     protected override void Movement()
     {
+        // 게임이 종료되면 움직이지 않는다.
+        if (_battleManager._isGameOver) return;
+
         // 타겟이 없으면 
         if (_researchTarget == null)
         {
             // 오른쪽으로 이동
-            transform.Translate(_moveDir * _characterData._moveSpeed * _gameSpeed * Time.deltaTime);
+            transform.Translate(_moveDir * _characterData._moveSpeed * Time.deltaTime);
         }
         else    // 탐색 대상이 있으면
         {
@@ -70,7 +74,7 @@ public class CharacterController : UnitBaseData
             {
                 base._isAttack = false;
                 // 탐색 대상으로 이동
-                transform.position = Vector3.MoveTowards(transform.position, _researchTarget.transform.position, _characterData._moveSpeed * _gameSpeed * Time.deltaTime);
+                transform.position = Vector3.MoveTowards(transform.position, _researchTarget.transform.position, _characterData._moveSpeed * Time.deltaTime);
             }
         }
     }
@@ -99,7 +103,7 @@ public class CharacterController : UnitBaseData
         // 공격 대상의 거리가 캐릭터의 공격 사거리에 들어오면 타겟 공격
         if (attackDistance <= _characterData._attackRange)
         {
-            if (base._attackCoolTimer <= 0f)
+            if(base._attackCoolTimer <= 0f)
             {
                 // 캐릭터의 데미지로 몬스터에 주기
                 _attackTarget.TakeDamage(_characterData._attackDamage);
@@ -107,8 +111,8 @@ public class CharacterController : UnitBaseData
                 base._isAttack = true;
 
                 // 공격 쿨타임 초기화
-                base._attackCoolTimer = _characterData._attackSpeed / _gameSpeed;
-            }
+                base._attackCoolTimer = _characterData._attackSpeed;
+            }           
         }
     }
 
@@ -169,7 +173,7 @@ public class CharacterController : UnitBaseData
                 OnSkillModeChange?.Invoke(_isManaFull);
 
                 // 마나 회복
-                ManaRecovery();
+                _manaRoutine = StartCoroutine(ManaRecoveryCoroutine());
             }
         }
     }
@@ -189,8 +193,7 @@ public class CharacterController : UnitBaseData
     {
         while (!_isManaFull)
         {
-            // 게임 배속 적용
-            yield return _battleUIManager._playTime;
+            yield return _time;
 
             _currentMp += _manaChageValue;
 

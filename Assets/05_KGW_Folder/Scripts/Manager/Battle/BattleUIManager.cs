@@ -1,7 +1,7 @@
-using System;
 using System.Collections;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class BattleUIManager : MonoBehaviour
@@ -10,16 +10,12 @@ public class BattleUIManager : MonoBehaviour
     [SerializeField] BattleManager _battleManager;
     [SerializeField] GameObject _wall;
 
+    [Header("Panel UI Setting")]
+    [SerializeField] GameObject _clearPanel;
+    [SerializeField] GameObject _DefeatPanel;
+
     [Header("Character UI Setting")]
     [SerializeField] public CharacterInfoSlotUI[] _infoSlot = new CharacterInfoSlotUI[3];
-
-    [Header("Panel UI Reference")]
-    [SerializeField] public GameObject _menuUI;
-    [SerializeField] public GameObject _clearChapterUI;
-    [SerializeField] public GameObject _clearStageUI;
-    [SerializeField] public GameObject _noneRemoveADUI;
-    [SerializeField] public GameObject _RemoveADUI;
-    [SerializeField] public GameObject _defeatChapterUI;
 
     [Header("Option UI Setting")]
     [SerializeField] Button _optionButton;
@@ -30,18 +26,12 @@ public class BattleUIManager : MonoBehaviour
     [SerializeField] TMP_Text _totalHpText;
     [SerializeField] Slider _totalMonsterHp;
 
+    Coroutine _gameResultRoutine;
     Coroutine _timerRoutine;
-    public WaitForSeconds _playTime;
     float _time;
     float _count;
     public float _currentTotalHp;
     public float _TotalHp;
-
-    private void Awake()
-    {
-        _fastButtonX1.onClick.AddListener(X1FastButtonClick);
-        _fastButtonX2.onClick.AddListener(X2FastButtonClick);
-    }
 
     private void OnEnable()
     {
@@ -56,19 +46,6 @@ public class BattleUIManager : MonoBehaviour
         _time = _battleManager._timer;
         _count = 5f;
         _wall.gameObject.SetActive(false);
-
-        if (CharacterSelectManager.Instance._isFastGame)
-        {
-            _fastButtonX1.gameObject.SetActive(true);
-            _fastButtonX2.gameObject.SetActive(false);
-        }
-        else
-        {
-            _fastButtonX1 .gameObject.SetActive(false);
-            _fastButtonX2.gameObject.SetActive(true);
-        }
-
-        ChangeGameTimer();
 
         // 타이머 코루틴 시작
         _timerRoutine = StartCoroutine(TimerCoroutine());
@@ -88,27 +65,29 @@ public class BattleUIManager : MonoBehaviour
         // 게임 클리어
         if (result)
         {
-            if (_clearChapterUI)
+            if(_gameResultRoutine != null)
             {
-                Debug.Log("클리어 UI 오픈");
-
-                // 챕터 클리어 UI 오픈
-                _clearChapterUI.SetActive(true);
+                StopCoroutine(_gameResultRoutine);
+                _gameResultRoutine = null;
             }
-            // TODO : 김기운 : 추후에 UI매니저에서 관리
-            //GameManager.Instance.UI.OpenPanel(UIName.ClearChapterUI);
+            else
+            {
+                // 클리어 코루틴 진행
+                _gameResultRoutine = StartCoroutine(ClearPanelCoroutine());
+            }
         }
         else    // 게임 실패
         {
-            if (_defeatChapterUI)
+            if (_gameResultRoutine != null)
             {
-                Debug.Log("클리어 실패 UI 오픈");
-
-                // 클리어 실패 UI 오픈
-                _defeatChapterUI.SetActive(true);
+                StopCoroutine(_gameResultRoutine);
+                _gameResultRoutine = null;
             }
-            // TODO : 김기운 : 추후에 UI매니저에서 관리
-            //GameManager.Instance.UI.OpenPanel(UIName.DefeatChapterUI);
+            else
+            {
+                // 실패 코루틴 진행
+                _gameResultRoutine = StartCoroutine(DefeatPanelCoroutine());
+            }
         }
     }
 
@@ -123,46 +102,30 @@ public class BattleUIManager : MonoBehaviour
         _totalMonsterHp.value = totalCurrnetHp / totalMaxHp;
     }
 
-    // 타이머 배속 변경
-    private void ChangeGameTimer()
+    // 클리어 패널 코루틴
+    private IEnumerator ClearPanelCoroutine()
     {
-        // 게임 스피드 설정
-        float speed = CharacterSelectManager.Instance._isFastGame ? 2f : 1f;
+        _clearPanel.SetActive(true);
 
-        // 타이머 1배속, 2배속 세팅
-        _playTime = new WaitForSeconds(1f / speed);
+        yield return new WaitForSeconds(2f);
+
+        // TODO : 김기운 : 추후에 마이씬 매니저 교체 예정
+        SceneManager.LoadScene("KGW_TestLobbyScene");
+
+        _clearPanel.SetActive(false);
     }
 
-    // X1 속도 버튼 클릭
-    private void X1FastButtonClick()
+    // 실패 패널 코루틴
+    private IEnumerator DefeatPanelCoroutine()
     {
-        Debug.Log("1배속 진행");
-        // 2배속 미진행
-        CharacterSelectManager.Instance._isFastGame = false;
+        _DefeatPanel.SetActive(true);
 
-        _fastButtonX1.gameObject.SetActive(false);
-        _fastButtonX2.gameObject.SetActive(true);
+        yield return new WaitForSeconds(2f);
 
-        ChangeGameTimer();
-    }
-    
-    // X2 속도 버튼 클릭
-    private void X2FastButtonClick()
-    {
-        Debug.Log("2배속 진행");
-        // 2배속 진행
-        CharacterSelectManager.Instance._isFastGame = true;
+        // TODO : 김기운 : 추후에 마이씬 매니저 교체 예정
+        SceneManager.LoadScene("KGW_TestLobbyScene");
 
-        _fastButtonX1.gameObject.SetActive(true);
-        _fastButtonX2.gameObject.SetActive(false);
-
-        ChangeGameTimer();
-    }
-
-    // 메뉴 버튼 클릭
-    private void MenuButtonClick()
-    {
-
+        _DefeatPanel.SetActive(false);
     }
 
     // 타이머 코루틴
@@ -171,10 +134,12 @@ public class BattleUIManager : MonoBehaviour
         // 타이머 UI 출력
         _timerText.text = _time.ToString();
 
+        WaitForSeconds time = new WaitForSeconds(1f);
+
         // 게임 진행중이고 시간이 남아있으면 반복
         while (!_battleManager._isGameOver && _time > 0)
         {
-            yield return _playTime;
+            yield return time;
 
             _time--;
             _count--;
@@ -182,7 +147,7 @@ public class BattleUIManager : MonoBehaviour
             // 타이머 UI 출력
             _timerText.text = _time.ToString();
 
-            if (_count <= 0f)
+            if(_count <= 0)
             {
                 _wall.gameObject.SetActive(true);
             }
@@ -191,6 +156,8 @@ public class BattleUIManager : MonoBehaviour
         // 시간 초과하면 게임 패배
         if (_time <= 0)
         {
+            // 실패 코루틴 진행
+            _gameResultRoutine = StartCoroutine(DefeatPanelCoroutine());
             // 타이머 코루틴 정지
             StopTimeCoroutine();
         }
@@ -199,10 +166,7 @@ public class BattleUIManager : MonoBehaviour
     // 타이머 코루틴 정지
     private void StopTimeCoroutine()
     {
-        if(_timerRoutine != null)
-        {
-            StopCoroutine(_timerRoutine);
-            _timerRoutine = null;
-        }
+        _timerRoutine = null;
+        StopCoroutine(_timerRoutine);
     }
 }

@@ -42,7 +42,7 @@ public class KGW_UIManager : MonoBehaviour
     }
 
     // 인원 배치 버튼 클릭
-    public void OnSelectButtonClick()
+    private void OnSelectButtonClick()
     {
         _slotPanel.SetActive(true);
     }
