@@ -9,7 +9,7 @@ namespace SDW
         [Header("UI Components")]
         [SerializeField] private Button _confirmButton;
 
-        public Action<UIName> OnCloseRequested;
+        public Action<UIName> OnUICloseRequested;
 
         private void Awake()
         {
@@ -20,7 +20,7 @@ namespace SDW
 
         private void ConfirmButtonClicked()
         {
-            OnCloseRequested?.Invoke(UIName.ChangeIconUI);
+            OnUICloseRequested?.Invoke(UIName.ChangeIconUI);
         }
     }
 }

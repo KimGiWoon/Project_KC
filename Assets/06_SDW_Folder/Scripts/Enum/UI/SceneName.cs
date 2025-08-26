@@ -3,6 +3,7 @@
     public enum SceneName
     {
         SDW_SignInScene,
-        SDW_LobbyScene
+        SDW_LobbyScene,
+        KGW_TestIngameScene
     }
 }

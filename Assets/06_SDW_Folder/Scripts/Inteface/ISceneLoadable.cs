@@ -17,6 +17,6 @@ namespace SDW
         /// 지정된 장면 로딩을 완료하고 관련 로딩 UI 요소를 해제
         /// 로딩 완료 메시지 표시와 함께 로딩 화면을 비활성화
         /// </summary>
-        public void CompleteSceneLoading();
+        public void CompleteSceneLoading(UIName targetUI);
     }
 }

@@ -8,10 +8,12 @@ namespace SDW
     public class MainLobbyUI : BaseUI
     {
         [Header("UI Components")]
+        [SerializeField] private Button _gameStartButton;
         [SerializeField] private Button _userInfoButton;
         [SerializeField] private TextMeshProUGUI _nicknameText;
 
-        public Action<UIName> OnButtonClicked;
+        public Action<UIName> OnUIOpenRequested;
+        public Action<UIName> OnUICloseRequested;
 
         /// <summary>
         /// UI 컴포넌트 활성화 설정 및 이벤트 리스너 할당을 수행
@@ -19,13 +21,20 @@ namespace SDW
         private void Awake()
         {
             _panelContainer.SetActive(false);
+            _gameStartButton.onClick.AddListener(GameStartButtonClicked);
             _userInfoButton.onClick.AddListener(UserInfoButtonClicked);
+        }
+
+        private void GameStartButtonClicked()
+        {
+            OnUIOpenRequested?.Invoke(UIName.KGW_StageSelectUI);
+            OnUICloseRequested?.Invoke(UIName.MainLobbyUI);
         }
 
         /// <summary>
         /// 사용자 정보 버튼 클릭 이벤트 핸들러 메서드 호출
         /// </summary>
-        private void UserInfoButtonClicked() => OnButtonClicked?.Invoke(UIName.UserInfoUI);
+        private void UserInfoButtonClicked() => OnUIOpenRequested?.Invoke(UIName.UserInfoUI);
 
         #region Update User Info
 

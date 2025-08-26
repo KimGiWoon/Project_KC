@@ -31,7 +31,7 @@ namespace SDW
         {
             if (_mappingSo == null) return;
 
-            var images = GetComponentsInChildren<Image>(true);
+            var images = FindObjectsOfType<Image>(true);
             foreach (var img in images)
             {
                 string path = GetPath(img.gameObject);
