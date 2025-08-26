@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96a3297fec6a3e54db317338e8551cc0, type: 3}
+  m_Name: MonsterRecallData
+  m_EditorClassIdentifier: 
+  _skillName: MonsterRecall
+  _skillRange: 0
+  _skillDamage: 0
+  _skillPrefab: {fileID: 3903889214131389440, guid: 16c65e1f863aadf48b5f10e200eaed3f, type: 3}
+  _recallMonsterList:
+  - {fileID: 11400000, guid: 64427ff466a91b547a9fe286fa731173, type: 2}
+  - {fileID: 11400000, guid: 64427ff466a91b547a9fe286fa731173, type: 2}
+  - {fileID: 11400000, guid: 64427ff466a91b547a9fe286fa731173, type: 2}
+  _recallTime: 5

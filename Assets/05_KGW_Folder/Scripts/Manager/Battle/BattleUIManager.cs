@@ -8,6 +8,7 @@ public class BattleUIManager : MonoBehaviour
 {
     [Header("Battle Manager Reference")]
     [SerializeField] BattleManager _battleManager;
+    [SerializeField] GameObject _wall;
 
     [Header("Panel UI Setting")]
     [SerializeField] GameObject _clearPanel;
@@ -28,6 +29,7 @@ public class BattleUIManager : MonoBehaviour
     Coroutine _gameResultRoutine;
     Coroutine _timerRoutine;
     float _time;
+    float _count;
     public float _currentTotalHp;
     public float _TotalHp;
 
@@ -42,6 +44,8 @@ public class BattleUIManager : MonoBehaviour
     private void Start()
     {
         _time = _battleManager._timer;
+        _count = 5f;
+        _wall.gameObject.SetActive(false);
 
         // 타이머 코루틴 시작
         _timerRoutine = StartCoroutine(TimerCoroutine());
@@ -127,18 +131,26 @@ public class BattleUIManager : MonoBehaviour
     // 타이머 코루틴
     private IEnumerator TimerCoroutine()
     {
-        WaitForSeconds time = new WaitForSeconds(1f);
         // 타이머 UI 출력
         _timerText.text = _time.ToString();
+
+        WaitForSeconds time = new WaitForSeconds(1f);
 
         // 게임 진행중이고 시간이 남아있으면 반복
         while (!_battleManager._isGameOver && _time > 0)
         {
             yield return time;
+
             _time--;
+            _count--;
 
             // 타이머 UI 출력
             _timerText.text = _time.ToString();
+
+            if(_count <= 0)
+            {
+                _wall.gameObject.SetActive(true);
+            }
         }
 
         // 시간 초과하면 게임 패배

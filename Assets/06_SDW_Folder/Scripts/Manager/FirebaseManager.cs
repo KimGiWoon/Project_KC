@@ -21,7 +21,7 @@ namespace SDW
         public DatabaseReference DB => _db;
 
         public Action<ButtonType> OnSignInSetButtonType;
-        public Action<string, string> OnSendUserInfo;
+        public Action<string, string, string> OnSendUserInfo;
 
         [SerializeField] private FirebaseDataSO _cliendData;
         private string _googleClientId;
@@ -60,10 +60,10 @@ namespace SDW
 
                     _ui.OpenPanel(UIName.SignInUI);
 
-                    if (_auth.CurrentUser != null)
-                        OnSignInSetButtonType?.Invoke(ButtonType.ContinueButton);
-                    else if (PlayerPrefs.GetInt("SignedUp", 0) == 0)
+                    if (PlayerPrefs.GetInt("SignedUp", 0) == 0)
                         OnSignInSetButtonType?.Invoke(ButtonType.SignUpButton);
+                    else if (_auth.CurrentUser != null)
+                        OnSignInSetButtonType?.Invoke(ButtonType.ContinueButton);
                     else
                         OnSignInSetButtonType?.Invoke(ButtonType.SignInButton);
 
@@ -106,10 +106,10 @@ namespace SDW
             string email = "team11@test.com";
             string password = "kga1111";
 
-            if (_auth.CurrentUser != null)
-                SignIn(email, password);
-            else if (PlayerPrefs.GetInt("SignedUp", 0) == 0)
+            if (PlayerPrefs.GetInt("SignedUp", 0) == 0)
                 SignUp(email, password);
+            else if (_auth.CurrentUser != null)
+                SignIn(email, password);
             else
                 SignIn(email, password);
 #else
@@ -221,6 +221,7 @@ namespace SDW
                 { "email", email },
                 { "lastLogin", DateTime.UtcNow.AddHours(9).ToString("yyyy-MM-dd HH:mm:ss") },
                 { "nickname", "" }
+                // { "uid", uid }
             };
 
             _db.Child("users").Child(uid).SetValueAsync(userData).ContinueWithOnMainThread(task =>
@@ -307,6 +308,7 @@ namespace SDW
                     userData.ContainsKey("email") ? userData["email"].ToString() : "",
                     userData.ContainsKey("joinDate") ? userData["joinDate"].ToString() : "",
                     userData.ContainsKey("nickname") ? userData["nickname"].ToString() : ""
+                    // userData.ContainsKey("uid") ? userData["ui"].ToString() : ""
                 );
 
                 CheckNicknameRequired();
@@ -325,12 +327,14 @@ namespace SDW
                 { "email", user.Email },
                 { "lastLogin", DateTime.UtcNow.AddHours(9).ToString("yyyy-MM-dd HH:mm:ss") },
                 { "nickname", "" }
+                // { "uid", user.UserId }
             };
 
             _userData = new UserData(
                 userData.ContainsKey("email") ? userData["email"].ToString() : "",
                 userData.ContainsKey("joinDate") ? userData["joinDate"].ToString() : "",
                 userData.ContainsKey("nickname") ? userData["nickname"].ToString() : ""
+                // userData.ContainsKey("uid") ? userData["uid"].ToString() : ""
             );
 
             _db.Child("users").Child(user.UserId).SetValueAsync(userData).ContinueWithOnMainThread(task =>
@@ -475,7 +479,7 @@ namespace SDW
         /// <summary>
         /// 유저에 대한 정보를 UI로 전달
         /// </summary>
-        public void RequestUserInfo() => OnSendUserInfo?.Invoke(_userData.Email, _userData.Nickname);
+        public void RequestUserInfo() => OnSendUserInfo?.Invoke(_userData.Nickname, _userData.Email, _auth.CurrentUser.UserId);
 
         #endregion
     }
