@@ -62,10 +62,10 @@ public class DailyQuestManager : SingletonManager<DailyQuestManager>
         //퀘스트UI 이름에서 숫자만 뽑아서 순서대로 나열하여 저장
         questUIList = FindObjectsOfType<QuestUI>().OrderBy((q => ExtractNumber(q.gameObject.name))).ToArray();
         
-        for (int i = 0; i < dailyQuests.Count; i++)
+        for (int i = 0; i < dailyQuests.Count; i++) // dailyQuest의 크기만큼 반복
         {
-            questUIList[i].dailyQuest = dailyQuests[i];
-            questUIList[i].InitUI();
+            questUIList[i].dailyQuest = dailyQuests[i]; //리스트 i번째 UI에 i번째 퀘스트 데이터 연결
+            questUIList[i].InitUI(); //연결한 걸 기반으로 초기화
         }
     }
 
@@ -84,8 +84,8 @@ public class DailyQuestManager : SingletonManager<DailyQuestManager>
 
     public int ExtractNumber(string name) //이름에서 숫자만 뽑기
     {
-        string number = new string(name.Where(char.IsDigit).ToArray());
-        return int.TryParse(number, out int result) ? result : 0;
+        string number = new string(name.Where(char.IsDigit).ToArray()); //문자열안에서 숫자만 뽑은 후 문자 배열로 변환하여 문자열로 합침
+        return int.TryParse(number, out int result) ? result : 0; //정수로 변환
     }
     
     public void CompleteQuest(QuestType questType, int amount) //퀘스트가 완료되었는지 확인
@@ -95,7 +95,7 @@ public class DailyQuestManager : SingletonManager<DailyQuestManager>
             if(quest.questType != questType || quest.isComplete) // 이미 완료된 퀘스트는 건너뛰기
                 continue;
             
-            quest.currentProgress += amount;
+            quest.currentProgress += amount; //해당 퀘스트의 진행도 추가
 
             if (quest.currentProgress >= quest.questGoal) //퀘스트 목표가 같거나 높으면
             {
