@@ -16,6 +16,7 @@ public class CharacterSelectManager : SingletonManager<CharacterSelectManager>
     [SerializeField] int _partNumber = 3;   // 전투 참가 인원
 
     public bool _canBettle = false;
+    public bool _isFastGame = false;
 
     protected override void Awake()
     {
