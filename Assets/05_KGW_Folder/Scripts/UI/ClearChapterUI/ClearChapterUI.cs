@@ -7,7 +7,6 @@ using UnityEngine.UI;
 public class ClearChapterUI : MonoBehaviour //BaseUI
 {
     [Header("Battle Manager Reference")]
-    [SerializeField] BattleManager _battleManager;
     [SerializeField] BattleUIManager _battleUIManager;
 
     TMP_Text _expText;  // 겅험치 텍스트
@@ -17,7 +16,6 @@ public class ClearChapterUI : MonoBehaviour //BaseUI
     // 컴포넌트의 할당
     private void Awake()
     {
-        //_panelContainer.SetActive(false);   // 패널 비활성화
         //_expText = _panelContainer.GetComponentInChildren<TMP_Text>();
         //_growthPointText = _panelContainer.GetComponentInChildren<TMP_Text>();
         //_confirmButton = _panelContainer.GetComponentInChildren<Button>();
@@ -39,16 +37,12 @@ public class ClearChapterUI : MonoBehaviour //BaseUI
     // 로비 이동 버튼 클릭
     private void LobbyButtonClick()
     {
-        // 게임 클리어 확인
-        if (_battleManager._isClear)
-        {
-            // TODO : 김기운 : 추후에 마이씬 매니저 교체 예정
-            SceneManager.LoadScene("KGW_TestLobbyScene");
+        // TODO : 김기운 : 추후에 마이씬 매니저 교체 예정
+        SceneManager.LoadScene("KGW_TestLobbyScene");
 
-            // 해당 UI 비활성화
-            //_panelContainer.SetActive(false);
+        // 해당 UI 비활성화
+        //_panelContainer.SetActive(false);
 
-            _battleUIManager._clearChapterUI.SetActive(false);
-        }
+        _battleUIManager._clearChapterUI.SetActive(false);
     }
 }

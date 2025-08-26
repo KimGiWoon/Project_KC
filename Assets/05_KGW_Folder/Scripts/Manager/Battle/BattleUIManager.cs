@@ -20,6 +20,7 @@ public class BattleUIManager : MonoBehaviour
     [SerializeField] public GameObject _noneRemoveADUI;
     [SerializeField] public GameObject _RemoveADUI;
     [SerializeField] public GameObject _defeatChapterUI;
+    [SerializeField] public GameObject _lobbyConfirmUI;
 
     [Header("Option UI Setting")]
     [SerializeField] Button _optionButton;
@@ -41,6 +42,7 @@ public class BattleUIManager : MonoBehaviour
     {
         _fastButtonX1.onClick.AddListener(X1FastButtonClick);
         _fastButtonX2.onClick.AddListener(X2FastButtonClick);
+        _optionButton.onClick.AddListener(MenuButtonClick);
     }
 
     private void OnEnable()
@@ -80,18 +82,20 @@ public class BattleUIManager : MonoBehaviour
         _battleManager.OnGameResult -= GamePlayResultCheck;
         // 몬스터 통합 체력 변화 이벤트 구독 해제
         _battleManager.OnTotalHpChange -= MonsterTotalHpChange;
+
+        _fastButtonX1.onClick.RemoveListener(X1FastButtonClick);
+        _fastButtonX2.onClick.RemoveListener(X2FastButtonClick);
+        _optionButton.onClick.RemoveListener(MenuButtonClick);
     }
 
-    // 게임 결과 확인
-    public void GamePlayResultCheck(bool result)
+// 게임 결과 확인
+public void GamePlayResultCheck(bool result)
     {
         // 게임 클리어
         if (result)
         {
             if (_clearChapterUI)
             {
-                Debug.Log("클리어 UI 오픈");
-
                 // 챕터 클리어 UI 오픈
                 _clearChapterUI.SetActive(true);
             }
@@ -102,8 +106,6 @@ public class BattleUIManager : MonoBehaviour
         {
             if (_defeatChapterUI)
             {
-                Debug.Log("클리어 실패 UI 오픈");
-
                 // 클리어 실패 UI 오픈
                 _defeatChapterUI.SetActive(true);
             }
@@ -162,7 +164,11 @@ public class BattleUIManager : MonoBehaviour
     // 메뉴 버튼 클릭
     private void MenuButtonClick()
     {
+        // TODO : 김기운 : 추후에 UI매니저에서 관리
+        //GameManager.Instance.UI.OpenPanel(UIName.MenuUI);
 
+        // 메뉴 패널 오픈
+        _menuUI.gameObject.SetActive(true);
     }
 
     // 타이머 코루틴
@@ -193,6 +199,9 @@ public class BattleUIManager : MonoBehaviour
         {
             // 타이머 코루틴 정지
             StopTimeCoroutine();
+
+            // 클리어 실패 UI 오픈
+            _defeatChapterUI.SetActive(true);
         }
     }
 
