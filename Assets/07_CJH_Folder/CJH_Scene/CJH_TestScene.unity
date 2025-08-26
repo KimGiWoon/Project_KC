@@ -679,7 +679,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mapParent: {fileID: 778645414}
-  mapTemplatePrefab: {fileID: 7897956742361364253, guid: ad70a377b08cee941a1d760d8411e636, type: 3}
+  mapTemplatePrefab: {fileID: 0}
 --- !u!4 &778645414
 Transform:
   m_ObjectHideFlags: 0
@@ -936,6 +936,58 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: -20, y: -20}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &1230351684
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1230351686}
+  - component: {fileID: 1230351685}
+  m_Layer: 0
+  m_Name: PrefabRandomizer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1230351685
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1230351684}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c54df620a8df5645ae0f75305365435, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mapGenerator: {fileID: 2053620150}
+  mapView: {fileID: 778645413}
+  mapNodePrefabs:
+  - {fileID: 7897956742361364253, guid: ad70a377b08cee941a1d760d8411e636, type: 3}
+  - {fileID: 2102838821358612230, guid: 0ca5741936035a2468177aaa5d4df827, type: 3}
+  - {fileID: 1081604290318297602, guid: 764401bcc62d4104581f853f3d008117, type: 3}
+  - {fileID: 2754042853753143235, guid: 08eb32ba6c2bfe44f87ee1fceb066650, type: 3}
+  - {fileID: 1765921643402884875, guid: 3ecfd832edbe6bf48bd563f086f82d8c, type: 3}
+--- !u!4 &1230351686
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1230351684}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 848.404, y: 598.86505, z: -9.538089}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1472287788
 GameObject:
   m_ObjectHideFlags: 0
@@ -1084,8 +1136,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   targetScrollRect: {fileID: 625127140}
   cameraTransform: {fileID: 928454857}
-  cameraMinY: 0
-  cameraMaxY: 15
+  cameraMinY: 5
+  cameraMaxY: 13
 --- !u!4 &1712792168
 Transform:
   m_ObjectHideFlags: 0
@@ -1149,7 +1201,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 800, y: 600}
@@ -1295,7 +1347,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d356afc901b222a4bae027e550b61c44, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mapTemplatePrefab: {fileID: 7897956742361364253, guid: ad70a377b08cee941a1d760d8411e636, type: 3}
+  mapTemplatePrefab: {fileID: 0}
 --- !u!4 &2053620151
 Transform:
   m_ObjectHideFlags: 0
@@ -1470,6 +1522,7 @@ SceneRoots:
   - {fileID: 2063666196}
   - {fileID: 778645414}
   - {fileID: 1146699947}
+  - {fileID: 1230351686}
   - {fileID: 661617934}
   - {fileID: 1790139816}
   - {fileID: 1941472482}
