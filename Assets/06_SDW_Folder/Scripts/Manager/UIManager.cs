@@ -49,29 +49,16 @@ namespace SDW
 
             switch (uiName)
             {
-                //# Signin Scene
-                case UIName.SignInUI:
-                    ConnectSignInUI(uiName);
-                    break;
-                case UIName.SetNicknameUI:
-                    ConnectNicknameUI(uiName);
-                    break;
+                //# signin scene
+                case UIName.SignInUI: ConnectSignInUI(uiName); break;
+                case UIName.SetNicknameUI: ConnectNicknameUI(uiName); break;
+                case UIName.DownloadUI: ConnectDownloadUI(uiName); break;
                 //# Main Lobby Scene
-                case UIName.MainLobbyUI:
-                    ConnectMainLobbyUI(uiName);
-                    break;
-                case UIName.UserInfoUI:
-                    ConnectUserInfoUI(uiName);
-                    break;
-                case UIName.DeleteAccountUI:
-                    ConnectDeleteAccountUI(uiName);
-                    break;
-                case UIName.EditUsernameUI:
-                    ConnectEditUsernameUI(uiName);
-                    break;
-                case UIName.ChangeIconUI:
-                    ConnectChangeIconUI(uiName);
-                    break;
+                case UIName.MainLobbyUI: ConnectMainLobbyUI(uiName); break;
+                case UIName.UserInfoUI: ConnectUserInfoUI(uiName); break;
+                case UIName.DeleteAccountUI: ConnectDeleteAccountUI(uiName); break;
+                case UIName.EditUsernameUI: ConnectEditUsernameUI(uiName); break;
+                case UIName.ChangeIconUI: ConnectChangeIconUI(uiName); break;
             }
         }
 
@@ -86,27 +73,16 @@ namespace SDW
 
             switch (uiName)
             {
-                case UIName.SignInUI:
-                    DisconnectSignInUI(uiName);
-                    break;
-                case UIName.SetNicknameUI:
-                    DisconnectNicknameUI(uiName);
-                    break;
-                case UIName.MainLobbyUI:
-                    DisconnectMainLobbyUI(uiName);
-                    break;
-                case UIName.UserInfoUI:
-                    DisconnectUserInfoUI(uiName);
-                    break;
-                case UIName.DeleteAccountUI:
-                    DisconnectDeleteAccountUI(uiName);
-                    break;
-                case UIName.EditUsernameUI:
-                    DisconnectEdiUsernameUI(uiName);
-                    break;
-                case UIName.ChangeIconUI:
-                    DisconnectChangeIconUI(uiName);
-                    break;
+                //# signin scene
+                case UIName.SignInUI: DisconnectSignInUI(uiName); break;
+                case UIName.SetNicknameUI: DisconnectNicknameUI(uiName); break;
+                case UIName.DownloadUI: DisconnectDownloadUI(uiName); break;
+                //# Main Lobby Scene
+                case UIName.MainLobbyUI: DisconnectMainLobbyUI(uiName); break;
+                case UIName.UserInfoUI: DisconnectUserInfoUI(uiName); break;
+                case UIName.DeleteAccountUI: DisconnectDeleteAccountUI(uiName); break;
+                case UIName.EditUsernameUI: DisconnectEdiUsernameUI(uiName); break;
+                case UIName.ChangeIconUI: DisconnectChangeIconUI(uiName); break;
             }
         }
 
@@ -144,6 +120,17 @@ namespace SDW
             if (_firebase != null)
             {
                 setNicknameUI.OnNicknameChange += _firebase.SetNickname;
+            }
+        }
+
+        private void ConnectDownloadUI(UIName uiName)
+        {
+            var downloadUI = _uiDic[uiName] as DownloadUI;
+            downloadUI.OnUICloseRequested += ClosePanel;
+
+            if (_firebase != null)
+            {
+                _firebase.OnCheckUpdate += downloadUI.OnCheckUpdate;
             }
         }
 
@@ -220,6 +207,17 @@ namespace SDW
 
             if (_firebase != null)
                 setNicknameUI.OnNicknameChange -= _firebase.SetNickname;
+        }
+
+        private void DisconnectDownloadUI(UIName uiName)
+        {
+            var downloadUI = _uiDic[uiName] as DownloadUI;
+            downloadUI.OnUICloseRequested -= ClosePanel;
+
+            if (_firebase != null)
+            {
+                _firebase.OnCheckUpdate -= downloadUI.OnCheckUpdate;
+            }
         }
 
         private void DisconnectMainLobbyUI(UIName uiName)
