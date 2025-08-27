@@ -10,11 +10,11 @@ public class MonsterController : UnitBaseData
     [SerializeField] Slider _monsterHp;
 
     [Header("Attack Unit List")]
-    public List<MyCharacterController> _attackTargets = new();    // 공격 사거리에 들어온 캐릭터 데이터
-    public MyCharacterController _attackTarget;    // 현재 공격 대상
+    public List<CharacterController> _attackTargets = new();    // 공격 사거리에 들어온 캐릭터 데이터
+    public CharacterController _attackTarget;    // 현재 공격 대상
 
     [Header("Research Unit List")]
-    public MyCharacterController _researchTarget;    // 현재 탬색 대상
+    public CharacterController _researchTarget;    // 현재 탬색 대상
 
     public bool _isDetect;
     float _time;

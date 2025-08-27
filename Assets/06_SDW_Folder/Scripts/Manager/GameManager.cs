@@ -16,12 +16,6 @@ namespace SDW
         private MySceneManager _scene;
         public MySceneManager Scene => _scene;
 
-        private TimeManager _time;
-        public TimeManager Time => _time;
-
-        private DailyQuestManager _dailyQuest;
-        public DailyQuestManager DailyQuest => _dailyQuest;
-
         private void Awake()
         {
             if (_instance == null)
@@ -35,8 +29,6 @@ namespace SDW
             _firebase = GetComponent<FirebaseManager>();
             _ui = GetComponent<UIManager>();
             _scene = GetComponent<MySceneManager>();
-            _time = GetComponent<TimeManager>();
-            _dailyQuest = GetComponent<DailyQuestManager>();
         }
 
         private void Start()
