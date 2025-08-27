@@ -2,37 +2,34 @@ using System.Collections;
 using UnityEngine;
 using System;
 
-namespace KSH
-{
-    public class TimeManager : SingletonManager<TimeManager>
+// public class TimeManager : SingletonManager<TimeManager>
+public class TimeManager : MonoBehaviour
 {
     private DateTime nextDailyResetTime; //일일 리셋 시간
     private const string NextDailyResetKey = "NextDailyReset";
-    
+
     public event Action OnDailyReset;
-    
-    protected override void Awake()
+
+    private void Awake()
     {
-        base.Awake();
         LoadNextTimeReset(); // 실제 게임용
         StartCoroutine(DailyReset());
     }
-    
+
     private void ScheduleNextDayReset() //다음 리셋 시간 계산
     {
-        TimeZoneInfo koreaTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Korea Standard Time");
-        DateTime nowUtc = DateTime.UtcNow;
-        DateTime nowKst = TimeZoneInfo.ConvertTimeFromUtc(nowUtc, koreaTimeZone); //한국 시간으로 변환
-        
+        var koreaTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Korea Standard Time");
+        var nowUtc = DateTime.UtcNow;
+        var nowKst = TimeZoneInfo.ConvertTimeFromUtc(nowUtc, koreaTimeZone); //한국 시간으로 변환
+
         var todayFive = new DateTime(nowKst.Year, nowKst.Month, nowKst.Day, 5, 0, 0);
-        nextDailyResetTime = nowKst < todayFive ? todayFive : todayFive.AddDays(1);   
-        
+        nextDailyResetTime = nowKst < todayFive ? todayFive : todayFive.AddDays(1);
+
         //PlayerPrefs에 저장하여 게임을 껐다켜도 유지하게 함
         PlayerPrefs.SetString("NextDailyReset", nextDailyResetTime.ToBinary().ToString());
         PlayerPrefs.Save();
-        
     }
-    
+
     private void LoadNextTimeReset() //리셋 시간 불러오기
     {
         // PlayerPrefs에 키가 저장 되어있고 그 값이 long으로 변환이 가능하다면
@@ -50,11 +47,11 @@ namespace KSH
 
     private IEnumerator DailyReset()
     {
-        TimeZoneInfo koreaTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Korea Standard Time");
+        var koreaTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Korea Standard Time");
 
         while (true)
         {
-            DateTime nowKst = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, koreaTimeZone);
+            var nowKst = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, koreaTimeZone);
 
             if (nowKst >= nextDailyResetTime)
             {
@@ -66,5 +63,4 @@ namespace KSH
             yield return new WaitForSeconds(1f);
         }
     }
-}
 }

@@ -24,14 +24,14 @@ public class MonsterController : UnitBaseData
     protected override void Update()
     {
         base.Update();
-        
+
         // 보스몬스터만 사용
         if (_isDetect && gameObject.layer == LayerMask.NameToLayer("Boss"))
         {
             _time += Time.deltaTime;
 
             // 스킬 쿨타임이 지나면
-            if(_time >= _monsterData._useSkillTime)
+            if(_time >= (_monsterData._useSkillTime / _gameSpeed))
             {
                 if (_isFirst)
                 {
@@ -58,7 +58,7 @@ public class MonsterController : UnitBaseData
         _time = 0f;
         _isFirst = false;
 
-        if(_monsterData._monsterRating == MonsterRating.Common || _monsterData._monsterRating == MonsterRating.Elite)
+        if (_monsterData._monsterRating == MonsterRating.Common || _monsterData._monsterRating == MonsterRating.Elite)
         {
             // 체력 게이지 최소, 최대값 초기화
             if (_monsterHp) { _monsterHp.minValue = 0; _monsterHp.maxValue = 1; }
@@ -82,7 +82,7 @@ public class MonsterController : UnitBaseData
             if (_researchTarget == null)
             {
                 // 왼쪽으로 이동
-                transform.Translate(_moveDir * _monsterData._moveSpeed * Time.deltaTime);
+                transform.Translate(_moveDir * _monsterData._moveSpeed * _gameSpeed * Time.deltaTime);
             }
             else    // 탐색 대상이 있으면
             {
@@ -97,7 +97,7 @@ public class MonsterController : UnitBaseData
                 {
                     base._isAttack = false;
                     // 탐색 대상으로 이동
-                    transform.position = Vector3.MoveTowards(transform.position, _researchTarget.transform.position, _monsterData._moveSpeed * Time.deltaTime);
+                    transform.position = Vector3.MoveTowards(transform.position, _researchTarget.transform.position, _monsterData._moveSpeed * _gameSpeed * Time.deltaTime);
                 }
             }
         }
@@ -140,7 +140,7 @@ public class MonsterController : UnitBaseData
                 base._isAttack = true;
 
                 // 공격 쿨타임 초기화
-                base._attackCoolTimer = _monsterData._attackSpeed;
+                base._attackCoolTimer = _monsterData._attackSpeed / _gameSpeed;
             }
         }
     }
