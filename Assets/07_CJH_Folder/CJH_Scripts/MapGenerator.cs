@@ -66,7 +66,6 @@ public class MapGenerator : MonoBehaviour
         return grid;
     }
 
-    // 나머지 함수들은 이전 답변과 동일하게 유지...
     private void ActivateNodesFromPrefab(IEnumerable<MapNodeIdentifier> identifiers)
     {
         int maxFloorIndex = identifiers.Max(id => id.floorIndex);
@@ -108,11 +107,11 @@ public class MapGenerator : MonoBehaviour
 
     private void AssignNodeTypesToPaths(Node start, Node end)
     {
-        foreach (var node in _map[start.point.x + 1].Where(n => n.nodeType == NodeType.Event))
-            node.nodeType = NodeType.Battle;
-
-        foreach (var node in _map[4].Where(n => n.nodeType == NodeType.Event))
+        foreach (var node in _map[start.point.x +1].Where(n => n.nodeType == NodeType.Battle))
             node.nodeType = NodeType.Event;
+        
+        foreach (var node in _map[4].Where(n => n.nodeType == NodeType.Event))
+            node.nodeType = NodeType.Battle;
 
         var floor2Nodes = _map[2].Where(n => n.nodeType == NodeType.Event).ToList();
         foreach (var node2 in floor2Nodes)
@@ -133,7 +132,7 @@ public class MapGenerator : MonoBehaviour
         var eventNodes = _map.SelectMany(floor => floor).Where(node => node.nodeType == NodeType.Event);
         foreach (var eventNode in eventNodes)
         {
-            int randomIndex = Random.Range(1, System.Enum.GetNames(typeof(EventType)).Length);
+            int randomIndex = Random.Range(1, System.Enum.GetNames(typeof(EventTypeKC)).Length);
             eventNode.EventTypeKC = (EventTypeKC)randomIndex;
         }
     }

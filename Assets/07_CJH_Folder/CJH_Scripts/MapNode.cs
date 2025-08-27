@@ -1,5 +1,6 @@
 using System.Linq;
 using UnityEngine;
+using System.Collections.Generic;
 
 public class MapNode : MonoBehaviour
 {
@@ -31,11 +32,11 @@ public class MapNode : MonoBehaviour
         {
             Reveal();
         }
-        // 그 외(이벤트 노드)는 미스터리 상태로 시작
+        // 이벤트 노드는 미스터리 상태로 시작
         else
         {
-            // 미스테리 타입을 가진 NodeTemplate을 찾아서 스프라이트를 적용
-            ApplySprite(NodeType.Mystery);
+            //NodeTemplate을 찾아서 스프라이트를 적용
+            ApplyMysterySprite();
         }
     }
 
@@ -45,9 +46,7 @@ public class MapNode : MonoBehaviour
         if (isRevealed) return;
         isRevealed = true;
 
-        // 이벤트 노드의 경우, 이제서야 실제 이벤트 타입(긍정/부정/중립)이 결정됩니다.
-        // 현재는 이벤트 타입을 별도로 구분하지 않으므로, 그냥 Event 타입 스프라이트를 적용합니다.
-        // 만약 긍정/부정/중립 아이콘이 다르다면 이 부분을 확장해야 합니다.
+        // 이벤트 노드의 경우, 이벤트 타입(긍정/부정/중립)이 결정됩니다..
         ApplySprite(nodeData.nodeType);
     }
 
@@ -56,26 +55,76 @@ public class MapNode : MonoBehaviour
     {
         if (_mapConfig == null || _mapConfig.NodeTemplates == null) return;
 
-        // MapConfig에 있는 NodeTemplates 리스트에서 타입이 일치하는 첫 번째 템플릿을 찾습니다.
         NodeTemplate template = _mapConfig.NodeTemplates.FirstOrDefault(t => t.nodeType == type);
 
-        if (template != null && template.sprite != null)
+        if (template == null)
         {
-            _spriteRenderer.sprite = template.sprite;
-        }
-        else
-        {
-            Debug.LogWarning($"{type} 타입에 해당하는 NodeTemplate 또는 스프라이트가 MapConfig에 없습니다!");
+            Debug.LogWarning($"{type} 타입에 해당하는 NodeTemplate이 MapConfig에 없습니다!");
+            return;
         }
 
-        // 시작/보스 노드의 경우 특별히 크기를 키워줌
+        // 이벤트 타입일 경우, 세부 타입에 따라 랜덤 스프라이트를 선택
+        if (type == NodeType.Event)
+        {
+            List<Sprite> targetList = null;
+            switch (nodeData.EventTypeKC)
+            {
+                case EventTypeKC.Positive:
+                    targetList = template.positiveEventSprites;
+                    break;
+                case EventTypeKC.Negative:
+                    targetList = template.negativeEventSprites;
+                    break;
+                case EventTypeKC.Neutral:
+                    targetList = template.neutralEventSprites;
+                    break;
+            }
+
+            if (targetList != null && targetList.Count > 0)
+            {
+                // 리스트에서 랜덤으로 스프라이트 하나를 선택하여 적용
+                _spriteRenderer.sprite = targetList[Random.Range(0, targetList.Count)];
+            }
+            else
+            {
+                Debug.LogWarning($"{nodeData.EventTypeKC} 이벤트에 해당하는 스프라이트가 EventNodeTemplate에 등록되지 않았습니다.");
+            }
+        }
+        else // 이벤트가 아닌 다른 모든 노드 타입의 경우
+        {
+            if (template.sprite != null)
+            {
+                _spriteRenderer.sprite = template.sprite;
+            }
+            else
+            {
+                Debug.LogWarning($"{type} 타입의 NodeTemplate에 기본 스프라이트가 없습니다!");
+            }
+        }
+
+        // 크기 조절 로직
         if (type == NodeType.Start || type == NodeType.Boss)
         {
             transform.localScale = new Vector3(1.5f, 1.5f, 1f);
         }
         else
         {
-            transform.localScale = Vector3.one; // 그 외 노드는 기본 크기
+            transform.localScale = Vector3.one;
         }
+    }
+
+    private void ApplyMysterySprite()
+    {
+        if (_mapConfig == null || _mapConfig.NodeTemplates == null) return;
+
+        NodeTemplate template = _mapConfig.NodeTemplates.FirstOrDefault(t => t.nodeType == NodeType.Event);
+        if (template == null || template.sprite == null)
+        {
+            Debug.LogWarning("이벤트용 미스터리 스프라이트가 없습니다!");
+            return;
+        }
+
+        _spriteRenderer.sprite = template.sprite;
+        transform.localScale = Vector3.one;
     }
 }

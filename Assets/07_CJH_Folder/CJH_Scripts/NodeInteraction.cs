@@ -1,8 +1,8 @@
 using UnityEngine;
 using DG.Tweening;
+using UnityEngine.EventSystems; 
 
-
-public class NodeInteraction : MonoBehaviour
+public class NodeInteraction : MonoBehaviour, IPointerDownHandler // IPointerDownHandler 인터페이스를 구현
 {
     [Header("Animation Settings")]
     public float punchScale = 0.2f;
@@ -17,7 +17,9 @@ public class NodeInteraction : MonoBehaviour
         mapNode = GetComponent<MapNode>();
     }
 
-    private void OnMouseDown()
+    // OnPointerDown을 사용
+    // EventSystem이 Physics 2D Raycaster를 통해 호출해줍니다.
+    public void OnPointerDown(PointerEventData eventData)
     {
         if (mapNode == null)
         {
@@ -25,14 +27,13 @@ public class NodeInteraction : MonoBehaviour
             return;
         }
 
-        // 아직 공개되지 않은 노드는 클릭할 수 없도록 막습니다.
         if (!mapNode.isRevealed)
         {
             Debug.Log($"클릭 실패: {gameObject.name} 노드는 아직 공개되지 않았습니다 (isRevealed: false).");
             return;
         }
 
-        Debug.Log(gameObject.name + " 노드가 클릭되었습니다!");
+        Debug.Log(gameObject.name + " 노드가 클릭되었습니다! DoTween 애니메이션을 실행합니다.");
 
         transform.DOPunchScale(
             new Vector3(punchScale, punchScale, 0),
@@ -41,7 +42,6 @@ public class NodeInteraction : MonoBehaviour
             elasticity
         );
 
-        // MapView가 null이 아닐 때만 SelectNode 함수를 호출하도록 안전장치 추가
         if (MapView.Instance != null)
         {
             MapView.Instance.SelectNode(mapNode);

@@ -60,10 +60,12 @@ public class MapView : MonoBehaviour
             {
                 mapNode.Setup(dataNode, mapConfig);
                 mapNode.gameObject.SetActive(true);
-            }
-            else
-            {
-                Debug.LogError($"[MapView] 프리팹에서 좌표({visualPoint.x}, {visualPoint.y})에 해당하는 MapNode를 찾을 수 없습니다! MapData 좌표는 ({dataNode.point.x}, {dataNode.point.y}) 였습니다.");
+
+                // 타입이 Battle이 되었을 경우 다시 Sprite 적용
+                if (dataNode.nodeType == NodeType.Battle || dataNode.nodeType == NodeType.Start || dataNode.nodeType == NodeType.Boss)
+                {
+                    mapNode.Reveal(); 
+                }
             }
         }
 
