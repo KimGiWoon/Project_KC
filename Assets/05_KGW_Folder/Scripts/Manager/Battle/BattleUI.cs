@@ -16,7 +16,6 @@ public class BattleUI : BaseUI
     [SerializeField] public CharacterInfoSlotUI[] _infoSlot = new CharacterInfoSlotUI[3];
 
     [Header("Panel UI Reference")]
-    [SerializeField] public GameObject _menuUI;
     [SerializeField] public GameObject _clearStageUI;
     [SerializeField] public GameObject _noneRemoveADUI;
     [SerializeField] public GameObject _RemoveADUI;
@@ -95,6 +94,7 @@ public class BattleUI : BaseUI
     //# Panel Container가 열리지 않게 override
     public override void Open()
     {
+
     }
 
     // 게임 결과 확인
@@ -191,6 +191,7 @@ public class BattleUI : BaseUI
             StopTimeCoroutine();
 
             // 클리어 실패 UI 오픈
+            OnUIOpenRequested?.Invoke(UIName.DefeatChapterUI);
         }
     }
 
