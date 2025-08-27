@@ -30,17 +30,20 @@ public class BattleManager : MonoBehaviour
     public bool IsLocalBoss => _isLocalBoss;
     [SerializeField] public bool _isLastBoss;
     public bool IsLastBoss => _isLastBoss;
+    [SerializeField] public GameObject _wall;
+    public GameObject Wall => _wall;
 
     // 생성된 캐릭터 보관
-    private List<MyCharacterController> _characters = new List<MyCharacterController>();
-    private List<MonsterController> _monsters = new List<MonsterController>();
+    public List<MyCharacterController> _characters = new List<MyCharacterController>();
+    public List<MonsterController> _monsters = new List<MonsterController>();
 
-    private BattleUI battleUI;
+    public BattleUI _battleUI;
     private List<CharacterDataSO> _selectCharacters;
     public int _monsterCount;
     public int _characterCount;
     public bool _isClear;
     public bool _isGameOver;
+    public bool _canResurrection;
     public int _timer;
     public float _monsterTotalMaxHp;
     public float _monsterTotalCurrentHp;
@@ -58,7 +61,7 @@ public class BattleManager : MonoBehaviour
 
     private void Start()
     {
-        battleUI = FindObjectOfType<BattleUI>();
+        _battleUI = FindObjectOfType<BattleUI>();
 
         string stageName = GameManager.Instance.StageName;
         //todo datatable에서 stageName으로 일반 몬스터와 보스 몬스터 정보를 가져와야 함
@@ -94,13 +97,14 @@ public class BattleManager : MonoBehaviour
         _selectCharacters = CharacterSelectManager.Instance._characterSelectList;
         _isClear = false;
         _isGameOver = false;
+        _canResurrection = true;
         _timer = 100;
         _characters.Clear();
         _monsters.Clear();
     }
 
     // 캐릭터 스폰
-    private void CharacterSpawn()
+    public void CharacterSpawn()
     {
         // 스폰 포인트 리스트 전달
         var Points = new List<Transform>(_characterSpawnPoint);
@@ -127,8 +131,8 @@ public class BattleManager : MonoBehaviour
             _characters.Add(createCharacter);
 
             // 캐릭터 데이터 전달
-            battleUI._infoSlot[i].GetCharacterData(characterData);
-            battleUI._infoSlot[i].GetCharacterController(createCharacter);
+            _battleUI._infoSlot[i].GetCharacterData(characterData);
+            _battleUI._infoSlot[i].GetCharacterController(createCharacter);
         }
 
         // 생성된 캐릭터 수 저장

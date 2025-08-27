@@ -12702,6 +12702,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: 14
   _panelContainer: {fileID: 729937821}
+  _battleManager: {fileID: 4090196525921610994}
   _isOkayContainer: {fileID: 208632006}
   _confirmButton: {fileID: 117458768}
   _cancelButton: {fileID: 853711428}
@@ -15016,6 +15017,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: 13
   _panelContainer: {fileID: 1212797642}
+  _battleManager: {fileID: 4090196525921610994}
   _isOkayContainer: {fileID: 201538813}
   _confirmButton: {fileID: 1891986809}
   _cancelButton: {fileID: 412517678}
@@ -16252,7 +16254,6 @@ MonoBehaviour:
   Name: 10
   _panelContainer: {fileID: 1909562791}
   _battleManager: {fileID: 4090196525921610994}
-  _wall: {fileID: 936472022}
   _infoSlot:
   - {fileID: 8183469870045919501}
   - {fileID: 137982319}
@@ -16267,8 +16268,10 @@ MonoBehaviour:
   _stageInfo: {fileID: 1471559439}
   _totalHpText: {fileID: 1405889964}
   _totalMonsterHp: {fileID: 1306430481}
+  _count: 0
   _currentTotalHp: 0
   _TotalHp: 0
+  _isOnMenu: 0
 --- !u!114 &1800531510
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18868,6 +18871,10 @@ PrefabInstance:
       propertyPath: _slot
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 499883419036032184, guid: fa761daa402395443998ecabe6307359, type: 3}
+      propertyPath: _wall
+      value: 
+      objectReference: {fileID: 936472022}
     - target: {fileID: 499883419036032184, guid: fa761daa402395443998ecabe6307359, type: 3}
       propertyPath: _timer
       value: 5

@@ -7,6 +7,9 @@ using UnityEngine.UI;
 
 public class NonRemoveADUI : BaseUI
 {
+    [Header("Battle Manager Reference")]
+    [SerializeField] private BattleManager _battleManager;
+
     [Header("UI Components")]
     [SerializeField] private GameObject _isOkayContainer;
     [SerializeField] private Button _confirmButton;
@@ -56,7 +59,7 @@ public class NonRemoveADUI : BaseUI
     // 노 버튼 클릭
     private void NoButtonClick()
     {
-        //todo 로비 확인 UI 오픈
+        // TODO : 로비 확인 UI 오픈
         // OnUIOpenRequested?.Invoke(UIName.LobbyConfirmUI);
     }
 
@@ -68,6 +71,22 @@ public class NonRemoveADUI : BaseUI
 
         OnUICloseRequested?.Invoke(UIName.NonRemoveADUI);
         _popupBackground.SetActive(false);
+
+        // 캐릭터 부활
+        CharacterResurrection();
+    }
+
+    // 캐릭터 부활
+    private void CharacterResurrection()
+    {
+        // 게임 진행 상황 초기화
+        _battleManager._isClear = false;
+        _battleManager._isGameOver = false;
+        _battleManager._characters.Clear();
+        _battleManager.Wall.gameObject.SetActive(false);
+        _battleManager._battleUI._count = 3f;
+
+        _battleManager.CharacterSpawn();
     }
 
     private void ConfirmButtonClicked()

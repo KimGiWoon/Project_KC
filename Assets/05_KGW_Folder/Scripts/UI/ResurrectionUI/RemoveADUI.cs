@@ -7,6 +7,9 @@ using UnityEngine.UI;
 
 public class RemoveADUI : BaseUI
 {
+    [Header("Battle Manager Reference")]
+    [SerializeField] private BattleManager _battleManager;
+
     [Header("UI Components")]
     [SerializeField] private GameObject _isOkayContainer;
     [SerializeField] private Button _confirmButton;
@@ -50,7 +53,22 @@ public class RemoveADUI : BaseUI
         OnUICloseRequested?.Invoke(UIName.NonRemoveADUI);
         _popupBackground.SetActive(false);
 
-        // TODO : 캐릭터의 부활관련 코드는 배틀매니저의 스폰 메서드로 사용하여 선택한 캐릭터를 체력 100%으로 소환
+        // 캐릭터 부활
+        CharacterResurrection();
+
+    }
+
+    // 캐릭터 부활
+    private void CharacterResurrection()
+    {
+        // 게임 진행 상황 초기화
+        _battleManager._isClear = false;
+        _battleManager._isGameOver = false;
+        _battleManager._characters.Clear();
+        _battleManager.Wall.gameObject.SetActive(false);
+        _battleManager._battleUI._count = 3f;
+
+        _battleManager.CharacterSpawn();
     }
 
     // 노 버튼 클릭

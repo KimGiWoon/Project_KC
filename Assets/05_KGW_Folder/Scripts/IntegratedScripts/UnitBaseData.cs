@@ -18,14 +18,14 @@ public abstract class UnitBaseData : MonoBehaviour
     protected Vector3 _moveDir; // 유닛의 이동 방향
     private Coroutine _knockbackRoutine;
     protected BattleManager _battleManager;
-    protected BattleUI BattleUI;
+    protected BattleUI _battleUI;
     protected CharacterDataSO _chaData;
     protected MonsterDataSO _monData;
 
     private void Awake()
     {
         _battleManager = FindObjectOfType<BattleManager>();
-        BattleUI = FindObjectOfType<BattleUI>();
+        _battleUI = FindObjectOfType<BattleUI>();
     }
 
     // 유닛 생성시 초기화
@@ -39,6 +39,8 @@ public abstract class UnitBaseData : MonoBehaviour
     {
         // 게임이 종료되면 움직이지 않는다.
         if (_battleManager._isGameOver) return;
+        // 메뉴가 열리면 움직이지 않는다.
+        if (_battleUI._isOnMenu) return;
 
         Movement();
         Attack();
