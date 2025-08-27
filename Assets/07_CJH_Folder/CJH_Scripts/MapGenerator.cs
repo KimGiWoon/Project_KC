@@ -7,15 +7,13 @@ public class MapGenerator : MonoBehaviour
     [Header("프리팹 설정")]
     public GameObject mapTemplatePrefab;
 
-    // [수정!] MapView가 참조할 수 있도록 public으로 변경하고,
-    // MapSelectionInitializer가 시작할 때 여기에 MapConfig 에셋을 연결해줄 것입니다.
+
     public MapConfig config;
 
     private int _floors;
     private int _mapWidth;
     private List<List<Node>> _map;
 
-    // [수정!] 파라미터 이름을 Inspector에 있는 변수와 통일합니다.
     public MapData GenerateMap(MapConfig configToGenerate)
     {
         // 전달받은 config를 이 컴포넌트의 config 변수에 저장합니다.
@@ -71,21 +69,19 @@ public class MapGenerator : MonoBehaviour
         int maxFloorIndex = identifiers.Max(id => id.floorIndex);
         foreach (var id in identifiers)
         {
-            int logicalFloor = maxFloorIndex - id.floorIndex;
-            Node node = _map[logicalFloor][id.nodeIndexInFloor];
+            Node node = _map[id.floorIndex][id.nodeIndexInFloor];
 
-            if (id.floorIndex == 0) node.nodeType = NodeType.Boss;
-            else if (id.floorIndex == maxFloorIndex) node.nodeType = NodeType.Start;
+            if (id.floorIndex == 0) node.nodeType = NodeType.Start;
+            else if (id.floorIndex == maxFloorIndex) node.nodeType = NodeType.Boss;
             else node.nodeType = NodeType.Event;
         }
     }
 
     private void BuildConnectionsFromPrefab(MapNodeIdentifier[] identifiers)
     {
-        int maxFloorIndex = identifiers.Max(id => id.floorIndex);
         var identifierToNodeMap = identifiers.ToDictionary(
             id => id,
-            id => _map[maxFloorIndex - id.floorIndex][id.nodeIndexInFloor]
+            id => _map[id.floorIndex][id.nodeIndexInFloor]
         );
 
         foreach (var parentId in identifiers)
@@ -107,11 +103,11 @@ public class MapGenerator : MonoBehaviour
 
     private void AssignNodeTypesToPaths(Node start, Node end)
     {
-        foreach (var node in _map[start.point.x +1].Where(n => n.nodeType == NodeType.Battle))
-            node.nodeType = NodeType.Event;
-        
-        foreach (var node in _map[4].Where(n => n.nodeType == NodeType.Event))
+        foreach (var node in _map[start.point.x +1].Where(n => n.nodeType == NodeType.Event))
             node.nodeType = NodeType.Battle;
+        
+        foreach (var node in _map[4].Where(n => n.nodeType == NodeType.Battle))
+            node.nodeType = NodeType.Event;
 
         var floor2Nodes = _map[2].Where(n => n.nodeType == NodeType.Event).ToList();
         foreach (var node2 in floor2Nodes)

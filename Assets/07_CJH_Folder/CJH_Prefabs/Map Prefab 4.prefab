@@ -892,7 +892,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   floorIndex: 1
   nodeIndexInFloor: 2
-  connections: []
+  connections:
+  - {fileID: 5926732412090255939}
 --- !u!58 &4393671211235240521
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -1550,7 +1551,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   floorIndex: 1
   nodeIndexInFloor: 0
-  connections: []
+  connections:
+  - {fileID: 4611928887123723422}
 --- !u!58 &6405636527141959726
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -3007,7 +3009,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   floorIndex: 1
   nodeIndexInFloor: 1
-  connections: []
+  connections:
+  - {fileID: 5926732412090255939}
 --- !u!58 &1238792983970322318
 CircleCollider2D:
   m_ObjectHideFlags: 0

@@ -49,30 +49,17 @@ public class MapView : MonoBehaviour
             placeholder.gameObject.SetActive(false);
         }
 
-        int maxFloorIndex = map.Map.Count - 1;
 
         foreach (var dataNode in map.Nodes)
         {
-            int visualFloor = maxFloorIndex - dataNode.point.x;
-            var visualPoint = new Vector2Int(visualFloor, dataNode.point.y);
-
-            if (nodeObjects.TryGetValue(visualPoint, out MapNode mapNode))
+            if (nodeObjects.TryGetValue(dataNode.point, out MapNode mapNode))
             {
                 mapNode.Setup(dataNode, mapConfig);
                 mapNode.gameObject.SetActive(true);
-
-                // 타입이 Battle이 되었을 경우 다시 Sprite 적용
-                if (dataNode.nodeType == NodeType.Battle || dataNode.nodeType == NodeType.Start || dataNode.nodeType == NodeType.Boss)
-                {
-                    mapNode.Reveal(); 
-                }
             }
         }
 
-        int startVisualFloor = maxFloorIndex - map.StartNode.point.x;
-        var startVisualPoint = new Vector2Int(startVisualFloor, map.StartNode.point.y);
-
-        if (nodeObjects.TryGetValue(startVisualPoint, out MapNode startMapNode))
+        if (nodeObjects.TryGetValue(map.StartNode.point, out MapNode startMapNode))
         {
             SelectNode(startMapNode);
         }
@@ -94,12 +81,7 @@ public class MapView : MonoBehaviour
 
         foreach (var nextNodeData in selectedNode.nodeData.nextNodes)
         {
-            // 다음 노드의 논리적 좌표를 프리팹의 시각적 좌표로 변환합니다.
-            int visualFloor = maxFloorIndex - nextNodeData.point.x;
-            var visualPoint = new Vector2Int(visualFloor, nextNodeData.point.y);
-
-            // 변환된 시각적 좌표로 Dictionary에서 다음 노드를 찾습니다.
-            if (nodeObjects.TryGetValue(visualPoint, out MapNode nextMapNode))
+            if (nodeObjects.TryGetValue(nextNodeData.point, out MapNode nextMapNode))
             {
                 nextMapNode.Reveal();
             }
