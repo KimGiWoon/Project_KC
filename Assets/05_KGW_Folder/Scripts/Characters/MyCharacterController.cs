@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CharacterController : UnitBaseData
+public class MyCharacterController : UnitBaseData
 {
     [Header("Character Data Setting")]
     [SerializeField] public CharacterDataSO _characterData; // 캐릭터 데이터
