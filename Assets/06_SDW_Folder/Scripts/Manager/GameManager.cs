@@ -33,6 +33,11 @@ namespace SDW
 
         private void Start()
         {
+#if PLATFORM_ANDROID
+            Application.targetFrameRate = 60;
+#else
+            QualitySettings.vSyncCount = 1;
+#endif
             FixPortrait();
         }
 

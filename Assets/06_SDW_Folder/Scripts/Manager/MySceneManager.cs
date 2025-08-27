@@ -13,6 +13,7 @@ namespace SDW
         public bool IsLoading => _isLoading;
         private SceneName _prevSceneName = SceneName.SDW_SignInScene;
         private int _prevSceneIndex = 0;
+        private UIName _targetUI;
 
         private WaitForSeconds _waitForSeconds = new WaitForSeconds(0.05f);
 
@@ -28,8 +29,10 @@ namespace SDW
         /// 비동기로 지정된 Scene을 로드하는 메서드
         /// </summary>
         /// <param name="sceneName">로드할 Scene의 이름을 나타내는 <see cref="SceneName"/> 열거형 값</param>
-        public void LoadSceneAsync(SceneName sceneName)
+        public void LoadSceneAsync(SceneName sceneName, UIName targetUI = UIName.None)
         {
+            _targetUI = targetUI;
+
             if (!_isLoading)
             {
                 _prevSceneName = sceneName;
@@ -176,7 +179,7 @@ namespace SDW
         {
             yield return new WaitForSeconds(0.1f);
 
-            _sceneLoadUI.CompleteSceneLoading();
+            _sceneLoadUI.CompleteSceneLoading(_targetUI);
 
             _isLoading = false;
             _levelSceneOperation = null;

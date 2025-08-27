@@ -5,26 +5,27 @@ using UnityEngine;
 public abstract class UnitBaseData : MonoBehaviour
 {
     [Header("Knockback Setting")]
-    [SerializeField] float _knockbackForce = 5f;    // 넉백 파워
-    [SerializeField] float _knockbackDuraction = 0.2f;   // 넉백 지속 시간
+    [SerializeField]
+    private float _knockbackForce = 5f; // 넉백 파워
+    [SerializeField] private float _knockbackDuraction = 0.2f; // 넉백 지속 시간
 
-    public float _currentHp;     // 유닛의 현재 체력
-    public float _currentMp;     // 유닛의 현재 마나
-    public bool _isAlive;        // 유닛의 생존 여부
-    public bool _isAttack;       // 유닛의 공격 여부
-    public int _gameSpeed;       // 게임 속도
-    protected float _attackCoolTimer;     // 공격 쿨타임
-    protected Vector3 _moveDir;     // 유닛의 이동 방향
-    Coroutine _knockbackRoutine;
+    public float _currentHp; // 유닛의 현재 체력
+    public float _currentMp; // 유닛의 현재 마나
+    public bool _isAlive; // 유닛의 생존 여부
+    public bool _isAttack; // 유닛의 공격 여부
+    public int _gameSpeed; // 게임 속도
+    protected float _attackCoolTimer; // 공격 쿨타임
+    protected Vector3 _moveDir; // 유닛의 이동 방향
+    private Coroutine _knockbackRoutine;
     protected BattleManager _battleManager;
-    protected BattleUIManager _battleUIManager;
+    protected BattleUI BattleUI;
     protected CharacterDataSO _chaData;
     protected MonsterDataSO _monData;
 
     private void Awake()
     {
         _battleManager = FindObjectOfType<BattleManager>();
-        _battleUIManager = FindObjectOfType<BattleUIManager>();
+        BattleUI = FindObjectOfType<BattleUI>();
     }
 
     // 유닛 생성시 초기화
@@ -68,10 +69,10 @@ public abstract class UnitBaseData : MonoBehaviour
         }
 
         // 보스가 아니면 넉백 가능
-        if(gameObject.layer != LayerMask.NameToLayer("Boss"))
+        if (gameObject.layer != LayerMask.NameToLayer("Boss"))
         {
             // 50%확률로 넉백 
-            if (UnityEngine.Random.value <= 0.5f)
+            if (Random.value <= 0.5f)
             {
                 // 넉백 코루틴 null 체크
                 if (_knockbackRoutine != null)
@@ -99,7 +100,7 @@ public abstract class UnitBaseData : MonoBehaviour
     private IEnumerator KnockBackCoroutine()
     {
         // 이동 방향의 반대방향으로 넉백 방향 설정
-        Vector3 knockbackDir = -_moveDir.normalized;
+        var knockbackDir = -_moveDir.normalized;
 
         float time = 0f;
 
