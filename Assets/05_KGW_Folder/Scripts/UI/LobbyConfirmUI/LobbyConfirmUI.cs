@@ -1,10 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
+using SDW;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class LobbyConfirmUI : MonoBehaviour
+public class LobbyConfirmUI : BaseUI
 {
     [Header("Battle Manager Reference")]
     [SerializeField] BattleUI _battleUIManager;
@@ -14,11 +15,8 @@ public class LobbyConfirmUI : MonoBehaviour
 
     private void Awake()
     {
-        //_yesButton = _panelContainer.GetComponentInChildren<Button>();
-        //_noButton = _panelContainer.GetComponentInChildren<Button>();
-
-        _yesButton = GetComponentInChildren<Button>();
-        _noButton = GetComponentInChildren<Button>();
+        _yesButton = _panelContainer.GetComponentInChildren<Button>();
+        _noButton = _panelContainer.GetComponentInChildren<Button>();
 
         // 버튼 등록
         _yesButton.onClick.AddListener(YesButtonClick);
@@ -29,16 +27,15 @@ public class LobbyConfirmUI : MonoBehaviour
     private void YesButtonClick()
     {
         // TODO : 김기운 : 추후에 마이씬 매니저 교체 예정
-        SceneManager.LoadScene("KGW_TestLobbyScene");
-
-        // 해당 UI 비활성화
-        //_panelContainer.SetActive(false);
-
-        _battleUIManager._menuUI.SetActive(false);
+        //GameManager.Instance.Scene.LoadSceneAsync(SceneName.SDW_LobbyScene, UIName.KGW_StageSelectUI);
+        //OnUICloseRequested?.Invoke(UIName.LobbyConfirmUI);
+        //OnUICloseRequested?.Invoke(UIName.MenuUI);
     }
 
     // 노 버튼 클릭
     private void NoButtonClick()
     {
+        // TODO : 김기운 : 추후에 UI매니저에서 관리
+        //OnUICloseRequested?.Invoke(UIName.LobbyConfirmUI);
     }
 }

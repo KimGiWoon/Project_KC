@@ -68,6 +68,8 @@ public class MyCharacterController : UnitBaseData
             // 탐색 대상과의 거리가 공격 사거리 안에 들어올 때까지 접근
             if (moveDistance > _characterData._attackRange)
             {
+                _isAttack = false;
+
                 // 탐색 대상으로 이동
                 transform.position = Vector3.MoveTowards(transform.position, _researchTarget.transform.position,
                     _characterData._moveSpeed * _gameSpeed * Time.deltaTime);
@@ -84,8 +86,6 @@ public class MyCharacterController : UnitBaseData
         // 공격 전 대상 확인
         if (!_attackTarget._isAlive)
         {
-            _isAttack = false;
-
             // 공격 대상에서 삭제
             _attackTargets.Remove(_attackTarget);
             // 공격 타겟 갱신
@@ -95,11 +95,13 @@ public class MyCharacterController : UnitBaseData
         // 공격 쿨타임 계산
         _attackCoolTimer -= Time.deltaTime;
 
+        // 공격 여유 사거리
+        float attackSpareDistance = _characterData._attackRange * (_characterData._attackRange - 0.2f);
         // 공격 타겟과 거리 비교
         float attackDistance = Vector3.Distance(transform.position, _attackTarget.transform.position);
 
         // 공격 대상의 거리가 캐릭터의 공격 사거리에 들어오면 타겟 공격
-        if (attackDistance <= _characterData._attackRange)
+        if (attackDistance <= attackSpareDistance)
         {
             if (_attackCoolTimer <= 0f)
             {
