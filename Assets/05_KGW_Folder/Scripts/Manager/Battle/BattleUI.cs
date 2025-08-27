@@ -55,7 +55,7 @@ public class BattleUI : BaseUI
         _battleManager.OnTotalHpChange += MonsterTotalHpChange;
     }
 
-    private void Start()
+    protected override void Start()
     {
         base.Start();
         _time = _battleManager._timer;
@@ -79,7 +79,7 @@ public class BattleUI : BaseUI
         _timerRoutine = StartCoroutine(TimerCoroutine());
     }
 
-    private void OnDestroy()
+    protected override void OnDestroy()
     {
         base.OnDestroy();
         // 게임 결과 확인 이벤트 구독 해제
@@ -88,6 +88,7 @@ public class BattleUI : BaseUI
         _battleManager.OnTotalHpChange -= MonsterTotalHpChange;
     }
 
+    //# Panel Container가 열리지 않게 override
     public override void Open()
     {
     }
