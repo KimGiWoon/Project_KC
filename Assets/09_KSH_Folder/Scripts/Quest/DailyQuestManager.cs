@@ -53,12 +53,17 @@ public class DailyQuestManager : MonoBehaviour
         {
             CompleteQuest(QuestType.GetArtifact, 5);
         }
+
+        if (Input.GetKeyDown(KeyCode.Alpha4))
+        {
+            CompleteQuest(QuestType.UseStemina, 100);
+        }
     }
 
     public void AddQuestUI(DailyQuestUI dailyQuestUI)
     {
         //퀘스트UI 이름에서 숫자만 뽑아서 순서대로 나열하여 저장
-        questUIList = dailyQuestUI.GetComponentsInChildren<QuestUI>().OrderBy(q => ExtractNumber(q.gameObject.name)).ToList();
+        questUIList = dailyQuestUI.GetComponentsInChildren<QuestUI>(true).OrderBy(q => ExtractNumber(q.gameObject.name)).ToList();
 
         for (int i = 0; i < dailyQuests.Count; i++) // dailyQuest의 크기만큼 반복
         {
@@ -67,7 +72,7 @@ public class DailyQuestManager : MonoBehaviour
         }
     }
 
-    public void ClearQuestUI() => questUIList.Clear();
+    private void ClearQuestUI() => questUIList?.Clear();
 
     public void InitQuest() //퀘스트 초기화
     {
@@ -77,6 +82,7 @@ public class DailyQuestManager : MonoBehaviour
             quest.currentProgress = 0;
         }
 
+        ClearQuestUI();
         _canReward = false;
         reward = false;
         Debug.Log("리셋");
