@@ -5,6 +5,9 @@ using UnityEngine.UI;
 
 public class MenuUI : BaseUI
 {
+    [Header("Battle UI Reference")]
+    [SerializeField] private BattleUI _battleUI;
+
     [Header("UI Container")]
     [SerializeField] private GameObject _isOkayContainer;
     [SerializeField] private Button _confirmButton;
@@ -92,6 +95,7 @@ public class MenuUI : BaseUI
         OnUICloseRequested?.Invoke(UIName.MenuUI);
         _popupBackground.SetActive(false);
 
+        _battleUI._isOnMenu = false;
         //todo 기획팀에 문의해야 함
         //todo UI가 닫혔을 때 게임이 다시 시작되도록
     }

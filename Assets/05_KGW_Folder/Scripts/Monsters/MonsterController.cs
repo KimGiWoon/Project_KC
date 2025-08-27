@@ -28,6 +28,12 @@ public class MonsterController : UnitBaseData
         // 보스몬스터만 사용
         if (_isDetect && gameObject.layer == LayerMask.NameToLayer("Boss"))
         {
+            // 게임이 종료되면 움직이지 않는다.
+            if (_battleManager._isGameOver) return;
+            // 메뉴가 열리면 움직이지 않는다.
+            if (_battleUI._isOnMenu) return;
+
+
             _time += Time.deltaTime;
 
             // 스킬 쿨타임이 지나면

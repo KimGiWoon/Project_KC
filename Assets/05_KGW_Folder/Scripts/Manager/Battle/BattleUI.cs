@@ -9,7 +9,6 @@ public class BattleUI : BaseUI
 {
     [Header("Battle Manager Reference")]
     [SerializeField] private BattleManager _battleManager;
-    [SerializeField] private GameObject _wall;
 
     [Header("Character UI Setting")]
     [SerializeField] public CharacterInfoSlotUI[] _infoSlot = new CharacterInfoSlotUI[3];
@@ -31,14 +30,16 @@ public class BattleUI : BaseUI
     private Coroutine _timerRoutine;
     public WaitForSeconds _playTime;
     private float _time;
-    private float _count;
+    public float _count;
     public float _currentTotalHp;
     public float _TotalHp;
+    public bool _isOnMenu;
 
     public Action<UIName> OnUIOpenRequested;
 
     private void Awake()
     {
+        _isOnMenu = false;
         _panelContainer.SetActive(false);
         _fastButtonX1.onClick.AddListener(X1FastButtonClick);
         _fastButtonX2.onClick.AddListener(X2FastButtonClick);
@@ -57,8 +58,8 @@ public class BattleUI : BaseUI
     {
         base.Start();
         _time = _battleManager._timer;
-        _count = 5f;
-        _wall.gameObject.SetActive(false);
+        _count = 3f;
+        _battleManager.Wall.gameObject.SetActive(false);
 
         if (CharacterSelectManager.Instance._isFastGame)
         {
@@ -163,6 +164,7 @@ public class BattleUI : BaseUI
     private void MenuButtonClick()
     {
         _panelContainer.SetActive(true);
+        _isOnMenu = true;
         OnUIOpenRequested?.Invoke(UIName.MenuUI);
     }
 
@@ -172,33 +174,42 @@ public class BattleUI : BaseUI
         // 타이머 UI 출력
         _timerText.text = _time.ToString();
 
-        // 게임 진행중이고 시간이 남아있으면 반복
-        while (!_battleManager._isGameOver && _time > 0)
+        // 시간이 남아있으면 반복
+        while (_time > 0)
         {
             yield return _playTime;
 
-            _time--;
-            _count--;
-
-            // 타이머 UI 출력
-            _timerText.text = _time.ToString();
-
-            if (_count <= 0f)
+            // 게임이 종료되거나 메뉴창이 오픈되면 타이머 정지
+            if (_battleManager._isGameOver || _isOnMenu)
             {
-                _wall.gameObject.SetActive(true);
+                // 부활을 하고 다시 죽으면 코루틴 정지
+                if (!_battleManager._canResurrection) StopTimeCoroutine();
             }
-        }
+            else
+            {
+                _time--;
+                _count--;
 
-        // 시간 초과하면 게임 패배
-        if (_time <= 0)
-        {
-            // 타이머 코루틴 정지
-            StopTimeCoroutine();
+                // 타이머 UI 출력
+                _timerText.text = _time.ToString();
 
-            _panelContainer.SetActive(true);
-            // 클리어 실패 UI 오픈
-            if (GameManager.Instance.BuyAdRemover) OnUIOpenRequested?.Invoke(UIName.RemoveADUI);
-            else OnUIOpenRequested?.Invoke(UIName.NonRemoveADUI);
+                if (_count <= 0f)
+                {
+                    _battleManager.Wall.gameObject.SetActive(true);
+                }
+
+                // 시간 초과하면 게임 패배
+                if (_time <= 0)
+                {
+                    // 타이머 코루틴 정지
+                    StopTimeCoroutine();
+
+                    _panelContainer.SetActive(true);
+                    // 클리어 실패 UI 오픈
+                    if (GameManager.Instance.BuyAdRemover) OnUIOpenRequested?.Invoke(UIName.RemoveADUI);
+                    else OnUIOpenRequested?.Invoke(UIName.NonRemoveADUI);
+                }
+            }
         }
     }
 

@@ -194,12 +194,12 @@ public class MyCharacterController : UnitBaseData
         while (!_isManaFull)
         {
             // 게임 배속 적용
-            yield return BattleUI._playTime;
+            yield return _battleUI._playTime;
 
             _currentMp += _manaChageValue;
 
-            // 게임이 종료되면 마나회복 중지
-            if (_battleManager._isGameOver)
+            // 게임이 종료되거나 메뉴창을 열면 마나회복 중지
+            if (_battleManager._isGameOver || _battleUI._isOnMenu)
             {
                 StopCoroutine(_manaRoutine);
             }
