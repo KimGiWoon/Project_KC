@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using SDW;
 using UnityEngine;
 using UnityEngine.UI;
@@ -74,8 +75,15 @@ public class MenuUI : BaseUI
             //# 패널 안에 터치가 있는지 확인
             if (!RectTransformUtility.RectangleContainsScreenPoint(_panelRect, touchPos))
             {
+                if (_isOkayContainer.activeSelf)
+                {
+                    _isOkayContainer.SetActive(false);
+                    return;
+                }
+
                 OnUICloseRequested?.Invoke(UIName.MenuUI);
                 _popupBackground.SetActive(false);
+                _battleUI._isOnMenu = false;
             }
         }
     }

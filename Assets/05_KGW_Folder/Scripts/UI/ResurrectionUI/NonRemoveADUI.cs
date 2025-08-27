@@ -60,7 +60,7 @@ public class NonRemoveADUI : BaseUI
     private void NoButtonClick()
     {
         // TODO : 로비 확인 UI 오픈
-        // OnUIOpenRequested?.Invoke(UIName.LobbyConfirmUI);
+        _isOkayContainer.SetActive(true);
     }
 
     // 광고 보기

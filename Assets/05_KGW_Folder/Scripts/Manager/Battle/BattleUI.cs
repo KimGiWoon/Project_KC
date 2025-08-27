@@ -180,11 +180,13 @@ public class BattleUI : BaseUI
             yield return _playTime;
 
             // 게임이 종료되거나 메뉴창이 오픈되면 타이머 정지
-            if (_battleManager._isGameOver || _isOnMenu)
+            if (_battleManager._isGameOver)
             {
                 // 부활을 하고 다시 죽으면 코루틴 정지
                 if (!_battleManager._canResurrection) StopTimeCoroutine();
             }
+            else if (_isOnMenu)
+                yield return null;
             else
             {
                 _time--;
