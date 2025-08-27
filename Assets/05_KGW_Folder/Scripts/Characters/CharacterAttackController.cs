@@ -3,7 +3,7 @@ using UnityEngine;
 public class CharacterAttackController : MonoBehaviour
 {
     [Header("Controller Reference")]
-    [SerializeField] CharacterController _controller;
+    [SerializeField] MyCharacterController _controller;
 
     // 몬스터와 보스 레이어
     int _monsterLayer;
