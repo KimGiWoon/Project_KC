@@ -15,7 +15,7 @@ public class CharacterInfoSlotUI : MonoBehaviour
     [SerializeField] RectTransform _CharacterSlot; // 움직일 캐릭터 슬롯
     [SerializeField] float _moveDistance = 40f;     // 움직일 거리
 
-    CharacterController _characterController;
+    MyCharacterController _characterController;
     Vector2 _basicPosition;
     bool _ready;
 
@@ -50,7 +50,7 @@ public class CharacterInfoSlotUI : MonoBehaviour
     }
 
     // 캐릭터 컨트롤러 가져오기
-    public void GetCharacterController(CharacterController chaData)
+    public void GetCharacterController(MyCharacterController chaData)
     {
         // 기존에 구독되어 있으면 해제
         if (_characterController != null)
