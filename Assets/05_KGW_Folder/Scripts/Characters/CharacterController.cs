@@ -97,7 +97,7 @@ public class CharacterController : UnitBaseData
         float attackDistance = Vector3.Distance(transform.position, _attackTarget.transform.position);
 
         // 공격 대상의 거리가 캐릭터의 공격 사거리에 들어오면 타겟 공격
-        if (attackDistance <= _characterData._attackRange)
+        if (attackDistance < _characterData._attackRange)
         {
             if (base._attackCoolTimer <= 0f)
             {
