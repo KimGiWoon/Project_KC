@@ -55,7 +55,6 @@ public class RemoveADUI : BaseUI
 
         // 캐릭터 부활
         CharacterResurrection();
-
     }
 
     // 캐릭터 부활
@@ -76,6 +75,8 @@ public class RemoveADUI : BaseUI
     {
         //todo 로비 확인 UI 오픈
         // OnUIOpenRequested?.Invoke(UIName.LobbyConfirmUI);
+
+        _isOkayContainer.SetActive(true);
     }
 
     private void ConfirmButtonClicked()

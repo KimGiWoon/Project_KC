@@ -17,7 +17,7 @@ public class MyCharacterController : UnitBaseData
 
     private Coroutine _manaRoutine;
     private bool _isManaFull;
-    private float _manaChageValue;
+    private float _manaChangeValue;
 
     // 체력과 마나의 변화 이벤트
     public event Action<float> OnHpChange;
@@ -42,7 +42,7 @@ public class MyCharacterController : UnitBaseData
         OnHpChange?.Invoke(_currentHp / _characterData._maxHp);
         OnMpChange?.Invoke(_currentMp / _characterData._maxMp);
 
-        _manaChageValue = _characterData._recoveryMp;
+        _manaChangeValue = _characterData._recoveryMp;
 
         // 마나 충전 
         ManaRecovery();
@@ -193,16 +193,21 @@ public class MyCharacterController : UnitBaseData
     {
         while (!_isManaFull)
         {
-            // 게임 배속 적용
-            yield return _battleUI._playTime;
-
-            _currentMp += _manaChageValue;
-
             // 게임이 종료되거나 메뉴창을 열면 마나회복 중지
-            if (_battleManager._isGameOver || _battleUI._isOnMenu)
+            if (_battleManager._isGameOver)
             {
                 StopCoroutine(_manaRoutine);
             }
+            else if (_battleUI._isOnMenu)
+            {
+                yield return null;
+                continue;
+            }
+
+            // 게임 배속 적용
+            yield return _battleUI._playTime;
+
+            _currentMp += _manaChangeValue;
 
             // 마나 변화에 대한 이벤트 호출
             OnMpChange?.Invoke(Mathf.Clamp01(_currentMp / _characterData._maxMp));

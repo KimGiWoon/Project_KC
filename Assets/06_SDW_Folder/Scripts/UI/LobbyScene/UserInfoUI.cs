@@ -83,6 +83,8 @@ namespace SDW
                 //# 패널 안에 터치가 있는지 확인
                 if (!RectTransformUtility.RectangleContainsScreenPoint(_userInfoPanelRect, touchPos))
                 {
+                    if (_uiStack.Count == 0) return;
+
                     OnUICloseRequested?.Invoke(_uiStack.Pop());
                 }
             }
