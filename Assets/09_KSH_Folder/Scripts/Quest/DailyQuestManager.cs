@@ -4,6 +4,7 @@ using System;
 using System.Linq;
 using UnityEngine.UI;
 using SDW;
+using KSH;
 
 public class DailyQuestManager : MonoBehaviour
 {
