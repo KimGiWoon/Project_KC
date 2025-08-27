@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 3014670642241965032}
   - component: {fileID: 8127226751256338151}
   - component: {fileID: 3945945861542525173}
+  - component: {fileID: 2668847735447108008}
   m_Layer: 5
   m_Name: RelicImage1
   m_TagString: Untagged
@@ -90,8 +91,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_EffectColor: {r: 1, g: 0, b: 0, a: 0.5}
-  m_EffectDistance: {x: 5, y: 5}
+  m_EffectColor: {r: 1, g: 0, b: 0, a: 1}
+  m_EffectDistance: {x: 7, y: 7}
   m_UseGraphicAlpha: 1
 --- !u!114 &3945945861542525173
 MonoBehaviour:
@@ -137,6 +138,22 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &2668847735447108008
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2251365281191628809}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8456654825d91b5469914f7d3216476b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  relicImage: {fileID: 3014670642241965032}
+  relicName: {fileID: 3749831500423583710}
+  relicButton: {fileID: 3945945861542525173}
+  outline: {fileID: 8127226751256338151}
 --- !u!1 &6934470098296153701
 GameObject:
   m_ObjectHideFlags: 0
