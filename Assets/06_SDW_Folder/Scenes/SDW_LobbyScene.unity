@@ -577,11 +577,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 22756180}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9c4091511bcd2ad43ba91f7bb8e190f6, type: 3}
+  m_Script: {fileID: 11500000, guid: f5e2a86ea67779a48bffd1ef445d17f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nameText: {fileID: 2132054134}
-  checkImage: {fileID: 850345454}
   dailyQuest: {fileID: 0}
 --- !u!114 &22756183
 MonoBehaviour:
@@ -782,7 +780,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -0.0000538826, y: 862.30304}
+  m_AnchoredPosition: {x: -0.0000538826, y: 862.303}
   m_SizeDelta: {x: 0, y: 1804.077}
   m_Pivot: {x: 0, y: 1}
 --- !u!1 &42489531
@@ -1740,11 +1738,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 148937163}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9c4091511bcd2ad43ba91f7bb8e190f6, type: 3}
+  m_Script: {fileID: 11500000, guid: f5e2a86ea67779a48bffd1ef445d17f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nameText: {fileID: 1511492669}
-  checkImage: {fileID: 295471834}
   dailyQuest: {fileID: 0}
 --- !u!114 &148937166
 MonoBehaviour:
@@ -1994,6 +1990,7 @@ MonoBehaviour:
   _panelContainer: {fileID: 1916059277}
   _rewardButton: {fileID: 1426304616}
   _backButton: {fileID: 1541376452}
+  _popupRect: {fileID: 100779705}
 --- !u!1 &163372288
 GameObject:
   m_ObjectHideFlags: 0
@@ -2044,11 +2041,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 163372288}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9c4091511bcd2ad43ba91f7bb8e190f6, type: 3}
+  m_Script: {fileID: 11500000, guid: f5e2a86ea67779a48bffd1ef445d17f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nameText: {fileID: 299911945}
-  checkImage: {fileID: 456799875}
   dailyQuest: {fileID: 0}
 --- !u!114 &163372291
 MonoBehaviour:
@@ -2481,11 +2476,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 184560627}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9c4091511bcd2ad43ba91f7bb8e190f6, type: 3}
+  m_Script: {fileID: 11500000, guid: f5e2a86ea67779a48bffd1ef445d17f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nameText: {fileID: 1852881594}
-  checkImage: {fileID: 466565110}
   dailyQuest: {fileID: 0}
 --- !u!114 &184560630
 MonoBehaviour:
@@ -5050,6 +5043,7 @@ GameObject:
   - component: {fileID: 421187182}
   - component: {fileID: 421187181}
   - component: {fileID: 421187180}
+  - component: {fileID: 421187183}
   m_Layer: 5
   m_Name: QuestScrollView
   m_TagString: Untagged
@@ -5092,7 +5086,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Content: {fileID: 39587386}
-  m_Horizontal: 1
+  m_Horizontal: 0
   m_Vertical: 1
   m_MovementType: 1
   m_Elasticity: 0.1
@@ -5147,6 +5141,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 421187178}
   m_CullTransparentMesh: 1
+--- !u!114 &421187183
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 421187178}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 290e80003acb43f45bcf412b7eee4c65, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &437720899
 GameObject:
   m_ObjectHideFlags: 0
@@ -7212,7 +7218,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 392651745}
   m_HandleRect: {fileID: 392651744}
   m_Direction: 2
-  m_Value: 0
+  m_Value: 0.00000007078156
   m_Size: 0.52202535
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -11428,11 +11434,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1317590026}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9c4091511bcd2ad43ba91f7bb8e190f6, type: 3}
+  m_Script: {fileID: 11500000, guid: f5e2a86ea67779a48bffd1ef445d17f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nameText: {fileID: 494426607}
-  checkImage: {fileID: 1860999063}
   dailyQuest: {fileID: 0}
 --- !u!114 &1317590029
 MonoBehaviour:
@@ -12355,6 +12359,7 @@ GameObject:
   - component: {fileID: 1436697138}
   - component: {fileID: 1436697137}
   - component: {fileID: 1436697140}
+  - component: {fileID: 1436697141}
   m_Layer: 5
   m_Name: StageCanvas
   m_TagString: Untagged
@@ -12472,6 +12477,19 @@ MonoBehaviour:
   _topPadding: 10
   _bottomPadding: 10
   _sidePadding: 20
+--- !u!114 &1436697141
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1436697134}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be2b34b329cf0154c81c3cc384bd432b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _mappingSo: {fileID: 11400000, guid: 2544d073cf277b648a468f09aa084000, type: 2}
 --- !u!1 &1444624222
 GameObject:
   m_ObjectHideFlags: 0
@@ -13644,7 +13662,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1556829533
 RectTransform:
   m_ObjectHideFlags: 0
@@ -13719,11 +13737,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1562061211}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9c4091511bcd2ad43ba91f7bb8e190f6, type: 3}
+  m_Script: {fileID: 11500000, guid: f5e2a86ea67779a48bffd1ef445d17f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nameText: {fileID: 437720901}
-  checkImage: {fileID: 1356051628}
   dailyQuest: {fileID: 0}
 --- !u!114 &1562061214
 MonoBehaviour:
@@ -14119,11 +14135,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1688990904}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9c4091511bcd2ad43ba91f7bb8e190f6, type: 3}
+  m_Script: {fileID: 11500000, guid: f5e2a86ea67779a48bffd1ef445d17f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nameText: {fileID: 1530155981}
-  checkImage: {fileID: 1374966399}
   dailyQuest: {fileID: 0}
 --- !u!114 &1688990907
 MonoBehaviour:

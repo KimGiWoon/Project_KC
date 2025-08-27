@@ -169,7 +169,7 @@ namespace SDW
         private void ConnectUserInfoUI(UIName uiName)
         {
             var userInfoUI = _uiDic[uiName] as UserInfoUI;
-            userInfoUI.OnUICloseRequsted += ClosePanel;
+            userInfoUI.OnUICloseRequested += ClosePanel;
             userInfoUI.OnUIOpenButtonClicked += OpenPanel;
 
             if (_firebase != null)
@@ -293,7 +293,7 @@ namespace SDW
         private void DisconnectUserInfoUI(UIName uiName)
         {
             var userInfoUI = _uiDic[uiName] as UserInfoUI;
-            userInfoUI.OnUICloseRequsted -= ClosePanel;
+            userInfoUI.OnUICloseRequested -= ClosePanel;
 
             if (_firebase != null)
             {
@@ -347,7 +347,6 @@ namespace SDW
             var dailyQuestUI = _uiDic[uiName] as DailyQuestUI;
             dailyQuestUI.OnRewardButtonClicked -= GameManager.Instance.DailyQuest.Reward;
             dailyQuestUI.OnUICloseRequested -= ClosePanel;
-            GameManager.Instance.DailyQuest.ClearQuestUI();
         }
 
         private void DisconnectBattleUI(UIName uiName)
