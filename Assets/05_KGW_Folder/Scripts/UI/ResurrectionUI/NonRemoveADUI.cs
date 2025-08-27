@@ -1,11 +1,11 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 using SDW;
+using UnityEngine;
 using UnityEngine.UI;
 
-public class RemoveADUI : BaseUI
+public class NonRemoveADUI : BaseUI
 {
     [Header("UI Components")]
     [SerializeField] private GameObject _isOkayContainer;
@@ -47,8 +47,8 @@ public class RemoveADUI : BaseUI
     // 즉시 부활 버튼 클릭
     private void RetryButtonClick()
     {
-        OnUICloseRequested?.Invoke(UIName.NonRemoveADUI);
-        _popupBackground.SetActive(false);
+        // TODO : 광고 보기
+        PlayAdvertisement();
 
         // TODO : 캐릭터의 부활관련 코드는 배틀매니저의 스폰 메서드로 사용하여 선택한 캐릭터를 체력 100%으로 소환
     }
@@ -60,10 +60,20 @@ public class RemoveADUI : BaseUI
         // OnUIOpenRequested?.Invoke(UIName.LobbyConfirmUI);
     }
 
+    // 광고 보기
+    private void PlayAdvertisement()
+    {
+        // TODO : 광고 시청
+        // 광고를 봤다고 치고 재시작
+
+        OnUICloseRequested?.Invoke(UIName.NonRemoveADUI);
+        _popupBackground.SetActive(false);
+    }
+
     private void ConfirmButtonClicked()
     {
         OnUIOpenRequested?.Invoke(UIName.DefeatChapterUI);
-        OnUICloseRequested?.Invoke(UIName.RemoveADUI);
+        OnUICloseRequested?.Invoke(UIName.NonRemoveADUI);
         _isOkayContainer.SetActive(false);
     }
     private void CancelButtonClicked() => _isOkayContainer.SetActive(false);

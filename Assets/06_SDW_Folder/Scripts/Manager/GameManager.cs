@@ -23,6 +23,15 @@ namespace SDW
         private DailyQuestManager _dailyQuest;
         public DailyQuestManager DailyQuest => _dailyQuest;
 
+        [SerializeField] private bool _buyAdRemover;
+        public bool BuyAdRemover => _buyAdRemover;
+
+        [SerializeField] private string _stageName;
+        public string StageName => _stageName;
+
+        private bool _lastBoss;
+        public bool LastBoss => _lastBoss;
+
         private void Awake()
         {
             if (_instance == null)
@@ -62,5 +71,7 @@ namespace SDW
             Screen.autorotateToLandscapeLeft = false;
             Screen.autorotateToLandscapeRight = false;
         }
+
+        public void SetStageBoss(bool isBoss) => _lastBoss = isBoss;
     }
 }

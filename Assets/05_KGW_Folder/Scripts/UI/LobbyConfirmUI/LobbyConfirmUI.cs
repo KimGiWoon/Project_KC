@@ -1,17 +1,15 @@
-using System.Collections;
-using System.Collections.Generic;
 using SDW;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class LobbyConfirmUI : BaseUI
 {
     [Header("Battle Manager Reference")]
-    [SerializeField] BattleUI _battleUIManager;
+    [SerializeField]
+    private BattleUI _battleUIManager;
 
-    Button _yesButton;   // 예스 버튼
-    Button _noButton;    // 노 버튼
+    private Button _yesButton; // 예스 버튼
+    private Button _noButton; // 노 버튼
 
     private void Awake()
     {

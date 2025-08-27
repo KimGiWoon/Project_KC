@@ -8,8 +8,7 @@ using SDW;
 public class BattleUI : BaseUI
 {
     [Header("Battle Manager Reference")]
-    [SerializeField]
-    private BattleManager _battleManager;
+    [SerializeField] private BattleManager _battleManager;
     [SerializeField] private GameObject _wall;
 
     [Header("Character UI Setting")]
@@ -94,7 +93,6 @@ public class BattleUI : BaseUI
     //# Panel Container가 열리지 않게 override
     public override void Open()
     {
-
     }
 
     // 게임 결과 확인
@@ -103,9 +101,15 @@ public class BattleUI : BaseUI
         _panelContainer.SetActive(true);
         // 게임 클리어
         if (result)
-            OnUIOpenRequested?.Invoke(UIName.ClearChapterUI);
+        {
+            if (_battleManager.IsLastBoss) OnUIOpenRequested?.Invoke(UIName.ClearChapterUI);
+            else OnUIOpenRequested?.Invoke(UIName.ClearStageUI);
+        }
         else // 게임 실패
-            OnUIOpenRequested?.Invoke(UIName.DefeatChapterUI);
+        {
+            if (GameManager.Instance.BuyAdRemover) OnUIOpenRequested?.Invoke(UIName.RemoveADUI);
+            else OnUIOpenRequested?.Invoke(UIName.NonRemoveADUI);
+        }
     }
 
     // 몬스터 총합 체력 변화
@@ -158,7 +162,8 @@ public class BattleUI : BaseUI
     // 메뉴 버튼 클릭
     private void MenuButtonClick()
     {
-
+        _panelContainer.SetActive(true);
+        OnUIOpenRequested?.Invoke(UIName.MenuUI);
     }
 
     // 타이머 코루틴
@@ -190,8 +195,10 @@ public class BattleUI : BaseUI
             // 타이머 코루틴 정지
             StopTimeCoroutine();
 
+            _panelContainer.SetActive(true);
             // 클리어 실패 UI 오픈
-            OnUIOpenRequested?.Invoke(UIName.DefeatChapterUI);
+            if (GameManager.Instance.BuyAdRemover) OnUIOpenRequested?.Invoke(UIName.RemoveADUI);
+            else OnUIOpenRequested?.Invoke(UIName.NonRemoveADUI);
         }
     }
 
@@ -204,4 +211,7 @@ public class BattleUI : BaseUI
             _timerRoutine = null;
         }
     }
+
+    //todo 재시작 시 panelContainer를 꺼줘야 함
+    //_panelContainer.SetActive(false);
 }
