@@ -27,7 +27,7 @@ public class BattleManager : MonoBehaviour
     [SerializeField] public bool _isBoss;
 
     // 생성된 캐릭터 보관
-    private List<CharacterController> _characters = new List<CharacterController>();
+    private List<MyCharacterController> _characters = new List<MyCharacterController>();
     private List<MonsterController> _monsters = new List<MonsterController>();
 
     private BattleUI battleUI;
@@ -109,7 +109,7 @@ public class BattleManager : MonoBehaviour
             var character = Instantiate(characterData._prefab, spawnPoint.position, spawnPoint.rotation);
 
             // 생성된 캐릭터 저장
-            var createCharacter = character.GetComponent<CharacterController>();
+            var createCharacter = character.GetComponent<MyCharacterController>();
             _characters.Add(createCharacter);
 
             // 캐릭터 데이터 전달

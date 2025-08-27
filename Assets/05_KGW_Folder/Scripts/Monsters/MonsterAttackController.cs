@@ -10,7 +10,7 @@ public class MonsterAttackController : MonoBehaviour
     {
         if (collision.gameObject.layer == LayerMask.NameToLayer("Player"))
         {
-            CharacterController character = collision.GetComponent<CharacterController>();
+            MyCharacterController character = collision.GetComponent<MyCharacterController>();
 
             // 공격 가능한 캐릭터에 해당 캐릭터가 없으면
             if (!_controller._attackTargets.Contains(character))
@@ -33,7 +33,7 @@ public class MonsterAttackController : MonoBehaviour
     {
         if (collision.gameObject.layer == LayerMask.NameToLayer("Player"))
         {
-            CharacterController character = collision.GetComponent<CharacterController>();
+            MyCharacterController character = collision.GetComponent<MyCharacterController>();
 
             // 공격 가능한 캐릭터에 해당 캐릭터가 있으면 
             if (_controller._attackTargets.Contains(character))

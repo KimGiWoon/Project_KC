@@ -33,7 +33,7 @@ public class MonsterResearchContoller : MonoBehaviour
         if (collision.gameObject.layer == LayerMask.NameToLayer("Player"))
         {
             // 대상 정보
-            CharacterController character = collision.GetComponent<CharacterController>();
+            MyCharacterController character = collision.GetComponent<MyCharacterController>();
 
             // 탐색 대상에 지정
             _controller._researchTarget = character;

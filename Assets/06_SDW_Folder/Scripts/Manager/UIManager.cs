@@ -63,6 +63,8 @@ namespace SDW
                 //@ Stage UI
                 case UIName.KGW_StageSelectUI: ConnectKGW_StageUI(uiName); break;
                 case UIName.KGW_CharacterSelectUI: ConnectKGW_CharacterSelectUI(uiName); break;
+                //@ Daily Quest UI
+                case UIName.DailyQuestUI: ConnectDailyQuestUI(uiName); break;
                 //# Battle Scene
                 case UIName.BattleUI: ConnectBattleUI(uiName); break;
                 case UIName.ClearChapterUI: ConnectClearChapterUI(uiName); break;
@@ -94,6 +96,8 @@ namespace SDW
                 //@ Stage UI
                 case UIName.KGW_StageSelectUI: DisconnectKGW_StageUI(uiName); break;
                 case UIName.KGW_CharacterSelectUI: DisconnectKGW_CharacterSelectUI(uiName); break;
+                //@ Daily Quest UI
+                case UIName.DailyQuestUI: DisconnectDailyQuestUI(uiName); break;
                 //# Battle Scene
                 case UIName.BattleUI: DisconnectBattleUI(uiName); break;
                 case UIName.ClearChapterUI: DisconnectClearChapterUI(uiName); break;
@@ -216,6 +220,14 @@ namespace SDW
             kgwCharacterSelectUI.OnUICloseRequested += ClosePanel;
         }
 
+        private void ConnectDailyQuestUI(UIName uiName)
+        {
+            var dailyQuestUI = _uiDic[uiName] as DailyQuestUI;
+            dailyQuestUI.OnRewardButtonClicked += GameManager.Instance.DailyQuest.Reward;
+            dailyQuestUI.OnUICloseRequested += ClosePanel;
+            GameManager.Instance.DailyQuest.AddQuestUI(dailyQuestUI);
+        }
+
         private void ConnectBattleUI(UIName uiName)
         {
             var battleUI = _uiDic[uiName] as BattleUI;
@@ -328,6 +340,14 @@ namespace SDW
             var kgwCharacterSelectUI = _uiDic[uiName] as KGW_CharacterSelectUI;
             kgwCharacterSelectUI.OnUIOpenRequested -= OpenPanel;
             kgwCharacterSelectUI.OnUICloseRequested -= ClosePanel;
+        }
+
+        private void DisconnectDailyQuestUI(UIName uiName)
+        {
+            var dailyQuestUI = _uiDic[uiName] as DailyQuestUI;
+            dailyQuestUI.OnRewardButtonClicked -= GameManager.Instance.DailyQuest.Reward;
+            dailyQuestUI.OnUICloseRequested -= ClosePanel;
+            GameManager.Instance.DailyQuest.ClearQuestUI();
         }
 
         private void DisconnectBattleUI(UIName uiName)

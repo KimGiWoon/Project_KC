@@ -23,6 +23,9 @@
         ClearChapterUI,
         DefeatChapterUI,
 
+        //# Quest UI
+        DailyQuestUI,
+
         //# None
         None
     }

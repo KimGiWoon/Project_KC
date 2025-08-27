@@ -22,8 +22,7 @@ public class BattleUI : BaseUI
     [SerializeField] public GameObject _RemoveADUI;
 
     [Header("Option UI Setting")]
-    [SerializeField]
-    private Button _optionButton;
+    [SerializeField] private Button _optionButton;
     [SerializeField] private Button _fastButtonX1;
     [SerializeField] private Button _fastButtonX2;
     [SerializeField] private TMP_Text _timerText;
@@ -45,6 +44,7 @@ public class BattleUI : BaseUI
         _panelContainer.SetActive(false);
         _fastButtonX1.onClick.AddListener(X1FastButtonClick);
         _fastButtonX2.onClick.AddListener(X2FastButtonClick);
+        _optionButton.onClick.AddListener(MenuButtonClick);
     }
 
     private void OnEnable()
@@ -55,7 +55,7 @@ public class BattleUI : BaseUI
         _battleManager.OnTotalHpChange += MonsterTotalHpChange;
     }
 
-    private void Start()
+    protected override void Start()
     {
         base.Start();
         _time = _battleManager._timer;
@@ -79,15 +79,20 @@ public class BattleUI : BaseUI
         _timerRoutine = StartCoroutine(TimerCoroutine());
     }
 
-    private void OnDestroy()
+    protected override void OnDestroy()
     {
         base.OnDestroy();
         // 게임 결과 확인 이벤트 구독 해제
         _battleManager.OnGameResult -= GamePlayResultCheck;
         // 몬스터 통합 체력 변화 이벤트 구독 해제
         _battleManager.OnTotalHpChange -= MonsterTotalHpChange;
+
+        _fastButtonX1.onClick.RemoveListener(X1FastButtonClick);
+        _fastButtonX2.onClick.RemoveListener(X2FastButtonClick);
+        _optionButton.onClick.RemoveListener(MenuButtonClick);
     }
 
+    //# Panel Container가 열리지 않게 override
     public override void Open()
     {
     }
@@ -153,6 +158,7 @@ public class BattleUI : BaseUI
     // 메뉴 버튼 클릭
     private void MenuButtonClick()
     {
+
     }
 
     // 타이머 코루틴
@@ -183,6 +189,8 @@ public class BattleUI : BaseUI
         {
             // 타이머 코루틴 정지
             StopTimeCoroutine();
+
+            // 클리어 실패 UI 오픈
         }
     }
 

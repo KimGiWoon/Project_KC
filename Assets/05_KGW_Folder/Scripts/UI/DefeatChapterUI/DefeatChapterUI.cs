@@ -25,14 +25,6 @@ public class DefeatChapterUI : BaseUI
         _confirmButton.onClick.AddListener(LobbyButtonClick);
     }
 
-    private void Start()
-    {
-        base.Start();
-        //// 획득한 경험치와 점수 출력
-        //_expText.text = ;
-        //_growthPointText.text = ;
-    }
-
     // 로비 이동 버튼 클릭
     private void LobbyButtonClick()
     {
