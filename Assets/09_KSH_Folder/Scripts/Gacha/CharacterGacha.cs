@@ -2,7 +2,9 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class CharacterGacha : SingletonManager<CharacterGacha>
+namespace KSH
+{
+    public class CharacterGacha : SingletonManager<CharacterGacha>
 {
     [Header("캐릭터들")] 
     [SerializeField] private List<CharacterData> chracterLists; //캐릭터 리스트
@@ -74,4 +76,6 @@ public class CharacterGacha : SingletonManager<CharacterGacha>
         }
         gachaResultUI.Show(result);
     }
+}
+    
 }
