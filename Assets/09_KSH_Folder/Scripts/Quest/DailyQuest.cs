@@ -12,7 +12,7 @@ namespace KSH
         public QuestType questType;
         public int questGoal;
     
-        [Header("완료 테스트")]
+        [Header("퀘스트 진행도")]
         public int currentProgress = 0;
         [HideInInspector] public bool isComplete = false;
     }
