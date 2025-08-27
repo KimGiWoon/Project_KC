@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class LobbyConfirmUI : MonoBehaviour
 {
     [Header("Battle Manager Reference")]
-    [SerializeField] BattleUIManager _battleUIManager;
+    [SerializeField] BattleUI _battleUIManager;
 
     Button _yesButton;   // 예스 버튼
     Button _noButton;    // 노 버튼
@@ -34,13 +34,11 @@ public class LobbyConfirmUI : MonoBehaviour
         // 해당 UI 비활성화
         //_panelContainer.SetActive(false);
 
-        _battleUIManager._lobbyConfirmUI.SetActive(false);
         _battleUIManager._menuUI.SetActive(false);
     }
 
     // 노 버튼 클릭
     private void NoButtonClick()
     {
-        _battleUIManager._lobbyConfirmUI.SetActive(false);
     }
 }

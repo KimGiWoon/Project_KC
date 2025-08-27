@@ -20,15 +20,9 @@ public class BattleUI : BaseUI
     [SerializeField] public GameObject _clearStageUI;
     [SerializeField] public GameObject _noneRemoveADUI;
     [SerializeField] public GameObject _RemoveADUI;
-<<<<<<<< HEAD:Assets/05_KGW_Folder/Scripts/Manager/Battle/BattleUI.cs
-========
-    [SerializeField] public GameObject _defeatChapterUI;
-    [SerializeField] public GameObject _lobbyConfirmUI;
->>>>>>>> KGW_Demo:Assets/05_KGW_Folder/Scripts/Manager/Battle/BattleUIManager.cs
 
     [Header("Option UI Setting")]
-    [SerializeField]
-    private Button _optionButton;
+    [SerializeField] private Button _optionButton;
     [SerializeField] private Button _fastButtonX1;
     [SerializeField] private Button _fastButtonX2;
     [SerializeField] private TMP_Text _timerText;
@@ -98,7 +92,6 @@ public class BattleUI : BaseUI
         _optionButton.onClick.RemoveListener(MenuButtonClick);
     }
 
-<<<<<<<< HEAD:Assets/05_KGW_Folder/Scripts/Manager/Battle/BattleUI.cs
     //# Panel Container가 열리지 않게 override
     public override void Open()
     {
@@ -106,39 +99,13 @@ public class BattleUI : BaseUI
 
     // 게임 결과 확인
     public void GamePlayResultCheck(bool result)
-========
-// 게임 결과 확인
-public void GamePlayResultCheck(bool result)
->>>>>>>> KGW_Demo:Assets/05_KGW_Folder/Scripts/Manager/Battle/BattleUIManager.cs
     {
         _panelContainer.SetActive(true);
         // 게임 클리어
         if (result)
-<<<<<<<< HEAD:Assets/05_KGW_Folder/Scripts/Manager/Battle/BattleUI.cs
             OnUIOpenRequested?.Invoke(UIName.ClearChapterUI);
         else // 게임 실패
             OnUIOpenRequested?.Invoke(UIName.DefeatChapterUI);
-========
-        {
-            if (_clearChapterUI)
-            {
-                // 챕터 클리어 UI 오픈
-                _clearChapterUI.SetActive(true);
-            }
-            // TODO : 김기운 : 추후에 UI매니저에서 관리
-            //GameManager.Instance.UI.OpenPanel(UIName.ClearChapterUI);
-        }
-        else    // 게임 실패
-        {
-            if (_defeatChapterUI)
-            {
-                // 클리어 실패 UI 오픈
-                _defeatChapterUI.SetActive(true);
-            }
-            // TODO : 김기운 : 추후에 UI매니저에서 관리
-            //GameManager.Instance.UI.OpenPanel(UIName.DefeatChapterUI);
-        }
->>>>>>>> KGW_Demo:Assets/05_KGW_Folder/Scripts/Manager/Battle/BattleUIManager.cs
     }
 
     // 몬스터 총합 체력 변화
@@ -191,14 +158,7 @@ public void GamePlayResultCheck(bool result)
     // 메뉴 버튼 클릭
     private void MenuButtonClick()
     {
-<<<<<<<< HEAD:Assets/05_KGW_Folder/Scripts/Manager/Battle/BattleUI.cs
-========
-        // TODO : 김기운 : 추후에 UI매니저에서 관리
-        //GameManager.Instance.UI.OpenPanel(UIName.MenuUI);
 
-        // 메뉴 패널 오픈
-        _menuUI.gameObject.SetActive(true);
->>>>>>>> KGW_Demo:Assets/05_KGW_Folder/Scripts/Manager/Battle/BattleUIManager.cs
     }
 
     // 타이머 코루틴
@@ -231,7 +191,6 @@ public void GamePlayResultCheck(bool result)
             StopTimeCoroutine();
 
             // 클리어 실패 UI 오픈
-            _defeatChapterUI.SetActive(true);
         }
     }
 

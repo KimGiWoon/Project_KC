@@ -68,7 +68,6 @@ public class CharacterController : UnitBaseData
             // 탐색 대상과의 거리가 공격 사거리 안에 들어올 때까지 접근
             if (moveDistance > _characterData._attackRange)
             {
-                _isAttack = false;
                 // 탐색 대상으로 이동
                 transform.position = Vector3.MoveTowards(transform.position, _researchTarget.transform.position,
                     _characterData._moveSpeed * _gameSpeed * Time.deltaTime);
@@ -85,6 +84,8 @@ public class CharacterController : UnitBaseData
         // 공격 전 대상 확인
         if (!_attackTarget._isAlive)
         {
+            _isAttack = false;
+
             // 공격 대상에서 삭제
             _attackTargets.Remove(_attackTarget);
             // 공격 타겟 갱신
