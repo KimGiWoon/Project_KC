@@ -116,8 +116,6 @@ MonoBehaviour:
   _currentHp: 0
   _currentMp: 0
   _isAlive: 0
-  _isAttack: 0
-  _gameSpeed: 0
   _characterData: {fileID: 11400000, guid: fe4329afccd2b524897cc5aa74061253, type: 2}
   _attackTargets: []
   _attackTarget: {fileID: 0}
@@ -202,7 +200,7 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 1.3
+  m_Radius: 1
 --- !u!1 &4337047149908994281
 GameObject:
   m_ObjectHideFlags: 0
