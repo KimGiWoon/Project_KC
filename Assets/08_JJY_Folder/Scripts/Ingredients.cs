@@ -5,7 +5,7 @@ namespace JJY
     [Flags]
     public enum Ingredient
     {
-        // 여기 이름도 CSV로 읽어와야하나?
+        // 여기 이름도 CSV로 읽어와야하나?, 한글로 해도 됨??
         None = 0,
         마늘 = 1 << 0,
         기름 = 1 << 1,
