@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace KSH
@@ -10,6 +11,7 @@ namespace KSH
         [SerializeField] private List<Relic> relics;
         
         //유물 나오는 UI 있어야함
+        [SerializeField] private RelicResultUI relicResultUI;
         
         private WeightedRandom<RelicRarity> relicRarityPicker;
         private WeightedRandom<RelicType> relicTypePicker;
@@ -19,28 +21,42 @@ namespace KSH
             base.Awake();
             relicRarityPicker = new WeightedRandom<RelicRarity>();
             relicTypePicker = new WeightedRandom<RelicType>();
+            //임시로 정해둔 것
+            relicRarityPicker.Add(RelicRarity.Normal, 90);
+            relicRarityPicker.Add(RelicRarity.Rare, 10);
+            relicTypePicker.Add(RelicType.Buff, 90);
+            relicTypePicker.Add(RelicType.Debuff, 10);
+        }
+
+        private void Start()
+        {
+            BattleStageGetRelic();
+        }
+
+        public Relic BattleStageClear() //전투스테이지 클리어 시 버프 유물 중 3중 1택
+        {
+            //RelicRarity relicRarity = relicRarityPicker.GetRandom();
+            RelicRarity relicRarity = RelicRarity.Normal;
             
+            List<Relic> getRelicList = relics
+                .Where(relic => relic.relicRarity == relicRarity)
+                .ToList();
+            
+            Relic selectRelic = getRelicList[Random.Range(0, getRelicList.Count)];
+            return selectRelic;
         }
 
-        
-
-        private RelicRarity DecideRarity() //버프 유물 중 Normal, Rare 랜덤 뽑기
+        public void BattleStageGetRelic() //3중 택 1
         {
-            int random = Random.Range(0, 100);
-            if (random < 70) //확률 정확하게 정해지면 넣기
-                return RelicRarity.Normal;
-            else
-                return RelicRarity.Rare;
-        }
+            List<Relic> result = new List<Relic>();
 
-        private RelicType DecideRelicType() // 유물 타입 중 Buff, Debuff 랜덤 뽑기
-        {
-            int random = Random.Range(0, 100);
-            if (random < 70) //확률 정확하게 정해지면 넣기
-                return RelicType.Debuff;
-            else
-                return RelicType.Buff;
+            for (int i = 0; i < 3; i++)
+            {
+                Relic relic = BattleStageClear();
+                result.Add(relic);
+            }
+            // UI연결
+            relicResultUI.ShowRelic(result);
         }
-        
     }    
 }
