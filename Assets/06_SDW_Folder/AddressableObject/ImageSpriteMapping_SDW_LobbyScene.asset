@@ -13,6 +13,9 @@ MonoBehaviour:
   m_Name: ImageSpriteMapping_SDW_LobbyScene
   m_EditorClassIdentifier: 
   entries:
+  - Path: '- UI/GatchaCanvas/GatchMainContainer/GatchMainPanel/StarCandyContainer/OwnedStarCandyText'
+    AddressKey: e354caf3995476148b31593e9d16161c
+    AssetPath: Assets/00_Imports/10_LYH_Assets/UI/SugarStar.png
   - Path: '- UI/LobbySceneCanvas/UserInfoContainer/UserInfoPanel/TopViewPanel/IconImg'
     AddressKey: d5448dba9da6a1842a72be7b75a3b29a
     AssetPath: Assets/00_Imports/10_LYH_Assets/UI/charIcon_BaekWoong.png
@@ -26,6 +29,9 @@ MonoBehaviour:
   - Path: '- UI/LobbySceneCanvas/DailyQuestContainer/DailyQuestPanel/Panel/QuestScrollView/Viewport/Content/Quest2/CheckImg'
     AddressKey: 2a8f33a9d85786b4287bd92fa9bd534d
     AssetPath: Assets/00_Imports/10_LYH_Assets/UI/check.png
+  - Path: '- UI/GatchaCanvas/GatchMainContainer/GatchMainPanel/BGImg'
+    AddressKey: 670cd4951ea466c41bb440a6b8cf87fa
+    AssetPath: Assets/00_Imports/10_LYH_Assets/UI/Kitchen.png
   - Path: '- UI/LobbySceneCanvas/MainLobbyContainer/MainLobbyPanel/TopViewContainer/CurrencyPanel/ShiningSugarStarImage'
     AddressKey: e354caf3995476148b31593e9d16161c
     AssetPath: Assets/00_Imports/10_LYH_Assets/UI/SugarStar.png
@@ -39,6 +45,9 @@ MonoBehaviour:
   - Path: '- UI/LobbySceneCanvas/DailyQuestContainer/DailyQuestPanel/Panel/QuestScrollView/Viewport/Content/Quest1/CheckImg'
     AddressKey: 2a8f33a9d85786b4287bd92fa9bd534d
     AssetPath: Assets/00_Imports/10_LYH_Assets/UI/check.png
+  - Path: '- UI/GatchaCanvas/GatchMainContainer/GatchMainPanel/StarCandyContainer/NeedStarCandyTen'
+    AddressKey: e354caf3995476148b31593e9d16161c
+    AssetPath: Assets/00_Imports/10_LYH_Assets/UI/SugarStar.png
   - Path: '- UI/LobbySceneCanvas/MainLobbyContainer/MainLobbyPanel/TopViewContainer/CurrencyPanel/SugarStarImage'
     AddressKey: a32384600a25cef45a135c7ca6c5ee19
     AssetPath: Assets/00_Imports/10_LYH_Assets/UI/ShiningSugarStar.png
@@ -49,6 +58,9 @@ MonoBehaviour:
   - Path: '- UI/LobbySceneCanvas/MainLobbyContainer/MainLobbyPanel/BottomViewContainer/BottomPanel'
     AddressKey: bb67ece2190820c488cb1138c554dbe5
     AssetPath: Assets/00_Imports/10_LYH_Assets/UI/Gradient.png
+  - Path: '- UI/GatchaCanvas/GatchMainContainer/GatchMainPanel/PopupPanelContainer/PannelBackgroundImage'
+    AddressKey: 29ea1f68be149f54e8c0f1d9642633bf
+    AssetPath: Assets/00_Imports/10_LYH_Assets/UI/charBanner.jpg
   - Path: '- UI/LobbySceneCanvas/UserInfoContainer/ChangeIconContainer/ChangeIconPanel/Scroll
       View/Viewport/Content/Image (2)'
     AddressKey: d5448dba9da6a1842a72be7b75a3b29a
@@ -64,6 +76,12 @@ MonoBehaviour:
       View/Viewport/Content/Image (6)'
     AddressKey: d5448dba9da6a1842a72be7b75a3b29a
     AssetPath: Assets/00_Imports/10_LYH_Assets/UI/charIcon_BaekWoong.png
+  - Path: '- UI/GatchaCanvas/GatchMainContainer/GatchMainPanel/ButtonCotainer/1PullButton'
+    AddressKey: 50035cd58d3629d428ec6ac99b2134d1
+    AssetPath: Assets/00_Imports/10_LYH_Assets/UI/1Pull.png
+  - Path: '- UI/GatchaCanvas/GatchMainContainer/GatchMainPanel/StarCandyContainer/NeedStarCandyOne'
+    AddressKey: e354caf3995476148b31593e9d16161c
+    AssetPath: Assets/00_Imports/10_LYH_Assets/UI/SugarStar.png
   - Path: '- UI/LobbySceneCanvas/DailyQuestContainer/DailyQuestPanel/BGImg'
     AddressKey: 670cd4951ea466c41bb440a6b8cf87fa
     AssetPath: Assets/00_Imports/10_LYH_Assets/UI/Kitchen.png
@@ -76,6 +94,9 @@ MonoBehaviour:
   - Path: '- UI/LobbySceneCanvas/DailyQuestContainer/DailyQuestPanel/Panel/QuestScrollView/Viewport/Content/Quest7/CheckImg'
     AddressKey: 2a8f33a9d85786b4287bd92fa9bd534d
     AssetPath: Assets/00_Imports/10_LYH_Assets/UI/check.png
+  - Path: '- UI/GatchaCanvas/GatchMainContainer/GatchMainPanel/PopupPanelContainer/BannerTitleImg'
+    AddressKey: 841efed9e6590ae4694d23c57b02444f
+    AssetPath: Assets/00_Imports/10_LYH_Assets/UI/paper.jpg
   - Path: '- UI/LobbySceneCanvas/DailyQuestContainer/DailyQuestPanel/Panel/GoBackIcon'
     AddressKey: 9ec1937e58d39964c946ae9dee62a13d
     AssetPath: Assets/00_Imports/10_LYH_Assets/UI/GoBackIcon.png
@@ -89,6 +110,12 @@ MonoBehaviour:
   - Path: '- UI/LobbySceneCanvas/MainLobbyContainer/MainLobbyPanel/BackgroundImage/BackgroundImage'
     AddressKey: 670cd4951ea466c41bb440a6b8cf87fa
     AssetPath: Assets/00_Imports/10_LYH_Assets/UI/Kitchen.png
+  - Path: '- UI/GatchaCanvas/GatchResultContainer/GatchResultPanel/GoBackIcon'
+    AddressKey: 9ec1937e58d39964c946ae9dee62a13d
+    AssetPath: Assets/00_Imports/10_LYH_Assets/UI/GoBackIcon.png
+  - Path: '- UI/GatchaCanvas/GatchMainContainer/GatchMainPanel/ButtonCotainer/10PullsButton'
+    AddressKey: 2f941e94710d8bc478e8c40b17029ddf
+    AssetPath: Assets/00_Imports/10_LYH_Assets/UI/10Pulls.png
   - Path: '- UI/LobbySceneCanvas/MainLobbyContainer/MainLobbyPanel/BottomViewContainer/BottomPanel/CharIconImage'
     AddressKey: d5448dba9da6a1842a72be7b75a3b29a
     AssetPath: Assets/00_Imports/10_LYH_Assets/UI/charIcon_BaekWoong.png
@@ -104,6 +131,9 @@ MonoBehaviour:
   - Path: '- UI/LobbySceneCanvas/DailyQuestContainer/DailyQuestPanel/Panel/PinImg'
     AddressKey: 2835c2ea1c884874ea9c001e78bf5d34
     AssetPath: Assets/00_Imports/10_LYH_Assets/UI/pin.png
+  - Path: '- UI/GatchaCanvas/GatchMainContainer/GatchMainPanel/ButtonCotainer/GoBackIcon'
+    AddressKey: 9ec1937e58d39964c946ae9dee62a13d
+    AssetPath: Assets/00_Imports/10_LYH_Assets/UI/GoBackIcon.png
   - Path: '- UI/LobbySceneCanvas/UserInfoContainer/ChangeIconContainer/ChangeIconPanel/Scroll
       View/Viewport/Content/Image (7)'
     AddressKey: d5448dba9da6a1842a72be7b75a3b29a
@@ -112,3 +142,6 @@ MonoBehaviour:
       View/Viewport/Content/Image (5)'
     AddressKey: d5448dba9da6a1842a72be7b75a3b29a
     AssetPath: Assets/00_Imports/10_LYH_Assets/UI/charIcon_BaekWoong.png
+  - Path: '- UI/GatchaCanvas/GatchResultContainer/GatchResultPanel/BGImg'
+    AddressKey: 670cd4951ea466c41bb440a6b8cf87fa
+    AssetPath: Assets/00_Imports/10_LYH_Assets/UI/Kitchen.png
