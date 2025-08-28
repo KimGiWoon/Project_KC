@@ -62,6 +62,7 @@ namespace SDW
             switch (sceneName)
             {
                 case SceneName.SDW_SignInScene: OpenSignInScene(uiName); break;
+                case SceneName.KSH_Gacha:
                 case SceneName.SDW_LobbyScene: OpenLobbyScene(uiName); break;
                 case SceneName.KGW_TestIngameScene: OpenIngameScene(uiName); break;
             }
@@ -136,6 +137,7 @@ namespace SDW
             switch (sceneName)
             {
                 case SceneName.SDW_SignInScene: CloseSignInScene(uiName); break;
+                case SceneName.KSH_Gacha:
                 case SceneName.SDW_LobbyScene: CloseLobbyScene(uiName); break;
                 case SceneName.KGW_TestIngameScene: CloseIngameScene(uiName); break;
             }
