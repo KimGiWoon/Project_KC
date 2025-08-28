@@ -22,7 +22,7 @@ public class MapSelectionManager : MonoBehaviour
 
         GenerateUI();
 
-        // ¸¶Áö¸· ¼±ÅÃ ¸Ê ÀÚµ¿ ·Îµå
+        // ë§ˆì§€ë§‰ ì„ íƒ ë§µ ìžë™ ë¡œë“œ
         if (lastSelectedIndex >= 0 && lastSelectedIndex < maps.Count)
         {
             mapView.CreateMapView(availableMaps[lastSelectedIndex]);
@@ -44,7 +44,7 @@ public class MapSelectionManager : MonoBehaviour
             if (image != null && i < previewImages.Count)
                 image.sprite = previewImages[i];
 
-            // °­Á¶: ¸¶Áö¸·¿¡ ¼±ÅÃÇÑ ¹öÆ°ÀÌ¸é »ö»ó Ç¥½Ã
+            // ë§ˆì§€ë§‰ì— ì„ íƒí•œ ë²„íŠ¼ì´ë©´ ìƒ‰ìƒ í‘œì‹œ
             if (index == lastSelectedIndex)
             {
                 Image btnImg = button.GetComponent<Image>();

@@ -12,5 +12,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f809635aca592044a5a910beabe44ed, type: 3}
   m_Name: EventNode
   m_EditorClassIdentifier: 
-  sprite: {fileID: 0}
   nodeType: 3
+  sprite: {fileID: 21300000, guid: 4646f09cdde741348a8180ea8f3c923b, type: 3}
+  positiveEventSprites:
+  - {fileID: 21300000, guid: 253e89073968dcf41838adc84dce92b8, type: 3}
+  - {fileID: 21300000, guid: f51f061a2c31591439ccbb3100836b8d, type: 3}
+  - {fileID: 21300000, guid: d1889fc68d7bcd84cae4a496701198df, type: 3}
+  - {fileID: 21300000, guid: 18639a7544b78c44eb6af4acf95f2ef2, type: 3}
+  - {fileID: 21300000, guid: 0ed9a795ec669694b9828cde64fe1a22, type: 3}
+  negativeEventSprites:
+  - {fileID: 21300000, guid: f13be7146df92744582dcc94dfc57511, type: 3}
+  - {fileID: 21300000, guid: 0310c20a6eaa041449318e1e6fdfa271, type: 3}
+  - {fileID: 21300000, guid: 5b635cd5d06a7304eab384a42204e38b, type: 3}
+  neutralEventSprites:
+  - {fileID: 21300000, guid: 907e7e1fb50f03c4793a164c14afb85a, type: 3}
+  - {fileID: 21300000, guid: 95d7ebfc86bc4f247979b53bf914974b, type: 3}
+  - {fileID: 21300000, guid: 2d9381a87f4e725418e4dfbf6ba58f35, type: 3}

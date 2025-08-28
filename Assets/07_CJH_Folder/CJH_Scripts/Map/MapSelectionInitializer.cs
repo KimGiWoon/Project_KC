@@ -12,24 +12,26 @@ public class MapSelectionInitializer : MonoBehaviour
 
     private void Start()
     {
+        mapView.mapConfig = config;
+
         List<MapData> maps = new();
         List<Sprite> previews = new();
 
         for (int i = 0; i < numberOfMaps; i++)
         {
-            // 1. MapData¸¦ »ý¼ºÇÕ´Ï´Ù.
+            // 1. MapDataë¥¼ ìƒì„±í•©ë‹ˆë‹¤.
             MapData map = generator.GenerateMap(config);
             maps.Add(map);
 
-            // 2. MapView¿¡ ¸ÊÀ» ±×·Á ¹Ì¸®º¸±â¿ëÀ¸·Î ÁØºñÇÕ´Ï´Ù.
+            // 2. MapViewì— ë§µì„ ê·¸ë ¤ ë¯¸ë¦¬ë³´ê¸°ìš©ìœ¼ë¡œ ì¤€ë¹„í•©ë‹ˆë‹¤.
             mapView.CreateMapView(map);
 
-            // 3. ÇöÀç ±×·ÁÁø ¸ÊÀ» ¹Ì¸®º¸±â·Î Ä¸Ã³ÇÕ´Ï´Ù.
+            // 3. í˜„ìž¬ ê·¸ë ¤ì§„ ë§µì„ ë¯¸ë¦¬ë³´ê¸°ë¡œ ìº¡ì²˜í•©ë‹ˆë‹¤.
             Sprite preview = previewRenderer.CapturePreview();
             previews.Add(preview);
         }
 
-        // 4. ¸ðµç ¸Ê »ý¼º ¹× ¹Ì¸®º¸±â Ä¸Ã³°¡ ³¡³­ ÈÄ UI¸¦ ÃÊ±âÈ­ÇÕ´Ï´Ù.
+        // 4. ëª¨ë“  ë§µ ìƒì„± ë° ë¯¸ë¦¬ë³´ê¸° ìº¡ì²˜ê°€ ëë‚œ í›„ UIë¥¼ ì´ˆê¸°í™”í•©ë‹ˆë‹¤.
         selectionManager.Initialize(maps, previews);
 
     }

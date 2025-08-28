@@ -1,40 +1,37 @@
 using UnityEngine;
-// using UnityEngine.UI; // ScrollRect¸¦ »ç¿ëÇÏ±â À§ÇØ ÇÊ¿äÇÕ´Ï´Ù.
 using UnityEngine.UI;
 
 public class CameraScrollLinker : MonoBehaviour
 {
-    [Header("¿¬°áÇÒ UI ¹× Ä«¸Ş¶ó")]
+    [Header("ì—°ê²°í•  UI ë° ì¹´ë©”ë¼")]
     public ScrollRect targetScrollRect;
     public Transform cameraTransform;
 
-    [Header("Ä«¸Ş¶ó ÀÌµ¿ ¹üÀ§")]
+    [Header("ì¹´ë©”ë¼ ì´ë™ ë²”ìœ„")]
     public float cameraMinY = 0f;
     public float cameraMaxY = 10f;
 
     void Start()
     {
-        // [º¯°æ] ScrollRectÀÇ °ªÀÌ º¯°æµÉ ¶§¸¶´Ù ÀÌº¥Æ®¸¦ ¹Şµµ·Ï ¼öÁ¤ÇÕ´Ï´Ù.
+        //ScrollRectì˜ ê°’ì´ ë³€ê²½ë  ë•Œë§ˆë‹¤ ì´ë²¤íŠ¸ë¥¼ ë°›ë„ë¡ ìˆ˜ì •í•©ë‹ˆë‹¤.
         if (targetScrollRect != null)
         {
             targetScrollRect.onValueChanged.AddListener(UpdateCameraPosition);
 
-            // ¾À ½ÃÀÛ ½Ã ÇöÀç ½ºÅ©·Ñ À§Ä¡¿¡ ¸ÂÃç Ä«¸Ş¶ó¸¦ µ¿±âÈ­ÇÕ´Ï´Ù.
-            // ScrollRectÀÇ verticalNormalizedPositionÀº À§°¡ 1, ¾Æ·¡°¡ 0ÀÔ´Ï´Ù.
+            // ì”¬ ì‹œì‘ ì‹œ í˜„ì¬ ìŠ¤í¬ë¡¤ ìœ„ì¹˜ì— ë§ì¶° ì¹´ë©”ë¼ë¥¼ ë™ê¸°í™”í•©ë‹ˆë‹¤.
             UpdateCameraPosition(new Vector2(0, targetScrollRect.verticalNormalizedPosition));
         }
     }
 
-    // [º¯°æ] ScrollRectÀÇ onValueChanged ÀÌº¥Æ®´Â Vector2 °ªÀ» Àü´ŞÇÏ¹Ç·Î,
-    // ¸Å°³º¯¼ö Å¸ÀÔÀ» Vector2·Î º¯°æÇÕ´Ï´Ù.
+
     private void UpdateCameraPosition(Vector2 scrollPosition)
     {
         if (cameraTransform == null) return;
 
-        // YÃà ½ºÅ©·Ñ °ªÀÌ ÇÊ¿äÇÏ¹Ç·Î scrollPosition.y¸¦ »ç¿ëÇÕ´Ï´Ù.
+        // Yì¶• ìŠ¤í¬ë¡¤ ê°’ì´ í•„ìš”í•˜ë¯€ë¡œ scrollPosition.yë¥¼ ì‚¬ìš©í•©ë‹ˆë‹¤.
         float scrollValue = scrollPosition.y;
 
-        // Mathf.Lerp¸¦ »ç¿ëÇÑ ³ª¸ÓÁö ·ÎÁ÷Àº µ¿ÀÏÇÕ´Ï´Ù.
+        // Mathf.Lerpë¥¼ ì‚¬ìš©í•œ ë‚˜ë¨¸ì§€ ë¡œì§ì€ ë™ì¼í•©ë‹ˆë‹¤.
         float newYPosition = Mathf.Lerp(cameraMinY, cameraMaxY, scrollValue);
 
         Vector3 newCameraPosition = cameraTransform.position;
@@ -44,7 +41,6 @@ public class CameraScrollLinker : MonoBehaviour
 
     private void OnDestroy()
     {
-        // [º¯°æ] µî·ÏÇß´ø ¸®½º³Ê¸¦ ScrollRect¿¡¼­ Á¦°ÅÇÕ´Ï´Ù.
         if (targetScrollRect != null)
         {
             targetScrollRect.onValueChanged.RemoveListener(UpdateCameraPosition);

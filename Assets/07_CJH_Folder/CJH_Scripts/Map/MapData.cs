@@ -4,14 +4,15 @@ using UnityEngine;
 
 public class MapData
 {
-    public readonly List<List<Node>> Map;       // 2D Grid ±¸Á¶ (floors x width)
-    public readonly List<Node> Nodes;           // ½ÇÁ¦·Î ¹èÄ¡µÈ ¸ğµç À¯È¿ ³ëµå (NotAssgined Á¦¿Ü)
-    public readonly List<Vector2Int> Path;      // ÇÃ·¹ÀÌ¾î°¡ ¹âÀº °æ·Î
+    public readonly List<List<Node>> Map;       // 2D Grid êµ¬ì¡° (floors x width)
+    public readonly List<Node> Nodes;           // ì‹¤ì œë¡œ ë°°ì¹˜ëœ ëª¨ë“  ìœ íš¨ ë…¸ë“œ (NotAssgined ì œì™¸)
     public readonly Node BossNode;
     public readonly Node StartNode;
-    public readonly List<List<Node>> AllPath;   // ¸ğµç °¡´ÉÇÑ °æ·Î (µğ¹ö±ë, Åë°è¿ë)
+    public readonly List<List<Node>> AllPath;   // ëª¨ë“  ê°€ëŠ¥í•œ ê²½ë¡œ (ë””ë²„ê¹…, í†µê³„ìš©)
 
-    public Vector2Int CurrentNode => Path.Count > 0 ? Path[Path.Count - 1] : StartNode.point;
+    public readonly List<Node> Path;
+
+    public Node CurrentNode => Path.LastOrDefault();
 
     public MapData(List<List<Node>> map, List<List<Node>> allPath, Node startNode, Node bossNode)
     {
@@ -20,12 +21,12 @@ public class MapData
         this.StartNode = startNode;
         this.BossNode = bossNode;
 
-        // À¯È¿ÇÑ ³ëµå¸¸ Æ÷ÇÔ
+        // ìœ íš¨í•œ ë…¸ë“œë§Œ í¬í•¨
         Nodes = map.SelectMany(floor => floor)
                    .Where(node => node.nodeType != NodeType.NotAssigned)
                    .ToList();
 
-        Path = new List<Vector2Int>();
+        Path = new List<Node> { StartNode };
     }
 
     public Node GetNodeByPoint(int row, int column)
