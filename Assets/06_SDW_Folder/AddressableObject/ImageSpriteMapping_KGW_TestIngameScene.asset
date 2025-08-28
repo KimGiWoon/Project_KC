@@ -1,0 +1,276 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c8bdbe26bb2621842aad45dd670c1878, type: 3}
+  m_Name: ImageSpriteMapping_KGW_TestIngameScene
+  m_EditorClassIdentifier: 
+  entries:
+  - Path: Canvas/DefaultUIContainer/BottomUI/Button_CharacterCard_Third/MPBar/Outline
+    AddressKey: 0c92d89ca2497324a85c04d355a14743
+    AssetPath: Assets/00_Imports/11_LCS_Assets/UI/Rectangle 27 (3).png
+  - Path: Canvas/DefaultUIContainer/BottomUI/Button_CharacterCard_Third/HPBar/Outline
+    AddressKey: 0c92d89ca2497324a85c04d355a14743
+    AssetPath: Assets/00_Imports/11_LCS_Assets/UI/Rectangle 27 (3).png
+  - Path: Canvas/DefaultUIContainer/BottomUI/Button_CharacterCard_Third/CharacterImage
+    AddressKey: baefb0215243a804982570185e7eec30
+    AssetPath: Assets/00_Imports/10_LYH_Assets/UI/simpleWhite.jpg
+  - Path: Canvas/DefaultUIContainer/BottomUI/Button_CharacterCard_Third
+    AddressKey: cbb100b9b8fc7cf40b52289f13994d4d
+    AssetPath: Assets/00_Imports/11_LCS_Assets/UI/Rectangle 2.png
+  - Path: Canvas/DefaultUIContainer/BottomUI/Button_CharacterCard_First/MPBar/Outline
+    AddressKey: 0c92d89ca2497324a85c04d355a14743
+    AssetPath: Assets/00_Imports/11_LCS_Assets/UI/Rectangle 27 (3).png
+  - Path: Canvas/DefaultUIContainer/BottomUI/Button_CharacterCard_First/HPBar/Outline
+    AddressKey: 0c92d89ca2497324a85c04d355a14743
+    AssetPath: Assets/00_Imports/11_LCS_Assets/UI/Rectangle 27 (3).png
+  - Path: Canvas/DefaultUIContainer/BottomUI/Button_CharacterCard_First/CharacterImage
+    AddressKey: baefb0215243a804982570185e7eec30
+    AssetPath: Assets/00_Imports/10_LYH_Assets/UI/simpleWhite.jpg
+  - Path: Canvas/DefaultUIContainer/BottomUI/Button_CharacterCard_First
+    AddressKey: cbb100b9b8fc7cf40b52289f13994d4d
+    AssetPath: Assets/00_Imports/11_LCS_Assets/UI/Rectangle 2.png
+  - Path: Canvas/DefaultUIContainer/BottomUI/Button_CharacterCard_Second/MPBar/Outline
+    AddressKey: 0c92d89ca2497324a85c04d355a14743
+    AssetPath: Assets/00_Imports/11_LCS_Assets/UI/Rectangle 27 (3).png
+  - Path: Canvas/DefaultUIContainer/BottomUI/Button_CharacterCard_Second/HPBar/Outline
+    AddressKey: 0c92d89ca2497324a85c04d355a14743
+    AssetPath: Assets/00_Imports/11_LCS_Assets/UI/Rectangle 27 (3).png
+  - Path: Canvas/DefaultUIContainer/BottomUI/Button_CharacterCard_Second/CharacterImage
+    AddressKey: 57daccc1527ca1d43abc8eea0dd14179
+    AssetPath: Assets/06_SDW_Folder/Sprites/PanelBackground.png
+  - Path: Canvas/DefaultUIContainer/BottomUI/Button_CharacterCard_Second
+    AddressKey: cbb100b9b8fc7cf40b52289f13994d4d
+    AssetPath: Assets/00_Imports/11_LCS_Assets/UI/Rectangle 2.png
+  - Path: PopupCanvas/ClearStageContainer/MenuBox/Banner
+    AddressKey: 7ec18a2d903eb7a478bae080835c97a1
+    AssetPath: Assets/00_Imports/11_LCS_Assets/UI/RibbonBanner.png
+  - Path: PopupCanvas/DefeatContainer/MenuBox/Reward/GrowthPoint
+    AddressKey: dbaf53e7bca762e4ca8002e2b3261ca2
+    AssetPath: Assets/00_Imports/11_LCS_Assets/UI/Group 16.png
+  - Path: Canvas/DefaultUIContainer/BottomUI/Button_TreasureClosed
+    AddressKey: 335f7c7ba8037d54386f17ba306f438f
+    AssetPath: Assets/00_Imports/11_LCS_Assets/UI/Treasure.png
+  - Path: PopupCanvas/ClearStageContainer/MenuBox/SelectTreasure/SelectTreasure2
+    AddressKey: dbaf53e7bca762e4ca8002e2b3261ca2
+    AssetPath: Assets/00_Imports/11_LCS_Assets/UI/Group 16.png
+  - Path: PopupCanvas/RemoveAdContainer/MenuBox/IsOkaytoGoLobby/SubMenuBox/Button_Yes
+    AddressKey: f6b30aa533db96c43ade1c8ba5784ceb
+    AssetPath: Assets/00_Imports/11_LCS_Assets/UI/Rectangle 35.png
+  - Path: PopupCanvas/ClearStageContainer/MenuBox/SelectTreasure/Popup_TreasureExplanation/TreasureExBG
+    AddressKey: dbaf53e7bca762e4ca8002e2b3261ca2
+    AssetPath: Assets/00_Imports/11_LCS_Assets/UI/Group 16.png
+  - Path: PopupCanvas/SettingConainer/MenuBox/Slider_BGM/Handle Slide Area/Handle
+    AddressKey: 84779bcd61d73e547bdbaba1615dffed
+    AssetPath: Assets/00_Imports/11_LCS_Assets/UI/Ellipse 7.png
+  - Path: PopupCanvas/ClearStageContainer/MenuBox/SelectTreasure/SelectTreasure2/Button_TreasureExplanation/Image
+    AddressKey: 781799cc038aec24f9e14c5c4fbd96a0
+    AssetPath: Assets/00_Imports/11_LCS_Assets/UI/Dopboki1-01.png
+  - Path: Canvas/DefaultUIContainer/BackGround
+    AddressKey: d6c402df4c1130145a5368fb8087f29a
+    AssetPath: Assets/00_Imports/11_LCS_Assets/UI/BG.png
+  - Path: PopupCanvas/NonRemoveADContainer/MenuBox/Banner
+    AddressKey: 7ec18a2d903eb7a478bae080835c97a1
+    AssetPath: Assets/00_Imports/11_LCS_Assets/UI/RibbonBanner.png
+  - Path: PopupCanvas/ClearStageContainer/MenuBox/SelectTreasure/Popup_TreasureExplanation
+    AddressKey: dbaf53e7bca762e4ca8002e2b3261ca2
+    AssetPath: Assets/00_Imports/11_LCS_Assets/UI/Group 16.png
+  - Path: Canvas/DefaultUIContainer/TopUI/FastGameButtonX1
+    AddressKey: 86ab64f450903af4a99a28cb87c2ea8a
+    AssetPath: Assets/00_Imports/11_LCS_Assets/UI/Rectangle 28 (1).png
+  - Path: PopupCanvas/ClearStageContainer/MenuBox/SelectTreasure/SelectTreasure3/Button_TreasureExplanation
+    AddressKey: c9aca08061ecc37419462ae563e2036b
+    AssetPath: Assets/00_Imports/11_LCS_Assets/UI/Ellipse 4.png
+  - Path: Canvas/DefaultUIContainer/BottomUI/ScrollRect_FoodItem/Contents/Button
+      (2)
+    AddressKey: 1adee86810193154a8158e4c5f073d78
+    AssetPath: Assets/00_Imports/11_LCS_Assets/UI/Dish-01 1.png
+  - Path: Canvas/DefaultUIContainer/TopUI/Button_Menu
+    AddressKey: ff983db7a066da747bbb73ec74fcd388
+    AssetPath: Assets/00_Imports/11_LCS_Assets/UI/Menu_Button.png
+  - Path: PopupCanvas/NonRemoveADContainer/MenuBox/IsOkaytoGoLobby/SubMenuBox/Button_No
+    AddressKey: f6b30aa533db96c43ade1c8ba5784ceb
+    AssetPath: Assets/00_Imports/11_LCS_Assets/UI/Rectangle 35.png
+  - Path: Canvas/DefaultUIContainer/BottomUI/ScrollRect_FoodItem/Contents/Button
+      (6)
+    AddressKey: 1adee86810193154a8158e4c5f073d78
+    AssetPath: Assets/00_Imports/11_LCS_Assets/UI/Dish-01 1.png
+  - Path: Canvas/DefaultUIContainer/TopUI/StageInfo_Time_EnemyHP/OutsideBar
+    AddressKey: 1606dc27f903f024887aa6e29dc38181
+    AssetPath: Assets/00_Imports/11_LCS_Assets/UI/Rectangle 26 (1).png
+  - Path: PopupCanvas/SettingConainer/MenuBox/Slider_BGM/Background
+    AddressKey: 9e9eca082bb6b3242904bf6a870283ac
+    AssetPath: Assets/00_Imports/11_LCS_Assets/UI/Rectangle 34.png
+  - Path: PopupCanvas/ClearStageContainer/MenuBox/SelectTreasure/SelectTreasure3/Button_TreasureExplanation/Image
+    AddressKey: 781799cc038aec24f9e14c5c4fbd96a0
+    AssetPath: Assets/00_Imports/11_LCS_Assets/UI/Dopboki1-01.png
+  - Path: PopupCanvas/ClearStageContainer/MenuBox/SelectTreasure/SelectTreasure1/Button_TreasureExplanation
+    AddressKey: c9aca08061ecc37419462ae563e2036b
+    AssetPath: Assets/00_Imports/11_LCS_Assets/UI/Ellipse 4.png
+  - Path: PopupCanvas/ClearChapterContainer/MenuBox/Banner
+    AddressKey: 7ec18a2d903eb7a478bae080835c97a1
+    AssetPath: Assets/00_Imports/11_LCS_Assets/UI/RibbonBanner.png
+  - Path: PopupCanvas/ClearStageContainer/MenuBox/SelectTreasure/SelectTreasure1
+    AddressKey: dbaf53e7bca762e4ca8002e2b3261ca2
+    AssetPath: Assets/00_Imports/11_LCS_Assets/UI/Group 16.png
+  - Path: PopupCanvas/NonRemoveADContainer/MenuBox/Button_Retry
+    AddressKey: f6b30aa533db96c43ade1c8ba5784ceb
+    AssetPath: Assets/00_Imports/11_LCS_Assets/UI/Rectangle 35.png
+  - Path: PopupCanvas/RemoveAdContainer/MenuBox
+    AddressKey: 0e3d32e53abe9a241a1a3086fa0a4b82
+    AssetPath: Assets/00_Imports/11_LCS_Assets/UI/Rectangle 33.png
+  - Path: Canvas/DefaultUIContainer/BottomUI/Button_TreasureClosed/Button_TreasureOpened
+    AddressKey: 83f3fdafa399cce4180b249bfa2aabeb
+    AssetPath: Assets/00_Imports/11_LCS_Assets/UI/Group 25.png
+  - Path: Canvas/DefaultUIContainer/BottomUI/ScrollRect_FoodItem/Contents/Button
+      (3)
+    AddressKey: 1adee86810193154a8158e4c5f073d78
+    AssetPath: Assets/00_Imports/11_LCS_Assets/UI/Dish-01 1.png
+  - Path: PopupCanvas/RemoveAdContainer/MenuBox/IsOkaytoGoLobby/SubMenuBox/Button_No
+    AddressKey: f6b30aa533db96c43ade1c8ba5784ceb
+    AssetPath: Assets/00_Imports/11_LCS_Assets/UI/Rectangle 35.png
+  - Path: Canvas/DefaultUIContainer/BottomUI/ScrollRect_FoodItem/Contents/Button
+      (5)
+    AddressKey: 1adee86810193154a8158e4c5f073d78
+    AssetPath: Assets/00_Imports/11_LCS_Assets/UI/Dish-01 1.png
+  - Path: Canvas/DefaultUIContainer/TopUI/StageInfo_Time_EnemyHP/Time
+    AddressKey: c9aca08061ecc37419462ae563e2036b
+    AssetPath: Assets/00_Imports/11_LCS_Assets/UI/Ellipse 4.png
+  - Path: PopupCanvas/ClearStageContainer/MenuBox/Button_GoOn
+    AddressKey: f6b30aa533db96c43ade1c8ba5784ceb
+    AssetPath: Assets/00_Imports/11_LCS_Assets/UI/Rectangle 35.png
+  - Path: Canvas/DefaultUIContainer/BottomUI/ScrollRect_FoodItem/Contents/Button
+    AddressKey: 1adee86810193154a8158e4c5f073d78
+    AssetPath: Assets/00_Imports/11_LCS_Assets/UI/Dish-01 1.png
+  - Path: PopupCanvas/DefeatContainer/MenuBox/Button_GoLobby
+    AddressKey: f6b30aa533db96c43ade1c8ba5784ceb
+    AssetPath: Assets/00_Imports/11_LCS_Assets/UI/Rectangle 35.png
+  - Path: PopupCanvas/SettingConainer/MenuBox
+    AddressKey: 0e3d32e53abe9a241a1a3086fa0a4b82
+    AssetPath: Assets/00_Imports/11_LCS_Assets/UI/Rectangle 33.png
+  - Path: PopupCanvas/ClearChapterContainer/MenuBox/Reward/Exp
+    AddressKey: dbaf53e7bca762e4ca8002e2b3261ca2
+    AssetPath: Assets/00_Imports/11_LCS_Assets/UI/Group 16.png
+  - Path: PopupCanvas/ClearStageContainer/MenuBox/SelectTreasure/SelectTreasure1/Button_TreasureExplanation/Image
+    AddressKey: 781799cc038aec24f9e14c5c4fbd96a0
+    AssetPath: Assets/00_Imports/11_LCS_Assets/UI/Dopboki1-01.png
+  - Path: Canvas/DefaultUIContainer/BottomUI/ScrollRect_FoodItem/Contents/Button
+      (1)
+    AddressKey: 1adee86810193154a8158e4c5f073d78
+    AssetPath: Assets/00_Imports/11_LCS_Assets/UI/Dish-01 1.png
+  - Path: PopupCanvas/NonRemoveADContainer/MenuBox
+    AddressKey: 0e3d32e53abe9a241a1a3086fa0a4b82
+    AssetPath: Assets/00_Imports/11_LCS_Assets/UI/Rectangle 33.png
+  - Path: PopupCanvas/SettingConainer/MenuBox/Slider_SFX/Handle Slide Area/Handle
+    AddressKey: 84779bcd61d73e547bdbaba1615dffed
+    AssetPath: Assets/00_Imports/11_LCS_Assets/UI/Ellipse 7.png
+  - Path: PopupCanvas/DefeatContainer/MenuBox/Reward/Exp
+    AddressKey: dbaf53e7bca762e4ca8002e2b3261ca2
+    AssetPath: Assets/00_Imports/11_LCS_Assets/UI/Group 16.png
+  - Path: PopupCanvas/RemoveAdContainer/MenuBox/IsOkaytoGoLobby/SubMenuBox
+    AddressKey: 0e3d32e53abe9a241a1a3086fa0a4b82
+    AssetPath: Assets/00_Imports/11_LCS_Assets/UI/Rectangle 33.png
+  - Path: Canvas/DefaultUIContainer/BottomUI/ScrollRect_FoodItem/Contents/Button
+      (9)
+    AddressKey: 1adee86810193154a8158e4c5f073d78
+    AssetPath: Assets/00_Imports/11_LCS_Assets/UI/Dish-01 1.png
+  - Path: PopupCanvas/ClearStageContainer/MenuBox/SelectTreasure/Popup_TreasureExplanation/TreasureImgBG
+    AddressKey: dbaf53e7bca762e4ca8002e2b3261ca2
+    AssetPath: Assets/00_Imports/11_LCS_Assets/UI/Group 16.png
+  - Path: Canvas/DefaultUIContainer/BottomUI/Button_TreasureClosed/Button_TreasureOpened/Contents
+    AddressKey: 7e5999eb0e5be954db30dcc109e2fa1d
+    AssetPath: Assets/00_Imports/11_LCS_Assets/UI/Rectangle 36.png
+  - Path: PopupCanvas/SettingConainer/MenuBox/Slider_SFX/Background
+    AddressKey: 9e9eca082bb6b3242904bf6a870283ac
+    AssetPath: Assets/00_Imports/11_LCS_Assets/UI/Rectangle 34.png
+  - Path: PopupCanvas/NonRemoveADContainer/MenuBox/Button_Retry/Image
+    AddressKey: 578ecbd68c1b6dc448971ab65eaebbd0
+    AssetPath: Assets/00_Imports/11_LCS_Assets/UI/ADIcon-01.png
+  - Path: PopupCanvas/RemoveAdContainer/MenuBox/Button_Retry
+    AddressKey: f6b30aa533db96c43ade1c8ba5784ceb
+    AssetPath: Assets/00_Imports/11_LCS_Assets/UI/Rectangle 35.png
+  - Path: PopupCanvas/DefeatContainer/MenuBox
+    AddressKey: 0e3d32e53abe9a241a1a3086fa0a4b82
+    AssetPath: Assets/00_Imports/11_LCS_Assets/UI/Rectangle 33.png
+  - Path: Canvas/DefaultUIContainer/BottomUI/ScrollRect_FoodItem/Contents/Button
+      (8)
+    AddressKey: 1adee86810193154a8158e4c5f073d78
+    AssetPath: Assets/00_Imports/11_LCS_Assets/UI/Dish-01 1.png
+  - Path: PopupCanvas/RemoveAdContainer/MenuBox/Banner
+    AddressKey: 7ec18a2d903eb7a478bae080835c97a1
+    AssetPath: Assets/00_Imports/11_LCS_Assets/UI/RibbonBanner.png
+  - Path: Canvas/DefaultUIContainer/TopUI/StageText
+    AddressKey: 7dce5b391dddf81448e2b4c71f5820cf
+    AssetPath: Assets/00_Imports/11_LCS_Assets/UI/StageBanner.png
+  - Path: Canvas/DefaultUIContainer/TopUI/StageInfo_Time_EnemyHP/InsideBar_Empty
+    AddressKey: 840052e1f1b87484abf6eb7069bba3be
+    AssetPath: Assets/00_Imports/11_LCS_Assets/UI/Rectangle 26 (2).png
+  - Path: PopupCanvas/ClearStageContainer/MenuBox
+    AddressKey: 0e3d32e53abe9a241a1a3086fa0a4b82
+    AssetPath: Assets/00_Imports/11_LCS_Assets/UI/Rectangle 33.png
+  - Path: Canvas/DefaultUIContainer/BottomUI/ScrollRect_FoodItem/Contents/Button
+      (7)
+    AddressKey: 1adee86810193154a8158e4c5f073d78
+    AssetPath: Assets/00_Imports/11_LCS_Assets/UI/Dish-01 1.png
+  - Path: PopupCanvas/ClearChapterContainer/MenuBox
+    AddressKey: 0e3d32e53abe9a241a1a3086fa0a4b82
+    AssetPath: Assets/00_Imports/11_LCS_Assets/UI/Rectangle 33.png
+  - Path: PopupCanvas/DefeatContainer/MenuBox/Banner
+    AddressKey: 7ec18a2d903eb7a478bae080835c97a1
+    AssetPath: Assets/00_Imports/11_LCS_Assets/UI/RibbonBanner.png
+  - Path: Canvas/DefaultUIContainer/BottomUI/ScrollRect_FoodItem/Contents/Button
+      (4)
+    AddressKey: 1adee86810193154a8158e4c5f073d78
+    AssetPath: Assets/00_Imports/11_LCS_Assets/UI/Dish-01 1.png
+  - Path: PopupCanvas/ClearStageContainer/MenuBox/SelectTreasure/SelectTreasure2/Button_TreasureExplanation
+    AddressKey: c9aca08061ecc37419462ae563e2036b
+    AssetPath: Assets/00_Imports/11_LCS_Assets/UI/Ellipse 4.png
+  - Path: PopupCanvas/SettingConainer/MenuBox/IsOkaytoGoLobby/SubMenuBox/Button_No
+    AddressKey: f6b30aa533db96c43ade1c8ba5784ceb
+    AssetPath: Assets/00_Imports/11_LCS_Assets/UI/Rectangle 35.png
+  - Path: PopupCanvas/SettingConainer/MenuBox/Button_GoOn
+    AddressKey: f6b30aa533db96c43ade1c8ba5784ceb
+    AssetPath: Assets/00_Imports/11_LCS_Assets/UI/Rectangle 35.png
+  - Path: PopupCanvas/ClearStageContainer/MenuBox/SelectTreasure/SelectTreasure3
+    AddressKey: dbaf53e7bca762e4ca8002e2b3261ca2
+    AssetPath: Assets/00_Imports/11_LCS_Assets/UI/Group 16.png
+  - Path: PopupCanvas/SettingConainer/MenuBox/IsOkaytoGoLobby/SubMenuBox
+    AddressKey: 0e3d32e53abe9a241a1a3086fa0a4b82
+    AssetPath: Assets/00_Imports/11_LCS_Assets/UI/Rectangle 33.png
+  - Path: PopupCanvas/RemoveAdContainer/MenuBox/Button_GoLobby
+    AddressKey: f6b30aa533db96c43ade1c8ba5784ceb
+    AssetPath: Assets/00_Imports/11_LCS_Assets/UI/Rectangle 35.png
+  - Path: PopupCanvas/SettingConainer/MenuBox/IsOkaytoGoLobby/SubMenuBox/Button_Yes
+    AddressKey: f6b30aa533db96c43ade1c8ba5784ceb
+    AssetPath: Assets/00_Imports/11_LCS_Assets/UI/Rectangle 35.png
+  - Path: PopupCanvas/NonRemoveADContainer/MenuBox/IsOkaytoGoLobby/SubMenuBox/Button_Yes
+    AddressKey: f6b30aa533db96c43ade1c8ba5784ceb
+    AssetPath: Assets/00_Imports/11_LCS_Assets/UI/Rectangle 35.png
+  - Path: PopupCanvas/NonRemoveADContainer/MenuBox/Button_GoLobby
+    AddressKey: f6b30aa533db96c43ade1c8ba5784ceb
+    AssetPath: Assets/00_Imports/11_LCS_Assets/UI/Rectangle 35.png
+  - Path: PopupCanvas/ClearChapterContainer/MenuBox/Reward/GrowthPoint
+    AddressKey: dbaf53e7bca762e4ca8002e2b3261ca2
+    AssetPath: Assets/00_Imports/11_LCS_Assets/UI/Group 16.png
+  - Path: PopupCanvas/ClearChapterContainer/MenuBox/Button_GoLobby
+    AddressKey: f6b30aa533db96c43ade1c8ba5784ceb
+    AssetPath: Assets/00_Imports/11_LCS_Assets/UI/Rectangle 35.png
+  - Path: PopupCanvas/ClearStageContainer/MenuBox/SelectTreasure/Popup_TreasureExplanation/Button_Close
+    AddressKey: c9aca08061ecc37419462ae563e2036b
+    AssetPath: Assets/00_Imports/11_LCS_Assets/UI/Ellipse 4.png
+  - Path: Canvas/DefaultUIContainer/TopUI/FastGameButtonX2
+    AddressKey: 86ab64f450903af4a99a28cb87c2ea8a
+    AssetPath: Assets/00_Imports/11_LCS_Assets/UI/Rectangle 28 (1).png
+  - Path: PopupCanvas/NonRemoveADContainer/MenuBox/IsOkaytoGoLobby/SubMenuBox
+    AddressKey: 0e3d32e53abe9a241a1a3086fa0a4b82
+    AssetPath: Assets/00_Imports/11_LCS_Assets/UI/Rectangle 33.png
+  - Path: PopupCanvas/SettingConainer/MenuBox/Button_GoLobby
+    AddressKey: f6b30aa533db96c43ade1c8ba5784ceb
+    AssetPath: Assets/00_Imports/11_LCS_Assets/UI/Rectangle 35.png
