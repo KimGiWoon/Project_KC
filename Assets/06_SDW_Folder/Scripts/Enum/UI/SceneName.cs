@@ -4,6 +4,7 @@
     {
         SDW_SignInScene,
         SDW_LobbyScene,
-        KGW_TestIngameScene
+        KGW_TestIngameScene,
+        KSH_Gacha
     }
 }

@@ -33,7 +33,7 @@ namespace SDW
         public bool LastBoss => _lastBoss;
 
         private int _starCandy;
-        public int StarCandy => _starCandy = 5000;
+        public int StarCandy => _starCandy = 999999;
 
         private int _gachaCount;
         public int GachaCount => _gachaCount;
@@ -79,10 +79,9 @@ namespace SDW
         }
 
         public void SetStageBoss(bool isBoss) => _lastBoss = isBoss;
-        
-        public void SubtractStarCandy (int number) => _starCandy -= number;
-        
+
+        public void SubtractStarCandy(int number) => _starCandy -= number;
+
         public void AddGachaCount(int number) => _gachaCount += number;
     }
-    
 }
