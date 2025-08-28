@@ -20,28 +20,30 @@ public class BattleUI : BaseUI
 
     [Header("Option UI Setting")]
     [SerializeField] private Button _optionButton;
-    [SerializeField] private Button _fastButtonX1;
+    [SerializeField] private Image _fastButtonBG;
     [SerializeField] private Button _fastButtonX2;
     [SerializeField] private TMP_Text _timerText;
     [SerializeField] private TMP_Text _stageInfo;
     [SerializeField] private TMP_Text _totalHpText;
     [SerializeField] private Slider _totalMonsterHp;
 
-    private Coroutine _timerRoutine;
     public WaitForSeconds _playTime;
-    private float _time;
     public float _count;
     public float _currentTotalHp;
     public float _TotalHp;
     public bool _isOnMenu;
+
+    private float _time;
+    private bool _isFast;
+    private Coroutine _timerRoutine;
 
     public Action<UIName> OnUIOpenRequested;
 
     private void Awake()
     {
         _isOnMenu = false;
+        _isFast = false;
         _panelContainer.SetActive(false);
-        _fastButtonX1.onClick.AddListener(X1FastButtonClick);
         _fastButtonX2.onClick.AddListener(X2FastButtonClick);
         _optionButton.onClick.AddListener(MenuButtonClick);
     }
@@ -63,13 +65,11 @@ public class BattleUI : BaseUI
 
         if (CharacterSelectManager.Instance._isFastGame)
         {
-            _fastButtonX1.gameObject.SetActive(true);
-            _fastButtonX2.gameObject.SetActive(false);
+            _fastButtonBG.gameObject.SetActive(true);
         }
         else
         {
-            _fastButtonX1.gameObject.SetActive(false);
-            _fastButtonX2.gameObject.SetActive(true);
+            _fastButtonBG.gameObject.SetActive(false);
         }
 
         ChangeGameTimer();
@@ -86,7 +86,6 @@ public class BattleUI : BaseUI
         // 몬스터 통합 체력 변화 이벤트 구독 해제
         _battleManager.OnTotalHpChange -= MonsterTotalHpChange;
 
-        _fastButtonX1.onClick.RemoveListener(X1FastButtonClick);
         _fastButtonX2.onClick.RemoveListener(X2FastButtonClick);
         _optionButton.onClick.RemoveListener(MenuButtonClick);
     }
@@ -141,30 +140,27 @@ public class BattleUI : BaseUI
         _playTime = new WaitForSeconds(1f / speed);
     }
 
-    // X1 속도 버튼 클릭
-    private void X1FastButtonClick()
-    {
-        Debug.Log("1배속 진행");
-        // 2배속 미진행
-        CharacterSelectManager.Instance._isFastGame = false;
-
-        _fastButtonX1.gameObject.SetActive(false);
-        _fastButtonX2.gameObject.SetActive(true);
-
-        ChangeGameTimer();
-    }
-
     // X2 속도 버튼 클릭
     private void X2FastButtonClick()
     {
-        Debug.Log("2배속 진행");
-        // 2배속 진행
-        CharacterSelectManager.Instance._isFastGame = true;
+        if (_isFast)
+        {
+            CharacterSelectManager.Instance._isFastGame = false;
 
-        _fastButtonX1.gameObject.SetActive(true);
-        _fastButtonX2.gameObject.SetActive(false);
+            _fastButtonBG.gameObject.SetActive(false);
+            _isFast = false;
 
-        ChangeGameTimer();
+            ChangeGameTimer();
+        }
+        else
+        {
+            CharacterSelectManager.Instance._isFastGame = true;
+
+            _fastButtonBG.gameObject.SetActive(true);
+            _isFast = true;
+
+            ChangeGameTimer();
+        }
     }
 
     // 메뉴 버튼 클릭
