@@ -1,50 +1,48 @@
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 public class MapView : MonoBehaviour
 {
-
-    public Transform mapParent;
-
-
-    // 사용할 맵 템플릿 프리팹을 여기에 연결
-    [Header("Template Settings")]
+    [Header("맵 & 플레이어 프리팹")]
     public GameObject mapTemplatePrefab;
+    public GameObject playerCharacterPrefab; // [추가!] 플레이어 캐릭터 프리팹 연결
+    public MapConfig mapConfig;
 
+    [Header("캐릭터 이동 애니메이션")]
+    public float playerMoveDuration = 0.5f; // 캐릭터가 이동하는 데 걸리는 시간
+    public Ease playerMoveEase = Ease.OutQuad; // 캐릭터 이동 애니메이션 방식
 
-    private GameObject currentMapInstance; // 현재 생성된 맵 인스턴스를 저장할 변수
+    public MapData CurrentMapData => currentMap;
+
+    private GameObject currentMapInstance;
     private MapData currentMap;
-    private Dictionary<Vector2Int, MapNode> nodeObjects; // 좌표로 MapNode를 빠르게 찾기 위한 Dictionary
-    public static MapView Instance; // 다른 스크립트에서 MapView에 쉽게 접근하기 위한 변수
+    private Dictionary<Vector2Int, MapNode> nodeObjects;
+
+    // [추가!] 생성된 플레이어 캐릭터를 담을 변수
+    private GameObject playerCharacterInstance;
+
+    public static MapView Instance;
 
     private void Awake()
     {
-        // 싱글톤 패턴: 이 클래스의 인스턴스가 단 하나만 존재하도록 보장
-        if (Instance == null)
-        {
-            Instance = this;
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
+        if (Instance == null) Instance = this;
+        else Destroy(gameObject);
     }
+
     public void CreateMapView(MapData map)
     {
         ClearMap();
+        currentMap = map;
+        currentMapInstance = Instantiate(mapTemplatePrefab);
+        nodeObjects = new Dictionary<Vector2Int, MapNode>();
 
-        if (mapTemplatePrefab == null)
+        // 플레이어 캐릭터 생성 (씬에 없으면 새로 생성)
+        if (playerCharacterInstance == null && playerCharacterPrefab != null)
         {
-            Debug.LogError("Map Template Prefab이 지정되지 않았습니다!");
-            return;
+            playerCharacterInstance = Instantiate(playerCharacterPrefab, transform);
         }
 
-        currentMapInstance = Instantiate(mapTemplatePrefab, mapParent);
-        currentMap = map;
-
-        nodeObjects = new Dictionary<Vector2Int, MapNode>(); // Dictionary 초기화
-
-        // 템플릿의 모든 노드를 Dictionary에 저장
         foreach (var placeholder in currentMapInstance.GetComponentsInChildren<MapNodeIdentifier>())
         {
             var point = new Vector2Int(placeholder.floorIndex, placeholder.nodeIndexInFloor);
@@ -52,24 +50,61 @@ public class MapView : MonoBehaviour
             {
                 nodeObjects.Add(point, placeholder.GetComponent<MapNode>());
             }
-            placeholder.gameObject.SetActive(false); // 우선 모든 노드 비활성화
+            placeholder.gameObject.SetActive(false);
         }
 
-        // 맵 데이터의 노드를 순회하며 활성화 및 Setup
         foreach (var dataNode in map.Nodes)
         {
             if (nodeObjects.TryGetValue(dataNode.point, out MapNode mapNode))
             {
-                mapNode.Setup(dataNode);
+                mapNode.Setup(dataNode, mapConfig);
                 mapNode.gameObject.SetActive(true);
             }
         }
 
-        // 시작 노드를 찾아 즉시 '선택'하여 다음 노드들을 밝힙니다.
-        var startMapNode = nodeObjects[map.StartNode.point];
-        if (startMapNode != null)
+        UpdateMapState();
+    }
+
+    public void SelectNode(MapNode selectedNode)
+    {
+        if (currentMap.Path.Contains(selectedNode.nodeData)) return;
+        currentMap.Path.Add(selectedNode.nodeData);
+        UpdateMapState();
+    }
+
+    private void UpdateMapState()
+    {
+        Node currentNode = currentMap.CurrentNode;
+        if (currentNode == null) return;
+
+        // [추가!] 현재 노드로 플레이어 캐릭터 이동
+        UpdatePlayerPosition();
+
+        foreach (var mapNode in nodeObjects.Values)
         {
-            SelectNode(startMapNode);
+            bool isNextNode = currentNode.nextNodes.Contains(mapNode.nodeData);
+
+            if (isNextNode && !mapNode.isRevealed)
+            {
+                mapNode.Reveal();
+            }
+            mapNode.SetSelectable(isNextNode);
+            mapNode.UpdateVisuals();
+        }
+    }
+
+    // [추가!] 플레이어 캐릭터를 현재 노드 위치로 이동시키는 함수
+    private void UpdatePlayerPosition()
+    {
+        if (playerCharacterInstance == null || currentMap.CurrentNode == null) return;
+
+        // 현재 노드의 게임 오브젝트를 찾습니다.
+        if (nodeObjects.TryGetValue(currentMap.CurrentNode.point, out MapNode currentNodeObject))
+        {
+            // DoTween을 사용해 부드럽게 이동!
+            playerCharacterInstance.transform
+                .DOMove(currentNodeObject.transform.position, playerMoveDuration)
+                .SetEase(playerMoveEase);
         }
     }
 
@@ -78,22 +113,6 @@ public class MapView : MonoBehaviour
         if (currentMapInstance != null)
         {
             Destroy(currentMapInstance);
-        }
-    }
-
-    public void SelectNode(MapNode selectedNode)
-    {
-        Debug.Log(selectedNode.nodeData.point + " 노드를 선택했습니다. 다음 노드들을 공개합니다.");
-
-        // 선택된 노드에서 갈 수 있는 모든 다음 노드(자식 노드)들을 순회합니다.
-        foreach (var nextNodeData in selectedNode.nodeData.nextNodes)
-        {
-            // 데이터에 해당하는 MapNode 게임 오브젝트를 Dictionary에서 찾습니다.
-            if (nodeObjects.TryGetValue(nextNodeData.point, out MapNode nextMapNode))
-            {
-                // 해당 MapNode의 Reveal() 함수를 호출합니다.
-                nextMapNode.Reveal();
-            }
         }
     }
 }

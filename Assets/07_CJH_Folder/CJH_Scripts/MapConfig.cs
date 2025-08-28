@@ -4,10 +4,10 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Map/MapConfig")]
 public class MapConfig : ScriptableObject
 {
-    [Header("³ëµå ÅÛÇÃ¸´")]
+    [Header("ë…¸ë“œ í…œí”Œë¦¿")]
     public List<NodeTemplate> NodeTemplates;
 
-    [Header("³ëµå Å¸ÀÔ (·£´ı ¼±ÅÃ¿ë)")]
+    [Header("ë…¸ë“œ íƒ€ì… (ëœë¤ ì„ íƒìš©)")]
     public List<NodeType> randomNodes = new List<NodeType>
     {
         NodeType.Battle,
@@ -15,17 +15,17 @@ public class MapConfig : ScriptableObject
         NodeType.Event
     };
 
-    [Header("³ëµå À§Ä¡ ¼³Á¤")]
+    [Header("ë…¸ë“œ ìœ„ì¹˜ ì„¤ì •")]
     public int xDist = 30;
     public int yGap = 25;
     public int placementRandomness = 5;
 
-    [Header("¸Ê Å©±â ¼³Á¤")]
+    [Header("ë§µ í¬ê¸° ì„¤ì •")]
     public int floors = 16;
     public int mapWidth = 7;
     public int paths = 6;
 
-    [Header("³ëµå »ı¼º È®·ü (°¡ÁßÄ¡)")]
+    [Header("ë…¸ë“œ ìƒì„± í™•ë¥  (ê°€ì¤‘ì¹˜)")]
     public float BattleNodeWeight = 2.0f;
     public float EventNodeWeight = 4.0f;
 }

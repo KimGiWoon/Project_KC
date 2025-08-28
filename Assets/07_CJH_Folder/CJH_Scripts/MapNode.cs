@@ -1,124 +1,124 @@
+using System.Linq;
 using UnityEngine;
+using System.Collections.Generic;
+
+using System.Linq;
+using UnityEngine;
+using System.Collections.Generic;
 
 public class MapNode : MonoBehaviour
 {
     public Node nodeData { get; private set; }
     public bool isRevealed { get; private set; } = false;
+    public bool isSelectable { get; private set; } = false;
 
-    [Header("노드 프리팹 설정")]
-    [Tooltip("시작 지점에 생성될 노드 프리팹")]
-    public GameObject startNodePrefab;
-    [Tooltip("보스 지점에 생성될 노드 프리팹")]
-    public GameObject bossNodePrefab;
-    [Tooltip("전투 지점에 생성될 노드 프리팹")]
-    public GameObject battleNodePrefab;
-    [Tooltip("숨겨진 상태일 때 보여줄 프리팹 (물음표)")]
-    public GameObject mysteryNodePrefab;
+    [Header("노드 상태별 색상")]
+    public Color visitedColor = new Color(0.8f, 0.7f, 0.5f);
+    public Color selectableColor = Color.white;
+    public Color nonSelectableColor = Color.grey;
 
-    [Header("이벤트 노드 프리팹 (랜덤 등장)")]
-    [Tooltip("긍정적 이벤트(보상)에 해당하는 프리팹 목록")]
-    public GameObject[] positiveEventPrefabs;
-    [Tooltip("부정적 이벤트(패널티)에 해당하는 프리팹 목록")]
-    public GameObject[] negativeEventPrefabs;
-    [Tooltip("중립적 이벤트(선택)에 해당하는 프리팹 목록")]
-    public GameObject[] neutralEventPrefabs;
+    private MapConfig _mapConfig;
+    private SpriteRenderer _spriteRenderer;
 
-    // 현재 생성된 노드의 비주얼(프리팹 인스턴스)을 저장하는 변수
-    private GameObject currentNodeVisual;
+    // [추가!] 한 번 결정된 이벤트 스프라이트를 저장할 변수
+    private Sprite chosenEventSprite;
 
-    // 맵 생성 시, 노드의 데이터를 설정하고 초기 상태의 프리팹을 생성
-    public void Setup(Node dataNode)
+    public void Setup(Node dataNode, MapConfig config)
     {
-        nodeData = dataNode;
+        this.nodeData = dataNode;
+        this._mapConfig = config;
+        _spriteRenderer = GetComponent<SpriteRenderer>();
+
         isRevealed = false;
+        isSelectable = false;
+        chosenEventSprite = null; // 맵을 새로 만들 때마다 초기화
 
-        // 이전에 생성된 비주얼이 있다면 삭제
-        if (currentNodeVisual != null) Destroy(currentNodeVisual);
-
-        // 시작, 전투, 보스 노드는 처음부터 바로 공개
         if (nodeData.nodeType == NodeType.Start || nodeData.nodeType == NodeType.Battle || nodeData.nodeType == NodeType.Boss)
         {
-            Reveal();
+            isRevealed = true;
+            if (nodeData.nodeType == NodeType.Start)
+            {
+                isSelectable = true;
+            }
         }
-        // 그 외(이벤트 노드)는 미스터리 상태로 시작
-        else
-        {
-            InstantiatePrefab(mysteryNodePrefab);
-        }
+        UpdateVisuals();
     }
 
-    // 노드의 실제 타입을 해당하는 프리팹으로 교체하여 공개
     public void Reveal()
     {
         if (isRevealed) return;
         isRevealed = true;
-
-        if (currentNodeVisual != null) Destroy(currentNodeVisual);
-
-        GameObject prefabToInstantiate = null;
-
-        switch (nodeData.nodeType)
-        {
-            case NodeType.Start:
-                prefabToInstantiate = startNodePrefab;
-                break;
-            case NodeType.Boss:
-                prefabToInstantiate = bossNodePrefab;
-                break;
-            case NodeType.Battle:
-                prefabToInstantiate = battleNodePrefab;
-                break;
-            case NodeType.Event:
-                switch (nodeData.EventTypeKc)
-                {
-                    case EventTypeKC.Positive:
-                        // 긍정적 프리팹 배열에서 하나를 랜덤으로 선택
-                        if (positiveEventPrefabs != null && positiveEventPrefabs.Length > 0)
-                        {
-                            int randomIndex = Random.Range(0, positiveEventPrefabs.Length);
-                            prefabToInstantiate = positiveEventPrefabs[randomIndex];
-                        }
-                        break;
-                    case EventTypeKC.Negative:
-                        // 부정적 프리팹 배열에서 하나를 랜덤으로 선택
-                        if (negativeEventPrefabs != null && negativeEventPrefabs.Length > 0)
-                        {
-                            int randomIndex = Random.Range(0, negativeEventPrefabs.Length);
-                            prefabToInstantiate = negativeEventPrefabs[randomIndex];
-                        }
-                        break;
-                    case EventTypeKC.Neutral:
-                        // 중립적 프리팹 배열에서 하나를 랜덤으로 선택
-                        if (neutralEventPrefabs != null && neutralEventPrefabs.Length > 0)
-                        {
-                            int randomIndex = Random.Range(0, neutralEventPrefabs.Length);
-                            prefabToInstantiate = neutralEventPrefabs[randomIndex];
-                        }
-                        break;
-                }
-                break;
-        }
-
-        InstantiatePrefab(prefabToInstantiate);
     }
 
-    // 프리팹을 생성하고 위치를 맞추는 함수
-    private void InstantiatePrefab(GameObject prefab)
+    public void SetSelectable(bool selectable)
     {
-        if (prefab != null)
-        {
-            // 이 MapNode 오브젝트의 자식으로 프리팹을 생성
-            currentNodeVisual = Instantiate(prefab, transform);
+        isSelectable = selectable;
+        UpdateVisuals();
+    }
 
-            // 시작/보스 노드의 경우 특별히 크기를 키워줌
-            if (nodeData.nodeType == NodeType.Start || nodeData.nodeType == NodeType.Boss)
+    public void UpdateVisuals()
+    {
+        if (_spriteRenderer == null) return;
+
+        if (!isRevealed)
+        {
+            ApplySprite(NodeType.Mystery);
+            _spriteRenderer.color = selectableColor;
+            return;
+        }
+
+        ApplySprite(nodeData.nodeType);
+
+        if (MapView.Instance != null && MapView.Instance.CurrentMapData != null && MapView.Instance.CurrentMapData.Path.Contains(nodeData))
+            _spriteRenderer.color = visitedColor;
+        else if (isSelectable)
+            _spriteRenderer.color = selectableColor;
+        else
+            _spriteRenderer.color = nonSelectableColor;
+    }
+
+    private void ApplySprite(NodeType type)
+    {
+        if (_mapConfig == null || _mapConfig.NodeTemplates == null) return;
+        NodeTemplate template = _mapConfig.NodeTemplates.FirstOrDefault(t => t.nodeType == type);
+        if (template == null) return;
+
+        // 이벤트 타입일 경우의 로직 변경
+        if (type == NodeType.Event)
+        {
+            // 아직 결정된 스프라이트가 없다면, 지금 랜덤으로 하나를 뽑아서 저장합니다.
+            if (chosenEventSprite == null)
             {
-                transform.localScale = new Vector3(1.5f, 1.5f, 1f); // 크기는 원하는 대로 조절
+                List<Sprite> targetList = null;
+                switch (nodeData.EventTypeKC)
+                {
+                    case EventTypeKC.Positive: targetList = template.positiveEventSprites; break;
+                    case EventTypeKC.Negative: targetList = template.negativeEventSprites; break;
+                    case EventTypeKC.Neutral: targetList = template.neutralEventSprites; break;
+                }
+                if (targetList != null && targetList.Count > 0)
+                {
+                    chosenEventSprite = targetList[Random.Range(0, targetList.Count)];
+                }
+            }
+
+            // 이미 결정된 스프라이트가 있다면, 그것을 계속 사용합니다.
+            if (chosenEventSprite != null)
+            {
+                _spriteRenderer.sprite = chosenEventSprite;
             }
         }
-        else
+        else // 이벤트가 아닌 다른 모든 노드 타입의 경우
         {
-            Debug.LogWarning($"{nodeData.nodeType} 타입에 해당하는 프리팹이 비어있습니다!");
+            if (template.sprite != null)
+            {
+                _spriteRenderer.sprite = template.sprite;
+            }
         }
+
+        if (type == NodeType.Start || type == NodeType.Boss)
+            transform.localScale = new Vector3(1.5f, 1.5f, 1f);
+        else
+            transform.localScale = Vector3.one;
     }
 }
