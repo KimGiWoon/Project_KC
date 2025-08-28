@@ -444,9 +444,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingLayerID: 376073119
+  m_SortingLayer: 1
+  m_SortingOrder: 5
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -470,7 +470,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 139e934e69225c24eb67f19a6ea436e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  floorIndex: 3
+  floorIndex: 2
   nodeIndexInFloor: 1
   connections:
   - {fileID: 1452266434200436209}
@@ -486,24 +486,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 610f467cf3f06d74e8b5874dd0817ae4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startNodePrefab: {fileID: 5314003597019483800, guid: 61372402dea568f4b8b767fc6dcafed3, type: 3}
-  bossNodePrefab: {fileID: 498622147187084010, guid: ba5a7751b65d20147940200707ffb7eb, type: 3}
-  battleNodePrefab: {fileID: 1514414336498856512, guid: ab1aedb034b0a4e4cb049b41afbc5718, type: 3}
-  mysteryNodePrefab: {fileID: 2755358439549087703, guid: a281b11ae9dd6af48b5a8d46fdcac424, type: 3}
-  positiveEventPrefabs:
-  - {fileID: 3793427718622945488, guid: 0ab807aeeeae9fb48ba316e8412e0615, type: 3}
-  - {fileID: 5222239933796657268, guid: 1d0a2f5432ccc774c89946a6207ac53a, type: 3}
-  - {fileID: 5387835674950664529, guid: 7d852de3378d2814a9f07f4c9cf77f75, type: 3}
-  - {fileID: 3326747457531553642, guid: b11f8ca804f3bb844a1ccc0170f58dc1, type: 3}
-  - {fileID: 5710313095065501714, guid: bb5b90d847c796d4a9620fa384ee82d3, type: 3}
-  negativeEventPrefabs:
-  - {fileID: 7879890245647903979, guid: ed4fab66bd164024b86ed3103f3bff5c, type: 3}
-  - {fileID: 3961563289447007994, guid: d13ca6952c6c37248938d11fedfcdb67, type: 3}
-  - {fileID: 833716009620442187, guid: 17a3e3b30c62620408260aa631f12ced, type: 3}
-  neutralEventPrefabs:
-  - {fileID: 3110019165571113519, guid: 39c972ee71d9cb340b5b15086665a423, type: 3}
-  - {fileID: 5744790494778299404, guid: bafa091f53896834e9c0d40e81c22781, type: 3}
-  - {fileID: 6831852497013820213, guid: e6cf8afbedd64654398fe452f256aa4a, type: 3}
 --- !u!58 &527291842894762290
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -629,9 +611,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingLayerID: 376073119
+  m_SortingLayer: 1
+  m_SortingOrder: 5
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -655,9 +637,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 139e934e69225c24eb67f19a6ea436e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  floorIndex: 4
+  floorIndex: 1
   nodeIndexInFloor: 0
-  connections: []
+  connections:
+  - {fileID: 822724656248566885}
 --- !u!114 &4972671744823578951
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -670,24 +653,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 610f467cf3f06d74e8b5874dd0817ae4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startNodePrefab: {fileID: 5314003597019483800, guid: 61372402dea568f4b8b767fc6dcafed3, type: 3}
-  bossNodePrefab: {fileID: 498622147187084010, guid: ba5a7751b65d20147940200707ffb7eb, type: 3}
-  battleNodePrefab: {fileID: 1514414336498856512, guid: ab1aedb034b0a4e4cb049b41afbc5718, type: 3}
-  mysteryNodePrefab: {fileID: 2755358439549087703, guid: a281b11ae9dd6af48b5a8d46fdcac424, type: 3}
-  positiveEventPrefabs:
-  - {fileID: 3793427718622945488, guid: 0ab807aeeeae9fb48ba316e8412e0615, type: 3}
-  - {fileID: 5222239933796657268, guid: 1d0a2f5432ccc774c89946a6207ac53a, type: 3}
-  - {fileID: 5387835674950664529, guid: 7d852de3378d2814a9f07f4c9cf77f75, type: 3}
-  - {fileID: 3326747457531553642, guid: b11f8ca804f3bb844a1ccc0170f58dc1, type: 3}
-  - {fileID: 5710313095065501714, guid: bb5b90d847c796d4a9620fa384ee82d3, type: 3}
-  negativeEventPrefabs:
-  - {fileID: 7879890245647903979, guid: ed4fab66bd164024b86ed3103f3bff5c, type: 3}
-  - {fileID: 3961563289447007994, guid: d13ca6952c6c37248938d11fedfcdb67, type: 3}
-  - {fileID: 833716009620442187, guid: 17a3e3b30c62620408260aa631f12ced, type: 3}
-  neutralEventPrefabs:
-  - {fileID: 3110019165571113519, guid: 39c972ee71d9cb340b5b15086665a423, type: 3}
-  - {fileID: 5744790494778299404, guid: bafa091f53896834e9c0d40e81c22781, type: 3}
-  - {fileID: 6831852497013820213, guid: e6cf8afbedd64654398fe452f256aa4a, type: 3}
 --- !u!58 &9062402169091800685
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -813,9 +778,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingLayerID: 376073119
+  m_SortingLayer: 1
+  m_SortingOrder: 5
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -839,9 +804,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 139e934e69225c24eb67f19a6ea436e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  floorIndex: 4
+  floorIndex: 1
   nodeIndexInFloor: 1
-  connections: []
+  connections:
+  - {fileID: 822724656248566885}
+  - {fileID: 6899565183743799291}
 --- !u!114 &4663707619561991911
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -854,24 +821,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 610f467cf3f06d74e8b5874dd0817ae4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startNodePrefab: {fileID: 5314003597019483800, guid: 61372402dea568f4b8b767fc6dcafed3, type: 3}
-  bossNodePrefab: {fileID: 498622147187084010, guid: ba5a7751b65d20147940200707ffb7eb, type: 3}
-  battleNodePrefab: {fileID: 1514414336498856512, guid: ab1aedb034b0a4e4cb049b41afbc5718, type: 3}
-  mysteryNodePrefab: {fileID: 2755358439549087703, guid: a281b11ae9dd6af48b5a8d46fdcac424, type: 3}
-  positiveEventPrefabs:
-  - {fileID: 3793427718622945488, guid: 0ab807aeeeae9fb48ba316e8412e0615, type: 3}
-  - {fileID: 5222239933796657268, guid: 1d0a2f5432ccc774c89946a6207ac53a, type: 3}
-  - {fileID: 5387835674950664529, guid: 7d852de3378d2814a9f07f4c9cf77f75, type: 3}
-  - {fileID: 3326747457531553642, guid: b11f8ca804f3bb844a1ccc0170f58dc1, type: 3}
-  - {fileID: 5710313095065501714, guid: bb5b90d847c796d4a9620fa384ee82d3, type: 3}
-  negativeEventPrefabs:
-  - {fileID: 7879890245647903979, guid: ed4fab66bd164024b86ed3103f3bff5c, type: 3}
-  - {fileID: 3961563289447007994, guid: d13ca6952c6c37248938d11fedfcdb67, type: 3}
-  - {fileID: 833716009620442187, guid: 17a3e3b30c62620408260aa631f12ced, type: 3}
-  neutralEventPrefabs:
-  - {fileID: 3110019165571113519, guid: 39c972ee71d9cb340b5b15086665a423, type: 3}
-  - {fileID: 5744790494778299404, guid: bafa091f53896834e9c0d40e81c22781, type: 3}
-  - {fileID: 6831852497013820213, guid: e6cf8afbedd64654398fe452f256aa4a, type: 3}
 --- !u!58 &3916711128710170159
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -1379,9 +1328,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingLayerID: 376073119
+  m_SortingLayer: 1
+  m_SortingOrder: 5
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -1405,9 +1354,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 139e934e69225c24eb67f19a6ea436e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  floorIndex: 2
+  floorIndex: 3
   nodeIndexInFloor: 2
-  connections: []
+  connections:
+  - {fileID: 7563554940717939883}
 --- !u!114 &4858834811136910130
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1420,24 +1370,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 610f467cf3f06d74e8b5874dd0817ae4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startNodePrefab: {fileID: 5314003597019483800, guid: 61372402dea568f4b8b767fc6dcafed3, type: 3}
-  bossNodePrefab: {fileID: 498622147187084010, guid: ba5a7751b65d20147940200707ffb7eb, type: 3}
-  battleNodePrefab: {fileID: 1514414336498856512, guid: ab1aedb034b0a4e4cb049b41afbc5718, type: 3}
-  mysteryNodePrefab: {fileID: 2755358439549087703, guid: a281b11ae9dd6af48b5a8d46fdcac424, type: 3}
-  positiveEventPrefabs:
-  - {fileID: 3793427718622945488, guid: 0ab807aeeeae9fb48ba316e8412e0615, type: 3}
-  - {fileID: 5222239933796657268, guid: 1d0a2f5432ccc774c89946a6207ac53a, type: 3}
-  - {fileID: 5387835674950664529, guid: 7d852de3378d2814a9f07f4c9cf77f75, type: 3}
-  - {fileID: 3326747457531553642, guid: b11f8ca804f3bb844a1ccc0170f58dc1, type: 3}
-  - {fileID: 5710313095065501714, guid: bb5b90d847c796d4a9620fa384ee82d3, type: 3}
-  negativeEventPrefabs:
-  - {fileID: 7879890245647903979, guid: ed4fab66bd164024b86ed3103f3bff5c, type: 3}
-  - {fileID: 3961563289447007994, guid: d13ca6952c6c37248938d11fedfcdb67, type: 3}
-  - {fileID: 833716009620442187, guid: 17a3e3b30c62620408260aa631f12ced, type: 3}
-  neutralEventPrefabs:
-  - {fileID: 3110019165571113519, guid: 39c972ee71d9cb340b5b15086665a423, type: 3}
-  - {fileID: 5744790494778299404, guid: bafa091f53896834e9c0d40e81c22781, type: 3}
-  - {fileID: 6831852497013820213, guid: e6cf8afbedd64654398fe452f256aa4a, type: 3}
 --- !u!58 &6008505921857964559
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -1597,9 +1529,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingLayerID: 376073119
+  m_SortingLayer: 1
+  m_SortingOrder: 5
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -1623,9 +1555,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 139e934e69225c24eb67f19a6ea436e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  floorIndex: 2
+  floorIndex: 3
   nodeIndexInFloor: 1
-  connections: []
+  connections:
+  - {fileID: 7563554940717939883}
 --- !u!114 &7859313609636769971
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1638,24 +1571,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 610f467cf3f06d74e8b5874dd0817ae4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startNodePrefab: {fileID: 5314003597019483800, guid: 61372402dea568f4b8b767fc6dcafed3, type: 3}
-  bossNodePrefab: {fileID: 498622147187084010, guid: ba5a7751b65d20147940200707ffb7eb, type: 3}
-  battleNodePrefab: {fileID: 1514414336498856512, guid: ab1aedb034b0a4e4cb049b41afbc5718, type: 3}
-  mysteryNodePrefab: {fileID: 2755358439549087703, guid: a281b11ae9dd6af48b5a8d46fdcac424, type: 3}
-  positiveEventPrefabs:
-  - {fileID: 3793427718622945488, guid: 0ab807aeeeae9fb48ba316e8412e0615, type: 3}
-  - {fileID: 5222239933796657268, guid: 1d0a2f5432ccc774c89946a6207ac53a, type: 3}
-  - {fileID: 5387835674950664529, guid: 7d852de3378d2814a9f07f4c9cf77f75, type: 3}
-  - {fileID: 3326747457531553642, guid: b11f8ca804f3bb844a1ccc0170f58dc1, type: 3}
-  - {fileID: 5710313095065501714, guid: bb5b90d847c796d4a9620fa384ee82d3, type: 3}
-  negativeEventPrefabs:
-  - {fileID: 7879890245647903979, guid: ed4fab66bd164024b86ed3103f3bff5c, type: 3}
-  - {fileID: 3961563289447007994, guid: d13ca6952c6c37248938d11fedfcdb67, type: 3}
-  - {fileID: 833716009620442187, guid: 17a3e3b30c62620408260aa631f12ced, type: 3}
-  neutralEventPrefabs:
-  - {fileID: 3110019165571113519, guid: 39c972ee71d9cb340b5b15086665a423, type: 3}
-  - {fileID: 5744790494778299404, guid: bafa091f53896834e9c0d40e81c22781, type: 3}
-  - {fileID: 6831852497013820213, guid: e6cf8afbedd64654398fe452f256aa4a, type: 3}
 --- !u!58 &6192740526853242559
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -1781,9 +1696,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingLayerID: 376073119
+  m_SortingLayer: 1
+  m_SortingOrder: 5
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
   m_Color: {r: 1, g: 0.12740919, b: 0.11792451, a: 1}
   m_FlipX: 0
@@ -1807,7 +1722,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 139e934e69225c24eb67f19a6ea436e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  floorIndex: 0
+  floorIndex: 5
   nodeIndexInFloor: 0
   connections: []
 --- !u!114 &8925311705930653750
@@ -1822,13 +1737,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 610f467cf3f06d74e8b5874dd0817ae4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startNodePrefab: {fileID: 5314003597019483800, guid: 61372402dea568f4b8b767fc6dcafed3, type: 3}
-  bossNodePrefab: {fileID: 498622147187084010, guid: ba5a7751b65d20147940200707ffb7eb, type: 3}
-  battleNodePrefab: {fileID: 1514414336498856512, guid: ab1aedb034b0a4e4cb049b41afbc5718, type: 3}
-  mysteryNodePrefab: {fileID: 2755358439549087703, guid: a281b11ae9dd6af48b5a8d46fdcac424, type: 3}
-  positiveEventPrefabs: []
-  negativeEventPrefabs: []
-  neutralEventPrefabs: []
 --- !u!58 &2099131675266166645
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -1954,9 +1862,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingLayerID: 376073119
+  m_SortingLayer: 1
+  m_SortingOrder: 5
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
   m_Color: {r: 0.44729152, g: 1, b: 0.43867922, a: 1}
   m_FlipX: 0
@@ -1980,13 +1888,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 610f467cf3f06d74e8b5874dd0817ae4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startNodePrefab: {fileID: 5314003597019483800, guid: 61372402dea568f4b8b767fc6dcafed3, type: 3}
-  bossNodePrefab: {fileID: 498622147187084010, guid: ba5a7751b65d20147940200707ffb7eb, type: 3}
-  battleNodePrefab: {fileID: 1514414336498856512, guid: ab1aedb034b0a4e4cb049b41afbc5718, type: 3}
-  mysteryNodePrefab: {fileID: 2755358439549087703, guid: a281b11ae9dd6af48b5a8d46fdcac424, type: 3}
-  positiveEventPrefabs: []
-  negativeEventPrefabs: []
-  neutralEventPrefabs: []
 --- !u!114 &819806345674325973
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1999,7 +1900,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 139e934e69225c24eb67f19a6ea436e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  floorIndex: 5
+  floorIndex: 0
   nodeIndexInFloor: 0
   connections:
   - {fileID: 6247163868776769705}
@@ -2331,9 +2232,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingLayerID: 376073119
+  m_SortingLayer: 1
+  m_SortingOrder: 5
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -2357,9 +2258,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 139e934e69225c24eb67f19a6ea436e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  floorIndex: 1
+  floorIndex: 4
   nodeIndexInFloor: 1
-  connections: []
+  connections:
+  - {fileID: 2411408671821769224}
 --- !u!114 &1303991343986034254
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2372,24 +2274,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 610f467cf3f06d74e8b5874dd0817ae4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startNodePrefab: {fileID: 5314003597019483800, guid: 61372402dea568f4b8b767fc6dcafed3, type: 3}
-  bossNodePrefab: {fileID: 498622147187084010, guid: ba5a7751b65d20147940200707ffb7eb, type: 3}
-  battleNodePrefab: {fileID: 1514414336498856512, guid: ab1aedb034b0a4e4cb049b41afbc5718, type: 3}
-  mysteryNodePrefab: {fileID: 2755358439549087703, guid: a281b11ae9dd6af48b5a8d46fdcac424, type: 3}
-  positiveEventPrefabs:
-  - {fileID: 3793427718622945488, guid: 0ab807aeeeae9fb48ba316e8412e0615, type: 3}
-  - {fileID: 5222239933796657268, guid: 1d0a2f5432ccc774c89946a6207ac53a, type: 3}
-  - {fileID: 5387835674950664529, guid: 7d852de3378d2814a9f07f4c9cf77f75, type: 3}
-  - {fileID: 3326747457531553642, guid: b11f8ca804f3bb844a1ccc0170f58dc1, type: 3}
-  - {fileID: 5710313095065501714, guid: bb5b90d847c796d4a9620fa384ee82d3, type: 3}
-  negativeEventPrefabs:
-  - {fileID: 7879890245647903979, guid: ed4fab66bd164024b86ed3103f3bff5c, type: 3}
-  - {fileID: 3961563289447007994, guid: d13ca6952c6c37248938d11fedfcdb67, type: 3}
-  - {fileID: 833716009620442187, guid: 17a3e3b30c62620408260aa631f12ced, type: 3}
-  neutralEventPrefabs:
-  - {fileID: 3110019165571113519, guid: 39c972ee71d9cb340b5b15086665a423, type: 3}
-  - {fileID: 5744790494778299404, guid: bafa091f53896834e9c0d40e81c22781, type: 3}
-  - {fileID: 6831852497013820213, guid: e6cf8afbedd64654398fe452f256aa4a, type: 3}
 --- !u!58 &7605316507479724189
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -2767,9 +2651,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingLayerID: 376073119
+  m_SortingLayer: 1
+  m_SortingOrder: 5
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -2793,9 +2677,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 139e934e69225c24eb67f19a6ea436e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  floorIndex: 2
+  floorIndex: 3
   nodeIndexInFloor: 0
-  connections: []
+  connections:
+  - {fileID: 6049339721772646167}
 --- !u!114 &2794246306265089984
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2808,24 +2693,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 610f467cf3f06d74e8b5874dd0817ae4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startNodePrefab: {fileID: 5314003597019483800, guid: 61372402dea568f4b8b767fc6dcafed3, type: 3}
-  bossNodePrefab: {fileID: 498622147187084010, guid: ba5a7751b65d20147940200707ffb7eb, type: 3}
-  battleNodePrefab: {fileID: 1514414336498856512, guid: ab1aedb034b0a4e4cb049b41afbc5718, type: 3}
-  mysteryNodePrefab: {fileID: 2755358439549087703, guid: a281b11ae9dd6af48b5a8d46fdcac424, type: 3}
-  positiveEventPrefabs:
-  - {fileID: 3793427718622945488, guid: 0ab807aeeeae9fb48ba316e8412e0615, type: 3}
-  - {fileID: 5222239933796657268, guid: 1d0a2f5432ccc774c89946a6207ac53a, type: 3}
-  - {fileID: 5387835674950664529, guid: 7d852de3378d2814a9f07f4c9cf77f75, type: 3}
-  - {fileID: 3326747457531553642, guid: b11f8ca804f3bb844a1ccc0170f58dc1, type: 3}
-  - {fileID: 5710313095065501714, guid: bb5b90d847c796d4a9620fa384ee82d3, type: 3}
-  negativeEventPrefabs:
-  - {fileID: 7879890245647903979, guid: ed4fab66bd164024b86ed3103f3bff5c, type: 3}
-  - {fileID: 3961563289447007994, guid: d13ca6952c6c37248938d11fedfcdb67, type: 3}
-  - {fileID: 833716009620442187, guid: 17a3e3b30c62620408260aa631f12ced, type: 3}
-  neutralEventPrefabs:
-  - {fileID: 3110019165571113519, guid: 39c972ee71d9cb340b5b15086665a423, type: 3}
-  - {fileID: 5744790494778299404, guid: bafa091f53896834e9c0d40e81c22781, type: 3}
-  - {fileID: 6831852497013820213, guid: e6cf8afbedd64654398fe452f256aa4a, type: 3}
 --- !u!58 &4577546009925944012
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -3157,9 +3024,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingLayerID: 376073119
+  m_SortingLayer: 1
+  m_SortingOrder: 5
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -3183,7 +3050,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 139e934e69225c24eb67f19a6ea436e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  floorIndex: 3
+  floorIndex: 2
   nodeIndexInFloor: 0
   connections:
   - {fileID: 4465757877562323730}
@@ -3200,24 +3067,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 610f467cf3f06d74e8b5874dd0817ae4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startNodePrefab: {fileID: 5314003597019483800, guid: 61372402dea568f4b8b767fc6dcafed3, type: 3}
-  bossNodePrefab: {fileID: 498622147187084010, guid: ba5a7751b65d20147940200707ffb7eb, type: 3}
-  battleNodePrefab: {fileID: 1514414336498856512, guid: ab1aedb034b0a4e4cb049b41afbc5718, type: 3}
-  mysteryNodePrefab: {fileID: 2755358439549087703, guid: a281b11ae9dd6af48b5a8d46fdcac424, type: 3}
-  positiveEventPrefabs:
-  - {fileID: 3793427718622945488, guid: 0ab807aeeeae9fb48ba316e8412e0615, type: 3}
-  - {fileID: 5222239933796657268, guid: 1d0a2f5432ccc774c89946a6207ac53a, type: 3}
-  - {fileID: 5387835674950664529, guid: 7d852de3378d2814a9f07f4c9cf77f75, type: 3}
-  - {fileID: 3326747457531553642, guid: b11f8ca804f3bb844a1ccc0170f58dc1, type: 3}
-  - {fileID: 5710313095065501714, guid: bb5b90d847c796d4a9620fa384ee82d3, type: 3}
-  negativeEventPrefabs:
-  - {fileID: 7879890245647903979, guid: ed4fab66bd164024b86ed3103f3bff5c, type: 3}
-  - {fileID: 3961563289447007994, guid: d13ca6952c6c37248938d11fedfcdb67, type: 3}
-  - {fileID: 833716009620442187, guid: 17a3e3b30c62620408260aa631f12ced, type: 3}
-  neutralEventPrefabs:
-  - {fileID: 3110019165571113519, guid: 39c972ee71d9cb340b5b15086665a423, type: 3}
-  - {fileID: 5744790494778299404, guid: bafa091f53896834e9c0d40e81c22781, type: 3}
-  - {fileID: 6831852497013820213, guid: e6cf8afbedd64654398fe452f256aa4a, type: 3}
 --- !u!58 &2586782470341723422
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -3343,9 +3192,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingLayerID: 376073119
+  m_SortingLayer: 1
+  m_SortingOrder: 5
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -3369,9 +3218,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 139e934e69225c24eb67f19a6ea436e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  floorIndex: 1
+  floorIndex: 4
   nodeIndexInFloor: 0
-  connections: []
+  connections:
+  - {fileID: 2411408671821769224}
 --- !u!114 &3085557843157887833
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3384,24 +3234,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 610f467cf3f06d74e8b5874dd0817ae4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startNodePrefab: {fileID: 5314003597019483800, guid: 61372402dea568f4b8b767fc6dcafed3, type: 3}
-  bossNodePrefab: {fileID: 498622147187084010, guid: ba5a7751b65d20147940200707ffb7eb, type: 3}
-  battleNodePrefab: {fileID: 1514414336498856512, guid: ab1aedb034b0a4e4cb049b41afbc5718, type: 3}
-  mysteryNodePrefab: {fileID: 2755358439549087703, guid: a281b11ae9dd6af48b5a8d46fdcac424, type: 3}
-  positiveEventPrefabs:
-  - {fileID: 3793427718622945488, guid: 0ab807aeeeae9fb48ba316e8412e0615, type: 3}
-  - {fileID: 5222239933796657268, guid: 1d0a2f5432ccc774c89946a6207ac53a, type: 3}
-  - {fileID: 5387835674950664529, guid: 7d852de3378d2814a9f07f4c9cf77f75, type: 3}
-  - {fileID: 3326747457531553642, guid: b11f8ca804f3bb844a1ccc0170f58dc1, type: 3}
-  - {fileID: 5710313095065501714, guid: bb5b90d847c796d4a9620fa384ee82d3, type: 3}
-  negativeEventPrefabs:
-  - {fileID: 7879890245647903979, guid: ed4fab66bd164024b86ed3103f3bff5c, type: 3}
-  - {fileID: 3961563289447007994, guid: d13ca6952c6c37248938d11fedfcdb67, type: 3}
-  - {fileID: 833716009620442187, guid: 17a3e3b30c62620408260aa631f12ced, type: 3}
-  neutralEventPrefabs:
-  - {fileID: 3110019165571113519, guid: 39c972ee71d9cb340b5b15086665a423, type: 3}
-  - {fileID: 5744790494778299404, guid: bafa091f53896834e9c0d40e81c22781, type: 3}
-  - {fileID: 6831852497013820213, guid: e6cf8afbedd64654398fe452f256aa4a, type: 3}
 --- !u!58 &8234237908264685169
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -3560,9 +3392,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingLayerID: 376073119
+  m_SortingLayer: 1
+  m_SortingOrder: 5
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -3586,9 +3418,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 139e934e69225c24eb67f19a6ea436e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  floorIndex: 4
+  floorIndex: 1
   nodeIndexInFloor: 2
-  connections: []
+  connections:
+  - {fileID: 6899565183743799291}
 --- !u!114 &8269615624530033265
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3601,24 +3434,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 610f467cf3f06d74e8b5874dd0817ae4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startNodePrefab: {fileID: 5314003597019483800, guid: 61372402dea568f4b8b767fc6dcafed3, type: 3}
-  bossNodePrefab: {fileID: 498622147187084010, guid: ba5a7751b65d20147940200707ffb7eb, type: 3}
-  battleNodePrefab: {fileID: 1514414336498856512, guid: ab1aedb034b0a4e4cb049b41afbc5718, type: 3}
-  mysteryNodePrefab: {fileID: 2755358439549087703, guid: a281b11ae9dd6af48b5a8d46fdcac424, type: 3}
-  positiveEventPrefabs:
-  - {fileID: 3793427718622945488, guid: 0ab807aeeeae9fb48ba316e8412e0615, type: 3}
-  - {fileID: 5222239933796657268, guid: 1d0a2f5432ccc774c89946a6207ac53a, type: 3}
-  - {fileID: 5387835674950664529, guid: 7d852de3378d2814a9f07f4c9cf77f75, type: 3}
-  - {fileID: 3326747457531553642, guid: b11f8ca804f3bb844a1ccc0170f58dc1, type: 3}
-  - {fileID: 5710313095065501714, guid: bb5b90d847c796d4a9620fa384ee82d3, type: 3}
-  negativeEventPrefabs:
-  - {fileID: 7879890245647903979, guid: ed4fab66bd164024b86ed3103f3bff5c, type: 3}
-  - {fileID: 3961563289447007994, guid: d13ca6952c6c37248938d11fedfcdb67, type: 3}
-  - {fileID: 833716009620442187, guid: 17a3e3b30c62620408260aa631f12ced, type: 3}
-  neutralEventPrefabs:
-  - {fileID: 3110019165571113519, guid: 39c972ee71d9cb340b5b15086665a423, type: 3}
-  - {fileID: 5744790494778299404, guid: bafa091f53896834e9c0d40e81c22781, type: 3}
-  - {fileID: 6831852497013820213, guid: e6cf8afbedd64654398fe452f256aa4a, type: 3}
 --- !u!58 &5186450987769734773
 CircleCollider2D:
   m_ObjectHideFlags: 0
