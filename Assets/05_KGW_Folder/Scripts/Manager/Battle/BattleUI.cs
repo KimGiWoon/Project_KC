@@ -108,8 +108,15 @@ public class BattleUI : BaseUI
         }
         else // 게임 실패
         {
-            if (GameManager.Instance.BuyAdRemover) OnUIOpenRequested?.Invoke(UIName.RemoveADUI);
-            else OnUIOpenRequested?.Invoke(UIName.NonRemoveADUI);
+            if (_battleManager._canResurrection)
+            {
+                if (GameManager.Instance.BuyAdRemover) OnUIOpenRequested?.Invoke(UIName.RemoveADUI);
+                else OnUIOpenRequested?.Invoke(UIName.NonRemoveADUI);
+            }
+            else
+            {
+                OnUIOpenRequested?.Invoke(UIName.DefeatChapterUI);
+            }
         }
     }
 

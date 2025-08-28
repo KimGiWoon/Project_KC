@@ -302,7 +302,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 1
+  m_Mass: 10
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 0
@@ -334,11 +334,15 @@ MonoBehaviour:
   _currentHp: 0
   _currentMp: 0
   _isAlive: 0
+  _isAttack: 0
+  _gameSpeed: 0
   _monsterData: {fileID: 11400000, guid: 19604d7662fe72e4f8c6a7cc6ff59a2d, type: 2}
   _monsterHp: {fileID: 2928197131278624699}
   _attackTargets: []
   _attackTarget: {fileID: 0}
   _researchTarget: {fileID: 0}
+  _isDetect: 0
+  _isFirst: 0
 --- !u!1 &3841804844485260431
 GameObject:
   m_ObjectHideFlags: 0

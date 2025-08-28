@@ -5,9 +5,8 @@ using UnityEngine;
 public abstract class UnitBaseData : MonoBehaviour
 {
     [Header("Knockback Setting")]
-    [SerializeField]
-    private float _knockbackForce = 5f; // 넉백 파워
-    [SerializeField] private float _knockbackDuraction = 0.2f; // 넉백 지속 시간
+    [SerializeField] private float _knockbackForce = 0.1f; // 넉백 파워
+    [SerializeField] private float _knockbackDuraction = 0.1f; // 넉백 지속 시간
 
     public float _currentHp; // 유닛의 현재 체력
     public float _currentMp; // 유닛의 현재 마나
@@ -73,18 +72,14 @@ public abstract class UnitBaseData : MonoBehaviour
         // 보스가 아니면 넉백 가능
         if (gameObject.layer != LayerMask.NameToLayer("Boss"))
         {
-            // 50%확률로 넉백 
-            if (Random.value <= 0.5f)
+            // 넉백 코루틴 null 체크
+            if (_knockbackRoutine != null)
             {
-                // 넉백 코루틴 null 체크
-                if (_knockbackRoutine != null)
-                {
-                    StopCoroutine(_knockbackRoutine);
-                    _knockbackRoutine = null;
-                }
-
-                _knockbackRoutine = StartCoroutine(KnockBackCoroutine());
+                StopCoroutine(_knockbackRoutine);
+                _knockbackRoutine = null;
             }
+
+            _knockbackRoutine = StartCoroutine(KnockBackCoroutine());
         }
     }
 
@@ -102,7 +97,7 @@ public abstract class UnitBaseData : MonoBehaviour
     private IEnumerator KnockBackCoroutine()
     {
         // 이동 방향의 반대방향으로 넉백 방향 설정
-        var knockbackDir = -_moveDir.normalized;
+        var knockbackDir = -_moveDir;
 
         float time = 0f;
 

@@ -10,6 +10,10 @@ public class BattleManager : MonoBehaviour
     [SerializeField]
     private Transform[] _characterSpawnPoint;
 
+    [Header("Character Resurrection Point Setting")]
+    [SerializeField]
+    private Transform[] _characterResurrectionPoint;
+
     [Header("Monster Spawn Point Setting")]
     [SerializeField]
     private Transform[] _monsterSpawnPoint;
@@ -107,7 +111,7 @@ public class BattleManager : MonoBehaviour
     public void CharacterSpawn()
     {
         // 스폰 포인트 리스트 전달
-        var Points = new List<Transform>(_characterSpawnPoint);
+        var Points = _canResurrection ? new List<Transform>(_characterSpawnPoint) : new List<Transform>(_characterResurrectionPoint);
 
         // 스폰위치 섞기
         SpawnPointShuffle(Points);
@@ -175,7 +179,6 @@ public class BattleManager : MonoBehaviour
         {
             // 보스의 정보 확인
             var bossData = _bossList[i];
-
 
             //todo dataSO에서 isLastBoss인지 체크하기 위한 필드 추가해야 함
             //if (_isLastBoss && !monsterData._isLastBoss) continue;
