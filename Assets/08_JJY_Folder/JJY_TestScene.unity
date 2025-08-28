@@ -190,6 +190,11 @@ MonoBehaviour:
   m_InputActionsPerSecond: 10
   m_RepeatDelay: 0.5
   m_ForceModuleActive: 0
+--- !u!224 &1303488307 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 7448750113071326618, guid: dcf9b9917660f3b4da4fceda510d1acf, type: 3}
+  m_PrefabInstance: {fileID: 8681249980136437959}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1516012938
 GameObject:
   m_ObjectHideFlags: 0
@@ -480,6 +485,58 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2935936512584602966, guid: dcf9b9917660f3b4da4fceda510d1acf, type: 3}
+      propertyPath: poolParent
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 2935936512584602966, guid: dcf9b9917660f3b4da4fceda510d1acf, type: 3}
+      propertyPath: inventoryContent
+      value: 
+      objectReference: {fileID: 1303488307}
+    - target: {fileID: 2935936512584602966, guid: dcf9b9917660f3b4da4fceda510d1acf, type: 3}
+      propertyPath: recipeSO.Array.size
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 2935936512584602966, guid: dcf9b9917660f3b4da4fceda510d1acf, type: 3}
+      propertyPath: recipeSO.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 0c493d05ed322284894a49da06e45e52, type: 2}
+    - target: {fileID: 2935936512584602966, guid: dcf9b9917660f3b4da4fceda510d1acf, type: 3}
+      propertyPath: recipeSO.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 8fda17a23e7aa53488384fe5ad65d3d9, type: 2}
+    - target: {fileID: 2935936512584602966, guid: dcf9b9917660f3b4da4fceda510d1acf, type: 3}
+      propertyPath: recipeSO.Array.data[2]
+      value: 
+      objectReference: {fileID: 11400000, guid: bb6b8af267d629d40b3fc6205f685eb1, type: 2}
+    - target: {fileID: 2935936512584602966, guid: dcf9b9917660f3b4da4fceda510d1acf, type: 3}
+      propertyPath: recipeSO.Array.data[3]
+      value: 
+      objectReference: {fileID: 11400000, guid: 9614a5b032c09c24e8037384d5912967, type: 2}
+    - target: {fileID: 2935936512584602966, guid: dcf9b9917660f3b4da4fceda510d1acf, type: 3}
+      propertyPath: recipeSO.Array.data[4]
+      value: 
+      objectReference: {fileID: 11400000, guid: 9fd679b1099d3384c8b797fa92f862da, type: 2}
+    - target: {fileID: 2935936512584602966, guid: dcf9b9917660f3b4da4fceda510d1acf, type: 3}
+      propertyPath: recipeSO.Array.data[5]
+      value: 
+      objectReference: {fileID: 11400000, guid: c39bab6c46794b44890952af6e37a4cb, type: 2}
+    - target: {fileID: 2935936512584602966, guid: dcf9b9917660f3b4da4fceda510d1acf, type: 3}
+      propertyPath: recipeSO.Array.data[6]
+      value: 
+      objectReference: {fileID: 11400000, guid: a6a0de74cd11cf64dbf8c90ab7e303e9, type: 2}
+    - target: {fileID: 2935936512584602966, guid: dcf9b9917660f3b4da4fceda510d1acf, type: 3}
+      propertyPath: recipeSO.Array.data[7]
+      value: 
+      objectReference: {fileID: 11400000, guid: 70c0bce9b9f2a6244b7f94ca4867e61f, type: 2}
+    - target: {fileID: 2935936512584602966, guid: dcf9b9917660f3b4da4fceda510d1acf, type: 3}
+      propertyPath: recipeSO.Array.data[8]
+      value: 
+      objectReference: {fileID: 11400000, guid: b9e4a6087f32c2d4f940691faefb94c4, type: 2}
+    - target: {fileID: 2935936512584602966, guid: dcf9b9917660f3b4da4fceda510d1acf, type: 3}
+      propertyPath: recipeSO.Array.data[9]
+      value: 
+      objectReference: {fileID: 11400000, guid: fa1a7c5b28fbc5242a8f7c56ee0da1b2, type: 2}
     - target: {fileID: 4387778262173607704, guid: dcf9b9917660f3b4da4fceda510d1acf, type: 3}
       propertyPath: m_Name
       value: Cook UI

@@ -1172,7 +1172,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ingredientButtonPrefab: {fileID: 8029921417368529769, guid: e67f5576f2e400a4ca7bcb02eefd14c5, type: 3}
-  foodDescriptionPrefab: {fileID: 0}
   inventoryContent: {fileID: 7448750113071326618}
   recipeSlots:
   - {fileID: 1774694055697818787}
@@ -1180,8 +1179,16 @@ MonoBehaviour:
   - {fileID: 4109958320403568317}
   resultButton: {fileID: 4418211757063475082}
   recipeSO:
-  - {fileID: 11400000, guid: b9e4a6087f32c2d4f940691faefb94c4, type: 2}
+  - {fileID: 11400000, guid: 0c493d05ed322284894a49da06e45e52, type: 2}
+  - {fileID: 11400000, guid: 8fda17a23e7aa53488384fe5ad65d3d9, type: 2}
+  - {fileID: 11400000, guid: bb6b8af267d629d40b3fc6205f685eb1, type: 2}
+  - {fileID: 11400000, guid: 9614a5b032c09c24e8037384d5912967, type: 2}
+  - {fileID: 11400000, guid: 9fd679b1099d3384c8b797fa92f862da, type: 2}
+  - {fileID: 11400000, guid: c39bab6c46794b44890952af6e37a4cb, type: 2}
+  - {fileID: 11400000, guid: a6a0de74cd11cf64dbf8c90ab7e303e9, type: 2}
   - {fileID: 11400000, guid: 70c0bce9b9f2a6244b7f94ca4867e61f, type: 2}
+  - {fileID: 11400000, guid: b9e4a6087f32c2d4f940691faefb94c4, type: 2}
+  - {fileID: 11400000, guid: fa1a7c5b28fbc5242a8f7c56ee0da1b2, type: 2}
   ingredientSprites:
   - {fileID: 21300000, guid: debabdc223908af4f9ed4289150ff4ac, type: 3}
   - {fileID: 21300000, guid: 6a6faed0b1b4bd64fa0bcce227561431, type: 3}
