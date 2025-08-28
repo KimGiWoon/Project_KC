@@ -134,11 +134,11 @@ namespace JJY
         // 풀에서 버튼을 꺼내 활성화(없으면 새로 생성)
         GameObject GetButtonFromPool()
         {
-            GameObject go = pool.Count > 0 ? pool.Dequeue() : Instantiate(ingredientButtonPrefab, inventoryContent); // 풀에서 꺼내거나 생성
+            GameObject go = pool.Count > 0 ? pool.Dequeue() : Instantiate(ingredientButtonPrefab); // 풀에서 꺼내거나 생성
             go.transform.SetParent(inventoryContent, false);
             go.transform.SetAsLastSibling();
 
-            go.SetActive(false);                    // 깜빡임 현상 (수정중)
+            go.SetActive(false);                    // 깜빡임 현상
             activeButtons.Add(go);                  // 활성 리스트에 추가
             return go;                              // 반환
         }
@@ -184,7 +184,6 @@ namespace JJY
                 if (count <= 0 && !reservedIngredients.ContainsKey(ing)) continue; // 0 이면 표시하지 않음
 
                 GameObject go = GetButtonFromPool();                      // 풀에서 버튼 획득
-                go.SetActive(true);
                 var btn = go.GetComponent<Button>();                      // 버튼 컴포넌트
                 var img = go.GetComponent<Image>();                       // 아이콘용 이미지
                 var txt = go.GetComponentInChildren<TextMeshProUGUI>();  // 카운트 텍스트(TMP)
@@ -203,11 +202,13 @@ namespace JJY
 
                 // 버튼 활성 여부: 이미 상단에 올려져(selected에 포함) 있다면 비활성화
                 bool isReserved = reservedIngredients.ContainsKey(ing) && reservedIngredients[ing] > 0;
-                btn.interactable = !isReserved;     // 깜빡임 현상 (수정중)
+                btn.interactable = !isReserved;
                 // btn.interactable = (selected & ing) == 0;
 
                 // 재료 -> 버튼 매핑 저장 (상태 변경시 빠르게 찾아 쓸 용도)
                 buttonByIngredient[ing] = go;
+
+                go.SetActive(true);     // 여기서 보이게 설정해줘야 깜빡임 없어짐.
             }
         }
 
