@@ -37,7 +37,8 @@ public class DefeatChapterUI : BaseUI
     private void LobbyButtonClick()
     {
         // TODO : 김기운 : 추후에 마이씬 매니저 교체 예정
-        GameManager.Instance.Scene.LoadSceneAsync(SceneName.SDW_LobbyScene, UIName.KGW_StageSelectUI);
+        // GameManager.Instance.Scene.LoadSceneAsync(SceneName.SDW_LobbyScene, UIName.KGW_StageSelectUI);
+        GameManager.Instance.Scene.LoadSceneAsync(SceneName.SDW_LobbyScene);
         OnUICloseRequested?.Invoke(UIName.DefeatChapterUI);
     }
 }

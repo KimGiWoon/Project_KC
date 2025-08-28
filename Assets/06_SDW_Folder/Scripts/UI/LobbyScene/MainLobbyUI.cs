@@ -10,6 +10,8 @@ namespace SDW
         [Header("UI Components")]
         [SerializeField] private Button _gameStartButton;
         [SerializeField] private Button _userInfoButton;
+        [SerializeField] private Button _dailyQuestButton;
+        [SerializeField] private Button _gachaButton;
         [SerializeField] private TextMeshProUGUI _nicknameText;
 
         public Action<UIName> OnUIOpenRequested;
@@ -21,9 +23,25 @@ namespace SDW
         private void Awake()
         {
             _panelContainer.SetActive(false);
+        }
+
+        private void OnEnable()
+        {
             _gameStartButton.onClick.AddListener(GameStartButtonClicked);
             _userInfoButton.onClick.AddListener(UserInfoButtonClicked);
+            _dailyQuestButton.onClick.AddListener(DailyQuestButtonClicked);
+            _gachaButton.onClick.AddListener(GachaButtonClicked);
         }
+
+        private void OnDisable()
+        {
+            _gameStartButton.onClick.RemoveListener(GameStartButtonClicked);
+            _userInfoButton.onClick.RemoveListener(UserInfoButtonClicked);
+            _dailyQuestButton.onClick.RemoveListener(DailyQuestButtonClicked);
+            _gachaButton.onClick.RemoveListener(GachaButtonClicked);
+        }
+
+        #region Button Methods
 
         private void GameStartButtonClicked()
         {
@@ -35,6 +53,12 @@ namespace SDW
         /// 사용자 정보 버튼 클릭 이벤트 핸들러 메서드 호출
         /// </summary>
         private void UserInfoButtonClicked() => OnUIOpenRequested?.Invoke(UIName.UserInfoUI);
+
+        private void DailyQuestButtonClicked() => OnUIOpenRequested?.Invoke(UIName.DailyQuestUI);
+
+        private void GachaButtonClicked() => OnUIOpenRequested?.Invoke(UIName.GachaMainUI);
+
+        #endregion
 
         #region Update User Info
 
