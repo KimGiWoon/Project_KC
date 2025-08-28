@@ -27,7 +27,7 @@ namespace SDW
         [SerializeField] private Button _editUserNameButton;
         [SerializeField] private Button _changeIconButton;
 
-        public Action<UIName> OnUICloseRequsted;
+        public Action<UIName> OnUICloseRequested;
         public Action<UIName> OnUIOpenButtonClicked;
         public Action OnSignOutButtonClicked;
 
@@ -83,7 +83,9 @@ namespace SDW
                 //# 패널 안에 터치가 있는지 확인
                 if (!RectTransformUtility.RectangleContainsScreenPoint(_userInfoPanelRect, touchPos))
                 {
-                    OnUICloseRequsted?.Invoke(_uiStack.Pop());
+                    if (_uiStack.Count == 0) return;
+
+                    OnUICloseRequested?.Invoke(_uiStack.Pop());
                 }
             }
         }

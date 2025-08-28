@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using System;
+using KSH;
 
 public class TimeManager : SingletonManager<TimeManager>
 {

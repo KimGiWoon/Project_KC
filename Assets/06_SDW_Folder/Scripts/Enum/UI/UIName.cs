@@ -21,7 +21,11 @@
         //# Battle Scene
         BattleUI,
         ClearChapterUI,
+        ClearStageUI,
+        NonRemoveADUI,
+        RemoveADUI,
         DefeatChapterUI,
+        MenuUI,
 
         //# None
         None

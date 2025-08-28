@@ -42,7 +42,14 @@ public class CharacterAttackController : MonoBehaviour
                         // 몬스터를 공격 타겟으로 설정
                         _controller._attackTarget = monster;
                     }
-                }              
+
+                    // 공격 대상이 보스몬스터이고 감지된 몬스터가 보스이면
+                    if (_controller._attackTarget.gameObject.layer == _bossLayer && monster.gameObject.layer == _bossLayer)
+                    {
+                        // 보스를 공격 타겟으로 설정
+                        _controller._attackTarget = monster;
+                    }
+                }
             }
         }
     }

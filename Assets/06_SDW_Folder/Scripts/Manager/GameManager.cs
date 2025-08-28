@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using KSH;
 
 namespace SDW
 {
@@ -16,6 +17,21 @@ namespace SDW
         private MySceneManager _scene;
         public MySceneManager Scene => _scene;
 
+        private TimeManager _time;
+        public TimeManager Time => _time;
+
+        private DailyQuestManager _dailyQuest;
+        public DailyQuestManager DailyQuest => _dailyQuest;
+
+        [SerializeField] private bool _buyAdRemover;
+        public bool BuyAdRemover => _buyAdRemover;
+
+        [SerializeField] private string _stageName;
+        public string StageName => _stageName;
+
+        private bool _lastBoss;
+        public bool LastBoss => _lastBoss;
+
         private void Awake()
         {
             if (_instance == null)
@@ -29,6 +45,8 @@ namespace SDW
             _firebase = GetComponent<FirebaseManager>();
             _ui = GetComponent<UIManager>();
             _scene = GetComponent<MySceneManager>();
+            _time = GetComponent<TimeManager>();
+            _dailyQuest = GetComponent<DailyQuestManager>();
         }
 
         private void Start()
@@ -53,5 +71,7 @@ namespace SDW
             Screen.autorotateToLandscapeLeft = false;
             Screen.autorotateToLandscapeRight = false;
         }
+
+        public void SetStageBoss(bool isBoss) => _lastBoss = isBoss;
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -18,6 +19,9 @@ namespace SDW
         private TMP_Text _loadingText;
         private TMP_Text _loadingProgressText;
         private Slider _loadingProgressBar;
+
+        private UIName _prevOpenedUI = UIName.None;
+        private UIName _prevClosedUI = UIName.None;
 
         /// <summary>
         /// Firebase 컴포넌트 연결 
@@ -44,15 +48,42 @@ namespace SDW
         /// <param name="uiName">활성화할 패널의 이름</param>
         public void OpenPanel(UIName uiName)
         {
+            if (_prevOpenedUI == uiName) return;
+
+            _prevOpenedUI = uiName;
+
             Debug.Log($"Open UI name : {uiName}");
             _uiDic[uiName].Open();
 
+
+            var sceneName = (SceneName)Enum.Parse(typeof(SceneName), GameManager.Instance.Scene.GetActiveScene());
+
+            switch (sceneName)
+            {
+                case SceneName.SDW_SignInScene: OpenSignInScene(uiName); break;
+                case SceneName.SDW_LobbyScene: OpenLobbyScene(uiName); break;
+                case SceneName.KGW_TestIngameScene: OpenIngameScene(uiName); break;
+            }
+
+            if (_prevOpenedUI == _prevClosedUI)
+                _prevClosedUI = UIName.None;
+        }
+
+        private void OpenSignInScene(UIName uiName)
+        {
             switch (uiName)
             {
                 //# Signin Scene
                 case UIName.SignInUI: ConnectSignInUI(uiName); break;
                 case UIName.SetNicknameUI: ConnectNicknameUI(uiName); break;
                 case UIName.DownloadUI: ConnectDownloadUI(uiName); break;
+            }
+        }
+
+        private void OpenLobbyScene(UIName uiName)
+        {
+            switch (uiName)
+            {
                 //# Main Lobby Scene
                 case UIName.MainLobbyUI: ConnectMainLobbyUI(uiName); break;
                 //@ User Info UI
@@ -63,27 +94,67 @@ namespace SDW
                 //@ Stage UI
                 case UIName.KGW_StageSelectUI: ConnectKGW_StageUI(uiName); break;
                 case UIName.KGW_CharacterSelectUI: ConnectKGW_CharacterSelectUI(uiName); break;
+                //@ Daily Quest UI
+                case UIName.DailyQuestUI: ConnectDailyQuestUI(uiName); break;
+            }
+        }
+
+        private void OpenIngameScene(UIName uiName)
+        {
+            switch (uiName)
+            {
                 //# Battle Scene
                 case UIName.BattleUI: ConnectBattleUI(uiName); break;
+                case UIName.MenuUI: ConnectMenuUI(uiName); break;
                 case UIName.ClearChapterUI: ConnectClearChapterUI(uiName); break;
+                case UIName.ClearStageUI: ConnectClearStageUI(uiName); break;
+                case UIName.NonRemoveADUI: ConnectNonRemoveADUI(uiName); break;
+                case UIName.RemoveADUI: ConnectRemoveADUI(uiName); break;
                 case UIName.DefeatChapterUI: ConnectDefeatChapterUI(uiName); break;
             }
         }
+
         /// <summary>
         /// 현재 활성화된 패널을 비활성화하고 관련 이벤트 핸들러에서 해당 메서드를 제거
         /// </summary>
         /// <param name="uiName">비활성화할 패널의 이름</param>
         public void ClosePanel(UIName uiName)
         {
+            if (_prevClosedUI == uiName) return;
+
             Debug.Log($"Close UI name : {uiName}");
             _uiDic[uiName].Close();
 
+            _prevClosedUI = uiName;
+
+            var sceneName = (SceneName)Enum.Parse(typeof(SceneName), GameManager.Instance.Scene.GetActiveScene());
+
+            switch (sceneName)
+            {
+                case SceneName.SDW_SignInScene: CloseSignInScene(uiName); break;
+                case SceneName.SDW_LobbyScene: CloseLobbyScene(uiName); break;
+                case SceneName.KGW_TestIngameScene: CloseIngameScene(uiName); break;
+            }
+
+
+            if (_prevOpenedUI == _prevClosedUI)
+                _prevOpenedUI = UIName.None;
+        }
+        private void CloseSignInScene(UIName uiName)
+        {
             switch (uiName)
             {
                 //# Signin Scene
                 case UIName.SignInUI: DisconnectSignInUI(uiName); break;
                 case UIName.SetNicknameUI: DisconnectNicknameUI(uiName); break;
                 case UIName.DownloadUI: DisconnectDownloadUI(uiName); break;
+            }
+        }
+
+        private void CloseLobbyScene(UIName uiName)
+        {
+            switch (uiName)
+            {
                 //# Main Lobby Scene
                 case UIName.MainLobbyUI: DisconnectMainLobbyUI(uiName); break;
                 //@ User Info UI
@@ -94,9 +165,22 @@ namespace SDW
                 //@ Stage UI
                 case UIName.KGW_StageSelectUI: DisconnectKGW_StageUI(uiName); break;
                 case UIName.KGW_CharacterSelectUI: DisconnectKGW_CharacterSelectUI(uiName); break;
-                //# Battle Scene
+                //@ Daily Quest UI
+                case UIName.DailyQuestUI: DisconnectDailyQuestUI(uiName); break;
+            }
+        }
+
+        private void CloseIngameScene(UIName uiName)
+        {
+            switch (uiName)
+            {
+                //# battle scene
                 case UIName.BattleUI: DisconnectBattleUI(uiName); break;
+                case UIName.MenuUI: DisconnectMenuUI(uiName); break;
                 case UIName.ClearChapterUI: DisconnectClearChapterUI(uiName); break;
+                case UIName.ClearStageUI: DisconnectClearStageUI(uiName); break;
+                case UIName.NonRemoveADUI: DisconnectNonRemoveADUI(uiName); break;
+                case UIName.RemoveADUI: DisconnectRemoveADUI(uiName); break;
                 case UIName.DefeatChapterUI: DisconnectDefeatChapterUI(uiName); break;
             }
         }
@@ -115,7 +199,7 @@ namespace SDW
 
         #endregion
 
-        #region UI Connect Methods
+        #region SignIn Scene UI Connect Methods
 
         private void ConnectSignInUI(UIName uiName)
         {
@@ -149,6 +233,10 @@ namespace SDW
             }
         }
 
+        #endregion
+
+        #region Lobby Scene UI Connect Methods
+
         private void ConnectMainLobbyUI(UIName uiName)
         {
             var mainLobbyUI = _uiDic[uiName] as MainLobbyUI;
@@ -165,7 +253,7 @@ namespace SDW
         private void ConnectUserInfoUI(UIName uiName)
         {
             var userInfoUI = _uiDic[uiName] as UserInfoUI;
-            userInfoUI.OnUICloseRequsted += ClosePanel;
+            userInfoUI.OnUICloseRequested += ClosePanel;
             userInfoUI.OnUIOpenButtonClicked += OpenPanel;
 
             if (_firebase != null)
@@ -216,16 +304,54 @@ namespace SDW
             kgwCharacterSelectUI.OnUICloseRequested += ClosePanel;
         }
 
+        private void ConnectDailyQuestUI(UIName uiName)
+        {
+            var dailyQuestUI = _uiDic[uiName] as DailyQuestUI;
+            dailyQuestUI.OnRewardButtonClicked += GameManager.Instance.DailyQuest.Reward;
+            dailyQuestUI.OnUICloseRequested += ClosePanel;
+            GameManager.Instance.DailyQuest.AddQuestUI(dailyQuestUI);
+        }
+
+        #endregion
+
+        #region Ingame Scene UI Connect Methods
+
         private void ConnectBattleUI(UIName uiName)
         {
             var battleUI = _uiDic[uiName] as BattleUI;
             battleUI.OnUIOpenRequested += OpenPanel;
         }
 
+        private void ConnectMenuUI(UIName uiName)
+        {
+            var menuUI = _uiDic[uiName] as MenuUI;
+            menuUI.OnUIOpenRequested += OpenPanel;
+            menuUI.OnUICloseRequested += ClosePanel;
+        }
+
         private void ConnectClearChapterUI(UIName uiName)
         {
             var clearChapterUI = _uiDic[uiName] as ClearChapterUI;
             clearChapterUI.OnUICloseRequested += ClosePanel;
+        }
+
+        private void ConnectClearStageUI(UIName uiName)
+        {
+            var clearStageUI = _uiDic[uiName] as ClearStageUI;
+            clearStageUI.OnUICloseRequested += ClosePanel;
+        }
+
+        private void ConnectNonRemoveADUI(UIName uiName)
+        {
+            var nonRemoveADUI = _uiDic[uiName] as NonRemoveADUI;
+            nonRemoveADUI.OnUIOpenRequested += OpenPanel;
+            nonRemoveADUI.OnUICloseRequested += ClosePanel;
+        }
+        private void ConnectRemoveADUI(UIName uiName)
+        {
+            var removeADUI = _uiDic[uiName] as RemoveADUI;
+            removeADUI.OnUIOpenRequested += OpenPanel;
+            removeADUI.OnUICloseRequested += ClosePanel;
         }
 
         private void ConnectDefeatChapterUI(UIName uiName)
@@ -236,7 +362,7 @@ namespace SDW
 
         #endregion
 
-        #region UI Disconnect Methods
+        #region SignIn Scene UI Disconnect Methods
 
         private void DisconnectSignInUI(UIName uiName)
         {
@@ -268,6 +394,10 @@ namespace SDW
             }
         }
 
+        #endregion
+
+        #region Lobby Scene UI Disconnect Methods
+
         private void DisconnectMainLobbyUI(UIName uiName)
         {
             var mainLobbyUI = _uiDic[uiName] as MainLobbyUI;
@@ -281,7 +411,7 @@ namespace SDW
         private void DisconnectUserInfoUI(UIName uiName)
         {
             var userInfoUI = _uiDic[uiName] as UserInfoUI;
-            userInfoUI.OnUICloseRequsted -= ClosePanel;
+            userInfoUI.OnUICloseRequested -= ClosePanel;
 
             if (_firebase != null)
             {
@@ -330,16 +460,53 @@ namespace SDW
             kgwCharacterSelectUI.OnUICloseRequested -= ClosePanel;
         }
 
+        private void DisconnectDailyQuestUI(UIName uiName)
+        {
+            var dailyQuestUI = _uiDic[uiName] as DailyQuestUI;
+            dailyQuestUI.OnRewardButtonClicked -= GameManager.Instance.DailyQuest.Reward;
+            dailyQuestUI.OnUICloseRequested -= ClosePanel;
+        }
+
+        #endregion
+
+        #region Ingame Scene UI Disconnect Methods
+
         private void DisconnectBattleUI(UIName uiName)
         {
             var battleUI = _uiDic[uiName] as BattleUI;
             battleUI.OnUIOpenRequested -= OpenPanel;
         }
 
+        private void DisconnectMenuUI(UIName uiName)
+        {
+            var menuUI = _uiDic[uiName] as MenuUI;
+            menuUI.OnUIOpenRequested -= OpenPanel;
+            menuUI.OnUICloseRequested -= ClosePanel;
+        }
+
         private void DisconnectClearChapterUI(UIName uiName)
         {
             var clearChapterUI = _uiDic[uiName] as ClearChapterUI;
             clearChapterUI.OnUICloseRequested -= ClosePanel;
+        }
+
+        private void DisconnectClearStageUI(UIName uiName)
+        {
+            var clearStageUI = _uiDic[uiName] as ClearStageUI;
+            clearStageUI.OnUICloseRequested -= ClosePanel;
+        }
+
+        private void DisconnectNonRemoveADUI(UIName uiName)
+        {
+            var nonRemoveADUI = _uiDic[uiName] as NonRemoveADUI;
+            nonRemoveADUI.OnUIOpenRequested -= OpenPanel;
+            nonRemoveADUI.OnUICloseRequested -= ClosePanel;
+        }
+        private void DisconnectRemoveADUI(UIName uiName)
+        {
+            var removeADUI = _uiDic[uiName] as RemoveADUI;
+            removeADUI.OnUIOpenRequested -= OpenPanel;
+            removeADUI.OnUICloseRequested -= ClosePanel;
         }
 
         private void DisconnectDefeatChapterUI(UIName uiName)
