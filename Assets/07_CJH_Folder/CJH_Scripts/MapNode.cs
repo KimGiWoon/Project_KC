@@ -2,16 +2,26 @@ using System.Linq;
 using UnityEngine;
 using System.Collections.Generic;
 
+using System.Linq;
+using UnityEngine;
+using System.Collections.Generic;
+
 public class MapNode : MonoBehaviour
 {
     public Node nodeData { get; private set; }
-
-    // [추가!] 노드의 현재 상태를 나타내는 변수들
     public bool isRevealed { get; private set; } = false;
     public bool isSelectable { get; private set; } = false;
 
+    [Header("노드 상태별 색상")]
+    public Color visitedColor = new Color(0.8f, 0.7f, 0.5f);
+    public Color selectableColor = Color.white;
+    public Color nonSelectableColor = Color.grey;
+
     private MapConfig _mapConfig;
     private SpriteRenderer _spriteRenderer;
+
+    // [추가!] 한 번 결정된 이벤트 스프라이트를 저장할 변수
+    private Sprite chosenEventSprite;
 
     public void Setup(Node dataNode, MapConfig config)
     {
@@ -21,81 +31,89 @@ public class MapNode : MonoBehaviour
 
         isRevealed = false;
         isSelectable = false;
+        chosenEventSprite = null; // 맵을 새로 만들 때마다 초기화
 
-        // 시작 노드는 처음부터 공개되고 선택 가능한 상태입니다.
-        if (nodeData.nodeType == NodeType.Start)
+        if (nodeData.nodeType == NodeType.Start || nodeData.nodeType == NodeType.Battle || nodeData.nodeType == NodeType.Boss)
         {
             isRevealed = true;
-            isSelectable = true;
+            if (nodeData.nodeType == NodeType.Start)
+            {
+                isSelectable = true;
+            }
         }
-
-        UpdateVisuals(); // 상태에 맞는 첫 모습으로 설정
+        UpdateVisuals();
     }
 
-    // [수정!] Reveal 함수는 이제 isRevealed 상태만 변경
     public void Reveal()
     {
         if (isRevealed) return;
         isRevealed = true;
     }
 
-    // [추가!] 외부에서 이 노드의 선택 가능 여부를 제어하는 함수
     public void SetSelectable(bool selectable)
     {
         isSelectable = selectable;
-        UpdateVisuals(); // 상태가 바뀌었으니 모습도 업데이트
+        UpdateVisuals();
     }
 
-    // [추가!] 노드의 상태에 따라 색상과 모습을 결정하는 함수
     public void UpdateVisuals()
     {
         if (_spriteRenderer == null) return;
 
-        // 아직 공개되지 않았다면 무조건 미스터리 아이콘
         if (!isRevealed)
         {
             ApplySprite(NodeType.Mystery);
-            _spriteRenderer.color = Color.white; // 미스터리 아이콘은 원래 색상
+            _spriteRenderer.color = selectableColor;
             return;
         }
 
-        // 공개되었다면 실제 타입에 맞는 스프라이트 적용
         ApplySprite(nodeData.nodeType);
 
-        // 선택 불가능한 상태라면 어둡게 처리
-        if (!isSelectable)
-        {
-            _spriteRenderer.color = Color.grey;
-        }
-        else // 선택 가능하다면 밝게 처리
-        {
-            _spriteRenderer.color = Color.white;
-        }
+        if (MapView.Instance != null && MapView.Instance.CurrentMapData != null && MapView.Instance.CurrentMapData.Path.Contains(nodeData))
+            _spriteRenderer.color = visitedColor;
+        else if (isSelectable)
+            _spriteRenderer.color = selectableColor;
+        else
+            _spriteRenderer.color = nonSelectableColor;
     }
 
-    // ApplySprite 함수는 이전과 동일 (내용은 아래에 유지)
     private void ApplySprite(NodeType type)
     {
         if (_mapConfig == null || _mapConfig.NodeTemplates == null) return;
         NodeTemplate template = _mapConfig.NodeTemplates.FirstOrDefault(t => t.nodeType == type);
         if (template == null) return;
 
+        // 이벤트 타입일 경우의 로직 변경
         if (type == NodeType.Event)
         {
-            List<Sprite> targetList = null;
-            switch (nodeData.EventTypeKC)
+            // 아직 결정된 스프라이트가 없다면, 지금 랜덤으로 하나를 뽑아서 저장합니다.
+            if (chosenEventSprite == null)
             {
-                case EventTypeKC.Positive: targetList = template.positiveEventSprites; break;
-                case EventTypeKC.Negative: targetList = template.negativeEventSprites; break;
-                case EventTypeKC.Neutral: targetList = template.neutralEventSprites; break;
+                List<Sprite> targetList = null;
+                switch (nodeData.EventTypeKC)
+                {
+                    case EventTypeKC.Positive: targetList = template.positiveEventSprites; break;
+                    case EventTypeKC.Negative: targetList = template.negativeEventSprites; break;
+                    case EventTypeKC.Neutral: targetList = template.neutralEventSprites; break;
+                }
+                if (targetList != null && targetList.Count > 0)
+                {
+                    chosenEventSprite = targetList[Random.Range(0, targetList.Count)];
+                }
             }
-            if (targetList != null && targetList.Count > 0)
-                _spriteRenderer.sprite = targetList[Random.Range(0, targetList.Count)];
+
+            // 이미 결정된 스프라이트가 있다면, 그것을 계속 사용합니다.
+            if (chosenEventSprite != null)
+            {
+                _spriteRenderer.sprite = chosenEventSprite;
+            }
         }
-        else
+        else // 이벤트가 아닌 다른 모든 노드 타입의 경우
         {
             if (template.sprite != null)
+            {
                 _spriteRenderer.sprite = template.sprite;
+            }
         }
 
         if (type == NodeType.Start || type == NodeType.Boss)

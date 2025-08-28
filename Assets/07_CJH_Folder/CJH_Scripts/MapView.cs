@@ -1,16 +1,27 @@
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
+using DG.Tweening;
 
 public class MapView : MonoBehaviour
 {
-    public Transform mapParent;
+    [Header("맵 & 플레이어 프리팹")]
     public GameObject mapTemplatePrefab;
+    public GameObject playerCharacterPrefab; // [추가!] 플레이어 캐릭터 프리팹 연결
     public MapConfig mapConfig;
+
+    [Header("캐릭터 이동 애니메이션")]
+    public float playerMoveDuration = 0.5f; // 캐릭터가 이동하는 데 걸리는 시간
+    public Ease playerMoveEase = Ease.OutQuad; // 캐릭터 이동 애니메이션 방식
+
+    public MapData CurrentMapData => currentMap;
 
     private GameObject currentMapInstance;
     private MapData currentMap;
     private Dictionary<Vector2Int, MapNode> nodeObjects;
+
+    // [추가!] 생성된 플레이어 캐릭터를 담을 변수
+    private GameObject playerCharacterInstance;
+
     public static MapView Instance;
 
     private void Awake()
@@ -23,8 +34,14 @@ public class MapView : MonoBehaviour
     {
         ClearMap();
         currentMap = map;
-        currentMapInstance = Instantiate(mapTemplatePrefab, mapParent);
+        currentMapInstance = Instantiate(mapTemplatePrefab);
         nodeObjects = new Dictionary<Vector2Int, MapNode>();
+
+        // 플레이어 캐릭터 생성 (씬에 없으면 새로 생성)
+        if (playerCharacterInstance == null && playerCharacterPrefab != null)
+        {
+            playerCharacterInstance = Instantiate(playerCharacterPrefab, transform);
+        }
 
         foreach (var placeholder in currentMapInstance.GetComponentsInChildren<MapNodeIdentifier>())
         {
@@ -45,47 +62,49 @@ public class MapView : MonoBehaviour
             }
         }
 
-        // 게임 시작 시 초기 맵 상태 업데이트
         UpdateMapState();
     }
 
-    // [수정!] SelectNode는 이제 경로를 업데이트하고 맵 상태를 갱신
     public void SelectNode(MapNode selectedNode)
     {
-        // 이미 방문한 노드는 다시 선택할 수 없음
         if (currentMap.Path.Contains(selectedNode.nodeData)) return;
-
-        // 플레이어의 경로에 현재 노드를 추가
         currentMap.Path.Add(selectedNode.nodeData);
-
-        // 맵 전체의 상태를 새로고침
         UpdateMapState();
     }
 
-    // [추가!] 맵의 모든 노드 상태를 업데이트하는 핵심 함수
     private void UpdateMapState()
     {
-        // 현재 플레이어가 위치한 노드를 가져옵니다.
         Node currentNode = currentMap.CurrentNode;
         if (currentNode == null) return;
 
-        // 맵의 모든 노드를 순회합니다.
+        // [추가!] 현재 노드로 플레이어 캐릭터 이동
+        UpdatePlayerPosition();
+
         foreach (var mapNode in nodeObjects.Values)
         {
-            // 1. 다음으로 갈 수 있는 노드(자식 노드)인지 확인
             bool isNextNode = currentNode.nextNodes.Contains(mapNode.nodeData);
 
-            // 2. 해당 노드를 공개(Reveal)하고 선택 가능(Selectable) 상태로 만듭니다.
-            if (isNextNode)
+            if (isNextNode && !mapNode.isRevealed)
             {
                 mapNode.Reveal();
-                mapNode.SetSelectable(true);
             }
-            // 3. 그 외 모든 노드는 선택 불가능 상태로 만듭니다.
-            else
-            {
-                mapNode.SetSelectable(false);
-            }
+            mapNode.SetSelectable(isNextNode);
+            mapNode.UpdateVisuals();
+        }
+    }
+
+    // [추가!] 플레이어 캐릭터를 현재 노드 위치로 이동시키는 함수
+    private void UpdatePlayerPosition()
+    {
+        if (playerCharacterInstance == null || currentMap.CurrentNode == null) return;
+
+        // 현재 노드의 게임 오브젝트를 찾습니다.
+        if (nodeObjects.TryGetValue(currentMap.CurrentNode.point, out MapNode currentNodeObject))
+        {
+            // DoTween을 사용해 부드럽게 이동!
+            playerCharacterInstance.transform
+                .DOMove(currentNodeObject.transform.position, playerMoveDuration)
+                .SetEase(playerMoveEase);
         }
     }
 
