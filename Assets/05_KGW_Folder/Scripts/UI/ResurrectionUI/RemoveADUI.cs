@@ -61,11 +61,12 @@ public class RemoveADUI : BaseUI
     private void CharacterResurrection()
     {
         // 게임 진행 상황 초기화
+        _battleManager._canResurrection = false;
         _battleManager._isClear = false;
         _battleManager._isGameOver = false;
         _battleManager._characters.Clear();
-        _battleManager.Wall.gameObject.SetActive(false);
-        _battleManager._battleUI._count = 3f;
+        //_battleManager.Wall.gameObject.SetActive(false);
+        //_battleManager._battleUI._count = 3f;
 
         _battleManager.CharacterSpawn();
     }
@@ -73,8 +74,7 @@ public class RemoveADUI : BaseUI
     // 노 버튼 클릭
     private void NoButtonClick()
     {
-        //todo 로비 확인 UI 오픈
-        // OnUIOpenRequested?.Invoke(UIName.LobbyConfirmUI);
+        // TODO : 로비 확인 UI 오픈
 
         _isOkayContainer.SetActive(true);
     }
