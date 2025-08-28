@@ -19,7 +19,6 @@ namespace JJY
         [SerializeField] TextMeshProUGUI addedLevelText;// 아이템을 사용해서 얻는 레벨 수치
         [SerializeField] Image expBar;                  // 현재 경험치 바
 
-
         [Header("Item Count Text")]
         private string selectedItem;                            // 현재 선택된 아이템의 이름
         private int selectedItemUseCount;                       // 현재 선택된 아이템의 사용하려는 개수
@@ -45,6 +44,14 @@ namespace JJY
         [SerializeField] Button beekBtn;            // beek 버튼
         [SerializeField] Button fineDinigBtn;       // fineDining 버튼
         [SerializeField] Button masterChefBtn;      // masterChef 버튼
+
+        // Addressable 연결
+        [Header("Image Assets")]
+        [SerializeField] Image BGimage;
+        [SerializeField] Image Charimage;
+        [SerializeField] Image beekimage;
+        [SerializeField] Image fineimage;
+        [SerializeField] Image masterimage;
 
         private Dictionary<string, int> itemExpTable = new Dictionary<string, int>();
         private Coroutine dialogCoroutine;
