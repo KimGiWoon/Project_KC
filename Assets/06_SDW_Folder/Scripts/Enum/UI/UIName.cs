@@ -30,6 +30,10 @@
         //# Quest UI
         DailyQuestUI,
 
+        //# Gatch UI
+        GachaMainUI,
+        GachaResultUI,
+
         //# None
         None
     }

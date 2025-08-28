@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using KSH;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -96,6 +97,9 @@ namespace SDW
                 case UIName.KGW_CharacterSelectUI: ConnectKGW_CharacterSelectUI(uiName); break;
                 //@ Daily Quest UI
                 case UIName.DailyQuestUI: ConnectDailyQuestUI(uiName); break;
+                //@ Gacha UI
+                case UIName.GachaMainUI: ConnectGachaMainUI(uiName); break;
+                case UIName.GachaResultUI: ConnectGachaResultUI(uiName); break;
             }
         }
 
@@ -167,6 +171,9 @@ namespace SDW
                 case UIName.KGW_CharacterSelectUI: DisconnectKGW_CharacterSelectUI(uiName); break;
                 //@ Daily Quest UI
                 case UIName.DailyQuestUI: DisconnectDailyQuestUI(uiName); break;
+                //@ Gacha UI
+                case UIName.GachaMainUI: DisconnectGachaMainUI(uiName); break;
+                case UIName.GachaResultUI: DisconnectGachaResultUI(uiName); break;
             }
         }
 
@@ -310,6 +317,20 @@ namespace SDW
             dailyQuestUI.OnRewardButtonClicked += GameManager.Instance.DailyQuest.Reward;
             dailyQuestUI.OnUICloseRequested += ClosePanel;
             GameManager.Instance.DailyQuest.AddQuestUI(dailyQuestUI);
+        }
+
+        private void ConnectGachaMainUI(UIName uiName)
+        {
+            var gachaMainUI = _uiDic[uiName] as GachaMainUI;
+            gachaMainUI.OnUIOpenRequested += OpenPanel;
+            gachaMainUI.OnUICloseRequested += ClosePanel;
+        }
+
+        private void ConnectGachaResultUI(UIName uiName)
+        {
+            var gachaResultUI = _uiDic[uiName] as GachaResultUI;
+            gachaResultUI.OnUIOpenRequested += OpenPanel;
+            gachaResultUI.OnUICloseRequested += ClosePanel;
         }
 
         #endregion
@@ -465,6 +486,20 @@ namespace SDW
             var dailyQuestUI = _uiDic[uiName] as DailyQuestUI;
             dailyQuestUI.OnRewardButtonClicked -= GameManager.Instance.DailyQuest.Reward;
             dailyQuestUI.OnUICloseRequested -= ClosePanel;
+        }
+
+        private void DisconnectGachaMainUI(UIName uiName)
+        {
+            var gachaMainUI = _uiDic[uiName] as GachaMainUI;
+            gachaMainUI.OnUIOpenRequested -= OpenPanel;
+            gachaMainUI.OnUICloseRequested -= ClosePanel;
+        }
+
+        private void DisconnectGachaResultUI(UIName uiName)
+        {
+            var gachaResultUI = _uiDic[uiName] as GachaResultUI;
+            gachaResultUI.OnUIOpenRequested -= OpenPanel;
+            gachaResultUI.OnUICloseRequested -= ClosePanel;
         }
 
         #endregion

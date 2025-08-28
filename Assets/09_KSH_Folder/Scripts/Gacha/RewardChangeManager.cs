@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using SDW;
 
 namespace KSH
 {
@@ -9,7 +10,12 @@ namespace KSH
         private Dictionary<string, bool> ownedCharacters = new Dictionary<string, bool>();
         private Dictionary<string, int> beadsInventory = new Dictionary<string, int>();
 
-        [SerializeField] private int starCandy;
+        private int starCandy;
+
+        private void Start()
+        {
+            starCandy = GameManager.Instance.StarCandy;
+        }
 
         public int StarCandy
         {
