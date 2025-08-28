@@ -281,7 +281,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 1
+  m_Mass: 10
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 0
@@ -314,6 +314,7 @@ MonoBehaviour:
   _currentMp: 0
   _isAlive: 0
   _isAttack: 0
+  _gameSpeed: 0
   _characterData: {fileID: 11400000, guid: 33635fde53e81f140b4e56ff38ec45b0, type: 2}
   _attackTargets: []
   _attackTarget: {fileID: 0}

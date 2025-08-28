@@ -11,6 +11,7 @@ namespace SDW
         [SerializeField] private Button _gameStartButton;
         [SerializeField] private Button _userInfoButton;
         [SerializeField] private Button _dailyQuestButton;
+        [SerializeField] private Button _gachaButton;
         [SerializeField] private TextMeshProUGUI _nicknameText;
 
         public Action<UIName> OnUIOpenRequested;
@@ -29,6 +30,7 @@ namespace SDW
             _gameStartButton.onClick.AddListener(GameStartButtonClicked);
             _userInfoButton.onClick.AddListener(UserInfoButtonClicked);
             _dailyQuestButton.onClick.AddListener(DailyQuestButtonClicked);
+            _gachaButton.onClick.AddListener(GachaButtonClicked);
         }
 
         private void OnDisable()
@@ -36,6 +38,7 @@ namespace SDW
             _gameStartButton.onClick.RemoveListener(GameStartButtonClicked);
             _userInfoButton.onClick.RemoveListener(UserInfoButtonClicked);
             _dailyQuestButton.onClick.RemoveListener(DailyQuestButtonClicked);
+            _gachaButton.onClick.RemoveListener(GachaButtonClicked);
         }
 
         #region Button Methods
@@ -52,6 +55,8 @@ namespace SDW
         private void UserInfoButtonClicked() => OnUIOpenRequested?.Invoke(UIName.UserInfoUI);
 
         private void DailyQuestButtonClicked() => OnUIOpenRequested?.Invoke(UIName.DailyQuestUI);
+
+        private void GachaButtonClicked() => OnUIOpenRequested?.Invoke(UIName.GachaMainUI);
 
         #endregion
 

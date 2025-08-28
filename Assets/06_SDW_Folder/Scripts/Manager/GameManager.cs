@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using KSH;
 
 namespace SDW
 {
@@ -21,6 +22,21 @@ namespace SDW
 
         private DailyQuestManager _dailyQuest;
         public DailyQuestManager DailyQuest => _dailyQuest;
+
+        [SerializeField] private bool _buyAdRemover;
+        public bool BuyAdRemover => _buyAdRemover;
+
+        [SerializeField] private string _stageName;
+        public string StageName => _stageName;
+
+        private bool _lastBoss;
+        public bool LastBoss => _lastBoss;
+
+        private int _starCandy;
+        public int StarCandy => _starCandy = 5000;
+
+        private int _gachaCount;
+        public int GachaCount => _gachaCount;
 
         private void Awake()
         {
@@ -61,5 +77,12 @@ namespace SDW
             Screen.autorotateToLandscapeLeft = false;
             Screen.autorotateToLandscapeRight = false;
         }
+
+        public void SetStageBoss(bool isBoss) => _lastBoss = isBoss;
+        
+        public void SubtractStarCandy (int number) => _starCandy -= number;
+        
+        public void AddGachaCount(int number) => _gachaCount += number;
     }
+    
 }

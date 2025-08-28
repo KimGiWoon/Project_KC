@@ -165,7 +165,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 1
+  m_Mass: 10
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 0
@@ -197,12 +197,12 @@ MonoBehaviour:
   _currentHp: 0
   _currentMp: 0
   _isAlive: 0
+  _isAttack: 0
+  _gameSpeed: 0
   _characterData: {fileID: 11400000, guid: fba14aff08dbc9d46922d7528cc7734c, type: 2}
   _attackTargets: []
   _attackTarget: {fileID: 0}
   _researchTarget: {fileID: 0}
-  _isManaFull: 0
-  _canUseSkill: 0
 --- !u!1 &6827316146154279080
 GameObject:
   m_ObjectHideFlags: 0

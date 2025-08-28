@@ -21,10 +21,18 @@
         //# Battle Scene
         BattleUI,
         ClearChapterUI,
+        ClearStageUI,
+        NonRemoveADUI,
+        RemoveADUI,
         DefeatChapterUI,
+        MenuUI,
 
         //# Quest UI
         DailyQuestUI,
+
+        //# Gatch UI
+        GachaMainUI,
+        GachaResultUI,
 
         //# None
         None

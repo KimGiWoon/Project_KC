@@ -22,18 +22,23 @@ public class ClearChapterUI : BaseUI
         _expText = _panelContainer.GetComponentInChildren<TMP_Text>();
         _growthPointText = _panelContainer.GetComponentInChildren<TMP_Text>();
         _confirmButton = _panelContainer.GetComponentInChildren<Button>();
+    }
+
+    private void OnEnable()
+    {
+        // 버튼 등록
         _confirmButton.onClick.AddListener(LobbyButtonClick);
+    }
+
+    private void OnDisable()
+    {
+        _confirmButton.onClick.RemoveListener(LobbyButtonClick);
     }
 
     // 로비 이동 버튼 클릭
     private void LobbyButtonClick()
     {
-        // 게임 클리어 확인
-        // if (_battleManager._isClear)
-        // {
-        // TODO : 김기운 : 추후에 마이씬 매니저 교체 예정
-        GameManager.Instance.Scene.LoadSceneAsync(SceneName.SDW_LobbyScene, UIName.KGW_StageSelectUI);
+        GameManager.Instance.Scene.LoadSceneAsync(SceneName.SDW_LobbyScene);
         OnUICloseRequested?.Invoke(UIName.ClearChapterUI);
-        // }
     }
 }
