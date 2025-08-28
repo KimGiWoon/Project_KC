@@ -19,9 +19,8 @@ public class TimeManager : MonoBehaviour
 
     private void ScheduleNextDayReset() //다음 리셋 시간 계산
     {
-        var koreaTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Korea Standard Time");
         var nowUtc = DateTime.UtcNow;
-        var nowKst = TimeZoneInfo.ConvertTimeFromUtc(nowUtc, koreaTimeZone); //한국 시간으로 변환
+        var nowKst = nowUtc.AddHours(9); //UTC+9
 
         var todayFive = new DateTime(nowKst.Year, nowKst.Month, nowKst.Day, 5, 0, 0);
         nextDailyResetTime = nowKst < todayFive ? todayFive : todayFive.AddDays(1);
@@ -48,11 +47,9 @@ public class TimeManager : MonoBehaviour
 
     private IEnumerator DailyReset()
     {
-        var koreaTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Korea Standard Time");
-
         while (true)
         {
-            var nowKst = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, koreaTimeZone);
+            var nowKst = DateTime.UtcNow.AddHours(9); //UTC+9
 
             if (nowKst >= nextDailyResetTime)
             {
