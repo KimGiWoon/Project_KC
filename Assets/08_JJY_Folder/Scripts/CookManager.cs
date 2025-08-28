@@ -20,7 +20,6 @@ namespace JJY
         // --- Inspector에서 연결할 것들 ---
         [Header("Prefabs & Parents")]
         [SerializeField] GameObject ingredientButtonPrefab; // 인벤토리 버튼 프리팹 (Button + Image + TMP Text)
-        [SerializeField] GameObject foodDescriptionPrefab;  // 요리 완성 결과 팝업 프리팹 (Image + TMP Text)
         [SerializeField] Transform inventoryContent;        // 동적 버튼이 붙을 부모(ScrollView Content 등)
 
         [Header("Recipe / Slots")]
@@ -139,7 +138,7 @@ namespace JJY
             go.transform.SetParent(inventoryContent, false);
             go.transform.SetAsLastSibling();
 
-            go.SetActive(true);
+            go.SetActive(false);                    // 깜빡임 현상 (수정중)
             activeButtons.Add(go);                  // 활성 리스트에 추가
             return go;                              // 반환
         }
@@ -185,6 +184,7 @@ namespace JJY
                 if (count <= 0 && !reservedIngredients.ContainsKey(ing)) continue; // 0 이면 표시하지 않음
 
                 GameObject go = GetButtonFromPool();                      // 풀에서 버튼 획득
+                go.SetActive(true);
                 var btn = go.GetComponent<Button>();                      // 버튼 컴포넌트
                 var img = go.GetComponent<Image>();                       // 아이콘용 이미지
                 var txt = go.GetComponentInChildren<TextMeshProUGUI>();  // 카운트 텍스트(TMP)
@@ -202,8 +202,8 @@ namespace JJY
                 btn.onClick.AddListener(() => OnInventoryButtonClicked(ingLocal));
 
                 // 버튼 활성 여부: 이미 상단에 올려져(selected에 포함) 있다면 비활성화
-                bool isReserved = reservedIngredients.ContainsKey(ing) && reservedIngredients[ing] > 0 && (selected & ing) != 0;
-                btn.interactable = !isReserved;
+                bool isReserved = reservedIngredients.ContainsKey(ing) && reservedIngredients[ing] > 0;
+                btn.interactable = !isReserved;     // 깜빡임 현상 (수정중)
                 // btn.interactable = (selected & ing) == 0;
 
                 // 재료 -> 버튼 매핑 저장 (상태 변경시 빠르게 찾아 쓸 용도)
@@ -216,19 +216,19 @@ namespace JJY
         void OnInventoryButtonClicked(Ingredient ing)
         {
             // 이미 예약되어 있다면 예약 해제(복구)
-            if (reservedIngredients.ContainsKey(ing) && reservedIngredients[ing] > 0)
-            {
-                ReleaseReservation(ing, 1); // 내부에서 UI 갱신
-            }
-            else
-            {
+            // if (reservedIngredients.ContainsKey(ing) && reservedIngredients[ing] > 0)
+            // {
+            //     ReleaseReservation(ing, 1); // 내부에서 UI 갱신
+            // }
+            // else
+            // {
                 // 예약 시 실제 재고의 '가용 수량' 확인
                 int available = GetDisplayCount(ing); // actual - reserved
                 if (available <= 0) return;
 
                 // 예약 추가 (1개)
                 ReserveIngredient(ing, 1); // 내부에서 UI 갱신 및 selected 처리
-            }
+            // }
         }
 
         // 예약 추가: UI 텍스트이 바로 차감되는 효과 (실제 playerIngredientInventory는 아직 줄지 않음)
@@ -259,32 +259,32 @@ namespace JJY
         }
 
         // 예약 해제(복구): UI에 표시된 숫자가 다시 올라옴 (실제 재고는 안건드림)
-        void ReleaseReservation(Ingredient ing, int count = 1)
-        {
-            if (count <= 0) return;
-            if (!reservedIngredients.ContainsKey(ing) || reservedIngredients[ing] <= 0) return;
+        // void ReleaseReservation(Ingredient ing, int count = 1)
+        // {
+        //     if (count <= 0) return;
+        //     if (!reservedIngredients.ContainsKey(ing) || reservedIngredients[ing] <= 0) return;
 
-            reservedIngredients[ing] -= count;
-            if (reservedIngredients[ing] <= 0) reservedIngredients.Remove(ing);
+        //     reservedIngredients[ing] -= count;
+        //     if (reservedIngredients[ing] <= 0) reservedIngredients.Remove(ing);
 
-            // 선택 비트 제거(만약 중복 예약을 허용하면 로직 수정 필요)
-            selected &= ~ing;
-            selectedCount = Math.Max(0, selectedCount - 1);
+        //     // 선택 비트 제거(만약 중복 예약을 허용하면 로직 수정 필요)
+        //     selected &= ~ing;
+        //     selectedCount = Math.Max(0, selectedCount - 1);
 
-            // 버튼 재활성화
-            if (buttonByIngredient.TryGetValue(ing, out GameObject go))
-            {
-                var b = go.GetComponent<Button>();
-                if (b != null) b.interactable = true;
-            }
+        //     // 버튼 재활성화
+        //     if (buttonByIngredient.TryGetValue(ing, out GameObject go))
+        //     {
+        //         var b = go.GetComponent<Button>();
+        //         if (b != null) b.interactable = true;
+        //     }
 
-            // UI 갱신
-            UpdateRecipeSlotsUI();
-            UpdateResultButton();
-            RefreshInventoryUI();
+        //     // UI 갱신
+        //     UpdateRecipeSlotsUI();
+        //     UpdateResultButton();
+        //     RefreshInventoryUI();
 
-            if (selectedCount == 0) resetBtn.interactable = false;
-        }
+        //     if (selectedCount == 0) resetBtn.interactable = false;
+        // }
 
         // ---------------------
         // 상단 레시피 슬롯 UI 갱신: selected 비트에 따라 왼쪽부터 채움
