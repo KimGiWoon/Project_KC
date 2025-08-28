@@ -30,33 +30,28 @@ namespace KSH
 
         private void Start()
         {
-            BattleStageGetRelic();
+            BattleStageClear();
         }
 
-        public Relic BattleStageClear() //전투스테이지 클리어 시 버프 유물 중 3중 1택
+        public void BattleStageClear() //전투스테이지 클리어 시 버프 유물 중 3중 1택
         {
-            //RelicRarity relicRarity = relicRarityPicker.GetRandom();
-            RelicRarity relicRarity = RelicRarity.Normal;
+            RelicRarity relicRarity = relicRarityPicker.GetRandom();
             
             List<Relic> getRelicList = relics
                 .Where(relic => relic.relicRarity == relicRarity)
                 .ToList();
-            
-            Relic selectRelic = getRelicList[Random.Range(0, getRelicList.Count)];
-            return selectRelic;
-        }
 
-        public void BattleStageGetRelic() //3중 택 1
-        {
-            List<Relic> result = new List<Relic>();
-
-            for (int i = 0; i < 3; i++)
+            for (int i = 0; i < getRelicList.Count; i++)
             {
-                Relic relic = BattleStageClear();
-                result.Add(relic);
+                Relic relic = getRelicList[i];
+                int index = Random.Range(i, getRelicList.Count);
+                getRelicList[i] = getRelicList[index];
+                getRelicList[index] = relic;
             }
-            // UI연결
-            relicResultUI.ShowRelic(result);
+            
+            List<Relic> result = getRelicList.Take(3).ToList();
+            
+            relicResultUI.ShowRelic(result, relicRarity);
         }
     }    
 }
