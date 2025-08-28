@@ -12,8 +12,8 @@
 /[Uu]ser[Ss]ettings/
 *.log
 /**/TextMesh Pro/
-/**/ServerData
-/**/GoogleSignIn
+/**/ServerData/
+/**/GoogleSignIn/
 
 # MemoryCaptures can get excessive in size.
 # They also could contain extremely sensitive data
@@ -85,3 +85,4 @@ crashlytics-build.properties
 /[Aa]ssets/[Ss]treamingAssets/aa.meta
 /[Aa]ssets/[Ss]treamingAssets/aa/*
 /Assets/00_Imports
+/Assets/GoogleSignIn/Editor/m2repository
