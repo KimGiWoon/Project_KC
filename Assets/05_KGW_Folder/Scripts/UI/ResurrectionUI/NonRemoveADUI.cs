@@ -80,11 +80,12 @@ public class NonRemoveADUI : BaseUI
     private void CharacterResurrection()
     {
         // 게임 진행 상황 초기화
+        _battleManager._canResurrection = false;
         _battleManager._isClear = false;
         _battleManager._isGameOver = false;
         _battleManager._characters.Clear();
-        _battleManager.Wall.gameObject.SetActive(false);
-        _battleManager._battleUI._count = 3f;
+        //_battleManager.Wall.gameObject.SetActive(false);
+        //_battleManager._battleUI._count = 3f;
 
         _battleManager.CharacterSpawn();
     }
