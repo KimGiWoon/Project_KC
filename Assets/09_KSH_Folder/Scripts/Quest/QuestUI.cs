@@ -1,16 +1,26 @@
 using SDW;
 using UnityEngine;
 using TMPro;
+using KSH;
+using UnityEngine.UI;
 
 public class QuestUI : MonoBehaviour
 {
     [Header("퀘스트 이름 텍스트")]
-    [SerializeField] private TextMeshProUGUI nameText;
+    private TextMeshProUGUI nameText;
 
     [Header("체크 이미지")]
-    [SerializeField] private GameObject checkImage;
+    private Image _checkImage;
 
     [HideInInspector] public DailyQuest dailyQuest;
+
+    private void Awake()
+    {
+        nameText = GetComponentInChildren<TextMeshProUGUI>(true);
+        var checkImages = GetComponentsInChildren<Image>(true);
+        _checkImage = checkImages[2];
+        _checkImage.gameObject.SetActive(false);
+    }
 
     public void Start()
     {
@@ -27,12 +37,12 @@ public class QuestUI : MonoBehaviour
 
         if (nameText != null)
             nameText.text = dailyQuest.questName;
-        checkImage.SetActive(false);
+        _checkImage.gameObject.SetActive(dailyQuest.isComplete);
     }
 
     public void CheckUI()
     {
-        if (checkImage != null && dailyQuest != null)
-            checkImage.SetActive(dailyQuest.isComplete);
+        if (_checkImage.gameObject != null && dailyQuest != null)
+            _checkImage.gameObject.SetActive(dailyQuest.isComplete);
     }
 }

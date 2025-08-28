@@ -2,12 +2,15 @@ using System;
 using UnityEngine;
 using SDW;
 using UnityEngine.UI;
+using UnityEngine.UIElements;
+using Button = UnityEngine.UI.Button;
 
 public class DailyQuestUI : BaseUI
 {
     [Header("UI Components")]
     [SerializeField] private Button _rewardButton;
     [SerializeField] private Button _backButton;
+    [SerializeField] private RectTransform _popupRect;
 
     public Action OnRewardButtonClicked;
     public Action<UIName> OnUICloseRequested;
@@ -32,6 +35,21 @@ public class DailyQuestUI : BaseUI
 
     private void Update()
     {
+        if (_panelContainer.activeSelf)
+        {
+            //# 안드로이드 터치 감지
+            if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began)
+            {
+                var touchPos = Input.GetTouch(0).position;
+
+                //# 패널 안에 터치가 있는지 확인
+                if (!RectTransformUtility.RectangleContainsScreenPoint(_popupRect, touchPos))
+                {
+                    OnUICloseRequested?.Invoke(UIName.DailyQuestUI);
+                }
+            }
+        }
+
         if (!GameManager.Instance.DailyQuest.CanReward())
         {
             if (_rewardButton.interactable)
