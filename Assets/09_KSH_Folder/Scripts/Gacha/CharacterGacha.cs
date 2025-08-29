@@ -12,6 +12,8 @@ namespace KSH
         [Header("UI")]
         [SerializeField] private GachaResultUI gachaResultUI; //캐릭터 결과 UI
 
+        [SerializeField] private GachaUI gachaUI;
+
         private WeightedRandom<Rarity> rarityPicker; //가중치 랜덤
 
         private int getCount = 0; //누적 뽑기 횟수
