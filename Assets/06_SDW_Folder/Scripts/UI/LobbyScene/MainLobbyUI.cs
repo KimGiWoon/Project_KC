@@ -12,6 +12,7 @@ namespace SDW
         [SerializeField] private Button _userInfoButton;
         [SerializeField] private Button _dailyQuestButton;
         [SerializeField] private Button _gachaButton;
+        [SerializeField] private Image _userIcon;
         [SerializeField] private TextMeshProUGUI _nicknameText;
 
         public Action<UIName> OnUIOpenRequested;
@@ -68,6 +69,8 @@ namespace SDW
         /// <param name="email">사용자의 이메일 주소</param>
         /// <param name="nickname">업데이트할 사용자의 닉네임</param>
         public void UpdateUserInfo(string nickname, string email = null, string uid = null) => _nicknameText.text = nickname;
+
+        public void SetIcon(Sprite sprite) => _userIcon.sprite = sprite;
 
         #endregion
     }
