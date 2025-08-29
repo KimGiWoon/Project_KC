@@ -66,29 +66,48 @@ namespace KSH
             return selectChracter;
         }
 
-        private List<CharacterData> SingleGacha() //1회 뽑기
+        private ResultData SingleGacha() //1회 뽑기
         {
             //todo Result UI가 열릴 때 호출해서 가져오도록 수정
             var result = GetRandomCharacter();
-            RewardChangeManager.Instance.ProcessCharacter(result); //중복 처리
-            return new List<CharacterData> { result };
+            (int gainedStarCandy, int gainedBead, int currentBead) = RewardChangeManager.Instance.ProcessCharacter(result); //중복 처리
+
+            return new ResultData
+            {
+                Result = new List<CharacterData> { result },
+                GainedStarCandy = new List<int> { gainedStarCandy },
+                GainedBead = new List<int> { gainedBead },
+                CurrentBead = new List<int> {currentBead}
+            };
         }
 
-        private List<CharacterData> TenGacha() //10회 뽑기
+        private ResultData TenGacha() //10회 뽑기
         {
             //todo Result UI가 열릴 때 호출해서 가져오도록 수정
             var result = new List<CharacterData>();
+            var gainedStarCandy = new List<int>();
+            var gainedBead = new List<int>();
+            var currentBeads = new List<int>();
 
             for (int i = 0; i < 10; i++)
             {
                 var character = GetRandomCharacter();
-                RewardChangeManager.Instance.ProcessCharacter(character);
+                (int starCandy, int bead, int currentBead) = RewardChangeManager.Instance.ProcessCharacter(character);
                 result.Add(character);
+                gainedStarCandy.Add(starCandy);
+                gainedBead.Add(bead);
+                currentBeads.Add(currentBead);
             }
-            return result;
+            return new ResultData
+            {
+                Result = result,
+                GainedStarCandy = gainedStarCandy,
+                GainedBead = gainedBead,
+                CurrentBead = currentBeads
+            };
         }
 
-        public List<CharacterData> GetGacha()
+        public ResultData GetGacha()
         {
             if (_isSingleGacha)
                 return SingleGacha();
