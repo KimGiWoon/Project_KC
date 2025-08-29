@@ -262,8 +262,11 @@ namespace SDW
         private void ConnectUserInfoUI(UIName uiName)
         {
             var userInfoUI = _uiDic[uiName] as UserInfoUI;
+            var mainLobbyUI = _uiDic[UIName.MainLobbyUI] as MainLobbyUI;
+
             userInfoUI.OnUICloseRequested += ClosePanel;
             userInfoUI.OnUIOpenButtonClicked += OpenPanel;
+            userInfoUI.OnIconChanged += mainLobbyUI.SetIcon;
 
             if (_firebase != null)
             {
@@ -296,6 +299,10 @@ namespace SDW
         private void ConnectChangeIconUI(UIName uiName)
         {
             var changeIconUI = _uiDic[uiName] as ChangeIconUI;
+            var userInfoUI = _uiDic[UIName.UserInfoUI] as UserInfoUI;
+
+            changeIconUI.OnIconSelected += userInfoUI.SetIcon;
+            changeIconUI.OnApplyIconClicked += userInfoUI.SetIconConfirmed;
             changeIconUI.OnUICloseRequested += ClosePanel;
         }
 
@@ -434,11 +441,15 @@ namespace SDW
         private void DisconnectUserInfoUI(UIName uiName)
         {
             var userInfoUI = _uiDic[uiName] as UserInfoUI;
+            var mainLobbyUI = _uiDic[UIName.MainLobbyUI] as MainLobbyUI;
+
             userInfoUI.OnUICloseRequested -= ClosePanel;
+            userInfoUI.OnUIOpenButtonClicked -= OpenPanel;
+            userInfoUI.OnIconChanged -= mainLobbyUI.SetIcon;
 
             if (_firebase != null)
             {
-                _firebase.OnSendUserInfo += userInfoUI.UpdateUserInfo;
+                _firebase.OnSendUserInfo -= userInfoUI.UpdateUserInfo;
                 userInfoUI.OnSignOutButtonClicked -= _firebase.SignOut;
             }
         }
@@ -466,14 +477,18 @@ namespace SDW
         private void DisconnectChangeIconUI(UIName uiName)
         {
             var changeIconUI = _uiDic[uiName] as ChangeIconUI;
-            changeIconUI.OnUICloseRequested += ClosePanel;
+            var userInfoUI = _uiDic[UIName.UserInfoUI] as UserInfoUI;
+
+            changeIconUI.OnIconSelected -= userInfoUI.SetIcon;
+            changeIconUI.OnApplyIconClicked -= userInfoUI.SetIconConfirmed;
+            changeIconUI.OnUICloseRequested -= ClosePanel;
         }
 
         private void DisconnectKGW_StageUI(UIName uiName)
         {
             var kgwStageUI = _uiDic[uiName] as KGW_StageSelectUI;
-            kgwStageUI.OnUIOpenRequested += OpenPanel;
-            kgwStageUI.OnUICloseRequested += ClosePanel;
+            kgwStageUI.OnUIOpenRequested -= OpenPanel;
+            kgwStageUI.OnUICloseRequested -= ClosePanel;
         }
 
         private void DisconnectKGW_CharacterSelectUI(UIName uiName)

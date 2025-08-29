@@ -73,7 +73,7 @@ namespace SDW
             Screen.orientation = ScreenOrientation.Portrait;
 
             Screen.autorotateToPortrait = true;
-            Screen.autorotateToPortraitUpsideDown = false;
+            Screen.autorotateToPortraitUpsideDown = true;
             Screen.autorotateToLandscapeLeft = false;
             Screen.autorotateToLandscapeRight = false;
         }
