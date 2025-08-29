@@ -67,18 +67,24 @@ namespace KSH
             CandyUpdate(RewardChangeManager.Instance.StarCandy);
         }
 
-        private void OnEnable()
-        {
-            RewardChangeManager.Instance.OnStarCandyChange += CandyUpdate;
-            CandyUpdate(GameManager.Instance.StarCandy);
-            _backButton.onClick.AddListener(BackButtonClicked);
-        }
-
         private void OnDisable()
         {
             if (RewardChangeManager.Instance != null)
                 RewardChangeManager.Instance.OnStarCandyChange -= CandyUpdate;
             _backButton.onClick.RemoveListener(BackButtonClicked);
+        }
+
+        public override void Open()
+        {
+            base.Open();
+            Initialize();
+        }
+
+        private void Initialize()
+        {
+            RewardChangeManager.Instance.OnStarCandyChange += CandyUpdate;
+            CandyUpdate(GameManager.Instance.StarCandy);
+            _backButton.onClick.AddListener(BackButtonClicked);
         }
 
         private void BackButtonClicked()
