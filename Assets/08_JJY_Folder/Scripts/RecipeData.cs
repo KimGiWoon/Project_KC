@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace JJY
@@ -11,7 +12,7 @@ namespace JJY
         public Sprite image;                       // TODO : Addressable
         public string description;                 // 설명 (CSV?)
         public string description2;                // 설명 (CSV?)
-        // 이 아이템의 효과(= description2)를 전투중 적용 가능하게
+        public List<FoodEffectData> effects;       // 가질 효과
 
         // 편의용: requiredIngredients -> mask 자동 저장
         [HideInInspector] public Ingredient mask;
