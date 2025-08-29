@@ -103,9 +103,10 @@ public abstract class UnitBaseData : MonoBehaviour
 
         while (time < _knockbackDuraction)
         {
+            time += Time.deltaTime;
+
             // 넉백 이동
             transform.Translate(knockbackDir * _knockbackForce * Time.deltaTime);
-            time += Time.deltaTime;
 
             yield return null;
 
