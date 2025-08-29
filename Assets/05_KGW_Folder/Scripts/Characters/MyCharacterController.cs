@@ -8,7 +8,8 @@ public class MyCharacterController : UnitBaseData
     [Header("Character Data Setting")]
     [SerializeField] public CharacterDataSO _characterData; // 캐릭터 데이터
 
-    [Header("Attack Unit List")]
+    [Header("Attack Unit List & Controller")]
+    [SerializeField] CharacterAttackController _attackController;
     public List<MonsterController> _attackTargets = new List<MonsterController>(); // 사거리에 들어온 몬스터 데이터
     public MonsterController _attackTarget; // 현재 공격 대상
 
@@ -18,6 +19,7 @@ public class MyCharacterController : UnitBaseData
     private Coroutine _manaRoutine;
     private bool _isManaFull;
     private float _manaChangeValue;
+
 
     // 체력과 마나의 변화 이벤트
     public event Action<float> OnHpChange;
@@ -89,8 +91,9 @@ public class MyCharacterController : UnitBaseData
         {
             // 공격 대상에서 삭제
             _attackTargets.Remove(_attackTarget);
-            // 공격 타겟 갱신
-            _attackTarget = _attackTargets.Count > 0 ? _attackTargets[0] : null;
+
+            // 공격 타겟 재선정
+            _attackController.RecheckAttackTarget();
         }
 
         // 공격 쿨타임 계산
