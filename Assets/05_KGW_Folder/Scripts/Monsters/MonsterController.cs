@@ -99,13 +99,15 @@ public class MonsterController : UnitBaseData
                 // 공격 중이면 이동 정지
                 if (_attackTarget != null && _isAttack) return;
 
+                // 이동 여유 거리
+                float moveSpareDistance = _monsterData._attackRange * 0.8f;
+
                 // 탐색한 대상과 거리 확인
                 float moveDistance = Vector3.Distance(transform.position, _researchTarget.transform.position);
 
                 // 공격 대상과의 거리가 공격 사거리 안에 들어올 때까지 접근
-                if (moveDistance > _monsterData._attackRange)
+                if (moveDistance > moveSpareDistance)
                 {
-                    _isAttack = false;
                     // 탐색 대상으로 이동
                     transform.position = Vector3.MoveTowards(transform.position, _researchTarget.transform.position,
                         _monsterData._moveSpeed * _gameSpeed * Time.deltaTime);
@@ -139,11 +141,14 @@ public class MonsterController : UnitBaseData
             // 공격 쿨타임 계산
             _attackCoolTimer -= Time.deltaTime;
 
+            // 공격 여유 사거리
+            float attackSpareDistance = _monsterData._attackRange * 0.9f;
+
             // 공격 타겟과 거리 비교
             float attackDistance = Vector3.Distance(transform.position, _attackTarget.transform.position);
 
             // 공격 대상의 거리가 몬스터의 공격 사거리에 들어오면 타겟 공격
-            if (attackDistance <= _monsterData._attackRange && _attackCoolTimer <= 0f)
+            if (attackDistance < attackSpareDistance && _attackCoolTimer <= 0f)
             {
                 // 몬스터의 데미지로 캐릭터에 주기
                 _attackTarget.TakeDamage(_monsterData._attackDamage);
@@ -152,6 +157,10 @@ public class MonsterController : UnitBaseData
 
                 // 공격 쿨타임 초기화
                 _attackCoolTimer = _monsterData._attackSpeed / _gameSpeed;
+            }
+            else
+            {
+                _isAttack = false;
             }
         }
     }

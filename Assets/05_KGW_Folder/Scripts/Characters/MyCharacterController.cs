@@ -62,14 +62,15 @@ public class MyCharacterController : UnitBaseData
             // 공격 중이면 이동 정지
             if (_attackTarget != null && _isAttack) return;
 
+            // 이동 여유 거리
+            float moveSpareDistance = _characterData._attackRange * 0.8f;
+
             // 탐색한 대상과 거리 확인
             float moveDistance = Vector3.Distance(transform.position, _researchTarget.transform.position);
 
             // 탐색 대상과의 거리가 공격 사거리 안에 들어올 때까지 접근
-            if (moveDistance > _characterData._attackRange)
+            if (moveDistance > moveSpareDistance)
             {
-                _isAttack = false;
-
                 // 탐색 대상으로 이동
                 transform.position = Vector3.MoveTowards(transform.position, _researchTarget.transform.position,
                     _characterData._moveSpeed * _gameSpeed * Time.deltaTime);
@@ -96,23 +97,25 @@ public class MyCharacterController : UnitBaseData
         _attackCoolTimer -= Time.deltaTime;
 
         // 공격 여유 사거리
-        float attackSpareDistance = _characterData._attackRange * (_characterData._attackRange - 0.2f);
+        float attackSpareDistance = _characterData._attackRange * 0.9f;
+
         // 공격 타겟과 거리 비교
         float attackDistance = Vector3.Distance(transform.position, _attackTarget.transform.position);
 
         // 공격 대상의 거리가 캐릭터의 공격 사거리에 들어오면 타겟 공격
-        if (attackDistance <= attackSpareDistance)
+        if (attackDistance < attackSpareDistance && _attackCoolTimer <= 0f)
         {
-            if (_attackCoolTimer <= 0f)
-            {
-                // 캐릭터의 데미지로 몬스터에 주기
-                _attackTarget.TakeDamage(_characterData._attackDamage);
+            // 캐릭터의 데미지로 몬스터에 주기
+            _attackTarget.TakeDamage(_characterData._attackDamage);
 
-                _isAttack = true;
+            _isAttack = true;
 
-                // 공격 쿨타임 초기화
-                _attackCoolTimer = _characterData._attackSpeed / _gameSpeed;
-            }
+            // 공격 쿨타임 초기화
+            _attackCoolTimer = _characterData._attackSpeed / _gameSpeed;
+        }
+        else
+        {
+            _isAttack = false;
         }
     }
 
