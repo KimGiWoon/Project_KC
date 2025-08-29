@@ -32,9 +32,14 @@ namespace KSH
         private int RareReward = 2000;
         
         public event Action<int> OnStarCandyChange;
+        public event Action<int> OnStarCandyGained;
+        public event Action<int> OnBeadGained;
         
-        public void ProcessCharacter(CharacterData character)
+        public (int starCandy, int bead) ProcessCharacter(CharacterData character)
         {
+            int gainedStarCandy = 0;
+            int gainedBead = 0;
+            
             if (ownedCharacters.ContainsKey(character.characterName))
             {
                 if(!beadsInventory.ContainsKey(character.characterName))
@@ -46,12 +51,15 @@ namespace KSH
                 {
                     beadsInventory[character.characterName] = beadMax;
                 
-                    int reward = (character.rarity == Rarity.Rare) ? RareReward : normalReward;
-                    StarCandy += reward;
-                    Debug.Log($"{character.characterName} 구슬 6개 초과하였으므로 별사탕 {reward}개 획득!");
+                    gainedStarCandy = (character.rarity == Rarity.Rare) ? RareReward : normalReward;
+                    StarCandy += gainedStarCandy;
+                    OnStarCandyChange?.Invoke(gainedStarCandy);
+                    Debug.Log($"{character.characterName} 구슬 6개 초과하였으므로 별사탕 {gainedStarCandy}개 획득!");
                 }
                 else
                 {
+                    gainedBead = 1;
+                    OnBeadGained?.Invoke(gainedBead);
                     Debug.Log($"{character.characterName}이 중복이므로 구슬 1개 획득!");
                 }
             }
@@ -60,6 +68,7 @@ namespace KSH
                 ownedCharacters[character.characterName] = true;
                 Debug.Log($"{character.characterName} 획득!");
             }
+            return (gainedStarCandy, gainedBead);
         }
         
         public void AddStarCandy(int count)
