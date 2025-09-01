@@ -1,0 +1,13 @@
+캐릭터 ID,캐릭터 명,캐릭터 명(영문),캐릭터 등급,캐릭터 역할,마나,마나 회복량(초),체력,공격 속도,공격력,방어력,캐릭터 패시브 스킬1,캐릭터 액티브 스킬1,캐릭터 패시브 스킬 이펙트,캐릭터 액티브 스킬 이펙트,캐릭터 소개 문구
+chaID,chaName,chaNameEn,chaGrade,chaRole,chaMP,chaMPRecovery,chaHP,chaAtkSpeed(s),chaAttack,chaArmor,chaPassiveSkill,chaActiveSkill,chaPassiveSkillEffect,chaActiveSkillEffect,chaIntroduction_Text
+int,string,string(enum),string(enum),string(enum),float,float,float,float,float,float,int,int,int,string,string
+11001,엄모안,EMA,Normal,Buffer,0,0,100,0.7,10,20,12001,-1,-1,-1,null
+11002,육호연,YHY,Normal,Tanker,0,0,100,0.7,10,30,12002,-1,-1,-1,null
+11003,산드레,SDR,Normal,Melee,0,0,100,0.7,10,20,12003,-1,-1,-1,null
+11004,달리아,DRA,Normal,Ranged,0,0,100,0.7,10,20,12004,-1,-1,-1,null
+11005,장희빈,JHB,Normal,Debuffer,0,0,100,0.7,10,20,12005,-1,-1,-1,null
+11201,한서리,HSR,Rare,Buffer,70,7,100,0.7,10,20,12001,12201,-1,-1,null
+11202,백천아,BCA,Rare,Tanker,70,7,100,0.7,10,50,12002,12202,-1,-1,null
+11203,소인랑,SIL,Rare,Melee,50,5,100,0.7,10,20,12003,12203,-1,-1,null
+11204,고서은,GSE,Rare,Ranged,50,10,100,0.7,10,20,12004,12204,-1,-1,null
+11205,백웅,BW,Rare,Debuffer,70,7,100,0.7,10,20,12005,12205,-1,-1,null

@@ -2,7 +2,9 @@
 {
     public enum SkillTargetType
     {
-        Target,
-        AoE
+        FriendlySingle,
+        FriendlyAll,
+        EnemySingle,
+        EnemyAll
     }
 }

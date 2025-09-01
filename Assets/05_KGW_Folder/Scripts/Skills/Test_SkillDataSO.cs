@@ -27,20 +27,20 @@ public abstract class Test_SkillDataSO : ScriptableObject
     // 파싱 데이터를 매핑
     public virtual void DataApply(CharacterSkillFileData skillFileData)
     {
-        _chaSkillID = skillFileData.ChaSkillID;
-        _chaSkillName = skillFileData.ChaSkillName;
-        _chaSkillNameEn = skillFileData.ChaSkillNameEn;
-        _chaSkillType = skillFileData.ChaSkillType;
-        _chaSkillTargetType = skillFileData.ChaSkillTargetType;
-        _chaSkillCC = skillFileData.ChaSkillCC;
-        _chaSkillChance = skillFileData.ChaSkillChance;
-        _chaSkillRange = skillFileData.ChaSkillRange;
-        _chaSkillDuration = skillFileData.ChaSkillDuration;
-        _chaSkillTick = skillFileData.ChaSkillTick;
-        _charSkillHit = skillFileData.CharSkillHit;      
-        _chaSkillValue = skillFileData.ChaSkillValue;
-        _chaSkillAnim = skillFileData.ChaSkillAnim;
-        _chaSkillImg = skillFileData.ChaSkillImg;
-        _chaSkillEffect = skillFileData.ChaSkillEffect;
+        // _chaSkillID = skillFileData.ChaSkillID;
+        // _chaSkillName = skillFileData.ChaSkillName;
+        // _chaSkillNameEn = skillFileData.ChaSkillNameEn;
+        // _chaSkillType = skillFileData.ChaSkillType;
+        // _chaSkillTargetType = skillFileData.ChaSkillTargetType;
+        // _chaSkillCC = skillFileData.ChaSkillCC;
+        // _chaSkillChance = skillFileData.ChaSkillChance;
+        // _chaSkillRange = skillFileData.ChaSkillRange;
+        // _chaSkillDuration = skillFileData.ChaSkillDuration;
+        // _chaSkillTick = skillFileData.ChaSkillTick;
+        // _charSkillHit = skillFileData.CharSkillHit;      
+        // _chaSkillValue = skillFileData.ChaSkillValue;
+        // _chaSkillAnim = skillFileData.ChaSkillAnim;
+        // _chaSkillImg = skillFileData.ChaSkillImg;
+        // _chaSkillEffect = skillFileData.ChaSkillEffect;
     }
 }

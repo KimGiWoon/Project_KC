@@ -1,9 +1,11 @@
+using System;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
 namespace SDW
 {
-    public static class LoadCSV
+    public static class HandleCSV
     {
         /// <summary>
         /// 읽어들인 CSV 파일의 지정된 줄 이후의 데이터를 배열로 반환
@@ -23,6 +25,22 @@ namespace SDW
 
             Debug.LogWarning($"CSV 파일을 찾지 못했습니다 : Resources/CSVData/{fileName}");
             return null;
+        }
+
+        public static List<T> ReadDataFromLines<T>(string[] lines) where T : struct
+        {
+            var dataList = new List<T>();
+
+            foreach (string line in lines)
+            {
+                string[] fields = line.Split(',');
+
+                // 생성자(string[] fields)를 이용해 객체 생성
+                var data = (T)Activator.CreateInstance(typeof(T), new object[] { fields });
+                dataList.Add(data);
+            }
+
+            return dataList;
         }
     }
 }

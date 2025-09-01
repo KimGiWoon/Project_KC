@@ -5,7 +5,7 @@
         Tanker,
         Ranged,
         Melee,
-        Heal,
+        Buffer,
         Debuffer
     }
 }
