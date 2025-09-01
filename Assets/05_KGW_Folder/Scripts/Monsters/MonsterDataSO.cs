@@ -28,5 +28,7 @@ public class MonsterDataSO : ScriptableObject
 
     [Header("Skills Setting")]
     public float _useSkillTime;             // 스킬 사용 시간
-    public SkillDataSO[] _skills;           // 몬스터의 보유 스킬
+
+    [Header("Boss Skill Setting")]
+    public SkillDataSO[] _recallSkills;           // 보스의 몬스터 소환 스킬
 }
