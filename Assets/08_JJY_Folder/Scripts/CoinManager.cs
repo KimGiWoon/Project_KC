@@ -25,7 +25,8 @@ namespace JJY
         }
 
 
-        public int inGameCoin { get; private set; } // 인게임 재화
+        public int starCandy { get; private set; } // 인게임 재화, 변수명 변경해야함. (Fire base)
+        public int shiningStarCandy { get; private set; } // 인게임 유료 재화, 변수명 변경해야함. (Fire base)
         public int totalInGameCoin { get; private set; } // 인게임에서 얻은 총 재화량
         // 아웃게임 아이템
         private Dictionary<string, int> items = new Dictionary<string, int>();
@@ -88,22 +89,38 @@ namespace JJY
         }
 
         /// <summary>
-        /// 인게임 재화 증가
+        /// StarCandy 재화 증가
         /// </summary>
-        public void AddInGameCoin(int value)
+        public void AddStarCandy(int value)
         {
-            inGameCoin += value;
+            starCandy += value;
             totalInGameCoin += value;
         }
         /// <summary>
-        /// 인게임 재화 소모
+        /// StarCandy 재화 소모
         /// </summary>
-        public void SubtractInGameCoin(int value)
+        public void SubtractStarCandy(int value)
         {
-            if (inGameCoin < value) return;
+            if (starCandy < value) return;
 
-            inGameCoin -= value;
+            starCandy -= value;
             totalInGameCoin -= value;
+        }
+        /// <summary>
+        /// ShiningStarCandy 재화 증가
+        /// </summary>
+        public void AddShiningStarCandy(int value)
+        {
+            shiningStarCandy += value;
+        }
+        /// <summary>
+        /// ShiningStarCandy 재화 소모
+        /// </summary>
+        public void SubtractShiningStarCandy(int value)
+        {
+            if (shiningStarCandy < value) return;
+
+            shiningStarCandy -= value;
         }
 
 #if UNITY_EDITOR
