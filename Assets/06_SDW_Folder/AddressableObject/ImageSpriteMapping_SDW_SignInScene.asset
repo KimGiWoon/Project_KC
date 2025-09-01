@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c8bdbe26bb2621842aad45dd670c1878, type: 3}
+  m_Name: ImageSpriteMapping_SDW_SignInScene
+  m_EditorClassIdentifier: 
+  entries:
+  - Path: '- UI/SignInCanvas/SignInContainer/SignInPanel'
+    AddressKey: 57daccc1527ca1d43abc8eea0dd14179
+    AssetPath: Assets/06_SDW_Folder/Sprites/PanelBackground.png
+  - Path: '- UI/SignInCanvas/DownloadContainer/DownloadPanel'
+    AddressKey: 57daccc1527ca1d43abc8eea0dd14179
+    AssetPath: Assets/06_SDW_Folder/Sprites/PanelBackground.png
+  - Path: '- UI/SignInCanvas/SetNicknameContainer/SetNicknamePanel/NicknameInputField'
+    AddressKey: 57daccc1527ca1d43abc8eea0dd14179
+    AssetPath: Assets/06_SDW_Folder/Sprites/PanelBackground.png
+  - Path: '- UI/SignInCanvas/SignInContainer/SignInPanel/SignInButton'
+    AddressKey: 9dabe2e845efb504eb745e1ce37cff58
+    AssetPath: Assets/06_SDW_Folder/Sprites/android_neutral_rd_SU@4x.png
+  - Path: '- UI/SignInCanvas/SetNicknameContainer/SetNicknamePanel'
+    AddressKey: 57daccc1527ca1d43abc8eea0dd14179
+    AssetPath: Assets/06_SDW_Folder/Sprites/PanelBackground.png

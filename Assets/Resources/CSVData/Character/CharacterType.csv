@@ -1,0 +1,8 @@
+﻿캐릭터 역할	캐릭터 공격 사거리	명중률	회피율	치명타 확률	치명타 데미지	상태 이상 저항	캐릭터 이동 속도
+chaRole	chaAtkIsMelee	chaAccuracy	chaAvoid	chaCrit	chaCritDmg	chaReg	chaMoveSpeed
+string(enum)	int	float	float	float	float	float	float
+Buffer	4	100	15	10	200	20	0.9
+Tanker	1	100	0	10	200	20	1.2
+Melee	2	120	10	30	200	20	1.1
+Ranged	5	120	20	40	250	20	0.8
+Debuffer	3	100	15	10	200	20	1

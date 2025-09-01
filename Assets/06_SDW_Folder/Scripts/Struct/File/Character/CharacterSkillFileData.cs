@@ -6,19 +6,17 @@ namespace SDW
     {
         public int ChaSkillID;
         public string ChaSkillName;
-        public string ChaSkillNameEn;
+        public CharacterSkillEnName ChaSkillEnName;
         public SkillType ChaSkillType;
         public SkillTargetType ChaSkillTargetType;
-        public SkillCC ChaSkillCC;
-        public SkillEffectType ChaSkillChance;
-        public AttackRange ChaSkillRange;
+        public SkillEffectType ChaSkillEffectType;
+        public float ChaSkillChance;
         public float ChaSkillDuration;
         public float ChaSkillTick;
-        public float CharSkillHit;
+        public int ChaSkillHit;
         public float ChaSkillValue;
-        public int ChaSkillAnim;
-        public string ChaSkillImg;
-        public string ChaSkillEffect;
+        public float ChaEffectValue;
+        public string ChaSkillDescription;
 
         /// <summary>
         /// CharacterSkillFileData를 초기화
@@ -28,19 +26,17 @@ namespace SDW
         {
             ChaSkillID = int.Parse(fields[0]);
             ChaSkillName = fields[1];
-            ChaSkillNameEn = fields[2];
+            ChaSkillEnName = (CharacterSkillEnName)Enum.Parse(typeof(CharacterSkillEnName), fields[2]);
             ChaSkillType = (SkillType)Enum.Parse(typeof(SkillType), fields[3]);
             ChaSkillTargetType = (SkillTargetType)Enum.Parse(typeof(SkillTargetType), fields[4]);
-            ChaSkillCC = (SkillCC)Enum.Parse(typeof(SkillCC), fields[5]);
-            ChaSkillChance = (SkillEffectType)Enum.Parse(typeof(SkillEffectType), fields[6]);
-            ChaSkillRange = (AttackRange)Enum.Parse(typeof(AttackRange), fields[7]);
-            ChaSkillDuration = float.Parse(fields[8]);
-            ChaSkillTick = float.Parse(fields[9]);
-            CharSkillHit = float.Parse(fields[10]);
-            ChaSkillValue = float.Parse(fields[11]);
-            ChaSkillAnim = int.Parse(fields[12]);
-            ChaSkillImg = fields[13];
-            ChaSkillEffect = fields[14];
+            ChaSkillEffectType = (SkillEffectType)Enum.Parse(typeof(SkillEffectType), fields[5]);
+            ChaSkillChance = float.Parse(fields[6]);
+            ChaSkillDuration = float.Parse(fields[7]);
+            ChaSkillTick = float.Parse(fields[8]);
+            ChaSkillHit = int.Parse(fields[9]);
+            ChaSkillValue = float.Parse(fields[10]);
+            ChaEffectValue = int.Parse(fields[11]);
+            ChaSkillDescription = fields[12];
         }
     }
 }

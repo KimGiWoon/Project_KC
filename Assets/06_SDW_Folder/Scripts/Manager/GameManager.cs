@@ -23,6 +23,12 @@ namespace SDW
         private DailyQuestManager _dailyQuest;
         public DailyQuestManager DailyQuest => _dailyQuest;
 
+        private CharacterDataManager _characterData;
+        public CharacterDataManager CharacterData => _characterData;
+
+        private MonsterDataManager _monsterData;
+        public MonsterDataManager MonsterData => _monsterData;
+
         [SerializeField] private bool _buyAdRemover;
         public bool BuyAdRemover => _buyAdRemover;
 
@@ -53,6 +59,8 @@ namespace SDW
             _scene = GetComponent<MySceneManager>();
             _time = GetComponent<TimeManager>();
             _dailyQuest = GetComponent<DailyQuestManager>();
+            _characterData = GetComponent<CharacterDataManager>();
+            _monsterData = GetComponent<MonsterDataManager>();
         }
 
         private void Start()
