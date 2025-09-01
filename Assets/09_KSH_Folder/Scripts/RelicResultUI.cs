@@ -12,9 +12,25 @@ public class RelicResultUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI relicDescription1;
     [SerializeField] private TextMeshProUGUI relicDescription2;
     [SerializeField] private Image Background;
+
+    [SerializeField] private Button getButton;
     
     private RelicUI currentRelicUI;
     private Relic relic;
+
+    private void Awake()
+    {
+        getButton.onClick.AddListener(GetRelicClicked);
+    }
+
+    private void GetRelicClicked()
+    {
+        if (currentRelicUI == null) return;
+        
+        Relic relic = currentRelicUI.GetRelic();
+        RelicDropManager.Instance.GetRelic(relic);
+        getButton.interactable = false;
+    }
     
     public void ShowRelic(List<Relic> relics, RelicRarity rarity)
     {
@@ -59,7 +75,7 @@ public class RelicResultUI : MonoBehaviour
         
         relicDescription1.gameObject.SetActive(true);
         relicDescription2.gameObject.SetActive(true);
-
+        
         Relic relic = currentRelicUI.GetRelic();
         relicDescription1.text = relic.relicDescription1;
         relicDescription2.text = relic.relicDescription2;

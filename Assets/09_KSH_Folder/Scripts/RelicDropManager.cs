@@ -13,6 +13,8 @@ namespace KSH
         //유물 나오는 UI 있어야함
         [SerializeField] private RelicResultUI relicResultUI;
         
+        private List<Relic> acquiredRelicLists = new List<Relic>();
+        
         private WeightedRandom<RelicRarity> relicRarityPicker;
         private WeightedRandom<RelicType> relicTypePicker;
 
@@ -22,10 +24,8 @@ namespace KSH
             relicRarityPicker = new WeightedRandom<RelicRarity>();
             relicTypePicker = new WeightedRandom<RelicType>();
             //임시로 정해둔 것
-            relicRarityPicker.Add(RelicRarity.Normal, 90);
-            relicRarityPicker.Add(RelicRarity.Rare, 10);
-            relicTypePicker.Add(RelicType.Buff, 90);
-            relicTypePicker.Add(RelicType.Debuff, 10);
+            relicRarityPicker.Add(RelicRarity.Normal, 80);
+            relicRarityPicker.Add(RelicRarity.Rare, 20);
         }
 
         private void Start()
@@ -38,7 +38,7 @@ namespace KSH
             RelicRarity relicRarity = relicRarityPicker.GetRandom();
             
             List<Relic> getRelicList = relics
-                .Where(relic => relic.relicRarity == relicRarity)
+                .Where(relic => relic.relicRarity == relicRarity && !acquiredRelicLists.Contains(relic))
                 .ToList();
 
             for (int i = 0; i < getRelicList.Count; i++)
@@ -52,6 +52,18 @@ namespace KSH
             List<Relic> result = getRelicList.Take(3).ToList();
             
             relicResultUI.ShowRelic(result, relicRarity);
+        }
+
+        public void GetRelic(Relic relic)
+        {
+            //ToDo : 인벤토리에 유물 추가해야함 (일단 임시로 해둠)
+            if (!acquiredRelicLists.Contains(relic))
+            {
+                acquiredRelicLists.Add(relic);
+                Debug.Log($"{relic.relicName} 획득");
+            }
+            
+            //TODO: 플레이어 스탯 적용 및 효과 적용
         }
     }    
 }

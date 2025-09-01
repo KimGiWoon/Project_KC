@@ -54,11 +54,12 @@ namespace KSH
                 character.beads++;
                 currentBead = character.beads;
 
-                if (beadsInventory[character.characterName] > beadMax)
+                if (currentBead >= 7)
                 {
+                    gainedStarCandy = character.rarity == Rarity.Rare ? RareReward : normalReward;
+                    gainedBead = 0;
                     beadsInventory[character.characterName] = beadMax;
                     character.beads = beadMax;
-                    gainedStarCandy = character.rarity == Rarity.Rare ? RareReward : normalReward;
                     StarCandy += gainedStarCandy;
 
                     if (OnStarCandyGained != null)
