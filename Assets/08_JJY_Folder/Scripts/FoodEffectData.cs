@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace JJY
 {
-    [Serializable]
+    [CreateAssetMenu(menuName = "ScriptableObjects/FoodEffectData")]
     public class FoodEffectData : ScriptableObject
     {
         public EffectType type;
