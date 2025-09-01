@@ -1,35 +1,72 @@
 using UnityEngine;
+using System.Collections.Generic;
 
 namespace KSH
 {
+    [CreateAssetMenu(fileName = "Relic", menuName = "Relic/Relic Data")]
+    public class Relic : ScriptableObject
+    {
+        [Header("유물 이름")]
+        public string relicName;
     
-}
-[CreateAssetMenu(fileName = "Relic", menuName = "Relic/Relic Data")]
-public class Relic : ScriptableObject
-{
-    [Header("유물 이름")]
-    public string relicName;
+        [Header("유물 이미지")]
+        public Sprite relicImage;
     
-    [Header("유물 이미지")]
-    public Sprite relicImage;
+        [Header("유물 설명")]
+        public string relicDescription1;
+        public string relicDescription2;
     
-    [Header("유물 설명")]
-    public string relicDescription1;
-    public string relicDescription2;
-    
-    [Header("유물 등급")]
-    public RelicRarity relicRarity;
-}
+        [Header("유물 등급")]
+        public RelicRarity relicRarity;
 
-public enum RelicRarity
-{
-    Normal,
-    Rare,
-    Deburff
-}
+        [Header("발동 조건")] 
+        public bool isPassive;
+    
+        [Header("유물 발동 타입")]
+        public RelicType relicType;
+    
+        [Header("발동 가능 역할군")]
+        public RelicRole relicRole;
+    
+        [Header("유물 효과")]
+        public List<RelicEffectValue> relicEffectValues;
+    }
+    
+    [System.Serializable]
+    public struct RelicEffectValue
+    {
+        public RelicEffect effect; 
+        public int value;          
+    }
 
-public enum RelicType
-{
-    Buff,
-    Debuff,
+    public enum RelicRarity
+    {
+        Normal,
+        Rare,
+        Deburff
+    }
+
+    public enum RelicType
+    {
+        None,
+        ActiveSkill
+    }
+
+    public enum RelicRole
+    {
+        None
+    }
+
+    [System.Flags]
+    public enum RelicEffect
+    {
+        None = 0,
+        chaAttack = 1 << 0,
+        chaArmor = 1 << 1,
+        chaHP = 1 << 2,
+        chaCritDmg  = 1 << 3,
+        chaAtkSpeed = 1 << 4,
+        chaMPRecovery = 1 << 5,
+    
+    }
 }

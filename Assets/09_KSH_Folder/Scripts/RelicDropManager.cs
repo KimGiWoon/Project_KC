@@ -24,10 +24,8 @@ namespace KSH
             relicRarityPicker = new WeightedRandom<RelicRarity>();
             relicTypePicker = new WeightedRandom<RelicType>();
             //임시로 정해둔 것
-            relicRarityPicker.Add(RelicRarity.Normal, 90);
-            relicRarityPicker.Add(RelicRarity.Rare, 10);
-            relicTypePicker.Add(RelicType.Buff, 90);
-            relicTypePicker.Add(RelicType.Debuff, 10);
+            relicRarityPicker.Add(RelicRarity.Normal, 80);
+            relicRarityPicker.Add(RelicRarity.Rare, 20);
         }
 
         private void Start()
