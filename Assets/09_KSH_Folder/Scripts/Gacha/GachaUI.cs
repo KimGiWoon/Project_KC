@@ -49,18 +49,10 @@ namespace KSH
             characterImage.sprite = data.characterImage;
             characterName.text = data.characterName;
             characterName.color = GetRarityColor(data.rarity);
-
-            // if (RewardChangeManager.Instance.ownedCharacters[data.characterName] == false)
-            // {
-            //     RewardChangeManager.Instance.ownedCharacters[data.characterName] = true;
-            // }
-            // else
-            // {
-
-
+            
             isSet = isFirstCharacter;
 
-            if (currentBead >= 6)
+            if (currentBead > 6)
             {
                 //SetStarCandy(RewardChangeManager.Instance.gainedStarCandy);    
                 Debug.Log($"{data.characterName}스타캔디트루");
