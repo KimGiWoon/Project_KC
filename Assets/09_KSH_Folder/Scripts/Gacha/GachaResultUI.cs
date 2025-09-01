@@ -19,6 +19,7 @@ namespace KSH
 
         public Action<UIName> OnUIOpenRequested;
         public Action<UIName> OnUICloseRequested;
+        private Dictionary<string, bool> _isFirstCharacter = new Dictionary<string, bool>();
 
         private void Awake()
         {
@@ -47,7 +48,8 @@ namespace KSH
             Show(_gacha.GetGacha());
         }
 
-        public void Show(List<CharacterData> characterDatas) //뽑은 캐릭터들을 보여주는 기능
+        // public void Show(List<CharacterData> characterDatas) //뽑은 캐릭터들을 보여주는 기능
+        public void Show(ResultData characterDatas) //뽑은 캐릭터들을 보여주는 기능
         {
             foreach (Transform child in content) //content안에 있는 이전 뽑기 결과들
             {
@@ -61,10 +63,22 @@ namespace KSH
             float startY = -1000; //애니메이션 시작 위치
             float spacing = 250; //캐릭터UI 간 간격
 
-            for (int i = 0; i < characterDatas.Count; i++) //뽑힌 캐릭터 수 만큼 생성
+            for (int i = 0; i < characterDatas.Result.Count; i++) //뽑힌 캐릭터 수 만큼 생성
             {
                 var gacha = Instantiate(gachaPrefab, content); //뽑힌 캐릭터 UI을 content안에 생성
-                gacha.SetData(characterDatas[i]); //캐릭터 데이터 적용
+                // gacha.SetData(characterDatas[i]); //캐릭터 데이터 적용
+
+                if (!_isFirstCharacter.ContainsKey(characterDatas.Result[i].characterName))
+                    _isFirstCharacter[characterDatas.Result[i].characterName] = true;
+                else
+                    _isFirstCharacter[characterDatas.Result[i].characterName] = false;
+                gacha.SetData(
+                    characterDatas.Result[i],
+                    characterDatas.GainedStarCandy[i],
+                    characterDatas.GainedBead[i],
+                    characterDatas.CurrentBead[i],
+                    _isFirstCharacter[characterDatas.Result[i].characterName]
+                ); //캐릭터 데이터 적용
 
                 var rect = gacha.GetComponent<RectTransform>();
                 spawnedRects.Add(rect); //RectTransform을 만든 리스트에 저장

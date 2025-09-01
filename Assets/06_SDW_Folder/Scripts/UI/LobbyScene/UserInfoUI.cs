@@ -12,6 +12,8 @@ namespace SDW
         [Header("User Info Settings")]
         [SerializeField] private TextMeshProUGUI _uidInfoText;
         [SerializeField] private TextMeshProUGUI _nicknameInfoText;
+        [SerializeField] private Image _userIcon;
+        private Sprite _userIconBackUp;
 
         [Header("Panels")]
         [SerializeField] private GameObject _backgroundPanel;
@@ -30,6 +32,7 @@ namespace SDW
         public Action<UIName> OnUICloseRequested;
         public Action<UIName> OnUIOpenButtonClicked;
         public Action OnSignOutButtonClicked;
+        public Action<Sprite> OnIconChanged;
 
         private RectTransform _userInfoPanelRect;
         private Stack<UIName> _uiStack = new Stack<UIName>();
@@ -85,7 +88,11 @@ namespace SDW
                 {
                     if (_uiStack.Count == 0) return;
 
-                    OnUICloseRequested?.Invoke(_uiStack.Pop());
+                    var uiName = _uiStack.Pop();
+
+                    if (uiName == UIName.ChangeIconUI) SetIconCanceled();
+
+                    OnUICloseRequested?.Invoke(uiName);
                 }
             }
         }
@@ -129,6 +136,24 @@ namespace SDW
         {
             _uiStack.Push(UIName.ChangeIconUI);
             OnUIOpenButtonClicked?.Invoke(UIName.ChangeIconUI);
+        }
+
+        public void SetIcon(Sprite sprite)
+        {
+            _userIconBackUp = _userIcon.sprite;
+            _userIcon.sprite = sprite;
+        }
+
+        public void SetIconConfirmed()
+        {
+            _userIconBackUp = _userIcon.sprite;
+            OnIconChanged?.Invoke(_userIcon.sprite);
+        }
+
+        public void SetIconCanceled()
+        {
+            if (_userIconBackUp == null) return;
+            _userIcon.sprite = _userIconBackUp;
         }
 
         #endregion

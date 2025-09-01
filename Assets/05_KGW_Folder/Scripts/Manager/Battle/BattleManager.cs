@@ -110,6 +110,8 @@ public class BattleManager : MonoBehaviour
     // 캐릭터 스폰
     public void CharacterSpawn()
     {
+        int _OIL = 0;
+
         // 스폰 포인트 리스트 전달
         var Points = _canResurrection ? new List<Transform>(_characterSpawnPoint) : new List<Transform>(_characterResurrectionPoint);
 
@@ -129,6 +131,9 @@ public class BattleManager : MonoBehaviour
 
             // 캐릭터 생성
             var character = Instantiate(characterData._prefab, spawnPoint.position, spawnPoint.rotation);
+
+            var characterOIL = character.GetComponentInChildren<SpriteRenderer>();
+            characterOIL.sortingOrder = _OIL++;
 
             // 생성된 캐릭터 저장
             var createCharacter = character.GetComponent<MyCharacterController>();

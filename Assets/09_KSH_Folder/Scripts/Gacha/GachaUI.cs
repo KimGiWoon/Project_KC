@@ -1,6 +1,10 @@
+using System;
+using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
+using ColorUtility = UnityEngine.ColorUtility;
 
 namespace KSH
 {
@@ -9,12 +13,69 @@ namespace KSH
         [SerializeField] private Image characterImage; //캐릭터 이미지
         [SerializeField] private TextMeshProUGUI characterName; //캐릭터 이름
         [SerializeField] private Color rarityColor; //등급에 따른 이름 색
-    
-        public void SetData(CharacterData data)
+        [SerializeField] private GameObject starCandy;
+        [SerializeField] private TextMeshProUGUI starCandyText;
+        [SerializeField] private GameObject bead;
+        [SerializeField] private TextMeshProUGUI beadText;
+        private RewardChangeManager manager;
+
+        private bool isSet = false;
+
+        private void OnEnable()
+        {
+            manager = RewardChangeManager.Instance;
+            if (manager != null)
+            {
+                manager.OnStarCandyGained += SetStarCandy;
+                manager.OnBeadGained += SetBead;
+            }
+        }
+
+        private void OnDisable()
+        {
+            manager.OnStarCandyGained -= SetStarCandy;
+            manager.OnBeadGained -= SetBead;
+        }
+
+        // public void SetData(CharacterData data)
+        public void SetData(
+            CharacterData data,
+            int starCandy,
+            int bead,
+            int currentBead,
+            bool isFirstCharacter
+        )
         {
             characterImage.sprite = data.characterImage;
             characterName.text = data.characterName;
             characterName.color = GetRarityColor(data.rarity);
+
+            // if (RewardChangeManager.Instance.ownedCharacters[data.characterName] == false)
+            // {
+            //     RewardChangeManager.Instance.ownedCharacters[data.characterName] = true;
+            // }
+            // else
+            // {
+
+
+            isSet = isFirstCharacter;
+
+            if (currentBead >= 6)
+            {
+                //SetStarCandy(RewardChangeManager.Instance.gainedStarCandy);    
+                Debug.Log($"{data.characterName}스타캔디트루");
+                Debug.Log($"스타캔디트루 {RewardChangeManager.Instance.isStarCandy[data.characterName]}");
+                SetStarCandy(starCandy);
+            }
+            else
+            {
+                //SetBead(RewardChangeManager.Instance.gainedBead);
+                Debug.Log($"{data.characterName}스타캔디펄스");
+                Debug.Log($"스타캔디트루 {RewardChangeManager.Instance.isStarCandy[data.characterName]}");
+                SetBead(bead);
+            }
+            RewardChangeManager.Instance.ownedCharacters[data.characterName] = true;
+            // }
         }
 
         private Color GetRarityColor(Rarity rarity)
@@ -32,6 +93,22 @@ namespace KSH
                 default:
                     return Color.white;
             }
+        }
+
+        public void SetStarCandy(int amount)
+        {
+            if (isSet) return;
+            starCandy.gameObject.SetActive(true);
+            starCandyText.text = amount.ToString();
+            Debug.Log("별사탕 획득!");
+        }
+
+        public void SetBead(int amount)
+        {
+            if (isSet) return;
+            bead.gameObject.SetActive(true);
+            beadText.text = amount.ToString();
+            Debug.Log("구슬 획득!");
         }
     }
 }

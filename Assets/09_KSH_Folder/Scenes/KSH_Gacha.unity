@@ -479,13 +479,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _dontDestroyOnLoad: 0
-  characterLists: [{fileID: 11400000, guid: 62e89a5b635151646b258f37b74f4ed2, type: 2},
-    {fileID: 11400000, guid: b5584ef15ab85624b9ca257fb729c743, type: 2}, {fileID: 11400000, guid: d29bf004df4d1a04cae9fcea4e524cee, type: 2},
-    {fileID: 11400000, guid: 316c944a53c6d6f4fa9c0d89097b75b6, type: 2}, {fileID: 11400000, guid: 8d0fb7495f0b4cc47a123049dee8f634, type: 2},
-    {fileID: 11400000, guid: fc01117f9f2081f4d934d6adaa0b77ad, type: 2}, {fileID: 11400000, guid: 2a259d5d6f185584697bc4725bdec253, type: 2},
-    {fileID: 11400000, guid: 05d0a4a04bfab734585c44b1991db0fb, type: 2}, {fileID: 11400000, guid: aad16b9532ea5c64ba4007a29f694256, type: 2},
-    {fileID: 11400000, guid: 1aea12dde57ce2247a86f1bbfdf75698, type: 2}]
+  characterLists:
+  - {fileID: 11400000, guid: 62e89a5b635151646b258f37b74f4ed2, type: 2}
+  - {fileID: 11400000, guid: b5584ef15ab85624b9ca257fb729c743, type: 2}
+  - {fileID: 11400000, guid: d29bf004df4d1a04cae9fcea4e524cee, type: 2}
+  - {fileID: 11400000, guid: 316c944a53c6d6f4fa9c0d89097b75b6, type: 2}
+  - {fileID: 11400000, guid: 8d0fb7495f0b4cc47a123049dee8f634, type: 2}
+  - {fileID: 11400000, guid: fc01117f9f2081f4d934d6adaa0b77ad, type: 2}
+  - {fileID: 11400000, guid: 2a259d5d6f185584697bc4725bdec253, type: 2}
+  - {fileID: 11400000, guid: 05d0a4a04bfab734585c44b1991db0fb, type: 2}
+  - {fileID: 11400000, guid: aad16b9532ea5c64ba4007a29f694256, type: 2}
+  - {fileID: 11400000, guid: 1aea12dde57ce2247a86f1bbfdf75698, type: 2}
   gachaResultUI: {fileID: 1355401523}
+  gachaUI: {fileID: 0}
 --- !u!4 &98937429
 Transform:
   m_ObjectHideFlags: 0
@@ -3320,6 +3326,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _dontDestroyOnLoad: 0
+  gainedStarCandy: 0
+  gainedBead: 0
 --- !u!4 &1500147439
 Transform:
   m_ObjectHideFlags: 0
@@ -6237,6 +6245,7 @@ SceneRoots:
   m_Roots:
   - {fileID: 1202554799}
   - {fileID: 1611853544}
+  - {fileID: 2068628949}
   - {fileID: 1081449927}
   - {fileID: 98937429}
   - {fileID: 1500147439}
@@ -6245,4 +6254,3 @@ SceneRoots:
   - {fileID: 1004730810}
   - {fileID: 1552100060}
   - {fileID: 2051930993}
-  - {fileID: 2068628949}
