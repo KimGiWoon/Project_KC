@@ -6,21 +6,21 @@ namespace SDW
     {
         public int MonSkillID;
         public string MonSkillName;
-        public string MonSkillNameEn;
+        public MonsterSkillEnName MonSkillEnName;
         public SkillType MonSkillType;
         public SkillTargetType MonSkillTargetType;
         public SkillEffectType MonSkillEffectType;
         public float MonSkillCd;
-        public SkillCC MonSkillCC;
+        public int MonSkillRange;
+        public int MonSkillConHP;
         public float MonSkillChance;
-        public AttackRange MonSkillRange;
         public float MonSkillDuration;
         public float MonSkillTick;
         public int MonSkillHit;
         public float MonSkillValue;
-        public int MonSkillAnim;
-        public string MonSkillImg;
-        public string MonSkillEffect;
+        public string MonEffectValue;
+        public SkillCC MonSkillCC;
+        public string SkillDescription;
 
         /// <summary>
         /// MonsterSkillData를 초기화
@@ -30,21 +30,22 @@ namespace SDW
         {
             MonSkillID = int.Parse(fields[0]);
             MonSkillName = fields[1];
-            MonSkillNameEn = fields[2];
+            MonSkillEnName = (MonsterSkillEnName)Enum.Parse(typeof(MonsterSkillEnName), fields[2]);
             MonSkillType = (SkillType)Enum.Parse(typeof(SkillType), fields[3]);
             MonSkillTargetType = (SkillTargetType)Enum.Parse(typeof(SkillTargetType), fields[4]);
             MonSkillEffectType = (SkillEffectType)Enum.Parse(typeof(SkillEffectType), fields[5]);
             MonSkillCd = float.Parse(fields[6]);
-            MonSkillCC = (SkillCC)Enum.Parse(typeof(SkillCC), fields[7]);
-            MonSkillChance = float.Parse(fields[8]);
-            MonSkillRange = (AttackRange)Enum.Parse(typeof(AttackRange), fields[9]);
+            MonSkillRange = int.Parse(fields[7]);
+            MonSkillConHP = int.Parse(fields[8]);
+            MonSkillChance = float.Parse(fields[9]);
             MonSkillDuration = float.Parse(fields[10]);
             MonSkillTick = float.Parse(fields[11]);
             MonSkillHit = int.Parse(fields[12]);
             MonSkillValue = float.Parse(fields[13]);
-            MonSkillAnim = int.Parse(fields[14]);
-            MonSkillImg = fields[15];
-            MonSkillEffect = fields[16];
+            MonEffectValue = fields[14];
+            MonSkillCC = (SkillCC)Enum.Parse(typeof(SkillCC), fields[15]);
+            SkillDescription = fields[16];
+            ;
         }
     }
 }

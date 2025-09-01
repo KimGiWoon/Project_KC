@@ -1,16 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 namespace SDW
 {
     public class CharacterDataManager : MonoBehaviour
     {
-        //# ID(int) - CharacterSO
+        //# ID(int) - CharacterBaseDataFileData
         private Dictionary<int, CharacterBaseDataFileData> _chaIdData = new Dictionary<int, CharacterBaseDataFileData>();
         public Dictionary<int, CharacterBaseDataFileData> ChaIdData => _chaIdData;
 
-        //# CharacterEnName(enum) - CharacterSO
+        //# CharacterEnName(enum) - CharacterBaseDataFileData
         private Dictionary<CharacterEnName, CharacterBaseDataFileData> _chaEnNameData =
             new Dictionary<CharacterEnName, CharacterBaseDataFileData>();
         public Dictionary<CharacterEnName, CharacterBaseDataFileData> ChaEnNameData => _chaEnNameData;

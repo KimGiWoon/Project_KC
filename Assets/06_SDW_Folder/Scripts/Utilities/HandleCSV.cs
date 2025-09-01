@@ -33,7 +33,8 @@ namespace SDW
 
             foreach (string line in lines)
             {
-                string[] fields = line.Split(',');
+                // string[] fields = line.Split(',');
+                string[] fields = line.Split('\t');
 
                 // 생성자(string[] fields)를 이용해 객체 생성
                 var data = (T)Activator.CreateInstance(typeof(T), new object[] { fields });
