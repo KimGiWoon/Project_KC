@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -9,9 +10,12 @@ public abstract class UnitBaseData : MonoBehaviour
     [SerializeField] private float _knockbackDuraction = 0.1f; // 넉백 지속 시간
 
     public float _currentHp; // 유닛의 현재 체력
+    public float _maxHp; // 유닛의 최대 체력
     public float _currentMp; // 유닛의 현재 마나
     public bool _isAlive; // 유닛의 생존 여부
     public bool _isAttack; // 유닛의 공격 여부
+    public bool _isHalfHpSkill; // 유닛의 체력 절반 여부
+    public bool _isStern;   // 유닛의 그로기 상태확인
     public int _gameSpeed; // 게임 속도
     protected float _attackCoolTimer; // 공격 쿨타임
     protected Vector3 _moveDir; // 유닛의 이동 방향
@@ -20,6 +24,9 @@ public abstract class UnitBaseData : MonoBehaviour
     protected BattleUI _battleUI;
     protected CharacterDataSO _chaData;
     protected MonsterDataSO _monData;
+    
+    // 체력 절반 이벤트
+    public event Action OnHalfHp;
 
     private void Awake()
     {
@@ -36,10 +43,8 @@ public abstract class UnitBaseData : MonoBehaviour
     // 유닛의 동작 관리
     protected virtual void Update()
     {
-        // 게임이 종료되면 움직이지 않는다.
-        if (_battleManager._isGameOver) return;
-        // 메뉴가 열리면 움직이지 않는다.
-        if (_battleUI._isOnMenu) return;
+        // 게임이 종료되거나 메뉴창이 오픈되거나 그로기 상태이면 움직이지 않는다.
+        if (_battleManager._isGameOver || _battleUI._isOnMenu || _isStern) return;
 
         Movement();
         Attack();
@@ -63,6 +68,7 @@ public abstract class UnitBaseData : MonoBehaviour
         // 데미지를 받음, 방어력에 대한 것은??
         _currentHp -= damage;
 
+        // 체력이 0이 됨
         if (_currentHp <= 0)
         {
             // 유닛의 죽음
@@ -80,6 +86,25 @@ public abstract class UnitBaseData : MonoBehaviour
             }
 
             _knockbackRoutine = StartCoroutine(KnockBackCoroutine());
+        }
+        else // 보스이면 체력 절반 확인
+        {
+            float halfHp = _maxHp / 2;
+
+            if(_currentHp <= halfHp)
+            {
+                // 그로기 상태이면 스킬 사용 금지
+                if (_isStern) return;
+
+                // 체력이 절반 시 스킬 1회 사용
+                if (!_isHalfHpSkill)
+                {
+                    _isHalfHpSkill = true;
+
+                    // 이벤트 호출
+                    OnHalfHp?.Invoke();
+                }
+            }
         }
     }
 

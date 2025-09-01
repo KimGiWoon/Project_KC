@@ -85,7 +85,7 @@ public class BattleManager : MonoBehaviour
 
         CharacterSpawn();
 
-        if (_isLastBoss)
+        if (_isLastBoss || _isLocalBoss)
         {
             BossSpawn();
         }
@@ -110,8 +110,6 @@ public class BattleManager : MonoBehaviour
     // 캐릭터 스폰
     public void CharacterSpawn()
     {
-        int _OIL = 0;
-
         // 스폰 포인트 리스트 전달
         var Points = _canResurrection ? new List<Transform>(_characterSpawnPoint) : new List<Transform>(_characterResurrectionPoint);
 
@@ -133,7 +131,9 @@ public class BattleManager : MonoBehaviour
             var character = Instantiate(characterData._prefab, spawnPoint.position, spawnPoint.rotation);
 
             var characterOIL = character.GetComponentInChildren<SpriteRenderer>();
-            characterOIL.sortingOrder = _OIL++;
+
+            // 마직막 캐릭터를 맨 앞으로 보여주기
+            characterOIL.sortingOrder = count - i;
 
             // 생성된 캐릭터 저장
             var createCharacter = character.GetComponent<MyCharacterController>();
@@ -178,6 +178,7 @@ public class BattleManager : MonoBehaviour
         OnTotalHpChange?.Invoke(_monsterTotalCurrentHp, _monsterTotalMaxHp);
     }
 
+    // 보스 스폰
     private void BossSpawn()
     {
         for (int i = 0; i < _bossList.Count; i++)

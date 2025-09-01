@@ -18,7 +18,7 @@ public class MonsterResearchContoller : MonoBehaviour
 
                 if (!_controller._isFirst)
                 {
-                    _controller.UseSkill();
+                    _controller.UseRecallSkill();
                 }
             }
         }
