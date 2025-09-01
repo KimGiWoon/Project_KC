@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public class CameraScrollLinker : MonoBehaviour
 {
@@ -10,6 +11,8 @@ public class CameraScrollLinker : MonoBehaviour
     [Header("카메라 이동 범위")]
     public float cameraMinY = 0f;
     public float cameraMaxY = 10f;
+
+    private bool isManualScrollEnabled = true;
 
     void Start()
     {
@@ -26,6 +29,9 @@ public class CameraScrollLinker : MonoBehaviour
 
     private void UpdateCameraPosition(Vector2 scrollPosition)
     {
+
+        if (!isManualScrollEnabled) return;
+
         if (cameraTransform == null) return;
 
         // Y축 스크롤 값이 필요하므로 scrollPosition.y를 사용합니다.
@@ -37,6 +43,28 @@ public class CameraScrollLinker : MonoBehaviour
         Vector3 newCameraPosition = cameraTransform.position;
         newCameraPosition.y = newYPosition;
         cameraTransform.position = newCameraPosition;
+    }
+
+
+    public void SetManualScroll(bool isEnabled)
+    {
+        isManualScrollEnabled = isEnabled;
+    }
+
+    public void CameraPositon()
+    {
+        if (cameraTransform == null || targetScrollRect == null) return;
+
+        isManualScrollEnabled = false;
+
+        // 현재 카메라의 y 위치를 값으로 변환
+        float normalizedPositon = Mathf.InverseLerp(cameraMinY, cameraMaxY, cameraTransform.position.y);
+
+        // 스크롤바의 현재 위치를 업데이트
+        targetScrollRect.verticalNormalizedPosition = normalizedPositon;
+
+        isManualScrollEnabled = true;
+
     }
 
     private void OnDestroy()

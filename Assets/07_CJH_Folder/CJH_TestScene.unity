@@ -131,7 +131,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 487900500}
-  - component: {fileID: 487900499}
+  - component: {fileID: 487900501}
   m_Layer: 0
   m_Name: MapSelectionManager
   m_TagString: Untagged
@@ -139,21 +139,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &487900499
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 487900498}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 494d3e37bc9380248a2e29e2a4c4fb27, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  mapView: {fileID: 778645413}
-  mapListContainer: {fileID: 1472287789}
-  mapButtonPrefab: {fileID: 6703567953762550582, guid: 9eedd0bb30fb0284a924d07842591b86, type: 3}
 --- !u!4 &487900500
 Transform:
   m_ObjectHideFlags: 0
@@ -169,6 +154,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &487900501
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 487900498}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be385cd5cc20a7e4ea50c18fc5760b82, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mapView: {fileID: 0}
+  mapListContainer: {fileID: 0}
+  mapButtonPrefab: {fileID: 0}
 --- !u!1 &641488746
 GameObject:
   m_ObjectHideFlags: 0
@@ -200,7 +200,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   generator: {fileID: 2053620150}
   config: {fileID: 11400000, guid: 1bcc5d240b86c65409d04d652ea76f67, type: 2}
-  selectionManager: {fileID: 487900499}
+  selectionManager: {fileID: 0}
   previewRenderer: {fileID: 2063666195}
   mapView: {fileID: 778645413}
   numberOfMaps: 1

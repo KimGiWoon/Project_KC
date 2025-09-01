@@ -9,21 +9,21 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ca1828d344dc7414084596890d7ea50c, type: 3}
+  m_Script: {fileID: 11500000, guid: 2aa545aeb75acb34f9abfedc86363fba, type: 3}
   m_Name: MapConfig
   m_EditorClassIdentifier: 
   NodeTemplates:
-  - {fileID: 11400000, guid: f8b3fbdea354b9c41af0806b77288d09, type: 2}
+  - {fileID: 11400000, guid: bf3f9fcd656db564e91095a5b89bf2f3, type: 2}
   - {fileID: 11400000, guid: 0bf8beafcbb0bb44683d0ad090f5caea, type: 2}
   - {fileID: 11400000, guid: 6d5692b623c60fe42aad844ebedfec3f, type: 2}
-  - {fileID: 11400000, guid: 2ca6a7e30acca1e4c8fe822c43d75843, type: 2}
   - {fileID: 11400000, guid: 129f9f89a6a045b4b890b9a3aa8d7ff7, type: 2}
-  randomNodes: 01000000020000000300000004000000
+  - {fileID: 11400000, guid: 2ca6a7e30acca1e4c8fe822c43d75843, type: 2}
+  randomNodes: 0200000005000000030000000400000001000000
   xDist: 30
   yGap: 25
   placementRandomness: 5
-  floors: 6
-  mapWidth: 3
-  paths: 3
-  BattleNodeWeight: 3
-  EventNodeWeight: 3
+  floors: 16
+  mapWidth: 7
+  paths: 6
+  BattleNodeWeight: 2
+  EventNodeWeight: 4
