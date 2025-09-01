@@ -14,8 +14,9 @@ namespace JJY
         Dictionary<Ingredient, RecipeData> recipes = new Dictionary<Ingredient, RecipeData>(); // 레시피 사전(조합마스크 -> 데이터)
         Ingredient selected = Ingredient.None; // 현재 선택된 재료들의 비트마스크
         int selectedCount = 0;
+        public Dictionary<RecipeData, int> playerFoodInventory = new Dictionary<RecipeData, int>(); // 플레이어 음식 인벤토리
         Dictionary<Ingredient, int> playerIngredientInventory = new Dictionary<Ingredient, int>(); // 플레이어 재료 실제 보유량
-        Dictionary<Ingredient, int> reservedIngredients = new Dictionary<Ingredient, int>(); // 플레이어 재료  보유량 표시 UI
+        Dictionary<Ingredient, int> reservedIngredients = new Dictionary<Ingredient, int>(); // 플레이어 재료 보유량 표시 UI
 
         // --- Inspector에서 연결할 것들 ---
         [Header("Prefabs & Parents")]
@@ -389,7 +390,9 @@ namespace JJY
                 }
             }
 
-            Debug.Log($"요리 완성: {dish.name}, 완성품을 플레이어 인벤토리에 추가해야 함");
+            if(!playerFoodInventory.ContainsKey(dish)) playerFoodInventory.Add(dish, 1);
+            else { playerFoodInventory[dish]++; }
+            Debug.Log($"{dish.recipeName} 완성! : {playerFoodInventory[dish]}개 보유중");
 
             reservedIngredients.Clear();
             selectedCount = 0;
@@ -398,6 +401,7 @@ namespace JJY
             RefreshInventoryUI();           // 인벤토리 UI 갱신(사라진 아이템 반영)
             UpdateRecipeSlotsUI();          // 슬롯 비우기
             UpdateResultButton();           // 결과 버튼 숨기기
+
             // TODO : 완성 이펙트 연출
         }
 
