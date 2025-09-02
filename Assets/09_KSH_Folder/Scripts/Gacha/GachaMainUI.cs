@@ -83,7 +83,7 @@ namespace KSH
         private void Initialize()
         {
             RewardChangeManager.Instance.OnStarCandyChange += CandyUpdate;
-            CandyUpdate(GameManager.Instance.StarCandy);
+            CandyUpdate(GameManager.Instance.RainbowStarCandy);
             _backButton.onClick.AddListener(BackButtonClicked);
         }
 

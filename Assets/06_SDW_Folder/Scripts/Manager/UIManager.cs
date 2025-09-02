@@ -234,6 +234,7 @@ namespace SDW
         private void ConnectDownloadUI(UIName uiName)
         {
             var downloadUI = _uiDic[uiName] as DownloadUI;
+            downloadUI.OnUIOpenRequested += OpenPanel;
             downloadUI.OnUICloseRequested += ClosePanel;
 
             if (_firebase != null)
@@ -416,6 +417,7 @@ namespace SDW
         private void DisconnectDownloadUI(UIName uiName)
         {
             var downloadUI = _uiDic[uiName] as DownloadUI;
+            downloadUI.OnUIOpenRequested -= OpenPanel;
             downloadUI.OnUICloseRequested -= ClosePanel;
 
             if (_firebase != null)

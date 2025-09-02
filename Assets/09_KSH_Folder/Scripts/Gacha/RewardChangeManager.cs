@@ -14,7 +14,7 @@ namespace KSH
 
         private void Start()
         {
-            starCandy = GameManager.Instance.StarCandy;
+            starCandy = GameManager.Instance.RainbowStarCandy;
         }
 
         public int StarCandy
@@ -23,6 +23,7 @@ namespace KSH
             private set
             {
                 starCandy = value;
+                GameManager.Instance.SetRainbowStarCandy(starCandy);
                 OnStarCandyChange?.Invoke(starCandy);
             }
         }
