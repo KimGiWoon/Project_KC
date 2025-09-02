@@ -7,8 +7,21 @@ namespace JJY
     public class FoodEffectData : ScriptableObject
     {
         public EffectType type;
-        public float value = 0f;         // 숫자 의미는 타입에 따라 달라짐
+        public float value = 0f;
         public float duration = 0f;      // 0 => 즉시 적용, >0 => 지속(초)
+        public string sourceId;         // 출처 식별자 (예: recipeName 등, 갱신 정책용)
+
+        public FoodEffectData() { }
+
+        // 복사 생성자 (안전하게 복제해서 보관)
+        public FoodEffectData(FoodEffectData other)
+        {
+            if (other == null) return;
+            type = other.type;
+            value = other.value;
+            duration = other.duration;
+            sourceId = other.sourceId;
+        }
     }
 
     public enum EffectType
@@ -28,5 +41,10 @@ namespace JJY
         BonusDamageToGroggyMonsters, // 그로기 상태의 몬스터에게 추가 피해
         CreateBarrierForAll,         // 전투 중인 캐릭터들에게 몬스터의 공격을 1회 방어할 수 있는 베리어 생성
         AccumulateBossGroggyPercent, // 보스 몬스터 그로기 게이지 즉시 (n)% 누적
+    }
+    public enum StatType
+    {
+        Attack,
+        Defense
     }
 }

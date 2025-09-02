@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,23 +6,40 @@ using UnityEngine.UI;
 
 namespace JJY
 {
+    // 활성화된 버프 데이터 (내부 관리용)
+    public class ActiveBuff
+    {
+        public Guid id; // 고유 ID 식별자
+        public FoodEffectData effect;
+        public float remaining;
+        public string sourceId;
+
+        public ActiveBuff(FoodEffectData e)
+        {
+            id = Guid.NewGuid();
+            effect = new FoodEffectData(e);
+            remaining = e.duration;
+            sourceId = e.sourceId;
+        }
+    }
     // TODO : GameManager에 연결하기.
     // 매 전투마다 초기화 되기 때문에, DontDestroyOnLoad일 필요가 없다.
     public class BuffManager : MonoBehaviour
     {
         public static BuffManager Instance { get; private set; }
         [SerializeField] BattleManager btManager;
-        [SerializeField] Transform foodContent;
-        [SerializeField] GameObject foodBtnPrefab;
-        [SerializeField] List<RecipeData> testFoodInventory = new List<RecipeData>();
 
-        Coroutine coroutine;
         List<MyCharacterController> downed;
 
-        // 디버그 옵션
+        [Header("UI")]
+        [SerializeField] Transform foodContent;
+        [SerializeField] GameObject foodBtnPrefab;
+
         [Header("Debug")]
         [SerializeField] bool logActions = true;
-
+        [SerializeField] List<RecipeData> testFoodInventory = new List<RecipeData>(); // 테스트 인벤토리, CookManager의 인벤토리와 연결해야함.
+        // 활성 버프 리스트
+        List<ActiveBuff> activeBuffs = new List<ActiveBuff>();
 
         void Awake()
         {
@@ -31,29 +49,89 @@ namespace JJY
                 Destroy(gameObject);
                 return;
             }
-
-            if (coroutine != null)
-            {
-                coroutine = null;
-                StopCoroutine(coroutine);
-            }
             InitFoodIcon();
         }
 
-        void OnDestroy()
+        void Update()
         {
-            StopAllCoroutines();
+            if (activeBuffs.Count == 0) return;
+
+            float dt = Time.deltaTime;
+            for (int i = activeBuffs.Count - 1; i >= 0; i--)
+            {
+                activeBuffs[i].remaining -= dt;
+                if (activeBuffs[i].remaining <= 0f)
+                {
+                    // 만료 시 원상복구
+                    if (logActions) Debug.Log($"[BuffManager] 스탯 복구됨 : {activeBuffs[i].effect.type}");
+                    RemoveBuffEffect(activeBuffs[i]);
+                    activeBuffs.RemoveAt(i);
+                }
+            }
         }
 
         void InitFoodIcon()
         {
-            var btn = foodBtnPrefab.GetComponent<Button>();
-            if (btn == null) return;
+            for (int i = foodContent.childCount - 1; i >= 0; i--)
+            {
+                Destroy(foodContent.GetChild(i).gameObject);
+            }
+
             for (int i = 0; i < testFoodInventory.Count; i++)
             {
-                Instantiate(foodBtnPrefab, foodContent);
-                btn.onClick.AddListener(() => ApplyEffectEntry(testFoodInventory[i].effects[0]));
+                RecipeData recipe = testFoodInventory[i];
+                if (recipe == null) continue;
+
+                GameObject go = Instantiate(foodBtnPrefab, foodContent);
+                go.name = $"FoodBtn_{i}_{recipe.recipeName}";
+
+                Button btn = go.GetComponent<Button>();
+                Image img = go.GetComponent<Image>();
+
+                if (img != null && recipe.image != null)
+                {
+                    img.sprite = recipe.image;
+                    img.enabled = true;
+                }
+                // 안전한 캡처: 로컬 변수에 담아서 리스너 바인딩
+                RecipeData recipeLocal = recipe;
+                GameObject instanceLocal = go;
+
+                if (btn != null)
+                {
+                    btn.onClick.RemoveAllListeners();
+                    btn.onClick.AddListener(() => OnFoodButtonClicked(recipeLocal, instanceLocal));
+                }
             }
+        }
+        // 버튼 클릭 시 호출: recipeLocal을 testFoodInventory에서 제거하고 효과 적용
+        void OnFoodButtonClicked(RecipeData recipeLocal, GameObject instanceLocal)
+        {
+            if (recipeLocal == null)
+            {
+                Debug.LogWarning($"[BuffManager] 클릭된 RecipeData가 null입니다 : {recipeLocal}");
+                return;
+            }
+
+            if (recipeLocal.effects != null)
+            {
+                foreach (var effect in recipeLocal.effects)
+                {
+                    ApplyEffectEntry(effect);
+                }
+            }
+
+            bool removed = testFoodInventory.Remove(recipeLocal);
+            if (removed)
+            {
+                if (logActions) Debug.Log($"[BuffManager] 사용한 음식 삭제: {recipeLocal.recipeName}");
+            }
+            else
+            {
+                if (logActions) Debug.LogWarning($"[BuffManager] 삭제 실패: 인벤토리에 {recipeLocal.recipeName} 없음");
+            }
+
+            InitFoodIcon();
         }
 
         #region 외부 호출
@@ -82,27 +160,12 @@ namespace JJY
                 case EffectType.BonusDamageToGroggyMonsters:
                     ApplyGroggyBonus(e);
                     break;
-
-                // --- 지속형: 아군 버프 ---
-                case EffectType.AttackBuff:
-                case EffectType.DefenseBuff:
-                    ApplyAllyBuff(e);
-                    break;
-
-                // --- 지속형: 적 디버프 ---
-                case EffectType.EnemyAttackDebuff:
-                case EffectType.EnemyDefenseDebuff:
-                    ApplyEnemyDebuff(e);
-                    break;
-
                 case EffectType.CreateBarrierForAll:
                     ApplyCreateBarrierForAll(e);
                     break;
-
-                default:
-                    Debug.LogWarning($"[BuffManager] : {e.type} 타입을 확인해주세요.");
-                    break;
             }
+            // 지속형은 등록 또는 갱신
+            ApplyOrRefreshBuff(e);
         }
 
         #endregion
@@ -117,11 +180,17 @@ namespace JJY
             {
                 if (!p._isAlive) return;
 
+                if (logActions) Debug.Log($"[BuffManager] {p.name} HP : {p._currentHp}");
+
                 p._currentHp += e.value;
                 if (p._currentHp >= p._characterData._maxHp)
                 {
                     p._currentHp = p._characterData._maxHp;
                 }
+
+                if (logActions) Debug.Log($"[BuffManager] {p.name} HP : {p._currentHp}");
+                // TODO : UI 이벤트 함수 연결.
+                // p.OnHpChange?.Invoke(Mathf.Clamp01(p._currentHp / p._characterData._maxHp));
             }
         }
 
@@ -133,12 +202,18 @@ namespace JJY
             {
                 if (!p._isAlive) return;
 
+                if (logActions) Debug.Log($"{p.name} MP : {p._currentMp}");
+
                 p._currentMp += (int)(e.value * (1 / p._characterData._maxMp));
                 if (p._currentMp >= p._characterData._maxMp)
                 {
                     p._currentMp = p._characterData._maxMp;
                 }
+
+                if (logActions) Debug.Log($"{p.name} MP : {p._currentMp}");
             }
+
+            // TODO : UI 이벤트 함수 연결.
         }
 
         void TryReviveRandomAlly(FoodEffectData e)
@@ -175,6 +250,15 @@ namespace JJY
             if (logActions) Debug.Log($"[BuffManager] ACCUMULATE BOSS GROGGY! : {e.value}");
 
             // boss의 그로기 게이지 적립
+            // foreach(var b in btManager._bosses)
+            // {
+            //      b.groggygauge++;
+            //      if(b.groggygauge >= 100)
+            //      {
+            //          b.groggygauge = 100f;
+            //      }
+            // TODO : UI 이벤트 연결
+            // }
         }
 
         // Barrier 생성 (모든 아군)
@@ -195,8 +279,8 @@ namespace JJY
             // boss의 TakeDamage 계산식의 그로기 추가피해 += e.value;
             // 예시) 
             // 보스가 그로기 상태일 때는 최종 데미지 20% 추가 피해를 입음.
-            // e.value = 15 가정.
-            // 그로기 상태일때는 35%의 추가 피해를 입음.
+            // e.value = 50 가정.
+            // 그로기 상태일때는 70%의 추가 피해를 입음.
             //
             // foreach (보스 몬스터 m in 모든 보스 몬스터)
             // {
@@ -208,85 +292,81 @@ namespace JJY
         #endregion
 
         #region 지속형 / 전역형 효과 처리 (등록 / 갱신 / 만료)
-        // 효과 발동 -> e.duration초 이전에 게임이 끝나면?
-        // player의 스탯을 받아오는 스크립트에서 스탯을 변경하는 함수를 만들기?
-
-        // 아군 버프 (공격/방어)
-        IEnumerator ApplyAllyBuff(FoodEffectData e)
+        void ApplyOrRefreshBuff(FoodEffectData e)
         {
-            if (e.type == EffectType.AttackBuff)
+            // 갱신 정책: 동일 타입 + 동일 sourceId 가 있으면 remaining 갱신 (refresh)
+            ActiveBuff existing = activeBuffs.Find(b => b.effect.type == e.type && b.sourceId == e.sourceId);
+
+            if (existing != null && existing.effect != null)
             {
-                if (logActions) Debug.Log($"[BuffManager] ATTACK BUFF! : {e.value}");
+                existing.remaining = e.duration;
+                existing.effect.value = e.value;
 
-                foreach (var p in btManager._characters)
-                {
-                    p._characterData._attackDamage += e.value;
-                    if (logActions) Debug.Log($"[BuffManager] {p.name} : {p._characterData._attackDamage}");
-
-                    yield return new WaitForSeconds(e.duration);
-                    p._characterData._attackDamage -= e.value;
-                    if (logActions) Debug.Log($"[BuffManager] {p.name} : {p._characterData._attackDamage}");
-                }
+                int idx = activeBuffs.FindIndex(b => b.id == existing.id);
+                if (idx >= 0) activeBuffs[idx] = existing;
+                if (logActions) Debug.Log($"[BuffManager] 버프 갱신됨 : {e.type}");
+                return;
             }
-            else if (e.type == EffectType.DefenseBuff)
-            {
-                if (logActions) Debug.Log($"[BuffManager] DEFENSE BUFF! : {e.value}");
 
-                foreach (var p in btManager._characters)
-                {
-                    p._characterData._attackDefense += e.value;
-                    if (logActions) Debug.Log($"[BuffManager] {p.name} : {p._characterData._attackDefense}");
-
-                    yield return new WaitForSeconds(e.duration);
-                    p._characterData._attackDefense -= e.value;
-                    if (logActions) Debug.Log($"[BuffManager] {p.name} : {p._characterData._attackDefense}");
-                }
-            }
-            else
-            {
-                // 기타 유형 처리
-            }
-            yield return null;
+            // 신규 등록
+            ActiveBuff buff = new ActiveBuff(e);
+            buff.sourceId = e.sourceId;
+            ApplyBuffEffect(buff);
+            activeBuffs.Add(buff);
+            if (logActions) Debug.Log($"[BuffManager] 버프 추가됨: {e.type}");
         }
 
-
-        // 적 디버프 (전역형으로 적 전체에 적용)
-        IEnumerator ApplyEnemyDebuff(FoodEffectData e)
+        void ApplyBuffEffect(ActiveBuff buff)
         {
-            if (e.type == EffectType.EnemyAttackDebuff)
-            {
-                if (logActions) Debug.Log($"[BuffManager] ENEMY ATTACK DEBUFF! : {e.value}");
+            var e = buff.effect;
+            if (logActions) Debug.Log($"[BuffManager] 버프 시작! {e.type}");
 
-                foreach (var m in btManager._monsters)
-                {
-                    m._monsterData._attackDamage -= e.value;
-                    if (logActions) Debug.Log($"[BuffManager] {m.name} : {m._monsterData._attackDamage}");
+            // switch (e.type)
+            // {
+            //     case EffectType.AttackBuff:
+            //         foreach (var p in btManager._characters)
+            //             if (p._isAlive) p._attackDamage += e.value;
+            //         break;
+            //     case EffectType.DefenseBuff:
+            //         foreach (var p in btManager._characters)
+            //             if (p._isAlive) p._attacDefense += e.value;
+            //         break;
+            //     case EffectType.EnemyAttackDebuff:
+            //         foreach (var m in btManager._monsters)
+            //             if (m._isAlive) m._attackDamage -= e.value;
+            //         break;
+            //     case EffectType.EnemyDefenseDebuff:
+            //         foreach (var m in btManager._monsters)
+            //             if (m._isAlive) m._attackDefense -= e.value;
+            //         break;
+            // }
+        }
 
-                    yield return new WaitForSeconds(e.duration);
-                    m._monsterData._attackDamage += e.value;
-                    if (logActions) Debug.Log($"[BuffManager] {m.name} : {m._monsterData._attackDamage}");
-                }
-            }
-            else if (e.type == EffectType.EnemyDefenseDebuff)
-            {
-                if (logActions) Debug.Log($"[BuffManager] ENEMY DEFENSE DEBUFF! : {e.value}");
+        void RemoveBuffEffect(ActiveBuff buff)
+        {
+            var e = buff.effect;
+            if (logActions) Debug.Log($"[BuffManager] 버프 삭제됨 : {e.type} ");
 
-                foreach (var m in btManager._monsters)
-                {
-                    m._monsterData._attackDefense -= e.value;
-                    if (logActions) Debug.Log($"[BuffManager] {m.name} : {m._monsterData._attackDefense}");
-
-                    yield return new WaitForSeconds(e.duration);
-                    m._monsterData._attackDefense += e.value;
-                    if (logActions) Debug.Log($"[BuffManager] {m.name} : {m._monsterData._attackDefense}");
-                }
-            }
-            else
-            {
-                // 기타 유형 처리
-            }
+            // switch (e.type)
+            // {
+            //     case EffectType.AttackBuff:
+            //         foreach (var p in btManager._characters)
+            //             if (p._isAlive) p._attackDamage -= e.value;
+            //         break;
+            //     case EffectType.DefenseBuff:
+            //         foreach (var p in btManager._characters)
+            //             if (p._isAlive) p._attackDefense -= e.value;
+            //         break;
+            //     case EffectType.EnemyAttackDebuff:
+            //         foreach (var m in btManager._monsters)
+            //             if (m._isAlive) m._attackDamage += e.value;
+            //         break;
+            //     case EffectType.EnemyDefenseDebuff:
+            //         foreach (var m in btManager._monsters)
+            //             if (m._isAlive) m._attackDefense += e.value;
+            //         break;
+            // }
         }
     }
-
     #endregion
 }
