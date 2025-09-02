@@ -25,6 +25,7 @@ namespace SDW
         private long _patchSize;
         private Dictionary<string, long> _patchMap = new Dictionary<string, long>();
 
+        public Action<UIName> OnUIOpenRequested;
         public Action<UIName> OnUICloseRequested;
 
         private void Awake()
@@ -103,8 +104,8 @@ namespace SDW
                 _downloadSlider.value = 1f;
                 yield return new WaitForSeconds(0.5f);
 
+                OnUIOpenRequested?.Invoke(UIName.SignInUI);
                 OnUICloseRequested?.Invoke(UIName.DownloadUI);
-                GameManager.Instance.Scene.LoadSceneAsync(SceneName.SDW_LobbyScene);
             }
         }
 
@@ -200,8 +201,8 @@ namespace SDW
                 yield return new WaitForEndOfFrame();
             }
 
+            OnUIOpenRequested?.Invoke(UIName.SignInUI);
             OnUICloseRequested?.Invoke(UIName.DownloadUI);
-            GameManager.Instance.Scene.LoadSceneAsync(SceneName.SDW_LobbyScene);
         }
 
         #endregion

@@ -1,4 +1,5 @@
 using System;
+using KSH;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -12,8 +13,11 @@ namespace SDW
         [SerializeField] private Button _userInfoButton;
         [SerializeField] private Button _dailyQuestButton;
         [SerializeField] private Button _gachaButton;
+
         [SerializeField] private Image _userIcon;
         [SerializeField] private TextMeshProUGUI _nicknameText;
+        [SerializeField] private TextMeshProUGUI _cashStarText;
+        [SerializeField] private TextMeshProUGUI _rainbowStarText;
 
         public Action<UIName> OnUIOpenRequested;
         public Action<UIName> OnUICloseRequested;
@@ -32,6 +36,9 @@ namespace SDW
             _userInfoButton.onClick.AddListener(UserInfoButtonClicked);
             _dailyQuestButton.onClick.AddListener(DailyQuestButtonClicked);
             _gachaButton.onClick.AddListener(GachaButtonClicked);
+
+            UpdateRainbowStar(GameManager.Instance.RainbowStarCandy);
+            RewardChangeManager.Instance.OnStarCandyChange += UpdateRainbowStar;
         }
 
         private void OnDisable()
@@ -73,5 +80,10 @@ namespace SDW
         public void SetIcon(Sprite sprite) => _userIcon.sprite = sprite;
 
         #endregion
+
+        public void UpdateRainbowStar(int numOfStars)
+        {
+            _rainbowStarText.text = numOfStars.ToString();
+        }
     }
 }
