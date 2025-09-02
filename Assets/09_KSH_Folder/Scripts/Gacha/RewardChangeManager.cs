@@ -97,6 +97,7 @@ namespace KSH
         public void AddStarCandy(int count)
         {
             StarCandy += count;
+            OnStarCandyChange?.Invoke(StarCandy);
         }
     }
 }

@@ -21,4 +21,8 @@ MonoBehaviour:
   isPassive: 0
   relicType: 0
   relicRole: 0
-  relicEffect: 3
+  relicEffectValues:
+  - effect: 1
+    value: 10
+  - effect: 2
+    value: 10
