@@ -1,38 +1,81 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-[RequireComponent(typeof(Button))]
-public class Organization : MonoBehaviour
+namespace CJH
 {
-    [Header("UI 요소")]
-    public GameObject teamPanel;        // 편성 UI 전체
-    public Button openButton;           // 편성 버튼
-    public Button closeButton;          // X 버튼
-
-
-    void Start()
+    [RequireComponent(typeof(Button))]
+    public class Organization : MonoBehaviour
     {
-        // 초기 상태 설정
-        teamPanel.SetActive(false);
-        closeButton.gameObject.SetActive(false);
-        openButton.gameObject.SetActive(true);
+        [Header("UI 요소")]
+        public GameObject teamPanel;
+        public Button openButton;
+        public Button closeButton; // X 버튼
 
-        // 이벤트 연결
-        openButton.onClick.AddListener(OpenTeamPanel);
-        closeButton.onClick.AddListener(CloseTeamPanel);
-    }
+        [Header("관리자 연결")]
+        public TeamManager teamManager;
+        public UIPanelSwitcher uiPanelSwitcher;
 
-    public void OpenTeamPanel()
-    {
-        teamPanel.SetActive(true);            // 편성 창 열기
-        openButton.gameObject.SetActive(false);  // 편성 버튼 숨기기
-        closeButton.gameObject.SetActive(true);  // X 버튼 보이기
-    }
+        void Start()
+        {
+            // 초기 UI 상태 설정
+            teamPanel.SetActive(false);
+            openButton.gameObject.SetActive(true);
 
-    public void CloseTeamPanel()
-    {
-        teamPanel.SetActive(false);           // 편성 창 닫기
-        openButton.gameObject.SetActive(true);   // 편성 버튼 보이기
-        closeButton.gameObject.SetActive(false); // X 버튼 숨기기
+            // 버튼 이벤트 연결
+            openButton.onClick.AddListener(OpenTeamPanel);
+            closeButton.onClick.AddListener(OnCloseButtonClick);
+        }
+
+        // 편성 창 열기
+        public void OpenTeamPanel()
+        {
+            teamPanel.SetActive(true);
+            openButton.gameObject.SetActive(false);
+
+            // TeamManager에 알려서 현재 팀 상태를 백업
+            if (teamManager != null)
+            {
+                teamManager.OnPanelOpen();
+            }
+
+            // 하단 UI를 편성으로 고정하고 스위치 버튼 비활성화
+            if (uiPanelSwitcher != null)
+            {
+                uiPanelSwitcher.ShowCharacterPanel();
+                uiPanelSwitcher.SetSwitchButtonActive(false);
+            }
+        }
+
+        // X 버튼 클릭 시
+        private void OnCloseButtonClick()
+        {
+            // 팀이 3명으로 꽉 찼는지 확인
+            if (teamManager != null && teamManager.IsTeamFull())
+            {
+                // 변경사항을 확정하고 창을 닫음
+                teamManager.OnConfirmChanges();
+                CloseTeamPanel();
+            }
+            else
+            {
+                // 팀원이 부족할 경우 메시지 출력
+                Debug.Log("팀을 3명으로 모두 구성해야 합니다.");
+                // 여기서 사용자에게 알림 UI를 띄워주는 로직을 추가
+            }
+        }
+
+        // 편성 창 닫기 (내부 로직)
+        private void CloseTeamPanel()
+        {
+            teamPanel.SetActive(false);
+            openButton.gameObject.SetActive(true);
+
+            // 하단 UI를 다시 노드 선택으로 바꾸고 스위치 버튼 활성화
+            if (uiPanelSwitcher != null)
+            {
+                uiPanelSwitcher.ShowNodePanel();
+                uiPanelSwitcher.SetSwitchButtonActive(true);
+            }
+        }
     }
 }

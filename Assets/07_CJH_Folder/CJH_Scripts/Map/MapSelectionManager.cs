@@ -7,7 +7,6 @@ public class MapSelectionManager : MonoBehaviour
     [Header("Dependencies")]
     public MapView mapView;
     public Transform mapListContainer;
-    public GameObject mapButtonPrefab;
 
     private List<MapData> availableMaps = new();
     private List<Sprite> previewImages = new();
