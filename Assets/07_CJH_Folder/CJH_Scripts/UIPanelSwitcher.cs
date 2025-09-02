@@ -29,7 +29,7 @@ public class UIPanelSwitcher : MonoBehaviour
         characterSelectPanel.SetActive(isNodePanelActive);
     }
 
-    // 캐릭터 선택창(편성창)을 보여주는 함수
+    // 편성창을 보여주는 함수
     public void ShowCharacterPanel()
     {
         nodeSelectPanel.SetActive(false);

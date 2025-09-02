@@ -32,12 +32,6 @@ namespace CJH
             teamPanel.SetActive(true);
             openButton.gameObject.SetActive(false);
 
-            // TeamManager에 알려서 현재 팀 상태를 백업
-            if (teamManager != null)
-            {
-                teamManager.OnPanelOpen();
-            }
-
             // 하단 UI를 편성으로 고정하고 스위치 버튼 비활성화
             if (uiPanelSwitcher != null)
             {
@@ -53,7 +47,6 @@ namespace CJH
             if (teamManager != null && teamManager.IsTeamFull())
             {
                 // 변경사항을 확정하고 창을 닫음
-                teamManager.OnConfirmChanges();
                 CloseTeamPanel();
             }
             else

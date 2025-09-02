@@ -34,8 +34,17 @@ public class CharacterSelect : MonoBehaviour
         // 매니저에 선택한 캐릭터의 데이터 전달
         CharacterSelectManager.Instance.CharacterSelect(_characterData);
 
-        // CJH 코드 추가
-        Debug.Log($"{_characterData._characterName}을 선택했습니다.");
+        //CJH 코드 추가
+        if (TeamManager.Instance != null && _characterData != null)
+        {
+            // TeamManager에 선택된 캐릭터의 SO를 전달하여 팀에 추가하도록 요청
+            TeamManager.Instance.AddCharacterBySO(_characterData);
 
+            Debug.Log($"[CharacterSelect] {_characterData._characterName} 선택. TeamManager에 추가 요청 완료.");
+        }
+        else
+        {
+            Debug.LogError("[CharacterSelect] TeamManager.Instance 또는 CharacterDataSO가 할당되지 않았습니다!");
+        }
     }
 }
