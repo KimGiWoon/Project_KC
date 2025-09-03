@@ -117,4 +117,39 @@ public class MapNode : MonoBehaviour
         else
             transform.localScale = Vector3.one;
     }
+
+    public Sprite GetSpriteForNodeType()
+    {
+        if (_mapConfig == null || _mapConfig.NodeTemplates == null) return null;
+
+        // 자신의 노드 타입에 맞는 템플릿 탐색
+        NodeTemplate template = _mapConfig.NodeTemplates.FirstOrDefault(t => t.nodeType == this.nodeData.nodeType);
+        if (template == null) return null;
+
+        // 이벤트 타입인 경우, 특별 로직을 처리
+        if (this.nodeData.nodeType == NodeType.Event)
+        {
+            // 아직 어떤 이벤트 스프라이트로 될지 결정되지 않았다면 강제로 결정
+            if (chosenEventSprite == null)
+            {
+                List<Sprite> spriteList = null;
+                switch (nodeData.EventTypeKC)
+                {
+                    case EventTypeKC.Positive: spriteList = template.positiveEventSprites; break;
+                    case EventTypeKC.Negative: spriteList = template.negativeEventSprites; break;
+                    case EventTypeKC.Neutral: spriteList = template.neutralEventSprites; break;
+                }
+                if (spriteList != null && spriteList.Count > 0)
+                {
+                    // 랜덤으로 하나를 골라 저장해두고, 다음부터는 계속 이 스프라이트를 사용
+                    chosenEventSprite = spriteList[Random.Range(0, spriteList.Count)];
+                }
+            }
+            return chosenEventSprite;
+        }
+        else // 이벤트가 아닌 다른 모든 타입의 경우, 템플릿의 기본 스프라이트를 반환
+        {
+            return template.sprite;
+        }
+    }
 }
