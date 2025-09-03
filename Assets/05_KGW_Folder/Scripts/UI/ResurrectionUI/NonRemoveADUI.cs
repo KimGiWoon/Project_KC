@@ -84,8 +84,12 @@ public class NonRemoveADUI : BaseUI
         _battleManager._isClear = false;
         _battleManager._isGameOver = false;
         _battleManager._characters.Clear();
-        //_battleManager.Wall.gameObject.SetActive(false);
-        //_battleManager._battleUI._count = 3f;
+
+        // 게임 시간이 0이면 게임 시간 초기화
+        if (_battleManager._battleUI._time <= 0f)
+        {
+            _battleManager._battleUI._time = _battleManager._timer;
+        }
 
         _battleManager.CharacterSpawn();
     }
