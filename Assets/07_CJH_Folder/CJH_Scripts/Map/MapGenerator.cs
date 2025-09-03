@@ -128,7 +128,8 @@ public class MapGenerator : MonoBehaviour
         var eventNodes = _map.SelectMany(floor => floor).Where(node => node.nodeType == NodeType.Event);
         foreach (var eventNode in eventNodes)
         {
-            int randomIndex = Random.Range(1, System.Enum.GetNames(typeof(EventTypeKC)).Length);
+            int enumCount = System.Enum.GetValues(typeof(EventTypeKC)).Length;
+            int randomIndex = Random.Range(1, enumCount); // 1부터 시작하여 NotAssigned 제외
             eventNode.EventTypeKC = (EventTypeKC)randomIndex;
         }
     }
