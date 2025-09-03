@@ -47,8 +47,9 @@ namespace CJH
             else
             {
                 Debug.LogError($"{characterSO._chaBaseData.ChaName}에 해당하는 CharacterData를 'allCharacters' 리스트에서 찾을 수 없습니다.");
-            
 
+
+            }
         }
 
         /// <summary>
