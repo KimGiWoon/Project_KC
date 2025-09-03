@@ -25,6 +25,7 @@ namespace SDW
         private long _patchSize;
         private Dictionary<string, long> _patchMap = new Dictionary<string, long>();
 
+        public Action<UIName> OnUIOpenRequested;
         public Action<UIName> OnUICloseRequested;
 
         private void Awake()
@@ -64,6 +65,10 @@ namespace SDW
         {
             var init = Addressables.InitializeAsync(true);
             yield return init;
+
+            // Remote 카탈로그 업데이트
+            var catalogHandle = Addressables.UpdateCatalogs();
+            yield return catalogHandle;
         }
 
         #region Check Download
@@ -76,6 +81,7 @@ namespace SDW
             {
                 if (!LabelExists(label.labelString)) continue;
                 labels.Add(label.labelString);
+                Debug.Log($"Label : {label.labelString}");
             }
 
             _patchSize = default;
@@ -84,6 +90,7 @@ namespace SDW
             {
                 var handle = Addressables.GetDownloadSizeAsync(label);
                 yield return handle;
+                Debug.Log($"{label} : {handle.Result}");
 
                 _patchSize += handle.Result;
             }
@@ -101,10 +108,11 @@ namespace SDW
             {
                 _downloadValueText.text = "100%";
                 _downloadSlider.value = 1f;
+                GameManager.Instance.SetCompleteDownload(true);
                 yield return new WaitForSeconds(0.5f);
 
+                OnUIOpenRequested?.Invoke(UIName.SignInUI);
                 OnUICloseRequested?.Invoke(UIName.DownloadUI);
-                GameManager.Instance.Scene.LoadSceneAsync(SceneName.SDW_LobbyScene);
             }
         }
 
@@ -154,13 +162,13 @@ namespace SDW
 
             foreach (string label in labels)
             {
-                var handle = Addressables.GetDownloadSizeAsync(label);
-                yield return handle;
-
-                if (handle.Result != decimal.Zero)
-                {
-                    StartCoroutine(DownloadLabel(label));
-                }
+                // var handle = Addressables.GetDownloadSizeAsync(label);
+                // yield return handle;
+                //
+                // if (handle.Result != decimal.Zero)
+                // {
+                StartCoroutine(DownloadLabel(label));
+                // }
             }
 
             yield return CheckDownload();
@@ -168,6 +176,7 @@ namespace SDW
 
         private IEnumerator DownloadLabel(string label)
         {
+            Debug.Log($"Download : {label}");
             _patchMap.Add(label, 0);
 
             var handle = Addressables.DownloadDependenciesAsync(label, false);
@@ -182,26 +191,51 @@ namespace SDW
             Addressables.Release(handle);
         }
 
+        // private IEnumerator CheckDownload()
+        // {
+        //     float total = 0f;
+        //     _downloadValueText.text = "0 %";
+        //
+        //     while (true)
+        //     {
+        //         total += _patchMap.Sum(tmp => tmp.Value);
+        //
+        //         _downloadSlider.value = total / _patchSize;
+        //         _downloadValueText.text = (int)(_downloadSlider.value * 100) + "%";
+        //
+        //         if (total == _patchSize) break;
+        //
+        //         total = 0f;
+        //         yield return new WaitForEndOfFrame();
+        //     }
+        //
+        //     OnUIOpenRequested?.Invoke(UIName.SignInUI);
+        //     OnUICloseRequested?.Invoke(UIName.DownloadUI);
+        // }
+
         private IEnumerator CheckDownload()
         {
-            float total = 0f;
-            _downloadValueText.text = "0 %";
+            _downloadValueText.text = "0%";
 
             while (true)
             {
-                total += _patchMap.Sum(tmp => tmp.Value);
+                // 매 프레임마다 합계 새로 계산
+                long downloaded = _patchMap.Sum(tmp => tmp.Value);
 
-                _downloadSlider.value = total / _patchSize;
-                _downloadValueText.text = (int)(_downloadSlider.value * 100) + "%";
+                float progress = (float)downloaded / _patchSize;
+                _downloadSlider.value = progress;
+                _downloadValueText.text = (int)(progress * 100) + "%";
 
-                if (total == _patchSize) break;
+                if (downloaded >= _patchSize)
+                    break;
 
-                total = 0f;
-                yield return new WaitForEndOfFrame();
+                yield return null; // 매 프레임 갱신
             }
 
+            GameManager.Instance.SetCompleteDownload(true);
+            // 다운로드 완료 시 다음 UI로
+            OnUIOpenRequested?.Invoke(UIName.SignInUI);
             OnUICloseRequested?.Invoke(UIName.DownloadUI);
-            GameManager.Instance.Scene.LoadSceneAsync(SceneName.SDW_LobbyScene);
         }
 
         #endregion

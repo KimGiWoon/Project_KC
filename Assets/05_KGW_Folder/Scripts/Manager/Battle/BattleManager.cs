@@ -167,7 +167,7 @@ public class BattleManager : MonoBehaviour
             _monsters.Add(createMonster);
 
             // 통합 제력 저장
-            _monsterTotalMaxHp += monsterData._maxHp;
+            _monsterTotalMaxHp += monsterData.MonHP;
         }
 
         _monsterTotalCurrentHp = _monsterTotalMaxHp;
@@ -203,7 +203,7 @@ public class BattleManager : MonoBehaviour
             _monsters.Add(createBossMonster);
 
             // 통합 제력 저장
-            _monsterTotalMaxHp += bossData._maxHp;
+            _monsterTotalMaxHp += bossData.MonHP;
 
             //# 한 마리만 소환되는 경우
             break;

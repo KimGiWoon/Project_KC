@@ -103,9 +103,9 @@ public class MapGenerator : MonoBehaviour
 
     private void AssignNodeTypesToPaths(Node start, Node end)
     {
-        foreach (var node in _map[start.point.x +1].Where(n => n.nodeType == NodeType.Event))
+        foreach (var node in _map[start.point.x + 1].Where(n => n.nodeType == NodeType.Event))
             node.nodeType = NodeType.Battle;
-        
+
         foreach (var node in _map[4].Where(n => n.nodeType == NodeType.Battle))
             node.nodeType = NodeType.Event;
 
@@ -128,7 +128,8 @@ public class MapGenerator : MonoBehaviour
         var eventNodes = _map.SelectMany(floor => floor).Where(node => node.nodeType == NodeType.Event);
         foreach (var eventNode in eventNodes)
         {
-            int randomIndex = Random.Range(1, System.Enum.GetNames(typeof(EventTypeKC)).Length);
+            int enumCount = System.Enum.GetValues(typeof(EventTypeKC)).Length;
+            int randomIndex = Random.Range(1, enumCount); // 1부터 시작하여 NotAssigned 제외
             eventNode.EventTypeKC = (EventTypeKC)randomIndex;
         }
     }
@@ -143,6 +144,7 @@ public class MapGenerator : MonoBehaviour
     private void DFS(Node current, Node end, List<Node> path, List<List<Node>> allPaths)
     {
         path.Add(current);
+
         if (current == end)
         {
             allPaths.Add(new List<Node>(path));
@@ -151,9 +153,14 @@ public class MapGenerator : MonoBehaviour
         {
             foreach (Node next in current.nextNodes)
             {
-                DFS(next, end, path, allPaths);
+                // 순환 구조가 있을 때 무한 루프를 방지
+                if (!path.Contains(next))
+                {
+                    DFS(next, end, path, allPaths);
+                }
             }
         }
+
         path.RemoveAt(path.Count - 1);
     }
 }

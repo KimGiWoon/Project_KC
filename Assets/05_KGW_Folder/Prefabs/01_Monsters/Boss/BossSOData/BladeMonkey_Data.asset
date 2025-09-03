@@ -1,0 +1,44 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a5539c5b86c1dd94eb1cf013975553ba, type: 3}
+  m_Name: BladeMonkey_Data
+  m_EditorClassIdentifier: 
+  MonId: 21303
+  MonName: "\uAC80\uC22D\uC774"
+  MonEnName: 11
+  MonType: 2
+  MonSummon: 1
+  MonAtkRange: -1
+  MonMoveSpeed: -1
+  MonSkill: f8550000f9550000
+  MonSummonID: 0d5200000e5200000d520000
+  MonTag: " #\uAC15\uB825\uD568 #\uD68C\uD53C #\uC18C\uD658"
+  MonDescription:
+  - "\uB204\uAD70\uAC00\uB85C \uBD80\uD130 \uAC80\uC220\uC744 \uBC30\uC6B4 \uB4EF
+    \uD55C \uC6D0\uC22D\uC774"
+  - "\uB9C8\uAD6C\uC7A1\uC774\uB85C \uD718\uB450\uB974\uB294 \uAC83 \uCC98\uB7FC
+    \uBCF4\uC774\uC9C0\uB9CC, \uB9E4\uC6B0 \uC704\uD611\uC801\uC774\uB2E4."
+  MonLv: 1
+  MonBreak: 1
+  BreakGage: 0
+  MonHP: 1500
+  MonHPIncrase: 0.1
+  MonAtkSpeed: 0.7
+  MonAttack: 100
+  MonAttackIncrease: 0.1
+  MonArmor: 20
+  MonArmorIncrease: 0.1
+  MonAccuracy: 130
+  MonAvoid: 20
+  MonAvoidIncrease: 2
+  MonReg: 0
+  _prefab: {fileID: 0}

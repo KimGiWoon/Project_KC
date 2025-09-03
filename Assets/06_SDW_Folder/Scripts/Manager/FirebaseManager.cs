@@ -59,7 +59,8 @@ namespace SDW
                     _auth = FirebaseAuth.DefaultInstance;
                     _db = FirebaseDatabase.DefaultInstance.RootReference;
 
-                    _ui.OpenPanel(UIName.SignInUI);
+                    _ui.OpenPanel(UIName.DownloadUI);
+                    OnCheckUpdate?.Invoke();
 
                     if (PlayerPrefs.GetInt("SignedUp", 0) == 0)
                         OnSignInSetButtonType?.Invoke(ButtonType.SignUpButton);
@@ -363,8 +364,7 @@ namespace SDW
         /// </summary>
         private void OnSignInComplete()
         {
-            _ui.OpenPanel(UIName.DownloadUI);
-            OnCheckUpdate?.Invoke();
+            GameManager.Instance.Scene.LoadSceneAsync(SceneName.SDW_LobbyScene);
         }
 
         public void SetNickname(string nickname)

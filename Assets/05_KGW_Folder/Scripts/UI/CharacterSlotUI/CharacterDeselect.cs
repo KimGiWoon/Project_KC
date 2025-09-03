@@ -21,7 +21,6 @@ public class CharacterDeselect : MonoBehaviour
     {
         // 매니저에 선택한 캐릭터의 취소와 데이터 전달
         CharacterSelectManager.Instance.CharacterDeselect(_characterData);
-        Debug.Log($"{_characterData._characterName}을 취소했습니다.");
         Destroy(gameObject);
     }
 }

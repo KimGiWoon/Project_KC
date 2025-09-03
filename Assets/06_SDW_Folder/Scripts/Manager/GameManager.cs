@@ -35,11 +35,14 @@ namespace SDW
         [SerializeField] private string _stageName;
         public string StageName => _stageName;
 
+        private bool _completeDownload;
+        public bool CompleteDownload => _completeDownload;
+
         private bool _lastBoss;
         public bool LastBoss => _lastBoss;
 
-        private int _starCandy;
-        public int StarCandy => _starCandy = 999999;
+        private int rainbowStarCandy = 999999;
+        public int RainbowStarCandy => rainbowStarCandy;
 
         private int _gachaCount;
         public int GachaCount => _gachaCount;
@@ -88,8 +91,10 @@ namespace SDW
 
         public void SetStageBoss(bool isBoss) => _lastBoss = isBoss;
 
-        public void SubtractStarCandy(int number) => _starCandy -= number;
+        public void SetRainbowStarCandy(int number) => rainbowStarCandy = number;
 
         public void AddGachaCount(int number) => _gachaCount += number;
+
+        public void SetCompleteDownload(bool complete) => _completeDownload = complete;
     }
 }
