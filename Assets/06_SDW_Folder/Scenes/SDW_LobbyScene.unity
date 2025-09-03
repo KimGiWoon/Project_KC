@@ -780,7 +780,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -0.0000538826, y: 862.30347}
+  m_AnchoredPosition: {x: -0.0000538826, y: 905.6616}
   m_SizeDelta: {x: 0, y: 1804.077}
   m_Pivot: {x: 0, y: 1}
 --- !u!1 &42489531
@@ -9263,8 +9263,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 392651745}
   m_HandleRect: {fileID: 392651744}
   m_Direction: 2
-  m_Value: -0.00000049547094
-  m_Size: 0.52202106
+  m_Value: -0.050282303
+  m_Size: 0
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -12943,6 +12943,63 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1085782748}
   m_CullTransparentMesh: 1
+--- !u!1001 &1100831604
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 736184994877394710, guid: e053b99ef3c0d6a488597a69a773e587, type: 3}
+      propertyPath: m_Name
+      value: TeamManager
+      objectReference: {fileID: 0}
+    - target: {fileID: 4235684869712795382, guid: e053b99ef3c0d6a488597a69a773e587, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.4807773
+      objectReference: {fileID: 0}
+    - target: {fileID: 4235684869712795382, guid: e053b99ef3c0d6a488597a69a773e587, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -1.3991011
+      objectReference: {fileID: 0}
+    - target: {fileID: 4235684869712795382, guid: e053b99ef3c0d6a488597a69a773e587, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 237.08124
+      objectReference: {fileID: 0}
+    - target: {fileID: 4235684869712795382, guid: e053b99ef3c0d6a488597a69a773e587, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4235684869712795382, guid: e053b99ef3c0d6a488597a69a773e587, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4235684869712795382, guid: e053b99ef3c0d6a488597a69a773e587, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4235684869712795382, guid: e053b99ef3c0d6a488597a69a773e587, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4235684869712795382, guid: e053b99ef3c0d6a488597a69a773e587, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4235684869712795382, guid: e053b99ef3c0d6a488597a69a773e587, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4235684869712795382, guid: e053b99ef3c0d6a488597a69a773e587, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: e053b99ef3c0d6a488597a69a773e587, type: 3}
 --- !u!1 &1135117988
 GameObject:
   m_ObjectHideFlags: 0
@@ -13106,7 +13163,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4993bbc3cff550c4989f17f820bd8453, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _dontDestroyOnLoad: 1
   gainedStarCandy: 0
   gainedBead: 0
 --- !u!4 &1147204079
@@ -17908,18 +17964,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: deb620ae5950afc488929907aa2b8035, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _dontDestroyOnLoad: 1
   characterLists:
-  - {fileID: 11400000, guid: 62e89a5b635151646b258f37b74f4ed2, type: 2}
-  - {fileID: 11400000, guid: b5584ef15ab85624b9ca257fb729c743, type: 2}
-  - {fileID: 11400000, guid: d29bf004df4d1a04cae9fcea4e524cee, type: 2}
-  - {fileID: 11400000, guid: 316c944a53c6d6f4fa9c0d89097b75b6, type: 2}
-  - {fileID: 11400000, guid: 8d0fb7495f0b4cc47a123049dee8f634, type: 2}
-  - {fileID: 11400000, guid: fc01117f9f2081f4d934d6adaa0b77ad, type: 2}
-  - {fileID: 11400000, guid: 2a259d5d6f185584697bc4725bdec253, type: 2}
-  - {fileID: 11400000, guid: 05d0a4a04bfab734585c44b1991db0fb, type: 2}
-  - {fileID: 11400000, guid: aad16b9532ea5c64ba4007a29f694256, type: 2}
-  - {fileID: 11400000, guid: 1aea12dde57ce2247a86f1bbfdf75698, type: 2}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   gachaResultUI: {fileID: 463199064}
   gachaUI: {fileID: 0}
 --- !u!4 &1638836439
@@ -22708,3 +22763,4 @@ SceneRoots:
   - {fileID: 1638836439}
   - {fileID: 1330978176}
   - {fileID: 1642148637}
+  - {fileID: 1100831604}
