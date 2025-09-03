@@ -5,7 +5,8 @@ using SDW;
 
 namespace KSH
 {
-    public class RewardChangeManager : SingletonManager<RewardChangeManager>
+    // public class RewardChangeManager : SingletonManager<RewardChangeManager>
+    public class RewardChangeManager : MonoBehaviour
     {
         public Dictionary<string, bool> ownedCharacters = new Dictionary<string, bool>();
         public Dictionary<string, int> beadsInventory = new Dictionary<string, int>();
@@ -43,31 +44,31 @@ namespace KSH
         public event Action<int> OnStarCandyGained;
         public event Action<int> OnBeadGained;
 
-        public (int starCandy, int bead, int currentBead) ProcessCharacter(CharacterData character)
+        public (int starCandy, int bead, int currentBead) ProcessCharacter(CharacterDataSO character)
         {
             int currentBead = 0;
-            if (ownedCharacters.ContainsKey(character.characterName))
+            if (ownedCharacters.ContainsKey(character._chaBaseData.ChaName))
             {
-                if (!beadsInventory.ContainsKey(character.characterName))
-                    beadsInventory[character.characterName] = 1;
+                if (!beadsInventory.ContainsKey(character._chaBaseData.ChaName))
+                    beadsInventory[character._chaBaseData.ChaName] = 1;
 
-                beadsInventory[character.characterName]++;
-                character.beads++;
-                currentBead = character.beads;
+                beadsInventory[character._chaBaseData.ChaName]++;
+                character.Beads++;
+                currentBead = character.Beads;
 
                 if (currentBead >= 7)
                 {
-                    gainedStarCandy = character.rarity == Rarity.Rare ? RareReward : normalReward;
+                    gainedStarCandy = character._chaBaseData.ChaGrade == CharacterGrade.Rare ? RareReward : normalReward;
                     gainedBead = 0;
-                    beadsInventory[character.characterName] = beadMax;
-                    character.beads = beadMax;
+                    beadsInventory[character._chaBaseData.ChaName] = beadMax;
+                    character.Beads = beadMax;
                     StarCandy += gainedStarCandy;
 
                     if (OnStarCandyGained != null)
                     {
                         Debug.Log("별사탕 이벤트");
-                        Debug.Log($"{character.characterName} 구슬 6개 초과하였으므로 별사탕 {gainedStarCandy}개 획득!");
-                        isStarCandy[character.characterName] = true;
+                        Debug.Log($"{character._chaBaseData.ChaName} 구슬 6개 초과하였으므로 별사탕 {gainedStarCandy}개 획득!");
+                        isStarCandy[character._chaBaseData.ChaName] = true;
                         // OnStarCandyGained?.Invoke(gainedStarCandy);
                     }
                     else
@@ -78,19 +79,19 @@ namespace KSH
                 else
                 {
                     gainedBead = 1;
-                    isStarCandy[character.characterName] = false;
-                    Debug.Log($"{character.characterName}이 중복이므로 구슬 1개 획득!");
+                    isStarCandy[character._chaBaseData.ChaName] = false;
+                    Debug.Log($"{character._chaBaseData.ChaName}이 중복이므로 구슬 1개 획득!");
                 }
             }
             else
             {
                 //ownedCharacters[character.characterName] = true;
-                ownedCharacters.Add(character.characterName, false);
-                beadsInventory.Add(character.characterName, 0);
-                isStarCandy[character.characterName] = false;
-                character.beads = 0;
+                ownedCharacters.Add(character._chaBaseData.ChaName, false);
+                beadsInventory.Add(character._chaBaseData.ChaName, 0);
+                isStarCandy[character._chaBaseData.ChaName] = false;
+                character.Beads = 0;
                 currentBead = 0;
-                Debug.Log($"{character.characterName} 획득!");
+                Debug.Log($"{character._chaBaseData.ChaName} 획득!");
             }
             return (gainedStarCandy, gainedBead, currentBead);
         }

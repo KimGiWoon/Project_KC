@@ -24,6 +24,8 @@ namespace KSH
         private void Awake()
         {
             _panelContainer.SetActive(false);
+            _gacha = GameManager.Instance.Gacha;
+            _gacha.SetGachaResultUI(this);
         }
 
         private void OnEnable()
@@ -68,16 +70,16 @@ namespace KSH
                 var gacha = Instantiate(gachaPrefab, content); //뽑힌 캐릭터 UI을 content안에 생성
                 // gacha.SetData(characterDatas[i]); //캐릭터 데이터 적용
 
-                if (!_isFirstCharacter.ContainsKey(characterDatas.Result[i].characterName))
-                    _isFirstCharacter[characterDatas.Result[i].characterName] = true;
+                if (!_isFirstCharacter.ContainsKey(characterDatas.Result[i]._chaBaseData.ChaName))
+                    _isFirstCharacter[characterDatas.Result[i]._chaBaseData.ChaName] = true;
                 else
-                    _isFirstCharacter[characterDatas.Result[i].characterName] = false;
+                    _isFirstCharacter[characterDatas.Result[i]._chaBaseData.ChaName] = false;
                 gacha.SetData(
                     characterDatas.Result[i],
                     characterDatas.GainedStarCandy[i],
                     characterDatas.GainedBead[i],
                     characterDatas.CurrentBead[i],
-                    _isFirstCharacter[characterDatas.Result[i].characterName]
+                    _isFirstCharacter[characterDatas.Result[i]._chaBaseData.ChaName]
                 ); //캐릭터 데이터 적용
 
                 var rect = gacha.GetComponent<RectTransform>();

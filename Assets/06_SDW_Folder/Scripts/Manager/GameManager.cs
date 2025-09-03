@@ -29,6 +29,12 @@ namespace SDW
         private MonsterDataManager _monsterData;
         public MonsterDataManager MonsterData => _monsterData;
 
+        private CharacterGacha _gacha;
+        public CharacterGacha Gacha => _gacha;
+
+        private RewardChangeManager _reward;
+        public RewardChangeManager Reward => _reward;
+
         [SerializeField] private bool _buyAdRemover;
         public bool BuyAdRemover => _buyAdRemover;
 
@@ -64,6 +70,9 @@ namespace SDW
             _dailyQuest = GetComponent<DailyQuestManager>();
             _characterData = GetComponent<CharacterDataManager>();
             _monsterData = GetComponent<MonsterDataManager>();
+
+            _gacha = GetComponent<CharacterGacha>();
+            _reward = GetComponent<RewardChangeManager>();
         }
 
         private void Start()
