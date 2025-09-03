@@ -15,6 +15,7 @@ public class DailyQuestManager : MonoBehaviour
     private bool _canReward = false;
 
     public event Action OnQuestComplete;
+    public event Action<int> OnStarCandyChange;
 
     private void Awake()
     {
@@ -133,12 +134,12 @@ public class DailyQuestManager : MonoBehaviour
         }
     }
 
-    public void Reward()
+    public void Reward(int rewardAmount)
     {
         if (!reward)
         {
-            //보상지급적어야함
-            Debug.Log("보상이 지급되었습니다.");
+            GameManager.Instance.SetRainbowStarCandy(GameManager.Instance.RainbowStarCandy + rewardAmount);
+            OnStarCandyChange?.Invoke(GameManager.Instance.RainbowStarCandy);
             reward = true;
             _canReward = false;
         }
