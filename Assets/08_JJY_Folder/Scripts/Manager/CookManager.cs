@@ -14,8 +14,12 @@ namespace JJY
         Dictionary<Ingredient, RecipeData> recipes = new Dictionary<Ingredient, RecipeData>(); // 레시피 사전(조합마스크 -> 데이터)
         Ingredient selected = Ingredient.None; // 현재 선택된 재료들의 비트마스크
         int selectedCount = 0;
-        public List<RecipeData> playerFoodInventory = new List<RecipeData>(); // 플레이어 음식 인벤토리
-        Dictionary<Ingredient, int> playerIngredientInventory = new Dictionary<Ingredient, int>(); // 플레이어 재료 실제 보유량
+        List<RecipeData> _playerFoodInventory = new List<RecipeData>(); // 플레이어 음식 인벤토리
+        public List<RecipeData> playerFoodInventory { get { return _playerFoodInventory; } private set { _playerFoodInventory = value; } }
+
+        Dictionary<Ingredient, int> _playerIngredientInventory = new Dictionary<Ingredient, int>(); // 플레이어 재료 실제 보유량
+        public Dictionary<Ingredient, int> playerIngredientInventory { get { return _playerIngredientInventory; } private set { _playerIngredientInventory = value; } }
+
         Dictionary<Ingredient, int> reservedIngredients = new Dictionary<Ingredient, int>(); // 플레이어 재료 보유량 표시 UI
 
         // --- Inspector에서 연결할 것들 ---
@@ -107,6 +111,7 @@ namespace JJY
             }
         }
 
+#if UNITY_EDITOR
         void InitDummyInventory()
         {
             playerIngredientInventory.Clear(); // 기존 데이터 제거
@@ -114,11 +119,12 @@ namespace JJY
             foreach (Ingredient ing in Enum.GetValues(typeof(Ingredient)))
             {
                 if (ing == Ingredient.None) continue; // None 항목은 건너뜀
-                playerIngredientInventory[ing] = 3;    // 모든 재료 3개로 설정 (테스트용)
+                AddIngredient(ing, 3);
             }
         }
+#endif
 
-        // ---------------------
+        #region 오브젝트 풀
         // 풀링: 미리 버튼을 만들어두는 초기화
         void PrewarmPool(int count)
         {
@@ -159,7 +165,8 @@ namespace JJY
             activeButtons.Clear();                              // 활성 리스트 비움
             buttonByIngredient.Clear();                         // 매핑 초기화
         }
-
+        #endregion
+        #region 요리 인벤토리
         // ---------------------
         // 인벤토리 UI 생성/갱신: 보유한 재료만 표시
         int GetDisplayCount(Ingredient ing)
@@ -224,12 +231,12 @@ namespace JJY
             // }
             // else
             // {
-                // 예약 시 실제 재고의 '가용 수량' 확인
-                int available = GetDisplayCount(ing); // actual - reserved
-                if (available <= 0) return;
+            // 예약 시 실제 재고의 '가용 수량' 확인
+            int available = GetDisplayCount(ing); // actual - reserved
+            if (available <= 0) return;
 
-                // 예약 추가 (1개)
-                ReserveIngredient(ing, 1); // 내부에서 UI 갱신 및 selected 처리
+            // 예약 추가 (1개)
+            ReserveIngredient(ing, 1); // 내부에서 UI 갱신 및 selected 처리
             // }
         }
 
@@ -330,7 +337,7 @@ namespace JJY
                 cookBtn.interactable = false;
             }
         }
-
+        #endregion
         // 레시피에 재료 추가(비트마스크에 OR)
         // public void AddIngredientToRecipe(Ingredient ing)
         // {
@@ -360,7 +367,7 @@ namespace JJY
         //     UpdateResultButton();              // 결과 버튼 갱신
         // }
 
-        // ---------------------
+        #region 버튼 연결 함수
         // 요리 시도: 레시피가 일치하면 재료 소모 및 UI 갱신
         public void SuccessCook()
         {
@@ -385,12 +392,11 @@ namespace JJY
                 // 실제 차감
                 if (playerIngredientInventory.ContainsKey(ing))
                 {
-                    playerIngredientInventory[ing] -= reserveCount;
-                    if (playerIngredientInventory[ing] < 0) playerIngredientInventory[ing] = 0;
+                    SubtractIngredient(ing, reserveCount);
                 }
             }
 
-            playerFoodInventory.Add(dish);
+            AddFood(dish);
             Debug.Log($"{dish.recipeName} 완성! : {playerFoodInventory.Count}개 음식 보유중");
 
             reservedIngredients.Clear();
@@ -442,16 +448,14 @@ namespace JJY
                 foodDescription2.text = dish.description2;
             }
         }
-
-        // ---------------------
-        // 인벤토리 수량 변경: 획득/소모 시 호출
+        #endregion
+        #region 인벤토리 수량 변화 함수
         public void AddIngredient(Ingredient ing, int count = 1)
         {
             if (!playerIngredientInventory.ContainsKey(ing)) playerIngredientInventory[ing] = 0; // 없으면 0으로 초기화
             playerIngredientInventory[ing] += count; // 수량 증가
             RefreshInventoryUI(); // UI 갱신
         }
-
         public void SubtractIngredient(Ingredient ing, int count = 1)
         {
             if (!playerIngredientInventory.ContainsKey(ing)) return; // 없으면 무시
@@ -460,8 +464,17 @@ namespace JJY
             RefreshInventoryUI(); // UI 갱신
         }
 
-        // ---------------------
-        // 헬퍼: 마스크에서 포함된 재료 리스트 반환
+        public void AddFood(RecipeData dish)
+        {
+            _playerFoodInventory.Add(dish);
+        }
+        public void SubtractFood(RecipeData dish)
+        {
+            _playerFoodInventory.Remove(dish);
+        }
+        #endregion
+        #region 헬퍼
+        // 마스크에서 포함된 재료 리스트 반환
         Ingredient[] GetIngredientsFromMask(Ingredient mask)
         {
             var list = new List<Ingredient>(); // 결과 리스트 생성
@@ -472,13 +485,13 @@ namespace JJY
             }
             return list.ToArray(); // 배열로 반환
         }
-
-        // 헬퍼: ingredientIndexMap에서 재료의 인덱스 찾기
+        // ingredientIndexMap에서 재료의 인덱스 찾기
         int GetIndexByIngredient(Ingredient ing)
         {
             for (int i = 0; i < ingredientIndexMap.Length; i++)
                 if (ingredientIndexMap[i] == ing) return i;
             return -1; // 못찾으면 -1 반환
         }
+        #endregion
     }
 }
