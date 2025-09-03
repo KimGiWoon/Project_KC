@@ -15,7 +15,7 @@ namespace JJY
         public TextMeshProUGUI priceText;    // 가격 텍스트
     }
 
-    public class IngredientStoreManager : MonoBehaviour
+    public class IngredientStoreUIManager : MonoBehaviour
     {
         [Header("Buttons")]
         [SerializeField] Button outBtn;
@@ -210,7 +210,7 @@ namespace JJY
             }
 
             CoinManager.Instance.SubtractYeopjeon(data.price);
-            if (logAction) Debug.Log($"아이템 {data} 구매: 엽전 {CoinManager.Instance.yeopjeon}개 보유중");
+            if (logAction) Debug.Log($"아이템 {data.ingredient} 구매: 엽전 {CoinManager.Instance.yeopjeon}개 보유중");
             CookManager.Instance.playerIngredientInventory[data.ingredient]++;
             slotDatas[selectedSlotIndex].sold = true;
             selectedSlotIndex = -1;

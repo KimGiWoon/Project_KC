@@ -7,7 +7,7 @@ using UnityEngine.UI;
 namespace JJY
 {
     // TODO : CoinManager => GameManager 연결 시 코드 재정리.
-    public class CharacterLevelUpSceneManager : MonoBehaviour
+    public class CharacterLevelUpUIManager : MonoBehaviour
     {
         [Header("User Info")]
         [SerializeField] TextMeshProUGUI userLevelText; // 현재 레벨 수치
