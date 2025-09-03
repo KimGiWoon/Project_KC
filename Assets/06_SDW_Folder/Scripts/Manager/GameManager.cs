@@ -35,6 +35,9 @@ namespace SDW
         private RewardChangeManager _reward;
         public RewardChangeManager Reward => _reward;
 
+        private EncounterDataManager _encounter;
+        public EncounterDataManager Encounter => _encounter;
+
         [SerializeField] private bool _buyAdRemover;
         public bool BuyAdRemover => _buyAdRemover;
 
@@ -70,6 +73,7 @@ namespace SDW
             _dailyQuest = GetComponent<DailyQuestManager>();
             _characterData = GetComponent<CharacterDataManager>();
             _monsterData = GetComponent<MonsterDataManager>();
+            _encounter = GetComponent<EncounterDataManager>();
 
             _gacha = GetComponent<CharacterGacha>();
             _reward = GetComponent<RewardChangeManager>();

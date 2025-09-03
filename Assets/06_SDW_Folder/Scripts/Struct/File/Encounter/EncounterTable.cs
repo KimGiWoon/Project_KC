@@ -21,7 +21,7 @@ namespace SDW
         public int ResultMaxCount;
         public int ResultMoney;
         public int ResultNumber;
-        public int ResultChoice;
+        public int ResultChoiceCount;
         public List<string> EncounterExitText;
 
         public EncounterTable(string[] fields)
@@ -56,7 +56,7 @@ namespace SDW
             ResultMoney = int.Parse(resultMount[0]);
             ResultNumber = int.Parse(resultMount[1]);
 
-            ResultChoice = int.Parse(fields[13]);
+            ResultChoiceCount = int.Parse(fields[13]);
 
             EncounterExitText = new List<string>();
             string[] resultExit = fields[14].Split('`');
