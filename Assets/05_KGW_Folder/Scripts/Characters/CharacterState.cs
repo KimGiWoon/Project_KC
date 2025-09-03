@@ -1,0 +1,32 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+[Serializable]
+public class CharacterState
+{
+    [Header("Character Base Data")]
+    public int _chaID;
+    public string _chaName;
+    public int _chaLevel;
+    public float _chaCurrentHP;
+    public float _chaMaxHP;
+    public float _chaCurrentMP;
+    public float _chaMaxMP;
+    public float _chaMPRecovery;
+    public float _chaAtkSpeed;
+    public float _chaAttack;
+    public float _chaArmor;
+
+    [Header("Character Role State Data")]
+    public int _chaAtkIsMelee;
+    public float _chaAccuracy;
+    public float _chaAvoid;
+    public float _chaCrit;
+    public float _chaCritDmg;
+    public float _chaReg;
+    public float _chaMoveSpeed;
+
+    public bool _isManaFull;    // 마나 풀 여부
+}

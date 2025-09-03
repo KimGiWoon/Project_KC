@@ -3,16 +3,20 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using CJH;
+using Unity.VisualScripting;
 
 public class CharacterSelect : MonoBehaviour
 {
     [SerializeField] CharacterDataSO _characterData;    // 캐릭터의 데이터
-
+    private Button _selectButton;
     // CJH 코드 추가
     private TeamManager teamManager;
 
     private void Start()
     {
+        _selectButton = GetComponent<Button>();
+        _selectButton.onClick.AddListener(OnSelectClick);
+
         // CJH 코드 추가
         teamManager = FindObjectOfType<TeamManager>();
 
@@ -26,7 +30,10 @@ public class CharacterSelect : MonoBehaviour
         GetComponent<Button>().onClick.AddListener(OnSelectClick);
     }
 
-
+    private void OnDestroy()
+    {
+        _selectButton.onClick.RemoveListener(OnSelectClick);
+    }
 
     // 캐릭터 선택
     private void OnSelectClick()
@@ -40,7 +47,7 @@ public class CharacterSelect : MonoBehaviour
             // TeamManager에 선택된 캐릭터의 SO를 전달하여 팀에 추가하도록 요청
             TeamManager.Instance.AddCharacterBySO(_characterData);
 
-            Debug.Log($"[CharacterSelect] {_characterData._characterName} 선택. TeamManager에 추가 요청 완료.");
+            Debug.Log($"[CharacterSelect] {_characterData._chaBaseData.ChaName} 선택. TeamManager에 추가 요청 완료.");
         }
         else
         {
