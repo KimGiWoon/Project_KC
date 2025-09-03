@@ -13,7 +13,7 @@ namespace KSH
         //유물 나오는 UI 있어야함
         [SerializeField] private RelicResultUI relicResultUI;
         [SerializeField] private BuffRelicManager buffRelicManager;
-        private List<Relic> acquiredRelicLists = new List<Relic>();
+        public List<Relic> acquiredRelicLists = new List<Relic>();
         
         private WeightedRandom<RelicRarity> relicRarityPicker;
         
@@ -23,19 +23,24 @@ namespace KSH
         {
             base.Awake();
             relicRarityPicker = new WeightedRandom<RelicRarity>();
-            //TODO : 확률 정해지면 다시 넣기
-            relicRarityPicker.Add(RelicRarity.Normal, 80);
-            relicRarityPicker.Add(RelicRarity.Rare, 20);
+            //TODO : 확률 정해지면 다시 넣기 (임의로 노말 80 레어 20)
+            relicRarityPicker.Add(RelicRarity.Normal, 50);
+            relicRarityPicker.Add(RelicRarity.Rare, 50);
         }
 
         private void Start()
         {
-            BattleStageClear();
+            RarityPick(RelicEffectType.BuffType,3); //임시로 해둠
         }
 
-        public void BattleStageClear() //전투스테이지 클리어 시 버프 유물 중 3중 1택
+        public void RarityPick(RelicEffectType relicEffectType, int amount)
         {
-            RelicRarity relicRarity = relicRarityPicker.GetRandom();
+            RelicRarity relicRarity;
+            
+            if (relicEffectType == RelicEffectType.DeburffType)
+                 relicRarity = RelicRarity.None;
+            else
+                relicRarity = relicRarityPicker.GetRandom();
             
             List<Relic> getRelicList = relics
                 .Where(relic => relic.relicRarity == relicRarity && !acquiredRelicLists.Contains(relic))
@@ -49,7 +54,7 @@ namespace KSH
                 getRelicList[index] = relic;
             }
             
-            List<Relic> result = getRelicList.Take(3).ToList();
+            List<Relic> result = getRelicList.Take(amount).ToList();
             
             relicResultUI.ShowRelic(result, relicRarity);
         }
@@ -62,8 +67,7 @@ namespace KSH
                 acquiredRelicLists.Add(relic); //리스트에 추가
                 Debug.Log($"{relic.relicName} 획득");
                 //TODO: 플레이어 스탯 적용 및 효과 적용
-                buffRelicManager.ApplyRelicEffect(characterState, relic.relicEffectValues); // 유물 효과 적용
-                
+                buffRelicManager.ApplyRelicEffect(relic); // 캐릭터 유물 효과 적용
             }
         }
     }    
