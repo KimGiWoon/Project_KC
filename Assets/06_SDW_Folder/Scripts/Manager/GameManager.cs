@@ -23,6 +23,12 @@ namespace SDW
         private DailyQuestManager _dailyQuest;
         public DailyQuestManager DailyQuest => _dailyQuest;
 
+        private CharacterDataManager _characterData;
+        public CharacterDataManager CharacterData => _characterData;
+
+        private MonsterDataManager _monsterData;
+        public MonsterDataManager MonsterData => _monsterData;
+
         [SerializeField] private bool _buyAdRemover;
         public bool BuyAdRemover => _buyAdRemover;
 
@@ -32,8 +38,8 @@ namespace SDW
         private bool _lastBoss;
         public bool LastBoss => _lastBoss;
 
-        private int _starCandy;
-        public int StarCandy => _starCandy = 999999;
+        private int rainbowStarCandy = 999999;
+        public int RainbowStarCandy => rainbowStarCandy;
 
         private int _gachaCount;
         public int GachaCount => _gachaCount;
@@ -53,6 +59,8 @@ namespace SDW
             _scene = GetComponent<MySceneManager>();
             _time = GetComponent<TimeManager>();
             _dailyQuest = GetComponent<DailyQuestManager>();
+            _characterData = GetComponent<CharacterDataManager>();
+            _monsterData = GetComponent<MonsterDataManager>();
         }
 
         private void Start()
@@ -80,7 +88,7 @@ namespace SDW
 
         public void SetStageBoss(bool isBoss) => _lastBoss = isBoss;
 
-        public void SubtractStarCandy(int number) => _starCandy -= number;
+        public void SetRainbowStarCandy(int number) => rainbowStarCandy = number;
 
         public void AddGachaCount(int number) => _gachaCount += number;
     }

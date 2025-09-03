@@ -17,52 +17,30 @@ public class MonsterController : UnitBaseData
     public MyCharacterController _researchTarget; // 현재 탬색 대상
 
     public bool _isDetect;
-    private float _time;
     public bool _isFirst;
     private RecallPointProvider _recallPointProvider;
 
-    protected override void Update()
+    private void OnDestroy()
     {
-        base.Update();
-
-        // 보스몬스터만 사용
-        if (_isDetect && gameObject.layer == LayerMask.NameToLayer("Boss"))
-        {
-            // 게임이 종료되면 움직이지 않는다.
-            if (_battleManager._isGameOver) return;
-            // 메뉴가 열리면 움직이지 않는다.
-            if (_battleUI._isOnMenu) return;
-
-
-            _time += Time.deltaTime;
-
-            // 스킬 쿨타임이 지나면
-            if (_time >= _monsterData._useSkillTime / _gameSpeed)
-            {
-                if (_isFirst)
-                {
-                    UseSkill();
-                }
-
-                // 타이머 초기화
-                _time = 0f;
-            }
-        }
+        // 보스 체력 절반에서의 소환스킬 사용 관련 이벤트 구독 해제
+        OnHalfHp -= UseRecallSkill;
     }
 
     // 몬스터 생성 초기화
     protected override void Init()
     {
         _currentHp = _monsterData._maxHp;
+        _maxHp = _monsterData._maxHp;
         _moveDir = Vector3.left;
         _isAlive = true;
         _isAttack = false;
+        _isDetect = false;
+        _isFirst = false;
         _monData = _monsterData;
         _recallPointProvider = GetComponent<RecallPointProvider>();
 
-        _isDetect = false;
-        _time = 0f;
-        _isFirst = false;
+        // 보스 체력 절반에서의 소환스킬 사용 관련 이벤트 구독
+        OnHalfHp += UseRecallSkill;
 
         if (_monsterData._monsterRating == MonsterRating.Common || _monsterData._monsterRating == MonsterRating.Elite)
         {
@@ -165,8 +143,14 @@ public class MonsterController : UnitBaseData
         }
     }
 
-    // 보스 몬스터 스킬사용 (적을 감지 하면 사용)
+    // 몬스터의 스킬
     public void UseSkill()
+    {
+        
+    }
+
+    // 보스 몬스터 소환 스킬사용 (적을 감지 하면 사용)
+    public void UseRecallSkill()
     {
         _isFirst = true;
 
@@ -175,13 +159,11 @@ public class MonsterController : UnitBaseData
         {
             var recallPoint = _recallPointProvider._points;
             // 보유한 스킬이 없으면 미사용
-            if (_monsterData._skills == null) return;
+            if (_monsterData._recallSkills == null) return;
 
             // 보유한 스킬을 순회
-            foreach (var skill in _monsterData._skills)
+            foreach (var skill in _monsterData._recallSkills)
             {
-                Debug.Log("몬스터 소환 스킬 사용");
-
                 // 스킬 사용
                 skill.UseSkill(transform, _researchTarget, recallPoint);
             }
@@ -211,7 +193,7 @@ public class MonsterController : UnitBaseData
         }
 
         // 보스전이면 생성된 몬스터는 통합체력에 영향을 주면 안됨
-        if (_battleManager._isLastBoss) return;
+        if (_battleManager._isLastBoss || _battleManager._isLocalBoss) return;
 
         // 실제 줄어든 체력
         float decreaseHp = MathF.Max(0f, saveCurHp - _currentHp);
@@ -234,7 +216,8 @@ public class MonsterController : UnitBaseData
         }
         else
         {
-            if (_battleManager._isLastBoss) return;
+            // 보스전에서는 몬스터는 사망보고 하지 않음
+            if (_battleManager._isLastBoss || _battleManager._isLocalBoss) return;
 
             // 매니저에 사망 보고
             _battleManager.MonsterDeathCheck();
