@@ -56,10 +56,6 @@ namespace SDW
         [SerializeField] private bool _buyAdRemover;
         public bool BuyAdRemover => _buyAdRemover;
 
-        //todo 삭제 예정
-        [SerializeField] private string _stageName;
-        public string StageName => _stageName;
-
         //# Download 완료 여부 확인 Flag
         private bool _completeDownload;
         public bool CompleteDownload => _completeDownload;
