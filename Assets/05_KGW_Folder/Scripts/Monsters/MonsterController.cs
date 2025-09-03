@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using SDW;
+using TableForge.Demo;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -16,9 +18,15 @@ public class MonsterController : UnitBaseData
     [Header("Research Unit List")]
     public MyCharacterController _researchTarget; // 현재 탬색 대상
 
+    // 몬스터의 상태
+    public MonsterState _monsterState;
+
     public bool _isDetect;
     public bool _isFirst;
     private RecallPointProvider _recallPointProvider;
+
+    // 체력 절반 이벤트
+    public event Action OnHalfHp;
 
     private void OnDestroy()
     {
@@ -29,20 +37,29 @@ public class MonsterController : UnitBaseData
     // 몬스터 생성 초기화
     protected override void Init()
     {
-        _currentHp = _monsterData._maxHp;
-        _maxHp = _monsterData._maxHp;
+        _monsterState._monID = _monsterData.MonId;
+        _monsterState._monName = _monsterData.MonName;
+        _monsterState._monLevel = _monsterData.MonLv;
+        _monsterState._monCurrentHP = _monsterData.MonHP;
+        _monsterState._monMaxHP = _monsterData.MonHP;
+        _monsterState._monAtkRange = _monsterData.MonAtkRange;
+        _monsterState._monAttack = _monsterData.MonAttack;
+        _monsterState._monAtkSpeed = _monsterData.MonAtkSpeed;
+        _monsterState._monMoveSpeed = _monsterData.MonMoveSpeed;
+        _monsterState._monArmor = _monsterData.MonArmor;
+        _monsterState._monAccuracy = _monsterData.MonAccuracy;
+        _monsterState._monAvoid = _monsterData.MonAvoid;
+        _monsterState._monReg = _monsterData.MonReg;
+
         _moveDir = Vector3.left;
         _isAlive = true;
-        _isAttack = false;
-        _isDetect = false;
-        _isFirst = false;
         _monData = _monsterData;
         _recallPointProvider = GetComponent<RecallPointProvider>();
 
         // 보스 체력 절반에서의 소환스킬 사용 관련 이벤트 구독
         OnHalfHp += UseRecallSkill;
 
-        if (_monsterData._monsterRating == MonsterRating.Common || _monsterData._monsterRating == MonsterRating.Elite)
+        if (_monsterData.MonType == MonsterType.Normal || _monsterData.MonType == MonsterType.Elite)
         {
             // 체력 게이지 최소, 최대값 초기화
             if (_monsterHp)
@@ -52,7 +69,7 @@ public class MonsterController : UnitBaseData
             }
 
             // 현재 체력으로 세팅
-            _monsterHp.value = _currentHp / _monsterData._maxHp;
+            _monsterHp.value = _monsterState._monCurrentHP / _monsterState._monMaxHP;
         }
     }
 
@@ -70,7 +87,7 @@ public class MonsterController : UnitBaseData
             if (_researchTarget == null)
             {
                 // 왼쪽으로 이동
-                transform.Translate(_moveDir * _monsterData._moveSpeed * _gameSpeed * Time.deltaTime);
+                transform.Translate(_moveDir * _monsterState._monMoveSpeed * _gameSpeed * Time.deltaTime);
             }
             else // 탐색 대상이 있으면
             {
@@ -78,7 +95,7 @@ public class MonsterController : UnitBaseData
                 if (_attackTarget != null && _isAttack) return;
 
                 // 이동 여유 거리
-                float moveSpareDistance = _monsterData._attackRange * 0.8f;
+                float moveSpareDistance = _monsterState._monAtkRange * 0.8f;
 
                 // 탐색한 대상과 거리 확인
                 float moveDistance = Vector3.Distance(transform.position, _researchTarget.transform.position);
@@ -88,7 +105,7 @@ public class MonsterController : UnitBaseData
                 {
                     // 탐색 대상으로 이동
                     transform.position = Vector3.MoveTowards(transform.position, _researchTarget.transform.position,
-                        _monsterData._moveSpeed * _gameSpeed * Time.deltaTime);
+                        _monsterState._monMoveSpeed * _gameSpeed * Time.deltaTime);
                 }
             }
         }
@@ -120,7 +137,7 @@ public class MonsterController : UnitBaseData
             _attackCoolTimer -= Time.deltaTime;
 
             // 공격 여유 사거리
-            float attackSpareDistance = _monsterData._attackRange * 0.9f;
+            float attackSpareDistance = _monsterState._monAtkRange * 0.9f;
 
             // 공격 타겟과 거리 비교
             float attackDistance = Vector3.Distance(transform.position, _attackTarget.transform.position);
@@ -129,12 +146,12 @@ public class MonsterController : UnitBaseData
             if (attackDistance < attackSpareDistance && _attackCoolTimer <= 0f)
             {
                 // 몬스터의 데미지로 캐릭터에 주기
-                _attackTarget.TakeDamage(_monsterData._attackDamage);
+                _attackTarget.TakeDamage(_monsterState._monAttack);
 
                 _isAttack = true;
 
                 // 공격 쿨타임 초기화
-                _attackCoolTimer = _monsterData._attackSpeed / _gameSpeed;
+                _attackCoolTimer = _monsterState._monAtkSpeed / _gameSpeed;
             }
             else
             {
@@ -155,7 +172,7 @@ public class MonsterController : UnitBaseData
         _isFirst = true;
 
         // 보스 몬스터만 스킬 사용 가능
-        if (_monsterData._monsterRating == MonsterRating.LocalBoss || _monsterData._monsterRating == MonsterRating.FinalBoss)
+        if (_monsterData.MonType == MonsterType.Boss)
         {
             var recallPoint = _recallPointProvider._points;
             // 보유한 스킬이 없으면 미사용
@@ -172,31 +189,59 @@ public class MonsterController : UnitBaseData
 
     public override void TakeDamage(float damage)
     {
-        // 데미지 받기 전 체력 저장
-        float saveCurHp = _currentHp;
-
         base.TakeDamage(damage);
+
+        // 데미지 받기 전 체력 저장
+        float saveCurHp = _monsterState._monCurrentHP;
+
+        // 데미지를 받음, 방어력에 대한 것은??
+        _monsterState._monCurrentHP -= damage;
+
+        // 체력이 0이 됨
+        if (_monsterState._monCurrentHP <= 0)
+        {
+            // 유닛의 죽음
+            Death();
+        }
 
         // 보스가 아니면 개인 체력바 변화
         if (gameObject.layer != LayerMask.NameToLayer("Boss"))
         {
             // 체력 변화에 체력바 변화
-            _monsterHp.value = _currentHp / _monsterData._maxHp;
+            _monsterHp.value = _monsterState._monCurrentHP / _monsterState._monMaxHP;
         }
         else // 보스이면 통합 체력 변화
         {
             // 실제 줄어든 체력
-            float decreaseBossHp = MathF.Max(0f, saveCurHp - _currentHp);
+            float decreaseBossHp = MathF.Max(0f, saveCurHp - _monsterState._monCurrentHP);
 
             // 실제 줄어든 체력 전달
             _battleManager.ReportMonsterDamage(decreaseBossHp);
+
+            float halfHp = _monsterState._monMaxHP / 2;
+
+            // 체력 절반 확인
+            if (_monsterState._monCurrentHP <= halfHp)
+            {
+                // 그로기 상태이면 스킬 사용 금지
+                if (_isStern) return;
+
+                // 체력이 절반 시 스킬 1회 사용
+                if (!_isHalfHpSkill)
+                {
+                    _isHalfHpSkill = true;
+
+                    // 이벤트 호출
+                    OnHalfHp?.Invoke();
+                }
+            }
         }
 
         // 보스전이면 생성된 몬스터는 통합체력에 영향을 주면 안됨
         if (_battleManager._isLastBoss || _battleManager._isLocalBoss) return;
 
         // 실제 줄어든 체력
-        float decreaseHp = MathF.Max(0f, saveCurHp - _currentHp);
+        float decreaseHp = MathF.Max(0f, saveCurHp - _monsterState._monCurrentHP);
 
         // 실제 줄어든 체력 전달
         _battleManager.ReportMonsterDamage(decreaseHp);

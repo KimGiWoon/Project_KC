@@ -1,0 +1,43 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a5539c5b86c1dd94eb1cf013975553ba, type: 3}
+  m_Name: MistLocustSwarm_Data
+  m_EditorClassIdentifier: 
+  MonId: 21002
+  MonName: "\uD76C\uBBF8\uD55C \uB3C4\uAE68\uBE44 \uBD88"
+  MonEnName: 1
+  MonType: 0
+  MonSummon: 0
+  MonAtkRange: 3
+  MonMoveSpeed: 1.2
+  MonSkill: 
+  MonSummonID: 
+  MonTag: "#\uC6D0\uAC70\uB9AC"
+  MonDescription:
+  - "\uC5B4\uB450\uC6B4 \uC2DC\uACE8 \uAE38\uC5D0\uC11C \uB4DC\uBB3C\uAC8C \uBCFC
+    \uC218 \uC788\uB294 \uB3C4\uAE68\uBE44 \uBD88."
+  - "\uC7A5\uB09C\uAE30\uAC00 \uC2EC\uD558\uB2C8 \uB9C8\uC8FC\uCE58\uBA74 \uC870\uC2EC\uD558\uC790.\r"
+  MonLv: 1
+  MonBreak: 0
+  BreakGage: 0
+  MonHP: 150
+  MonHPIncrase: 0.1
+  MonAtkSpeed: 0.7
+  MonAttack: 30
+  MonAttackIncrease: 0.1
+  MonArmor: 20
+  MonArmorIncrease: 0.1
+  MonAccuracy: 100
+  MonAvoid: 0
+  MonAvoidIncrease: 2
+  MonReg: 0
+  _prefab: {fileID: 0}

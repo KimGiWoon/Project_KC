@@ -1,0 +1,44 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a5539c5b86c1dd94eb1cf013975553ba, type: 3}
+  m_Name: GhostBat_Data
+  m_EditorClassIdentifier: 
+  MonId: 21005
+  MonName: "\uADC0\uC2E0 \uBC15\uC950"
+  MonEnName: 4
+  MonType: 0
+  MonSummon: 0
+  MonAtkRange: 3
+  MonMoveSpeed: 1
+  MonSkill: 
+  MonSummonID: 
+  MonTag: "#\uC6D0\uAC70\uB9AC"
+  MonDescription:
+  - "\uADC0\uC2E0 \uB4E4\uB9B0 \uC0DD\uBA85\uCCB4\uB97C \uD761\uD608\uD558\uC5EC
+    \uBAB8\uC9D1\uACFC \uD798\uC774 \uAC15\uD574\uC9C4 \uBC15\uC950"
+  - "\uC77C\uBC18 \uBC15\uC950 \uBCF4\uB2E4 \uAC15\uB825\uD55C \uCD08\uC74C\uD30C\uB97C
+    \uB0B4\uBFDC\uC5B4 \uC801\uC744 \uACF5\uACA9\uD55C\uB2E4.\r"
+  MonLv: 1
+  MonBreak: 0
+  BreakGage: 0
+  MonHP: 200
+  MonHPIncrase: 0.1
+  MonAtkSpeed: 0.7
+  MonAttack: 10
+  MonAttackIncrease: 0.1
+  MonArmor: 20
+  MonArmorIncrease: 0.1
+  MonAccuracy: 100
+  MonAvoid: 10
+  MonAvoidIncrease: 2
+  MonReg: 0
+  _prefab: {fileID: 0}
