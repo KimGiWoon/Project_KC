@@ -90,7 +90,7 @@ public class CharacterSelectManager : SingletonManager<CharacterSelectManager>
         GameObject characterSlot = Instantiate(_selectSlotPrefab, _characterSelectSlot);
         
         // 선택한 캐릭터 이름 입력
-        characterSlot.GetComponentInChildren<TMP_Text>().text = characterData._characterName;
+        characterSlot.GetComponentInChildren<TMP_Text>().text = characterData._chaBaseData.ChaEnName.ToString();
 
         // 캐릭터의 데이터 전달
         CharacterDeselect slotData = characterSlot.GetComponent<CharacterDeselect>();

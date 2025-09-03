@@ -1,0 +1,40 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b669e7414394c1544b8d992ced9619bf, type: 3}
+  m_Name: DRA_Data
+  m_EditorClassIdentifier: 
+  _chaBaseData:
+    ChaID: 11004
+    ChaName: "\uB2EC\uB9AC\uC544"
+    ChaEnName: 4
+    ChaGrade: 0
+    ChaRole: 1
+    ChaMP: 0
+    ChaMPRecovery: 0
+    ChaHP: 100
+    ChaAtkSpeed: 0.7
+    ChaAttack: 10
+    ChaArmor: 20
+    ChaPassiveSkill: 12004
+    ChaActiveSkill: -1
+    ChaPassiveSkillEffect: -1
+    ChaActiveSkillEffect: -1
+    ChaIntroduction: "null\r"
+  _chaTypeData:
+    ChaRole: 1
+    ChaAtkIsMelee: 5
+    ChaAccuracy: 120
+    ChaAvoid: 20
+    ChaCrit: 40
+    ChaCritDmg: 250
+    ChaReg: 20
+    ChaMoveSpeed: 0.8
