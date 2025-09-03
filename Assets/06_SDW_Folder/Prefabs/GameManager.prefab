@@ -18,6 +18,8 @@ GameObject:
   - component: {fileID: 6338931410048823561}
   - component: {fileID: 6213447579309208159}
   - component: {fileID: -2173554303403554785}
+  - component: {fileID: 3612516859391263566}
+  - component: {fileID: 1454526362506818370}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -33,7 +35,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3256955993052400061}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -160,3 +162,42 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe4f86cb6b6c4d2a9269ffec1b9ed227, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &3612516859391263566
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3256955993052400061}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: deb620ae5950afc488929907aa2b8035, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  characterLists:
+  - {fileID: 11400000, guid: 0977072b4d0ff2c4bb1c250d908f0ba6, type: 2}
+  - {fileID: 11400000, guid: 103b7f3043d88a9429d25209c9d1f182, type: 2}
+  - {fileID: 11400000, guid: b2b81c36db1a8e54ea99f22c0ce7f76f, type: 2}
+  - {fileID: 11400000, guid: 9a13d90448a4f63409bf98028055be21, type: 2}
+  - {fileID: 11400000, guid: 53f708173e2eda44480072ad77fcc9bd, type: 2}
+  - {fileID: 11400000, guid: 9ed735c570481004a8718f1c6026da54, type: 2}
+  - {fileID: 11400000, guid: 965766ae0e04c104fa450eef4279d84e, type: 2}
+  - {fileID: 11400000, guid: 265ffa3c68152e74a8ca0b6b30d27bd8, type: 2}
+  - {fileID: 11400000, guid: 65f2c3ff647fbb64882a5e1b70abfa2e, type: 2}
+  - {fileID: 11400000, guid: a933f06d6c448424f8215186aa712cb0, type: 2}
+  gachaResultUI: {fileID: 0}
+  gachaUI: {fileID: 0}
+--- !u!114 &1454526362506818370
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3256955993052400061}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4993bbc3cff550c4989f17f820bd8453, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gainedStarCandy: 0
+  gainedBead: 0

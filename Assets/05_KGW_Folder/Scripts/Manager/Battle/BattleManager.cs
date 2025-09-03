@@ -23,6 +23,9 @@ public class BattleManager : MonoBehaviour
     private Transform _bossSpawnPoint;
 
     [Header("Monster List Setting")]
+    [SerializeField] public List<CharacterDataSO> _characterList;
+
+    [Header("Monster List Setting")]
     [SerializeField] public List<MonsterDataSO> _monsterList;
 
     [SerializeField] public List<MonsterDataSO> _eliteList;
@@ -42,7 +45,7 @@ public class BattleManager : MonoBehaviour
     public List<MonsterController> _monsters = new List<MonsterController>();
 
     public BattleUI _battleUI;
-    private List<CharacterDataSO> _selectCharacters;
+    //private List<CharacterDataSO> _selectCharacters;
     public int _monsterCount;
     public int _characterCount;
     public bool _isClear;
@@ -98,7 +101,7 @@ public class BattleManager : MonoBehaviour
     // 초기화
     private void Init()
     {
-        _selectCharacters = CharacterSelectManager.Instance._characterSelectList;
+        //_selectCharacters = CharacterSelectManager.Instance._characterSelectList;
         _isClear = false;
         _isGameOver = false;
         _canResurrection = true;
@@ -117,12 +120,12 @@ public class BattleManager : MonoBehaviour
         SpawnPointShuffle(Points);
 
         // 선택된 캐릭터의 수와 스폰 포인트의 수를 비교하여 작은 쪽으로 배치
-        int count = Mathf.Min(_selectCharacters.Count, Points.Count);
+        int count = Mathf.Min(_characterList.Count, Points.Count);
 
         for (int i = 0; i < count; i++)
         {
             // 생성을 위한 선택한 캐릭터의 정보 확인
-            var characterData = _selectCharacters[i];
+            var characterData = _characterList[i];
 
             // 캐릭터 스폰위치 설정
             var spawnPoint = Points[i];

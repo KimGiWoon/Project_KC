@@ -38,7 +38,8 @@ namespace SDW
             _gachaButton.onClick.AddListener(GachaButtonClicked);
 
             UpdateRainbowStar(GameManager.Instance.RainbowStarCandy);
-            RewardChangeManager.Instance.OnStarCandyChange += UpdateRainbowStar;
+            GameManager.Instance.Reward.OnStarCandyChange += UpdateRainbowStar;
+            GameManager.Instance.DailyQuest.OnStarCandyChange += UpdateRainbowStar;
         }
 
         private void OnDisable()
@@ -47,6 +48,8 @@ namespace SDW
             _userInfoButton.onClick.RemoveListener(UserInfoButtonClicked);
             _dailyQuestButton.onClick.RemoveListener(DailyQuestButtonClicked);
             _gachaButton.onClick.RemoveListener(GachaButtonClicked);
+            GameManager.Instance.Reward.OnStarCandyChange -= UpdateRainbowStar;
+            GameManager.Instance.DailyQuest.OnStarCandyChange -= UpdateRainbowStar;
         }
 
         #region Button Methods
