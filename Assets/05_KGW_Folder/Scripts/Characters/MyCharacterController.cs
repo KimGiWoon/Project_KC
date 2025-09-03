@@ -8,7 +8,7 @@ using UnityEngine;
 public class MyCharacterController : UnitBaseData
 {
     [Header("Character Data Setting")]
-    [SerializeField] public CharacterDataSO _characterData; // 캐릭터 데이터
+    [SerializeField] CharacterDataSO _characterData; // 캐릭터 데이터
 
     [Header("Attack Unit List & Controller")]
     [SerializeField] CharacterAttackController _attackController;
