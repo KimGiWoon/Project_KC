@@ -183,16 +183,17 @@ public class MyCharacterController : UnitBaseData
     public void UseSkill()
     {
         // 레어 캐릭터만 스킬 사용 가능
-        if (_characterData._chaBaseData.ChaGrade != CharacterGrade.Rare)
+        if (_characterData._chaBaseData.ChaGrade == CharacterGrade.Rare)
         {
             // 타겟이 없으면 미사용
             if (_attackTarget == null) return;
 
             // 보유한 스킬을 순회
-            //foreach (var skill in _characterData._skills)
+            foreach (var skill in _characterData._chaSkills)
             {
+                Debug.Log("스킬 사용");
                 // 스킬 사용
-                //skill.UseSkill(transform, _attackTarget);
+                skill.UseSkill(transform, _attackTarget);
 
                 // 마나 초기화
                 _characterState._chaCurrentMP = 0f;

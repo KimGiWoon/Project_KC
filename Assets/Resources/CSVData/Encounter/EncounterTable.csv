@@ -1,56 +1,56 @@
-﻿사건 ID	사건 등장 스테이지	사건의 보상(결과) 타입	사건 등장 내용 텍스트	사건 유형	선택지 갯수	선택지 텍스트 내용	등급	내 소유물 사용 여부	사건 보상 ID	유물 선택지 최소 수	유물 선택지 최대 수	보상(결과)의 양	결과 선택지	사건 퇴장 내용 텍스트 
-Encount_ID	 Encount_Stage	Result_Type	Encounter_Text	Encounter_Type	Choice_Count	Choice_Text[3]	Random_Type	Result_Owned	Result_ID[3]	Result_MinCount	Result_MaxCount	Result_Mount[2]	ResultChoice	Encount_Exit_Text[4]
-int	int	enum	string	string	int	string	enum	bool	string(true 엽전)	int	int	int		string
-11001	1	Fixed	길을 걷다가 돈주머니를 주웠습니다!	Money	0	null`null`null	None	FALSE	true`0`0	0	0	1000`0	1	엽전 +1000
-11002	2	Fixed	길을 걷다가 돈주머니를 주웠습니다!	Money	0	null`null`null	None	FALSE	true`0`0	0	0	2000`0	1	엽전 +2000
-11003	3	Fixed	길을 걷다가 돈주머니를 주웠습니다!	Money	0	null`null`null	None	FALSE	true`0`0	0	0	3000`0	1	엽전 +3000
-11004	1	Fixed	당신은 낡은 집에서 나무 궤짝을 발견하고 열어봅니다.\n안에는 엽전이 가득 들어있었습니다!\n 	Money	0	null`null`null	None	FALSE	true`0`0	0	0	1500`0	1	엽전 +1500
-11005	2	Fixed	당신은 낡은 집에서 나무 궤짝을 발견하고 열어봅니다.\n안에는 엽전이 가득 들어있었습니다!\n 	Money	0	null`null`null	None	FALSE	true`0`0	0	0	3000`0	1	엽전 +3000
-11006	3	Fixed	당신은 낡은 집에서 나무 궤짝을 발견하고 열어봅니다.\n안에는 엽전이 가득 들어있었습니다!\n 	Money	0	null`null`null	None	FALSE	true`0`0	0	0	4500`0	1	엽전 +4500
-11007	1	Random	 왠지 모르게 힘이 강해진 것 같습니다!	Relic	0	null`null`null	Normal	FALSE	false`11001`11029	1	1	0`1	1	아래의 유물을 획득합니다.\n[획득한 유물 이름]
-11008	2	Random	 왠지 모르게 힘이 강해진 것 같습니다!	Relic	0	null`null`null	Rare	FALSE	false`11001`11029	1	1	0`1	1	아래의 유물을 획득합니다.\n[획득한 유물 이름]
-11009	3	Random	 왠지 모르게 힘이 강해진 것 같습니다!	Relic	0	null`null`null	Rare	FALSE	false`11001`11029	1	1	0`1	1	아래의 유물을 획득합니다.\n[획득한 유물 이름]
-11010	1	Random	 왠지 모르게 단단해진것 같습니다!	Relic	0	null`null`null	Normal	FALSE	false`11001`11030	1	1	0`1	1	아래의 유물을 획득합니다.\n[획득한 유물 이름]
-11011	2	Random	 왠지 모르게 단단해진것 같습니다!	Relic	0	null`null`null	Rare	FALSE	false`11001`11031	1	1	0`1	1	아래의 유물을 획득합니다.\n[획득한 유물 이름]
-11012	3	Random	 왠지 모르게 단단해진것 같습니다!	Relic	0	null`null`null	Rare	FALSE	false`11001`11032	1	1	0`1	1	아래의 유물을 획득합니다.\n[획득한 유물 이름]
-11013	1	Random	왠지 모르게 건강해진것 같습니다!	Relic	0	null`null`null	Normal	FALSE	false`11001`11033	1	1	0`1	1	아래의 유물을 획득합니다.\n[획득한 유물 이름]
-11014	2	Random	왠지 모르게 건강해진것 같습니다!	Relic	0	null`null`null	Rare	FALSE	false`11001`11034	1	1	0`1	1	아래의 유물을 획득합니다.\n[획득한 유물 이름]
-11015	3	Random	왠지 모르게 건강해진것 같습니다!	Relic	0	null`null`null	Rare	FALSE	false`11001`11035	1	1	0`1	1	아래의 유물을 획득합니다.\n[획득한 유물 이름]
-11016	1	Random	길을 지나다가, 물고기가 가득한 호수를\n발견했습니다. 이제 보니까, 호수에 있는 물고기가\n식재료로써 쓸만한 것들 뿐 입니다.\n 근데 미끼가 딱 1개만 있어서,\n단 한 마리만 잡을 수 있을 것 같습니다...\n무엇을 잡을지 고민해봅시다...	RelicSel	3	유물 1`유물 2`유물 3	Rare	FALSE	false`11001`11036	3	3	0`1	1	아래의 유물을 획득합니다.\n[획득한 유물 이름]
-11017	0	Mixed	길을 걷고, 뭔가 땅에 반쯤 묻혀 있는 것을 발견하고\n자세히 살펴보니, 값진 보물이 들어있는 보물상자 입니다.\n살다보면, 이런 좋은 일도 있기 마련이죠!	Luck	3	유물 1`유물 2`유물 3\n(엽전 + 5000은 유물선택과 관계없이 획득)	Rare	FALSE	true`11001`11029	2	3	5000`1	1	엽전 + 50000\n아래의 유물을 획득합니다.\n[획득한 유물 이름]\n[획득한 유물 이름]
-11018	1	Random	길을 가던 중, 낡은 상자를 발견해서 열어보니 쓸만해보이는 걸\n얻었습니다.	Relic	0	null`null`null	Normal	FALSE	false`11001`11029	1	1	0`1	1	아래의 유물을 획득합니다.\n[획득한 유물 이름]
-11019	2	Random	길을 가던 중, 낡은 상자를 발견해서 열어보니 쓸만해보이는 걸\n얻었습니다.	Relic	0	null`null`null	Normal	FALSE	false`11001`11029	1	1	0`1	1	아래의 유물을 획득합니다.\n[획득한 유물 이름]
-11020	3	Random	길을 가던 중, 낡은 상자를 발견해서 열어보니 쓸만해보이는 걸\n얻었습니다.	Relic	0	null`null`null	Rare	FALSE	false`11001`11029	1	1	0`1	1	아래의 유물을 획득합니다.\n[획득한 유물 이름]
-11021	1	Random	길을 가던 중, 낡은 상자를 발견해서 열어보니 쓸만해보이는 걸\n얻었습니다.	Relic	0	null`null`null	Rare	FALSE	false`11001`11029	1	1	0`1	1	아래의 유물을 획득합니다.\n[획득한 유물 이름]
-11022	2	Random	길을 가던 중, 낡은 상자를 발견해서 열어보니 쓸만해보이는 걸\n얻었습니다.	Relic	0	null`null`null	Rare	FALSE	false`11001`11029	1	1	0`1	1	아래의 유물을 획득합니다.\n[획득한 유물 이름]
-11023	0	Mixed	길을 걷고, 뭔가 땅에 반쯤 묻혀 있는 것을 발견하고\n자세히 살펴보니, 값진 보물이 들어있는 보물상자 입니다.\n살다보면, 이런 좋은 일도 있기 마련이죠!	Luck	3	유물 1`유물 2`유물 3\n(엽전 + 10000은 유물선택과 관계없이 획득)	Rare	FALSE	true`11001`11029	2	3	10000`1	1	엽전 + 10000\n아래의 유물들을 획득합니다\n[획득한 유물 이름]\n[획득한 유물 이름]
-11024	0	Mixed	길을 걷고, 뭔가 땅에 반쯤 묻혀 있는 것을 발견하고\n자세히 살펴보니, 값진 보물이 들어있는 보물상자 입니다.\n살다보면, 이런 좋은 일도 있기 마련이죠!	Luck	3	유물 1`유물 2`유물 3\n(엽전 + 15000은 유물선택과 관계없이 획득)	Rare	FALSE	true`11001`11029	2	3	15000`1	1	엽전 + 10000\n아래의 유물들을 획득합니다\n[획득한 유물 이름]\n[획득한 유물 이름]
-11025	1	Random	로브를 뒤집어 쓰고 있던 어떤 수상해보이는 남성이\n자신이 좋은 것을 가지고 있다며 사겠냐고 물어봅니다\n	MoneySpend	2	일단 사고 보자\n(엽전 - 500, 랜덤 유물 1개 획득)`안 산다	MixedNormal	FALSE	true`11001`11045	1	1	-500`1	1	엽전 - 500\n아래의 유물을 획득합니다.\n[획득한 유물 이름]`당신은 그냥 무시하고 지나갑니다.
-11026	2	Random	로브를 뒤집어 쓰고 있던 어떤 수상해보이는 남성이\n자신이 좋은 것을 가지고 있다며 사겠냐고 물어봅니다\n	MoneySpend	2	일단 사고 보자\n(엽전 - 500, 랜덤 유물 1개 획득)`안 산다	MixedRare	FALSE	true`11001`11045	1	1	-500`1	1	엽전 - 500\n아래의 유물을 획득합니다.\n[획득한 유물 이름]`당신은 그냥 무시하고 지나갑니다.
-11027	3	Random	로브를 뒤집어 쓰고 있던 어떤 수상해보이는 남성이\n자신이 좋은 것을 가지고 있다며 사겠냐고 물어봅니다\n	MoneySpend	2	일단 사고 보자\n(엽전 - 500, 랜덤 유물 1개 획득)`안 산다	MixedRare	FALSE	true`11001`11045	1	1	-500`1	1	엽전 - 500\n아래의 유물을 획득합니다.\n[획득한 유물 이름]`당신은 그냥 무시하고 지나갑니다.
-11028	1	Fixed	당신은 주변을 두리번 거리던 누군가를 발견합니다\n물어보니 자신의 조리도구 세트를 잃어버렸다고 합니다\n그리고 혹시 당신에게 남는 조리기구가 있나고 물어보며\n만약 있으면, 자신이 대가를 지불하고 사겠다고 합니다. 	RelicSpent	2	일단 사고 보자\n(엽전 - 500, 랜덤 유물 1개 획득)`안 산다	MixedNormal	FALSE	true`11001`11045	1	1	-500`1	1	엽전 - 500\n아래의 유물을 획득합니다.\n[획득한 유물 이름]`당신은 그냥 무시하고 지나갑니다.
-11029	1	Fixed	당신은 주변을 두리번 거리던 누군가를 발견합니다\n물어보니 자신의 조리도구 세트를 잃어버렸다고 합니다\n그리고 혹시 당신에게 남는 조리기구가 있나고 물어보며\n만약 있으면, 자신이 대가를 지불하고 사겠다고 합니다. 	RelicSpent	2	준다\n(랜덤 유물 1개 소모)`안 준다	None	TRUE	true`0`0	1	1	500`-1	1	엽전 + 500\n아래의 유물이 사라집니다.\n[보유한 유물 이름]`당신은 그냥 무시하고 지나갑니다.
-11030	2	Fixed	당신은 주변을 두리번 거리던 누군가를 발견합니다\n물어보니 자신의 조리도구 세트를 잃어버렸다고 합니다\n그리고 혹시 당신에게 남는 조리기구가 있나고 물어보며\n만약 있으면, 자신이 대가를 지불하고 사겠다고 합니다. 	RelicSpent	2	준다\n(랜덤 유물 1개 소모)`안 준다	None	TRUE	true`0`0	1	1	1000`-1	1	엽전 + 1000\n아래의 유물이 사라집니다.\n[보유한 유물 이름]`당신은 그냥 무시하고 지나갑니다.
-11031	3	Fixed	당신은 주변을 두리번 거리던 누군가를 발견합니다\n물어보니 자신의 조리도구 세트를 잃어버렸다고 합니다\n그리고 혹시 당신에게 남는 조리기구가 있나고 물어보며\n만약 있으면, 자신이 대가를 지불하고 사겠다고 합니다. 	RelicSpent	2	준다\n(랜덤 유물 1개 소모)`안 준다	None	TRUE	true`0`0	1	1	1500`-1	1	엽전 + 1500\n아래의 유물이 사라집니다.\n[보유한 유물 이름]`당신은 그냥 무시하고 지나갑니다.
-11032	1	Fixed	누군가 마을 한복판에서 자기를 쓰러트리는\n  사람에게 상금을 주겠다고 합니다.	FightSel	2	싸워서 파이트 머니를 얻자!\n(승리 시 엽전 +500)`싸우는 건 싫다.	None	FALSE	true`0`0	0	0	500`0	2	당신은 한판 붙어보기로 합니다!`당신은 그냥 무시하고 지나갑니다
-11033	2	Fixed	누군가 마을 한복판에서 자기를 쓰러트리는\n  사람에게 상금을 주겠다고 합니다.	FightSel	2	싸워서 파이트 머니를 얻자!\n(승리 시 엽전 +1000)`싸우는 건 싫다.	None	FALSE	true`0`0	0	0	1000`0	2	당신은 한판 붙어보기로 합니다!`당신은 그냥 무시하고 지나갑니다
-11034	3	Fixed	누군가 마을 한복판에서 자기를 쓰러트리는\n  사람에게 상금을 주겠다고 합니다.	FightSel	2	싸워서 파이트 머니를 얻자!\n(승리 시 엽전 +1500)`싸우는 건 싫다.	None	FALSE	true`0`0	0	0	1500`0	2	당신은 한판 붙어보기로 합니다!`당신은 그냥 무시하고 지나갑니다
-11035	1	Fixed	길목에서 어떤 사람이 다짜고짜 당신을 겁쟁이라고 모욕하며\n 꼬우면 한판 붙자고 도발합니다.	FightSel	2	도전을 받아들인다.\n(승리 시 랜덤 유물 1개)`굳이 싸구려 도발에 넘어가지 말자.	Normal	FALSE	false`11001`11029	1	1	0`1	2	당신은 한판 붙어보기로 합니다!`당신은 그냥 무시하고 지나갑니다
-11036	2	Fixed	길목에서 어떤 사람이 다짜고짜 당신을 겁쟁이라고 모욕하며\n 꼬우면 한판 붙자고 도발합니다.	FightSel	2	도전을 받아들인다.\n(승리 시 랜덤 유물 1개)`굳이 싸구려 도발에 넘어가지 말자.	Rare	FALSE	false`11001`11029	1	1	0`1	2	당신은 한판 붙어보기로 합니다!`당신은 그냥 무시하고 지나갑니다
-11037	3	Fixed	길목에서 어떤 사람이 다짜고짜 당신을 겁쟁이라고 모욕하며\n 꼬우면 한판 붙자고 도발합니다.	FightSel	2	도전을 받아들인다.\n(승리 시 랜덤 유물 1개)`굳이 싸구려 도발에 넘어가지 말자.	Rare	FALSE	false`11001`11029	1	1	0`1	2	당신은 한판 붙어보기로 합니다!`당신은 그냥 무시하고 지나갑니다
-11038	0	Fixed	길을 지나니까. 무장한 무뢰배들이 길을 막고\n통행료를 요구 합니다. 안 내면 가만히 안둔다고 합니다.	MoneyFight	2	돈을 주자...\n(엽전 - 200)`인생의 쓴맛을 보여주마!\n(전투 개시)	None	FALSE	true`0`0	0	0	-200`0	2	당신은 인생이 실전이라는 것을\n보여주기로 결심합니다!`엽전 -200\n솔직히 피를 볼 필요가 없죠.
-11039	1	Fixed	왠지 모르게 힘이 약해진 느낌을 받습니다.	BadRelic	0	null`null`null	Debuff	FALSE	false`11033`11045	1	1	0`1	1	아래의 유물을 획득합니다...\n[획득한 유물 이름]
-11040	2	Fixed	왠지 모르게 힘이 약해진 느낌을 받습니다.	BadRelic	0	null`null`null	Debuff	FALSE	false`11033`11045	1	1	0`1	1	아래의 유물을 획득합니다...\n[획득한 유물 이름]
-11041	3	Fixed	왠지 모르게 힘이 약해진 느낌을 받습니다.	BadRelic	0	null`null`null	Debuff	FALSE	false`11033`11045	1	1	0`1	1	아래의 유물을 획득합니다...\n[획득한 유물 이름]
-11042	1	Fixed	왠지 모르게 맷집이 약해진 느낌을 받습니다.	BadRelic	0	null`null`null	Debuff	FALSE	false`11033`11045	1	1	0`1	1	아래의 유물을 획득합니다...\n[획득한 유물 이름]
-11043	2	Fixed	왠지 모르게 맷집이 약해진 느낌을 받습니다.	BadRelic	0	null`null`null	Debuff	FALSE	false`11033`11045	1	1	0`1	1	아래의 유물을 획득합니다...\n[획득한 유물 이름]
-11044	3	Fixed	왠지 모르게 맷집이 약해진 느낌을 받습니다.	BadRelic	0	null`null`null	Debuff	FALSE	false`11033`11045	1	1	0`1	1	아래의 유물을 획득합니다...\n[획득한 유물 이름]
-11045	1	Fixed	왠지 모르게 몸이 아픈 것 같습니다.	BadRelic	0	null`null`null	Debuff	FALSE	false`11033`11045	1	1	0`1	1	아래의 유물을 획득합니다...\n[획득한 유물 이름]
-11046	2	Fixed	왠지 모르게 몸이 아픈 것 같습니다.	BadRelic	0	null`null`null	Debuff	FALSE	false`11033`11045	1	1	0`1	1	아래의 유물을 획득합니다...\n[획득한 유물 이름]
-11047	3	Fixed	왠지 모르게 몸이 아픈 것 같습니다.	BadRelic	0	null`null`null	Debuff	FALSE	false`11033`11045	1	1	0`1	1	아래의 유물을 획득합니다...\n[획득한 유물 이름]
-11048	0	Random	누군가 어깨를 '탁' 치고 지나갑니다.\n근데 어째... 주머니가 가벼워서 확인 해보니 \n 세상에 당신의 뮬건이 털렸습니다! \n 망할 소매치기 같으니라고!	RelicDel	0	null`null`null	Debuff	TRUE	false`0`0	1	1	0`-1	1	유물이 사라졌습니다!\n[제거된 유물 이름]
-11049	0	Random	당신은 어두운 숲을 지나갑니다. 숲에 들어서자 마자,\n당신은 이상하게 춥지는 않은데 으스스한 기분이 듭니다.\n이후, 숲을 나갈 때까지는 아무런 일도 일어나지 않았지만, \n 이상하게 몸이 허해진 기분이 듭니다...	BadRelic	0	null`null`null	Debuff	TRUE	false`0`0	1	1	0`-1	1	유물이 사라졌습니다!\n[제거된 유물 이름]
-11050	0	Random	당신은 어두운 숲을 지나갑니다. 숲에 들어서자 마자,\n당신은 이상하게 춥지는 않은데 으스스한 기분이 듭니다.\n이후, 숲을 나가고 가방을 확인해보니, 없던 물건이 들어 있습니다...	BadRelic	0	null`null`null	Debuff	FALSE	false`11033`11045	1	1	0`1	1	아래의 유물을 획득합니다...\n[획득한 유물 이름]
-11051	0	Fixed	당신은 마을 한 구석에서,\n사람들이 모여 앉아 카드게임을 하는 걸 봅니다.	Gamb	2	한번 해본다\n엽전 -500`그냥 간다	Debuff	FALSE	true`0`0	0	0	-500`1	1	당신은 떠나기로 합니다.\n어쨋든 도박은 나쁘니깐요.
-11051	0	Fixed	게임에서 승리했습니다!	Gamb	2	한판 더!\n엽전 -500`이제 그만하자..	Debuff	FALSE	true`0`0	0	0	1000`1	1	당신은 떠나기로 합니다.\n어쨋든 도박은 나쁘니깐요.
-11051	0	Fixed	게임에서 패배했습니다!	Gamb	2	한판 더!\n엽전 -500`이제 그만하자..	Debuff	FALSE	true`0`0	0	0	0`1	1	당신은 떠나기로 합니다.\n어쨋든 도박은 나쁘니깐요.
+﻿사건 ID	사건	사건 등장 스테이지	사건의 보상(결과) 타입	사건 등장 내용 텍스트	사건 유형	선택지 갯수	선택지 텍스트 내용	등급	내 소유물 사용 여부	사건 보상 ID	유물 선택지 최소 수	유물 선택지 최대 수	보상(결과)의 양	결과 선택지	사건 퇴장 내용 텍스트 
+Encount_ID	Encounter_Sentiment	 Encount_Stage	Result_Type	Encounter_Text	Encounter_Type	Choice_Count	Choice_Text[3]	Random_Type	Result_Owned	Result_ID[3]	Result_MinCount	Result_MaxCount	Result_Mount[2]	ResultChoice	Encount_Exit_Text[4]
+int	enum	int	enum	string	enum	int	string	enum	bool	string(true 엽전)	int	int	int	int	string
+11001	Good	1	Fixed	길을 걷다가 돈주머니를 주웠습니다!	Money	1	null`null`null	None	FALSE	true`0`0	0	0	1000`0	1	엽전 +1000
+11002	Good	2	Fixed	길을 걷다가 돈주머니를 주웠습니다!	Money	1	null`null`null	None	FALSE	true`0`0	0	0	2000`0	1	엽전 +2000
+11003	Good	3	Fixed	길을 걷다가 돈주머니를 주웠습니다!	Money	1	null`null`null	None	FALSE	true`0`0	0	0	3000`0	1	엽전 +3000
+11004	Good	1	Fixed	당신은 낡은 집에서 나무 궤짝을 발견하고 열어봅니다.\n안에는 엽전이 가득 들어있었습니다!\n 	Money	1	null`null`null	None	FALSE	true`0`0	0	0	1500`0	1	엽전 +1500
+11005	Good	2	Fixed	당신은 낡은 집에서 나무 궤짝을 발견하고 열어봅니다.\n안에는 엽전이 가득 들어있었습니다!\n 	Money	1	null`null`null	None	FALSE	true`0`0	0	0	3000`0	1	엽전 +3000
+11006	Good	3	Fixed	당신은 낡은 집에서 나무 궤짝을 발견하고 열어봅니다.\n안에는 엽전이 가득 들어있었습니다!\n 	Money	1	null`null`null	None	FALSE	true`0`0	0	0	4500`0	1	엽전 +4500
+11007	Good	1	Random	 왠지 모르게 힘이 강해진 것 같습니다!	Relic	1	null`null`null	Normal	FALSE	false`11001`11029	1	1	0`1	1	아래의 유물을 획득합니다.
+11008	Good	2	Random	 왠지 모르게 힘이 강해진 것 같습니다!	Relic	1	null`null`null	Rare	FALSE	false`11001`11029	1	1	0`1	1	아래의 유물을 획득합니다.
+11009	Good	3	Random	 왠지 모르게 힘이 강해진 것 같습니다!	Relic	1	null`null`null	Rare	FALSE	false`11001`11029	1	1	0`1	1	아래의 유물을 획득합니다.
+11010	Good	1	Random	 왠지 모르게 단단해진것 같습니다!	Relic	1	null`null`null	Normal	FALSE	false`11001`11030	1	1	0`1	1	아래의 유물을 획득합니다.
+11011	Good	2	Random	 왠지 모르게 단단해진것 같습니다!	Relic	1	null`null`null	Rare	FALSE	false`11001`11031	1	1	0`1	1	아래의 유물을 획득합니다.
+11012	Good	3	Random	 왠지 모르게 단단해진것 같습니다!	Relic	1	null`null`null	Rare	FALSE	false`11001`11032	1	1	0`1	1	아래의 유물을 획득합니다.
+11013	Good	1	Random	왠지 모르게 건강해진것 같습니다!	Relic	1	null`null`null	Normal	FALSE	false`11001`11033	1	1	0`1	1	아래의 유물을 획득합니다.
+11014	Good	2	Random	왠지 모르게 건강해진것 같습니다!	Relic	1	null`null`null	Rare	FALSE	false`11001`11034	1	1	0`1	1	아래의 유물을 획득합니다.
+11015	Good	3	Random	왠지 모르게 건강해진것 같습니다!	Relic	1	null`null`null	Rare	FALSE	false`11001`11035	1	1	0`1	1	아래의 유물을 획득합니다.
+11016	Good	1	Random	길을 지나다가, 물고기가 가득한 호수를\n발견했습니다. 이제 보니까, 호수에 있는 물고기가\n식재료로써 쓸만한 것들 뿐 입니다.\n 근데 미끼가 딱 1개만 있어서,\n단 한 마리만 잡을 수 있을 것 같습니다...\n무엇을 잡을지 고민해봅시다...	RelicSel	3	유물1`유물 2`유물 3	Rare	FALSE	false`11001`11036	3	3	0`1	1	아래의 유물을 획득합니다.
+11017	Good	0	Mixed	길을 걷고, 뭔가 땅에 반쯤 묻혀 있는 것을 발견하고\n자세히 살펴보니, 값진 보물이 들어있는 보물상자 입니다.\n살다보면, 이런 좋은 일도 있기 마련이죠!	Luck	3	null`null`null	Rare	FALSE	true`11001`11029	2	3	5000`1	1	엽전 + 5000\n아래의 유물을 획득합니다.
+11018	Good	1	Random	길을 가던 중, 낡은 상자를 발견해서 열어보니 쓸만해보이는 걸\n얻었습니다.	Relic	1	null`null`null	Normal	FALSE	false`11001`11029	1	1	0`1	1	아래의 유물을 획득합니다.
+11019	Good	2	Random	길을 가던 중, 낡은 상자를 발견해서 열어보니 쓸만해보이는 걸\n얻었습니다.	Relic	1	null`null`null	Normal	FALSE	false`11001`11029	1	1	0`1	1	아래의 유물을 획득합니다.
+11020	Good	3	Random	길을 가던 중, 낡은 상자를 발견해서 열어보니 쓸만해보이는 걸\n얻었습니다.	Relic	1	null`null`null	Rare	FALSE	false`11001`11029	1	1	0`1	1	아래의 유물을 획득합니다.
+11021	Good	1	Random	길을 가던 중, 낡은 상자를 발견해서 열어보니 쓸만해보이는 걸\n얻었습니다.	Relic	1	null`null`null	Rare	FALSE	false`11001`11029	1	1	0`1	1	아래의 유물을 획득합니다.
+11022	Good	2	Random	길을 가던 중, 낡은 상자를 발견해서 열어보니 쓸만해보이는 걸\n얻었습니다.	Relic	1	null`null`null	Rare	FALSE	false`11001`11029	1	1	0`1	1	아래의 유물을 획득합니다.
+11023	Good	0	Mixed	길을 걷고, 뭔가 땅에 반쯤 묻혀 있는 것을 발견하고\n자세히 살펴보니, 값진 보물이 들어있는 보물상자 입니다.\n살다보면, 이런 좋은 일도 있기 마련이죠!	Luck	3	null`null`null	Rare	FALSE	true`11001`11029	2	3	10000`1	1	엽전 + 10000\n아래의 유물들을 획득합니다.
+11024	Good	0	Mixed	길을 걷고, 뭔가 땅에 반쯤 묻혀 있는 것을 발견하고\n자세히 살펴보니, 값진 보물이 들어있는 보물상자 입니다.\n살다보면, 이런 좋은 일도 있기 마련이죠!	Luck	3	null`null`null	Rare	FALSE	true`11001`11029	2	3	15000`1	1	엽전 + 10000\n아래의 유물들을 획득합니다.
+11025	Neutral 	1	Random	로브를 뒤집어 쓰고 있던 어떤 수상해보이는 남성이\n자신이 좋은 것을 가지고 있다며 사겠냐고 물어봅니다\n	MoneySpend	2	일단 사고 보자\n(엽전 - 500, 랜덤 유물 1개 획득)`안 산다	MixedNormal	FALSE	true`11001`11045	1	1	-500`1	1	엽전 - 500\n아래의 유물을 획득합니다.`당신은 그냥 무시하고 지나갑니다.
+11026	Neutral 	2	Random	로브를 뒤집어 쓰고 있던 어떤 수상해보이는 남성이\n자신이 좋은 것을 가지고 있다며 사겠냐고 물어봅니다\n	MoneySpend	2	일단 사고 보자\n(엽전 - 500, 랜덤 유물 1개 획득)`안 산다	MixedRare	FALSE	true`11001`11045	1	1	-500`1	1	엽전 - 500\n아래의 유물을 획득합니다.`당신은 그냥 무시하고 지나갑니다.
+11027	Neutral 	3	Random	로브를 뒤집어 쓰고 있던 어떤 수상해보이는 남성이\n자신이 좋은 것을 가지고 있다며 사겠냐고 물어봅니다\n	MoneySpend	2	일단 사고 보자\n(엽전 - 500, 랜덤 유물 1개 획득)`안 산다	MixedRare	FALSE	true`11001`11045	1	1	-500`1	1	엽전 - 500\n아래의 유물을 획득합니다.`당신은 그냥 무시하고 지나갑니다.
+11028	Neutral 	1	Fixed	당신은 주변을 두리번 거리던 누군가를 발견합니다\n물어보니 자신의 조리도구 세트를 잃어버렸다고 합니다\n그리고 혹시 당신에게 남는 조리기구가 있나고 물어보며\n만약 있으면, 자신이 대가를 지불하고 사겠다고 합니다. 	RelicSpent	2	일단 사고 보자\n(엽전 - 500, 랜덤 유물 1개 획득)`안 산다	MixedNormal	FALSE	true`11001`11045	1	1	-500`1	1	엽전 - 500\n아래의 유물을 획득합니다.`당신은 그냥 무시하고 지나갑니다.
+11029	Neutral	1	Fixed	당신은 주변을 두리번 거리던 누군가를 발견합니다\n물어보니 자신의 조리도구 세트를 잃어버렸다고 합니다\n그리고 혹시 당신에게 남는 조리기구가 있나고 물어보며\n만약 있으면, 자신이 대가를 지불하고 사겠다고 합니다. 	RelicSpent	2	준다\n(랜덤 유물 1개 소모)`안 준다	None	TRUE	true`0`0	1	1	500`-1	1	엽전 + 500\n아래의 유물이 사라집니다.`당신은 그냥 무시하고 지나갑니다.
+11030	Neutral	2	Fixed	당신은 주변을 두리번 거리던 누군가를 발견합니다\n물어보니 자신의 조리도구 세트를 잃어버렸다고 합니다\n그리고 혹시 당신에게 남는 조리기구가 있나고 물어보며\n만약 있으면, 자신이 대가를 지불하고 사겠다고 합니다. 	RelicSpent	2	준다\n(랜덤 유물 1개 소모)`안 준다	None	TRUE	true`0`0	1	1	1000`-1	1	엽전 + 1000\n아래의 유물이 사라집니다.`당신은 그냥 무시하고 지나갑니다.
+11031	Neutral	3	Fixed	당신은 주변을 두리번 거리던 누군가를 발견합니다\n물어보니 자신의 조리도구 세트를 잃어버렸다고 합니다\n그리고 혹시 당신에게 남는 조리기구가 있나고 물어보며\n만약 있으면, 자신이 대가를 지불하고 사겠다고 합니다. 	RelicSpent	2	준다\n(랜덤 유물 1개 소모)`안 준다	None	TRUE	true`0`0	1	1	1500`-1	1	엽전 + 1500\n아래의 유물이 사라집니다.`당신은 그냥 무시하고 지나갑니다.
+11032	Neutral	1	Fixed	누군가 마을 한복판에서 자기를 쓰러트리는\n  사람에게 상금을 주겠다고 합니다.	FightSel	2	싸워서 파이트 머니를 얻자!\n(승리 시 엽전 +500)`싸우는 건 싫다.	None	FALSE	true`0`0	0	0	500`0	2	당신은 한판 붙어보기로 합니다!`당신은 그냥 무시하고 지나갑니다
+11033	Neutral	2	Fixed	누군가 마을 한복판에서 자기를 쓰러트리는\n  사람에게 상금을 주겠다고 합니다.	FightSel	2	싸워서 파이트 머니를 얻자!\n(승리 시 엽전 +1000)`싸우는 건 싫다.	None	FALSE	true`0`0	0	0	1000`0	2	당신은 한판 붙어보기로 합니다!`당신은 그냥 무시하고 지나갑니다
+11034	Neutral	3	Fixed	누군가 마을 한복판에서 자기를 쓰러트리는\n  사람에게 상금을 주겠다고 합니다.	FightSel	2	싸워서 파이트 머니를 얻자!\n(승리 시 엽전 +1500)`싸우는 건 싫다.	None	FALSE	true`0`0	0	0	1500`0	2	당신은 한판 붙어보기로 합니다!`당신은 그냥 무시하고 지나갑니다
+11035	Neutral	1	Fixed	길목에서 어떤 사람이 다짜고짜 당신을 겁쟁이라고 모욕하며\n 꼬우면 한판 붙자고 도발합니다.	FightSel	2	도전을 받아들인다.\n(승리 시 랜덤 유물 1개)`굳이 싸구려 도발에 넘어가지 말자.	Normal	FALSE	false`11001`11029	1	1	0`1	2	당신은 한판 붙어보기로 합니다!`당신은 그냥 무시하고 지나갑니다
+11036	Neutral	2	Fixed	길목에서 어떤 사람이 다짜고짜 당신을 겁쟁이라고 모욕하며\n 꼬우면 한판 붙자고 도발합니다.	FightSel	2	도전을 받아들인다.\n(승리 시 랜덤 유물 1개)`굳이 싸구려 도발에 넘어가지 말자.	Rare	FALSE	false`11001`11029	1	1	0`1	2	당신은 한판 붙어보기로 합니다!`당신은 그냥 무시하고 지나갑니다
+11037	Neutral	3	Fixed	길목에서 어떤 사람이 다짜고짜 당신을 겁쟁이라고 모욕하며\n 꼬우면 한판 붙자고 도발합니다.	FightSel	2	도전을 받아들인다.\n(승리 시 랜덤 유물 1개)`굳이 싸구려 도발에 넘어가지 말자.	Rare	FALSE	false`11001`11029	1	1	0`1	2	당신은 한판 붙어보기로 합니다!`당신은 그냥 무시하고 지나갑니다
+11038	Bad	0	Fixed	길을 지나니까. 무장한 무뢰배들이 길을 막고\n통행료를 요구 합니다. 안 내면 가만히 안둔다고 합니다.	MoneyFight	2	돈을 주자...\n(엽전 - 200)`인생의 쓴맛을 보여주마!\n(전투 개시)	None	FALSE	true`0`0	0	0	-200`0	2	당신은 인생이 실전이라는 것을\n보여주기로 결심합니다!`엽전 -200\n솔직히 피를 볼 필요가 없죠.
+11039	Bad	1	Fixed	왠지 모르게 힘이 약해진 느낌을 받습니다.	BadRelic	1	null`null`null	Debuff	FALSE	false`11033`11045	1	1	0`1	1	아래의 유물을 획득합니다...
+11040	Bad	2	Fixed	왠지 모르게 힘이 약해진 느낌을 받습니다.	BadRelic	1	null`null`null	Debuff	FALSE	false`11033`11045	1	1	0`1	1	아래의 유물을 획득합니다...
+11041	Bad	3	Fixed	왠지 모르게 힘이 약해진 느낌을 받습니다.	BadRelic	1	null`null`null	Debuff	FALSE	false`11033`11045	1	1	0`1	1	아래의 유물을 획득합니다...
+11042	Bad	1	Fixed	왠지 모르게 맷집이 약해진 느낌을 받습니다.	BadRelic	1	null`null`null	Debuff	FALSE	false`11033`11045	1	1	0`1	1	아래의 유물을 획득합니다...
+11043	Bad	2	Fixed	왠지 모르게 맷집이 약해진 느낌을 받습니다.	BadRelic	1	null`null`null	Debuff	FALSE	false`11033`11045	1	1	0`1	1	아래의 유물을 획득합니다...
+11044	Bad	3	Fixed	왠지 모르게 맷집이 약해진 느낌을 받습니다.	BadRelic	1	null`null`null	Debuff	FALSE	false`11033`11045	1	1	0`1	1	아래의 유물을 획득합니다...
+11045	Bad	1	Fixed	왠지 모르게 몸이 아픈 것 같습니다.	BadRelic	1	null`null`null	Debuff	FALSE	false`11033`11045	1	1	0`1	1	아래의 유물을 획득합니다...
+11046	Bad	2	Fixed	왠지 모르게 몸이 아픈 것 같습니다.	BadRelic	1	null`null`null	Debuff	FALSE	false`11033`11045	1	1	0`1	1	아래의 유물을 획득합니다...
+11047	Bad	3	Fixed	왠지 모르게 몸이 아픈 것 같습니다.	BadRelic	1	null`null`null	Debuff	FALSE	false`11033`11045	1	1	0`1	1	아래의 유물을 획득합니다...
+11048	Bad	0	Random	누군가 어깨를 '탁' 치고 지나갑니다.\n근데 어째... 주머니가 가벼워서 확인 해보니 \n 세상에 당신의 뮬건이 털렸습니다! \n 망할 소매치기 같으니라고!	RelicDel	1	null`null`null	Debuff	TRUE	false`0`0	1	1	0`-1	1	유물이 사라졌습니다!
+11049	Bad	0	Random	당신은 어두운 숲을 지나갑니다. 숲에 들어서자 마자,\n당신은 이상하게 춥지는 않은데 으스스한 기분이 듭니다.\n이후, 숲을 나갈 때까지는 아무런 일도 일어나지 않았지만, \n 이상하게 몸이 허해진 기분이 듭니다...	BadRelic	1	null`null`null	Debuff	TRUE	false`0`0	1	1	0`-1	1	유물이 사라졌습니다!
+11050	Bad	0	Random	당신은 어두운 숲을 지나갑니다. 숲에 들어서자 마자,\n당신은 이상하게 춥지는 않은데 으스스한 기분이 듭니다.\n이후, 숲을 나가고 가방을 확인해보니, 없던 물건이 들어 있습니다...	BadRelic	1	null`null`null	Debuff	FALSE	false`11033`11045	1	1	0`1	1	아래의 유물을 획득합니다...
+11051	Neutral	0	Fixed	당신은 마을 한 구석에서,\n사람들이 모여 앉아 카드게임을 하는 걸 봅니다.	Gamb	2	한번 해본다\n엽전 -500`그냥 간다	Debuff	FALSE	true`0`0	0	0	-500`1	1	당신은 떠나기로 합니다.\n어쨋든 도박은 나쁘니깐요.
+11051	Neutral	0	Fixed	게임에서 승리했습니다!	Gamb	2	한판 더!\n엽전 -500`이제 그만하자..	Debuff	FALSE	true`0`0	0	0	1000`1	1	당신은 떠나기로 합니다.\n어쨋든 도박은 나쁘니깐요.`엽전 +1000`계속 하다보니까 사람들이 이제 그만하자면서\n자리를 뜨기 시작합니다.\n당신도 어쩔 수 없이 자리를 뜨기로 합니다.
+11051	Neutral	0	Fixed	게임에서 패배했습니다!	Gamb	2	한판 더!\n엽전 -500`이제 그만하자..	Debuff	FALSE	true`0`0	0	0	0`1	1	당신은 떠나기로 합니다.\n어쨋든 도박은 나쁘니깐요.`엽전 -500`계속 하다보니까 사람들이 이제 그만하자면서\n자리를 뜨기 시작합니다.\n당신도 어쩔 수 없이 자리를 뜨기로 합니다.

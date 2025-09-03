@@ -18,8 +18,15 @@ public class CharacterDataSO : ScriptableObject
     // 캐릭터 세팅
     [Header("Character Setting")]
     public Sprite _characterSprite; // 캐릭터 아이콘
-    public GameObject _prefab;  // 캐릭터 프리팹
-    public int _chaLv;  // 캐릭터 레벨
+    public GameObject _prefab; // 캐릭터 프리팹
+    public int _chaLv; // 캐릭터 레벨
+
+    [Header("Character Skill Setting")]
+    public SkillDataSO[] _chaSkills; // 캐릭터 스킬
+
+    [Header("Gacha")]
+    public int Beads;
+    public Sprite GachaBackground;
 
     // 파싱 데이터를 매핑
     public virtual void DataApply(CharacterBaseDataFileData characterData, CharacterTypeFileData typeData)

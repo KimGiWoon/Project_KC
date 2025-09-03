@@ -8,6 +8,9 @@ using Button = UnityEngine.UI.Button;
 
 public class DailyQuestUI : BaseUI
 {
+    [Header("Daily Quest Reward")]
+    [SerializeField] private int _rewardAmount = 100;
+
     [Header("UI Components")]
     [SerializeField] private Button _rewardButton;
     [SerializeField] private Button _backButton;
@@ -22,7 +25,7 @@ public class DailyQuestUI : BaseUI
     [SerializeField] private Button _q6button;
     [SerializeField] private Button _q7button;
 
-    public Action OnRewardButtonClicked;
+    public Action<int> OnRewardButtonClicked;
     public Action<UIName> OnUICloseRequested;
 
     private void Awake()
@@ -89,7 +92,7 @@ public class DailyQuestUI : BaseUI
             _rewardButton.interactable = true;
     }
 
-    private void RewardButtonClicked() => OnRewardButtonClicked?.Invoke();
+    private void RewardButtonClicked() => OnRewardButtonClicked?.Invoke(_rewardAmount);
 
     private void BackButtonClicked() => OnUICloseRequested?.Invoke(UIName.DailyQuestUI);
     private void Q1buttonClicked() => GameManager.Instance.DailyQuest.CompleteQuest(QuestType.ChallengeDungeon, 1);
