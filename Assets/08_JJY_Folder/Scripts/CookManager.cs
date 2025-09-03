@@ -15,7 +15,7 @@ namespace JJY
         Ingredient selected = Ingredient.None; // 현재 선택된 재료들의 비트마스크
         int selectedCount = 0;
         public List<RecipeData> playerFoodInventory = new List<RecipeData>(); // 플레이어 음식 인벤토리
-        Dictionary<Ingredient, int> playerIngredientInventory = new Dictionary<Ingredient, int>(); // 플레이어 재료 실제 보유량
+        public Dictionary<Ingredient, int> playerIngredientInventory = new Dictionary<Ingredient, int>(); // 플레이어 재료 실제 보유량
         Dictionary<Ingredient, int> reservedIngredients = new Dictionary<Ingredient, int>(); // 플레이어 재료 보유량 표시 UI
 
         // --- Inspector에서 연결할 것들 ---

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace JJY
-{   
+{
     // TODO : GameManager 연결
     public class CoinManager : MonoBehaviour
     {
@@ -24,10 +24,10 @@ namespace JJY
             items.Add(masterChef, 0);
         }
 
-
-        public int starCandy { get; private set; } // 인게임 재화, 변수명 변경해야함. (Fire base)
+        public int yeopjeon { get; private set; } // 전투에서 획득, 소모하는 재화. 서버에 저장할 필요 없음.
+        public int totalInGameCoin { get; private set; } // 이번 전투에서 얻은 총 재화량
+        public int starCandy { get; private set; } // 인게임 재화, GameManager의 변수명 변경해야함. (Fire base)
         public int shiningStarCandy { get; private set; } // 인게임 유료 재화, 변수명 변경해야함. (Fire base)
-        public int totalInGameCoin { get; private set; } // 인게임에서 얻은 총 재화량
         // 아웃게임 아이템
         private Dictionary<string, int> items = new Dictionary<string, int>();
         private string _beek = "Beek's Recipe Book";
@@ -39,7 +39,7 @@ namespace JJY
         public Action OnItemsChanged;
 
         /// <summary>
-        /// 아이템의 수량을 받아오는 함수.
+        /// 경험치 재화의 수량을 받아오는 함수.
         /// </summary>
         public int GetRecipeItemCount(string itemName)
         {
@@ -54,7 +54,7 @@ namespace JJY
             }
         }
         /// <summary>
-        /// 아웃게임 아이템 증가
+        /// 경험치 재화의 획득
         /// </summary>
         public void AddRecipeItem(string itemName, int value)
         {
@@ -66,7 +66,7 @@ namespace JJY
             else Debug.LogError($"{itemName} : 아이템 이름 오류");
         }
         /// <summary>
-        /// 아웃게임 아이템 소모
+        /// 경험치 재화 소모
         /// </summary>
         public void SubtractRecipeItem(string itemName, int value)
         {
@@ -89,12 +89,28 @@ namespace JJY
         }
 
         /// <summary>
+        /// yeopjeon 재화 증가
+        /// </summary>
+        public void AddYeopjeon(int value)
+        {
+            yeopjeon += value;
+            totalInGameCoin += value;
+        }
+        /// <summary>
+        /// yeopjeon 재화 소모
+        /// </summary>
+        public void SubtractYeopjeon(int value)
+        {
+            if (yeopjeon < value) return;
+
+            yeopjeon -= value;
+        }
+        /// <summary>
         /// StarCandy 재화 증가
         /// </summary>
         public void AddStarCandy(int value)
         {
             starCandy += value;
-            totalInGameCoin += value;
         }
         /// <summary>
         /// StarCandy 재화 소모
@@ -104,7 +120,6 @@ namespace JJY
             if (starCandy < value) return;
 
             starCandy -= value;
-            totalInGameCoin -= value;
         }
         /// <summary>
         /// ShiningStarCandy 재화 증가
@@ -122,6 +137,7 @@ namespace JJY
 
             shiningStarCandy -= value;
         }
+
 
 #if UNITY_EDITOR
         /// <summary>
