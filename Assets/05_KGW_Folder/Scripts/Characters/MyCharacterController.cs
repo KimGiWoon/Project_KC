@@ -31,6 +31,9 @@ public class MyCharacterController : UnitBaseData
     // 스킬 사용 모드 변화 이벤트
     public event Action<bool> OnSkillModeChange;
 
+    // 유물 효과 적용 이벤트
+    public event Action OnRelicEffect;
+
     // 캐릭터 생성 초기화
     protected override void Init()
     {
@@ -61,6 +64,8 @@ public class MyCharacterController : UnitBaseData
 
         _manaChangeValue = _characterState._chaMPRecovery;
         _chaData = _characterData;
+
+        _attackController.RecheckAttackTarget();
 
         // 마나 충전 
         ManaRecovery();
@@ -188,6 +193,9 @@ public class MyCharacterController : UnitBaseData
             // 타겟이 없으면 미사용
             if (_attackTarget == null) return;
 
+            // 유물 효과 적용
+            OnRelicEffect?.Invoke();
+
             // 보유한 스킬을 순회
             foreach (var skill in _characterData._chaSkills)
             {
@@ -215,6 +223,10 @@ public class MyCharacterController : UnitBaseData
     protected override void Death()
     {
         base.Death();
+        _attackTarget = null;
+        _attackTargets.Clear();
+
+        OnSkillModeChange?.Invoke(_isAlive);
 
         StopManaRecovery();
         // 매니저에 사망 보고

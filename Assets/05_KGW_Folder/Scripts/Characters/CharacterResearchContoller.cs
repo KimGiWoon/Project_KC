@@ -18,10 +18,10 @@ public class CharacterResearchContoller : MonoBehaviour
         _bossLayer = LayerMask.NameToLayer("Boss");
     }
 
-    // 탐색한 캐릭터
+    // 탐색한 몬스터
     private void OnTriggerStay2D(Collider2D collision)
     {
-        // 탐색한 대상 플레이어 레이어 확인
+        // 탐색한 대상 몬스터 레이어 확인
         if (collision.gameObject.layer == _monsterLayer)
         {
             // 대상 정보
@@ -29,11 +29,9 @@ public class CharacterResearchContoller : MonoBehaviour
 
             // 탐색 대상에 몬스터 지정
             _controller._researchTarget = monster;
-
-            return;
         }
 
-        // 탐색한 대상 플레이어 레이어 확인
+        // 탐색한 대상 몬스터 레이어 확인
         if (collision.gameObject.layer == _bossLayer)
         {
             // 몬스터가 없거나 타겟이 몬스터가 아니면
@@ -48,7 +46,7 @@ public class CharacterResearchContoller : MonoBehaviour
         }
     }
 
-    // 벗어난 캐릭터
+    // 벗어난 몬스터
     private void OnTriggerExit2D(Collider2D collision)
     {
         // 탐색 대상이 비어있지않고 나간 대상이 탐색 대상인 경우  
