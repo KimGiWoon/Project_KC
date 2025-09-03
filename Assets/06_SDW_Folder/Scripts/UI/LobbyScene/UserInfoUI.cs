@@ -156,6 +156,13 @@ namespace SDW
             _userIcon.sprite = _userIconBackUp;
         }
 
+        public void PopUI(UIName uiName)
+        {
+            var ui = _uiStack.Peek();
+            if (ui == uiName)
+                _uiStack.Pop();
+        }
+
         #endregion
     }
 }

@@ -287,7 +287,9 @@ namespace SDW
         private void ConnectEditUsernameUI(UIName uiName)
         {
             var editUsernameUI = _uiDic[uiName] as EditUsernameUI;
+            var userInfoUI = _uiDic[UIName.UserInfoUI] as UserInfoUI;
             editUsernameUI.OnConfirmButtonClicked += _firebase.SetNickname;
+            editUsernameUI.OnConfirmButtonClicked += (value) => userInfoUI.PopUI(uiName);
             editUsernameUI.OnCloseRequested += ClosePanel;
 
             if (_firebase != null)
@@ -466,7 +468,9 @@ namespace SDW
         private void DisconnectEdiUsernameUI(UIName uiName)
         {
             var editUsernameUI = _uiDic[uiName] as EditUsernameUI;
+            var userInfoUI = _uiDic[UIName.UserInfoUI] as UserInfoUI;
             editUsernameUI.OnConfirmButtonClicked -= _firebase.SetNickname;
+            editUsernameUI.OnConfirmButtonClicked -= (value) => userInfoUI.PopUI(uiName);
             editUsernameUI.OnCloseRequested -= ClosePanel;
 
             if (_firebase != null)
