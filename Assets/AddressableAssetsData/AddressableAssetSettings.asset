@@ -15,7 +15,7 @@ MonoBehaviour:
   m_DefaultGroup: 6e29a68307d558b48bb739f4a265f55a
   m_currentHash:
     serializedVersion: 2
-    Hash: 00000000000000000000000000000000
+    Hash: 7521620dfbe49e7532e57c0a4e2006b3
   m_OptimizeCatalogSize: 0
   m_BuildRemoteCatalog: 1
   m_BundleLocalCatalog: 0
@@ -44,6 +44,7 @@ MonoBehaviour:
   m_BuildAddressablesWithPlayerBuild: 0
   m_overridePlayerVersion: '[UnityEditor.PlayerSettings.bundleVersion]'
   m_GroupAssets:
+  - {fileID: 11400000, guid: dfe184efbca417340898a27911a0de48, type: 2}
   - {fileID: 11400000, guid: 49ba3c976ceb85749969c0f7809cdd01, type: 2}
   - {fileID: 11400000, guid: ccfcecf9e1a9da94899438e582d1781e, type: 2}
   - {fileID: 11400000, guid: 9ed338bc79311fc4f9ade027d5c6ce7e, type: 2}
@@ -94,6 +95,7 @@ MonoBehaviour:
     - InGame_UI
     - Stage_Foods
     - Stage_Ingredients
+    - SignIn_UI
   m_SchemaTemplates: []
   m_GroupTemplateObjects:
   - {fileID: 11400000, guid: bda71db4be1e3f346a06bcd06c971d01, type: 2}
