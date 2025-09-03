@@ -5,52 +5,67 @@ using UnityEngine;
 
 public class BuffRelicManager : MonoBehaviour
 {
-    [SerializeField] private CharacterState playerData;
-    //TODO : 플레이어 데이터 받아와야 함
-    public void ApplyStat(CharacterState cha, RelicEffect effect, int value) //기본 스탯 ++
+    [SerializeField] private BattleManager battleManager;
+    
+    public void ApplyStatToCharacter(RelicEffect effect, int value) //기본 스탯 ++
     {
-        if ((effect & RelicEffect.chaAttack) != 0)
+        //TODO: 아직 캐릭터가 생성이 안되어서 실제로 적용은 안되지만 함수는 돌고 있음
+        Debug.Log($"효과 적용! effect: {effect}, value: {value}%, 캐릭터 수: {battleManager._characters.Count}");
+        foreach (var p in battleManager._characters)
         {
-            cha._chaAttack += value;
-            Debug.Log($"공격력 적용 +{value}");
-        }
+            if ((effect & RelicEffect.chaAttack) != 0)
+            {
+                p._characterState._chaAttack += p._characterState._chaAttack * (value / 100f);
+                Debug.Log($"공격력 적용 {value}%");
+            }
 
-        if ((effect & RelicEffect.chaArmor) != 0)
-        {
-            cha._chaArmor += value;
-            Debug.Log($"방어력 적용 +{value}");
-        }
+            if ((effect & RelicEffect.chaArmor) != 0)
+            {
+                p._characterState._chaArmor += p._characterState._chaArmor * (value / 100f);
+                Debug.Log($"방어력 적용 {value}%");
+            }
 
-        if ((effect & RelicEffect.chaAtkSpeed) != 0)
-        {
-            cha._chaAtkSpeed += value;
-            Debug.Log($"치명타 데미지 적용 +{value}");
-        }
+            if ((effect & RelicEffect.chaAtkSpeed) != 0)
+            {
+                p._characterState._chaAtkSpeed += p._characterState._chaAtkSpeed * (value / 100f);
+                Debug.Log($"공격 스피드 적용 {value}%");
+            }
 
-        if ((effect & RelicEffect.chaHP) != 0)
-        {
-            cha._chaMaxHP += value;
-            Debug.Log($"최대 체력 적용 +{value}");
-        }
+            if ((effect & RelicEffect.chaHP) != 0)
+            {
+                p._characterState._chaMaxHP += p._characterState._chaMaxHP * (value / 100f);
+                Debug.Log($"최대 체력 적용 {value}%");
+            }
 
-        if ((effect & RelicEffect.chaMPRecovery) != 0)
-        {
-            cha._chaMaxMP += value;
-            Debug.Log($"마나 적용 +{value}");
-        }
+            if ((effect & RelicEffect.chaMPRecovery) != 0)
+            {
+                p._characterState._chaMPRecovery += p._characterState._chaMPRecovery * (value / 100f);
+                Debug.Log($"마나 최대 적용 {value}%");
+            }
 
-        if ((effect & RelicEffect.chaCritDmg) != 0)
-        {
-            cha._chaCritDmg += value;
-            Debug.Log($"치명타 데미지 적용 + {value}");
+            if ((effect & RelicEffect.chaCritDmg) != 0)
+            {
+                p._characterState._chaCritDmg += p._characterState._chaCritDmg * (value / 100f);
+                Debug.Log($"치명타 데미지 적용 {value}%");
+            }    
         }
     }
 
-    public void ApplyRelicEffect(CharacterState cha, List<RelicEffectValue> relicEffect) //기본 스탯 적용
+    public void ApplyRelicEffect(Relic relic) //기본 스탯 적용
     {
-        foreach (var effect in relicEffect)
+        foreach (var effect in relic.relicEffectValues)
         {
-            ApplyStat(playerData, effect.effect, effect.value);
+            switch (relic.relicTarget)
+            {
+                case RelicTarget.Character:
+                    //만약 유물 적용 대상이 Character, 유물 발동조건이 True, 유물 발동 타입이 None, 발동 가능 역할군이 None이면
+                    if(relic.relicRole == RelicRole.None && relic.isPassive && relic.relicType == RelicType.None) 
+                        ApplyStatToCharacter(effect.effect, effect.value);
+                    break;    
+            }    
         }
+          
+            //만약 유물적용 대상이 Monster,유물 발동조건이 True, 유물 발동 타입이 None, 발동가능역할군이None이면
+            //ApplyStatToMonster(effect.effect, effect.value);
     }
 }

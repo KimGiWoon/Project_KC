@@ -35,10 +35,10 @@ namespace KSH
 
             singleButton.onClick.AddListener(() =>
             {
-                if (RewardChangeManager.Instance.StarCandy >= 150) //별사탕이 150개 이상 가지고 있으면 1회 뽑기
+                if (GameManager.Instance.Reward.StarCandy >= 150) //별사탕이 150개 이상 가지고 있으면 1회 뽑기
                 {
                     GatchaUI.SetActive(false);
-                    RewardChangeManager.Instance.AddStarCandy(-150);
+                    GameManager.Instance.Reward.AddStarCandy(-150);
                     gacha.SetGachaType(true);
                     OnUIOpenRequested?.Invoke(UIName.GachaResultUI);
                     OnUICloseRequested?.Invoke(UIName.GachaMainUI);
@@ -50,10 +50,10 @@ namespace KSH
             });
             multipleButton.onClick.AddListener(() =>
             {
-                if (RewardChangeManager.Instance.StarCandy >= 1500) //별사탕을 1500개 이상 가지고 있으면 10회 뽑기
+                if (GameManager.Instance.Reward.StarCandy >= 1500) //별사탕을 1500개 이상 가지고 있으면 10회 뽑기
                 {
                     GatchaUI.SetActive(false);
-                    RewardChangeManager.Instance.AddStarCandy(-1500);
+                    GameManager.Instance.Reward.AddStarCandy(-1500);
                     gacha.SetGachaType(false);
                     OnUIOpenRequested?.Invoke(UIName.GachaResultUI);
                     OnUICloseRequested?.Invoke(UIName.GachaMainUI);
@@ -64,13 +64,13 @@ namespace KSH
                 }
             });
 
-            CandyUpdate(RewardChangeManager.Instance.StarCandy);
+            CandyUpdate(GameManager.Instance.Reward.StarCandy);
         }
 
         private void OnDisable()
         {
-            if (RewardChangeManager.Instance != null)
-                RewardChangeManager.Instance.OnStarCandyChange -= CandyUpdate;
+            if (GameManager.Instance != null)
+                GameManager.Instance.Reward.OnStarCandyChange -= CandyUpdate;
             _backButton.onClick.RemoveListener(BackButtonClicked);
         }
 
@@ -82,7 +82,7 @@ namespace KSH
 
         private void Initialize()
         {
-            RewardChangeManager.Instance.OnStarCandyChange += CandyUpdate;
+            GameManager.Instance.Reward.OnStarCandyChange += CandyUpdate;
             CandyUpdate(GameManager.Instance.RainbowStarCandy);
             _backButton.onClick.AddListener(BackButtonClicked);
         }

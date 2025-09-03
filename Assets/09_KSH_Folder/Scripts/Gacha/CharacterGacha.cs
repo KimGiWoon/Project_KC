@@ -5,16 +5,19 @@ using SDW;
 
 namespace KSH
 {
-    public class CharacterGacha : SingletonManager<CharacterGacha>
+    // public class CharacterGacha : SingletonManager<CharacterGacha>
+    public class CharacterGacha : MonoBehaviour
     {
         [Header("캐릭터들")]
-        [SerializeField] private List<CharacterData> characterLists; //캐릭터 리스트
+        // [SerializeField] private List<CharacterData> characterLists; //캐릭터 리스트
+        [SerializeField] private List<CharacterDataSO> characterLists; //캐릭터 리스트
+
         [Header("UI")]
         [SerializeField] private GachaResultUI gachaResultUI; //캐릭터 결과 UI
 
         [SerializeField] private GachaUI gachaUI;
 
-        private WeightedRandom<Rarity> rarityPicker; //가중치 랜덤
+        private WeightedRandom<CharacterGrade> rarityPicker; //가중치 랜덤
 
         private int getCount = 0; //누적 뽑기 횟수
         private const int pityStart = 43; // 천장 뽑기
@@ -22,47 +25,47 @@ namespace KSH
 
         private bool _isSingleGacha = false;
 
-        protected override void Awake()
+        // protected override void Awake()
+        private void Awake()
         {
-            base.Awake();
-            rarityPicker = new WeightedRandom<Rarity>();
-            rarityPicker.Add(Rarity.Common, 98); //일반 등급은 가중치 98
-            rarityPicker.Add(Rarity.Rare, 2); //레어 등급은 가중치 2
+            rarityPicker = new WeightedRandom<CharacterGrade>();
+            rarityPicker.Add(CharacterGrade.Normal, 98); //일반 등급은 가중치 98
+            rarityPicker.Add(CharacterGrade.Rare, 2); //레어 등급은 가중치 2
         }
 
         private void Start()
         {
             getCount = GameManager.Instance.GachaCount;
         }
-        public CharacterData GetRandomCharacter() //캐릭터 랜덤 뽑기
+        public CharacterDataSO GetRandomCharacter() //캐릭터 랜덤 뽑기
         {
             getCount++; //횟수 누적
             Debug.Log($"누적 {getCount}회");
 
             var getRarity = rarityPicker.GetRandom(); //가중치 랜덤 뽑기로 등급 뽑기
 
-            if (getCount > pityStart && getRarity == Rarity.Common) //만약 누적 횟수가 43회 초과이고 등급이 기본만 얻었으면
+            if (getCount > pityStart && getRarity == CharacterGrade.Normal) //만약 누적 횟수가 43회 초과이고 등급이 기본만 얻었으면
             {
                 float pity = pityIncrease * (getCount - pityStart) * 100f; //43뽑 이후 누적 횟수당 14%씩 레어 확률 높임
                 float roll = Random.Range(0f, 100f); //확률 랜덤 돌리기
                 if (roll < pity) //만약 레어 확률이 랜덤확률보다 높다면
                 {
-                    getRarity = Rarity.Rare; //레어 캐릭터 나옴
+                    getRarity = CharacterGrade.Rare; //레어 캐릭터 나옴
                 }
             }
 
-            if (getRarity == Rarity.Rare) //만약 레어 캐릭터가 나왔다면
+            if (getRarity == CharacterGrade.Rare) //만약 레어 캐릭터가 나왔다면
                 getCount = 0; //누적 횟수 초기화
 
             //랜덤으로 뽑힌 등급의 캐릭터들을 리스트로 모은다.
             var getChracterList = characterLists
-                .Where(c => c.rarity == getRarity)
+                .Where(c => c._chaBaseData.ChaGrade == getRarity)
                 .ToList();
 
             //뽑힌 등급의 캐릭터들을 랜덤으로 돌린다.
             var selectChracter = getChracterList[Random.Range(0, getChracterList.Count)];
 
-            Debug.Log($"가챠 결과 → {selectChracter.characterName} (등급: {selectChracter.rarity})");
+            Debug.Log($"가챠 결과 → {selectChracter._chaBaseData.ChaName} (등급: {selectChracter._chaBaseData.ChaGrade})");
             return selectChracter;
         }
 
@@ -70,21 +73,21 @@ namespace KSH
         {
             //todo Result UI가 열릴 때 호출해서 가져오도록 수정
             var result = GetRandomCharacter();
-            (int gainedStarCandy, int gainedBead, int currentBead) = RewardChangeManager.Instance.ProcessCharacter(result); //중복 처리
+            (int gainedStarCandy, int gainedBead, int currentBead) = GameManager.Instance.Reward.ProcessCharacter(result); //중복 처리
 
             return new ResultData
             {
-                Result = new List<CharacterData> { result },
+                Result = new List<CharacterDataSO> { result },
                 GainedStarCandy = new List<int> { gainedStarCandy },
                 GainedBead = new List<int> { gainedBead },
-                CurrentBead = new List<int> {currentBead}
+                CurrentBead = new List<int> { currentBead }
             };
         }
 
         private ResultData TenGacha() //10회 뽑기
         {
             //todo Result UI가 열릴 때 호출해서 가져오도록 수정
-            var result = new List<CharacterData>();
+            var result = new List<CharacterDataSO>();
             var gainedStarCandy = new List<int>();
             var gainedBead = new List<int>();
             var currentBeads = new List<int>();
@@ -92,7 +95,7 @@ namespace KSH
             for (int i = 0; i < 10; i++)
             {
                 var character = GetRandomCharacter();
-                (int starCandy, int bead, int currentBead) = RewardChangeManager.Instance.ProcessCharacter(character);
+                (int starCandy, int bead, int currentBead) = GameManager.Instance.Reward.ProcessCharacter(character);
                 result.Add(character);
                 gainedStarCandy.Add(starCandy);
                 gainedBead.Add(bead);
@@ -116,5 +119,7 @@ namespace KSH
         }
 
         public void SetGachaType(bool isSingle) => _isSingleGacha = isSingle;
+
+        public void SetGachaResultUI(GachaResultUI ui) => gachaResultUI = ui;
     }
 }
