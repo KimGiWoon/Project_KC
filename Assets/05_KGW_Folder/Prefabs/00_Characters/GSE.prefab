@@ -76,11 +76,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab31bd7567e624041b3abb2d5f25c971, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _knockbackForce: 2
+  _knockbackForce: 1
   _knockbackDuraction: 0.2
-  _currentHp: 0
-  _maxHp: 0
-  _currentMp: 0
   _isAlive: 0
   _isAttack: 0
   _isHalfHpSkill: 0
@@ -96,6 +93,7 @@ MonoBehaviour:
   _characterState:
     _chaID: 0
     _chaName: 
+    _chaLevel: 0
     _chaCurrentHP: 0
     _chaMaxHP: 0
     _chaCurrentMP: 0

@@ -33,7 +33,7 @@ public class BattleUI : BaseUI
     public float _TotalHp;
     public bool _isOnMenu;
 
-    private float _time;
+    public float _time;
     private bool _isFast;
     private Coroutine _timerRoutine;
 
@@ -99,6 +99,7 @@ public class BattleUI : BaseUI
     public void GamePlayResultCheck(bool result)
     {
         _panelContainer.SetActive(true);
+
         // 게임 클리어
         if (result)
         {
@@ -206,13 +207,14 @@ public class BattleUI : BaseUI
                 // 시간 초과하면 게임 패배
                 if (_time <= 0)
                 {
-                    // 타이머 코루틴 정지
-                    StopTimeCoroutine();
-
                     _panelContainer.SetActive(true);
+
+                    Debug.Log("클리어 실패!");
+                    _battleManager._isClear = false;
+                    _battleManager._isGameOver = true;
+
                     // 클리어 실패 UI 오픈
-                    if (GameManager.Instance.BuyAdRemover) OnUIOpenRequested?.Invoke(UIName.RemoveADUI);
-                    else OnUIOpenRequested?.Invoke(UIName.NonRemoveADUI);
+                    GamePlayResultCheck(_battleManager._isClear);
                 }
             }
         }
