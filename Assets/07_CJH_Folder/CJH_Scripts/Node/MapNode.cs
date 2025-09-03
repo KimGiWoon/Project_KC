@@ -91,6 +91,7 @@ public class MapNode : MonoBehaviour
                     case EventTypeKC.Positive: targetList = template.positiveEventSprites; break;
                     case EventTypeKC.Negative: targetList = template.negativeEventSprites; break;
                     case EventTypeKC.Neutral: targetList = template.neutralEventSprites; break;
+                    case EventTypeKC.Subtlety: targetList = template.subtletyEventSprites; break;
                 }
                 if (targetList != null && targetList.Count > 0)
                 {

@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Linq;
 using System;
 using System.Collections.Generic;
+using SDW;
 
 namespace CJH
 {
@@ -36,7 +37,7 @@ namespace CJH
             if (characterSO == null) return;
 
             // allCharacters 리스트에서 이름이 같은 CharacterData를 찾습니다.
-            CharacterData characterToAdd = allCharacters.FirstOrDefault(c => c.characterName == characterSO._characterName);
+            CharacterData characterToAdd = allCharacters.FirstOrDefault(c => c.characterName == characterSO._chaBaseData.ChaName);
 
             if (characterToAdd != null)
             {
@@ -45,8 +46,9 @@ namespace CJH
             }
             else
             {
-                Debug.LogError($"{characterSO._characterName}에 해당하는 CharacterData를 'allCharacters' 리스트에서 찾을 수 없습니다.");
-            }
+                Debug.LogError($"{characterSO._chaBaseData.ChaName}에 해당하는 CharacterData를 'allCharacters' 리스트에서 찾을 수 없습니다.");
+            
+
         }
 
         /// <summary>

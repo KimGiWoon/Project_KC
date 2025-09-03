@@ -20,4 +20,8 @@ public class NodeTemplate : ScriptableObject
 
     [Tooltip("중립적 이벤트(선택)일 때 랜덤으로 보여줄 스프라이트 목록")]
     public List<Sprite> neutralEventSprites;
+
+    [Tooltip("미묘한 맛 이벤트(선택)일 때 랜덤으로 보여줄 스프라이트 목록")]
+    public List<Sprite> subtletyEventSprites;
+
 }
