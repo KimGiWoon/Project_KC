@@ -180,15 +180,15 @@ namespace JJY
             {
                 if (!p._isAlive) return;
 
-                if (logActions) Debug.Log($"[BuffManager] {p.name} HP : {p._currentHp}");
+                if (logActions) Debug.Log($"[BuffManager] {p.name} HP : {p._characterState._chaCurrentHP}");
 
-                p._currentHp += e.value;
-                if (p._currentHp >= p._characterData._maxHp)
+                p._characterState._chaCurrentHP += e.value;
+                if (p._characterState._chaCurrentHP >= p._characterState._chaMaxHP)
                 {
-                    p._currentHp = p._characterData._maxHp;
+                    p._characterState._chaCurrentHP = p._characterState._chaMaxHP;
                 }
 
-                if (logActions) Debug.Log($"[BuffManager] {p.name} HP : {p._currentHp}");
+                if (logActions) Debug.Log($"[BuffManager] {p.name} HP : {p._characterState._chaCurrentHP}");
                 // TODO : UI 이벤트 함수 연결.
                 // p.OnHpChange?.Invoke(Mathf.Clamp01(p._currentHp / p._characterData._maxHp));
             }
@@ -202,15 +202,15 @@ namespace JJY
             {
                 if (!p._isAlive) return;
 
-                if (logActions) Debug.Log($"{p.name} MP : {p._currentMp}");
+                if (logActions) Debug.Log($"{p.name} MP : {p._characterState._chaCurrentMP}");
 
-                p._currentMp += (int)(e.value * (1 / p._characterData._maxMp));
-                if (p._currentMp >= p._characterData._maxMp)
+                p._characterState._chaCurrentMP += (int)(e.value * (1 / p._characterState._chaMaxMP));
+                if (p._characterState._chaCurrentMP >= p._characterState._chaMaxMP)
                 {
-                    p._currentMp = p._characterData._maxMp;
+                    p._characterState._chaCurrentMP = p._characterState._chaMaxMP;
                 }
 
-                if (logActions) Debug.Log($"{p.name} MP : {p._currentMp}");
+                if (logActions) Debug.Log($"{p.name} MP : {p._characterState._chaMaxMP}");
             }
 
             // TODO : UI 이벤트 함수 연결.
@@ -236,7 +236,7 @@ namespace JJY
             if (!chosen._isAlive)
             {
                 chosen._isAlive = true;
-                chosen._currentHp += (int)(e.value * (1 / chosen._characterData._maxHp));
+                chosen._characterState._chaCurrentHP += (int)(e.value * (1 / chosen._characterState._chaMaxHP));
                 if (logActions) Debug.Log($"[BuffManager] REVIVE! name : {chosen.name} HP : ({e.value}%), 스폰 포인트 지정해야함.");
             }
             else
