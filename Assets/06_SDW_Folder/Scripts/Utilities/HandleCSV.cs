@@ -27,14 +27,14 @@ namespace SDW
             return null;
         }
 
-        public static List<T> ReadDataFromLines<T>(string[] lines) where T : struct
+        public static List<T> ReadDataFromLines<T>(string[] lines, char separator = '\t') where T : struct
         {
             var dataList = new List<T>();
 
             foreach (string line in lines)
             {
                 // string[] fields = line.Split(',');
-                string[] fields = line.Split('\t');
+                string[] fields = line.Split(separator);
 
                 // 생성자(string[] fields)를 이용해 객체 생성
                 var data = (T)Activator.CreateInstance(typeof(T), new object[] { fields });
