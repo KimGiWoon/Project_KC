@@ -12,18 +12,18 @@ namespace KSH
         
         //유물 나오는 UI 있어야함
         [SerializeField] private RelicResultUI relicResultUI;
-        
+        [SerializeField] private BuffRelicManager buffRelicManager;
         private List<Relic> acquiredRelicLists = new List<Relic>();
         
         private WeightedRandom<RelicRarity> relicRarityPicker;
-        private WeightedRandom<RelicType> relicTypePicker;
+        
+        private CharacterState characterState;
 
         protected override void Awake()
         {
             base.Awake();
             relicRarityPicker = new WeightedRandom<RelicRarity>();
-            relicTypePicker = new WeightedRandom<RelicType>();
-            //임시로 정해둔 것
+            //TODO : 확률 정해지면 다시 넣기
             relicRarityPicker.Add(RelicRarity.Normal, 80);
             relicRarityPicker.Add(RelicRarity.Rare, 20);
         }
@@ -57,13 +57,14 @@ namespace KSH
         public void GetRelic(Relic relic)
         {
             //ToDo : 인벤토리에 유물 추가해야함 (일단 임시로 해둠)
-            if (!acquiredRelicLists.Contains(relic))
+            if (!acquiredRelicLists.Contains(relic)) //얻은 유물이 습득된 유물 리스트에 없다면
             {
-                acquiredRelicLists.Add(relic);
+                acquiredRelicLists.Add(relic); //리스트에 추가
                 Debug.Log($"{relic.relicName} 획득");
+                //TODO: 플레이어 스탯 적용 및 효과 적용
+                buffRelicManager.ApplyRelicEffect(characterState, relic.relicEffectValues); // 유물 효과 적용
+                
             }
-            
-            //TODO: 플레이어 스탯 적용 및 효과 적용
         }
     }    
 }

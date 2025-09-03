@@ -9,15 +9,19 @@ namespace KSH
 {
     public class RelicUI : MonoBehaviour
     {
+        [Header("유물 이미지")]
         [SerializeField] private Image relicImage; //유물 이미지
-        [SerializeField] private TextMeshProUGUI relicName; //유물 이름
-        [SerializeField] private Button relicButton;
-        [SerializeField] private Outline outline; //테두리
+        [SerializeField] private Button relicButton; //유물 버튼
+        [Header("유물 이름")]
+        [SerializeField] private TextMeshProUGUI relicName;
+        [Header("돋보기 버튼")]
+        [SerializeField] private Button showButton;
+        //[SerializeField] private Outline outline; //테두리
         
         private Relic relic;
         private System.Action<RelicUI> onRelicClicked;
         
-        public void SetData(Relic relic, System.Action<RelicUI> clickCallBack)
+        public void SetData(Relic relic, System.Action<RelicUI> clickCallBack, RelicDetailUI detailUI)
         {
             this.relic = relic;
             onRelicClicked = clickCallBack;
@@ -28,10 +32,13 @@ namespace KSH
             relicButton.onClick.RemoveAllListeners();
             relicButton.onClick.AddListener(() => onRelicClicked?.Invoke(this));
             
-            outline.enabled = false;
+            showButton.onClick.RemoveAllListeners();
+            showButton.onClick.AddListener(() => detailUI.ShowDetail(relic));
+            
+            //outline.enabled = false;
         }
         
-        public void SetOutline(bool isOutline) => outline.enabled = isOutline;
+        //public void SetOutline(bool isOutline) => outline.enabled = isOutline;
         
         public Relic GetRelic() => relic;
     }    
