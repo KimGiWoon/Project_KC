@@ -17,7 +17,7 @@ namespace KSH
         
         private WeightedRandom<RelicRarity> relicRarityPicker;
         
-        private CharacterDataSO characterDataSO;
+        private CharacterState characterState;
 
         protected override void Awake()
         {
@@ -61,10 +61,10 @@ namespace KSH
             {
                 acquiredRelicLists.Add(relic); //리스트에 추가
                 Debug.Log($"{relic.relicName} 획득");
+                //TODO: 플레이어 스탯 적용 및 효과 적용
+                buffRelicManager.ApplyRelicEffect(characterState, relic.relicEffectValues); // 유물 효과 적용
+                
             }
-            
-            //TODO: 플레이어 스탯 적용 및 효과 적용
-            buffRelicManager.ApplyRelicEffect(characterDataSO, relic.relicEffectValues); // 유물 효과 적용
         }
     }    
 }

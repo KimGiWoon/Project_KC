@@ -12,6 +12,7 @@ public class RelicResultUI : MonoBehaviour
     [SerializeField] private Button getButton;
     [SerializeField] private GameObject DetailUI;
     [SerializeField] private GameObject RelicWindow;
+    [SerializeField] private TextMeshProUGUI ignoreText;
     
     private RelicUI currentRelicUI;
     private Relic relic;
@@ -24,7 +25,11 @@ public class RelicResultUI : MonoBehaviour
 
     private void GetRelicClicked()
     {
-        if (currentRelicUI == null) return;
+        if (currentRelicUI == null)
+        {
+            ignoreText.gameObject.SetActive(true);
+            return;
+        }
         
         Relic relic = currentRelicUI.GetRelic();
         RelicDropManager.Instance.GetRelic(relic);
