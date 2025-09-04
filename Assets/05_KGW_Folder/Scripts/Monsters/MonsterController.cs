@@ -8,7 +8,7 @@ using UnityEngine.UI;
 public class MonsterController : UnitBaseData
 {
     [Header("Monster Data Setting")]
-    [SerializeField] public MonsterDataSO _monsterData; // 몬스터 데이터
+    [SerializeField] MonsterDataSO _monsterData; // 몬스터 데이터
     [SerializeField] private Slider _monsterHp;
 
     [Header("Attack Unit List")]
@@ -39,6 +39,8 @@ public class MonsterController : UnitBaseData
     {
         _monsterState._monID = _monsterData.MonId;
         _monsterState._monName = _monsterData.MonName;
+        _monsterState._monEnName = _monsterData.MonEnName;
+        _monsterState._monType = _monsterData.MonType;
         _monsterState._monLevel = _monsterData.MonLv;
         _monsterState._monCurrentHP = _monsterData.MonHP;
         _monsterState._monMaxHP = _monsterData.MonHP;
@@ -51,9 +53,15 @@ public class MonsterController : UnitBaseData
         _monsterState._monAvoid = _monsterData.MonAvoid;
         _monsterState._monReg = _monsterData.MonReg;
 
+        _monsterState._monHPIncrase = _monsterData.MonHPIncrase;
+        _monsterState._monAttackIncrease = _monsterData.MonAttackIncrease;
+        _monsterState._monArmorIncrease = _monsterData.MonArmorIncrease;
+        _monsterState._monAvoidIncrease = _monsterData.MonAvoidIncrease;
+
         _moveDir = Vector3.left;
         _isAlive = true;
         _monData = _monsterData;
+        _attackCoolTimer = _monsterState._monAtkSpeed;
         _recallPointProvider = GetComponent<RecallPointProvider>();
 
         // 보스 체력 절반에서의 소환스킬 사용 관련 이벤트 구독
@@ -143,7 +151,7 @@ public class MonsterController : UnitBaseData
             float attackDistance = Vector3.Distance(transform.position, _attackTarget.transform.position);
 
             // 공격 대상의 거리가 몬스터의 공격 사거리에 들어오면 타겟 공격
-            if (attackDistance < attackSpareDistance && _attackCoolTimer <= 0f)
+            if (attackDistance <= attackSpareDistance && _attackCoolTimer <= 0f)
             {
                 // 몬스터의 데미지로 캐릭터에 주기
                 _attackTarget.TakeDamage(_monsterState._monAttack);
@@ -267,5 +275,15 @@ public class MonsterController : UnitBaseData
             // 매니저에 사망 보고
             _battleManager.MonsterDeathCheck();
         }
+    }
+
+    // 공격 대상 변경
+    public void AttackTargetChange(MyCharacterController chaData)
+    {
+        // 공격한 캐릭터가 죽었으면 넘어가기
+        if (chaData == null || !chaData.isActiveAndEnabled) return;
+
+        // 공격 대상 전환
+        _attackTarget = chaData;
     }
 }
