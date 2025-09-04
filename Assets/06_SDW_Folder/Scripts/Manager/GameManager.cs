@@ -45,6 +45,10 @@ namespace SDW
         private BattleMonsterManager _battleMonster;
         public BattleMonsterManager BattleMonster => _battleMonster;
 
+        //# Data Table - Relic
+        private RelicDataManager _relic;
+        public RelicDataManager Relic => _relic;
+
         //# Gacha
         private CharacterGacha _gacha;
         public CharacterGacha Gacha => _gacha;
@@ -93,6 +97,7 @@ namespace SDW
             _monsterData = GetComponent<MonsterDataManager>();
             _encounter = GetComponent<EncounterDataManager>();
             _battleMonster = GetComponent<BattleMonsterManager>();
+            _relic = GetComponent<RelicDataManager>();
 
             //# Gacha
             _gacha = GetComponent<CharacterGacha>();
