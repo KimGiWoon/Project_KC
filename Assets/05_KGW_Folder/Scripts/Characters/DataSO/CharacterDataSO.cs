@@ -21,8 +21,12 @@ public class CharacterDataSO : ScriptableObject
     public GameObject _prefab; // 캐릭터 프리팹
     public int _chaLv; // 캐릭터 레벨
 
-    [Header("Character Skill Setting")]
+    [Header("Character Active Skill")]
     public SkillDataSO[] _chaSkills; // 캐릭터 스킬
+    public CharacterSkillDataSO _chaActiveSkill; // 캐릭터 액티브 스킬
+
+    [Header("Character Passive Skill")]
+    public CharacterSkillDataSO _chaPassiveSkill; // 캐릭터 패시브 스킬
 
     [Header("Gacha")]
     public int Beads;

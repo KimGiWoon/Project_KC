@@ -27,6 +27,7 @@ public class CreateCharacterSO : Editor
             // ScriptableObject 저장 경로
             string soFolder = "Assets/05_KGW_Folder/Prefabs/00_Characters/CharactersSOData";
 
+            // 파일 이름 설정
             string soPath = $"{soFolder}/{baseData.ChaEnName}_Data.asset";
 
             // ScriptableObject 생성/로드
