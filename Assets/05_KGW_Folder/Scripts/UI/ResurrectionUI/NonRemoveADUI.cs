@@ -79,19 +79,22 @@ public class NonRemoveADUI : BaseUI
     // 캐릭터 부활
     private void CharacterResurrection()
     {
-        // 게임 진행 상황 초기화
-        _battleManager._canResurrection = false;
-        _battleManager._isClear = false;
-        _battleManager._isGameOver = false;
-        _battleManager._characters.Clear();
-
-        // 게임 시간이 0이면 게임 시간 초기화
-        if (_battleManager._battleUI._time <= 0f)
+        // 타임오버로 게임 종료면 게임 시간 초기화
+        if (_battleManager._isTimeOver)
         {
             _battleManager._battleUI._time = _battleManager._timer;
         }
 
+        // 게임 진행 상황 초기화
+        _battleManager._isGameOver = false;
+        _battleManager._isClear = false;
+        _battleManager._isTimeOver = false;
+        _battleManager._canResurrection = false;
+
+        _battleManager._characters.Clear();
         _battleManager.CharacterSpawn();
+
+        _battleManager._battleUI.StartTimeCoroutine();
     }
 
     private void ConfirmButtonClicked()

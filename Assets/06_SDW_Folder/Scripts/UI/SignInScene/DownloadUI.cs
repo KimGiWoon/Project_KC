@@ -81,7 +81,7 @@ namespace SDW
             {
                 if (!LabelExists(label.labelString)) continue;
                 labels.Add(label.labelString);
-                Debug.Log($"Label : {label.labelString}");
+                // Debug.Log($"Label : {label.labelString}");
             }
 
             _patchSize = default;
@@ -90,7 +90,7 @@ namespace SDW
             {
                 var handle = Addressables.GetDownloadSizeAsync(label);
                 yield return handle;
-                Debug.Log($"{label} : {handle.Result}");
+                // Debug.Log($"{label} : {handle.Result}");
 
                 _patchSize += handle.Result;
             }

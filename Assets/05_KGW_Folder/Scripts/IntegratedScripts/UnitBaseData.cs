@@ -24,7 +24,7 @@ public abstract class UnitBaseData : MonoBehaviour
     protected CharacterDataSO _chaData;
     protected MonsterDataSO _monData;
     
-    private void Awake()
+    protected virtual void Awake()
     {
         _battleManager = FindObjectOfType<BattleManager>();
         _battleUI = FindObjectOfType<BattleUI>();
