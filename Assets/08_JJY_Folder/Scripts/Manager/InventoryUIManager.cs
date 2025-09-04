@@ -103,8 +103,8 @@ namespace JJY
             var list = CookManager.Instance.playerFoodInventory;
             for (int i = list.Count - 1; i >= 0; i--)
             {
-                FoodItem item = list[i];
-                if (item == null) continue;
+                InventoryItem food = list[i];
+                if (food == null) continue;
 
                 GameObject go = GetButtonFromPool();
                 var btn = go.GetComponent<Button>();
@@ -114,9 +114,9 @@ namespace JJY
                 // 이미지 설정
                 if (img != null)
                 {
-                    if (item.recipe.image != null)
+                    if (food.recipe.image != null)
                     {
-                        img.sprite = item.recipe.image;
+                        img.sprite = food.recipe.image;
                         img.enabled = true;
                     }
                     else
@@ -129,11 +129,11 @@ namespace JJY
                 // new item 표시
                 if (newIcon != null)
                 {
-                    newIcon.SetActive(item.isNew);
+                    newIcon.SetActive(food.isNew);
                 }
 
                 // 안전한 캡처
-                RecipeData recipeLocal = item.recipe;
+                RecipeData recipeLocal = food.recipe;
                 btn.onClick.RemoveAllListeners();
                 btn.onClick.AddListener(() => ShowFoodDescription(recipeLocal));
 

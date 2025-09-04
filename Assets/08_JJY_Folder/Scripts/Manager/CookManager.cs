@@ -14,8 +14,8 @@ namespace JJY
         Dictionary<Ingredient, RecipeData> recipes = new Dictionary<Ingredient, RecipeData>(); // 레시피 사전(조합마스크 -> 데이터)
         Ingredient selected = Ingredient.None; // 현재 선택된 재료들의 비트마스크
         int selectedCount = 0;
-        List<FoodItem> _playerFoodInventory = new List<FoodItem>(); // 플레이어 음식 인벤토리
-        public List<FoodItem> playerFoodInventory { get { return _playerFoodInventory; } private set { _playerFoodInventory = value; } }
+        List<InventoryItem> _playerFoodInventory = new List<InventoryItem>(); // 플레이어 음식 인벤토리
+        public List<InventoryItem> playerFoodInventory { get { return _playerFoodInventory; } private set { _playerFoodInventory = value; } }
 
         Dictionary<Ingredient, int> _playerIngredientInventory = new Dictionary<Ingredient, int>(); // 플레이어 재료 실제 보유량
         public Dictionary<Ingredient, int> playerIngredientInventory { get { return _playerIngredientInventory; } private set { _playerIngredientInventory = value; } }
@@ -466,12 +466,12 @@ namespace JJY
 
         public void AddFood(RecipeData dish)
         {
-            var item = new FoodItem(dish);
+            var item = new InventoryItem(dish);
             _playerFoodInventory.Add(item);
         }
         public void SubtractFood(RecipeData dish)
         {
-            var item = new FoodItem(dish);
+            var item = new InventoryItem(dish);
             _playerFoodInventory.Remove(item);
         }
         #endregion
