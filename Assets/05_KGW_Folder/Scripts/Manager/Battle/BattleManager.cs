@@ -50,6 +50,7 @@ public class BattleManager : MonoBehaviour
     public int _characterCount;
     public bool _isClear;
     public bool _isGameOver;
+    public bool _isTimeOver;
     public bool _canResurrection;
     public int _timer;
     public float _monsterTotalMaxHp;
