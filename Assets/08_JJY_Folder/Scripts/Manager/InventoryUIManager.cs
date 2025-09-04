@@ -157,8 +157,8 @@ namespace JJY
 
             for (int i = list.Count - 1; i >= 0; i--)
             {
-                Relic relic = list[i];
-                if (relic == null) continue;
+                InventoryItem relicItem = list[i];
+                if (relicItem == null) continue;
 
                 GameObject go = GetButtonFromPool();
                 var btn = go.GetComponent<Button>();
@@ -168,9 +168,9 @@ namespace JJY
                 // 이미지 설정
                 if (img != null)
                 {
-                    if (relic.relicImage != null)
+                    if (relicItem.relic.relicImage != null)
                     {
-                        img.sprite = relic.relicImage;
+                        img.sprite = relicItem.relic.relicImage;
                         img.enabled = true;
                     }
                     else
@@ -187,7 +187,7 @@ namespace JJY
                 }
 
                 // 안전한 캡처
-                Relic relicLocal = relic;
+                Relic relicLocal = relicItem.relic;
                 btn.onClick.RemoveAllListeners();
                 btn.onClick.AddListener(() => ShowRelicDescription(relicLocal));
 
