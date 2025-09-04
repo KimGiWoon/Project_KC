@@ -24,7 +24,22 @@ namespace SDW
             _nicknameInputField = _panelContainer.GetComponentInChildren<TMP_InputField>(true);
             _nicknameErrorText = _panelContainer.GetComponentInChildren<TextMeshProUGUI>(true);
             _nicknameButton = _panelContainer.GetComponentInChildren<Button>(true);
+        }
+
+        /// <summary>
+        /// UI 요소가 활성화될 때 필요한 이벤트 연결 수행
+        /// </summary>
+        private void OnEnable()
+        {
             _nicknameButton.onClick.AddListener(ApplyButtonClicked);
+        }
+
+        /// <summary>
+        /// UI 요소가 비활성화될 때 이벤트 리스너 제거를 수행
+        /// </summary>
+        private void OnDisable()
+        {
+            _nicknameButton.onClick.RemoveListener(ApplyButtonClicked);
         }
 
         /// <summary>

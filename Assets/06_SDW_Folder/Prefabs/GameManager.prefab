@@ -20,6 +20,8 @@ GameObject:
   - component: {fileID: -2173554303403554785}
   - component: {fileID: 3612516859391263566}
   - component: {fileID: 1454526362506818370}
+  - component: {fileID: 7196825097064603342}
+  - component: {fileID: 6833037280974504934}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -80,7 +82,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _buyAdRemover: 0
-  _stageName: 
 --- !u!114 &3924118884882072794
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -201,3 +202,27 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gainedStarCandy: 0
   gainedBead: 0
+--- !u!114 &7196825097064603342
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3256955993052400061}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a586d5f601e64bf5931b57e268160c9d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &6833037280974504934
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3256955993052400061}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5cfa30cb812b40b7a79c1bd10b826b2e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

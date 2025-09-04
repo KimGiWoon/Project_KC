@@ -37,6 +37,9 @@ namespace SDW
             new Dictionary<CharacterSkillEnName, CharacterSkillFileData>();
         public Dictionary<CharacterSkillEnName, CharacterSkillFileData> ChaEnNameSkillData => _chaEnNameSkillData;
 
+        /// <summary>
+        /// 각 Data Table 데이터 연결
+        /// </summary>
         private void Start()
         {
             LoadCharacterBase();
@@ -47,7 +50,7 @@ namespace SDW
         }
 
         /// <summary>
-        /// CSV에서 읽어온 데이터를 CharacterBaseDataFileData 구조체에 맞게 변환 후 Key가 Id, EnName인 Dictionary에 추가
+        /// CharacterBase를 CSV 파일로부터 로드하고, 내부 딕셔너리에 저장
         /// </summary>
         private void LoadCharacterBase()
         {
@@ -62,7 +65,7 @@ namespace SDW
         }
 
         /// <summary>
-        /// CSV에서 읽어온 데이터를 CharacterTypeFileData 구조체에 맞게 변환 후 Key가 Role인 Dictionary에 추가
+        /// CharacterTypeFileData를 CSV 파일로부터 로드하고, 내부 딕셔너리에 저장
         /// </summary>
         private void LoadCharacterType()
         {
@@ -76,7 +79,7 @@ namespace SDW
         }
 
         /// <summary>
-        /// CSV에서 읽어온 데이터를 CharacterUpgradeFileData 구조체에 맞게 변환 후 Key가 Level인 Dictionary에 추가
+        /// CharacterUpgradeFileData를 CSV 파일로부터 로드하고, 내부 딕셔너리에 저장
         /// </summary>
         private void LoadCharacterUpgrade()
         {
@@ -90,7 +93,7 @@ namespace SDW
         }
 
         /// <summary>
-        /// CSV에서 읽어온 데이터를 CharacterLevelUpStatFileData 구조체에 맞게 변환 후 Key가 Level인 Dictionary에 추가
+        /// CharacterLevelUpStatFileData를 CSV 파일로부터 로드하고, 내부 딕셔너리에 저장
         /// </summary>
         private void LoadCharacterLevelUpStat()
         {
@@ -104,7 +107,7 @@ namespace SDW
         }
 
         /// <summary>
-        /// CSV에서 읽어온 데이터를 CharacterSkillFileData 구조체에 맞게 변환 후 Key가 Id, EnName인 Dictionary에 추가
+        /// CharacterSkillFileData를 CSV 파일로부터 로드하고, 내부 딕셔너리에 저장
         /// </summary>
         private void LoadCharacterSkill()
         {

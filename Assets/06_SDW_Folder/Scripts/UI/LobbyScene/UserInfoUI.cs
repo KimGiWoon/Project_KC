@@ -19,9 +19,6 @@ namespace SDW
         [SerializeField] private GameObject _backgroundPanel;
         [SerializeField] private GameObject _userInfoPanel;
         [SerializeField] private GameObject _medalPanel;
-        // [SerializeField] private GameObject _deleteAccountPanel;
-        // [SerializeField] private GameObject _editUserNamePanel;
-        // [SerializeField] private GameObject _changeIconPanel;
 
         [Header("Buttons")]
         [SerializeField] private Button _deleteAccountButton;
@@ -46,7 +43,13 @@ namespace SDW
             _panelContainer.SetActive(false);
             _backgroundPanel.SetActive(false);
             _medalPanel.SetActive(false);
+        }
 
+        /// <summary>
+        /// UI 요소가 활성화될 때 필요한 이벤트 연결 수행
+        /// </summary>
+        private void OnEnable()
+        {
             //# Sign Out & Delete Buttons
             _deleteAccountButton.onClick.AddListener(DeleteAccountButtonClicked);
             _signOutButton.onClick.AddListener(SignOutButtonClicked);
@@ -54,6 +57,20 @@ namespace SDW
             //# Change Nickname
             _editUserNameButton.onClick.AddListener(EditUserNameButtonClicked);
             _changeIconButton.onClick.AddListener(ChangeIconButtonClicked);
+        }
+
+        /// <summary>
+        /// UI 요소가 비활성화될 때 이벤트 리스너 제거를 수행
+        /// </summary>
+        private void OnDisable()
+        {
+            //# Sign Out & Delete Buttons
+            _deleteAccountButton.onClick.RemoveListener(DeleteAccountButtonClicked);
+            _signOutButton.onClick.RemoveListener(SignOutButtonClicked);
+
+            //# Change Nickname
+            _editUserNameButton.onClick.RemoveListener(EditUserNameButtonClicked);
+            _changeIconButton.onClick.RemoveListener(ChangeIconButtonClicked);
         }
 
         public override void Open()
@@ -72,6 +89,9 @@ namespace SDW
             _uiStack.Clear();
         }
 
+        /// <summary>
+        /// UI 외부 터치 시 UI를 Close
+        /// </summary>
         public void Update()
         {
             if (!_panelContainer.activeSelf) return;
@@ -99,6 +119,12 @@ namespace SDW
 
         #region Update User Info
 
+        /// <summary>
+        /// 사용자 정보를 UI 컴포넌트에 업데이트
+        /// </summary>
+        /// <param name="nickname">사용자 닉네임</param>
+        /// <param name="email">사용자 이메일</param>
+        /// <param name="uid">사용자 고유 ID</param>
         public void UpdateUserInfo(string nickname, string email, string uid)
         {
             _uidInfoText.text = $"uid : {uid}";
@@ -138,24 +164,39 @@ namespace SDW
             OnUIOpenButtonClicked?.Invoke(UIName.ChangeIconUI);
         }
 
+        /// <summary>
+        /// 사용자 아이콘 이미지를 지정된 스프라이트로 변경
+        /// </summary>
+        /// <param name="sprite">변경할 새로운 아이콘 스프라이트</param>
         public void SetIcon(Sprite sprite)
         {
             _userIconBackUp = _userIcon.sprite;
             _userIcon.sprite = sprite;
         }
 
+        /// <summary>
+        /// 사용자 아이콘 설정이 확정되었을 때의 처리를 수행
+        /// 이전 아이콘 상태를 저장하고, 아이콘 변경 이벤트를 트리거
+        /// </summary>
         public void SetIconConfirmed()
         {
             _userIconBackUp = _userIcon.sprite;
             OnIconChanged?.Invoke(_userIcon.sprite);
         }
 
-        public void SetIconCanceled()
+        /// <summary>
+        /// 사용자 아이콘 변경 작업을 취소하고 원래 아이콘으로 복원
+        /// </summary>
+        private void SetIconCanceled()
         {
             if (_userIconBackUp == null) return;
             _userIcon.sprite = _userIconBackUp;
         }
 
+        /// <summary>
+        /// UI 스택에서 지정된 UI를 제거
+        /// </summary>
+        /// <param name="uiName">제거할 UI의 이름</param>
         public void PopUI(UIName uiName)
         {
             var ui = _uiStack.Peek();

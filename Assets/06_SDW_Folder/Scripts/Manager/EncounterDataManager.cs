@@ -14,11 +14,14 @@ namespace SDW
         private Dictionary<int, List<EncounterTable>> _encounterStageDataTables = new Dictionary<int, List<EncounterTable>>();
         public Dictionary<int, List<EncounterTable>> EncounterStageDataTables => _encounterStageDataTables;
 
-        private void Start()
-        {
-            LoadEncounterData();
-        }
+        /// <summary>
+        /// Data Table 데이터 연결
+        /// </summary>
+        private void Start() => LoadEncounterData();
 
+        /// <summary>
+        /// EncounterTable을 CSV 파일로부터 로드하고, 내부 딕셔너리에 저장
+        /// </summary>
         private void LoadEncounterData()
         {
             string[] fields = HandleCSV.LoadFromCsv("Encounter/EncounterTable");

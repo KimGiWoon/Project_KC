@@ -27,6 +27,13 @@ namespace SDW
             return null;
         }
 
+        /// <summary>
+        /// 지정된 CSV 파일의 줄들을 읽어들여 지정된 구분자로 분리된 데이터를 구조체 배열로 변환
+        /// </summary>
+        /// <param name="lines">CSV 파일의 각 줄을 담은 문자열 배열</param>
+        /// <param name="separator">필드를 구분하는 구분자 (기본값은 탭 문자 '\t')</param>
+        /// <typeparam name="T">변환하고자 하는 데이터 구조체 타입으로, 기본 생성자를 가져야 함</typeparam>
+        /// <returns>구조체 배열, 입력이 유효하지 않거나 타입 생성에 실패한 경우 빈 리스트를 반환</returns>
         public static List<T> ReadDataFromLines<T>(string[] lines, char separator = '\t') where T : struct
         {
             var dataList = new List<T>();
