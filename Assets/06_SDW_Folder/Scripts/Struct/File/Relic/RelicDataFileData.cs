@@ -31,6 +31,10 @@ namespace SDW
         public int AddReward;
         public int StoreDiscount;
 
+        /// <summary>
+        /// RelicDataFileData 초기화
+        /// </summary>
+        /// <param name="fields">초기화 데이터</param>
         public RelicDataFileData(string[] fields)
         {
             RelicID = int.Parse(fields[0]);

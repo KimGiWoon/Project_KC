@@ -21,6 +21,10 @@ namespace SDW
         public bool ChaBarrier;
         public float MonBreakGage;
 
+        /// <summary>
+        /// CookDataFileData 초기화
+        /// </summary>
+        /// <param name="fields">초기화 데이터</param>
         public CookDataFileData(string[] fields)
         {
             CookID = int.Parse(fields[0]);

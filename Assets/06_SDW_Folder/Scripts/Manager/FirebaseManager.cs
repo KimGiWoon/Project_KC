@@ -367,6 +367,10 @@ namespace SDW
             GameManager.Instance.Scene.LoadSceneAsync(SceneName.SDW_LobbyScene);
         }
 
+        /// <summary>
+        /// 사용자의 닉네임을 Firebase 데이터베이스에 업데이트
+        /// </summary>
+        /// <param name="nickname">업데이트할 사용자의 닉네임 문자열</param>
         public void SetNickname(string nickname)
         {
             _userData.Nickname = nickname;

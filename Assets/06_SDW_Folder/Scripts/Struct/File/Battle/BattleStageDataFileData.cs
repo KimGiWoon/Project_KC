@@ -11,6 +11,10 @@ namespace SDW
         public BattleEventType Type;
         public List<SpawnMonster> Monsters;
 
+        /// <summary>
+        /// BattleStageDataFileData 초기화
+        /// </summary>
+        /// <param name="fields">초기화 데이터</param>
         public BattleStageDataFileData(string[] fields)
         {
             BattleEventID = int.Parse(fields[0]);

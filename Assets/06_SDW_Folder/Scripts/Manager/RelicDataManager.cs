@@ -26,6 +26,9 @@ namespace SDW
             new Dictionary<IngredientEnName, IngredientDataFileData>();
         public Dictionary<IngredientEnName, IngredientDataFileData> IngredientEnNameData => _ingredientEnNameData;
 
+        /// <summary>
+        /// 각 Data Table 데이터 연결
+        /// </summary>
         private void Start()
         {
             LoadRelicDataFileData();
@@ -33,6 +36,9 @@ namespace SDW
             LoadIngredientDataFileData();
         }
 
+        /// <summary>
+        /// RelicDataFileData를 CSV 파일로부터 로드하고, 내부 딕셔너리에 저장
+        /// </summary>
         private void LoadRelicDataFileData()
         {
             string[] fields = HandleCSV.LoadFromCsv("Relic/RelicData");
@@ -44,6 +50,9 @@ namespace SDW
             }
         }
 
+        /// <summary>
+        /// CookDataFileData를 CSV 파일로부터 로드하고, 내부 딕셔너리에 저장
+        /// </summary>
         private void LoadCookDataFileData()
         {
             string[] fields = HandleCSV.LoadFromCsv("Relic/CookData");
@@ -56,6 +65,9 @@ namespace SDW
             }
         }
 
+        /// <summary>
+        /// IngredientDataFileData를 CSV 파일로부터 로드하고, 내부 딕셔너리에 저장
+        /// </summary>
         private void LoadIngredientDataFileData()
         {
             string[] fields = HandleCSV.LoadFromCsv("Relic/IngredientData");

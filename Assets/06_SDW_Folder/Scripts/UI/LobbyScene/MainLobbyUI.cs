@@ -30,6 +30,9 @@ namespace SDW
             _panelContainer.SetActive(false);
         }
 
+        /// <summary>
+        /// UI 요소가 활성화될 때 필요한 이벤트 연결 수행
+        /// </summary>
         private void OnEnable()
         {
             _gameStartButton.onClick.AddListener(GameStartButtonClicked);
@@ -42,6 +45,9 @@ namespace SDW
             GameManager.Instance.DailyQuest.OnStarCandyChange += UpdateRainbowStar;
         }
 
+        /// <summary>
+        /// UI 요소가 비활성화될 때 이벤트 리스너 제거를 수행
+        /// </summary>
         private void OnDisable()
         {
             _gameStartButton.onClick.RemoveListener(GameStartButtonClicked);
@@ -54,6 +60,9 @@ namespace SDW
 
         #region Button Methods
 
+        /// <summary>
+        /// GameStartButtonClicked 핸들러 메서드 호출로 사용자가 GameStart 버튼을 클릭했을 때 StageUI를 활성화
+        /// </summary>
         private void GameStartButtonClicked()
         {
             OnUIOpenRequested?.Invoke(UIName.KGW_StageSelectUI);
@@ -61,12 +70,18 @@ namespace SDW
         }
 
         /// <summary>
-        /// 사용자 정보 버튼 클릭 이벤트 핸들러 메서드 호출
+        /// UserInfoButtonClicked 핸들러 메서드 호출로 사용자가 UserInfo 버튼을 눌렀을 때 UserInfoUI를 활성화
         /// </summary>
         private void UserInfoButtonClicked() => OnUIOpenRequested?.Invoke(UIName.UserInfoUI);
 
+        /// <summary>
+        /// DailyQuestButtonClicked 핸들러 메서드 호출로 사용자가 Quest 버튼을 눌렀을 때 DailyQuestUI를 활성화
+        /// </summary>
         private void DailyQuestButtonClicked() => OnUIOpenRequested?.Invoke(UIName.DailyQuestUI);
 
+        /// <summary>
+        /// GachaButtonClicked 핸들러 메서드 호출로 사용자가 Gacha 버튼을 눌렀을 때 GachaMainUI를 활성화
+        /// </summary>
         private void GachaButtonClicked() => OnUIOpenRequested?.Invoke(UIName.GachaMainUI);
 
         #endregion
@@ -74,17 +89,25 @@ namespace SDW
         #region Update User Info
 
         /// <summary>
-        /// 메인 로비 UI의 닉네임을 업데이트
+        /// UserInfoUI의 Nickname을 업데이트
         /// </summary>
         /// <param name="email">사용자의 이메일 주소</param>
         /// <param name="nickname">업데이트할 사용자의 닉네임</param>
         public void UpdateUserInfo(string nickname, string email = null, string uid = null) => _nicknameText.text = nickname;
 
+        /// <summary>
+        /// Icon을 설정하기 위한 메서드
+        /// </summary>
+        /// <param name="sprite">설정할 Icon</param>
         public void SetIcon(Sprite sprite) => _userIcon.sprite = sprite;
 
         #endregion
 
-        public void UpdateRainbowStar(int numOfStars)
+        /// <summary>
+        /// RainbowStar의 정보를 가져와서 Text 업데이트
+        /// </summary>
+        /// <param name="numOfStars">업데이트할 Rainbow Start 수</param>
+        private void UpdateRainbowStar(int numOfStars)
         {
             _rainbowStarText.text = numOfStars.ToString();
         }

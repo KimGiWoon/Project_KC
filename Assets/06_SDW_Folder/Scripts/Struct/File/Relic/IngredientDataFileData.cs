@@ -10,6 +10,10 @@ namespace SDW
         public int IngredientPrice;
         public string IngredientDescription;
 
+        /// <summary>
+        /// IngredientDataFileData 초기화
+        /// </summary>
+        /// <param name="fields">초기화 데이터</param>
         public IngredientDataFileData(string[] fields)
         {
             IngredientID = int.Parse(fields[0]);

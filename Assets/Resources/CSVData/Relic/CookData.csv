@@ -1,13 +1,13 @@
 ﻿요리 ID	요리 영어 이름	요리 이름	요리 설명	요리 효과 설명	재료1	재료2	재료3	공격력	방어력	최대 체력	최대 마나	몬스터 공격력	몬스터 방어력	음식 효과 대상	음식 지속 시간	배리어	그로기
 cookID	cookEnName	cookName	cookDescription	cookDescription2	ingredient1ID	ingredient2ID	ingredient3ID	chaAttack	chaArmor	chaHP	chaMP	monAttack	monArmor	foodTarget	foodDuration	chaBarrier	monBreakGage
 int	enum	string	string	string	int	int	int	float(%)	int	float(%)	float(%)	float(%)	float(%)	enum	int(s)	bool	float(%)
-2001	RoastedGarlic	구운 마늘 조각	고소한 향이 천천히 몸을 데운다.	전투 중인 캐릭터(들)에게 10초 동안 방어력 50 대폭 증가	3001	3002	-1	0	50	0	0	0	0	CharacterAll	10	FALSE	0
-2002	GarlicJuice	마늘 즙	톡 쏘는 맛이 정신을 번쩍 들게 한다.	전투 중인 적 몬스터(들)에게 10초 동안 공격력 50% 감소	3001	3003	-1	0	0	0	0	0.5	0	CharacterAll	10	FALSE	0
-2003	GarlicBread	마늘 빵	바삭한 껍질 속에 감춰진 부드러움이 매혹적이다.	전투 중인 캐릭터(들)에게 10초 동안 공격력 50% 대폭 증가	3001	3004	-1	0.5	0	0	0	0	0	CharacterAll	10	FALSE	0
-2004	AglioeOlio	알리오 올리오	마늘 향이 면발 사이를 감싸며 은근한 힘을 전한다.	전투 불가 상태의 캐릭터 한명을 랜덤으로 최대 체력의 80%로 부활	3001	3006	3007	0	0	0.5	0	0	0	CharacterDeath	0	FALSE	0
-2005	GarlicPorkStirFry	마늘 돼지 볶음	불향 속에 스며든 고기 기운이 힘줄을 달군다.	그로기 상태의 몬스터에게 공격력의 50% 추가 피해	3001	3008	3009	0	0	0	0	0	0	BossBreak	0	FALSE	0
-2006	GarlicSoup	마늘 스프	따뜻함이 목을 타고 내려가 가슴 깊이 번진다.	전투중인 캐릭터(들)의 마나를 최대 마나량의 60% 회복	3001	3010	3011	0	0	0	0.6	0	0	CharacterAll	0	FALSE	0
-2007	GarlicFriedRice	마늘 볶음밥	한 숟갈마다 담긴 힘이 위장 속에서 폭발한다.	전투 중인 캐릭터(들)에게 몬스터의 공격을 1회 방어할 수 있는 베리어 생성	3001	3012	3013	0	0	0	0	0	0	CharacterAll	0	TRUE	0
-2008	MeatSteak	고기 스테이크	묵직한 육향이 근육을 깨우는 듯하다.	보스 몬스터 그로기 게이지 즉시 최대 그로기 게이지의 30% 누적	3007	3008	3015	0	0	0	0	0	0	Boss	0	FALSE	0.3
-2009	CreamPasta	크림 파스타	부드럽고 진한 맛이 생각을 매끄럽게 한다.	전투 중인 모든 캐릭터 체력 즉시 최대치로 회복	3006	3011	3015	0	0	1	0	0	0	CharacterAll	0	FALSE	0
-2010	TofuVeggieStirFry	두부 채소 볶음	가볍지만 확실한 활력이 몸에 스민다.	적 몬스터(들)에게 10초 동안 적 방어력 50 감소	3005	3014	-1	0	0	0	0	0	0.5	MonsterAll	10	FALSE	0
+2001	RoastedGarlic	구운 마늘 조각	고소한 향이 천천히 몸을 데운다.	전투 중인 캐릭터(들)에게 10초 동안 방어력 50 증가	3001	3002	-1	0	50	0	0	0	0	CharacterAll	10	false	0
+2002	GarlicJuice	마늘 즙	톡 쏘는 맛이 정신을 번쩍 들게 한다.	전투 중인 적 몬스터(들)에게 10초 동안 공격력 50% 감소	3001	3003	-1	0	0	0	0	0.5	0	CharacterAll	10	false	0
+2003	GarlicBread	마늘 빵	바삭한 껍질 속에 감춰진 부드러움이 매혹적이다.	전투 중인 캐릭터(들)에게 10초 동안 공격력 50% 대폭 증가	3001	3004	-1	0.5	0	0	0	0	0	CharacterAll	10	false	0
+2004	AglioeOlio	알리오 올리오	마늘 향이 면발 사이를 감싸며 은근한 힘을 전한다.	전투 불가 상태의 캐릭터 한명을 랜덤으로 최대 체력의 80%로 부활	3001	3006	3007	0	0	0.5	0	0	0	CharacterDeath	0	false	0
+2005	GarlicPorkStirFry	마늘 돼지 볶음	불향 속에 스며든 고기 기운이 힘줄을 달군다.	그로기 상태의 몬스터에게 공격력의 50% 추가 피해	3001	3008	3009	0	0	0	0	0	0	BossBreak	0	false	0
+2006	GarlicSoup	마늘 스프	따뜻함이 목을 타고 내려가 가슴 깊이 번진다.	전투중인 캐릭터(들)의 마나를 최대 마나량의 60% 회복	3001	3010	3011	0	0	0	0.6	0	0	CharacterAll	0	false	0
+2007	GarlicFriedRice	마늘 볶음밥	한 숟갈마다 담긴 힘이 위장 속에서 폭발한다.	전투 중인 캐릭터(들)에게 몬스터의 공격을 1회 방어할 수 있는 베리어 생성	3001	3012	3013	0	0	0	0	0	0	CharacterAll	0	true	0
+2008	MeatSteak	고기 스테이크	묵직한 육향이 근육을 깨우는 듯하다.	보스 몬스터 그로기 게이지 즉시 최대 그로기 게이지의 30% 누적	3007	3008	3015	0	0	0	0	0	0	Boss	0	false	0.3
+2009	CreamPasta	크림 파스타	부드럽고 진한 맛이 생각을 매끄럽게 한다.	전투 중인 모든 캐릭터 체력 즉시 최대치로 회복	3006	3011	3015	0	0	1	0	0	0	CharacterAll	0	false	0
+2010	TofuVeggieStirFry	두부 채소 볶음	가볍지만 확실한 활력이 몸에 스민다.	적 몬스터(들)에게 10초 동안 적 방어력 50 감소	3005	3014	-1	0	0	0	0	0	0.5	MonsterAll	10	false	0
