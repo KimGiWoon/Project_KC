@@ -25,7 +25,7 @@ namespace JJY
         }
 
         public int yeopjeon { get; private set; } // 전투에서 획득, 소모하는 재화. 서버에 저장할 필요 없음.
-        public int totalInGameCoin { get; private set; } // 이번 전투에서 얻은 총 재화량
+        public int totalYeopjeon { get; private set; } // 이번 전투에서 얻은 총 재화량
         public int starCandy { get; private set; } // 인게임 재화, GameManager의 변수명 변경해야함. (Fire base)
         public int shiningStarCandy { get; private set; } // 인게임 유료 재화, 변수명 변경해야함. (Fire base)
         // 아웃게임 아이템
@@ -94,7 +94,7 @@ namespace JJY
         public void AddYeopjeon(int value)
         {
             yeopjeon += value;
-            totalInGameCoin += value;
+            totalYeopjeon += value;
         }
         /// <summary>
         /// yeopjeon 재화 소모
