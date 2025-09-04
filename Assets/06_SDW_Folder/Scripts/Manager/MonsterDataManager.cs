@@ -33,6 +33,9 @@ namespace SDW
             new Dictionary<MonsterSkillEnName, MonsterSkillFileData>();
         public Dictionary<MonsterSkillEnName, MonsterSkillFileData> MonEnNameSkillData => _monEnNameSkillData;
 
+        /// <summary>
+        /// 각 Data Table 데이터 연결
+        /// </summary>
         private void Start()
         {
             LoadMonsterData();
@@ -41,7 +44,7 @@ namespace SDW
         }
 
         /// <summary>
-        /// CSV에서 읽어온 데이터를 MonsterDataFileData 구조체에 맞게 변환 후 Key가 Id, EnName인 Dictionary에 추가
+        /// MonsterDataFileData를 CSV 파일로부터 로드하고, 내부 딕셔너리에 저장
         /// </summary>
         private void LoadMonsterData()
         {
@@ -56,7 +59,7 @@ namespace SDW
         }
 
         /// <summary>
-        /// CSV에서 읽어온 데이터를 MonsterStatFileData 구조체에 맞게 변환 후 Key가 (Id, Level)인 Dictionary에 추가
+        /// MonsterStatFileData를 CSV 파일로부터 로드하고, 내부 딕셔너리에 저장
         /// </summary>
         private void LoadMonsterStat()
         {
@@ -71,7 +74,7 @@ namespace SDW
         }
 
         /// <summary>
-        /// CSV에서 읽어온 데이터를 MonsterSkillFileData 구조체에 맞게 변환 후 Key가 Id, EnName인 Dictionary에 추가
+        /// MonsterSkillFileData를 CSV 파일로부터 로드하고, 내부 딕셔너리에 저장
         /// </summary>
         private void LoadMonsterSkill()
         {

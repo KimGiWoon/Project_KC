@@ -64,13 +64,17 @@ namespace SDW
                 case SceneName.SDW_SignInScene: OpenSignInScene(uiName); break;
                 case SceneName.KSH_Gacha:
                 case SceneName.SDW_LobbyScene: OpenLobbyScene(uiName); break;
-                case SceneName.KGW_TestIngameScene: OpenIngameScene(uiName); break;
+                case SceneName.KGW_TestIngameScene: OpenInGameScene(uiName); break;
             }
 
             if (_prevOpenedUI == _prevClosedUI)
                 _prevClosedUI = UIName.None;
         }
 
+        /// <summary>
+        /// SignInScene에 맞는 UI 패널을 초기화하고 연결
+        /// </summary>
+        /// <param name="uiName">열려는 UI 패널의 이름</param>
         private void OpenSignInScene(UIName uiName)
         {
             switch (uiName)
@@ -82,6 +86,10 @@ namespace SDW
             }
         }
 
+        /// <summary>
+        /// LobbyScene에 맞는 UI 패널을 초기화하고 연결
+        /// </summary>
+        /// <param name="uiName">열려는 UI 패널의 이름</param>
         private void OpenLobbyScene(UIName uiName)
         {
             switch (uiName)
@@ -104,7 +112,11 @@ namespace SDW
             }
         }
 
-        private void OpenIngameScene(UIName uiName)
+        /// <summary>
+        /// InGameScene에 맞는 UI 패널을 초기화하고 연결
+        /// </summary>
+        /// <param name="uiName">열려는 UI 패널의 이름</param>
+        private void OpenInGameScene(UIName uiName)
         {
             switch (uiName)
             {
@@ -139,13 +151,18 @@ namespace SDW
                 case SceneName.SDW_SignInScene: CloseSignInScene(uiName); break;
                 case SceneName.KSH_Gacha:
                 case SceneName.SDW_LobbyScene: CloseLobbyScene(uiName); break;
-                case SceneName.KGW_TestIngameScene: CloseIngameScene(uiName); break;
+                case SceneName.KGW_TestIngameScene: CloseInGameScene(uiName); break;
             }
 
 
             if (_prevOpenedUI == _prevClosedUI)
                 _prevOpenedUI = UIName.None;
         }
+
+        /// <summary>
+        /// SignInScene에 맞는 UI 패널을 초기화하고 연결
+        /// </summary>
+        /// <param name="uiName">닫으려는 UI 패널의 이름</param>
         private void CloseSignInScene(UIName uiName)
         {
             switch (uiName)
@@ -157,6 +174,10 @@ namespace SDW
             }
         }
 
+        /// <summary>
+        /// LobbyScene에 맞는 UI 패널을 초기화하고 연결
+        /// </summary>
+        /// <param name="uiName">닫으려는 UI 패널의 이름</param>
         private void CloseLobbyScene(UIName uiName)
         {
             switch (uiName)
@@ -179,7 +200,11 @@ namespace SDW
             }
         }
 
-        private void CloseIngameScene(UIName uiName)
+        /// <summary>
+        /// InGameScene에 맞는 UI 패널을 초기화하고 연결
+        /// </summary>
+        /// <param name="uiName">닫으려는 UI 패널의 이름</param>
+        private void CloseInGameScene(UIName uiName)
         {
             switch (uiName)
             {
@@ -210,6 +235,10 @@ namespace SDW
 
         #region SignIn Scene UI Connect Methods
 
+        /// <summary>
+        /// 지정된 SignInUI 패널을 Firebase와 연결
+        /// </summary>
+        /// <param name="uiName">연결할 SignInUI 패널의 이름</param>
         private void ConnectSignInUI(UIName uiName)
         {
             var signUI = _uiDic[uiName] as SignInUI;
@@ -221,6 +250,10 @@ namespace SDW
             }
         }
 
+        /// <summary>
+        /// 지정된 NickName 패널을 Firebase와 연결
+        /// </summary>
+        /// <param name="uiName">연결할 NicknameUI 패널의 이름</param>
         private void ConnectNicknameUI(UIName uiName)
         {
             var setNicknameUI = _uiDic[uiName] as SetNicknameUI;
@@ -231,6 +264,10 @@ namespace SDW
             }
         }
 
+        /// <summary>
+        /// 지정된 DownLoadUI 패널을 Firebase와 연결
+        /// </summary>
+        /// <param name="uiName">연결할 DownLoadUI 패널의 이름</param>
         private void ConnectDownloadUI(UIName uiName)
         {
             var downloadUI = _uiDic[uiName] as DownloadUI;
@@ -247,6 +284,10 @@ namespace SDW
 
         #region Lobby Scene UI Connect Methods
 
+        /// <summary>
+        /// MainLobbyUI 연결 및 초기화 수행
+        /// </summary>
+        /// <param name="uiName">연결할 MainLobbyUI 패널의 이름</param>
         private void ConnectMainLobbyUI(UIName uiName)
         {
             var mainLobbyUI = _uiDic[uiName] as MainLobbyUI;
@@ -260,6 +301,10 @@ namespace SDW
             }
         }
 
+        /// <summary>
+        /// UserInfoUI 연결 및 이벤트 핸들러 설정
+        /// </summary>
+        /// <param name="uiName">연결할 UserInfoUI 패널의 이름</param>
         private void ConnectUserInfoUI(UIName uiName)
         {
             var userInfoUI = _uiDic[uiName] as UserInfoUI;
@@ -277,6 +322,10 @@ namespace SDW
             }
         }
 
+        /// <summary>
+        /// DeleteAccountUI 연결 및 이벤트 핸들러 설정
+        /// </summary>
+        /// <param name="uiName">연결할 DeleteAccountUI 패널의 이름</param>
         private void ConnectDeleteAccountUI(UIName uiName)
         {
             var deleteAccountUI = _uiDic[uiName] as DeleteAccountUI;
@@ -284,6 +333,10 @@ namespace SDW
             deleteAccountUI.OnCloseButtonClicked += ClosePanel;
         }
 
+        /// <summary>
+        /// EditUsernameUI 연결 및 이벤트 핸들러 설정
+        /// </summary>
+        /// <param name="uiName">연결할 EditUsernameUI 패널의 이름</param>
         private void ConnectEditUsernameUI(UIName uiName)
         {
             var editUsernameUI = _uiDic[uiName] as EditUsernameUI;
@@ -299,6 +352,10 @@ namespace SDW
             }
         }
 
+        /// <summary>
+        /// ChangeIconUI 연결 및 이벤트 핸들러 설정
+        /// </summary>
+        /// <param name="uiName">연결할 ChangeIconUI 패널의 이름</param>
         private void ConnectChangeIconUI(UIName uiName)
         {
             var changeIconUI = _uiDic[uiName] as ChangeIconUI;
@@ -309,6 +366,10 @@ namespace SDW
             changeIconUI.OnUICloseRequested += ClosePanel;
         }
 
+        /// <summary>
+        /// KGW_StageUI 연결 및 이벤트 핸들러 설정
+        /// </summary>
+        /// <param name="uiName">연결할 KGW_StageUI 패널의 이름</param>
         private void ConnectKGW_StageUI(UIName uiName)
         {
             var kgwStageUI = _uiDic[uiName] as KGW_StageSelectUI;
@@ -316,6 +377,10 @@ namespace SDW
             kgwStageUI.OnUICloseRequested += ClosePanel;
         }
 
+        /// <summary>
+        /// KGW_CharacterSelectUI 연결 및 이벤트 핸들러 설정
+        /// </summary>
+        /// <param name="uiName">연결할 KGW_CharacterSelectUI 패널의 이름</param>
         private void ConnectKGW_CharacterSelectUI(UIName uiName)
         {
             var kgwCharacterSelectUI = _uiDic[uiName] as KGW_CharacterSelectUI;
@@ -323,6 +388,10 @@ namespace SDW
             kgwCharacterSelectUI.OnUICloseRequested += ClosePanel;
         }
 
+        /// <summary>
+        /// DailyQuestUI 연결 및 이벤트 핸들러 설정
+        /// </summary>
+        /// <param name="uiName">연결할 DailyQuestUI 패널의 이름</param>
         private void ConnectDailyQuestUI(UIName uiName)
         {
             var dailyQuestUI = _uiDic[uiName] as DailyQuestUI;
@@ -331,6 +400,10 @@ namespace SDW
             GameManager.Instance.DailyQuest.AddQuestUI(dailyQuestUI);
         }
 
+        /// <summary>
+        /// GachaMainUI 연결 및 이벤트 핸들러 설정
+        /// </summary>
+        /// <param name="uiName">연결할 GachaMainUI 패널의 이름</param>
         private void ConnectGachaMainUI(UIName uiName)
         {
             var gachaMainUI = _uiDic[uiName] as GachaMainUI;
@@ -338,6 +411,10 @@ namespace SDW
             gachaMainUI.OnUICloseRequested += ClosePanel;
         }
 
+        /// <summary>
+        /// GachaResultUI 연결 및 이벤트 핸들러 설정
+        /// </summary>
+        /// <param name="uiName">연결할 GachaResultUI 패널의 이름</param>
         private void ConnectGachaResultUI(UIName uiName)
         {
             var gachaResultUI = _uiDic[uiName] as GachaResultUI;
@@ -349,12 +426,20 @@ namespace SDW
 
         #region Ingame Scene UI Connect Methods
 
+        /// <summary>
+        /// BattleUI 연결 및 이벤트 핸들러 설정
+        /// </summary>
+        /// <param name="uiName">연결할 BattleUI 패널의 이름</param>
         private void ConnectBattleUI(UIName uiName)
         {
             var battleUI = _uiDic[uiName] as BattleUI;
             battleUI.OnUIOpenRequested += OpenPanel;
         }
 
+        /// <summary>
+        /// MenuUI 연결 및 이벤트 핸들러 설정
+        /// </summary>
+        /// <param name="uiName">연결할 MenuUI 패널의 이름</param>
         private void ConnectMenuUI(UIName uiName)
         {
             var menuUI = _uiDic[uiName] as MenuUI;
@@ -362,24 +447,41 @@ namespace SDW
             menuUI.OnUICloseRequested += ClosePanel;
         }
 
+        /// <summary>
+        /// ClearChapterUI 연결 및 이벤트 핸들러 설정
+        /// </summary>
+        /// <param name="uiName">연결할 ClearChapterUI 패널의 이름</param>
         private void ConnectClearChapterUI(UIName uiName)
         {
             var clearChapterUI = _uiDic[uiName] as ClearChapterUI;
             clearChapterUI.OnUICloseRequested += ClosePanel;
         }
 
+        /// <summary>
+        /// ClearStageUI 연결 및 이벤트 핸들러 설정
+        /// </summary>
+        /// <param name="uiName">연결할 ClearStageUI 패널의 이름</param>
         private void ConnectClearStageUI(UIName uiName)
         {
             var clearStageUI = _uiDic[uiName] as ClearStageUI;
             clearStageUI.OnUICloseRequested += ClosePanel;
         }
 
+        /// <summary>
+        /// NonRemoveADUI 연결 및 이벤트 핸들러 설정
+        /// </summary>
+        /// <param name="uiName">연결할 NonRemoveADUI 패널의 이름</param>
         private void ConnectNonRemoveADUI(UIName uiName)
         {
             var nonRemoveADUI = _uiDic[uiName] as NonRemoveADUI;
             nonRemoveADUI.OnUIOpenRequested += OpenPanel;
             nonRemoveADUI.OnUICloseRequested += ClosePanel;
         }
+
+        /// <summary>
+        /// RemoveADUI 연결 및 이벤트 핸들러 설정
+        /// </summary>
+        /// <param name="uiName">연결할 RemoveADUI 패널의 이름</param>
         private void ConnectRemoveADUI(UIName uiName)
         {
             var removeADUI = _uiDic[uiName] as RemoveADUI;
@@ -387,6 +489,10 @@ namespace SDW
             removeADUI.OnUICloseRequested += ClosePanel;
         }
 
+        /// <summary>
+        /// DefeatChapterUI 연결 및 이벤트 핸들러 설정
+        /// </summary>
+        /// <param name="uiName">연결할 DefeatChapterUI 패널의 이름</param>
         private void ConnectDefeatChapterUI(UIName uiName)
         {
             var defeatChapterUI = _uiDic[uiName] as DefeatChapterUI;
@@ -397,6 +503,10 @@ namespace SDW
 
         #region SignIn Scene UI Disconnect Methods
 
+        /// <summary>
+        /// SignInUI 연결해제 및 이벤트 핸들러 연결해제 설정
+        /// </summary>
+        /// <param name="uiName">연결해제할 DefeatChapterUI 패널의 이름</param>
         private void DisconnectSignInUI(UIName uiName)
         {
             var signUI = _uiDic[uiName] as SignInUI;
@@ -408,6 +518,10 @@ namespace SDW
             }
         }
 
+        /// <summary>
+        /// NicknameUI 연결해제 및 이벤트 핸들러 연결해제 설정
+        /// </summary>
+        /// <param name="uiName">연결해제할 NicknameUI 패널의 이름</param>
         private void DisconnectNicknameUI(UIName uiName)
         {
             var setNicknameUI = _uiDic[uiName] as SetNicknameUI;
@@ -416,6 +530,10 @@ namespace SDW
                 setNicknameUI.OnNicknameChange -= _firebase.SetNickname;
         }
 
+        /// <summary>
+        /// DownloadUI 연결해제 및 이벤트 핸들러 연결해제 설정
+        /// </summary>
+        /// <param name="uiName">연결해제할 DownloadUI 패널의 이름</param>
         private void DisconnectDownloadUI(UIName uiName)
         {
             var downloadUI = _uiDic[uiName] as DownloadUI;
@@ -432,6 +550,10 @@ namespace SDW
 
         #region Lobby Scene UI Disconnect Methods
 
+        /// <summary>
+        /// MainLobbyUI 연결해제 및 이벤트 핸들러 연결해제 설정
+        /// </summary>
+        /// <param name="uiName">연결해제할 MainLobbyUI 패널의 이름</param>
         private void DisconnectMainLobbyUI(UIName uiName)
         {
             var mainLobbyUI = _uiDic[uiName] as MainLobbyUI;
@@ -442,6 +564,10 @@ namespace SDW
                 _firebase.OnSendUserInfo -= mainLobbyUI.UpdateUserInfo;
         }
 
+        /// <summary>
+        /// UserInfoUI 연결해제 및 이벤트 핸들러 연결해제 설정
+        /// </summary>
+        /// <param name="uiName">연결해제할 UserInfoUI 패널의 이름</param>
         private void DisconnectUserInfoUI(UIName uiName)
         {
             var userInfoUI = _uiDic[uiName] as UserInfoUI;
@@ -458,6 +584,10 @@ namespace SDW
             }
         }
 
+        /// <summary>
+        /// DeleteAccountUI 연결해제 및 이벤트 핸들러 연결해제 설정
+        /// </summary>
+        /// <param name="uiName">연결해제할 DeleteAccountUI 패널의 이름</param>
         private void DisconnectDeleteAccountUI(UIName uiName)
         {
             var deleteAccountUI = _uiDic[uiName] as DeleteAccountUI;
@@ -465,6 +595,10 @@ namespace SDW
             deleteAccountUI.OnCloseButtonClicked -= ClosePanel;
         }
 
+        /// <summary>
+        /// EditUsernameUI 연결해제 및 이벤트 핸들러 연결해제 설정
+        /// </summary>
+        /// <param name="uiName">연결해제할 EditUsernameUI 패널의 이름</param>
         private void DisconnectEdiUsernameUI(UIName uiName)
         {
             var editUsernameUI = _uiDic[uiName] as EditUsernameUI;
@@ -480,6 +614,10 @@ namespace SDW
             }
         }
 
+        /// <summary>
+        /// ChangeIconUI 연결해제 및 이벤트 핸들러 연결해제 설정
+        /// </summary>
+        /// <param name="uiName">연결해제할 ChaneIconUI 패널의 이름</param>
         private void DisconnectChangeIconUI(UIName uiName)
         {
             var changeIconUI = _uiDic[uiName] as ChangeIconUI;
@@ -490,6 +628,10 @@ namespace SDW
             changeIconUI.OnUICloseRequested -= ClosePanel;
         }
 
+        /// <summary>
+        /// KGW_StageUI 연결해제 및 이벤트 핸들러 연결해제 설정
+        /// </summary>
+        /// <param name="uiName">연결해제할 KGW_StageUI 패널의 이름</param>
         private void DisconnectKGW_StageUI(UIName uiName)
         {
             var kgwStageUI = _uiDic[uiName] as KGW_StageSelectUI;
@@ -497,6 +639,10 @@ namespace SDW
             kgwStageUI.OnUICloseRequested -= ClosePanel;
         }
 
+        /// <summary>
+        /// KGW_CharacterSelectUI 연결해제 및 이벤트 핸들러 연결해제 설정
+        /// </summary>
+        /// <param name="uiName">연결해제할 KGW_CharacterSelectUI 패널의 이름</param>
         private void DisconnectKGW_CharacterSelectUI(UIName uiName)
         {
             var kgwCharacterSelectUI = _uiDic[uiName] as KGW_CharacterSelectUI;
@@ -504,6 +650,10 @@ namespace SDW
             kgwCharacterSelectUI.OnUICloseRequested -= ClosePanel;
         }
 
+        /// <summary>
+        /// DailyQuestUI 연결해제 및 이벤트 핸들러 연결해제 설정
+        /// </summary>
+        /// <param name="uiName">연결해제할 DailyQuestUI 패널의 이름</param>
         private void DisconnectDailyQuestUI(UIName uiName)
         {
             var dailyQuestUI = _uiDic[uiName] as DailyQuestUI;
@@ -511,6 +661,10 @@ namespace SDW
             dailyQuestUI.OnUICloseRequested -= ClosePanel;
         }
 
+        /// <summary>
+        /// GachaMainUI 연결해제 및 이벤트 핸들러 연결해제 설정
+        /// </summary>
+        /// <param name="uiName">연결해제할 GachaMainUi 패널의 이름</param>
         private void DisconnectGachaMainUI(UIName uiName)
         {
             var gachaMainUI = _uiDic[uiName] as GachaMainUI;
@@ -518,6 +672,10 @@ namespace SDW
             gachaMainUI.OnUICloseRequested -= ClosePanel;
         }
 
+        /// <summary>
+        /// GachaResultUI 연결해제 및 이벤트 핸들러 연결해제 설정
+        /// </summary>
+        /// <param name="uiName">연결해제할 GachaResultUI 패널의 이름</param>
         private void DisconnectGachaResultUI(UIName uiName)
         {
             var gachaResultUI = _uiDic[uiName] as GachaResultUI;
@@ -529,12 +687,20 @@ namespace SDW
 
         #region Ingame Scene UI Disconnect Methods
 
+        /// <summary>
+        /// BattleUI 연결해제 및 이벤트 핸들러 연결해제 설정
+        /// </summary>
+        /// <param name="uiName">연결해제할 BattleUI 패널의 이름</param>
         private void DisconnectBattleUI(UIName uiName)
         {
             var battleUI = _uiDic[uiName] as BattleUI;
             battleUI.OnUIOpenRequested -= OpenPanel;
         }
 
+        /// <summary>
+        /// MenuUI 연결해제 및 이벤트 핸들러 연결해제 설정
+        /// </summary>
+        /// <param name="uiName">연결해제할 MenuUI 패널의 이름</param>
         private void DisconnectMenuUI(UIName uiName)
         {
             var menuUI = _uiDic[uiName] as MenuUI;
@@ -542,24 +708,41 @@ namespace SDW
             menuUI.OnUICloseRequested -= ClosePanel;
         }
 
+        /// <summary>
+        /// ClearChapterUI 연결해제 및 이벤트 핸들러 연결해제 설정
+        /// </summary>
+        /// <param name="uiName">연결해제할 ClearChapterUI 패널의 이름</param>
         private void DisconnectClearChapterUI(UIName uiName)
         {
             var clearChapterUI = _uiDic[uiName] as ClearChapterUI;
             clearChapterUI.OnUICloseRequested -= ClosePanel;
         }
 
+        /// <summary>
+        /// ClearStageUI 연결해제 및 이벤트 핸들러 연결해제 설정
+        /// </summary>
+        /// <param name="uiName">연결해제할 ClearStageUI 패널의 이름</param>
         private void DisconnectClearStageUI(UIName uiName)
         {
             var clearStageUI = _uiDic[uiName] as ClearStageUI;
             clearStageUI.OnUICloseRequested -= ClosePanel;
         }
 
+        /// <summary>
+        /// NonRemoveADUI 연결해제 및 이벤트 핸들러 연결해제 설정
+        /// </summary>
+        /// <param name="uiName">연결해제할 NonRemoveADUI 패널의 이름</param>
         private void DisconnectNonRemoveADUI(UIName uiName)
         {
             var nonRemoveADUI = _uiDic[uiName] as NonRemoveADUI;
             nonRemoveADUI.OnUIOpenRequested -= OpenPanel;
             nonRemoveADUI.OnUICloseRequested -= ClosePanel;
         }
+
+        /// <summary>
+        /// RemoveADUI 연결해제 및 이벤트 핸들러 연결해제 설정
+        /// </summary>
+        /// <param name="uiName">연결해제할 RemoveADUI 패널의 이름</param>
         private void DisconnectRemoveADUI(UIName uiName)
         {
             var removeADUI = _uiDic[uiName] as RemoveADUI;
@@ -567,6 +750,10 @@ namespace SDW
             removeADUI.OnUICloseRequested -= ClosePanel;
         }
 
+        /// <summary>
+        /// DefeatChapter UI 및 이벤트 핸들러 연결해제 설정
+        /// </summary>
+        /// <param name="uiName">연결해제할 DefeatChapter UI 이름</param>
         private void DisconnectDefeatChapterUI(UIName uiName)
         {
             var defeatChapterUI = _uiDic[uiName] as DefeatChapterUI;

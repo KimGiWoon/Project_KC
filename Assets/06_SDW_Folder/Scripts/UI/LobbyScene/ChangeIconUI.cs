@@ -19,6 +19,9 @@ namespace SDW
 
         private ScrollRect _scrollRect;
 
+        /// <summary>
+        /// UI 요소가 활성화 준비를 마치고 초기화 작업을 수행하는 메서드
+        /// </summary>
         private void Awake()
         {
             _panelContainer.SetActive(false);
@@ -31,6 +34,9 @@ namespace SDW
             _iconChangeButtons = _contents.GetComponentsInChildren<Button>(true).ToList();
         }
 
+        /// <summary>
+        /// UI 요소가 활성화될 때 필요한 초기 설정 및 이벤트 연결 수행
+        /// </summary>
         private void OnEnable()
         {
             if (_scrollRect.content != null)
@@ -52,6 +58,9 @@ namespace SDW
             }
         }
 
+        /// <summary>
+        /// UI 요소가 비활성화될 때 이벤트 리스너 제거 및 리소스 해제를 수행
+        /// </summary>
         private void OnDisable()
         {
             _confirmButton.onClick.RemoveListener(ConfirmButtonClicked);
@@ -66,9 +75,16 @@ namespace SDW
             }
         }
 
-        public void IconSelected(Sprite sprite) => OnIconSelected?.Invoke(sprite);
+        /// <summary>
+        /// IconChangeButtonClicked 핸들러 메서드 호출로 사용자가 선택한 Icon의 Sprite를 전달
+        /// </summary>
+        /// <param name="sprite">전달할 sprite</param>
+        private void IconSelected(Sprite sprite) => OnIconSelected?.Invoke(sprite);
 
-        public void ConfirmButtonClicked()
+        /// <summary>
+        /// ConfirmButtonClicked 핸들러 메서드 호출로 사용자가 확인 버튼을 클릭했을 때 현재 선택된 Icon으로 Apply
+        /// </summary>
+        private void ConfirmButtonClicked()
         {
             OnApplyIconClicked?.Invoke();
             OnUICloseRequested?.Invoke(UIName.ChangeIconUI);

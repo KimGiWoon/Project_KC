@@ -17,8 +17,12 @@ MonoBehaviour:
   relicDescription1: "\uBE44\uC5B4 \uC788\uB294 \uC18C\uB9AC\uAC00 \uC774\uC0C1\uD558\uAC8C
     \uD5C8\uC804\uD558\uAC8C \uC6B8\uB9B0\uB2E4."
   relicDescription2: "\uC544\uAD70 \uB9C8\uB098 \uD68C\uBCF5\uB7C9 \uC99D\uAC00"
+  relicKind: 0
   relicRarity: 1
   isPassive: 1
   relicType: 0
   relicRole: 0
-  relicEffect: 32
+  relicTarget: 0
+  relicEffectValues:
+  - effect: 32
+    value: 20

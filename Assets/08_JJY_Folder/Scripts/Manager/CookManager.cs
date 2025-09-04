@@ -14,8 +14,8 @@ namespace JJY
         Dictionary<Ingredient, RecipeData> recipes = new Dictionary<Ingredient, RecipeData>(); // 레시피 사전(조합마스크 -> 데이터)
         Ingredient selected = Ingredient.None; // 현재 선택된 재료들의 비트마스크
         int selectedCount = 0;
-        List<RecipeData> _playerFoodInventory = new List<RecipeData>(); // 플레이어 음식 인벤토리
-        public List<RecipeData> playerFoodInventory { get { return _playerFoodInventory; } private set { _playerFoodInventory = value; } }
+        List<InventoryItem> _playerFoodInventory = new List<InventoryItem>(); // 플레이어 음식 인벤토리
+        public List<InventoryItem> playerFoodInventory { get { return _playerFoodInventory; } private set { _playerFoodInventory = value; } }
 
         Dictionary<Ingredient, int> _playerIngredientInventory = new Dictionary<Ingredient, int>(); // 플레이어 재료 실제 보유량
         public Dictionary<Ingredient, int> playerIngredientInventory { get { return _playerIngredientInventory; } private set { _playerIngredientInventory = value; } }
@@ -67,7 +67,7 @@ namespace JJY
 
             InitRecipes();         // 레시피 데이터 초기화
             InitDummyInventory();  // (테스트) 플레이어 인벤토리 더미 채우기
-            PrewarmPool(6);        // 버튼 풀을 미리 만들어둠 (초기화 성능을 위해)
+            PrewarmPool(8);        // 버튼 풀을 미리 만들어둠 (초기화 성능을 위해)
 
             // result/cook/reset 버튼 기본 바인딩 설정 (Inspector에서 연결되어야 함)
             if (resultButton != null)
@@ -466,11 +466,13 @@ namespace JJY
 
         public void AddFood(RecipeData dish)
         {
-            _playerFoodInventory.Add(dish);
+            var item = new InventoryItem(dish);
+            _playerFoodInventory.Add(item);
         }
         public void SubtractFood(RecipeData dish)
         {
-            _playerFoodInventory.Remove(dish);
+            var item = new InventoryItem(dish);
+            _playerFoodInventory.Remove(item);
         }
         #endregion
         #region 헬퍼

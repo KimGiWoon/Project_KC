@@ -45,6 +45,10 @@ namespace SDW
         private BattleMonsterManager _battleMonster;
         public BattleMonsterManager BattleMonster => _battleMonster;
 
+        //# Data Table - Relic
+        private RelicDataManager _relic;
+        public RelicDataManager Relic => _relic;
+
         //# Gacha
         private CharacterGacha _gacha;
         public CharacterGacha Gacha => _gacha;
@@ -72,6 +76,9 @@ namespace SDW
         private int _gachaCount;
         public int GachaCount => _gachaCount;
 
+        /// <summary>
+        /// Singletone 설정 및 각 Component 연결
+        /// </summary>
         private void Awake()
         {
             if (_instance == null)
@@ -93,12 +100,16 @@ namespace SDW
             _monsterData = GetComponent<MonsterDataManager>();
             _encounter = GetComponent<EncounterDataManager>();
             _battleMonster = GetComponent<BattleMonsterManager>();
+            _relic = GetComponent<RelicDataManager>();
 
             //# Gacha
             _gacha = GetComponent<CharacterGacha>();
             _reward = GetComponent<RewardChangeManager>();
         }
 
+        /// <summary>
+        /// FrameRate 설정
+        /// </summary>
         private void Start()
         {
 #if PLATFORM_ANDROID
@@ -122,12 +133,33 @@ namespace SDW
             Screen.autorotateToLandscapeRight = false;
         }
 
+        /// <summary>
+        /// 스테이지 보스 모드 설정을 변경
+        /// </summary>
+        /// <param name="isBoss">현재 전투가 보스 모드인지 여부를 나타냄</param>
         public void SetStageBoss(bool isBoss) => _lastBoss = isBoss;
 
+        /// <summary>
+        /// 무지개 별 사탕 개수를 설정
+        /// </summary>
+        /// <param name="number">설정할 무지개 별 사탕의 개수</param>
         public void SetRainbowStarCandy(int number) => rainbowStarCandy = number;
 
+        /// <summary>
+        /// 게임 내 가챠 카운트를 지정된 값만큼 증가시킴
+        /// </summary>
+        /// <param name="number">추가할 가챠 카운트 값</param>
         public void AddGachaCount(int number) => _gachaCount += number;
 
+        /// <summary>
+        /// 게임 내 가챠 카운트를 초기화하여 0으로 설정
+        /// </summary>
+        public void ClearGachaCount() => _gachaCount = 0;
+
+        /// <summary>
+        /// 다운로드 완료 상태를 설정
+        /// </summary>
+        /// <param name="complete">다운로드 완료 여부를 나타내는 bool 값</param>
         public void SetCompleteDownload(bool complete) => _completeDownload = complete;
     }
 }

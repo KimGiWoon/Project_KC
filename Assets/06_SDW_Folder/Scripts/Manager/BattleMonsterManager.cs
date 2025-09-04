@@ -27,6 +27,9 @@ namespace SDW
         private Dictionary<string, int> _battleStageRewardDataTable = new Dictionary<string, int>();
         public Dictionary<string, int> BattleStageRewardDataTable => _battleStageRewardDataTable;
 
+        /// <summary>
+        /// 각 Data Table 데이터 연결
+        /// </summary>
         private void Start()
         {
             LoadBattleStageDataFileData();
@@ -35,6 +38,9 @@ namespace SDW
             LoadBattleStageRewardData();
         }
 
+        /// <summary>
+        /// BattleStageDataFileData를 CSV 파일로부터 로드하고, 내부 딕셔너리에 저장
+        /// </summary>
         private void LoadBattleStageDataFileData()
         {
             string[] fields = HandleCSV.LoadFromCsv("Battle/BattleStageData");
@@ -54,6 +60,9 @@ namespace SDW
             }
         }
 
+        /// <summary>
+        /// BattleStageUIDataFileData를 CSV 파일로부터 로드하고, 내부 딕셔너리에 저장
+        /// </summary>
         private void LoadBattleStageUIDataFileData()
         {
             string[] fields = HandleCSV.LoadFromCsv("Battle/BattleStageUIData");
@@ -66,6 +75,9 @@ namespace SDW
             }
         }
 
+        /// <summary>
+        /// BattleStageTypeRuleFileData를 CSV 파일로부터 로드하고, 내부 딕셔너리에 저장
+        /// </summary>
         private void LoadBattleStageTypeRuleFileData()
         {
             string[] fields = HandleCSV.LoadFromCsv("Battle/BattleStageTypeRule");
@@ -77,6 +89,9 @@ namespace SDW
             }
         }
 
+        /// <summary>
+        /// BattleStageRewardData를 CSV 파일로부터 로드하고, 내부 딕셔너리에 저장
+        /// </summary>
         private void LoadBattleStageRewardData()
         {
             string[] fields = HandleCSV.LoadFromCsv("Battle/BattleStageRewardData");

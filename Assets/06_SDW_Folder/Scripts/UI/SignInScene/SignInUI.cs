@@ -17,14 +17,29 @@ namespace SDW
         public Action OnSignInButtonClicked;
 
         /// <summary>
-        /// UI 요소 연결 및 이벤트 리스너 설정을 수행
+        /// UI 컴포넌트 활성화 설정 및 이벤트 리스너 할당을 수행
         /// </summary>
         private void Awake()
         {
             _panelContainer.SetActive(false);
             _signInButton = _panelContainer.GetComponentInChildren<Button>(true);
-            _signInButton.onClick.AddListener(SignInButtonClicked);
             _signInImage = _signInButton.GetComponent<Image>();
+        }
+
+        /// <summary>
+        /// UI 요소가 활성화될 때 필요한 이벤트 연결 수행
+        /// </summary>
+        private void OnEnable()
+        {
+            _signInButton.onClick.AddListener(SignInButtonClicked);
+        }
+
+        /// <summary>
+        /// UI 요소가 비활성화될 때 이벤트 리스너 제거를 수행
+        /// </summary>
+        private void OnDisable()
+        {
+            _signInButton.onClick.RemoveListener(SignInButtonClicked);
         }
 
         /// <summary>
