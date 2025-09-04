@@ -45,10 +45,14 @@ public class MonsterDataSO : ScriptableObject
     public GameObject _prefab;  // 몬스터 프리팹
 
     [Header("Skills Setting")]
-    public float _useSkillTime;             // 스킬 사용 시간
+    public float _useSkillTime;     // 스킬 사용 시간
 
-    [Header("Boss Skill Setting")]
+    [Header("Boss Attack Skill")]
+    public MonsterSkillDataSO _bossSkill;   // 보스의 공격 스킬
+
+    [Header("Boss Monster Recall Skill")]
     public SkillDataSO[] _recallSkills;           // 보스의 몬스터 소환 스킬
+    public MonsterSkillDataSO _monterRecallSkill;   // 보스의 몬스터 소환 스킬
 
     // 파싱 데이터를 매핑
     public virtual void DataApply(MonsterDataFileData monsterData, MonsterStatFileData statData)

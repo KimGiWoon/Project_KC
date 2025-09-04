@@ -26,7 +26,8 @@ public class CreateMonsterSO : Editor
 
             // ScriptableObject 저장 경로
             string soFolder = "Assets/05_KGW_Folder/Prefabs/01_Monsters/MonstersSOData";
-    
+            
+            // 파일 이름 설정
             string soPath = $"{soFolder}/{data.MonEnName}_Data.asset";
 
             // ScriptableObject 생성/로드
