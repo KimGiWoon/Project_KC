@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using JJY;
 using UnityEngine;
 
 namespace KSH
@@ -13,12 +14,13 @@ namespace KSH
         //유물 나오는 UI 있어야함
         [SerializeField] private RelicResultUI relicResultUI;
         [SerializeField] private BuffRelicManager buffRelicManager;
-        public List<Relic> acquiredRelicLists = new List<Relic>();
+        public List<InventoryItem> acquiredRelicLists = new List<InventoryItem>();
         
         private WeightedRandom<RelicRarity> relicRarityPicker;
         
         private CharacterState characterState;
 
+        //public System.Action OnRelicSkill;
         protected override void Awake()
         {
             base.Awake();
@@ -30,20 +32,29 @@ namespace KSH
 
         private void Start()
         {
-            RarityPick(RelicEffectType.BuffType,3); //임시로 해둠
+            RarityPick(RelicKind.BuffType,3); //임시로 해둠
         }
 
-        public void RarityPick(RelicEffectType relicEffectType, int amount)
+        //테스트용
+        private void Update()
+        {
+          //if (Input.GetKeyDown(KeyCode.R))
+          //{
+          //    OnRelicSkill?.Invoke();
+          //}
+        }
+
+        public void RarityPick(RelicKind relicKind, int amount)
         {
             RelicRarity relicRarity;
             
-            if (relicEffectType == RelicEffectType.DeburffType)
+            if (relicKind == RelicKind.DeburffType)
                  relicRarity = RelicRarity.None;
             else
                 relicRarity = relicRarityPicker.GetRandom();
             
             List<Relic> getRelicList = relics
-                .Where(relic => relic.relicRarity == relicRarity && !acquiredRelicLists.Contains(relic))
+                .Where(relic => relic.relicRarity == relicRarity && !acquiredRelicLists.Any(r => r.relic == relic))
                 .ToList();
 
             for (int i = 0; i < getRelicList.Count; i++)
@@ -61,13 +72,16 @@ namespace KSH
 
         public void GetRelic(Relic relic)
         {
-            //ToDo : 인벤토리에 유물 추가해야함 (일단 임시로 해둠)
-            if (!acquiredRelicLists.Contains(relic)) //얻은 유물이 습득된 유물 리스트에 없다면
+            //리스트에 같은 유물이 있는지 Bool값
+            bool alreadyAcquired = acquiredRelicLists.Any(r => r.relic == relic);
+
+            if (!alreadyAcquired) //만약 없다면
             {
-                acquiredRelicLists.Add(relic); //리스트에 추가
+                var item = new InventoryItem(relic);
+                acquiredRelicLists.Add(item); //아이템 추가
+            
                 Debug.Log($"{relic.relicName} 획득");
-                //TODO: 플레이어 스탯 적용 및 효과 적용
-                buffRelicManager.ApplyRelicEffect(relic); // 캐릭터 유물 효과 적용
+                buffRelicManager.ApplyRelicEffect(relic); //아이템 효과적용
             }
         }
     }    

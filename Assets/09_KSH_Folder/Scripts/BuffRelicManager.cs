@@ -6,6 +6,7 @@ using UnityEngine;
 public class BuffRelicManager : MonoBehaviour
 {
     [SerializeField] private BattleManager battleManager;
+    [SerializeField] private MyCharacterController myCharacterController;
     
     public void ApplyStatToCharacter(RelicEffect effect, int value) //기본 스탯 ++
     {
@@ -61,10 +62,12 @@ public class BuffRelicManager : MonoBehaviour
                     //만약 유물 적용 대상이 Character, 유물 발동조건이 True, 유물 발동 타입이 None, 발동 가능 역할군이 None이면
                     if(relic.relicRole == RelicRole.None && relic.isPassive && relic.relicType == RelicType.None) 
                         ApplyStatToCharacter(effect.effect, effect.value);
+                    else if(relic.relicRole == RelicRole.None && !relic.isPassive && relic.relicType == RelicType.ActiveSkill)
+                       myCharacterController.OnRelicEffect += () => ApplyStatToCharacter(effect.effect, effect.value);
+                        //RelicDropManager.Instance.OnRelicSkill += () => ApplyStatToCharacter(effect.effect, effect.value);
                     break;    
             }    
         }
-          
             //만약 유물적용 대상이 Monster,유물 발동조건이 True, 유물 발동 타입이 None, 발동가능역할군이None이면
             //ApplyStatToMonster(effect.effect, effect.value);
     }
