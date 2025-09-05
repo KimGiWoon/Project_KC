@@ -11,14 +11,14 @@ public class MonsterRacall : SkillDataSO
     Transform[] _recallPoint;
     Vector2 _basicPos;
 
-    public override void UseSkill(Transform caster, MonoBehaviour target, Transform[] point)
+    public override void UseSkill(MonoBehaviour caster, MonoBehaviour target, Transform[] point)
     {
         _basicPos = caster.transform.position;
         float createPos = 2f;
         _recallPoint = point;
 
         // 스킬 사용 이미지 생성
-        GameObject monsterRecall = Instantiate(base._skillPrefab, _basicPos + Vector2.up * createPos, caster.rotation);
+        GameObject monsterRecall = Instantiate(base._skillPrefab, _basicPos + Vector2.up * createPos, caster.transform.rotation);
         MonsterRacallController monsterRacallController = monsterRecall.GetComponent<MonsterRacallController>();
 
         // 스킬의 데이터 전달
