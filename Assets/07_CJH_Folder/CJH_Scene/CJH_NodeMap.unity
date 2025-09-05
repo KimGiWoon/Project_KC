@@ -7735,56 +7735,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!1 &697770259
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 697770261}
-  - component: {fileID: 697770260}
-  m_Layer: 0
-  m_Name: EventStart
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!114 &697770260
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 697770259}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f11f2321074faf548a8c02b0db8fd19c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  encounterText: {fileID: 1087023438}
-  choiceButtonPrefab: {fileID: 0}
-  buttonContainer: {fileID: 0}
-  resultPanel: {fileID: 472000888}
-  resultText: {fileID: 1337864396}
-  closeResultButton: {fileID: 259469304}
---- !u!4 &697770261
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 697770259}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.44666502, y: -0.5165635, z: 282.81216}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!224 &704706137 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 4047201875478548068, guid: 5c4662f028fc5194394dadc446d7eb8b, type: 3}
@@ -23728,7 +23678,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &2003689325
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -23741,10 +23691,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ed6ff05c0a9e1047b08b49bd541200b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mapView: {fileID: 778645415}
-  evenStart: {fileID: 697770260}
-  mapGroup: {fileID: 0}
-  eventGroup: {fileID: 0}
 --- !u!4 &2003689326
 Transform:
   m_ObjectHideFlags: 0
@@ -25281,7 +25227,6 @@ SceneRoots:
   - {fileID: 1545564346}
   - {fileID: 527288132}
   - {fileID: 2003689326}
-  - {fileID: 697770261}
   - {fileID: 1845898111}
   - {fileID: 2053620151}
   - {fileID: 641488748}

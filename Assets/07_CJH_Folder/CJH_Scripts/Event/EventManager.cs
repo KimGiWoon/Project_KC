@@ -20,15 +20,15 @@ namespace CJH
             {
                 Debug.Log($"EventManager: {stage} 스테이지의 사건 시작 (ID: {randomEncounter.Row.EncounterID})");
 
-                // 1. 'EventUIPrefab'을 Resources 폴더에서 불러옵니다.
-                GameObject prefab = Resources.Load<GameObject>("EventUIPrefab");
+                // Event을 Resources 폴더에서 불러옵니다.
+                GameObject prefab = Resources.Load<GameObject>("Event");
                 if (prefab == null)
                 {
-                    Debug.LogError("'EventUIPrefab'을 Resources 폴더에서 찾을 수 없습니다!");
+                    Debug.LogError("'Event'을 Resources 폴더에서 찾을 수 없습니다!");
                     return;
                 }
 
-                // 2. 씬의 메인 캔버스 아래에 프리팹을 생성합니다.
+                // 씬의 메인 캔버스 아래에 프리팹을 생성합니다.
                 Canvas mainCanvas = FindObjectOfType<Canvas>();
                 if (mainCanvas != null)
                 {
@@ -36,7 +36,7 @@ namespace CJH
                     EventStart eventStart = currentEventInstance.GetComponentInChildren<EventStart>();
                     if (eventStart != null)
                     {
-                        // 3. EventStart에게 데이터를 넘겨 UI를 초기화시킵니다.
+                        // EventStart에게 데이터를 넘겨 UI를 초기화시킵니다.
                         eventStart.Initialize(randomEncounter.Row);
                     }
                 }
