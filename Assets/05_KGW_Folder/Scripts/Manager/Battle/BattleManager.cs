@@ -50,6 +50,7 @@ public class BattleManager : MonoBehaviour
     public int _characterCount;
     public bool _isClear;
     public bool _isGameOver;
+    public bool _isTimeOver;
     public bool _canResurrection;
     public int _timer;
     public float _monsterTotalMaxHp;
@@ -70,8 +71,6 @@ public class BattleManager : MonoBehaviour
     {
         _battleUI = FindObjectOfType<BattleUI>();
 
-        string stageName = GameManager.Instance.StageName;
-        //todo datatable에서 stageName으로 일반 몬스터와 보스 몬스터 정보를 가져와야 함
         //_isLocalBoss = ;
         _isLastBoss = GameManager.Instance.LastBoss;
         // _monsterList = monsterData[stageName].NormalMonsters;

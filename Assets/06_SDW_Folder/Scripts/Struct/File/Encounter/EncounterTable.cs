@@ -26,6 +26,10 @@ namespace SDW
         public int ResultChoiceCount;
         public List<string> EncounterExitText;
 
+        /// <summary>
+        /// EncounterTable 초기화
+        /// </summary>
+        /// <param name="fields">초기화 데이터</param>
         public EncounterTable(string[] fields)
         {
             EncounterID = int.Parse(fields[0]);

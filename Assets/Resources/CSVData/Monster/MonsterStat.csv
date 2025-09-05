@@ -1,15 +1,15 @@
-﻿몬스터 ID	몬스터 명	몬스터 명(영문)	몬스터 레벨	그로기 유무	그로기 게이지	체력	체력 증가	공격 속도	공격력	공격력 증가	방어력	방어력 증가	명중률	회피율	회피율 증가	상태이상 저항
+﻿몬스터 ID	몬스터 명	몬스터 명(영문)	몬스터 레벨	그로기 유무	그로기 게이지	체력	체력 증가(%)	공격 속도(s)	공격력	공격력 증가(%)	방어력	방어력 증가(%)	명중률	회피율	회피율 증가	상태이상 저항
 monID	monName	monNameEn	monLv	monBreak	monBreakGage	monHP	monHPIncrease	monAtkSpeed	monAttack	monAttackIncrease	monArmor	monArmorIncrease	monAccuracy	monAvoid	monAvoideIncrease	monReg
-int	string	string(enum)	int	bool	int	float	float(%)	float(s)	float	float(%)	float	float(%)	float	float	float	float
-21001	시골 들쥐	FieldMouse	1	FALSE	-1	200	0.1	0.7	10	0.1	20	0.1	100	0	2	0
-21002	희미한 도깨비 불	MistLocustSwarm	1	FALSE	-1	150	0.1	0.7	30	0.1	20	0.1	100	0	2	0
-21003	허브 슬라임	HerbSlime	1	FALSE	-1	200	0.1	0.7	10	0.1	20	0.1	100	0	2	0
-21004	산 멧돼지	MountainBoar	1	FALSE	-1	200	0.1	0.7	20	0.1	30	0.1	100	0	2	0
-21005	귀신 박쥐	GhostBat	1	FALSE	-1	200	0.1	0.7	10	0.1	20	0.1	100	10	2	0
-21006	거대 지네	GiantCentipede	1	FALSE	-1	200	0.1	0.7	10	0.1	20	0.1	100	0	2	0
-21201	그림자 허수아비	ShadowScarecrow	1	FALSE	-1	500	0.1	0.7	50	0.1	20	0.1	120	10	2	0
-21202	부패한 꽃	CorruptedFlower	1	FALSE	-1	500	0.1	0.7	50	0.1	20	0.1	120	10	2	0
-21203	악령 사마귀	DemonMentis	1	FALSE	-1	500	0.1	0.7	50	0.1	20	0.1	120	10	2	0
-21301	무쇠 황소	IronBull	1	TRUE	30	1500	0.1	0.7	100	0.1	50	0.1	130	10	2	0
-21302	거대 곰	GiantBear	1	TRUE	30	1500	0.1	0.7	100	0.1	50	0.1	130	10	2	0
-21303	검숭이	BladeMonkey	1	TRUE	30	1500	0.1	0.7	100	0.1	20	0.1	130	20	2	0
+int	string	enum	int	bool	int	float	float	float	float	float	float	float	float	float	float	float
+21001	시골 들쥐	FieldMouse	1	false	-1	200	0.1	0.7	10	0.1	20	0.1	100	0	2	0
+21002	희미한 도깨비 불	MistLocustSwarm	1	false	-1	150	0.1	0.7	30	0.1	20	0.1	100	0	2	0
+21003	허브 슬라임	HerbSlime	1	false	-1	200	0.1	0.7	10	0.1	20	0.1	100	0	2	0
+21004	산 멧돼지	MountainBoar	1	false	-1	200	0.1	0.7	20	0.1	30	0.1	100	0	2	0
+21005	귀신 박쥐	GhostBat	1	false	-1	200	0.1	0.7	10	0.1	20	0.1	100	10	2	0
+21006	거대 지네	GiantCentipede	1	false	-1	200	0.1	0.7	10	0.1	20	0.1	100	0	2	0
+21201	그림자 허수아비	ShadowScarecrow	1	false	-1	500	0.1	0.7	50	0.1	20	0.1	120	10	2	0
+21202	부패한 꽃	CorruptedFlower	1	false	-1	500	0.1	0.7	50	0.1	20	0.1	120	10	2	0
+21203	악령 사마귀	DemonMentis	1	false	-1	500	0.1	0.7	50	0.1	20	0.1	120	10	2	0
+21301	무쇠 황소	IronBull	1	true	30	1500	0.1	0.7	100	0.1	50	0.1	130	10	2	0
+21302	거대 곰	GiantBear	1	true	30	1500	0.1	0.7	100	0.1	50	0.1	130	10	2	0
+21303	검숭이	BladeMonkey	1	true	30	1500	0.1	0.7	100	0.1	20	0.1	130	20	2	0

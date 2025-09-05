@@ -11,19 +11,38 @@ namespace SDW
         [SerializeField] private TMP_InputField _nicknameInputField;
         [SerializeField] private TextMeshProUGUI _errorText;
         [SerializeField] private Button _confirmButton;
+        private string _currentNickname;
 
         public Action<string> OnConfirmButtonClicked;
         public Action<UIName> OnCloseRequested;
 
-        private string _currentNickname;
-
+        /// <summary>
+        /// UI 요소가 활성화 준비를 마치고 초기화 작업을 수행하는 메서드
+        /// </summary>
         private void Awake()
         {
             _panelContainer.SetActive(false);
+        }
 
+        /// <summary>
+        /// UI 요소가 활성화될 때 필요한 이벤트 연결 수행
+        /// </summary>
+        private void OnEnable()
+        {
             _confirmButton.onClick.AddListener(ConfirmButtonClicked);
         }
 
+        /// <summary>
+        /// UI 요소가 비활성화될 때 이벤트 리스너 제거를 수행
+        /// </summary>
+        private void OnDisable()
+        {
+            _confirmButton.onClick.RemoveListener(ConfirmButtonClicked);
+        }
+
+        /// <summary>
+        /// ConfirmButtonClicked 핸들러 메서드 호출로 사용자가 확인 버튼을 클릭했을 때 Nickname을 설정
+        /// </summary>
         private void ConfirmButtonClicked()
         {
             string nickname = _nicknameInputField.text;

@@ -17,7 +17,7 @@ namespace KSH
         public string relicDescription2;
         
         [Header("유물 효과 타입")]
-        public RelicEffectType relicEffectType;
+        public RelicKind relicKind;
         
         [Header("유물 등급")]
         public RelicRarity relicRarity;
@@ -45,7 +45,7 @@ namespace KSH
         public int value;          
     }
 
-    public enum RelicEffectType
+    public enum RelicKind
     {
         BuffType,
         DeburffType,

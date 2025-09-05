@@ -4947,6 +4947,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 788bfb2904714ca428ed4b888b30f4b9, type: 2}
   relicResultUI: {fileID: 1966767899}
   buffRelicManager: {fileID: 815599329}
+  acquiredRelicLists: []
 --- !u!4 &588478700
 Transform:
   m_ObjectHideFlags: 0
@@ -6640,7 +6641,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 44a9b1d79e051554ba84ac2522c3e28c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerData: {fileID: 11400000, guid: 33635fde53e81f140b4e56ff38ec45b0, type: 2}
+  battleManager: {fileID: 499883419036032184, guid: fa761daa402395443998ecabe6307359, type: 3}
+  myCharacterController: {fileID: 0}
 --- !u!4 &815599330
 Transform:
   m_ObjectHideFlags: 0

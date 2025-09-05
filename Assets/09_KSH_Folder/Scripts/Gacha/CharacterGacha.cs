@@ -33,20 +33,22 @@ namespace KSH
             rarityPicker.Add(CharacterGrade.Rare, 2); //레어 등급은 가중치 2
         }
 
-        private void Start()
-        {
-            getCount = GameManager.Instance.GachaCount;
-        }
+        // private void Start()
+        // {
+        //     getCount = ;
+        // }
         public CharacterDataSO GetRandomCharacter() //캐릭터 랜덤 뽑기
         {
-            getCount++; //횟수 누적
+            // getCount++; //횟수 누적
+            GameManager.Instance.AddGachaCount(1);
             Debug.Log($"누적 {getCount}회");
 
             var getRarity = rarityPicker.GetRandom(); //가중치 랜덤 뽑기로 등급 뽑기
 
-            if (getCount > pityStart && getRarity == CharacterGrade.Normal) //만약 누적 횟수가 43회 초과이고 등급이 기본만 얻었으면
+            if (GameManager.Instance.GachaCount > pityStart &&
+                getRarity == CharacterGrade.Normal) //만약 누적 횟수가 43회 초과이고 등급이 기본만 얻었으면
             {
-                float pity = pityIncrease * (getCount - pityStart) * 100f; //43뽑 이후 누적 횟수당 14%씩 레어 확률 높임
+                float pity = pityIncrease * (GameManager.Instance.GachaCount - pityStart) * 100f; //43뽑 이후 누적 횟수당 14%씩 레어 확률 높임
                 float roll = Random.Range(0f, 100f); //확률 랜덤 돌리기
                 if (roll < pity) //만약 레어 확률이 랜덤확률보다 높다면
                 {
@@ -55,7 +57,8 @@ namespace KSH
             }
 
             if (getRarity == CharacterGrade.Rare) //만약 레어 캐릭터가 나왔다면
-                getCount = 0; //누적 횟수 초기화
+                // getCount = 0; //누적 횟수 초기화
+                GameManager.Instance.ClearGachaCount();
 
             //랜덤으로 뽑힌 등급의 캐릭터들을 리스트로 모은다.
             var getChracterList = characterLists

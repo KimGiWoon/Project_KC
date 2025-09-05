@@ -39,4 +39,15 @@ public class MonsterResearchContoller : MonoBehaviour
             _controller._researchTarget = character;
         }
     }
+
+    // 나간 캐릭터
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        // 탐색 대상이 비어있지않고 나간 대상이 탐색 대상인 경우  
+        if (_controller._researchTarget != null && collision.gameObject == _controller._researchTarget.gameObject)
+        {
+            // 탐색 대상 비우기
+            _controller._researchTarget = null;
+        }
+    }
 }

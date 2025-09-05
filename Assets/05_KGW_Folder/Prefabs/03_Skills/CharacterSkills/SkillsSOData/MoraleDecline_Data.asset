@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cc9ee9bffdb55cd45ba161b7e64f695b, type: 3}
+  m_Name: MoraleDecline_Data
+  m_EditorClassIdentifier: 
+  _chaSkillID: 12003
+  _chaSkillName: "\uC0AC\uAE30 \uC800\uD558"
+  _chaSkillEnName: 3
+  _chaSkillType: 0
+  _chaSkillTargetType: 2
+  _chaSkillEffectType: 5
+  _chaSkillChance: 50
+  _chaSkillDuration: 3
+  _chaSkillTick: -1
+  _chaSkillHit: 1
+  _chaSkillValue: 1.2
+  _chaEffectValue: 20
+  _chaSkillDescription: "\uACF5\uACA9 \uC2DC <chaSkillChance>%\uB85C \uC801\uC758
+    \uACF5\uACA9\uB825\uC744 <chaEffectValue> \uB9CC\uD07C \uAC10\uC18C \uC2DC\uD0A8\uB2E4.\r"

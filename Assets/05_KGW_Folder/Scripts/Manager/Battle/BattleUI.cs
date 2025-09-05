@@ -32,12 +32,14 @@ public class BattleUI : BaseUI
     public float _currentTotalHp;
     public float _TotalHp;
     public bool _isOnMenu;
+    private float _speed;
 
-    private float _time;
+    public float _time;
     private bool _isFast;
     private Coroutine _timerRoutine;
 
     public Action<UIName> OnUIOpenRequested;
+    public event Action<bool> OnTimeOver;
 
     private void Awake()
     {
@@ -99,6 +101,7 @@ public class BattleUI : BaseUI
     public void GamePlayResultCheck(bool result)
     {
         _panelContainer.SetActive(true);
+
         // 게임 클리어
         if (result)
         {
@@ -134,10 +137,10 @@ public class BattleUI : BaseUI
     private void ChangeGameTimer()
     {
         // 게임 스피드 설정
-        float speed = CharacterSelectManager.Instance._isFastGame ? 2f : 1f;
+        _speed = CharacterSelectManager.Instance._isFastGame ? 2f : 1f;
 
         // 타이머 1배속, 2배속 세팅
-        _playTime = new WaitForSeconds(1f / speed);
+        _playTime = new WaitForSeconds(1f / _speed);
     }
 
     // X2 속도 버튼 클릭
@@ -206,16 +209,34 @@ public class BattleUI : BaseUI
                 // 시간 초과하면 게임 패배
                 if (_time <= 0)
                 {
-                    // 타이머 코루틴 정지
-                    StopTimeCoroutine();
-
                     _panelContainer.SetActive(true);
+
+                    Debug.Log("클리어 실패!");
+                    _battleManager._isClear = false;
+                    _battleManager._isGameOver = true;
+                    _battleManager._isTimeOver = true;
+
+                    // 타임오버 시 
+                    OnTimeOver?.Invoke(_battleManager._isTimeOver);
+
                     // 클리어 실패 UI 오픈
-                    if (GameManager.Instance.BuyAdRemover) OnUIOpenRequested?.Invoke(UIName.RemoveADUI);
-                    else OnUIOpenRequested?.Invoke(UIName.NonRemoveADUI);
+                    GamePlayResultCheck(_battleManager._isClear);
                 }
+                yield return null;
             }
         }
+    }
+
+    public void StartTimeCoroutine()
+    {
+        if(_timerRoutine != null)
+        {
+            StopCoroutine(_timerRoutine);
+            _timerRoutine = null;
+        }
+
+        _playTime = new WaitForSeconds(1f / _speed);
+        _timerRoutine = StartCoroutine(TimerCoroutine());
     }
 
     // 타이머 코루틴 정지

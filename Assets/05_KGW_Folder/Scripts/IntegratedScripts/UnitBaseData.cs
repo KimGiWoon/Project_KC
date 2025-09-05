@@ -9,11 +9,6 @@ public abstract class UnitBaseData : MonoBehaviour
     [SerializeField] private float _knockbackForce = 1f; // 넉백 파워
     [SerializeField] private float _knockbackDuraction = 0.1f; // 넉백 지속 시간
 
-    // 추후 제거 예정!! 사용 금지!!
-    //public float _currentHp; // 유닛의 현재 체력
-    //public float _maxHp; // 유닛의 최대 체력
-    //public float _currentMp; // 유닛의 현재 마나
-
     [Header("Unit State")]
     public bool _isAlive; // 유닛의 생존 여부
     public bool _isAttack; // 유닛의 공격 여부
@@ -29,7 +24,7 @@ public abstract class UnitBaseData : MonoBehaviour
     protected CharacterDataSO _chaData;
     protected MonsterDataSO _monData;
     
-    private void Awake()
+    protected virtual void Awake()
     {
         _battleManager = FindObjectOfType<BattleManager>();
         _battleUI = FindObjectOfType<BattleUI>();
