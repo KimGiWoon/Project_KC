@@ -24,9 +24,17 @@ public class MonsterController : UnitBaseData
     public bool _isDetect;
     public bool _isFirst;
     private RecallPointProvider _recallPointProvider;
+    private MonsterController _monster;
 
     // 체력 절반 이벤트
     public event Action OnHalfHp;
+
+    protected override void Awake()
+    {
+        base.Awake();
+
+        _monster = GetComponent<MonsterController>();
+    }
 
     private void OnDestroy()
     {
@@ -190,7 +198,7 @@ public class MonsterController : UnitBaseData
             foreach (var skill in _monsterData._recallSkills)
             {
                 // 스킬 사용
-                skill.UseSkill(transform, _researchTarget, recallPoint);
+                skill.UseSkill(_monster, _researchTarget, recallPoint);
             }
         }
     }

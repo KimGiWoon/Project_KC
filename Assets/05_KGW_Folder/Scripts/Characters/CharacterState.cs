@@ -22,6 +22,8 @@ public class CharacterState
     public float _chaAtkSpeed;
     public float _chaAttack;
     public float _chaArmor;
+    public bool _isBarrier;
+    public float _groggyDamage;
 
     [Header("Character Role State Data")]
     public int _chaAtkIsMelee;
@@ -31,6 +33,10 @@ public class CharacterState
     public float _chaCritDmg;
     public float _chaReg;
     public float _chaMoveSpeed;
+
+    [Header("Character Skill Data")]
+    public CharacterSkillDataSO _chaPassiveSkill;
+    public CharacterSkillDataSO _chaActiveSkill;
 
     public bool _isManaFull;    // 마나 풀 여부
 }

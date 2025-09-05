@@ -23,13 +23,13 @@ namespace JJY
         }
     }
     // TODO : GameManager에 연결하기.
-    // 매 전투마다 초기화 되기 때문에, DontDestroyOnLoad일 필요가 없다.
+    // 전투에만 포함되는 매니저. 전투끝나고 노드씬으로 이동 시 사라짐.
     public class BuffManager : MonoBehaviour
     {
         public static BuffManager Instance { get; private set; }
         [SerializeField] BattleManager btManager;
 
-        List<MyCharacterController> downed;
+        List<MyCharacterController> downed = new List<MyCharacterController>();
 
         [Header("UI")]
         [SerializeField] Transform foodContent;
@@ -37,9 +37,10 @@ namespace JJY
 
         [Header("Debug")]
         [SerializeField] bool logActions = true;
-        [SerializeField] List<RecipeData> testFoodInventory = new List<RecipeData>(); // 테스트 인벤토리, CookManager의 인벤토리와 연결해야함.
+        [SerializeField] List<InventoryItem> testFoodInventory = new List<InventoryItem>(); // 테스트 인벤토리, CookManager의 인벤토리와 연결해야함.
         // 활성 버프 리스트
         List<ActiveBuff> activeBuffs = new List<ActiveBuff>();
+
 
         void Awake()
         {
@@ -49,9 +50,20 @@ namespace JJY
                 Destroy(gameObject);
                 return;
             }
+
             InitFoodIcon();
         }
-
+#if UNITY_EDITOR
+        void Start()
+        {
+            for (int i = 0; i < testFoodInventory.Count; i++)
+            {
+                CookManager.Instance.AddFood(testFoodInventory[i].recipe);
+                if (logActions) Debug.Log($"{testFoodInventory[i].recipe.recipeName}추가됨");
+            }
+            InitFoodIcon();
+        }
+#endif
         void Update()
         {
             if (activeBuffs.Count == 0) return;
@@ -77,59 +89,57 @@ namespace JJY
                 Destroy(foodContent.GetChild(i).gameObject);
             }
 
-            for (int i = 0; i < testFoodInventory.Count; i++)
+            var list = CookManager.Instance.playerFoodInventory;
+            // var list = testFoodInventory;
+            for (int i = 0; i < list.Count; i++)
             {
-                RecipeData recipe = testFoodInventory[i];
-                if (recipe == null) continue;
+                InventoryItem food = list[i];
+                if (food == null) continue;
 
                 GameObject go = Instantiate(foodBtnPrefab, foodContent);
-                go.name = $"FoodBtn_{i}_{recipe.recipeName}";
+                go.name = $"FoodBtn_{i}_{food.recipe.recipeName}";
 
                 Button btn = go.GetComponent<Button>();
                 Image img = go.GetComponent<Image>();
 
-                if (img != null && recipe.image != null)
+                if (img != null && food.recipe.image != null)
                 {
-                    img.sprite = recipe.image;
+                    img.sprite = food.recipe.image;
                     img.enabled = true;
                 }
                 // 안전한 캡처: 로컬 변수에 담아서 리스너 바인딩
-                RecipeData recipeLocal = recipe;
+                InventoryItem itemLocal = food;
                 GameObject instanceLocal = go;
 
                 if (btn != null)
                 {
                     btn.onClick.RemoveAllListeners();
-                    btn.onClick.AddListener(() => OnFoodButtonClicked(recipeLocal, instanceLocal));
+                    btn.onClick.AddListener(() => OnFoodButtonClicked(itemLocal, instanceLocal));
                 }
             }
         }
         // 버튼 클릭 시 호출: recipeLocal을 testFoodInventory에서 제거하고 효과 적용
-        void OnFoodButtonClicked(RecipeData recipeLocal, GameObject instanceLocal)
+        void OnFoodButtonClicked(InventoryItem itemLocal, GameObject instanceLocal)
         {
-            if (recipeLocal == null)
+            if (itemLocal == null)
             {
-                Debug.LogWarning($"[BuffManager] 클릭된 RecipeData가 null입니다 : {recipeLocal}");
+                Debug.LogWarning($"[BuffManager] 클릭된 RecipeData가 null입니다 : {itemLocal}");
                 return;
             }
 
-            if (recipeLocal.effects != null)
+            if (itemLocal.recipe.effects != null)
             {
-                foreach (var effect in recipeLocal.effects)
+                foreach (var effect in itemLocal.recipe.effects)
                 {
                     ApplyEffectEntry(effect);
                 }
             }
 
-            bool removed = testFoodInventory.Remove(recipeLocal);
-            if (removed)
-            {
-                if (logActions) Debug.Log($"[BuffManager] 사용한 음식 삭제: {recipeLocal.recipeName}");
-            }
-            else
-            {
-                if (logActions) Debug.LogWarning($"[BuffManager] 삭제 실패: 인벤토리에 {recipeLocal.recipeName} 없음");
-            }
+            CookManager.Instance.SubtractFood(itemLocal);
+            // var testItem = new InventoryItem(recipeLocal);
+            // testFoodInventory.Remove(testItem);
+
+            if (logActions) Debug.Log($"[BuffManager] 사용한 음식 삭제: {itemLocal.recipe.recipeName}");
 
             InitFoodIcon();
         }
@@ -142,6 +152,7 @@ namespace JJY
         public void ApplyEffectEntry(FoodEffectData e)
         {
             if (e == null) return;
+            if (e.duration > 0f) ApplyOrRefreshBuff(e);
             switch (e.type)
             {
                 // --- 즉시 효과(Instant) ---
@@ -164,8 +175,6 @@ namespace JJY
                     ApplyCreateBarrierForAll(e);
                     break;
             }
-            // 지속형은 등록 또는 갱신
-            ApplyOrRefreshBuff(e);
         }
 
         #endregion
@@ -182,16 +191,16 @@ namespace JJY
 
                 if (logActions) Debug.Log($"[BuffManager] {p.name} HP : {p._characterState._chaCurrentHP}");
 
-                p._characterState._chaCurrentHP += e.value;
-                if (p._characterState._chaCurrentHP >= p._characterState._chaMaxHP)
-                {
-                    p._characterState._chaCurrentHP = p._characterState._chaMaxHP;
-                }
+                // p._characterState._chaCurrentHP += p._characterState._chaMaxHP * e.value;
+                // if (p._characterState._chaCurrentHP >= p._characterState._chaMaxHP)
+                // {
+                //     p._characterState._chaCurrentHP = p._characterState._chaMaxHP;
+                // }
+                p.HPHeal(p._characterState._chaMaxHP * e.value);
 
                 if (logActions) Debug.Log($"[BuffManager] {p.name} HP : {p._characterState._chaCurrentHP}");
-                // TODO : UI 이벤트 함수 연결.
-                // p.OnHpChange?.Invoke(Mathf.Clamp01(p._currentHp / p._characterData._maxHp));
             }
+            if (logActions) Debug.Log("HP HEAL! TODO : UI 이벤트 함수 연결.");
         }
 
         void ApplyRestoreManaPercentAll(FoodEffectData e)
@@ -204,40 +213,46 @@ namespace JJY
 
                 if (logActions) Debug.Log($"{p.name} MP : {p._characterState._chaCurrentMP}");
 
-                p._characterState._chaCurrentMP += (int)(e.value * (1 / p._characterState._chaMaxMP));
-                if (p._characterState._chaCurrentMP >= p._characterState._chaMaxMP)
-                {
-                    p._characterState._chaCurrentMP = p._characterState._chaMaxMP;
-                }
+                // p._characterState._chaCurrentMP += p._characterState._chaMaxMP * e.value;
+                // if (p._characterState._chaCurrentMP >= p._characterState._chaMaxMP)
+                // {
+                //     p._characterState._chaCurrentMP = p._characterState._chaMaxMP;
+                // }
+                p.MPHeal(p._characterState._chaMaxMP * e.value);
 
-                if (logActions) Debug.Log($"{p.name} MP : {p._characterState._chaMaxMP}");
+                if (logActions) Debug.Log($"{p.name} MP : {p._characterState._chaCurrentMP}");
             }
 
-            // TODO : UI 이벤트 함수 연결.
+            if (logActions) Debug.Log("MANA HEAL! TODO : UI 이벤트 함수 연결.");
         }
 
         void TryReviveRandomAlly(FoodEffectData e)
         {
-            // downed.Clear();
-            // foreach (var p in btManager._characters)
-            // {
-            //     if (p._isAlive) return;
-            //     downed.Add(p);
-            // }
+            downed.Clear();
+            foreach (var p in btManager._characters)
+            {
+                if (p._isAlive) continue;
+                downed.Add(p);
+            }
 
-            // if (downed == null || downed.Count == 0)
-            // {
-            //     // TODO : 죽은 인원이 없으면 그냥 사용됨.
-            //     return;
-            // }
+            if (downed == null || downed.Count == 0)
+            {
+                // TODO : 죽은 인원이 없으면 그냥 사용됨.
+                if (logActions) Debug.Log($"[BuffManager] REVIVE FAILED! Dead Character Count : {downed.Count}");
+                return;
+            }
 
-            // var chosen = downed[UnityEngine.Random.Range(0, downed.Count)];
-            var chosen = btManager._characters[UnityEngine.Random.Range(0, btManager._characters.Count)];
+            var chosen = downed[UnityEngine.Random.Range(0, downed.Count)];
+            // var chosen = btManager._characters[UnityEngine.Random.Range(0, btManager._characters.Count)];
             if (!chosen._isAlive)
             {
-                chosen._isAlive = true;
-                chosen._characterState._chaCurrentHP += (int)(e.value * (1 / chosen._characterState._chaMaxHP));
-                if (logActions) Debug.Log($"[BuffManager] REVIVE! name : {chosen.name} HP : ({e.value}%), 스폰 포인트 지정해야함.");
+                // chosen.SetActive(true);
+                // chosen._isAlive = true;
+                // chosen._characterState._chaCurrentHP = chosen._characterState._chaMaxHP * e.value;
+                chosen.Revive(chosen._characterState._chaMaxHP * e.value);
+
+                if (logActions) Debug.Log($"[BuffManager] REVIVE! name : {chosen.name}의 ({e.value * 100}%)만큼 HP 재설정 : {chosen._characterState._chaCurrentHP}, 스폰 포인트 지정해야함.");
+                if (logActions) Debug.Log("REVIVE! TODO : UI 이벤트 함수 연결, 리스폰 기능 협의 필요");
             }
             else
             {
@@ -249,27 +264,26 @@ namespace JJY
         {
             if (logActions) Debug.Log($"[BuffManager] ACCUMULATE BOSS GROGGY! : {e.value}");
 
-            // boss의 그로기 게이지 적립
-            // foreach(var b in btManager._bosses)
+            // TODO : MonsterController에 함수 만들 것.
+            // foreach (var b in btManager._boosMonsters)
             // {
-            //      b.groggygauge++;
-            //      if(b.groggygauge >= 100)
-            //      {
-            //          b.groggygauge = 100f;
-            //      }
-            // TODO : UI 이벤트 연결
+            //     b.BreakGage += e.value;
+            //     if (b.BreakGage >= 1)
+            //     {
+            //         b.BreakGage = 1;
+            //     }
+            //     if (logActions) Debug.Log("TODO : UI 이벤트 연결");
             // }
         }
 
         // Barrier 생성 (모든 아군)
         void ApplyCreateBarrierForAll(FoodEffectData e)
         {
-            if (logActions) Debug.Log($"[BuffManager] CREATE BARRIER! : {e.value}");
-
-            // foreach (var p in _characters)
-            // {
-            //     p.barrierCount += e.value;
-            // }
+            if (logActions) Debug.Log($"[BuffManager] CREATE BARRIER! : {e.applyBarrier}");
+            foreach (var p in btManager._characters)
+            {
+                p.CreateBarrier(e.applyBarrier);
+            }
         }
 
         void ApplyGroggyBonus(FoodEffectData e)
@@ -278,15 +292,15 @@ namespace JJY
 
             // boss의 TakeDamage 계산식의 그로기 추가피해 += e.value;
             // 예시) 
-            // 보스가 그로기 상태일 때는 최종 데미지 20% 추가 피해를 입음.
-            // e.value = 50 가정.
+            // 보스가 그로기 상태일 때는 최종 데미지 n% 추가 피해를 입음.
+            // e.value = 0.5 가정.
             // 그로기 상태일때는 70%의 추가 피해를 입음.
-            //
-            // foreach (보스 몬스터 m in 모든 보스 몬스터)
-            // {
-            //     m.그로기 상태의 추가 데미지 상수 += e.value 하는 함수(e.value, e.duration);
-            //     e.duration 이후에 원상 복귀.
-            // }
+
+            foreach (var p in btManager._characters)
+            {
+                p.ApplyGroggyBonus(p._characterState._groggyDamage * e.value);
+                // 현재 상태 : p.그로기 추가 피해량 = p.공격력 * 1;
+            }
         }
 
         #endregion
@@ -321,25 +335,25 @@ namespace JJY
             var e = buff.effect;
             if (logActions) Debug.Log($"[BuffManager] 버프 시작! {e.type}");
 
-            // switch (e.type)
-            // {
-            //     case EffectType.AttackBuff:
-            //         foreach (var p in btManager._characters)
-            //             if (p._isAlive) p._attackDamage += e.value;
-            //         break;
-            //     case EffectType.DefenseBuff:
-            //         foreach (var p in btManager._characters)
-            //             if (p._isAlive) p._attacDefense += e.value;
-            //         break;
-            //     case EffectType.EnemyAttackDebuff:
-            //         foreach (var m in btManager._monsters)
-            //             if (m._isAlive) m._attackDamage -= e.value;
-            //         break;
-            //     case EffectType.EnemyDefenseDebuff:
-            //         foreach (var m in btManager._monsters)
-            //             if (m._isAlive) m._attackDefense -= e.value;
-            //         break;
-            // }
+            switch (e.type)
+            {
+                case EffectType.AttackBuff:
+                    foreach (var p in btManager._characters)
+                        if (p._isAlive) p._characterState._chaAttack += (p._characterState._chaAttack * e.value);
+                    break;
+                case EffectType.DefenseBuff:
+                    foreach (var p in btManager._characters)
+                        if (p._isAlive) p._characterState._chaArmor += e.value;
+                    break;
+                case EffectType.EnemyAttackDebuff:
+                    foreach (var m in btManager._monsters)
+                        if (m._isAlive) m._monsterState._monAttack -= (m._monsterState._monAttack * e.value);
+                    break;
+                case EffectType.EnemyDefenseDebuff:
+                    foreach (var m in btManager._monsters)
+                        if (m._isAlive) m._monsterState._monArmor -= e.value;
+                    break;
+            }
         }
 
         void RemoveBuffEffect(ActiveBuff buff)
@@ -347,25 +361,25 @@ namespace JJY
             var e = buff.effect;
             if (logActions) Debug.Log($"[BuffManager] 버프 삭제됨 : {e.type} ");
 
-            // switch (e.type)
-            // {
-            //     case EffectType.AttackBuff:
-            //         foreach (var p in btManager._characters)
-            //             if (p._isAlive) p._attackDamage -= e.value;
-            //         break;
-            //     case EffectType.DefenseBuff:
-            //         foreach (var p in btManager._characters)
-            //             if (p._isAlive) p._attackDefense -= e.value;
-            //         break;
-            //     case EffectType.EnemyAttackDebuff:
-            //         foreach (var m in btManager._monsters)
-            //             if (m._isAlive) m._attackDamage += e.value;
-            //         break;
-            //     case EffectType.EnemyDefenseDebuff:
-            //         foreach (var m in btManager._monsters)
-            //             if (m._isAlive) m._attackDefense += e.value;
-            //         break;
-            // }
+            switch (e.type)
+            {
+                case EffectType.AttackBuff:
+                    foreach (var p in btManager._characters)
+                        if (p._isAlive) p._characterState._chaAttack -= (p._characterState._chaAttack * e.value);
+                    break;
+                case EffectType.DefenseBuff:
+                    foreach (var p in btManager._characters)
+                        if (p._isAlive) p._characterState._chaArmor -= e.value;
+                    break;
+                case EffectType.EnemyAttackDebuff:
+                    foreach (var m in btManager._monsters)
+                        if (m._isAlive) m._monsterState._monAttack += (m._monsterState._monAttack * e.value);
+                    break;
+                case EffectType.EnemyDefenseDebuff:
+                    foreach (var m in btManager._monsters)
+                        if (m._isAlive) m._monsterState._monArmor += e.value;
+                    break;
+            }
         }
     }
     #endregion

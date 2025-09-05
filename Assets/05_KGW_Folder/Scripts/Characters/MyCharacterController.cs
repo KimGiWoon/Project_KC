@@ -65,6 +65,9 @@ public class MyCharacterController : UnitBaseData
         _characterState._chaCritDmg = _characterData._chaTypeData.ChaCritDmg;
         _characterState._chaReg = _characterData._chaTypeData.ChaReg;
         _characterState._chaMoveSpeed = _characterData._chaTypeData.ChaMoveSpeed;
+        _characterState._isBarrier = false;
+        _characterState._groggyDamage = _characterState._chaAttack;
+        _characterState._chaPassiveSkill = _characterData._chaPassiveSkill;
         _moveDir = Vector3.right;
         _isAlive = true;
 
@@ -142,35 +145,41 @@ public class MyCharacterController : UnitBaseData
         // 공격 타겟과 거리 비교
         float attackDistance = Vector3.Distance(transform.position, _attackTarget.transform.position);
 
-        Debug.Log($"attackSpareDistance : {attackSpareDistance}, attackDistance : {attackDistance}");
-        Debug.Log($"_attackCoolTimer : {_attackCoolTimer}");
-
         // 공격 대상의 거리가 캐릭터의 공격 사거리에 들어오면 타겟 공격
         if (attackDistance <= attackSpareDistance)
         {
-            Debug.Log("사거리 안에 들어옴");
-
-            if(_attackCoolTimer <= 0f)
+            if (_attackCoolTimer <= 0f)
             {
-                Debug.Log("공격 쿨타임 O");
+                float attackDamage = _characterState._chaAttack;
+                float passiveDamage;
+
+                // 사용하려는 패시브와 캐릭터가 사용하는 패시브가 같은지 확인
+                if (_characterData._chaPassiveSkill._chaSkillEnName == CharacterSkillEnName.AimForTheWound)
+                {
+                    passiveDamage = _characterData._chaPassiveSkill.UsePassiveSkill(_chaCon, _characterData._chaPassiveSkill, attackDamage);
+                }
+                else    // 패시브 없으면 원래 공격력
+                {
+                    passiveDamage = attackDamage;
+                }
+                Debug.Log($"{passiveDamage}의 데미지로 적을 공격합니다.");
 
                 // 캐릭터의 데미지로 몬스터에 주기
-                _attackTarget.TakeDamage(_characterState._chaAttack);
-                _attackTarget.AttackTargetChange(_chaCon);
+                _attackTarget.TakeDamage(passiveDamage);
+
+                if (_attackTarget != null)
+                {
+                    _attackTarget.AttackTargetChange(_chaCon);
+                }
 
                 _isAttack = true;
 
                 // 공격 쿨타임 초기화
                 _attackCoolTimer = _characterState._chaAtkSpeed / _gameSpeed;
             }
-            else
-            {
-                Debug.Log("공격 쿨타임 X");
-            }
         }
         else
         {
-            Debug.Log("사거리 안에 들어오지 못함");
             _isAttack = false;
         }
     }
@@ -178,6 +187,13 @@ public class MyCharacterController : UnitBaseData
     // 데미지를 받음
     public override void TakeDamage(float damage)
     {
+        // 베리어 상태일때는 공격을 무시함.
+        if (_characterState._isBarrier)
+        {
+            _characterState._isBarrier = false;
+            return;
+        }
+
         base.TakeDamage(damage);
 
         // 데미지를 받음, 방어력에 대한 것은??
@@ -233,7 +249,7 @@ public class MyCharacterController : UnitBaseData
             {
                 Debug.Log("스킬 사용");
                 // 스킬 사용
-                skill.UseSkill(transform, _attackTarget);
+                skill.UseSkill(_chaCon, _attackTarget);
 
                 // 마나 초기화
                 _characterState._chaCurrentMP = 0f;
@@ -311,4 +327,33 @@ public class MyCharacterController : UnitBaseData
 
         _manaRoutine = null;
     }
+
+    #region 캐릭터 스탯 변화 함수(음식 효과)
+    public void HPHeal(float value)
+    {
+        _characterState._chaCurrentHP += Mathf.Clamp(value, 0, _characterState._chaMaxHP);
+        OnHpChange?.Invoke(Mathf.Clamp01(_characterState._chaCurrentHP / _characterState._chaMaxHP));
+    }
+    public void MPHeal(float value)
+    {
+        if (_characterData._chaBaseData.ChaGrade != CharacterGrade.Rare) return;
+
+        _characterState._chaCurrentMP += Mathf.Clamp(value, 0, _characterState._chaMaxMP);
+        OnMpChange?.Invoke(Mathf.Clamp01(_characterState._chaCurrentMP / _characterState._chaMaxMP));
+    }
+    public void Revive(float value)
+    {
+        _isAlive = true;
+        _characterState._chaCurrentHP = value;
+        OnHpChange?.Invoke(Mathf.Clamp01(_characterState._chaCurrentHP / _characterState._chaMaxHP));
+    }
+    public void CreateBarrier(bool value)
+    {
+        _characterState._isBarrier = value;
+    }
+    public void ApplyGroggyBonus(float value)
+    {
+        _characterState._groggyDamage += value;
+    }
+    #endregion
 }

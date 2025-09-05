@@ -66,7 +66,9 @@ namespace JJY
             else { Destroy(gameObject); return; }
 
             InitRecipes();         // 레시피 데이터 초기화
+#if UNITY_EDITOR
             InitDummyInventory();  // (테스트) 플레이어 인벤토리 더미 채우기
+#endif
             PrewarmPool(8);        // 버튼 풀을 미리 만들어둠 (초기화 성능을 위해)
 
             // result/cook/reset 버튼 기본 바인딩 설정 (Inspector에서 연결되어야 함)
@@ -469,9 +471,8 @@ namespace JJY
             var item = new InventoryItem(dish);
             _playerFoodInventory.Add(item);
         }
-        public void SubtractFood(RecipeData dish)
+        public void SubtractFood(InventoryItem item)
         {
-            var item = new InventoryItem(dish);
             _playerFoodInventory.Remove(item);
         }
         #endregion
