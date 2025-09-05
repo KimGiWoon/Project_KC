@@ -1,0 +1,44 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 183d8a07e07aa7e4c9cd206a8e5f09b6, type: 3}
+  m_Name: FryingNozzle_Data
+  m_EditorClassIdentifier: 
+  relicID: 1011
+  relicEnName: 18
+  relicName: "\uD280\uAE40 \uB178\uC990"
+  relicKind: 1
+  relicGrade: 1
+  relicDescription:
+  - "\uD55C \uBC29\uC6B8\uC758 \uAE30\uB984\uB3C4 \uB0AD\uBE44 \uC5C6\uB294 \uC815\uBC00\uD568\uC744
+    \uC790\uB791\uD55C\uB2E4."
+  - "\uC6D0\uAC70\uB9AC \uC544\uAD70 \uCE90\uB9AD\uD130\uC758 \uBAA8\uB4E0 \uC2A4\uD0EF
+    5% \uC99D\uAC00"
+  relicTarget: 1
+  relicIsPassive: 1
+  relicType: 5
+  relicRole: 1
+  chaAttack: 5
+  chaArmor: 5
+  chaHP: 5
+  chaCritDmg: 5
+  chaAtkSpeed: 5
+  chaAccuracy: 5
+  chaAvoid: 5
+  chaMPRecovery: 5
+  chaDrain: 0
+  monArmor: 0
+  monHP: 0
+  monAttack: 0
+  monAtkSpeed: 0
+  addReward: 0
+  storeDiscount: 0
+  relicImage: {fileID: 0}

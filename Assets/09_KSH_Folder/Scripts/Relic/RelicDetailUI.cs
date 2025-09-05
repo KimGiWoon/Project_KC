@@ -19,12 +19,12 @@ public class RelicDetailUI : MonoBehaviour
         backButton.onClick.AddListener(BackButtonClicked);
     }
 
-    public void ShowDetail(Relic relic)
+    public void ShowDetail(RelicDatas relic)
     {
         relicDetailImage.sprite = relic.relicImage;
         relicDetailName.text = relic.relicName;
-        relicDetailDescription1.text = relic.relicDescription1;
-        relicDetailDescription2.text = relic.relicDescription2;
+        relicDetailDescription1.text = relic.relicDescription.Count > 0 ? relic.relicDescription[0] : "";
+        relicDetailDescription2.text = relic.relicDescription.Count > 1 ? relic.relicDescription[1] : "";
         DetailUI.SetActive(true);
     }
     

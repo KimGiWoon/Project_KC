@@ -1,0 +1,43 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 183d8a07e07aa7e4c9cd206a8e5f09b6, type: 3}
+  m_Name: HerbalSatchel_Data
+  m_EditorClassIdentifier: 
+  relicID: 1114
+  relicEnName: 41
+  relicName: "\uD5C8\uBE0C \uD329"
+  relicKind: 1
+  relicGrade: 2
+  relicDescription:
+  - "\uC740\uC740\uD55C \uD5A5\uC774 \uC804\uC7A5\uC744 \uBB34\uAC81\uAC8C \uAC00\uB77C\uC549\uD78C\uB2E4."
+  - "\uC801 \uBAAC\uC2A4\uD130\uC758 \uACF5\uACA9\uB825 10%, \uACF5\uACA9 \uC18D\uB3C4
+    10% \uAC10\uC18C"
+  relicTarget: 4
+  relicIsPassive: 1
+  relicType: 0
+  relicRole: 0
+  chaAttack: 0
+  chaArmor: 0
+  chaHP: 0
+  chaCritDmg: 0
+  chaAtkSpeed: 0
+  chaAccuracy: 0
+  chaAvoid: 0
+  chaMPRecovery: 0
+  chaDrain: 0
+  monArmor: 0
+  monHP: 0
+  monAttack: 10
+  monAtkSpeed: 10
+  addReward: 0
+  storeDiscount: 0
+  relicImage: {fileID: 0}
