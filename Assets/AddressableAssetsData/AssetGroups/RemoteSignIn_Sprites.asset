@@ -10,15 +10,21 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
-  m_Name: RemoteSignInSprites
+  m_Name: RemoteSignIn_Sprites
   m_EditorClassIdentifier: 
-  m_GroupName: RemoteSignInSprites
+  m_GroupName: RemoteSignIn_Sprites
   m_Data:
     m_SerializedData: []
   m_GUID: 3e2811eb999b07243bff31a9169aef38
   m_SerializeEntries:
   - m_GUID: 38b5fc1248630a14996dee5d1b079485
     m_Address: 38b5fc1248630a14996dee5d1b079485
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SignIn_UI
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 57daccc1527ca1d43abc8eea0dd14179
+    m_Address: 57daccc1527ca1d43abc8eea0dd14179
     m_ReadOnly: 0
     m_SerializedLabels:
     - SignIn_UI

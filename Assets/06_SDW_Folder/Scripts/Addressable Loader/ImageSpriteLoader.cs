@@ -88,14 +88,16 @@ namespace SDW
             if (_mappingSo == null) return;
 
             // 1) Image 처리
-            var images = GetComponentsInChildren<Image>(true);
+            // var images = GetComponentsInChildren<Image>(true);
+            var images = FindObjectsOfType<Image>(true);
             foreach (var img in images)
             {
                 LoadSpriteFromAddressables(img.gameObject, sprite => img.sprite = sprite);
             }
 
             // 2) MonoBehaviour Sprite 필드 처리 (런타임: Reflection)
-            var monos = GetComponentsInChildren<MonoBehaviour>(true);
+            // var monos = GetComponentsInChildren<MonoBehaviour>(true);
+            var monos = FindObjectsOfType<MonoBehaviour>(true);
             foreach (var mb in monos)
             {
                 if (mb == null) continue;
@@ -112,6 +114,7 @@ namespace SDW
                     }
                 }
             }
+            GameManager.Instance.SetImageSpriteConnected(true);
         }
 
         private void LoadSpriteFromAddressables(GameObject owner, System.Action<Sprite> assign)
