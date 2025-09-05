@@ -1,20 +1,23 @@
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace SDW
 {
+
+
     [Serializable]
     public struct EncounterTable
     {
         public int EncounterID;
-        public EncounterSentiment Type;
+        public EncounterSentiment Sentiment;
         public int EncounterStage;
         public EncounterResultType ResultType;
         public string EncounterText;
-        public EncounterType EnCounterType;
+        public EncounterType Type;
         public int ChoiceCount;
         public List<string> ChoiceTexts;
-        public RandomType RandomType;
+        public RandomType RandomGrade;
         public bool ResultOwned;
         public bool CanGetMoney;
         public int StartID;
@@ -26,51 +29,62 @@ namespace SDW
         public int ResultChoiceCount;
         public List<string> EncounterExitText;
 
-        /// <summary>
-        /// EncounterTable 초기화
-        /// </summary>
-        /// <param name="fields">초기화 데이터</param>
         public EncounterTable(string[] fields)
         {
-            EncounterID = int.Parse(fields[0]);
-            Type = (EncounterSentiment)Enum.Parse(typeof(EncounterSentiment), fields[1]);
-            EncounterStage = int.Parse(fields[2]);
-            ResultType = (EncounterResultType)Enum.Parse(typeof(EncounterResultType), fields[3]);
-            EncounterText = fields[4];
-            EnCounterType = (EncounterType)Enum.Parse(typeof(EncounterType), fields[5]);
-            ChoiceCount = int.Parse(fields[6]);
+            this = default;
             ChoiceTexts = new List<string>();
-
-            string[] choiceTexts = fields[7].Split('`');
-            foreach (string part in choiceTexts)
-            {
-                if (part == "null") break;
-                ChoiceTexts.Add(part);
-            }
-
-            RandomType = (RandomType)Enum.Parse(typeof(RandomType), fields[8]);
-            ResultOwned = bool.Parse(fields[9]);
-
-            string[] resultId = fields[10].Split('`');
-            CanGetMoney = bool.Parse(resultId[0]);
-            StartID = int.Parse(resultId[1]);
-            EndID = int.Parse(resultId[2]);
-
-            ResultMinCount = int.Parse(fields[11]);
-            ResultMaxCount = int.Parse(fields[12]);
-
-            string[] resultMount = fields[13].Split('`');
-            ResultMoney = int.Parse(resultMount[0]);
-            ResultNumber = int.Parse(resultMount[1]);
-
-            ResultChoiceCount = int.Parse(fields[14]);
-
             EncounterExitText = new List<string>();
-            string[] resultExit = fields[15].Split('`');
 
-            foreach (string text in resultExit)
+            try
             {
-                EncounterExitText.Add(text);
+                int.TryParse(fields[0], out EncounterID);
+                Enum.TryParse<EncounterSentiment>(fields[1], true, out Sentiment);
+                int.TryParse(fields[2], out EncounterStage);
+                Enum.TryParse<EncounterResultType>(fields[3], true, out ResultType);
+                EncounterText = fields[4].Replace("\\n", "\n");
+                Enum.TryParse<EncounterType>(fields[5], true, out Type);
+                int.TryParse(fields[6], out ChoiceCount);
+
+                if (fields.Length > 7 && !string.IsNullOrEmpty(fields[7]))
+                {
+                    ChoiceTexts.AddRange(fields[7].Split('`'));
+                }
+                while (ChoiceTexts.Count < ChoiceCount)
+                {
+                    ChoiceTexts.Add("");
+                }
+
+                Enum.TryParse<RandomType>(fields[8], true, out RandomGrade);
+                bool.TryParse(fields[9], out ResultOwned);
+
+                string[] resultId = fields[10].Split('`');
+                if (resultId.Length >= 3)
+                {
+                    bool.TryParse(resultId[0], out CanGetMoney);
+                    int.TryParse(resultId[1], out StartID);
+                    int.TryParse(resultId[2], out EndID);
+                }
+
+                int.TryParse(fields[11], out ResultMinCount);
+                int.TryParse(fields[12], out ResultMaxCount);
+
+                string[] resultMount = fields[13].Split('`');
+                if (resultMount.Length >= 2)
+                {
+                    int.TryParse(resultMount[0], out ResultMoney);
+                    int.TryParse(resultMount[1], out ResultNumber);
+                }
+
+                int.TryParse(fields[14], out ResultChoiceCount);
+
+                if (fields.Length > 15 && !string.IsNullOrEmpty(fields[15]))
+                {
+                    EncounterExitText.AddRange(fields[15].Split('`'));
+                }
+            }
+            catch (Exception e)
+            {
+                Debug.LogError($"[EncounterTable] CSV 파싱 오류! ID: {fields[0]}, 오류: {e.Message}");
             }
         }
     }

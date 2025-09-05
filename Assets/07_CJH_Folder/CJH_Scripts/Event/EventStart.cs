@@ -1,108 +1,93 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using SDW;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace CJH
 {
     public class EventStart : MonoBehaviour
     {
-        [SerializeField] 
-        private List<EncounterData> encounterDataList;
-
-        public static EventManager Instance; 
-
-        [Header("UI 요소")]
+        [Header("프리팹 내부 UI 연결")]
+        public Image eventImage;
         public TextMeshProUGUI encounterText;
-        public GameObject choiceButtonPrefab;
         public Transform buttonContainer;
         public GameObject resultPanel;
         public TextMeshProUGUI resultText;
-        public Button closeResultButton; // 결과 패널 닫기 버튼
+        public GameObject choiceButtonPrefab; // 버튼 모양으로 사용할 프리팹
 
-        private Dictionary<int, EncounterData> allEncounters;
-
-        void Awake()
+        // 사건 유형(EncounterType)에 따라 보여줄 스프라이트를 인스펙터에서 연결
+        [System.Serializable]
+        public class EncounterSpriteMapping
         {
-            if (encounterDataList != null)
-            {
-                allEncounters = encounterDataList.ToDictionary(data => data.EncounterID, data => data);
-            }
-            else
-            {
-                allEncounters = new Dictionary<int, EncounterData>();
-                Debug.LogError("encounterDataList가 할당되지 않았습니다!");
-            }
+            public EncounterType type;
+            public Sprite sprite;
         }
+        public List<EncounterSpriteMapping> encounterSprites;
 
-        void Start()
+
+        public void Initialize(EncounterTable data)
         {
-            if (closeResultButton != null)
+            // 1. 사건 유형에 맞는 이미지 설정
+            EncounterSpriteMapping mapping = encounterSprites.Find(m => m.type == data.Type);
+            if (mapping != null && eventImage != null)
             {
-                // 버튼이 클릭되면 OnCloseResultButtonClicked 함수를 호출합니다.
-                closeResultButton.onClick.AddListener(OnCloseResultButtonClicked);
+                eventImage.sprite = mapping.sprite;
+                eventImage.gameObject.SetActive(true);
             }
-        }
-
-  
-
-        // GameManager가 이 함수를 호출하여 이벤트를 시작
-        public void StartEncounter(int encounterID)
-        {
-            if (!allEncounters.ContainsKey(encounterID))
+            else if (eventImage != null)
             {
-                Debug.LogError($"Encounter ID {encounterID}에 해당하는 데이터를 찾을 수 없습니다.");
-                return;
+                eventImage.gameObject.SetActive(false); // 맞는 이미지가 없으면 숨김
             }
-            EncounterData currentEncounter = allEncounters[encounterID];
-            UpdateUI(currentEncounter);
-        }
 
-        void UpdateUI(EncounterData encounter)
-        {
+            // 2. 사건 설명 텍스트 설정
+            encounterText.text = data.EncounterText;
+
+            // 3. 기존 버튼 삭제
             foreach (Transform child in buttonContainer)
             {
                 Destroy(child.gameObject);
             }
-            resultPanel.SetActive(false);
-            encounterText.text = encounter.EncounterText;
 
-            for (int i = 0; i < encounter.ChoiceCount; i++)
+            // 4. Choice_Count 만큼 버튼 자동 생성
+            for (int i = 0; i < data.ChoiceCount; i++)
             {
                 GameObject buttonObj = Instantiate(choiceButtonPrefab, buttonContainer);
-                int choiceIndex = i;
+                int choiceIndex = i; // 클로저 문제 방지
 
-                var buttonText = buttonObj.GetComponentInChildren<TextMeshProUGUI>();
-                if (buttonText != null && choiceIndex < encounter.ChoiceTexts.Count)
+                // 버튼 텍스트 설정
+                TextMeshProUGUI buttonText = buttonObj.GetComponentInChildren<TextMeshProUGUI>();
+                if (buttonText != null && choiceIndex < data.ChoiceTexts.Count)
                 {
-                    buttonText.text = encounter.ChoiceTexts[choiceIndex];
+                    buttonText.text = data.ChoiceTexts[choiceIndex];
                 }
 
-                var button = buttonObj.GetComponent<Button>();
-                button.onClick.AddListener(() => OnChoiceSelected(encounter, choiceIndex));
+                // 버튼 클릭 이벤트 연결
+                Button button = buttonObj.GetComponent<Button>();
+                button.onClick.AddListener(() => OnChoiceSelected(data, choiceIndex));
             }
+
+            resultPanel.SetActive(false);
         }
 
-        void OnChoiceSelected(EncounterData encounter, int choiceIndex)
+        void OnChoiceSelected(EncounterTable data, int choiceIndex)
         {
-            if (choiceIndex < encounter.EncounterExitText.Count)
+            if (choiceIndex < data.EncounterExitText.Count && !string.IsNullOrEmpty(data.EncounterExitText[choiceIndex]))
             {
-                resultText.text = encounter.EncounterExitText[choiceIndex];
                 resultPanel.SetActive(true);
+                resultText.text = data.EncounterExitText[choiceIndex];
+            }
+            else
+            {
+                // 결과 텍스트가 없으면 바로 종료
+                EventManager.Instance.EndEncounter();
             }
 
+            // 모든 선택지 버튼 비활성화
             foreach (var btn in buttonContainer.GetComponentsInChildren<Button>())
             {
                 btn.interactable = false;
             }
-        }
-
-        // 결과 패널의 닫기 버튼이 클릭되면 GameManager에게 이벤트 종료 호출
-        public void OnCloseResultButtonClicked()
-        {
-            resultPanel.SetActive(false);
-            EventManager.Instance.EndEncounter();
         }
     }
 }

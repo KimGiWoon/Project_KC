@@ -101,8 +101,18 @@ namespace CJH
             switch (selectedNode.nodeData.nodeType)
             {
                 case NodeType.Event:
+                    if (EncounterStageManager.Instance == null)
+                    {
+                        Debug.LogError("EncounterStageManager.Instance가 없습니다! Hierarchy에 EncounterStageManager 오브젝트가 있는지, '활성화'되어 있는지, Script Execution Order가 설정되었는지 확인해주세요.");
+                        return; // Manager가 없으므로 여기서 실행을 멈춥니다.
+                    }
+                    if (EventManager.Instance == null)
+                    {
+                        Debug.LogError("EventManager.Instance가 없습니다! Hierarchy에 EventManager 오브젝트가 있는지, '활성화'되어 있는지, Script Execution Order가 설정되었는지 확인해주세요.");
+                        return;
+                    }
                     // 이벤트 노드일 경우,EventManager에게 사건 시작을 요청
-                    EventManager.Instance.StartEncounter(selectedNode.nodeData.EncounterID);
+                    EventManager.Instance.StartEncounterForStage(EncounterStageManager.Instance.currentStage);
                     break;
 
                 case NodeType.Battle:
