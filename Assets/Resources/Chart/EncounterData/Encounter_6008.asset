@@ -1,0 +1,41 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58585316b513e9144a61e8da57f72608, type: 3}
+  m_Name: Encounter_6008
+  m_EditorClassIdentifier: 
+  Row:
+    EncounterID: 6008
+    Type: 1
+    EncounterStage: 1
+    ResultType: 1
+    EncounterText: "\uB204\uAD70\uAC00 \uB9C8\uC744 \uD55C\uBCF5\uD310\uC5D0\uC11C
+      \uC790\uAE30\uB97C \uC4F0\uB7EC\uD2B8\uB9AC\uB294\\n  \uC0AC\uB78C\uC5D0\uAC8C
+      \uC0C1\uAE08\uC744 \uC8FC\uACA0\uB2E4\uACE0 \uD569\uB2C8\uB2E4."
+    EnCounterType: 2
+    ChoiceCount: 2
+    ChoiceTexts:
+    - "\uC2F8\uC6CC\uC11C \uD30C\uC774\uD2B8 \uBA38\uB2C8\uB97C \uC5BB\uC790!\\n(\uC2B9\uB9AC
+      \uC2DC \uC5FD\uC804 +500)"
+    - "\uC2F8\uC6B0\uB294 \uAC74 \uC2EB\uB2E4."
+    RandomType: 0
+    ResultOwned: 0
+    CanGetMoney: 1
+    StartID: 0
+    EndID: 0
+    ResultMinCount: 0
+    ResultMaxCount: 0
+    ResultMoney: 500
+    ResultNumber: 0
+    ResultChoiceCount: 2
+    EncounterExitText:
+    - "\uB2F9\uC2E0\uC740 \uD55C\uD310 \uBD99\uC5B4\uBCF4\uAE30\uB85C \uD569\uB2C8\uB2E4!"
+    - "\uB2F9\uC2E0\uC740 \uADF8\uB0E5 \uBB34\uC2DC\uD558\uACE0 \uC9C0\uB098\uAC11\uB2C8\uB2E4"
