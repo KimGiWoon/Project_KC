@@ -331,7 +331,7 @@ public class MyCharacterController : UnitBaseData
     {
         if (_characterData._chaBaseData.ChaGrade != CharacterGrade.Rare) return;
 
-        _characterState._chaCurrentMP = Mathf.Clamp(value, 0, _characterState._chaMaxMP);
+        _characterState._chaCurrentMP += Mathf.Clamp(value, 0, _characterState._chaMaxMP);
         OnMpChange?.Invoke(Mathf.Clamp01(_characterState._chaCurrentMP / _characterState._chaMaxMP));
     }
     public void Revive(float value)
