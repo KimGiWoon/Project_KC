@@ -1,3 +1,4 @@
+using JJY;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -16,6 +17,7 @@ public class CharacterInfoSlotUI : MonoBehaviour
     [SerializeField] float _moveDistance = 40f;     // 움직일 거리
 
     MyCharacterController _characterController;
+    BuffManager _characterManager;
     Vector2 _basicPosition;
     bool _ready;
 

@@ -64,6 +64,14 @@ namespace SDW
         private bool _completeDownload;
         public bool CompleteDownload => _completeDownload;
 
+        //# Image Sprite Connected;
+        private bool _imageSpriteConnected;
+        public bool ImageSpriteConnected => _imageSpriteConnected;
+
+        //# Prefab and SO Connected;
+        private bool _prefabAndSoConnected;
+        public bool PrefabAndSoConnected => _prefabAndSoConnected;
+
         //# BattleMonsterManager로 이전?
         private bool _lastBoss;
         public bool LastBoss => _lastBoss;
@@ -161,5 +169,9 @@ namespace SDW
         /// </summary>
         /// <param name="complete">다운로드 완료 여부를 나타내는 bool 값</param>
         public void SetCompleteDownload(bool complete) => _completeDownload = complete;
+
+        public void SetImageSpriteConnected(bool connected) => _imageSpriteConnected = connected;
+
+        public void SetPrefabAndSoConnected(bool connected) => _prefabAndSoConnected = connected;
     }
 }

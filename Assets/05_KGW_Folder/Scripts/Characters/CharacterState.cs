@@ -34,5 +34,9 @@ public class CharacterState
     public float _chaReg;
     public float _chaMoveSpeed;
 
+    [Header("Character Skill Data")]
+    public CharacterSkillDataSO _chaPassiveSkill;
+    public CharacterSkillDataSO _chaActiveSkill;
+
     public bool _isManaFull;    // 마나 풀 여부
 }

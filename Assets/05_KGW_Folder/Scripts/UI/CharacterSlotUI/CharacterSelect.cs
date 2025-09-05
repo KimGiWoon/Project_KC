@@ -4,6 +4,9 @@ using UnityEngine;
 using UnityEngine.UI;
 using CJH;
 using Unity.VisualScripting;
+using UnityEngine.TextCore.Text;
+using Gley.Jumpy;
+using KSH;
 
 public class CharacterSelect : MonoBehaviour
 {
@@ -27,7 +30,6 @@ public class CharacterSelect : MonoBehaviour
             return;
         }
 
-        GetComponent<Button>().onClick.AddListener(OnSelectClick);
     }
 
     private void OnDestroy()
@@ -35,23 +37,32 @@ public class CharacterSelect : MonoBehaviour
         _selectButton.onClick.RemoveListener(OnSelectClick);
     }
 
-    // 캐릭터 선택
+
+
+     //캐릭터 선택
+     //CJH 코드 추가
     private void OnSelectClick()
     {
         // 매니저에 선택한 캐릭터의 데이터 전달
-        CharacterSelectManager.Instance.CharacterSelect(_characterData);
-
-        //CJH 코드 추가
-        if (TeamManager.Instance != null && _characterData != null)
+       bool isOwned = SDW.GameManager.Instance.Reward.ownedCharacters.ContainsKey(_characterData._chaBaseData.ChaName);
+      
+       if (isOwned)
         {
-            // TeamManager에 선택된 캐릭터의 SO를 전달하여 팀에 추가하도록 요청
-            TeamManager.Instance.AddCharacterBySO(_characterData);
-
-            Debug.Log($"[CharacterSelect] {_characterData._chaBaseData.ChaName} 선택. TeamManager에 추가 요청 완료.");
-        }
-        else
-        {
-            Debug.LogError("[CharacterSelect] TeamManager.Instance 또는 CharacterDataSO가 할당되지 않았습니다!");
-        }
+            // 팀에 캐릭터를 추가
+            if (TeamManager.Instance != null)
+            {
+                TeamManager.Instance.AddCharacterBySO(_characterData);
+                Debug.Log($"[CharacterSelect] 보유 중인 '{_characterData._chaBaseData.ChaName}' 캐릭터를 팀에 추가합니다.");
+            }
+            else
+            {
+                Debug.LogError("[CharacterSelect] TeamManager 인스턴스를 찾을 수 없습니다!");
+            }
+      }
+      else // 캐릭터를 보유하고 있지 않다면
+      {
+          // 팀에 추가하지 않고, 로그 출력
+          Debug.LogWarning($"[CharacterSelect] '{_characterData._chaBaseData.ChaName}'는 보유하지 않은 캐릭터라 팀에 추가할 수 없습니다.");
+      }
     }
 }

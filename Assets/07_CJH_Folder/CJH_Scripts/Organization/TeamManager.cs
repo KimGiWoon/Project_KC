@@ -14,10 +14,10 @@ namespace CJH
         public TeamSlotClick[] teamSlots = new TeamSlotClick[3];
 
         [Header("모든 캐릭터 데이터")]
-        public List<CharacterData> allCharacters;
+        public List<CharacterDataSO> allCharacters;
 
         // 단일 팀 데이터 배열
-        private CharacterData[] currentTeam = new CharacterData[3];
+        private CharacterDataSO[] currentTeam = new CharacterDataSO[3];
 
         void Awake()
         {
@@ -37,7 +37,7 @@ namespace CJH
             if (characterSO == null) return;
 
             // allCharacters 리스트에서 이름이 같은 CharacterData를 찾습니다.
-            CharacterData characterToAdd = allCharacters.FirstOrDefault(c => c.characterName == characterSO._chaBaseData.ChaName);
+            CharacterDataSO characterToAdd = allCharacters.FirstOrDefault(c => c._chaBaseData.ChaName == characterSO._chaBaseData.ChaName);
 
             if (characterToAdd != null)
             {
@@ -55,12 +55,12 @@ namespace CJH
         /// <summary>
         /// 캐릭터를 팀에 추가하는 로직
         /// </summary>
-        private void AddCharacterToTeam(CharacterData characterToAdd)
+        private void AddCharacterToTeam(CharacterDataSO characterToAdd)
         {
             // 이미 팀에 있는지 확인
             if (currentTeam.Contains(characterToAdd))
             {
-                Debug.Log($"{characterToAdd.characterName}은(는) 이미 팀에 포함되어 있습니다.");
+                Debug.Log($"{characterToAdd._chaBaseData.ChaName}은(는) 이미 팀에 포함되어 있습니다.");
                 return;
             }
 
@@ -69,7 +69,7 @@ namespace CJH
             if (emptySlotIndex != -1)
             {
                 currentTeam[emptySlotIndex] = characterToAdd;
-                Debug.Log($"{characterToAdd.characterName}을(를) 팀에 추가했습니다. 현재 팀원: {currentTeam.Count(c => c != null)}명");
+                Debug.Log($"{characterToAdd._chaBaseData.ChaName}을(를) 팀에 추가했습니다. 현재 팀원: {currentTeam.Count(c => c != null)}명");
                 UpdateAllSlotsUI();
             }
             else
@@ -85,7 +85,7 @@ namespace CJH
         {
             if (slotIndex < 0 || slotIndex >= currentTeam.Length || currentTeam[slotIndex] == null) return;
 
-            Debug.Log($"{currentTeam[slotIndex].characterName}을(를) 팀에서 제거했습니다.");
+            Debug.Log($"{currentTeam[slotIndex]._chaBaseData.ChaName}을(를) 팀에서 제거했습니다.");
             currentTeam[slotIndex] = null;
             UpdateAllSlotsUI();
         }

@@ -16,19 +16,27 @@ public class QuestUI : MonoBehaviour
 
     private void Awake()
     {
+    }
+
+    private void OnEnable()
+    {
         nameText = GetComponentInChildren<TextMeshProUGUI>(true);
         var checkImages = GetComponentsInChildren<Image>(true);
         _checkImage = checkImages[2];
         _checkImage.gameObject.SetActive(false);
-    }
 
-    public void Start()
-    {
         if (GameManager.Instance.Time != null)
             GameManager.Instance.Time.OnDailyReset += InitUI;
 
         if (GameManager.Instance.DailyQuest != null)
             GameManager.Instance.DailyQuest.OnQuestComplete += CheckUI;
+    }
+
+    private void OnDisable()
+    {
+        GameManager.Instance.Time.OnDailyReset -= InitUI;
+
+        GameManager.Instance.DailyQuest.OnQuestComplete -= CheckUI;
     }
 
     public void InitUI()

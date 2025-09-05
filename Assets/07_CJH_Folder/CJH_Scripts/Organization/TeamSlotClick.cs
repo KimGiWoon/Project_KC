@@ -1,54 +1,68 @@
 using UnityEngine;
 using UnityEngine.UI;
-using CJH;
+using TMPro;
 
-[RequireComponent(typeof(Button))]
-public class TeamSlotClick : MonoBehaviour
+namespace CJH
 {
-    [Tooltip("이 슬롯의 번호 (0, 1, 2)")]
-    public int slotIndex;
-
-    private Button button;
-    private TeamManager teamManager;
-
-    void Start()
+    public class TeamSlotClick : MonoBehaviour
     {
-        button = GetComponent<Button>();
-        teamManager = FindObjectOfType<TeamManager>();
+        [Header("캐릭터 정보 UI")]
+        public Image characterImage;
+        public TMP_Text characterNameText;
+        public Button removeButton;
 
-        if (teamManager == null) return;
+        private CharacterDataSO currentCharacter;
+        private int slotIndex;
 
-        // 버튼 클릭 시 OnRemoveCharacter 함수를 호출하도록 연결
-        button.onClick.AddListener(OnRemoveCharacter);
-
-        // 처음엔 아이콘 비활성화
-        //iconImage.enabled = false;
-    }
-
-    /// <summary>
-    /// 팀 슬롯이 클릭되었을 때 호출되는 함수
-    /// </summary>
-    private void OnRemoveCharacter()
-    {
-        // TeamManager에게 이 슬롯의 캐릭터를 제거해달라고 요청
-        teamManager.RemoveCharacterFromTeam(slotIndex);
-    }
-
-    /// <summary>
-    /// TeamManager가 호출하여 슬롯의 UI를 업데이트하는 함수
-    /// </summary>
-    public void UpdateSlot(CharacterData data)
-    {
-        if (data == null)
+        private void Start()
         {
-            // 데이터가 없으면 아이콘 숨기기
-            //iconImage.enabled = false;
+            GetComponent<Button>().onClick.AddListener(OnSlotClick);
+            if (removeButton != null)
+            {
+                removeButton.onClick.AddListener(OnRemoveClick);
+            }
         }
-        else
+
+        public void Initialize(int index)
         {
-            // 데이터가 있으면 아이콘 표시
-            //iconImage.sprite = data.characterIcon;
-            //iconImage.enabled = true;
+            slotIndex = index;
+        }
+
+        public void UpdateSlot(CharacterDataSO characterData)
+        {
+            currentCharacter = characterData;
+            if (currentCharacter != null)
+            {
+                characterImage.sprite = currentCharacter._characterSprite;
+                characterNameText.text = currentCharacter._chaBaseData.ChaName;
+                characterImage.gameObject.SetActive(true);
+                if (removeButton != null) removeButton.gameObject.SetActive(true);
+            }
+            else
+            {
+                // 빈 슬롯 처리
+                characterImage.gameObject.SetActive(false);
+                characterNameText.text = "Empty";
+                if (removeButton != null) removeButton.gameObject.SetActive(false);
+            }
+        }
+
+        private void OnSlotClick()
+        {
+            // 슬롯 클릭 시 동작 
+            if (currentCharacter != null)
+            {
+                Debug.Log(currentCharacter._chaBaseData.ChaName + " 슬롯 클릭");
+            }
+        }
+
+        private void OnRemoveClick()
+        {
+            // 팀에서 캐릭터 제거
+            if (TeamManager.Instance != null)
+            {
+                TeamManager.Instance.RemoveCharacterFromTeam(slotIndex);
+            }
         }
     }
 }

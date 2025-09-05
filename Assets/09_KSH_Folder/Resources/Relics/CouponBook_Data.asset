@@ -1,0 +1,44 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 183d8a07e07aa7e4c9cd206a8e5f09b6, type: 3}
+  m_Name: CouponBook_Data
+  m_EditorClassIdentifier: 
+  relicID: 1014
+  relicEnName: 23
+  relicName: "\uCFE0\uD3F0\uBD81"
+  relicKind: 1
+  relicGrade: 1
+  relicDescription:
+  - "\uB0A1\uC740 \uC885\uC774 \uC0AC\uC774\uC5D0\uC11C \uB05D\uC5C6\uB294 \uC57D\uC18D\uC774
+    \uD3BC\uCCD0\uC9C4\uB2E4"
+  - "\uC804\uD22C \uC2A4\uD14C\uC774\uC9C0 \uD074\uB9AC\uC5B4 \uC2DC, \uBCF4\uC0C1
+    \uD68D\uB4DD\uB7C9 40% \uC99D\uAC00"
+  relicTarget: 2
+  relicIsPassive: 0
+  relicType: 6
+  relicRole: 0
+  chaAttack: 0
+  chaArmor: 0
+  chaHP: 0
+  chaCritDmg: 0
+  chaAtkSpeed: 0
+  chaAccuracy: 0
+  chaAvoid: 0
+  chaMPRecovery: 0
+  chaDrain: 0
+  monArmor: 0
+  monHP: 0
+  monAttack: 0
+  monAtkSpeed: 0
+  addReward: 40
+  storeDiscount: 0
+  relicImage: {fileID: 0}

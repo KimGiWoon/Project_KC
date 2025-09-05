@@ -32,6 +32,7 @@ namespace KSH
         protected override void Start()
         {
             base.Start();
+            gacha = GameManager.Instance.Gacha;
 
             singleButton.onClick.AddListener(() =>
             {
