@@ -85,8 +85,8 @@ namespace KSH
             }
             else
             {
-                //ownedCharacters[character.characterName] = true;
-                ownedCharacters.Add(character._chaBaseData.ChaName, false);
+                ownedCharacters[character._chaBaseData.ChaName] = true;
+                // ownedCharacters.Add(character._chaBaseData.ChaName, false);
                 beadsInventory.Add(character._chaBaseData.ChaName, 0);
                 isStarCandy[character._chaBaseData.ChaName] = false;
                 character.Beads = 0;
