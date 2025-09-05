@@ -2,11 +2,15 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace CJH
 {
     public class EventStart : MonoBehaviour
     {
+        [SerializeField] 
+        private List<EncounterData> encounterDataList;
+
         public static EventManager Instance; 
 
         [Header("UI 요소")]
@@ -21,7 +25,15 @@ namespace CJH
 
         void Awake()
         {
-            LoadAllEncounterData();
+            if (encounterDataList != null)
+            {
+                allEncounters = encounterDataList.ToDictionary(data => data.EncounterID, data => data);
+            }
+            else
+            {
+                allEncounters = new Dictionary<int, EncounterData>();
+                Debug.LogError("encounterDataList가 할당되지 않았습니다!");
+            }
         }
 
         void Start()
@@ -33,17 +45,7 @@ namespace CJH
             }
         }
 
-        // EncounterData를 Resources 폴더에서 불러옴
-        void LoadAllEncounterData()
-        {
-            allEncounters = new Dictionary<int, EncounterData>();
-            EncounterData[] encounters = Resources.LoadAll<EncounterData>("Data/EncounterData");
-            foreach (var encounter in encounters)
-            {
-                if (!allEncounters.ContainsKey(encounter.EncounterID))
-                    allEncounters.Add(encounter.EncounterID, encounter);
-            }
-        }
+  
 
         // GameManager가 이 함수를 호출하여 이벤트를 시작
         public void StartEncounter(int encounterID)

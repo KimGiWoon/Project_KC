@@ -1,8 +1,9 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 
 namespace SDW
 {
+    [Serializable]
     public struct EncounterTable
     {
         public int EncounterID;

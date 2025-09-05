@@ -40,7 +40,7 @@ namespace CJH
         /// </summary>
         public void StartEncounter(int encounterID)
         {
-            Debug.Log($"GameManager: 사건 시작 (ID: {encounterID})");
+            Debug.Log($"EventManager: 사건 시작 (ID: {encounterID})");
             mapGroup.SetActive(false); // 맵 UI 숨기기
             eventGroup.SetActive(true);  // 이벤트 UI 보이기
             evenStart.StartEncounter(encounterID);
@@ -51,7 +51,7 @@ namespace CJH
         /// </summary>
         public void EndEncounter()
         {
-            Debug.Log("GameManager: 사건 종료, 맵으로 복귀");
+            Debug.Log("EventManager: 사건 종료, 맵으로 복귀");
             eventGroup.SetActive(false); // 이벤트 UI 숨기기
             mapGroup.SetActive(true);   // 맵 UI 보이기
 

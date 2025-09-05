@@ -12,6 +12,7 @@ namespace CJH
         public float elasticity = 1f;
 
         private MapNode mapNode;
+        private bool isAnimating = false;
 
         private void Awake()
         {
@@ -28,8 +29,15 @@ namespace CJH
 
             Debug.Log(gameObject.name + " 노드 선택됨!");
 
+            isAnimating = true;
+
             // 애니메이션 실행
-            transform.DOPunchScale(new Vector3(punchScale, punchScale, 0), duration, vibrato, elasticity);
+            transform.DOPunchScale(new Vector3(punchScale, punchScale, 0), duration, vibrato, elasticity)
+
+             .OnComplete(() =>
+              {
+                  isAnimating = false;
+              });
 
             // MapView에게 이 노드가 선택되었음을 알림
             if (MapView.Instance != null)
