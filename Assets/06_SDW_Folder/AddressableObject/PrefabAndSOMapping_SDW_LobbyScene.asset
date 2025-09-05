@@ -18,6 +18,36 @@ MonoBehaviour:
     fieldName: _selectSlotPrefab
     index: -1
     AssetPath: Assets/05_KGW_Folder/Prefabs/CharacterSlot/SelectCharacter.prefab
+  - Path: TeamManager
+    AddressKey: e2d9fb0ff2abe3a4caac52a1c5bcc451
+    fieldName: _prefab
+    index: -1
+    AssetPath: Assets/05_KGW_Folder/Prefabs/00_Characters/BCA.prefab
+  - Path: TeamManager
+    AddressKey: 6861ca5fd7922654b851134b76556b08
+    fieldName: _prefab
+    index: -1
+    AssetPath: Assets/05_KGW_Folder/Prefabs/00_Characters/BW.prefab
+  - Path: TeamManager
+    AddressKey: d530bf8ec5a521c4584696cb8b69cdc8
+    fieldName: _skillPrefab
+    index: -1
+    AssetPath: Assets/05_KGW_Folder/Prefabs/03_Skills/CharacterSkills/SkillsData/Explosion/Explosion.prefab
+  - Path: TeamManager
+    AddressKey: e9e04faab6d169f4abe5c607ab5bac22
+    fieldName: _chaSkillPrefab
+    index: -1
+    AssetPath: Assets/05_KGW_Folder/Prefabs/03_Skills/CharacterSkills/SkillsData/AimForTheWound/AimForTheWound.prefab
+  - Path: TeamManager
+    AddressKey: 3c966d9b67796714f933a92bb77421b0
+    fieldName: _prefab
+    index: -1
+    AssetPath: Assets/05_KGW_Folder/Prefabs/00_Characters/HSR.prefab
+  - Path: TeamManager
+    AddressKey: fef05c0739b55164ea1677d3f4349296
+    fieldName: _prefab
+    index: -1
+    AssetPath: Assets/05_KGW_Folder/Prefabs/00_Characters/SIL.prefab
   soEntries:
   - Path: TestGameManager
     AddressKey: 3187b59c549b7884e935f513a641ecad
@@ -60,10 +90,35 @@ MonoBehaviour:
     index: 0
     AssetPath: Assets/05_KGW_Folder/Prefabs/00_Characters/CharactersSOData/BCA_Data.asset
   - Path: TeamManager
+    AddressKey: 0977072b4d0ff2c4bb1c250d908f0ba6
+    fieldName: _characterData
+    index: -1
+    AssetPath: Assets/05_KGW_Folder/Prefabs/00_Characters/CharactersSOData/BCA_Data.asset
+  - Path: TeamManager
+    AddressKey: 225cf737d40a09d48b2ddce59168cd9a
+    fieldName: _chaPassiveSkill
+    index: -1
+    AssetPath: Assets/05_KGW_Folder/Prefabs/03_Skills/CharacterSkills/SkillsSOData/Vanguard_Data.asset
+  - Path: TeamManager
     AddressKey: 103b7f3043d88a9429d25209c9d1f182
     fieldName: allCharacters
     index: 1
     AssetPath: Assets/05_KGW_Folder/Prefabs/00_Characters/CharactersSOData/BW_Data.asset
+  - Path: TeamManager
+    AddressKey: 103b7f3043d88a9429d25209c9d1f182
+    fieldName: _characterData
+    index: -1
+    AssetPath: Assets/05_KGW_Folder/Prefabs/00_Characters/CharactersSOData/BW_Data.asset
+  - Path: TeamManager
+    AddressKey: 60cfb5fa0bc27b14da83722d571124f0
+    fieldName: _chaSkills
+    index: 0
+    AssetPath: Assets/05_KGW_Folder/Prefabs/03_Skills/CharacterSkills/SkillsSOData/Explosion_Data.asset
+  - Path: TeamManager
+    AddressKey: 47189edbb54ca18499e51caaa3eb7486
+    fieldName: _chaPassiveSkill
+    index: -1
+    AssetPath: Assets/05_KGW_Folder/Prefabs/03_Skills/CharacterSkills/SkillsSOData/AimForTheWound_Data.asset
   - Path: TeamManager
     AddressKey: b2b81c36db1a8e54ea99f22c0ce7f76f
     fieldName: allCharacters
@@ -80,10 +135,30 @@ MonoBehaviour:
     index: 4
     AssetPath: Assets/05_KGW_Folder/Prefabs/00_Characters/CharactersSOData/GSE_Data.asset
   - Path: TeamManager
+    AddressKey: d878cb11f5f90e548a5f492a57a47010
+    fieldName: _chaPassiveSkill
+    index: -1
+    AssetPath: Assets/05_KGW_Folder/Prefabs/03_Skills/CharacterSkills/SkillsSOData/WaveOfSteel_Data.asset
+  - Path: TeamManager
     AddressKey: 9ed735c570481004a8718f1c6026da54
     fieldName: allCharacters
     index: 5
     AssetPath: Assets/05_KGW_Folder/Prefabs/00_Characters/CharactersSOData/HSR_Data.asset
+  - Path: TeamManager
+    AddressKey: 9ed735c570481004a8718f1c6026da54
+    fieldName: _characterData
+    index: -1
+    AssetPath: Assets/05_KGW_Folder/Prefabs/00_Characters/CharactersSOData/HSR_Data.asset
+  - Path: TeamManager
+    AddressKey: 60cfb5fa0bc27b14da83722d571124f0
+    fieldName: _chaSkills
+    index: 0
+    AssetPath: Assets/05_KGW_Folder/Prefabs/03_Skills/CharacterSkills/SkillsSOData/Explosion_Data.asset
+  - Path: TeamManager
+    AddressKey: d10e51f1b5c6b5a4fb362c7e9535f891
+    fieldName: _chaPassiveSkill
+    index: -1
+    AssetPath: Assets/05_KGW_Folder/Prefabs/03_Skills/CharacterSkills/SkillsSOData/RegenerativeStrike_Data.asset
   - Path: TeamManager
     AddressKey: 965766ae0e04c104fa450eef4279d84e
     fieldName: allCharacters
@@ -99,6 +174,21 @@ MonoBehaviour:
     fieldName: allCharacters
     index: 8
     AssetPath: Assets/05_KGW_Folder/Prefabs/00_Characters/CharactersSOData/SIL_Data.asset
+  - Path: TeamManager
+    AddressKey: 65f2c3ff647fbb64882a5e1b70abfa2e
+    fieldName: _characterData
+    index: -1
+    AssetPath: Assets/05_KGW_Folder/Prefabs/00_Characters/CharactersSOData/SIL_Data.asset
+  - Path: TeamManager
+    AddressKey: 60cfb5fa0bc27b14da83722d571124f0
+    fieldName: _chaSkills
+    index: 0
+    AssetPath: Assets/05_KGW_Folder/Prefabs/03_Skills/CharacterSkills/SkillsSOData/Explosion_Data.asset
+  - Path: TeamManager
+    AddressKey: 0e55c03446951384b88a5af133a1832f
+    fieldName: _chaPassiveSkill
+    index: -1
+    AssetPath: Assets/05_KGW_Folder/Prefabs/03_Skills/CharacterSkills/SkillsSOData/MoraleDecline_Data.asset
   - Path: TeamManager
     AddressKey: a933f06d6c448424f8215186aa712cb0
     fieldName: allCharacters

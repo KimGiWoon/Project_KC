@@ -780,7 +780,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -0.0000538826, y: 862.3031}
+  m_AnchoredPosition: {x: -0.0000538826, y: 862.30316}
   m_SizeDelta: {x: 0, y: 1804.077}
   m_Pivot: {x: 0, y: 1}
 --- !u!1 &42489531
@@ -9249,8 +9249,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 392651745}
   m_HandleRect: {fileID: 392651744}
   m_Direction: 2
-  m_Value: 0.00000007078156
-  m_Size: 0.5220208
+  m_Value: -0.00000021234469
+  m_Size: 0.5220192
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -12487,6 +12487,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 265332037893804794, guid: 391a58ac852c974479b6d1658b21393b, type: 3}
+      propertyPath: _canBettle
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 265332037893804794, guid: 391a58ac852c974479b6d1658b21393b, type: 3}
       propertyPath: _characterSelectSlot
       value: 
