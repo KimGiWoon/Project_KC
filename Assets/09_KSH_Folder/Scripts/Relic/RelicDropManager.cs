@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using JJY;
@@ -34,7 +33,7 @@ namespace KSH
 
         private void Start()
         {
-            RarityPick(RelicKind.Debuff,3); //임시로 해둠
+            RarityPick(RelicKind.Buf,3); //임시로 해둠
         }
 
         //테스트용
