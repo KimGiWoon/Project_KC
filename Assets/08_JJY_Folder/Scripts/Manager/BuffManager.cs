@@ -339,7 +339,7 @@ namespace JJY
             {
                 case EffectType.AttackBuff:
                     foreach (var p in btManager._characters)
-                        if (p._isAlive) p._characterState._chaAttack += e.value;
+                        if (p._isAlive) p._characterState._chaAttack += (p._characterState._chaAttack * e.value);
                     break;
                 case EffectType.DefenseBuff:
                     foreach (var p in btManager._characters)
@@ -347,7 +347,7 @@ namespace JJY
                     break;
                 case EffectType.EnemyAttackDebuff:
                     foreach (var m in btManager._monsters)
-                        if (m._isAlive) m._monsterState._monAttack -= e.value;
+                        if (m._isAlive) m._monsterState._monAttack -= (m._monsterState._monAttack * e.value);
                     break;
                 case EffectType.EnemyDefenseDebuff:
                     foreach (var m in btManager._monsters)
@@ -365,7 +365,7 @@ namespace JJY
             {
                 case EffectType.AttackBuff:
                     foreach (var p in btManager._characters)
-                        if (p._isAlive) p._characterState._chaAttack -= e.value;
+                        if (p._isAlive) p._characterState._chaAttack -= (p._characterState._chaAttack * e.value);
                     break;
                 case EffectType.DefenseBuff:
                     foreach (var p in btManager._characters)
@@ -373,7 +373,7 @@ namespace JJY
                     break;
                 case EffectType.EnemyAttackDebuff:
                     foreach (var m in btManager._monsters)
-                        if (m._isAlive) m._monsterState._monAttack += e.value;
+                        if (m._isAlive) m._monsterState._monAttack += (m._monsterState._monAttack * e.value);
                     break;
                 case EffectType.EnemyDefenseDebuff:
                     foreach (var m in btManager._monsters)
