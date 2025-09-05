@@ -187,7 +187,7 @@ namespace JJY
                 }
 
                 // 안전한 캡처
-                Relic relicLocal = relicItem.relic;
+                RelicDatas relicLocal = relicItem.relic;
                 btn.onClick.RemoveAllListeners();
                 btn.onClick.AddListener(() => ShowRelicDescription(relicLocal));
 
@@ -212,14 +212,14 @@ namespace JJY
         /// <summary>
         /// 음식 설명란의 정보를 동기화한다.
         /// </summary>
-        void ShowRelicDescription(Relic relic)
+        void ShowRelicDescription(RelicDatas relic)
         {
             if (relic == null) return;
             descriptionPanel.SetActive(true);
             if (itemIcon != null) { itemIcon.sprite = relic.relicImage; itemIcon.enabled = relic.relicImage != null; }
             if (itemName != null) itemName.text = relic.relicName ?? "";
-            if (des_1 != null) des_1.text = relic.relicDescription1 ?? "";
-            if (des_2 != null) des_2.text = relic.relicDescription2 ?? "";
+            if (des_1 != null) des_1.text = (relic.relicDescription.Count > 0) ? relic.relicDescription[0] : "";
+            if (des_2 != null) des_2.text = (relic.relicDescription.Count > 1) ? relic.relicDescription[1] : "";
         }
 
         void SeenNewItems()

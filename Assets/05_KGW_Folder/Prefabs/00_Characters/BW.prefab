@@ -174,6 +174,9 @@ MonoBehaviour:
   _characterState:
     _chaID: 0
     _chaName: 
+    _chaEnName: 0
+    _chaGrade: 0
+    _chaRole: 0
     _chaLevel: 0
     _chaCurrentHP: 0
     _chaMaxHP: 0
@@ -305,7 +308,7 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 15.36, y: 26.886564}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1

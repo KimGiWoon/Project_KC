@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using KSH;
+using SDW;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -15,7 +16,7 @@ public class RelicResultUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI ignoreText;
     
     private RelicUI currentRelicUI;
-    private Relic relic;
+    private RelicDatas relic;
     [SerializeField] private RelicDetailUI relicDetailUI;
 
     private void Awake()
@@ -31,13 +32,13 @@ public class RelicResultUI : MonoBehaviour
             return;
         }
         
-        Relic relic = currentRelicUI.GetRelic();
+        RelicDatas relic = currentRelicUI.GetRelic();
         RelicDropManager.Instance.GetRelic(relic);
         getButton.interactable = false;
         RelicWindow.SetActive(false);
     }
     
-    public void ShowRelic(List<Relic> relics, RelicRarity rarity)
+    public void ShowRelic(List<RelicDatas> relics, RelicGrade grade)
     {
         foreach (Transform child in content)
         {

@@ -18,10 +18,10 @@ namespace KSH
         [SerializeField] private Button showButton;
         //[SerializeField] private Outline outline; //테두리
         
-        private Relic relic;
+        private RelicDatas relic;
         private System.Action<RelicUI> onRelicClicked;
         
-        public void SetData(Relic relic, System.Action<RelicUI> clickCallBack, RelicDetailUI detailUI)
+        public void SetData(RelicDatas relic, System.Action<RelicUI> clickCallBack, RelicDetailUI detailUI)
         {
             this.relic = relic;
             onRelicClicked = clickCallBack;
@@ -40,6 +40,6 @@ namespace KSH
         
         //public void SetOutline(bool isOutline) => outline.enabled = isOutline;
         
-        public Relic GetRelic() => relic;
+        public RelicDatas GetRelic() => relic;
     }    
 }
