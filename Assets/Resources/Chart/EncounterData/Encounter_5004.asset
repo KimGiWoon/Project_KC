@@ -1,0 +1,37 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58585316b513e9144a61e8da57f72608, type: 3}
+  m_Name: Encounter_5004
+  m_EditorClassIdentifier: 
+  Row:
+    EncounterID: 5004
+    Type: 0
+    EncounterStage: 1
+    ResultType: 1
+    EncounterText: "\uB2F9\uC2E0\uC740 \uB0A1\uC740 \uC9D1\uC5D0\uC11C \uB098\uBB34
+      \uADA4\uC9DD\uC744 \uBC1C\uACAC\uD558\uACE0 \uC5F4\uC5B4\uBD05\uB2C8\uB2E4.\\n\uC548\uC5D0\uB294
+      \uC5FD\uC804\uC774 \uAC00\uB4DD \uB4E4\uC5B4\uC788\uC5C8\uC2B5\uB2C8\uB2E4!\\n "
+    EnCounterType: 5
+    ChoiceCount: 1
+    ChoiceTexts: []
+    RandomType: 0
+    ResultOwned: 0
+    CanGetMoney: 1
+    StartID: 0
+    EndID: 0
+    ResultMinCount: 0
+    ResultMaxCount: 0
+    ResultMoney: 1500
+    ResultNumber: 0
+    ResultChoiceCount: 1
+    EncounterExitText:
+    - "\uC5FD\uC804 +1500"

@@ -1,28 +1,30 @@
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
-public class MapSelectionManager : MonoBehaviour
+namespace CJH
 {
-    [Header("Dependencies")]
-    public MapView mapView;
-    public Transform mapListContainer;
-
-    private List<MapData> availableMaps = new();
-    private List<Sprite> previewImages = new();
-
-    private int lastSelectedIndex = -1;
-
-    public void Initialize(List<MapData> maps, List<Sprite> previews)
+    public class MapSelectionManager : MonoBehaviour
     {
-        availableMaps = maps;
-        previewImages = previews;
-        lastSelectedIndex = MapPrefs.LoadSelectedMapIndex();
+        [Header("Dependencies")]
+        public MapView mapView;
+        public Transform mapListContainer;
 
-        // 마지막 선택 맵 자동 로드
-        if (lastSelectedIndex >= 0 && lastSelectedIndex < maps.Count)
+        private List<MapData> availableMaps = new();
+        private List<Sprite> previewImages = new();
+
+        private int lastSelectedIndex = -1;
+
+        public void Initialize(List<MapData> maps, List<Sprite> previews)
         {
-            mapView.CreateMapView(availableMaps[lastSelectedIndex]);
+            availableMaps = maps;
+            previewImages = previews;
+            lastSelectedIndex = MapPrefs.LoadSelectedMapIndex();
+
+            // 마지막 선택 맵 자동 로드
+            if (lastSelectedIndex >= 0 && lastSelectedIndex < maps.Count)
+            {
+                mapView.CreateMapView(availableMaps[lastSelectedIndex]);
+            }
         }
     }
 }

@@ -13,9 +13,13 @@ public class MapGenerator : MonoBehaviour
     private int _floors;
     private int _mapWidth;
     private List<List<Node>> _map;
+    private List<EncounterData> availableEncounters;
 
     public MapData GenerateMap(MapConfig configToGenerate)
     {
+        // Resources 폴더에서 EncounterData를 불러옵니다.
+        availableEncounters = Resources.LoadAll<EncounterData>("Data/EncounterData").ToList();
+
         // 전달받은 config를 이 컴포넌트의 config 변수에 저장합니다.
         this.config = configToGenerate;
         Debug.Log("--- 맵 생성 시작 ---");
@@ -131,6 +135,13 @@ public class MapGenerator : MonoBehaviour
             int enumCount = System.Enum.GetValues(typeof(EventTypeKC)).Length;
             int randomIndex = Random.Range(1, enumCount); // 1부터 시작하여 NotAssigned 제외
             eventNode.EventTypeKC = (EventTypeKC)randomIndex;
+
+            // 사용 가능한 사건이 있다면, 무작위로 ID를 할당
+            if (availableEncounters != null && availableEncounters.Count > 0)
+            {
+                eventNode.EncounterID = availableEncounters[Random.Range(0, availableEncounters.Count)].EncounterID;
+                Debug.Log($"노드 ({eventNode.point.x}, {eventNode.point.y})에 사건 ID {eventNode.EncounterID} 할당됨.");
+            }
         }
     }
 
