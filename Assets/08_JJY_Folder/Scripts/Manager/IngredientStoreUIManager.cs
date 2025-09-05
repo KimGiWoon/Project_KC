@@ -44,7 +44,9 @@ namespace JJY
 
         void Start()
         {
+#if UNITY_EDITOR
             TestAddYeopjeon();
+#endif
             InitIngredientIndexMap();
             InitStoreSlots();
 
