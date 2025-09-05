@@ -28,7 +28,11 @@ MonoBehaviour:
     ChaActiveSkill: -1
     ChaPassiveSkillEffect: -1
     ChaActiveSkillEffect: -1
-    ChaIntroduction: "null\r"
+    ChaIntroduction: "\uD604\uBAA8\uC591\uCC98\uC758 \uD3EC\uADFC\uD55C \uC131\uD488\uACFC
+      \uCD9C\uC911\uD55C \uC694\uB9AC\uC2E4\uB825\uC744 \uAC00\uC9C0\uACE0 \uC788\uB294
+      \uC544\uB984\uB2E4\uC6B4 \uADF8\uB140\uC9C0\uB9CC, \uC544\uC774\uB97C \uBCD1\uC73C\uB85C
+      \uC783\uC740 \uC548\uD0C0\uAE4C\uC6B4 \uC0AC\uC5F0\uC744 \uAC00\uC9C0\uACE0
+      \uC788\uB2E4.\r"
   _chaTypeData:
     ChaRole: 3
     ChaAtkIsMelee: 4
@@ -42,5 +46,7 @@ MonoBehaviour:
   _prefab: {fileID: 0}
   _chaLv: 1
   _chaSkills: []
+  _chaActiveSkill: {fileID: 0}
+  _chaPassiveSkill: {fileID: 0}
   Beads: 0
   GachaBackground: {fileID: 21300000, guid: 47ad4cf55a5e2204d9edec35e0c797f7, type: 3}

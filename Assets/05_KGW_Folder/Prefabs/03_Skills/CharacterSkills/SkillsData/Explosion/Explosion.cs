@@ -5,12 +5,12 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "SkillData", menuName = "Skills/SkillData")]
 public class Explosion : SkillDataSO
 {
-    public override void UseSkill(Transform caster, MonoBehaviour target)
+    public override void UseSkill(MonoBehaviour caster, MonoBehaviour target)
     {
         // 스킬 레벨에 대한 계산 추가 예정
 
         // 스킬 사용 이미지 생성
-        GameObject explosion = Instantiate(_skillPrefab, caster.position, caster.rotation);
+        GameObject explosion = Instantiate(_skillPrefab, caster.transform.position, caster.transform.rotation);
         ExplosionController explosionController = explosion.GetComponent<ExplosionController>();
 
         // 스킬의 데미지, 사거리 데이터 전달

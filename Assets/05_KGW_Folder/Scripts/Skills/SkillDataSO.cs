@@ -10,13 +10,13 @@ public abstract class SkillDataSO : ScriptableObject
     public GameObject _skillPrefab; // 스킬 프리팹
 
     // 보스전용 스킬사용 메서드
-    public virtual void UseSkill(Transform caster, MonoBehaviour target, Transform[] point)
+    public virtual void UseSkill(MonoBehaviour caster, MonoBehaviour target, Transform[] point)
     {
         // 보스의 스킬 사용으로 몬스터 소환위치 필요 시 해당 메서드 사용
     }
 
     // 캐릭터 전용 스킬사용 메서드
-    public virtual void UseSkill(Transform caster, MonoBehaviour target)
+    public virtual void UseSkill(MonoBehaviour caster, MonoBehaviour target)
     {
         // 캐릭터 스킬 사용으로 필요 시 해당 메서드 사용
     }

@@ -27,8 +27,8 @@ public class BattleManager : MonoBehaviour
 
     [Header("Monster List Setting")]
     [SerializeField] public List<MonsterDataSO> _monsterList;
-
     [SerializeField] public List<MonsterDataSO> _eliteList;
+
     [Header("Boss List Setting")]
     [SerializeField] public List<MonsterDataSO> _bossList;
 
@@ -43,6 +43,7 @@ public class BattleManager : MonoBehaviour
     // 생성된 캐릭터 보관
     public List<MyCharacterController> _characters = new List<MyCharacterController>();
     public List<MonsterController> _monsters = new List<MonsterController>();
+    public List<MonsterController> _bossMonster = new List<MonsterController>();
 
     public BattleUI _battleUI;
     //private List<CharacterDataSO> _selectCharacters;
@@ -202,7 +203,7 @@ public class BattleManager : MonoBehaviour
 
             // 성생된 보스 저장
             var createBossMonster = bossMonster.GetComponent<MonsterController>();
-            _monsters.Add(createBossMonster);
+            _bossMonster.Add(createBossMonster);
 
             // 통합 제력 저장
             _monsterTotalMaxHp += bossData.MonHP;
@@ -213,7 +214,7 @@ public class BattleManager : MonoBehaviour
 
         _monsterTotalCurrentHp = _monsterTotalMaxHp;
         // 생성된 몬스터 수 저장
-        _monsterCount = _monsters.Count;
+        _monsterCount = _bossMonster.Count;
 
         // 통합 체력 초기화
         OnTotalHpChange?.Invoke(_monsterTotalCurrentHp, _monsterTotalMaxHp);

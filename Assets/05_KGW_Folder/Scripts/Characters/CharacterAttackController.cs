@@ -66,11 +66,7 @@ public class CharacterAttackController : MonoBehaviour
         foreach (MonsterController monster in _controller._attackTargets)
         {
             // 몬스터가 없거나 죽었으면 넘어가기
-            if (monster == null || !monster.isActiveAndEnabled)
-            {
-                Debug.Log("공격 대상 몬스터가 없습니다.");
-                continue;
-            }
+            if (monster == null || !monster.isActiveAndEnabled) continue;
 
             // 몬스터와 거리 확인
             float distance = Vector3.SqrMagnitude(monster.transform.position - transform.position);
