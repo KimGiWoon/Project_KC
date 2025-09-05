@@ -1,0 +1,101 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 429858b7358497341860536dc63325ff, type: 3}
+  m_Name: PrefabAndSOMapping_SDW_SignInScene
+  m_EditorClassIdentifier: 
+  prefabEntries: []
+  soEntries:
+  - Path: GameManager
+    AddressKey: 0977072b4d0ff2c4bb1c250d908f0ba6
+    fieldName: characterLists
+    index: 0
+    AssetPath: Assets/05_KGW_Folder/Prefabs/00_Characters/CharactersSOData/BCA_Data.asset
+  - Path: GameManager
+    AddressKey: 103b7f3043d88a9429d25209c9d1f182
+    fieldName: characterLists
+    index: 1
+    AssetPath: Assets/05_KGW_Folder/Prefabs/00_Characters/CharactersSOData/BW_Data.asset
+  - Path: GameManager
+    AddressKey: b2b81c36db1a8e54ea99f22c0ce7f76f
+    fieldName: characterLists
+    index: 2
+    AssetPath: Assets/05_KGW_Folder/Prefabs/00_Characters/CharactersSOData/DRA_Data.asset
+  - Path: GameManager
+    AddressKey: 9a13d90448a4f63409bf98028055be21
+    fieldName: characterLists
+    index: 3
+    AssetPath: Assets/05_KGW_Folder/Prefabs/00_Characters/CharactersSOData/EMA_Data.asset
+  - Path: GameManager
+    AddressKey: 53f708173e2eda44480072ad77fcc9bd
+    fieldName: characterLists
+    index: 4
+    AssetPath: Assets/05_KGW_Folder/Prefabs/00_Characters/CharactersSOData/GSE_Data.asset
+  - Path: GameManager
+    AddressKey: 9ed735c570481004a8718f1c6026da54
+    fieldName: characterLists
+    index: 5
+    AssetPath: Assets/05_KGW_Folder/Prefabs/00_Characters/CharactersSOData/HSR_Data.asset
+  - Path: GameManager
+    AddressKey: 965766ae0e04c104fa450eef4279d84e
+    fieldName: characterLists
+    index: 6
+    AssetPath: Assets/05_KGW_Folder/Prefabs/00_Characters/CharactersSOData/JHB_Data.asset
+  - Path: GameManager
+    AddressKey: 265ffa3c68152e74a8ca0b6b30d27bd8
+    fieldName: characterLists
+    index: 7
+    AssetPath: Assets/05_KGW_Folder/Prefabs/00_Characters/CharactersSOData/SDR_Data.asset
+  - Path: GameManager
+    AddressKey: 65f2c3ff647fbb64882a5e1b70abfa2e
+    fieldName: characterLists
+    index: 8
+    AssetPath: Assets/05_KGW_Folder/Prefabs/00_Characters/CharactersSOData/SIL_Data.asset
+  - Path: GameManager
+    AddressKey: a933f06d6c448424f8215186aa712cb0
+    fieldName: characterLists
+    index: 9
+    AssetPath: Assets/05_KGW_Folder/Prefabs/00_Characters/CharactersSOData/YHY_Data.asset
+  - Path: GameManager
+    AddressKey: 3187b59c549b7884e935f513a641ecad
+    fieldName: dailyQuests
+    index: 0
+    AssetPath: Assets/09_KSH_Folder/ScriptableObject/DailyQuests/ChallengeDungeon.asset
+  - Path: GameManager
+    AddressKey: 64eb3dee0b6864d41b34002f1d2722e2
+    fieldName: dailyQuests
+    index: 1
+    AssetPath: Assets/09_KSH_Folder/ScriptableObject/DailyQuests/UseFood.asset
+  - Path: GameManager
+    AddressKey: 0886ee9ff4efbab4ab197c78819beb7f
+    fieldName: dailyQuests
+    index: 2
+    AssetPath: Assets/09_KSH_Folder/ScriptableObject/DailyQuests/GetArtifact.asset
+  - Path: GameManager
+    AddressKey: 1924e75ff074f014497c44dd006f3c97
+    fieldName: dailyQuests
+    index: 3
+    AssetPath: Assets/09_KSH_Folder/ScriptableObject/DailyQuests/UseStemina.asset
+  - Path: GameManager
+    AddressKey: 409e853d965fab74aab4361d7c33cccd
+    fieldName: dailyQuests
+    index: 4
+    AssetPath: Assets/09_KSH_Folder/ScriptableObject/DailyQuests/ChargeStemina.asset
+  - Path: GameManager
+    AddressKey: 9b0206f3d9ca7bf42b3ed0217b7ab8ed
+    fieldName: dailyQuests
+    index: 5
+    AssetPath: Assets/09_KSH_Folder/ScriptableObject/DailyQuests/LevelUp.asset
+  - Path: GameManager
+    AddressKey: 9916a806d30a06c48a483207599aa6c1
+    fieldName: dailyQuests
+    index: 6
+    AssetPath: Assets/09_KSH_Folder/ScriptableObject/DailyQuests/SkillLevelUp.asset

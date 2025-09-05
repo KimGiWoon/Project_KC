@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
-  m_Name: RemoteInGameSprites
+  m_Name: RemoteInGame_Sprites
   m_EditorClassIdentifier: 
-  m_GroupName: RemoteInGameSprites
+  m_GroupName: RemoteInGame_Sprites
   m_Data:
     m_SerializedData: []
   m_GUID: ef4d83d691e7fab43beab0e53a2cfb7a
@@ -55,12 +55,6 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 578ecbd68c1b6dc448971ab65eaebbd0
     m_Address: 578ecbd68c1b6dc448971ab65eaebbd0
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - InGame_UI
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 57daccc1527ca1d43abc8eea0dd14179
-    m_Address: 57daccc1527ca1d43abc8eea0dd14179
     m_ReadOnly: 0
     m_SerializedLabels:
     - InGame_UI

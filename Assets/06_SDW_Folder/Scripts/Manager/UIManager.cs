@@ -657,6 +657,7 @@ namespace SDW
         private void DisconnectDailyQuestUI(UIName uiName)
         {
             var dailyQuestUI = _uiDic[uiName] as DailyQuestUI;
+            // GameManager.Instance.DailyQuest.InitQuest();
             dailyQuestUI.OnRewardButtonClicked -= GameManager.Instance.DailyQuest.Reward;
             dailyQuestUI.OnUICloseRequested -= ClosePanel;
         }
@@ -772,6 +773,9 @@ namespace SDW
             var loadingObject = Resources.Load<GameObject>("UI/LoadingCanvas");
             _loadingCanvas = Instantiate(loadingObject, transform);
             _loadingCanvas.SetActive(false);
+
+            GameManager.Instance.SetImageSpriteConnected(false);
+            GameManager.Instance.SetPrefabAndSoConnected(false);
 
             var children = _loadingCanvas.GetComponentsInChildren<RectTransform>(true);
 
