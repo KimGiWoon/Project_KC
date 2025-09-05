@@ -8,6 +8,7 @@ namespace JJY
     {
         public EffectType type;
         public float value = 0f;
+        public bool applyBarrier = false;
         public float duration = 0f;      // 0 => 즉시 적용, >0 => 지속(초)
         public string sourceId;         // 출처 식별자 (예: recipeName 등, 갱신 정책용)
 
@@ -42,9 +43,9 @@ namespace JJY
         CreateBarrierForAll,         // 전투 중인 캐릭터들에게 몬스터의 공격을 1회 방어할 수 있는 베리어 생성
         AccumulateBossGroggyPercent, // 보스 몬스터 그로기 게이지 즉시 (n)% 누적
     }
-    public enum StatType
-    {
-        Attack,
-        Defense
-    }
+    // public enum Target
+    // {
+    //     CharacterAll,
+    //     Boss
+    // }
 }
