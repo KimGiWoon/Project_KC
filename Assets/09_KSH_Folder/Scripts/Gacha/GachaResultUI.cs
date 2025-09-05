@@ -16,16 +16,19 @@ namespace KSH
         [SerializeField] private ScrollRect scrollRect;
         [SerializeField] private CharacterGacha _gacha;
         [SerializeField] private Button _backButton;
+        private RewardChangeManager _reward;
 
         public Action<UIName> OnUIOpenRequested;
         public Action<UIName> OnUICloseRequested;
-        private Dictionary<string, bool> _isFirstCharacter = new Dictionary<string, bool>();
+        // private Dictionary<string, bool> _isFirstCharacter = new Dictionary<string, bool>();
 
         private void Awake()
         {
             _panelContainer.SetActive(false);
             _gacha = GameManager.Instance.Gacha;
             _gacha.SetGachaResultUI(this);
+
+            _reward = GameManager.Instance.Reward;
         }
 
         private void OnEnable()
@@ -68,18 +71,16 @@ namespace KSH
             for (int i = 0; i < characterDatas.Result.Count; i++) //뽑힌 캐릭터 수 만큼 생성
             {
                 var gacha = Instantiate(gachaPrefab, content); //뽑힌 캐릭터 UI을 content안에 생성
-                // gacha.SetData(characterDatas[i]); //캐릭터 데이터 적용
+                
+                bool isFirst = characterDatas.CurrentBead[i] == 0;
 
-                if (!_isFirstCharacter.ContainsKey(characterDatas.Result[i]._chaBaseData.ChaName))
-                    _isFirstCharacter[characterDatas.Result[i]._chaBaseData.ChaName] = true;
-                else
-                    _isFirstCharacter[characterDatas.Result[i]._chaBaseData.ChaName] = false;
                 gacha.SetData(
                     characterDatas.Result[i],
                     characterDatas.GainedStarCandy[i],
                     characterDatas.GainedBead[i],
                     characterDatas.CurrentBead[i],
-                    _isFirstCharacter[characterDatas.Result[i]._chaBaseData.ChaName]
+                    // _reward.ownedCharacters[characterDatas.Result[i]._chaBaseData.ChaName]
+                    isFirst
                 ); //캐릭터 데이터 적용
 
                 var rect = gacha.GetComponent<RectTransform>();
