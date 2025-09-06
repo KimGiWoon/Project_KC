@@ -25,18 +25,11 @@ namespace SDW
         private UIName _prevClosedUI = UIName.None;
 
         /// <summary>
-        /// Firebase 컴포넌트 연결 
-        /// </summary>
-        private void Awake()
-        {
-            _firebase = GetComponent<FirebaseManager>();
-        }
-
-        /// <summary>
-        /// Firebase 연결 초기화
+        /// Firebase 연결 및 초기화
         /// </summary>
         private void Start()
         {
+            _firebase = GameManager.Instance.Firebase;
             _firebase?.ConnectToFirebase();
             ConnectLoading();
         }
