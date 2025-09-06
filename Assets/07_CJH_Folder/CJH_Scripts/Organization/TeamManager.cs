@@ -3,6 +3,7 @@ using System.Linq;
 using System;
 using System.Collections.Generic;
 using SDW;
+using UnityEngine.TextCore.Text;
 
 namespace CJH
 {
@@ -16,6 +17,10 @@ namespace CJH
         [Header("모든 캐릭터 데이터")]
         public List<CharacterDataSO> allCharacters;
 
+
+        [SerializeField] private Transform characterSlotParent;
+        [SerializeField] private GameObject characterSlotPrefab;
+
         // 단일 팀 데이터 배열
         private CharacterDataSO[] currentTeam = new CharacterDataSO[3];
 
@@ -27,7 +32,62 @@ namespace CJH
 
 
 
+        public void Start()
+        {
+            var owned = GameManager.Instance.Reward.ownedCharacters;
+            owned.Add("BCA", true);
+            owned.Add("BW", true);
+        }
+
+
         //todo 가챠에서 캐릭터 데이터 뽑히면 자동 추가 동작 되는지 확인 및 추가 시 동작 확인
+
+
+
+        /// <summary>
+        /// 보유한 캐릭터만 슬롯 UI로 생성
+        /// </summary>
+        public void ShowOwnedCharacterSlots()
+        {
+            // 기존 슬롯 정리
+            foreach (Transform child in characterSlotParent)
+            {
+                Destroy(child.gameObject);
+            }
+            // 보유 캐릭터만 필터링
+            var ownedCharacters = allCharacters
+                .Where(c => GameManager.Instance.Reward.ownedCharacters.ContainsKey(c._chaBaseData.ChaName))
+                .ToList();
+
+
+            foreach (var character in ownedCharacters)
+            {
+                GameObject slot = Instantiate(characterSlotPrefab, characterSlotParent);
+
+                var slotUI = slot.GetComponent<CharacterSlotUI>();
+                if (slotUI != null)
+                {
+                    CharacterData converted = new CharacterData
+                    {
+                        characterName = character._chaBaseData.ChaName,
+                        characterImage = character._characterSprite,
+                        rarity = Rarity.Rare,
+                        beads = character.Beads
+                    };
+                    slotUI.Setup(converted);
+                }
+
+                // 클릭 시 팀에 추가
+                var button = slot.GetComponent<UnityEngine.UI.Button>();
+                if (button != null)
+                {
+                    button.onClick.AddListener(() =>
+                    {
+                        AddCharacterBySO(character);
+                    });
+                }
+            }
+        }
 
         /// <summary>
         /// CharacterDataSO를 받아 팀에 캐릭터를 추가합니다.
