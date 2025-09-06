@@ -97,22 +97,22 @@ namespace SDW
             else
                 Destroy(gameObject);
 
-            _firebase = GetComponent<FirebaseManager>();
-            _ui = GetComponent<UIManager>();
-            _scene = GetComponent<MySceneManager>();
-            _time = GetComponent<TimeManager>();
-            _dailyQuest = GetComponent<DailyQuestManager>();
+            _firebase = GetComponentInChildren<FirebaseManager>();
+            _ui = GetComponentInChildren<UIManager>();
+            _scene = GetComponentInChildren<MySceneManager>();
+            _time = GetComponentInChildren<TimeManager>();
+            _dailyQuest = GetComponentInChildren<DailyQuestManager>();
 
             //# DataTable
-            _characterData = GetComponent<CharacterDataManager>();
-            _monsterData = GetComponent<MonsterDataManager>();
-            _encounter = GetComponent<EncounterDataManager>();
-            _battleMonster = GetComponent<BattleMonsterManager>();
-            _relic = GetComponent<RelicDataManager>();
+            _characterData = GetComponentInChildren<CharacterDataManager>();
+            _monsterData = GetComponentInChildren<MonsterDataManager>();
+            _encounter = GetComponentInChildren<EncounterDataManager>();
+            _battleMonster = GetComponentInChildren<BattleMonsterManager>();
+            _relic = GetComponentInChildren<RelicDataManager>();
 
             //# Gacha
-            _gacha = GetComponent<CharacterGacha>();
-            _reward = GetComponent<RewardChangeManager>();
+            _gacha = GetComponentInChildren<CharacterGacha>();
+            _reward = GetComponentInChildren<RewardChangeManager>();
         }
 
         /// <summary>
