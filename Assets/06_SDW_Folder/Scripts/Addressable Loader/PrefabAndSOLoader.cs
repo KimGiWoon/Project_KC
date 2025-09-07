@@ -17,25 +17,51 @@ namespace SDW
     {
         [Tooltip("씬별로 생성된 PrefabAndSOMapping SO 할당")]
         public PrefabAndSOMappingSO _mappingSo;
-        private bool _isDownloaded;
-        public bool IsDownloaded => _isDownloaded;
 
-        private async void Update()
+        private bool _bound;
+
+        private void OnEnable()
         {
-            if (!GameManager.Instance.CompleteDownload || _isDownloaded) return;
-
-#if UNITY_EDITOR
-            if (!Application.isPlaying)
-            {
-                ApplyEditorPreview();
-                return;
-            }
-#endif
-            // async void 메서드 호출
-            await LoadFromAddressables();
-            _isDownloaded = true;
+            GameManagerEvents.OnDownloadCompleted += TryBind;
+            GameManagerEvents.OnSceneIndexed += TryBind;
+            // TryBind();
         }
 
+        private void OnDisable()
+        {
+            GameManagerEvents.OnDownloadCompleted -= TryBind;
+            GameManagerEvents.OnSceneIndexed -= TryBind;
+        }
+
+        private void TryBind()
+        {
+            if (_bound) return;
+            if (_mappingSo == null) return;
+            if (!ScenePathIndex.IsBuilt) return;
+
+            LoadFromAddressables();
+            _bound = true;
+        }
+
+        // private bool _isDownloaded;
+
+//         private async void Update()
+//         {
+//             if (!GameManager.Instance.CompleteDownload || _isDownloaded) return;
+//
+// #if UNITY_EDITOR
+//             if (!Application.isPlaying)
+//             {
+//                 ApplyEditorPreview();
+//                 return;
+//             }
+// #endif
+//             // async void 메서드 호출
+//             await LoadFromAddressables();
+//             _isDownloaded = true;
+//         }
+
+/*
 #if UNITY_EDITOR
         private void ApplyEditorPreview()
         {
@@ -172,6 +198,134 @@ namespace SDW
                 p = go.name + "/" + p;
             }
             return p;
+        }
+    */
+
+        private async void LoadFromAddressables()
+        {
+            // if (_mappingSo == null) return;
+            //
+            // var loadedKeys = new HashSet<string>();
+            //
+            // foreach (var entry in _mappingSo.prefabEntries)
+            // {
+            //     await LoadAndAssign(entry, loadedKeys, typeof(GameObject));
+            // }
+            //
+            // foreach (var entry in _mappingSo.soEntries)
+            // {
+            //     await LoadAndAssign(entry, loadedKeys, typeof(ScriptableObject));
+            // }
+
+            if (_mappingSo == null) return;
+
+            var loadedKeys = new HashSet<string>();
+
+            var tasks = new List<Task>();
+
+            foreach (var entry in _mappingSo.prefabEntries)
+            {
+                tasks.Add(LoadAndAssign(entry, loadedKeys, typeof(GameObject)));
+            }
+
+            foreach (var entry in _mappingSo.soEntries)
+            {
+                tasks.Add(LoadAndAssign(entry, loadedKeys, typeof(ScriptableObject)));
+            }
+
+            await Task.WhenAll(tasks);
+
+
+            GameManager.Instance.SetPrefabAndSoConnected(true);
+        }
+
+        private async Task LoadAndAssign(PrefabAndSOMappingSO.Entry e, HashSet<string> loaded, Type type)
+        {
+            if (string.IsNullOrEmpty(e.AddressKey)) return;
+            if (!ScenePathIndex.TryGet(e.PathHash, out var go)) return;
+
+            if (type == typeof(GameObject))
+            {
+                var handle = Addressables.LoadAssetAsync<GameObject>(e.AddressKey);
+                await handle.Task;
+                if (handle.Status == AsyncOperationStatus.Succeeded)
+                {
+                    AssignToMonoBehaviourField(go, e.fieldName, e.index, handle.Result);
+                    loaded.Add(e.AddressKey);
+                }
+                else
+                {
+                    Debug.LogError($"[PrefabAndSOLoader] Prefab load failed: {e.AddressKey}");
+                }
+            }
+            else
+            {
+                var handle = Addressables.LoadAssetAsync<ScriptableObject>(e.AddressKey);
+                await handle.Task;
+                if (handle.Status == AsyncOperationStatus.Succeeded)
+                {
+                    AssignToMonoBehaviourField(go, e.fieldName, e.index, handle.Result);
+                }
+                else
+                {
+                    Debug.LogError($"[PrefabAndSOLoader] SO load failed: {e.AddressKey}");
+                }
+            }
+        }
+
+        private void AssignToMonoBehaviourField(GameObject go, string fieldName, int index, UnityEngine.Object loadedObj)
+        {
+            var monos = go.GetComponents<MonoBehaviour>(); // 전역이 아닌 "해당 GO"에 붙은 컴포넌트만
+            foreach (var mb in monos)
+            {
+                if (!mb) continue;
+
+                var fields = mb.GetType().GetFields(
+                    System.Reflection.BindingFlags.Public |
+                    System.Reflection.BindingFlags.NonPublic |
+                    System.Reflection.BindingFlags.Instance);
+
+                foreach (var field in fields)
+                {
+                    if (field.Name != fieldName) continue;
+
+                    if (index == -1) // 단일
+                    {
+                        field.SetValue(mb, loadedObj);
+                    }
+                    else // 리스트/배열
+                    {
+                        object val = field.GetValue(mb);
+                        if (val is IList list)
+                        {
+                            while (list.Count <= index)
+                            {
+                                list.Add(null);
+                            }
+                            list[index] = loadedObj;
+                        }
+                        else
+                        {
+                            // 리스트가 null이면 생성 시도
+                            if (field.FieldType.IsGenericType)
+                            {
+                                var inst = Activator.CreateInstance(field.FieldType) as IList;
+                                while (inst.Count <= index)
+                                {
+                                    inst.Add(null);
+                                }
+                                inst[index] = loadedObj;
+                                field.SetValue(mb, inst);
+                            }
+                            else
+                            {
+                                Debug.LogWarning($"[PrefabAndSOLoader] Field '{field.Name}' is not a list/array on {mb.name}");
+                            }
+                        }
+                    }
+                    break;
+                }
+            }
         }
     }
 }

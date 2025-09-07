@@ -6,26 +6,34 @@ using UnityEngine.UI;
 public class CharacterInfoSlotUI : MonoBehaviour
 {
     [Header("Character Info Slot Setting")]
-    [SerializeField] Image _characterPortrait;  // 캐릭터 초상화
-    [SerializeField] Image _skillCanUseImage;  // 스킬 사용 가능 이미지
-    [SerializeField] Slider _characterHp;       // 캐릭터 체력바 
-    [SerializeField] Slider _characterMp;       // 캐릭터 마나바
-    [SerializeField] Button _characterSkillButton;    // 캐릭터 스킬 사용 버튼
+    [SerializeField] private Image _characterPortrait; // 캐릭터 초상화
+    [SerializeField] private Image _skillCanUseImage; // 스킬 사용 가능 이미지
+    [SerializeField] private Slider _characterHp; // 캐릭터 체력바 
+    [SerializeField] private Slider _characterMp; // 캐릭터 마나바
+    [SerializeField] private Button _characterSkillButton; // 캐릭터 스킬 사용 버튼
 
     [Header("Skill Ready Visual")]
-    [SerializeField] RectTransform _CharacterSlot; // 움직일 캐릭터 슬롯
-    [SerializeField] float _moveDistance = 40f;     // 움직일 거리
+    [SerializeField] private RectTransform _CharacterSlot; // 움직일 캐릭터 슬롯
+    [SerializeField] private float _moveDistance = 40f; // 움직일 거리
 
-    MyCharacterController _characterController;
-    BuffManager _characterManager;
-    Vector2 _basicPosition;
-    bool _ready;
+    private MyCharacterController _characterController;
+    private BuffManager _characterManager;
+    private Vector2 _basicPosition;
+    private bool _ready;
 
     private void Awake()
     {
         // 체력, 마나 게이지 최소, 최대값 초기화
-        if (_characterHp) { _characterHp.minValue = 0; _characterHp.maxValue = 1; }
-        if (_characterMp) { _characterMp.minValue = 0; _characterMp.maxValue = 1; }
+        if (_characterHp)
+        {
+            _characterHp.minValue = 0;
+            _characterHp.maxValue = 1;
+        }
+        if (_characterMp)
+        {
+            _characterMp.minValue = 0;
+            _characterMp.maxValue = 1;
+        }
         _basicPosition = _CharacterSlot.anchoredPosition;
 
         // 스킬 사용 버튼 지정
@@ -46,7 +54,7 @@ public class CharacterInfoSlotUI : MonoBehaviour
     // 캐릭터 데이터 가져오기
     public void GetCharacterData(CharacterDataSO data)
     {
-        _characterPortrait.sprite = data.GachaBackground;
+        _characterPortrait.sprite = data._characterSprite;
         _characterHp.value = 1f;
         _characterMp.value = 0f;
     }

@@ -42,7 +42,6 @@ public class DailyQuestManager : MonoBehaviour
         if (!_gameManager.CompleteDownload || !_gameManager.ImageSpriteConnected || !_gameManager.PrefabAndSoConnected ||
             _isDownloaded) return;
         InitQuest();
-        _isDownloaded = true;
     }
 
     public void AddQuestUI(DailyQuestUI dailyQuestUI)
@@ -62,6 +61,7 @@ public class DailyQuestManager : MonoBehaviour
 
     public void InitQuest() //퀘스트 초기화
     {
+        _isDownloaded = true;
         foreach (var quest in dailyQuests)
         {
             quest.isComplete = false;

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 using KSH;
 
 namespace SDW
@@ -173,5 +174,32 @@ namespace SDW
         public void SetImageSpriteConnected(bool connected) => _imageSpriteConnected = connected;
 
         public void SetPrefabAndSoConnected(bool connected) => _prefabAndSoConnected = connected;
+
+        // public void SetImageSpriteConnected(bool connected)
+        // {
+        //     if (!connected)
+        //     {
+        //         _imageSpriteConnected = false;
+        //         return;
+        //     }
+        //     StartCoroutine(DelayedSet(true, connected));
+        // }
+        //
+        // public void SetPrefabAndSoConnected(bool connected)
+        // {
+        //     if (!connected)
+        //     {
+        //         _prefabAndSoConnected = false;
+        //         return;
+        //     }
+        //
+        //     StartCoroutine(DelayedSet(false, connected));
+        // }
+        // private IEnumerator DelayedSet(bool isSprite, bool value)
+        // {
+        //     yield return new WaitForSeconds(1f);
+        //     if (isSprite) _imageSpriteConnected = value;
+        //     else _prefabAndSoConnected = value;
+        // }
     }
 }
