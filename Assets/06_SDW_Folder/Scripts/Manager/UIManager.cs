@@ -24,21 +24,39 @@ namespace SDW
         private UIName _prevOpenedUI = UIName.None;
         private UIName _prevClosedUI = UIName.None;
 
-        /// <summary>
-        /// Firebase 컴포넌트 연결 
-        /// </summary>
-        private void Awake()
-        {
-            _firebase = GetComponent<FirebaseManager>();
-        }
+        private GameManager _gameManager;
+        private bool _isLoaded;
 
         /// <summary>
-        /// Firebase 연결 초기화
+        /// Firebase 연결 및 초기화
         /// </summary>
         private void Start()
         {
+            _gameManager = GameManager.Instance;
+            _firebase = _gameManager.Firebase;
             _firebase?.ConnectToFirebase();
             ConnectLoading();
+        }
+
+        /// <summary>
+        /// 해당 Scene의 모든 Sprite와 Prefab, SO를 연결한 후 loading canvas off
+        /// </summary>
+        private void Update()
+        {
+            if (!_gameManager.CompleteDownload || !_gameManager.ImageSpriteConnected || !_gameManager.PrefabAndSoConnected ||
+                _isLoaded) return;
+
+            StartCoroutine(DelayedLoading());
+            _isLoaded = true;
+        }
+
+        /// <summary>
+        /// Loading 후 해당 Scene의 Sprite와 Prefab, SO가 모두 로딩될 때까지 딜레이 후 loading canvas off
+        /// </summary>
+        private IEnumerator DelayedLoading()
+        {
+            yield return new WaitForSeconds(0.5f);
+            _loadingCanvas.SetActive(false);
         }
 
         #region Panel Methods
@@ -363,6 +381,7 @@ namespace SDW
 
             changeIconUI.OnIconSelected += userInfoUI.SetIcon;
             changeIconUI.OnApplyIconClicked += userInfoUI.SetIconConfirmed;
+            changeIconUI.OnApplyIconClicked += () => userInfoUI.PopUI(uiName);
             changeIconUI.OnUICloseRequested += ClosePanel;
         }
 
@@ -625,6 +644,7 @@ namespace SDW
 
             changeIconUI.OnIconSelected -= userInfoUI.SetIcon;
             changeIconUI.OnApplyIconClicked -= userInfoUI.SetIconConfirmed;
+            changeIconUI.OnApplyIconClicked -= () => userInfoUI.PopUI(uiName);
             changeIconUI.OnUICloseRequested -= ClosePanel;
         }
 
@@ -774,9 +794,6 @@ namespace SDW
             _loadingCanvas = Instantiate(loadingObject, transform);
             _loadingCanvas.SetActive(false);
 
-            GameManager.Instance.SetImageSpriteConnected(false);
-            GameManager.Instance.SetPrefabAndSoConnected(false);
-
             var children = _loadingCanvas.GetComponentsInChildren<RectTransform>(true);
 
             foreach (var child in children)
@@ -796,6 +813,7 @@ namespace SDW
         public void InitSceneLoadingUI()
         {
             _loadingCanvas.SetActive(true);
+            _isLoaded = false;
 
             //# 로딩 UI 초기화
             if (_loadingProgressBar != null) _loadingProgressBar.value = 0f;
@@ -827,8 +845,6 @@ namespace SDW
         public void CompleteSceneLoading(UIName targetUI)
         {
             if (_loadingText != null) _loadingText.text = "Complete!";
-
-            _loadingCanvas.SetActive(false);
 
             var activeScene = (SceneName)Enum.Parse(typeof(SceneName), GameManager.Instance.Scene.GetActiveScene());
 
