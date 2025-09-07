@@ -275,6 +275,8 @@ namespace SDW
 
         private void AssignToMonoBehaviourField(GameObject go, string fieldName, int index, UnityEngine.Object loadedObj)
         {
+            if (go == null) return;
+
             var monos = go.GetComponents<MonoBehaviour>(); // 전역이 아닌 "해당 GO"에 붙은 컴포넌트만
             foreach (var mb in monos)
             {

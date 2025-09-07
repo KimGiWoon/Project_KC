@@ -171,35 +171,16 @@ namespace SDW
         /// <param name="complete">다운로드 완료 여부를 나타내는 bool 값</param>
         public void SetCompleteDownload(bool complete) => _completeDownload = complete;
 
+        /// <summary>
+        /// 이미지 스프라이트 연결 상태 설정
+        /// </summary>
+        /// <param name="connected">이미지 스프라이트 연결 여부</param>
         public void SetImageSpriteConnected(bool connected) => _imageSpriteConnected = connected;
 
+        /// <summary>
+        /// 설정된 프리팹과 ScriptableObject (SO) 리소스 연결 상태를 업데이트
+        /// </summary>
+        /// <param name="connected">프리팹과 SO 리소스 연결 상태 여부</param>
         public void SetPrefabAndSoConnected(bool connected) => _prefabAndSoConnected = connected;
-
-        // public void SetImageSpriteConnected(bool connected)
-        // {
-        //     if (!connected)
-        //     {
-        //         _imageSpriteConnected = false;
-        //         return;
-        //     }
-        //     StartCoroutine(DelayedSet(true, connected));
-        // }
-        //
-        // public void SetPrefabAndSoConnected(bool connected)
-        // {
-        //     if (!connected)
-        //     {
-        //         _prefabAndSoConnected = false;
-        //         return;
-        //     }
-        //
-        //     StartCoroutine(DelayedSet(false, connected));
-        // }
-        // private IEnumerator DelayedSet(bool isSprite, bool value)
-        // {
-        //     yield return new WaitForSeconds(1f);
-        //     if (isSprite) _imageSpriteConnected = value;
-        //     else _prefabAndSoConnected = value;
-        // }
     }
 }
