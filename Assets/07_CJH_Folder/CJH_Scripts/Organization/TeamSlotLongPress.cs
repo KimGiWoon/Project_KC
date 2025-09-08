@@ -3,48 +3,18 @@ using UnityEngine.EventSystems;
 
 namespace CJH
 {
-    public class TeamSlotLongPress : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IPointerExitHandler
+    public class TeamSlotLongPress : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     {
-        private const float LONG_PRESS_TIME = 1.0f; // 1초
-        private float pointerDownTimer = 0f;
+        public float requiredHoldTime = 1.0f; // 1초 이상 누르면 정보창 표시
+        private float pointerDownTimer;
         private bool isPointerDown = false;
-        private bool isLongPressTriggered = false;
 
-        private CharacterData characterData;
-        private CharacterInfoPanel infoPanel;
-
-        /// <summary>
-        /// 외부(TeamManager)에서 호출하여 슬롯의 데이터를 설정합니다.
-        /// </summary>
-        public void Setup(CharacterData data, CharacterInfoPanel panel)
-        {
-            this.characterData = data;
-            this.infoPanel = panel;
-        }
-
-        private void Update()
-        {
-            if (isPointerDown && !isLongPressTriggered)
-            {
-                pointerDownTimer += Time.deltaTime;
-                if (pointerDownTimer >= LONG_PRESS_TIME)
-                {
-                    // 1초가 지났으면 캐릭터 세부정보 실행
-                    isLongPressTriggered = true;
-                    if (characterData != null && infoPanel != null)
-                    {
-                        infoPanel.ShowPanel(characterData);
-                        Debug.Log($"{characterData.characterName} 정보 창 열기");
-                    }
-                }
-            }
-        }
+        public CharacterInfoPanel infoPanel; // 인스펙터에서 정보창 연결
 
         public void OnPointerDown(PointerEventData eventData)
         {
             isPointerDown = true;
-            isLongPressTriggered = false;
-            pointerDownTimer = 0f;
+            pointerDownTimer = 0;
         }
 
         public void OnPointerUp(PointerEventData eventData)
@@ -52,9 +22,22 @@ namespace CJH
             isPointerDown = false;
         }
 
-        public void OnPointerExit(PointerEventData eventData)
+        private void Update()
         {
-            isPointerDown = false;
+            if (isPointerDown)
+            {
+                pointerDownTimer += Time.deltaTime;
+                if (pointerDownTimer >= requiredHoldTime)
+                {
+                    // 타이머가 목표 시간에 도달하면 정보창을 띄움
+                    if (infoPanel != null)
+                    {
+                        // infoPanel.Show(characterData); // 캐릭터 데이터와 함께 정보창 표시
+                    }
+                    Debug.Log("Long Press! Info panel should appear.");
+                    isPointerDown = false; // 한 번만 실행되도록 초기화
+                }
+            }
         }
     }
 }

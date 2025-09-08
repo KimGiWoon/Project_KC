@@ -3,6 +3,7 @@ using System.Linq;
 using System;
 using System.Collections.Generic;
 using SDW;
+using UnityEngine.TextCore.Text;
 
 namespace CJH
 {
@@ -14,10 +15,14 @@ namespace CJH
         public TeamSlotClick[] teamSlots = new TeamSlotClick[3];
 
         [Header("모든 캐릭터 데이터")]
-        public List<CharacterData> allCharacters;
+        public List<CharacterDataSO> allCharacters;
+
+
+        [SerializeField] private Transform characterSlotParent;
+        [SerializeField] private GameObject characterSlotPrefab;
 
         // 단일 팀 데이터 배열
-        private CharacterData[] currentTeam = new CharacterData[3];
+        private CharacterDataSO[] currentTeam = new CharacterDataSO[3];
 
         void Awake()
         {
@@ -27,7 +32,62 @@ namespace CJH
 
 
 
+        public void Start()
+        {
+            var owned = GameManager.Instance.Reward.ownedCharacters;
+            owned.Add("BCA", true);
+            owned.Add("BW", true);
+        }
+
+
         //todo 가챠에서 캐릭터 데이터 뽑히면 자동 추가 동작 되는지 확인 및 추가 시 동작 확인
+
+
+
+        /// <summary>
+        /// 보유한 캐릭터만 슬롯 UI로 생성
+        /// </summary>
+        public void ShowOwnedCharacterSlots()
+        {
+            // 기존 슬롯 정리
+            foreach (Transform child in characterSlotParent)
+            {
+                Destroy(child.gameObject);
+            }
+            // 보유 캐릭터만 필터링
+            var ownedCharacters = allCharacters
+                .Where(c => GameManager.Instance.Reward.ownedCharacters.ContainsKey(c._chaBaseData.ChaName))
+                .ToList();
+
+
+            foreach (var character in ownedCharacters)
+            {
+                GameObject slot = Instantiate(characterSlotPrefab, characterSlotParent);
+
+                var slotUI = slot.GetComponent<CharacterSlotUI>();
+                if (slotUI != null)
+                {
+                    CharacterData converted = new CharacterData
+                    {
+                        characterName = character._chaBaseData.ChaName,
+                        characterImage = character._characterSprite,
+                        rarity = Rarity.Rare,
+                        beads = character.Beads
+                    };
+                    slotUI.Setup(converted);
+                }
+
+                // 클릭 시 팀에 추가
+                var button = slot.GetComponent<UnityEngine.UI.Button>();
+                if (button != null)
+                {
+                    button.onClick.AddListener(() =>
+                    {
+                        AddCharacterBySO(character);
+                    });
+                }
+            }
+        }
 
         /// <summary>
         /// CharacterDataSO를 받아 팀에 캐릭터를 추가합니다.
@@ -37,7 +97,7 @@ namespace CJH
             if (characterSO == null) return;
 
             // allCharacters 리스트에서 이름이 같은 CharacterData를 찾습니다.
-            CharacterData characterToAdd = allCharacters.FirstOrDefault(c => c.characterName == characterSO._chaBaseData.ChaName);
+            CharacterDataSO characterToAdd = allCharacters.FirstOrDefault(c => c._chaBaseData.ChaName == characterSO._chaBaseData.ChaName);
 
             if (characterToAdd != null)
             {
@@ -55,12 +115,12 @@ namespace CJH
         /// <summary>
         /// 캐릭터를 팀에 추가하는 로직
         /// </summary>
-        private void AddCharacterToTeam(CharacterData characterToAdd)
+        private void AddCharacterToTeam(CharacterDataSO characterToAdd)
         {
             // 이미 팀에 있는지 확인
             if (currentTeam.Contains(characterToAdd))
             {
-                Debug.Log($"{characterToAdd.characterName}은(는) 이미 팀에 포함되어 있습니다.");
+                Debug.Log($"{characterToAdd._chaBaseData.ChaName}은(는) 이미 팀에 포함되어 있습니다.");
                 return;
             }
 
@@ -69,7 +129,7 @@ namespace CJH
             if (emptySlotIndex != -1)
             {
                 currentTeam[emptySlotIndex] = characterToAdd;
-                Debug.Log($"{characterToAdd.characterName}을(를) 팀에 추가했습니다. 현재 팀원: {currentTeam.Count(c => c != null)}명");
+                Debug.Log($"{characterToAdd._chaBaseData.ChaName}을(를) 팀에 추가했습니다. 현재 팀원: {currentTeam.Count(c => c != null)}명");
                 UpdateAllSlotsUI();
             }
             else
@@ -85,7 +145,7 @@ namespace CJH
         {
             if (slotIndex < 0 || slotIndex >= currentTeam.Length || currentTeam[slotIndex] == null) return;
 
-            Debug.Log($"{currentTeam[slotIndex].characterName}을(를) 팀에서 제거했습니다.");
+            Debug.Log($"{currentTeam[slotIndex]._chaBaseData.ChaName}을(를) 팀에서 제거했습니다.");
             currentTeam[slotIndex] = null;
             UpdateAllSlotsUI();
         }

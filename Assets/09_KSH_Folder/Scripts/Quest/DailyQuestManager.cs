@@ -13,52 +13,38 @@ public class DailyQuestManager : MonoBehaviour
     private bool reward = false;
     public int currentQuestGoal = 3;
     private bool _canReward = false;
+    private bool _isDownloaded;
+    private GameManager _gameManager;
 
     public event Action OnQuestComplete;
     public event Action<int> OnStarCandyChange;
 
-    private void Awake()
-    {
-        InitQuest();
-    }
-
     private void Start()
     {
-        if (GameManager.Instance.Time != null)
+        _gameManager = GameManager.Instance;
+    }
+
+    private void OnEnable()
+    {
+        if (_gameManager.Time != null)
         {
-            GameManager.Instance.Time.OnDailyReset += InitQuest;
+            _gameManager.Time.OnDailyReset += InitQuest;
         }
     }
 
-    private void OnDestroy()
+    private void OnDisable()
     {
-        if (GameManager.Instance.Time != null)
+        if (_gameManager.Time != null)
         {
-            GameManager.Instance.Time.OnDailyReset -= InitQuest;
+            _gameManager.Time.OnDailyReset -= InitQuest;
         }
     }
 
     private void Update() //테스트용
     {
-        if (Input.GetKeyDown(KeyCode.Alpha1))
-        {
-            CompleteQuest(QuestType.ChallengeDungeon, 1);
-        }
-
-        if (Input.GetKeyDown(KeyCode.Alpha2))
-        {
-            CompleteQuest(QuestType.UseFood, 3);
-        }
-
-        if (Input.GetKeyDown(KeyCode.Alpha3))
-        {
-            CompleteQuest(QuestType.GetArtifact, 5);
-        }
-
-        if (Input.GetKeyDown(KeyCode.Alpha4))
-        {
-            CompleteQuest(QuestType.UseStemina, 100);
-        }
+        if (!_gameManager.CompleteDownload || !_gameManager.ImageSpriteConnected || !_gameManager.PrefabAndSoConnected ||
+            _isDownloaded) return;
+        InitQuest();
     }
 
     public void AddQuestUI(DailyQuestUI dailyQuestUI)
@@ -68,6 +54,7 @@ public class DailyQuestManager : MonoBehaviour
 
         for (int i = 0; i < dailyQuests.Count; i++) // dailyQuest의 크기만큼 반복
         {
+            if (dailyQuests[i] == null) break;
             questUIList[i].dailyQuest = dailyQuests[i]; //리스트 i번째 UI에 i번째 퀘스트 데이터 연결
             questUIList[i].InitUI(); //연결한 걸 기반으로 초기화
         }
@@ -77,6 +64,7 @@ public class DailyQuestManager : MonoBehaviour
 
     public void InitQuest() //퀘스트 초기화
     {
+        _isDownloaded = true;
         foreach (var quest in dailyQuests)
         {
             quest.isComplete = false;

@@ -32,6 +32,8 @@ namespace CJH
             teamPanel.SetActive(true);
             openButton.gameObject.SetActive(false);
 
+            teamManager.ShowOwnedCharacterSlots();
+
             // 하단 UI를 편성으로 고정하고 스위치 버튼 비활성화
             if (uiPanelSwitcher != null)
             {

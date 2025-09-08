@@ -15,7 +15,7 @@ MonoBehaviour:
   m_DefaultGroup: 6e29a68307d558b48bb739f4a265f55a
   m_currentHash:
     serializedVersion: 2
-    Hash: 7521620dfbe49e7532e57c0a4e2006b3
+    Hash: 00000000000000000000000000000000
   m_OptimizeCatalogSize: 0
   m_BuildRemoteCatalog: 1
   m_BundleLocalCatalog: 0
@@ -45,9 +45,11 @@ MonoBehaviour:
   m_overridePlayerVersion: '[UnityEditor.PlayerSettings.bundleVersion]'
   m_GroupAssets:
   - {fileID: 11400000, guid: dfe184efbca417340898a27911a0de48, type: 2}
+  - {fileID: 11400000, guid: a6c49784b0c128d4ab60cf6cad477b54, type: 2}
   - {fileID: 11400000, guid: 49ba3c976ceb85749969c0f7809cdd01, type: 2}
-  - {fileID: 11400000, guid: ccfcecf9e1a9da94899438e582d1781e, type: 2}
+  - {fileID: 11400000, guid: f120f058f36f22a49b105e7682958000, type: 2}
   - {fileID: 11400000, guid: 9ed338bc79311fc4f9ade027d5c6ce7e, type: 2}
+  - {fileID: 11400000, guid: f9675cc7f07033344b5ef51ab2d923bc, type: 2}
   - {fileID: 11400000, guid: 145c310907d0ef64e824154fdb21d30d, type: 2}
   m_BuildSettings:
     m_CompileScriptsInVirtualMode: 0
@@ -65,7 +67,7 @@ MonoBehaviour:
       - m_Id: 548d00909bfd31949bd62d0aaac9e7e7
         m_Value: '{UnityEngine.AddressableAssets.Addressables.RuntimePath}/[BuildTarget]'
       - m_Id: 7069ebb5acb4d424496761e854400418
-        m_Value: https://supabase-bucket.riosong.p-e.kr/storage/v1/object/unity-assets/[BuildTarget]
+        m_Value: https://supabase-bucket.riosong.p-e.kr/storage/v1/object/Unity-Study/[BuildTarget]
       - m_Id: 9901116e2093b9b4c92991ef8525000a
         m_Value: ServerData/[BuildTarget]
       - m_Id: bf79ab992e741c440966234aceecbf97
@@ -90,12 +92,12 @@ MonoBehaviour:
   m_LabelTable:
     m_LabelNames:
     - default
-    - Lobby_CharImg
-    - Lobby_UI
-    - InGame_UI
-    - Stage_Foods
-    - Stage_Ingredients
     - SignIn_UI
+    - SignIn_Prefab_SO
+    - Lobby_UI
+    - Lobby_Prefab_SO
+    - InGame_UI
+    - InGame_Prefab_SO
   m_SchemaTemplates: []
   m_GroupTemplateObjects:
   - {fileID: 11400000, guid: bda71db4be1e3f346a06bcd06c971d01, type: 2}

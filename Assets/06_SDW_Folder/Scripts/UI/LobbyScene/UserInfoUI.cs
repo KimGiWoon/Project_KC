@@ -1,5 +1,7 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -33,6 +35,9 @@ namespace SDW
 
         private RectTransform _userInfoPanelRect;
         private Stack<UIName> _uiStack = new Stack<UIName>();
+
+        //# Test
+        public ImageSpriteMappingSO _mappingSo;
 
         /// <summary>
         /// UI 컴포넌트 활성화 설정 및 이벤트 리스너 할당을 수행
@@ -170,6 +175,15 @@ namespace SDW
         /// <param name="sprite">변경할 새로운 아이콘 스프라이트</param>
         public void SetIcon(Sprite sprite)
         {
+            Debug.Log($"Old sprite atlas: {_userIcon.sprite?.texture?.name}");
+            Debug.Log($"New sprite atlas: {sprite?.texture?.name}");
+
+            // 해당 Image가 ImageSpriteLoader 대상인지 확인
+            string path = ImageSpriteLoader.GetPath(_userIcon.gameObject);
+            ulong hash = PathHasher.Hash(path);
+            Debug.Log($"Image Path: {path}");
+            // Debug.Log($"Is in mapping: {_mappingSo.entries.Any(e => e.PathHash == hash)}");
+
             _userIconBackUp = _userIcon.sprite;
             _userIcon.sprite = sprite;
         }

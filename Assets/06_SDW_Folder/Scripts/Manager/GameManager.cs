@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 using KSH;
 
 namespace SDW
@@ -64,6 +65,14 @@ namespace SDW
         private bool _completeDownload;
         public bool CompleteDownload => _completeDownload;
 
+        //# Image Sprite Connected;
+        private bool _imageSpriteConnected;
+        public bool ImageSpriteConnected => _imageSpriteConnected;
+
+        //# Prefab and SO Connected;
+        private bool _prefabAndSoConnected;
+        public bool PrefabAndSoConnected => _prefabAndSoConnected;
+
         //# BattleMonsterManager로 이전?
         private bool _lastBoss;
         public bool LastBoss => _lastBoss;
@@ -89,22 +98,22 @@ namespace SDW
             else
                 Destroy(gameObject);
 
-            _firebase = GetComponent<FirebaseManager>();
-            _ui = GetComponent<UIManager>();
-            _scene = GetComponent<MySceneManager>();
-            _time = GetComponent<TimeManager>();
-            _dailyQuest = GetComponent<DailyQuestManager>();
+            _firebase = GetComponentInChildren<FirebaseManager>();
+            _ui = GetComponentInChildren<UIManager>();
+            _scene = GetComponentInChildren<MySceneManager>();
+            _time = GetComponentInChildren<TimeManager>();
+            _dailyQuest = GetComponentInChildren<DailyQuestManager>();
 
             //# DataTable
-            _characterData = GetComponent<CharacterDataManager>();
-            _monsterData = GetComponent<MonsterDataManager>();
-            _encounter = GetComponent<EncounterDataManager>();
-            _battleMonster = GetComponent<BattleMonsterManager>();
-            _relic = GetComponent<RelicDataManager>();
+            _characterData = GetComponentInChildren<CharacterDataManager>();
+            _monsterData = GetComponentInChildren<MonsterDataManager>();
+            _encounter = GetComponentInChildren<EncounterDataManager>();
+            _battleMonster = GetComponentInChildren<BattleMonsterManager>();
+            _relic = GetComponentInChildren<RelicDataManager>();
 
             //# Gacha
-            _gacha = GetComponent<CharacterGacha>();
-            _reward = GetComponent<RewardChangeManager>();
+            _gacha = GetComponentInChildren<CharacterGacha>();
+            _reward = GetComponentInChildren<RewardChangeManager>();
         }
 
         /// <summary>
@@ -161,5 +170,17 @@ namespace SDW
         /// </summary>
         /// <param name="complete">다운로드 완료 여부를 나타내는 bool 값</param>
         public void SetCompleteDownload(bool complete) => _completeDownload = complete;
+
+        /// <summary>
+        /// 이미지 스프라이트 연결 상태 설정
+        /// </summary>
+        /// <param name="connected">이미지 스프라이트 연결 여부</param>
+        public void SetImageSpriteConnected(bool connected) => _imageSpriteConnected = connected;
+
+        /// <summary>
+        /// 설정된 프리팹과 ScriptableObject (SO) 리소스 연결 상태를 업데이트
+        /// </summary>
+        /// <param name="connected">프리팹과 SO 리소스 연결 상태 여부</param>
+        public void SetPrefabAndSoConnected(bool connected) => _prefabAndSoConnected = connected;
     }
 }

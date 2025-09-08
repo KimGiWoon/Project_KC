@@ -1,0 +1,49 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: RemoteSignIn_Sprites
+  m_EditorClassIdentifier: 
+  m_GroupName: RemoteSignIn_Sprites
+  m_Data:
+    m_SerializedData: []
+  m_GUID: 3e2811eb999b07243bff31a9169aef38
+  m_SerializeEntries:
+  - m_GUID: 38b5fc1248630a14996dee5d1b079485
+    m_Address: 38b5fc1248630a14996dee5d1b079485
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SignIn_UI
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 57daccc1527ca1d43abc8eea0dd14179
+    m_Address: 57daccc1527ca1d43abc8eea0dd14179
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SignIn_UI
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 8600060538fce3a4aaf99e87c0c7871f
+    m_Address: 8600060538fce3a4aaf99e87c0c7871f
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SignIn_UI
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 9dabe2e845efb504eb745e1ce37cff58
+    m_Address: 9dabe2e845efb504eb745e1ce37cff58
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SignIn_UI
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: 441dd7bf659100a4990a849b99ef5569, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: 27ce968236277f6448fa9fb2f090b685, type: 2}
+    - {fileID: 11400000, guid: d061933c8e356c847ab2fb6fb389e132, type: 2}

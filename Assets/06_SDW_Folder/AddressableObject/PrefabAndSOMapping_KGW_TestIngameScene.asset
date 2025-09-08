@@ -1,0 +1,310 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 429858b7358497341860536dc63325ff, type: 3}
+  m_Name: PrefabAndSOMapping_KGW_TestIngameScene
+  m_EditorClassIdentifier: 
+  prefabEntries:
+  - PathHash: 701147318126802645
+    AddressKey: e9e04faab6d169f4abe5c607ab5bac22
+    fieldName: _chaSkillPrefab
+    index: -1
+    AssetPath: Assets/05_KGW_Folder/Prefabs/03_Skills/CharacterSkills/SkillsData/AimForTheWound/AimForTheWound.prefab
+    PathPreview: SkillDataManager
+  - PathHash: 16892404017485796478
+    AddressKey: fef05c0739b55164ea1677d3f4349296
+    fieldName: _prefab
+    index: -1
+    AssetPath: Assets/05_KGW_Folder/Prefabs/00_Characters/SIL.prefab
+    PathPreview: BattleManager
+  - PathHash: 16892404017485796478
+    AddressKey: d530bf8ec5a521c4584696cb8b69cdc8
+    fieldName: _skillPrefab
+    index: -1
+    AssetPath: Assets/05_KGW_Folder/Prefabs/03_Skills/CharacterSkills/SkillsData/Explosion/Explosion.prefab
+    PathPreview: BattleManager
+  - PathHash: 16892404017485796478
+    AddressKey: 6861ca5fd7922654b851134b76556b08
+    fieldName: _prefab
+    index: -1
+    AssetPath: Assets/05_KGW_Folder/Prefabs/00_Characters/BW.prefab
+    PathPreview: BattleManager
+  - PathHash: 16892404017485796478
+    AddressKey: 3c966d9b67796714f933a92bb77421b0
+    fieldName: _prefab
+    index: -1
+    AssetPath: Assets/05_KGW_Folder/Prefabs/00_Characters/HSR.prefab
+    PathPreview: BattleManager
+  - PathHash: 16892404017485796478
+    AddressKey: bd99561b9ab62854398e1eeab4ea558e
+    fieldName: _prefab
+    index: -1
+    AssetPath: Assets/05_KGW_Folder/Prefabs/01_Monsters/NormalMonsters/FieldMouse.prefab
+    PathPreview: BattleManager
+  - PathHash: 16892404017485796478
+    AddressKey: a1d9d3e5155e58744b310115c45b456a
+    fieldName: _prefab
+    index: -1
+    AssetPath: Assets/05_KGW_Folder/Prefabs/01_Monsters/Boss/GiantBear.prefab
+    PathPreview: BattleManager
+  - PathHash: 16892404017485796478
+    AddressKey: 16c65e1f863aadf48b5f10e200eaed3f
+    fieldName: _skillPrefab
+    index: -1
+    AssetPath: Assets/05_KGW_Folder/Prefabs/03_Skills/BossSkills/Stage1_Boss/MonsterRecall/MonsterRecall.prefab
+    PathPreview: BattleManager
+  soEntries:
+  - PathHash: 701147318126802645
+    AddressKey: 47189edbb54ca18499e51caaa3eb7486
+    fieldName: _characterAllSkills
+    index: 0
+    AssetPath: Assets/05_KGW_Folder/Prefabs/03_Skills/CharacterSkills/SkillsSOData/AimForTheWound_Data.asset
+    PathPreview: SkillDataManager
+  - PathHash: 701147318126802645
+    AddressKey: 6589aa72ba5dd374a9e771753e65d224
+    fieldName: _characterAllSkills
+    index: 1
+    AssetPath: Assets/05_KGW_Folder/Prefabs/03_Skills/CharacterSkills/SkillsSOData/Cheer_Data.asset
+    PathPreview: SkillDataManager
+  - PathHash: 701147318126802645
+    AddressKey: 0e55c03446951384b88a5af133a1832f
+    fieldName: _characterAllSkills
+    index: 2
+    AssetPath: Assets/05_KGW_Folder/Prefabs/03_Skills/CharacterSkills/SkillsSOData/MoraleDecline_Data.asset
+    PathPreview: SkillDataManager
+  - PathHash: 701147318126802645
+    AddressKey: cd0b153ae3b15c645beb75384683886d
+    fieldName: _characterAllSkills
+    index: 3
+    AssetPath: Assets/05_KGW_Folder/Prefabs/03_Skills/CharacterSkills/SkillsSOData/PainfulScent_Data.asset
+    PathPreview: SkillDataManager
+  - PathHash: 701147318126802645
+    AddressKey: 4a2c293d48547944daadf326f357d3c6
+    fieldName: _characterAllSkills
+    index: 4
+    AssetPath: Assets/05_KGW_Folder/Prefabs/03_Skills/CharacterSkills/SkillsSOData/ProtectiveGrenade_Data.asset
+    PathPreview: SkillDataManager
+  - PathHash: 701147318126802645
+    AddressKey: d10e51f1b5c6b5a4fb362c7e9535f891
+    fieldName: _characterAllSkills
+    index: 5
+    AssetPath: Assets/05_KGW_Folder/Prefabs/03_Skills/CharacterSkills/SkillsSOData/RegenerativeStrike_Data.asset
+    PathPreview: SkillDataManager
+  - PathHash: 701147318126802645
+    AddressKey: 225cf737d40a09d48b2ddce59168cd9a
+    fieldName: _characterAllSkills
+    index: 6
+    AssetPath: Assets/05_KGW_Folder/Prefabs/03_Skills/CharacterSkills/SkillsSOData/Vanguard_Data.asset
+    PathPreview: SkillDataManager
+  - PathHash: 701147318126802645
+    AddressKey: d878cb11f5f90e548a5f492a57a47010
+    fieldName: _characterAllSkills
+    index: 7
+    AssetPath: Assets/05_KGW_Folder/Prefabs/03_Skills/CharacterSkills/SkillsSOData/WaveOfSteel_Data.asset
+    PathPreview: SkillDataManager
+  - PathHash: 701147318126802645
+    AddressKey: 431d938b1a2067345b62be8d3e323b3d
+    fieldName: _characterAllSkills
+    index: 8
+    AssetPath: Assets/05_KGW_Folder/Prefabs/03_Skills/CharacterSkills/SkillsSOData/WolfSlash_Data.asset
+    PathPreview: SkillDataManager
+  - PathHash: 701147318126802645
+    AddressKey: 0e1f6a269f20a784ca12b6ae5669cda8
+    fieldName: _characterAllSkills
+    index: 9
+    AssetPath: Assets/05_KGW_Folder/Prefabs/03_Skills/CharacterSkills/SkillsSOData/WrathOfTheGuardian_Data.asset
+    PathPreview: SkillDataManager
+  - PathHash: 701147318126802645
+    AddressKey: 93faa8b5abc96be4baa62d910bbad512
+    fieldName: _monsterAllSkills
+    index: 0
+    AssetPath: Assets/05_KGW_Folder/Prefabs/03_Skills/MonsterSkills/SkillsSOData/BrutalSlash_Data.asset
+    PathPreview: SkillDataManager
+  - PathHash: 701147318126802645
+    AddressKey: 8ab50784f2df62c48bab96cb801a11ba
+    fieldName: _monsterAllSkills
+    index: 1
+    AssetPath: Assets/05_KGW_Folder/Prefabs/03_Skills/MonsterSkills/SkillsSOData/DangerousPollen_Data.asset
+    PathPreview: SkillDataManager
+  - PathHash: 701147318126802645
+    AddressKey: 5ab9caefe84c4334895d63f0ad1f8f19
+    fieldName: _monsterAllSkills
+    index: 2
+    AssetPath: Assets/05_KGW_Folder/Prefabs/03_Skills/MonsterSkills/SkillsSOData/EerieDarkness_Data.asset
+    PathPreview: SkillDataManager
+  - PathHash: 701147318126802645
+    AddressKey: 8d658a8b6263a0648b6496afde294014
+    fieldName: _monsterAllSkills
+    index: 3
+    AssetPath: Assets/05_KGW_Folder/Prefabs/03_Skills/MonsterSkills/SkillsSOData/MonkeyBlade1_Data.asset
+    PathPreview: SkillDataManager
+  - PathHash: 701147318126802645
+    AddressKey: cec0ae30819b60149b8b7a68f27d921a
+    fieldName: _monsterAllSkills
+    index: 4
+    AssetPath: Assets/05_KGW_Folder/Prefabs/03_Skills/MonsterSkills/SkillsSOData/Roar_Data.asset
+    PathPreview: SkillDataManager
+  - PathHash: 701147318126802645
+    AddressKey: 228edb783e392ea4c9df9d661351fcad
+    fieldName: _monsterAllSkills
+    index: 5
+    AssetPath: Assets/05_KGW_Folder/Prefabs/03_Skills/MonsterSkills/SkillsSOData/SavageRush_Data.asset
+    PathPreview: SkillDataManager
+  - PathHash: 701147318126802645
+    AddressKey: b8c5be980b3f81b4eafacf33868bef16
+    fieldName: _monsterAllSkills
+    index: 6
+    AssetPath: Assets/05_KGW_Folder/Prefabs/03_Skills/MonsterSkills/SkillsSOData/SavageSlash_Data.asset
+    PathPreview: SkillDataManager
+  - PathHash: 701147318126802645
+    AddressKey: 02776d135162d3144b5d02982462f682
+    fieldName: _monsterAllSkills
+    index: 7
+    AssetPath: Assets/05_KGW_Folder/Prefabs/03_Skills/MonsterSkills/SkillsSOData/Stomp_Data.asset
+    PathPreview: SkillDataManager
+  - PathHash: 701147318126802645
+    AddressKey: 5b1a9fc2697330b4cbab40789b3d582d
+    fieldName: _monsterAllSkills
+    index: 8
+    AssetPath: Assets/05_KGW_Folder/Prefabs/03_Skills/MonsterSkills/SkillsSOData/Swing_Data.asset
+    PathPreview: SkillDataManager
+  - PathHash: 16892404017485796478
+    AddressKey: 65f2c3ff647fbb64882a5e1b70abfa2e
+    fieldName: _characterList
+    index: 0
+    AssetPath: Assets/05_KGW_Folder/Prefabs/00_Characters/CharactersSOData/SIL_Data.asset
+    PathPreview: BattleManager
+  - PathHash: 16892404017485796478
+    AddressKey: 65f2c3ff647fbb64882a5e1b70abfa2e
+    fieldName: _characterData
+    index: -1
+    AssetPath: Assets/05_KGW_Folder/Prefabs/00_Characters/CharactersSOData/SIL_Data.asset
+    PathPreview: BattleManager
+  - PathHash: 16892404017485796478
+    AddressKey: 60cfb5fa0bc27b14da83722d571124f0
+    fieldName: _chaSkills
+    index: 0
+    AssetPath: Assets/05_KGW_Folder/Prefabs/03_Skills/CharacterSkills/SkillsSOData/Explosion_Data.asset
+    PathPreview: BattleManager
+  - PathHash: 16892404017485796478
+    AddressKey: 0e55c03446951384b88a5af133a1832f
+    fieldName: _chaPassiveSkill
+    index: -1
+    AssetPath: Assets/05_KGW_Folder/Prefabs/03_Skills/CharacterSkills/SkillsSOData/MoraleDecline_Data.asset
+    PathPreview: BattleManager
+  - PathHash: 16892404017485796478
+    AddressKey: 103b7f3043d88a9429d25209c9d1f182
+    fieldName: _characterList
+    index: 1
+    AssetPath: Assets/05_KGW_Folder/Prefabs/00_Characters/CharactersSOData/BW_Data.asset
+    PathPreview: BattleManager
+  - PathHash: 16892404017485796478
+    AddressKey: 103b7f3043d88a9429d25209c9d1f182
+    fieldName: _characterData
+    index: -1
+    AssetPath: Assets/05_KGW_Folder/Prefabs/00_Characters/CharactersSOData/BW_Data.asset
+    PathPreview: BattleManager
+  - PathHash: 16892404017485796478
+    AddressKey: 60cfb5fa0bc27b14da83722d571124f0
+    fieldName: _chaSkills
+    index: 0
+    AssetPath: Assets/05_KGW_Folder/Prefabs/03_Skills/CharacterSkills/SkillsSOData/Explosion_Data.asset
+    PathPreview: BattleManager
+  - PathHash: 16892404017485796478
+    AddressKey: 47189edbb54ca18499e51caaa3eb7486
+    fieldName: _chaPassiveSkill
+    index: -1
+    AssetPath: Assets/05_KGW_Folder/Prefabs/03_Skills/CharacterSkills/SkillsSOData/AimForTheWound_Data.asset
+    PathPreview: BattleManager
+  - PathHash: 16892404017485796478
+    AddressKey: 9ed735c570481004a8718f1c6026da54
+    fieldName: _characterList
+    index: 2
+    AssetPath: Assets/05_KGW_Folder/Prefabs/00_Characters/CharactersSOData/HSR_Data.asset
+    PathPreview: BattleManager
+  - PathHash: 16892404017485796478
+    AddressKey: 9ed735c570481004a8718f1c6026da54
+    fieldName: _characterData
+    index: -1
+    AssetPath: Assets/05_KGW_Folder/Prefabs/00_Characters/CharactersSOData/HSR_Data.asset
+    PathPreview: BattleManager
+  - PathHash: 16892404017485796478
+    AddressKey: 60cfb5fa0bc27b14da83722d571124f0
+    fieldName: _chaSkills
+    index: 0
+    AssetPath: Assets/05_KGW_Folder/Prefabs/03_Skills/CharacterSkills/SkillsSOData/Explosion_Data.asset
+    PathPreview: BattleManager
+  - PathHash: 16892404017485796478
+    AddressKey: d10e51f1b5c6b5a4fb362c7e9535f891
+    fieldName: _chaPassiveSkill
+    index: -1
+    AssetPath: Assets/05_KGW_Folder/Prefabs/03_Skills/CharacterSkills/SkillsSOData/RegenerativeStrike_Data.asset
+    PathPreview: BattleManager
+  - PathHash: 16892404017485796478
+    AddressKey: e40e68bac195a3d4ca495c39b3c68f55
+    fieldName: _monsterList
+    index: 0
+    AssetPath: Assets/05_KGW_Folder/Prefabs/01_Monsters/NormalMonsters/NormalMonsterSO/FieldMouse_Data.asset
+    PathPreview: BattleManager
+  - PathHash: 16892404017485796478
+    AddressKey: e40e68bac195a3d4ca495c39b3c68f55
+    fieldName: _monsterData
+    index: -1
+    AssetPath: Assets/05_KGW_Folder/Prefabs/01_Monsters/NormalMonsters/NormalMonsterSO/FieldMouse_Data.asset
+    PathPreview: BattleManager
+  - PathHash: 16892404017485796478
+    AddressKey: e40e68bac195a3d4ca495c39b3c68f55
+    fieldName: _monsterList
+    index: 1
+    AssetPath: Assets/05_KGW_Folder/Prefabs/01_Monsters/NormalMonsters/NormalMonsterSO/FieldMouse_Data.asset
+    PathPreview: BattleManager
+  - PathHash: 16892404017485796478
+    AddressKey: e40e68bac195a3d4ca495c39b3c68f55
+    fieldName: _monsterList
+    index: 2
+    AssetPath: Assets/05_KGW_Folder/Prefabs/01_Monsters/NormalMonsters/NormalMonsterSO/FieldMouse_Data.asset
+    PathPreview: BattleManager
+  - PathHash: 16892404017485796478
+    AddressKey: 436d8ae2a98747d47971bec028c6cfe8
+    fieldName: _bossList
+    index: 0
+    AssetPath: Assets/05_KGW_Folder/Prefabs/01_Monsters/Boss/BossSOData/GiantBear_Data.asset
+    PathPreview: BattleManager
+  - PathHash: 16892404017485796478
+    AddressKey: 436d8ae2a98747d47971bec028c6cfe8
+    fieldName: _monsterData
+    index: -1
+    AssetPath: Assets/05_KGW_Folder/Prefabs/01_Monsters/Boss/BossSOData/GiantBear_Data.asset
+    PathPreview: BattleManager
+  - PathHash: 16892404017485796478
+    AddressKey: e517e72d588b0224c9ca5af351d20648
+    fieldName: _recallSkills
+    index: 0
+    AssetPath: Assets/05_KGW_Folder/Prefabs/03_Skills/BossSkills/SkillsSO/MonsterRecallData.asset
+    PathPreview: BattleManager
+  - PathHash: 16892404017485796478
+    AddressKey: e40e68bac195a3d4ca495c39b3c68f55
+    fieldName: _recallMonsterList
+    index: 0
+    AssetPath: Assets/05_KGW_Folder/Prefabs/01_Monsters/NormalMonsters/NormalMonsterSO/FieldMouse_Data.asset
+    PathPreview: BattleManager
+  - PathHash: 16892404017485796478
+    AddressKey: e40e68bac195a3d4ca495c39b3c68f55
+    fieldName: _recallMonsterList
+    index: 1
+    AssetPath: Assets/05_KGW_Folder/Prefabs/01_Monsters/NormalMonsters/NormalMonsterSO/FieldMouse_Data.asset
+    PathPreview: BattleManager
+  - PathHash: 16892404017485796478
+    AddressKey: e40e68bac195a3d4ca495c39b3c68f55
+    fieldName: _recallMonsterList
+    index: 2
+    AssetPath: Assets/05_KGW_Folder/Prefabs/01_Monsters/NormalMonsters/NormalMonsterSO/FieldMouse_Data.asset
+    PathPreview: BattleManager

@@ -135,7 +135,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0029699f65805364590153eaaf563e91, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _characterData: {fileID: 11400000, guid: fe4329afccd2b524897cc5aa74061253, type: 2}
+  _characterData: {fileID: 11400000, guid: 65f2c3ff647fbb64882a5e1b70abfa2e, type: 2}
 --- !u!114 &7016310279045295189
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -148,8 +148,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad0bad36c0ebb284b8c0badac18380d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  iconImage: {fileID: 0}
-  slotIndex: 3
+  characterImage: {fileID: 0}
+  characterNameText: {fileID: 0}
+  removeButton: {fileID: 0}
 --- !u!1 &8731878412209248992
 GameObject:
   m_ObjectHideFlags: 0

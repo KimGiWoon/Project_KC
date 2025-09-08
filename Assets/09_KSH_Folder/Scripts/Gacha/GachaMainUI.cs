@@ -32,39 +32,16 @@ namespace KSH
         protected override void Start()
         {
             base.Start();
-
-            singleButton.onClick.AddListener(() =>
-            {
-                if (GameManager.Instance.Reward.StarCandy >= 150) //별사탕이 150개 이상 가지고 있으면 1회 뽑기
-                {
-                    GatchaUI.SetActive(false);
-                    GameManager.Instance.Reward.AddStarCandy(-150);
-                    gacha.SetGachaType(true);
-                    OnUIOpenRequested?.Invoke(UIName.GachaResultUI);
-                    OnUICloseRequested?.Invoke(UIName.GachaMainUI);
-                }
-                else
-                {
-                    Debug.Log("별사탕이 부족합니다.");
-                }
-            });
-            multipleButton.onClick.AddListener(() =>
-            {
-                if (GameManager.Instance.Reward.StarCandy >= 1500) //별사탕을 1500개 이상 가지고 있으면 10회 뽑기
-                {
-                    GatchaUI.SetActive(false);
-                    GameManager.Instance.Reward.AddStarCandy(-1500);
-                    gacha.SetGachaType(false);
-                    OnUIOpenRequested?.Invoke(UIName.GachaResultUI);
-                    OnUICloseRequested?.Invoke(UIName.GachaMainUI);
-                }
-                else
-                {
-                    Debug.Log("별사탕이 부족합니다.");
-                }
-            });
+            gacha = GameManager.Instance.Gacha;
 
             CandyUpdate(GameManager.Instance.Reward.StarCandy);
+        }
+
+        private void OnEnable()
+        {
+            _backButton.onClick.AddListener(BackButtonClicked);
+            singleButton.onClick.AddListener(SingleButtonClicked);
+            multipleButton.onClick.AddListener(MultipleButtonClicked);
         }
 
         private void OnDisable()
@@ -72,6 +49,9 @@ namespace KSH
             if (GameManager.Instance != null)
                 GameManager.Instance.Reward.OnStarCandyChange -= CandyUpdate;
             _backButton.onClick.RemoveListener(BackButtonClicked);
+
+            singleButton.onClick.RemoveListener(SingleButtonClicked);
+            multipleButton.onClick.RemoveListener(MultipleButtonClicked);
         }
 
         public override void Open()
@@ -96,6 +76,38 @@ namespace KSH
         private void CandyUpdate(int value)
         {
             starCandyText.text = value.ToString();
+        }
+
+        private void SingleButtonClicked()
+        {
+            if (GameManager.Instance.Reward.StarCandy >= 150) //별사탕이 150개 이상 가지고 있으면 1회 뽑기
+            {
+                GatchaUI.SetActive(false);
+                GameManager.Instance.Reward.AddStarCandy(-150);
+                gacha.SetGachaType(true);
+                OnUIOpenRequested?.Invoke(UIName.GachaResultUI);
+                OnUICloseRequested?.Invoke(UIName.GachaMainUI);
+            }
+            else
+            {
+                Debug.Log("별사탕이 부족합니다.");
+            }
+        }
+
+        private void MultipleButtonClicked()
+        {
+            if (GameManager.Instance.Reward.StarCandy >= 1500) //별사탕을 1500개 이상 가지고 있으면 10회 뽑기
+            {
+                GatchaUI.SetActive(false);
+                GameManager.Instance.Reward.AddStarCandy(-1500);
+                gacha.SetGachaType(false);
+                OnUIOpenRequested?.Invoke(UIName.GachaResultUI);
+                OnUICloseRequested?.Invoke(UIName.GachaMainUI);
+            }
+            else
+            {
+                Debug.Log("별사탕이 부족합니다.");
+            }
         }
     }
 }
