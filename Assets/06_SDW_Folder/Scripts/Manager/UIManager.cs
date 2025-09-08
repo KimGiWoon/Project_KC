@@ -82,6 +82,7 @@ namespace SDW
                 case SceneName.SDW_SignInScene: OpenSignInScene(uiName); break;
                 case SceneName.KSH_Gacha:
                 case SceneName.SDW_LobbyScene: OpenLobbyScene(uiName); break;
+                case SceneName.SDW_RoguelikeScene: OpenRoguelikeScene(uiName); break;
                 case SceneName.KGW_TestIngameScene: OpenInGameScene(uiName); break;
             }
 
@@ -130,6 +131,17 @@ namespace SDW
             }
         }
 
+        private void OpenRoguelikeScene(UIName uiName)
+        {
+            switch (uiName)
+            {
+                //# Main Lobby Scene
+                case UIName.StageGlobalUI: ConnectStageGlobalUI(uiName); break;
+                case UIName.PopupSettingUI: ConnectPopupSettingUI(uiName); break;
+                case UIName.RouteSelectUI: ConnectRouteSelectUI(uiName); break;
+            }
+        }
+
         /// <summary>
         /// InGameScene에 맞는 UI 패널을 초기화하고 연결
         /// </summary>
@@ -169,6 +181,7 @@ namespace SDW
                 case SceneName.SDW_SignInScene: CloseSignInScene(uiName); break;
                 case SceneName.KSH_Gacha:
                 case SceneName.SDW_LobbyScene: CloseLobbyScene(uiName); break;
+                case SceneName.SDW_RoguelikeScene: CloseRoguelikeScene(uiName); break;
                 case SceneName.KGW_TestIngameScene: CloseInGameScene(uiName); break;
             }
 
@@ -215,6 +228,17 @@ namespace SDW
                 //@ Gacha UI
                 case UIName.GachaMainUI: DisconnectGachaMainUI(uiName); break;
                 case UIName.GachaResultUI: DisconnectGachaResultUI(uiName); break;
+            }
+        }
+
+        private void CloseRoguelikeScene(UIName uiName)
+        {
+            switch (uiName)
+            {
+                //# Main Lobby Scene
+                case UIName.StageGlobalUI: DisconnectStageGlobalUI(uiName); break;
+                case UIName.PopupSettingUI: DisconnectPopupSettingUI(uiName); break;
+                case UIName.RouteSelectUI: DisconnectRouteSelectUI(uiName); break;
             }
         }
 
@@ -439,6 +463,31 @@ namespace SDW
             var gachaResultUI = _uiDic[uiName] as GachaResultUI;
             gachaResultUI.OnUIOpenRequested += OpenPanel;
             gachaResultUI.OnUICloseRequested += ClosePanel;
+        }
+
+        #endregion
+
+        #region Stage UI Connect Methods
+
+        private void ConnectStageGlobalUI(UIName uiName)
+        {
+            var stageGlobalUI = _uiDic[uiName] as StageGlobalUI;
+            stageGlobalUI.OnUIOpenRequested += OpenPanel;
+            stageGlobalUI.OnUICloseRequested += ClosePanel;
+        }
+
+        private void ConnectPopupSettingUI(UIName uiName)
+        {
+            var popupSettingUI = _uiDic[uiName] as PopupSettingUI;
+            popupSettingUI.OnUIOpenRequested += OpenPanel;
+            popupSettingUI.OnUICloseRequested += ClosePanel;
+        }
+
+        private void ConnectRouteSelectUI(UIName uiName)
+        {
+            var routeSelectUI = _uiDic[uiName] as RouteSelectUI;
+            routeSelectUI.OnUIOpenRequested += OpenPanel;
+            routeSelectUI.OnUICloseRequested += ClosePanel;
         }
 
         #endregion
@@ -702,6 +751,31 @@ namespace SDW
             var gachaResultUI = _uiDic[uiName] as GachaResultUI;
             gachaResultUI.OnUIOpenRequested -= OpenPanel;
             gachaResultUI.OnUICloseRequested -= ClosePanel;
+        }
+
+        #endregion
+
+        #region Stage UI Disconnect Methods
+
+        private void DisconnectStageGlobalUI(UIName uiName)
+        {
+            var stageGlobalUI = _uiDic[uiName] as StageGlobalUI;
+            stageGlobalUI.OnUIOpenRequested -= OpenPanel;
+            stageGlobalUI.OnUICloseRequested -= ClosePanel;
+        }
+
+        private void DisconnectPopupSettingUI(UIName uiName)
+        {
+            var popupSettingUI = _uiDic[uiName] as PopupSettingUI;
+            popupSettingUI.OnUIOpenRequested -= OpenPanel;
+            popupSettingUI.OnUICloseRequested -= ClosePanel;
+        }
+
+        private void DisconnectRouteSelectUI(UIName uiName)
+        {
+            var routeSelectUI = _uiDic[uiName] as RouteSelectUI;
+            routeSelectUI.OnUIOpenRequested -= OpenPanel;
+            routeSelectUI.OnUICloseRequested -= ClosePanel;
         }
 
         #endregion

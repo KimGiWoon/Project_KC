@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 namespace SDW
@@ -14,8 +15,14 @@ namespace SDW
 
             if (_isOpened) return;
 
-            GameManager.Instance.UI.OpenPanel(_uiName);
+            StartCoroutine(DelayedOpen());
             _isOpened = true;
+        }
+
+        private IEnumerator DelayedOpen()
+        {
+            yield return new WaitForSeconds(0.5f);
+            GameManager.Instance.UI.OpenPanel(_uiName);
         }
     }
 }

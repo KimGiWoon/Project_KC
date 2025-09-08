@@ -35,6 +35,12 @@
         GachaResultUI,
 
         //# None
-        None
+        None,
+
+        //# Roguelike Scene
+        StageGlobalUI,
+        PopupSettingUI,
+        RouteSelectUI,
+        PartyUI,
     }
 }
