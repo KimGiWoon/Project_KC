@@ -43,6 +43,12 @@ public class PartyCharListUI : BaseUI
     public override void Close()
     {
         _tweenAnimation.moveBack();
+        StartCoroutine(DelayedClose());
+    }
+
+    private IEnumerator DelayedClose()
+    {
+        yield return new WaitForSeconds(_tweenAnimation.tweenTime);
         base.Close();
     }
 

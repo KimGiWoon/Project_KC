@@ -16,7 +16,6 @@ public class PopupSettingUI : BaseUI
     [SerializeField] private Button _saveButton;
     private TweenAnimation _tweenAnimation;
 
-    public Action<UIName> OnUIOpenRequested;
     public Action<UIName> OnUICloseRequested;
 
     private void Awake()
@@ -46,7 +45,6 @@ public class PopupSettingUI : BaseUI
     public override void Close()
     {
         _tweenAnimation.moveBack();
-        OnUIOpenRequested?.Invoke(UIName.RouteSelectUI);
         StartCoroutine(DelayedClose());
     }
 

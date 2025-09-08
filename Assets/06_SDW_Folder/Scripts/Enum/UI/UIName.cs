@@ -43,6 +43,9 @@
         RouteSelectUI,
         PartyUI,
         PartyCharListUI,
-        CharInfoUI
+        CharInfoUI,
+        ShoppingUI,
+        InventoryUI,
+        CookingUI
     }
 }

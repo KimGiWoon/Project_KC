@@ -12,10 +12,14 @@ public class StageGlobalUI : BaseUI
     [SerializeField] private Button _shopButton;
     [SerializeField] private Button _inventoryButton;
     [SerializeField] private Button _cookButton;
-    [SerializeField] private TweenAnimation _buttonTweenAnimation;
+    [SerializeField] private TweenAnimation[] _buttonTwwenAnimations;
+    [SerializeField] private TweenAnimation _buttonContainerTweenAnimation;
 
     public Action<UIName> OnUIOpenRequested;
     public Action<UIName> OnUICloseRequested;
+
+    private Stack<UIName> _uiStack = new Stack<UIName>();
+    private UIName _prevUIName;
 
     /// <summary>
     /// UI 컴포넌트 활성화 설정 및 이벤트 리스너 할당을 수행
@@ -23,6 +27,7 @@ public class StageGlobalUI : BaseUI
     private void Awake()
     {
         _panelContainer.SetActive(false);
+        _prevUIName = UIName.RouteSelectUI;
     }
 
     private void OnEnable()
@@ -59,19 +64,29 @@ public class StageGlobalUI : BaseUI
     {
         yield return new WaitForSeconds(0.01f);
 
-        if (isOpen) OnUIOpenRequested?.Invoke(UIName.RouteSelectUI);
-        else OnUICloseRequested?.Invoke(UIName.RouteSelectUI);
+        if (isOpen)
+        {
+            OnUIOpenRequested?.Invoke(_prevUIName);
+        }
+        else
+        {
+            OnUICloseRequested?.Invoke(_prevUIName);
+            _uiStack.Clear();
+        }
     }
 
     private void SettingButtonClicked()
     {
         OnUIOpenRequested?.Invoke(UIName.PopupSettingUI);
-        OnUICloseRequested?.Invoke(UIName.RouteSelectUI);
+        _prevUIName = _uiStack.Pop();
+        OnUICloseRequested?.Invoke(_prevUIName);
     }
 
     private void ShopButtonClicked()
     {
-        throw new NotImplementedException();
+        OnUIOpenRequested?.Invoke(UIName.ShoppingUI);
+        _prevUIName = _uiStack.Pop();
+        OnUICloseRequested?.Invoke(_prevUIName);
     }
 
     private void InventoryButtonClicked()
@@ -84,16 +99,32 @@ public class StageGlobalUI : BaseUI
         throw new NotImplementedException();
     }
 
-    public void ButtonMoveAway()
+    public void ButtonContainerMoveAway()
     {
-        _buttonTweenAnimation.moveAway();
-        StartCoroutine(DelayedDeactive(_buttonTweenAnimation.gameObject, _buttonTweenAnimation.tweenTime));
+        _buttonContainerTweenAnimation.moveAway();
+        StartCoroutine(DelayedDeactive(_buttonContainerTweenAnimation.gameObject, _buttonContainerTweenAnimation.tweenTime));
     }
 
-    public void ButtonMoveBack()
+    public void ButtonToBottomMoveAway()
     {
-        _buttonTweenAnimation.gameObject.SetActive(true);
-        _buttonTweenAnimation.moveBack();
+        foreach (var buttonTween in _buttonTwwenAnimations)
+        {
+            buttonTween.moveAway();
+        }
+    }
+
+    public void ButtonContainerMoveBack()
+    {
+        _buttonContainerTweenAnimation.gameObject.SetActive(true);
+        _buttonContainerTweenAnimation.moveBack();
+    }
+
+    public void ButtonToMoveBack()
+    {
+        foreach (var buttonTween in _buttonTwwenAnimations)
+        {
+            buttonTween.moveBack();
+        }
     }
 
     private IEnumerator DelayedDeactive(GameObject target, float delay)
@@ -101,5 +132,19 @@ public class StageGlobalUI : BaseUI
         yield return new WaitForSeconds(delay);
 
         target.SetActive(false);
+    }
+
+    public void PushPrevUI()
+    {
+        OnUIOpenRequested?.Invoke(_prevUIName);
+        _uiStack.Push(_prevUIName);
+    }
+
+    public void SetPrevUI(UIName uiName)
+    {
+        if (_uiStack.Count > 0)
+            _uiStack.Pop();
+        _uiStack.Push(uiName);
+        _prevUIName = uiName;
     }
 }

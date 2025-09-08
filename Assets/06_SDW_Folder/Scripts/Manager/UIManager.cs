@@ -142,6 +142,7 @@ namespace SDW
                 case UIName.PartyUI: ConnectPartyUI(uiName); break;
                 case UIName.PartyCharListUI: ConnectPartyCharListUI(uiName); break;
                 case UIName.CharInfoUI: ConnectCharInfoUI(uiName); break;
+                case UIName.ShoppingUI: ConnectShoppingUI(uiName); break;
             }
         }
 
@@ -245,6 +246,7 @@ namespace SDW
                 case UIName.PartyUI: DisconnectPartyUI(uiName); break;
                 case UIName.PartyCharListUI: DisconnectPartyCharListUI(uiName); break;
                 case UIName.CharInfoUI: DisconnectCharInfoUI(uiName); break;
+                case UIName.ShoppingUI: DisconnectShoppingUI(uiName); break;
             }
         }
 
@@ -487,14 +489,16 @@ namespace SDW
             var popupSettingUI = _uiDic[uiName] as PopupSettingUI;
             var stageGlobalUI = _uiDic[UIName.StageGlobalUI] as StageGlobalUI;
 
-            stageGlobalUI.ButtonMoveAway();
-            popupSettingUI.OnUIOpenRequested += OpenPanel;
+            stageGlobalUI.ButtonContainerMoveAway();
             popupSettingUI.OnUICloseRequested += ClosePanel;
         }
 
         private void ConnectRouteSelectUI(UIName uiName)
         {
             var routeSelectUI = _uiDic[uiName] as RouteSelectUI;
+            var stageGlobalUI = _uiDic[UIName.StageGlobalUI] as StageGlobalUI;
+
+            stageGlobalUI.SetPrevUI(uiName);
             routeSelectUI.OnUIOpenRequested += OpenPanel;
             routeSelectUI.OnUICloseRequested += ClosePanel;
         }
@@ -502,6 +506,9 @@ namespace SDW
         private void ConnectPartyUI(UIName uiName)
         {
             var partyUI = _uiDic[uiName] as PartyUI;
+            var stageGlobalUI = _uiDic[UIName.StageGlobalUI] as StageGlobalUI;
+
+            stageGlobalUI.SetPrevUI(uiName);
             partyUI.OnUIOpenRequested += OpenPanel;
             partyUI.OnUICloseRequested += ClosePanel;
         }
@@ -512,7 +519,7 @@ namespace SDW
             var stageGlobalUI = _uiDic[UIName.StageGlobalUI] as StageGlobalUI;
             var partyUI = _uiDic[UIName.PartyUI] as PartyUI;
 
-            stageGlobalUI.ButtonMoveAway();
+            stageGlobalUI.ButtonContainerMoveAway();
             partyUI.UISecondPositionMoveAway();
             partyCharListUI.OnUIOpenRequested += OpenPanel;
             partyCharListUI.OnUICloseRequested += ClosePanel;
@@ -522,6 +529,17 @@ namespace SDW
         {
             var charInfoUI = _uiDic[uiName] as CharacterInfoUI;
             charInfoUI.OnUICloseRequested += ClosePanel;
+        }
+
+        private void ConnectShoppingUI(UIName uiName)
+        {
+            var shoppingUI = _uiDic[uiName] as ShoppingUI;
+            var stageGlobalUI = _uiDic[UIName.StageGlobalUI] as StageGlobalUI;
+            var partyUI = _uiDic[UIName.PartyUI] as PartyUI;
+
+            stageGlobalUI.ButtonToBottomMoveAway();
+            partyUI.UISecondPositionMoveAway();
+            shoppingUI.OnUICloseRequested += ClosePanel;
         }
 
         #endregion
@@ -803,8 +821,8 @@ namespace SDW
             var popupSettingUI = _uiDic[uiName] as PopupSettingUI;
             var stageGlobalUI = _uiDic[UIName.StageGlobalUI] as StageGlobalUI;
 
-            stageGlobalUI.ButtonMoveBack();
-            popupSettingUI.OnUIOpenRequested -= OpenPanel;
+            stageGlobalUI.ButtonContainerMoveBack();
+            stageGlobalUI.PushPrevUI();
             popupSettingUI.OnUICloseRequested -= ClosePanel;
         }
 
@@ -828,7 +846,7 @@ namespace SDW
             var stageGlobalUI = _uiDic[UIName.StageGlobalUI] as StageGlobalUI;
             var partyUI = _uiDic[UIName.PartyUI] as PartyUI;
 
-            stageGlobalUI.ButtonMoveBack();
+            stageGlobalUI.ButtonContainerMoveBack();
             partyUI.UIMoveBack();
             partyCharListUI.OnUIOpenRequested -= OpenPanel;
             partyCharListUI.OnUICloseRequested -= ClosePanel;
@@ -838,6 +856,18 @@ namespace SDW
         {
             var charInfoUI = _uiDic[uiName] as CharacterInfoUI;
             charInfoUI.OnUICloseRequested -= ClosePanel;
+        }
+
+        private void DisconnectShoppingUI(UIName uiName)
+        {
+            var shoppingUI = _uiDic[uiName] as ShoppingUI;
+            var stageGlobalUI = _uiDic[UIName.StageGlobalUI] as StageGlobalUI;
+            var partyUI = _uiDic[UIName.PartyUI] as PartyUI;
+
+            stageGlobalUI.ButtonToMoveBack();
+            stageGlobalUI.PushPrevUI();
+            partyUI.UIMoveBack();
+            shoppingUI.OnUICloseRequested -= ClosePanel;
         }
 
         #endregion

@@ -3931,7 +3931,7 @@ GameObject:
   - component: {fileID: 25610503}
   - component: {fileID: 25610502}
   m_Layer: 5
-  m_Name: ShopNPCImgPanel_Full
+  m_Name: TopContainer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3950,6 +3950,7 @@ RectTransform:
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 1420066036}
+  - {fileID: 687269343}
   m_Father: {fileID: 507581696}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -4925,6 +4926,43 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 32032258}
   m_CullTransparentMesh: 1
+--- !u!1 &33190198
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 33190199}
+  m_Layer: 5
+  m_Name: ButtonContainer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &33190199
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 33190198}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1607464651}
+  - {fileID: 204480629}
+  m_Father: {fileID: 507581696}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &33564986
 GameObject:
   m_ObjectHideFlags: 0
@@ -19258,7 +19296,7 @@ GameObject:
   - component: {fileID: 173131699}
   - component: {fileID: 173131698}
   m_Layer: 5
-  m_Name: IngImage_center
+  m_Name: CharacterImage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -22728,14 +22766,15 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 660380625}
+  - {fileID: 278127246}
   - {fileID: 1046622966}
   - {fileID: 2090572241}
   - {fileID: 1787907980}
   - {fileID: 1368979801}
+  - {fileID: 1524937421}
   - {fileID: 1870212020}
   - {fileID: 804487299}
   - {fileID: 758316194}
-  - {fileID: 1524937421}
   - {fileID: 1751719562}
   - {fileID: 601034635}
   - {fileID: 1603797398}
@@ -22764,7 +22803,11 @@ MonoBehaviour:
   _shopButton: {fileID: 1518380863}
   _inventoryButton: {fileID: 635640525}
   _cookButton: {fileID: 1435763289}
-  _buttonTweenAnimation: {fileID: 955724013}
+  _buttonTwwenAnimations:
+  - {fileID: 1518380862}
+  - {fileID: 635640524}
+  - {fileID: 1435763288}
+  _buttonContainerTweenAnimation: {fileID: 955724013}
 --- !u!1 &204480628
 GameObject:
   m_ObjectHideFlags: 0
@@ -22778,7 +22821,7 @@ GameObject:
   - component: {fileID: 204480631}
   - component: {fileID: 204480630}
   m_Layer: 5
-  m_Name: BuyButton_center
+  m_Name: BuyButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -22797,7 +22840,7 @@ RectTransform:
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 747503163}
-  m_Father: {fileID: 507581696}
+  m_Father: {fileID: 33190199}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -22847,19 +22890,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 204480631}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 1
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &204480631
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -31900,7 +31931,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1332289754}
-  m_Father: {fileID: 660380625}
+  m_Father: {fileID: 204053770}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -35802,7 +35833,7 @@ GameObject:
   - component: {fileID: 311422178}
   - component: {fileID: 311422177}
   m_Layer: 5
-  m_Name: FoodNameText_BottomStretch
+  m_Name: IngredientNameText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -49051,6 +49082,44 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 409776588}
   m_CullTransparentMesh: 1
+--- !u!1 &409838188
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 409838189}
+  m_Layer: 5
+  m_Name: MiddleContainer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &409838189
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 409838188}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1165099196}
+  - {fileID: 1676871432}
+  - {fileID: 1964048820}
+  m_Father: {fileID: 507581696}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &412174548
 GameObject:
   m_ObjectHideFlags: 0
@@ -51732,7 +51801,7 @@ GameObject:
   - component: {fileID: 438906051}
   - component: {fileID: 438906050}
   m_Layer: 5
-  m_Name: TitleText_Full
+  m_Name: TitleText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -58983,12 +59052,8 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 25610501}
-  - {fileID: 687269343}
-  - {fileID: 1165099196}
-  - {fileID: 1676871432}
-  - {fileID: 1964048820}
-  - {fileID: 204480629}
-  - {fileID: 1607464651}
+  - {fileID: 409838189}
+  - {fileID: 33190199}
   m_Father: {fileID: 1839044755}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
@@ -69360,6 +69425,7 @@ GameObject:
   m_Component:
   - component: {fileID: 601034635}
   - component: {fileID: 601034636}
+  - component: {fileID: 601034637}
   m_Layer: 5
   m_Name: CookingUI_Full
   m_TagString: Untagged
@@ -69407,6 +69473,20 @@ MonoBehaviour:
   changeSize: 0
   changeSize2: 0
   tweenTime: 0.6
+--- !u!114 &601034637
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 601034634}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7c8ffd1ac60b418f965af4d797c4d8d8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: 29
+  _panelContainer: {fileID: 0}
 --- !u!1 &601883305
 GameObject:
   m_ObjectHideFlags: 0
@@ -71700,7 +71780,7 @@ GameObject:
   - component: {fileID: 621497538}
   - component: {fileID: 621497537}
   m_Layer: 5
-  m_Name: Inside
+  m_Name: BackgroundImage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -76245,7 +76325,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &660380625
 RectTransform:
   m_ObjectHideFlags: 0
@@ -76260,7 +76340,6 @@ RectTransform:
   m_Children:
   - {fileID: 520317461}
   - {fileID: 955724012}
-  - {fileID: 278127246}
   m_Father: {fileID: 204053770}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -78249,7 +78328,7 @@ GameObject:
   - component: {fileID: 674622032}
   - component: {fileID: 674622031}
   m_Layer: 5
-  m_Name: IngImage_Full
+  m_Name: IngredientImage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -80654,7 +80733,7 @@ GameObject:
   - component: {fileID: 687269345}
   - component: {fileID: 687269344}
   m_Layer: 5
-  m_Name: UpperText_center
+  m_Name: IntroText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -80667,16 +80746,16 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 687269342}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 507581696}
+  m_Father: {fileID: 25610501}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -10}
+  m_AnchoredPosition: {x: 0, y: -410}
   m_SizeDelta: {x: 900, y: 150}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &687269344
@@ -103095,7 +103174,7 @@ GameObject:
   - component: {fileID: 872277735}
   - component: {fileID: 872277734}
   m_Layer: 5
-  m_Name: IngImage_Full
+  m_Name: IngredientImage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -122935,7 +123014,7 @@ GameObject:
   - component: {fileID: 1066640069}
   - component: {fileID: 1066640068}
   m_Layer: 5
-  m_Name: IngImage_Full
+  m_Name: IngredientImage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -131745,7 +131824,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1135475758
 RectTransform:
   m_ObjectHideFlags: 0
@@ -133818,7 +133897,7 @@ GameObject:
   - component: {fileID: 1151549707}
   - component: {fileID: 1151549706}
   m_Layer: 5
-  m_Name: Inside
+  m_Name: BackgroundImage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -135448,7 +135527,7 @@ GameObject:
   - component: {fileID: 1165099198}
   - component: {fileID: 1165099197}
   m_Layer: 5
-  m_Name: Ingredient1_center
+  m_Name: IngredientContainer1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -135469,7 +135548,7 @@ RectTransform:
   - {fileID: 1151549705}
   - {fileID: 311422176}
   - {fileID: 1310320959}
-  m_Father: {fileID: 507581696}
+  m_Father: {fileID: 409838189}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
@@ -146376,7 +146455,7 @@ GameObject:
   - component: {fileID: 1259133391}
   - component: {fileID: 1259133390}
   m_Layer: 5
-  m_Name: FoodPrice_ButtomStretch
+  m_Name: IngredientPriceText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -147295,7 +147374,7 @@ GameObject:
   - component: {fileID: 1272144705}
   - component: {fileID: 1272144704}
   m_Layer: 5
-  m_Name: FoodPrice_ButtomStretch
+  m_Name: IngredientPriceText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -149474,7 +149553,7 @@ GameObject:
   - component: {fileID: 1282159973}
   - component: {fileID: 1282159972}
   m_Layer: 5
-  m_Name: FoodNameText_BottomStretch
+  m_Name: IngredientNameText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -152631,7 +152710,7 @@ GameObject:
   - component: {fileID: 1310320961}
   - component: {fileID: 1310320960}
   m_Layer: 5
-  m_Name: FoodPrice_ButtomStretch
+  m_Name: IngredientPriceText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -152801,7 +152880,7 @@ GameObject:
   - component: {fileID: 1310487988}
   - component: {fileID: 1310487987}
   m_Layer: 5
-  m_Name: Inside
+  m_Name: BackgroundImage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -155119,7 +155198,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1332289754
 RectTransform:
   m_ObjectHideFlags: 0
@@ -164337,7 +164416,7 @@ GameObject:
   - component: {fileID: 1420066038}
   - component: {fileID: 1420066037}
   m_Layer: 5
-  m_Name: Inside_Full
+  m_Name: BackgrounImage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -177019,8 +177098,9 @@ GameObject:
   m_Component:
   - component: {fileID: 1524937421}
   - component: {fileID: 1524937422}
+  - component: {fileID: 1524937423}
   m_Layer: 5
-  m_Name: ShoppingUI_Full
+  m_Name: ShoppingContainer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -177065,6 +177145,35 @@ MonoBehaviour:
   changeSize: 0
   changeSize2: 0
   tweenTime: 0.6
+--- !u!114 &1524937423
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1524937420}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e7a18a2404c428b4796fe7732eae35ce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: 27
+  _panelContainer: {fileID: 1839044754}
+  _ingredientImage:
+  - {fileID: 1066640068}
+  - {fileID: 872277734}
+  - {fileID: 674622031}
+  _ingredientNameText:
+  - {fileID: 311422177}
+  - {fileID: 1282159972}
+  - {fileID: 1804252458}
+  _ingredientPriceText:
+  - {fileID: 1310320960}
+  - {fileID: 1259133390}
+  - {fileID: 1272144704}
+  _resetButton: {fileID: 1607464652}
+  _buyButton: {fileID: 204480630}
+  _mainPanelRect: {fileID: 507581696}
 --- !u!1 &1528690748
 GameObject:
   m_ObjectHideFlags: 0
@@ -186705,7 +186814,7 @@ GameObject:
   - component: {fileID: 1607464653}
   - component: {fileID: 1607464652}
   m_Layer: 5
-  m_Name: ResetButton_center
+  m_Name: ResetButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -186724,7 +186833,7 @@ RectTransform:
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 1242670779}
-  m_Father: {fileID: 507581696}
+  m_Father: {fileID: 33190199}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -186774,19 +186883,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1607464653}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 1
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &1607464653
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -194623,7 +194720,7 @@ GameObject:
   - component: {fileID: 1676871434}
   - component: {fileID: 1676871433}
   m_Layer: 5
-  m_Name: Ingredient2_center
+  m_Name: IngredientContainer2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -194644,7 +194741,7 @@ RectTransform:
   - {fileID: 1310487986}
   - {fileID: 1282159971}
   - {fileID: 1259133389}
-  m_Father: {fileID: 507581696}
+  m_Father: {fileID: 409838189}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
@@ -204272,6 +204369,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1751719562}
   - component: {fileID: 1751719563}
+  - component: {fileID: 1751719564}
   m_Layer: 5
   m_Name: InventoryUI_Full
   m_TagString: Untagged
@@ -204318,6 +204416,20 @@ MonoBehaviour:
   changeSize: 0
   changeSize2: 0
   tweenTime: 0.6
+--- !u!114 &1751719564
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1751719561}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: efb40252ada846f592995907dad1e6df, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: 28
+  _panelContainer: {fileID: 0}
 --- !u!1 &1751947735
 GameObject:
   m_ObjectHideFlags: 0
@@ -210965,7 +211077,7 @@ GameObject:
   - component: {fileID: 1804252459}
   - component: {fileID: 1804252458}
   m_Layer: 5
-  m_Name: FoodNameText_BottomStretch
+  m_Name: IngredientNameText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -213838,7 +213950,7 @@ GameObject:
   - component: {fileID: 1839044757}
   - component: {fileID: 1839044756}
   m_Layer: 5
-  m_Name: Title_Collection_topCenter
+  m_Name: ShoppingPanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -227250,7 +227362,7 @@ GameObject:
   - component: {fileID: 1964048822}
   - component: {fileID: 1964048821}
   m_Layer: 5
-  m_Name: Ingredient3_center
+  m_Name: IngredientContainer3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -227271,7 +227383,7 @@ RectTransform:
   - {fileID: 621497536}
   - {fileID: 1804252457}
   - {fileID: 1272144703}
-  m_Father: {fileID: 507581696}
+  m_Father: {fileID: 409838189}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
