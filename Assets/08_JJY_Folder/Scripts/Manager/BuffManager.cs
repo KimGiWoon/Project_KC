@@ -55,15 +55,19 @@ namespace JJY
 
             InitFoodIcon();
         }
+        void OnEnable()
+        {
+            InitFoodIcon();
+        }
 #if UNITY_EDITOR
         void Start()
         {
-            for (int i = 0; i < testFoodInventory.Count; i++)
-            {
-                CookManager.Instance.AddFood(testFoodInventory[i].recipe);
-                if (logActions) Debug.Log($"{testFoodInventory[i].recipe.recipeName}추가됨");
-            }
-            InitFoodIcon();
+            // for (int i = 0; i < testFoodInventory.Count; i++)
+            // {
+            //     CookManager.Instance.AddFood(testFoodInventory[i].recipe);
+            //     if (logActions) Debug.Log($"{testFoodInventory[i].recipe.recipeName}추가됨");
+            // }
+            // InitFoodIcon();
         }
 #endif
         void Update()

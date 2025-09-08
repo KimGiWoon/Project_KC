@@ -28,8 +28,6 @@ namespace JJY
         Queue<GameObject> pool = new Queue<GameObject>();               // 비활성화된(재사용 가능한) 버튼 풀
         List<GameObject> activeButtons = new List<GameObject>();        // 현재 활성화된 버튼들 추적
 
-        List<bool> seenList = new List<bool>(); // 새로운 아이템인지 확인하는 리스트.
-
         void Start()
         {
             PrewarmPool(8);
