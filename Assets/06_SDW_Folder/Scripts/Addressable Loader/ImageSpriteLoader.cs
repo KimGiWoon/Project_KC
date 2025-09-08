@@ -1,3 +1,6 @@
+using System.Collections;
+using System.Collections.Generic;
+
 namespace SDW
 {
     using UnityEngine;
@@ -13,128 +16,138 @@ namespace SDW
     {
         [Tooltip("씬별로 생성된 ImageSpriteMapping SO 할당")]
         public ImageSpriteMappingSO _mappingSo;
+        private readonly Dictionary<string, AsyncOperationHandle<Sprite>> _spriteHandles =
+            new Dictionary<string, AsyncOperationHandle<Sprite>>();
 
-        private bool _isDownloaded;
+        private bool _bound;
 
-        private void Update()
+        private void OnEnable()
         {
-            if (!GameManager.Instance.CompleteDownload || _isDownloaded) return;
+            GameManagerEvents.OnDownloadCompleted += TryBind;
+            GameManagerEvents.OnSceneIndexed += TryBind;
+            // TryBind(); // 이미 조건 충족 상태일 수 있음
+        }
+
+        private void OnDisable()
+        {
+            GameManagerEvents.OnDownloadCompleted -= TryBind;
+            GameManagerEvents.OnSceneIndexed -= TryBind;
+        }
+
+        private void TryBind()
+        {
+            if (_bound) return;
+            if (_mappingSo == null) return;
+            if (!ScenePathIndex.IsBuilt) return;
+
 #if UNITY_EDITOR
             if (!Application.isPlaying)
             {
                 ApplyEditorPreview();
+                _bound = true;
                 return;
             }
 #endif
             LoadFromAddressables();
-
-            _isDownloaded = true;
+            _bound = true;
         }
 
 #if UNITY_EDITOR
         private void ApplyEditorPreview()
         {
-            if (_mappingSo == null) return;
-
-            // 1) Image 처리
-            var images = FindObjectsOfType<Image>(true);
-            foreach (var img in images)
+            foreach (var e in _mappingSo.entries)
             {
-                ApplyEditorSprite(img.gameObject, sprite => img.sprite = sprite);
-            }
+                if (!ScenePathIndex.TryGet(e.PathHash, out var go)) continue;
+                var img = go.GetComponent<Image>();
+                if (!img) continue;
+                if (string.IsNullOrEmpty(e.AssetPath)) continue;
 
-            // 2) MonoBehaviour Sprite 필드 처리
-            var monos = FindObjectsOfType<MonoBehaviour>(true);
-            foreach (var mb in monos)
-            {
-                if (mb == null) continue;
-                var so = new SerializedObject(mb);
-                var prop = so.GetIterator();
-                bool modified = false;
+                var sprite = AssetDatabase.LoadAssetAtPath<Sprite>(e.AssetPath);
+                if (sprite) img.sprite = sprite;
 
-                while (prop.NextVisible(true))
+                //# 같은 GO에 붙은 MB들의 Sprite 필드만 로컬로 할당(전역 순회 X)
+                var monos = go.GetComponents<MonoBehaviour>();
+                foreach (var mb in monos)
                 {
-                    if (prop.propertyType == SerializedPropertyType.ObjectReference &&
-                        prop.objectReferenceValue is Sprite)
+                    if (!mb) continue;
+                    var so = new SerializedObject(mb);
+                    var prop = so.GetIterator();
+                    bool modified = false;
+                    while (prop.NextVisible(true))
                     {
-                        var p = prop.Copy(); // 클로저 안전 복사
-                        ApplyEditorSprite(mb.gameObject, sprite =>
+                        if (prop.propertyType == SerializedPropertyType.ObjectReference &&
+                            prop.objectReferenceValue is Sprite)
                         {
-                            p.objectReferenceValue = sprite;
+                            prop.objectReferenceValue = sprite;
                             modified = true;
-                        });
+                        }
                     }
+                    if (modified) so.ApplyModifiedProperties();
                 }
-
-                if (modified)
-                    so.ApplyModifiedProperties();
             }
-        }
-
-        private void ApplyEditorSprite(GameObject owner, System.Action<Sprite> assign)
-        {
-            string path = GetPath(owner);
-            var entry = _mappingSo.entries.Find(e => e.Path == path);
-            if (entry == null || string.IsNullOrEmpty(entry.AssetPath)) return;
-
-            var sprite = AssetDatabase.LoadAssetAtPath<Sprite>(entry.AssetPath);
-            if (sprite != null)
-                assign(sprite);
         }
 #endif
 
         private void LoadFromAddressables()
         {
-            if (_mappingSo == null) return;
-
-            // 1) Image 처리
-            // var images = GetComponentsInChildren<Image>(true);
-            var images = FindObjectsOfType<Image>(true);
-            foreach (var img in images)
+            foreach (var e in _mappingSo.entries)
             {
-                LoadSpriteFromAddressables(img.gameObject, sprite => img.sprite = sprite);
-            }
+                if (!ScenePathIndex.TryGet(e.PathHash, out var go)) continue;
 
-            // 2) MonoBehaviour Sprite 필드 처리 (런타임: Reflection)
-            // var monos = GetComponentsInChildren<MonoBehaviour>(true);
-            var monos = FindObjectsOfType<MonoBehaviour>(true);
-            foreach (var mb in monos)
-            {
-                if (mb == null) continue;
-                var fields = mb.GetType().GetFields(
-                    System.Reflection.BindingFlags.Public |
-                    System.Reflection.BindingFlags.NonPublic |
-                    System.Reflection.BindingFlags.Instance);
+                var img = go.GetComponent<Image>();
+                if (img) img.sprite = null;
 
-                foreach (var field in fields)
+                if (string.IsNullOrEmpty(e.AddressKey)) continue;
+
+                Addressables.LoadAssetAsync<Sprite>(e.AddressKey).Completed += (handle) =>
                 {
-                    if (field.FieldType == typeof(Sprite))
+                    if (handle.Status == AsyncOperationStatus.Succeeded)
                     {
-                        LoadSpriteFromAddressables(mb.gameObject, sprite => { field.SetValue(mb, sprite); });
+                        _spriteHandles[e.AddressKey] = handle;
+
+                        if (img) img.sprite = handle.Result;
+
+                        //# 같은 GO에 붙은 MB들의 Sprite 필드만 로컬로 할당(전역 순회 X)
+                        var monos = go.GetComponents<MonoBehaviour>();
+                        foreach (var mb in monos)
+                        {
+                            if (!mb) continue;
+                            var fields = mb.GetType().GetFields(
+                                System.Reflection.BindingFlags.Public |
+                                System.Reflection.BindingFlags.NonPublic |
+                                System.Reflection.BindingFlags.Instance);
+
+                            foreach (var f in fields)
+                            {
+                                if (f.FieldType == typeof(Sprite))
+                                {
+                                    // f.SetValue(mb, handle.Result);
+                                    Debug.Log(
+                                        $"Found Sprite field: {mb.GetType().Name}.{f.Name} = {((Sprite)f.GetValue(mb))?.name}");
+                                }
+                            }
+                        }
                     }
-                }
+                    else
+                    {
+                        Debug.LogError($"[ImageSpriteLoader] Load failed: {e.AddressKey}");
+                    }
+                };
             }
+
             GameManager.Instance.SetImageSpriteConnected(true);
         }
 
-        private void LoadSpriteFromAddressables(GameObject owner, System.Action<Sprite> assign)
-        {
-            string path = GetPath(owner);
-            var entry = _mappingSo.entries.Find(e => e.Path == path);
-            if (entry == null || string.IsNullOrEmpty(entry.AddressKey)) return;
+        // private void OnDestroy()
+        // {
+        //     foreach (var kvp in _spriteHandles)
+        //     {
+        //         Addressables.Release(kvp.Value);
+        //     }
+        //     _spriteHandles.Clear();
+        // }
 
-            assign(null); // 런타임에서는 우선 제거
-
-            Addressables.LoadAssetAsync<Sprite>(entry.AddressKey).Completed += (handle) =>
-            {
-                if (handle.Status == AsyncOperationStatus.Succeeded)
-                    assign(handle.Result);
-                else
-                    Debug.LogError($"[ImageSpriteLoader] Load failed: {entry.AddressKey} (path: {path})");
-            };
-        }
-
-        private static string GetPath(GameObject go)
+        public static string GetPath(GameObject go)
         {
             string p = go.name;
             while (go.transform.parent != null)

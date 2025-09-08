@@ -62,14 +62,32 @@ public class BattleManager : MonoBehaviour
 
     // 전체 체력 변화 이벤트
     public event Action<float, float> OnTotalHpChange;
+    private GameManager _gameManager;
+    private bool _isDownloaded;
 
     private void Awake()
     {
         Init();
+        _gameManager = GameManager.Instance;
     }
 
-    private void Start()
+    // private void Start()
+    // {
+    //     _battleUI = FindObjectOfType<BattleUI>();
+    //
+    //     //_isLocalBoss = ;
+    //     _isLastBoss = GameManager.Instance.LastBoss;
+    //     // _monsterList = monsterData[stageName].NormalMonsters;
+    //     // _eliteList = monsterData[stageName].EliteMonsters;
+    //     // _bossList = monsterData[stageName].BossMonsters;
+    //
+    //     StartCoroutine(Spwan());
+    // }
+
+    private void Update()
     {
+        if (!_gameManager.CompleteDownload || !_gameManager.ImageSpriteConnected || !_gameManager.PrefabAndSoConnected ||
+            _isDownloaded) return;
         _battleUI = FindObjectOfType<BattleUI>();
 
         //_isLocalBoss = ;
@@ -79,6 +97,7 @@ public class BattleManager : MonoBehaviour
         // _bossList = monsterData[stageName].BossMonsters;
 
         StartCoroutine(Spwan());
+        _isDownloaded = true;
     }
 
     private IEnumerator Spwan()
@@ -114,7 +133,8 @@ public class BattleManager : MonoBehaviour
     public void CharacterSpawn()
     {
         // 스폰 포인트 리스트 전달
-        var Points = _canResurrection ? new List<Transform>(_characterSpawnPoint) : new List<Transform>(_characterResurrectionPoint);
+        var Points = _canResurrection ? new List<Transform>(_characterSpawnPoint)
+            : new List<Transform>(_characterResurrectionPoint);
 
         // 스폰위치 섞기
         SpawnPointShuffle(Points);
