@@ -139,6 +139,9 @@ namespace SDW
                 case UIName.StageGlobalUI: ConnectStageGlobalUI(uiName); break;
                 case UIName.PopupSettingUI: ConnectPopupSettingUI(uiName); break;
                 case UIName.RouteSelectUI: ConnectRouteSelectUI(uiName); break;
+                case UIName.PartyUI: ConnectPartyUI(uiName); break;
+                case UIName.PartyCharListUI: ConnectPartyCharListUI(uiName); break;
+                case UIName.CharInfoUI: ConnectCharInfoUI(uiName); break;
             }
         }
 
@@ -239,6 +242,9 @@ namespace SDW
                 case UIName.StageGlobalUI: DisconnectStageGlobalUI(uiName); break;
                 case UIName.PopupSettingUI: DisconnectPopupSettingUI(uiName); break;
                 case UIName.RouteSelectUI: DisconnectRouteSelectUI(uiName); break;
+                case UIName.PartyUI: DisconnectPartyUI(uiName); break;
+                case UIName.PartyCharListUI: DisconnectPartyCharListUI(uiName); break;
+                case UIName.CharInfoUI: DisconnectCharInfoUI(uiName); break;
             }
         }
 
@@ -479,6 +485,9 @@ namespace SDW
         private void ConnectPopupSettingUI(UIName uiName)
         {
             var popupSettingUI = _uiDic[uiName] as PopupSettingUI;
+            var stageGlobalUI = _uiDic[UIName.StageGlobalUI] as StageGlobalUI;
+
+            stageGlobalUI.ButtonMoveAway();
             popupSettingUI.OnUIOpenRequested += OpenPanel;
             popupSettingUI.OnUICloseRequested += ClosePanel;
         }
@@ -488,6 +497,31 @@ namespace SDW
             var routeSelectUI = _uiDic[uiName] as RouteSelectUI;
             routeSelectUI.OnUIOpenRequested += OpenPanel;
             routeSelectUI.OnUICloseRequested += ClosePanel;
+        }
+
+        private void ConnectPartyUI(UIName uiName)
+        {
+            var partyUI = _uiDic[uiName] as PartyUI;
+            partyUI.OnUIOpenRequested += OpenPanel;
+            partyUI.OnUICloseRequested += ClosePanel;
+        }
+
+        private void ConnectPartyCharListUI(UIName uiName)
+        {
+            var partyCharListUI = _uiDic[uiName] as PartyCharListUI;
+            var stageGlobalUI = _uiDic[UIName.StageGlobalUI] as StageGlobalUI;
+            var partyUI = _uiDic[UIName.PartyUI] as PartyUI;
+
+            stageGlobalUI.ButtonMoveAway();
+            partyUI.UISecondPositionMoveAway();
+            partyCharListUI.OnUIOpenRequested += OpenPanel;
+            partyCharListUI.OnUICloseRequested += ClosePanel;
+        }
+
+        private void ConnectCharInfoUI(UIName uiName)
+        {
+            var charInfoUI = _uiDic[uiName] as CharacterInfoUI;
+            charInfoUI.OnUICloseRequested += ClosePanel;
         }
 
         #endregion
@@ -767,6 +801,9 @@ namespace SDW
         private void DisconnectPopupSettingUI(UIName uiName)
         {
             var popupSettingUI = _uiDic[uiName] as PopupSettingUI;
+            var stageGlobalUI = _uiDic[UIName.StageGlobalUI] as StageGlobalUI;
+
+            stageGlobalUI.ButtonMoveBack();
             popupSettingUI.OnUIOpenRequested -= OpenPanel;
             popupSettingUI.OnUICloseRequested -= ClosePanel;
         }
@@ -776,6 +813,31 @@ namespace SDW
             var routeSelectUI = _uiDic[uiName] as RouteSelectUI;
             routeSelectUI.OnUIOpenRequested -= OpenPanel;
             routeSelectUI.OnUICloseRequested -= ClosePanel;
+        }
+
+        private void DisconnectPartyUI(UIName uiName)
+        {
+            var partyUI = _uiDic[uiName] as PartyUI;
+            partyUI.OnUIOpenRequested -= OpenPanel;
+            partyUI.OnUICloseRequested -= ClosePanel;
+        }
+
+        private void DisconnectPartyCharListUI(UIName uiName)
+        {
+            var partyCharListUI = _uiDic[uiName] as PartyCharListUI;
+            var stageGlobalUI = _uiDic[UIName.StageGlobalUI] as StageGlobalUI;
+            var partyUI = _uiDic[UIName.PartyUI] as PartyUI;
+
+            stageGlobalUI.ButtonMoveBack();
+            partyUI.UIMoveBack();
+            partyCharListUI.OnUIOpenRequested -= OpenPanel;
+            partyCharListUI.OnUICloseRequested -= ClosePanel;
+        }
+
+        private void DisconnectCharInfoUI(UIName uiName)
+        {
+            var charInfoUI = _uiDic[uiName] as CharacterInfoUI;
+            charInfoUI.OnUICloseRequested -= ClosePanel;
         }
 
         #endregion

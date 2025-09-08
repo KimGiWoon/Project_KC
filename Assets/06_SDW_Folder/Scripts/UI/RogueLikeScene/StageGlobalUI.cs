@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using SDW;
-using TMPro;
 using UnityEngine.UI;
 
 public class StageGlobalUI : BaseUI
@@ -13,6 +12,7 @@ public class StageGlobalUI : BaseUI
     [SerializeField] private Button _shopButton;
     [SerializeField] private Button _inventoryButton;
     [SerializeField] private Button _cookButton;
+    [SerializeField] private TweenAnimation _buttonTweenAnimation;
 
     public Action<UIName> OnUIOpenRequested;
     public Action<UIName> OnUICloseRequested;
@@ -44,13 +44,23 @@ public class StageGlobalUI : BaseUI
     public override void Open()
     {
         base.Open();
-        OnUIOpenRequested?.Invoke(UIName.RouteSelectUI);
+        StartCoroutine(DelayedOpenAndClose(true));
+        // OnUIOpenRequested?.Invoke(UIName.RouteSelectUI);
     }
 
     public override void Close()
     {
-        OnUICloseRequested?.Invoke(UIName.RouteSelectUI);
+        StartCoroutine(DelayedOpenAndClose(false));
+        // OnUICloseRequested?.Invoke(UIName.RouteSelectUI);
         base.Close();
+    }
+
+    private IEnumerator DelayedOpenAndClose(bool isOpen)
+    {
+        yield return new WaitForSeconds(0.01f);
+
+        if (isOpen) OnUIOpenRequested?.Invoke(UIName.RouteSelectUI);
+        else OnUICloseRequested?.Invoke(UIName.RouteSelectUI);
     }
 
     private void SettingButtonClicked()
@@ -72,5 +82,24 @@ public class StageGlobalUI : BaseUI
     private void CookButtonClicked()
     {
         throw new NotImplementedException();
+    }
+
+    public void ButtonMoveAway()
+    {
+        _buttonTweenAnimation.moveAway();
+        StartCoroutine(DelayedDeactive(_buttonTweenAnimation.gameObject, _buttonTweenAnimation.tweenTime));
+    }
+
+    public void ButtonMoveBack()
+    {
+        _buttonTweenAnimation.gameObject.SetActive(true);
+        _buttonTweenAnimation.moveBack();
+    }
+
+    private IEnumerator DelayedDeactive(GameObject target, float delay)
+    {
+        yield return new WaitForSeconds(delay);
+
+        target.SetActive(false);
     }
 }

@@ -20,7 +20,7 @@ public class RouteSelectUI : BaseUI
 
     private void Awake()
     {
-        // _panelContainer.SetActive(false);
+        _panelContainer.SetActive(false);
         _tweenAnimation = GetComponent<TweenAnimation>();
         _partyButtonText = _partyButton.GetComponentInChildren<TextMeshProUGUI>();
         _partyButtonText.text = "파티 편성";

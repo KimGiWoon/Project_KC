@@ -1,6 +1,5 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using SDW;
 using TMPro;
@@ -15,7 +14,6 @@ public class PopupSettingUI : BaseUI
     [SerializeField] private VolumeSliderController _effectVolumeSlider;
     [SerializeField] private Button _giveUpButton;
     [SerializeField] private Button _saveButton;
-    [SerializeField] private TweenAnimation _buttonTweenAnimation;
     private TweenAnimation _tweenAnimation;
 
     public Action<UIName> OnUIOpenRequested;
@@ -43,13 +41,11 @@ public class PopupSettingUI : BaseUI
     {
         base.Open();
         _tweenAnimation.moveAway();
-        _buttonTweenAnimation.moveAway();
     }
 
     public override void Close()
     {
         _tweenAnimation.moveBack();
-        _buttonTweenAnimation.moveBack();
         OnUIOpenRequested?.Invoke(UIName.RouteSelectUI);
         StartCoroutine(DelayedClose());
     }

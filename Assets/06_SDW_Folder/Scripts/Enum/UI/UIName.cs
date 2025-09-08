@@ -42,5 +42,7 @@
         PopupSettingUI,
         RouteSelectUI,
         PartyUI,
+        PartyCharListUI,
+        CharInfoUI
     }
 }
