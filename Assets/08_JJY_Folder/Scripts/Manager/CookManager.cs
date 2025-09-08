@@ -6,6 +6,7 @@ using UnityEngine.UI;
 
 namespace JJY
 {
+    // TODO : GameManager 연결
     public class CookManager : MonoBehaviour
     {
         public static CookManager Instance { get; private set; }
@@ -25,15 +26,19 @@ namespace JJY
         // --- Inspector에서 연결할 것들 ---
         [Header("Prefabs & Parents")]
         [SerializeField] GameObject ingredientButtonPrefab; // 인벤토리 버튼 프리팹 (Button + Image + TMP Text)
-        [SerializeField] Transform inventoryContent;        // 동적 버튼이 붙을 부모(ScrollView Content 등)
+        [SerializeField] Transform inventoryContent;        // 동적 버튼이 붙을 위치
 
         [Header("Recipe / Slots")]
-        [SerializeField] List<Image> recipeSlots; // 상단에 고정으로 배치될 레시피 슬롯
-        [SerializeField] Button resultButton;      // 중앙 완성(요리) 버튼 (이미지+텍스트 포함)
+        [SerializeField] List<Image> recipeSlots;  // 상단에 고정으로 배치될 레시피 슬롯
+        [SerializeField] Button resultButton;      // 중앙 완성(요리) 버튼
         [SerializeField] List<RecipeData> recipeSO;
 
-        [Header("Icons")]
-        [SerializeField] List<Sprite> ingredientSprites; // 인덱스 기반 재료 아이콘(ingredientIndexMap 순서와 동일)
+        // [Header("Icons")]
+        // [SerializeField] List<Sprite> ingredientSprites; // 인덱스 기반 재료 아이콘(ingredientIndexMap 순서와 동일)
+
+        [Header("Ingredient Data base")]
+        [SerializeField] IngredientDatabase ingredientDatabase;
+        Dictionary<Ingredient, IngredientData> ingredientMap;
 
         [Header("Reset / Cook Button")]
         [SerializeField] Button resetBtn;
@@ -65,6 +70,7 @@ namespace JJY
             if (Instance == null) Instance = this;
             else { Destroy(gameObject); return; }
 
+            InitIngredients();      // 재료 초기화
             InitRecipes();         // 레시피 데이터 초기화
 #if UNITY_EDITOR
             InitDummyInventory();  // (테스트) 플레이어 인벤토리 더미 채우기
@@ -80,16 +86,34 @@ namespace JJY
                 resultButton.gameObject.SetActive(false);              // 초기에는 비활성
             }
 
+            resetBtn.interactable = false;
+            cookBtn.interactable = false;
+        }
+        void OnEnable()
+        {
             // 초기 UI 갱신
             RefreshInventoryUI();    // 하단 인벤토리 UI 생성/갱신
             UpdateRecipeSlotsUI();   // 상단 슬롯 갱신(선택된 항목 반영)
             UpdateResultButton();    // result 버튼 활성화 여부 반영
-
-            resetBtn.interactable = false;
-            cookBtn.interactable = false;
         }
 
         // ---------------------
+        // 재료 매핑
+        void InitIngredients()
+        {
+            ingredientMap = new Dictionary<Ingredient, IngredientData>();
+            if (ingredientDatabase == null)
+            {
+                Debug.LogWarning("[CookManager] ingredientDatabase 미설정");
+                return;
+            }
+            foreach (var d in ingredientDatabase.ingredients)
+            {
+                if (d == null) continue;
+                if (!ingredientMap.ContainsKey(d.ingredient)) ingredientMap[d.ingredient] = d;
+                else Debug.LogWarning($"중복 IngredientData: {d.ingredient}");
+            }
+        }
         // 레시피/데이터 초기화
         void InitRecipes()
         {
@@ -189,7 +213,7 @@ namespace JJY
             // ingredientIndexMap 순서대로 보유 수량이 있는 것만 버튼 생성
             for (int i = 0; i < ingredientIndexMap.Length; i++)
             {
-                Ingredient ing = ingredientIndexMap[i];                  // 해당 인덱스의 재료
+                Ingredient ing = ingredientIndexMap[i];                    // 해당 인덱스의 재료
                 playerIngredientInventory.TryGetValue(ing, out int count); // 보유 수량 조회
                 if (count <= 0 && !reservedIngredients.ContainsKey(ing)) continue; // 0 이면 표시하지 않음
 
@@ -198,8 +222,13 @@ namespace JJY
                 var img = go.GetComponent<Image>();                       // 아이콘용 이미지
                 var txt = go.GetComponentInChildren<TextMeshProUGUI>();  // 카운트 텍스트(TMP)
 
+                IngredientData data = null;
+                if (ingredientMap != null) ingredientMap.TryGetValue(ing, out data);
                 // 아이콘 세팅: ingredientSprites가 할당되어 있다면 매핑된 스프라이트 사용
-                if (img != null && ingredientSprites != null && i < ingredientSprites.Count) img.sprite = ingredientSprites[i];
+                if (data != null && data.icon != null)
+                {
+                    img.sprite = data.icon;
+                }
 
                 // 카운트 텍스트 세팅: 0이면 "0", 1 이상이면 숫자 표기
                 int displayCount = GetDisplayCount(ing);
@@ -315,10 +344,18 @@ namespace JJY
             {
                 var slot = recipeSlots[i];                     // 슬롯 버튼
                 slot.gameObject.SetActive(true);               // 슬롯 활성화
-                var im = slot.GetComponent<Image>();           // 슬롯 이미지
-                int idx = GetIndexByIngredient(selectedList[i]); // 재료 인덱스 찾기
-                if (im != null && ingredientSprites != null && idx >= 0 && idx < ingredientSprites.Count)
-                    im.sprite = ingredientSprites[idx];       // 슬롯에 재료 아이콘 세팅
+                var img = slot.GetComponent<Image>();           // 슬롯 이미지
+
+                IngredientData data = null;
+                if (ingredientMap != null) ingredientMap.TryGetValue(selectedList[i], out data);
+                if (data != null && data.icon != null)
+                {
+                    img.sprite = data.icon;
+                }
+
+                // int idx = GetIndexByIngredient(selectedList[i]); // 재료 인덱스 찾기
+                // if (img != null && ingredientSprites != null && idx >= 0 && idx < ingredientSprites.Count)
+                //     img.sprite = ingredientSprites[idx];       // 슬롯에 재료 아이콘 세팅
             }
         }
 
@@ -488,13 +525,13 @@ namespace JJY
             }
             return list.ToArray(); // 배열로 반환
         }
-        // ingredientIndexMap에서 재료의 인덱스 찾기
-        int GetIndexByIngredient(Ingredient ing)
-        {
-            for (int i = 0; i < ingredientIndexMap.Length; i++)
-                if (ingredientIndexMap[i] == ing) return i;
-            return -1; // 못찾으면 -1 반환
-        }
+        // // ingredientIndexMap에서 재료의 인덱스 찾기
+        // int GetIndexByIngredient(Ingredient ing)
+        // {
+        //     for (int i = 0; i < ingredientIndexMap.Length; i++)
+        //         if (ingredientIndexMap[i] == ing) return i;
+        //     return -1; // 못찾으면 -1 반환
+        // }
         #endregion
     }
 }

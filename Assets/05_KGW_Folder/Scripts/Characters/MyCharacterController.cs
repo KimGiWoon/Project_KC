@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using SDW;
-using TableForge.Demo;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class MyCharacterController : UnitBaseData
@@ -45,12 +45,12 @@ public class MyCharacterController : UnitBaseData
     // 캐릭터 생성 초기화
     protected override void Init()
     {
+        _characterState._chaLevel = _characterData._chaLv;
         _characterState._chaID = _characterData._chaBaseData.ChaID;
         _characterState._chaName = _characterData._chaBaseData.ChaName;
         _characterState._chaEnName = _characterData._chaBaseData.ChaEnName;
         _characterState._chaGrade = _characterData._chaBaseData.ChaGrade;
         _characterState._chaRole = _characterData._chaBaseData.ChaRole;
-        _characterState._chaLevel = _characterData._chaLv;
         _characterState._chaCurrentHP = _characterData._chaBaseData.ChaHP;
         _characterState._chaMaxHP = _characterData._chaBaseData.ChaHP;
         _characterState._chaCurrentMP = 0f;
@@ -67,7 +67,7 @@ public class MyCharacterController : UnitBaseData
         _characterState._chaReg = _characterData._chaTypeData.ChaReg;
         _characterState._chaMoveSpeed = _characterData._chaTypeData.ChaMoveSpeed;
         _characterState._isBarrier = false;
-        _characterState._groggyDamage = _characterState._chaAttack;
+        _characterState._groggyDamage = 0f;
         _characterState._chaPassiveSkill = _characterData._chaPassiveSkill;
         _moveDir = Vector3.right;
         _isAlive = true;
@@ -77,9 +77,11 @@ public class MyCharacterController : UnitBaseData
         OnMpChange?.Invoke(_characterState._chaCurrentMP / _characterState._chaMaxMP);
         // 타임오버에 대한 캐릭터 삭제 이벤트 구독
         _battleUI.OnTimeOver += TimeDeath;
+
         _attackCoolTimer = _characterState._chaAtkSpeed;
 
         _manaChangeValue = _characterState._chaMPRecovery;
+
         // 마나 충전 
         ManaRecovery();
     }
@@ -88,7 +90,6 @@ public class MyCharacterController : UnitBaseData
     {
         // 타임오버에 대한 캐릭터 삭제 이벤트 구독 해제
         _battleUI.OnTimeOver -= TimeDeath;
-
     }
 
     // 캐릭터 이동
@@ -166,12 +167,24 @@ public class MyCharacterController : UnitBaseData
                 }
                 Debug.Log($"{passiveDamage}의 데미지로 적을 공격합니다.");
 
-                // 캐릭터의 데미지로 몬스터에 주기
-                _attackTarget.TakeDamage(passiveDamage);
+                // 체력회복 패시브 스킬
+                HealHpPassive();
+                // 공격력 감소 패시브 확인
+                AttackDownPassiveCheck();
+                // 몬스터 전체 공격 패시브 스킬
+                AllMonsterDamagePassive();
 
-                if (_attackTarget != null)
+                // 몬스터가 살아있으면 공격
+                if (_attackTarget._isAlive)
                 {
-                    _attackTarget.AttackTargetChange(_chaCon);
+                    // 캐릭터의 데미지로 몬스터에 주기
+                    _attackTarget.TakeDamage(passiveDamage);
+
+                    if(_attackTarget != null)
+                    {
+                        // 몬스터의 공격 타겟 전환
+                        _attackTarget.AttackTargetChange(_chaCon);
+                    }
                 }
 
                 _isAttack = true;
@@ -189,10 +202,11 @@ public class MyCharacterController : UnitBaseData
     // 데미지를 받음
     public override void TakeDamage(float damage)
     {
-        // 베리어 상태일때는 공격을 무시함.
+        // 배리어 상태일때는 공격을 무시함.
         if (_characterState._isBarrier)
         {
             _characterState._isBarrier = false;
+            Debug.Log($"{_characterState._chaEnName}의 배리어가 사용되었습니다.");
             return;
         }
 
@@ -246,28 +260,101 @@ public class MyCharacterController : UnitBaseData
             // 유물 효과 적용
             OnRelicEffect?.Invoke();
 
-            // 보유한 스킬을 순회
-            foreach (var skill in _characterData._chaSkills)
-            {
-                Debug.Log("스킬 사용");
-                // 스킬 사용
-                skill.UseSkill(_chaCon, _attackTarget);
+            // 스킬 사용
+            _characterState._chaActiveSkill.UseSkill(_chaCon, _characterData._chaActiveSkill, _attackTarget);
 
-                // 마나 초기화
-                _characterState._chaCurrentMP = 0f;
-                // 마나 변화에 대한 이벤트 호출
-                OnMpChange?.Invoke(Mathf.Clamp01(_characterState._chaCurrentMP / _characterState._chaMaxMP));
-
-                // 마나 제로
-                _characterState._isManaFull = false;
-                // 스킬 사용 모드 전환 이벤트 호출
-                OnSkillModeChange?.Invoke(_characterState._isManaFull);
-
-                // 마나 회복
-                ManaRecovery();
-            }
+            CharacterManaState();
         }
     }
+
+    #region 캐릭터의 패시브 스킬 동작 메서드
+    // 체력 회복 패시브 스킬
+    public void HealHpPassive()
+    {
+        float attackDamage = _characterState._chaAttack;
+        float healValue = 0f;
+
+        // 체력 회복 패시브 스킬이 있는지 확인
+        if (_characterData._chaPassiveSkill._chaSkillEnName == CharacterSkillEnName.RegenerativeStrike)
+        {
+            healValue = _characterData._chaPassiveSkill.UsePassiveSkill(_chaCon, _characterData._chaPassiveSkill, attackDamage);
+
+            // 회복량이 0이면 넘어감
+            if (healValue == 0f) return;
+
+            Debug.Log($"전체 캐릭터의 체력이 {healValue}만큼 회복되었습니다.");
+
+            _battleManager.AllCharacterHeal(healValue);
+        }
+    }
+
+    // 전체 캐릭터 회복
+    public void CharacterHealApply(float healValue)
+    {
+        _characterState._chaCurrentHP = Mathf.Min(_characterState._chaCurrentHP + healValue, _characterState._chaMaxHP);
+
+        // 체력 변화에 대한 이벤트 호출
+        OnHpChange?.Invoke(Mathf.Clamp01(_characterState._chaCurrentHP / _characterState._chaMaxHP));
+    }
+
+    // 아머 상승 패시브 스킬
+    public void ArmorUpPassive()
+    {
+        if (_characterData._chaPassiveSkill._chaSkillEnName == CharacterSkillEnName.Vanguard)
+        {
+            float chaAamor = _characterState._chaArmor;
+            float upValue = _characterData._chaPassiveSkill.UsePassiveSkill(_chaCon, _characterData._chaPassiveSkill, chaAamor);
+
+            Debug.Log($"전체 캐릭터의 방어력이 {upValue}만큼 상승했습니다.");
+
+            // 전체 캐릭터 아머 상승
+            _battleManager.AllCharacterArmorUp(upValue);
+        }
+    }
+
+    // 전체 아머 상승
+    public void AllCharacterArmorUpApply(float upValue)
+    {
+        _characterState._chaArmor += upValue;
+    }
+
+    // 공격력 다운 패시브 확인
+    public void AttackDownPassiveCheck()
+    {
+        // 사기 저하 패시브 스킬이 있는지 확인
+        if(_characterData._chaPassiveSkill._chaSkillEnName == CharacterSkillEnName.MoraleDecline)
+        {
+            float saveAttack = _attackTarget._monsterState._monAttack;
+            float attackDownValue = _characterData._chaPassiveSkill.UsePassiveSkill(_chaCon, _characterState._chaPassiveSkill, _characterState._chaPassiveSkill._chaEffectValue);
+
+            // 감소할 공격력이 0이면 넘어감
+            if (attackDownValue == 0f) return;
+
+            // 사기 저하 패시브 스킬
+            _attackTarget.AttackDownPassive(saveAttack, attackDownValue);
+        }
+    }
+
+    // 몬스터 전체 공격 패시브 스킬
+    public void AllMonsterDamagePassive()
+    {
+        float attackDamage = _characterState._chaAttack;
+        float allAttackDamage = 0f;
+
+        // 체력 회복 패시브 스킬이 있는지 확인
+        if (_characterData._chaPassiveSkill._chaSkillEnName == CharacterSkillEnName.WaveOfSteel)
+        {
+            allAttackDamage = _characterData._chaPassiveSkill.UsePassiveSkill(_chaCon, _characterData._chaPassiveSkill, attackDamage);
+
+            // 데미지가 0이면 넘어감
+            if (allAttackDamage == 0f) return;
+
+            Debug.Log($"전체 몬스터에게 {allAttackDamage}만큼 데미지를 줍니다.");
+
+            _battleManager.AllMonsterDamage(allAttackDamage);
+        }
+    }
+    #endregion
 
     // 캐릭터 사망
     protected override void Death()
@@ -288,6 +375,23 @@ public class MyCharacterController : UnitBaseData
         {
             base.Death();
         }
+    }
+
+    // 캐릭터 마나 상태 확인
+    public void CharacterManaState()
+    {
+        // 마나 초기화
+        _characterState._chaCurrentMP = 0f;
+        // 마나 변화에 대한 이벤트 호출
+        OnMpChange?.Invoke(Mathf.Clamp01(_characterState._chaCurrentMP / _characterState._chaMaxMP));
+
+        // 마나 제로
+        _characterState._isManaFull = false;
+        // 스킬 사용 모드 전환 이벤트 호출
+        OnSkillModeChange?.Invoke(_characterState._isManaFull);
+
+        // 마나 회복
+        ManaRecovery();
     }
 
     // 마나 회복

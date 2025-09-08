@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using SDW;
-using TableForge.Demo;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -23,8 +22,10 @@ public class MonsterController : UnitBaseData
 
     public bool _isDetect;
     public bool _isFirst;
+    public bool _isApplyPassive;
     private RecallPointProvider _recallPointProvider;
     private MonsterController _monster;
+    private float decreaseAttackValue;
 
     // 체력 절반 이벤트
     public event Action OnHalfHp;
@@ -68,6 +69,7 @@ public class MonsterController : UnitBaseData
 
         _moveDir = Vector3.left;
         _isAlive = true;
+        _isApplyPassive = false;
         _monData = _monsterData;
         _attackCoolTimer = _monsterState._monAtkSpeed;
         _recallPointProvider = GetComponent<RecallPointProvider>();
@@ -293,5 +295,41 @@ public class MonsterController : UnitBaseData
 
         // 공격 대상 전환
         _attackTarget = chaData;
+
     }
+
+    #region 캐릭터의 패시브 스킬 효과
+    // 사기 저하 패시브 스킬
+    public void AttackDownPassive(float saveAttack, float attackDownValue)
+    {
+        // 지속 시간 중 중복 적용 방지
+        if (!_isApplyPassive)
+        {
+            Debug.Log($"{_monsterState._monEnName}의 공격력이 {attackDownValue}만큼 감소했습니다.");
+
+            // 공격력이 마이너스로 가는걸 방지
+            decreaseAttackValue = MathF.Min(saveAttack, attackDownValue);
+
+            Debug.Log($"실제로 {_monsterState._monEnName}의 공격력이 {decreaseAttackValue}만큼 감소했습니다.");
+
+            // 공격한 몬스터의 공격력 감소
+            _monsterState._monAttack -= decreaseAttackValue;
+            _isApplyPassive = true;
+
+            // 사기 저하 원복
+            Invoke(nameof(AttackDownPassiveRestoration), 3f);
+        }
+    }
+
+    // 사기 저하 효과 원복
+    private void AttackDownPassiveRestoration()
+    {
+        if (_isApplyPassive)
+        {
+            _isApplyPassive = false;
+            _monsterState._monAttack += decreaseAttackValue;
+            Debug.Log($"지속시간이 지나서 {_monsterState._monEnName}의 공격력이 {decreaseAttackValue}만큼 증가했습니다.");
+        }
+    }
+    #endregion
 }
