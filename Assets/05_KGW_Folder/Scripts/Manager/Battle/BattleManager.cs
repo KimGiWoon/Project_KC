@@ -47,6 +47,7 @@ public class BattleManager : MonoBehaviour
 
     public BattleUI _battleUI;
     //private List<CharacterDataSO> _selectCharacters;
+    Coroutine _armorRoutine;
     public int _monsterCount;
     public int _characterCount;
     public bool _isClear;
@@ -149,6 +150,8 @@ public class BattleManager : MonoBehaviour
 
         // 생성된 캐릭터 수 저장
         _characterCount = _characters.Count;
+
+        _armorRoutine = StartCoroutine(ApplyArmorPassiveCoroutine());
     }
 
     // 몬스터 스폰
@@ -293,4 +296,68 @@ public class BattleManager : MonoBehaviour
             OnGameResult?.Invoke(_isClear);
         }
     }
+
+    #region 캐릭터의 액티브 스킬 동작
+
+    #endregion
+    #region 캐릭터의 패시브 스킬 동작 
+    // 캐릭터 전체 체력 회복
+    public void AllCharacterHeal(float healValue)
+    {
+        foreach(var cha in _characters)
+        {
+            if(cha._isAlive) cha.CharacterHealApply(healValue);
+        }
+    }
+
+    // 아머 상승 패시브 유/무 확인
+    public void ArmorUpPassiveCheck()
+    {
+        foreach (var cha in _characters)
+        {
+            // 전투에 참가한 캐릭터에 아머 상승 패시브를 가지고 있는지 체크
+            if (cha._characterState._chaPassiveSkill._chaSkillEnName == CharacterSkillEnName.Vanguard)
+            {
+                // 아머 상승 패시브를 가지고 있으면 실행
+                cha.ArmorUpPassive();
+                break;
+            }
+        }
+    }
+
+    // 캐릭터 전체 아머 상승
+    public void AllCharacterArmorUp(float upValue)
+    {
+        foreach(var cha in _characters)
+        {
+            // 전체 캐릭터 아머 상승 적용
+            cha.AllCharacterArmorUpApply(upValue);
+        }
+    }
+
+    // 방어력 상승 코루틴
+    private IEnumerator ApplyArmorPassiveCoroutine()
+    {
+        yield return null; // 모든 캐릭터가 생성 후 초기화가 끝날 때까지 대기
+
+        ArmorUpPassiveCheck(); // 아머 상승 패시브 체크
+    }
+
+    // 몬스터 전체 공격
+    public void AllMonsterDamage(float damageValue)
+    {
+        foreach(var mon in _monsters)
+        {
+            if(mon._isAlive)
+            {
+                Debug.Log($"{mon._monsterState._monEnName}가 {damageValue}의 공격받음");
+
+                if(mon != null)
+                {
+                    mon.TakeDamage(damageValue);
+                }
+            }
+        }
+    }
+    #endregion
 }

@@ -1,5 +1,4 @@
 using JJY;
-using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -46,7 +45,7 @@ public class CharacterInfoSlotUI : MonoBehaviour
     // 캐릭터 데이터 가져오기
     public void GetCharacterData(CharacterDataSO data)
     {
-        _characterPortrait.sprite = data.GachaBackground;
+        _characterPortrait.sprite = data._characterSprite;
         _characterHp.value = 1f;
         _characterMp.value = 0f;
     }

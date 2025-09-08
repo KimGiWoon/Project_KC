@@ -19,7 +19,7 @@ public abstract class UnitBaseData : MonoBehaviour
     public int _gameSpeed; // 게임 속도
 
     private Coroutine _knockbackRoutine;
-    protected BattleManager _battleManager;
+    public BattleManager _battleManager;
     protected BattleUI _battleUI;
     protected CharacterDataSO _chaData;
     protected MonsterDataSO _monData;
