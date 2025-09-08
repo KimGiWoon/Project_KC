@@ -35,6 +35,9 @@ namespace SDW
 
             if (!_isLoading)
             {
+                GameManager.Instance.SetImageSpriteConnected(false);
+                GameManager.Instance.SetPrefabAndSoConnected(false);
+
                 _prevSceneName = sceneName;
                 StartCoroutine(LoadSceneAsyncCoroutine(sceneName));
             }

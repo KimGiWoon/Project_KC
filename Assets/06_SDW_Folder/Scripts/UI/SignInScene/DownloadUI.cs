@@ -84,8 +84,8 @@ namespace SDW
             yield return init;
 
             // Remote 카탈로그 업데이트
-            var catalogHandle = Addressables.UpdateCatalogs();
-            yield return catalogHandle;
+            // var catalogHandle = Addressables.UpdateCatalogs();
+            // yield return catalogHandle;
         }
 
         #region Check Download
@@ -127,6 +127,7 @@ namespace SDW
                 _downloadValueText.text = "100%";
                 _downloadSlider.value = 1f;
                 GameManager.Instance.SetCompleteDownload(true);
+                GameManagerEvents.RaiseDownloadCompleted();
                 yield return new WaitForSeconds(0.5f);
 
                 OnUIOpenRequested?.Invoke(UIName.SignInUI);
@@ -252,6 +253,7 @@ namespace SDW
             }
 
             GameManager.Instance.SetCompleteDownload(true);
+            GameManagerEvents.RaiseDownloadCompleted();
 
             //# 다운로드 완료 시 다음 UI로
             OnUIOpenRequested?.Invoke(UIName.SignInUI);
