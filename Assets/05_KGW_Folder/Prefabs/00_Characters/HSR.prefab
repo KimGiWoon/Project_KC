@@ -307,6 +307,7 @@ MonoBehaviour:
   _attackCoolTimer: 0
   _moveDir: {x: 0, y: 0, z: 0}
   _gameSpeed: 0
+  _battleManager: {fileID: 0}
   _characterData: {fileID: 11400000, guid: 9ed735c570481004a8718f1c6026da54, type: 2}
   _attackController: {fileID: 5460872157173418505}
   _attackTargets: []
@@ -327,6 +328,8 @@ MonoBehaviour:
     _chaAtkSpeed: 0
     _chaAttack: 0
     _chaArmor: 0
+    _isBarrier: 0
+    _groggyDamage: 0
     _chaAtkIsMelee: 0
     _chaAccuracy: 0
     _chaAvoid: 0
@@ -334,6 +337,8 @@ MonoBehaviour:
     _chaCritDmg: 0
     _chaReg: 0
     _chaMoveSpeed: 0
+    _chaPassiveSkill: {fileID: 11400000, guid: d10e51f1b5c6b5a4fb362c7e9535f891, type: 2}
+    _chaActiveSkill: {fileID: 11400000, guid: 6589aa72ba5dd374a9e771753e65d224, type: 2}
     _isManaFull: 0
 --- !u!1 &6522983719120484990
 GameObject:

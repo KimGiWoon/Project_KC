@@ -85,6 +85,7 @@ MonoBehaviour:
   _attackCoolTimer: 0
   _moveDir: {x: 0, y: 0, z: 0}
   _gameSpeed: 0
+  _battleManager: {fileID: 0}
   _characterData: {fileID: 11400000, guid: 0977072b4d0ff2c4bb1c250d908f0ba6, type: 2}
   _attackController: {fileID: 6392717553107434659}
   _attackTargets: []
@@ -93,6 +94,9 @@ MonoBehaviour:
   _characterState:
     _chaID: 0
     _chaName: 
+    _chaEnName: 0
+    _chaGrade: 0
+    _chaRole: 0
     _chaLevel: 0
     _chaCurrentHP: 0
     _chaMaxHP: 0
@@ -102,6 +106,8 @@ MonoBehaviour:
     _chaAtkSpeed: 0
     _chaAttack: 0
     _chaArmor: 0
+    _isBarrier: 0
+    _groggyDamage: 0
     _chaAtkIsMelee: 0
     _chaAccuracy: 0
     _chaAvoid: 0
@@ -109,6 +115,8 @@ MonoBehaviour:
     _chaCritDmg: 0
     _chaReg: 0
     _chaMoveSpeed: 0
+    _chaPassiveSkill: {fileID: 11400000, guid: 225cf737d40a09d48b2ddce59168cd9a, type: 2}
+    _chaActiveSkill: {fileID: 11400000, guid: 4a2c293d48547944daadf326f357d3c6, type: 2}
     _isManaFull: 0
 --- !u!70 &3348997761910632104
 CapsuleCollider2D:
