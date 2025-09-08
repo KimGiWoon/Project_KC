@@ -15,9 +15,10 @@ public class ShoppingUI : BaseUI
     [SerializeField] private Button _resetButton;
     [SerializeField] private Button _buyButton;
     [SerializeField] private RectTransform _mainPanelRect;
+    [SerializeField] private RectTransform[] _buttonsRect;
     private TweenAnimation _tweenAnimation;
 
-    public Action<UIName> OnUICloseRequested;
+    public Action<UIName, bool> OnUICloseRequested;
 
     private void Awake()
     {
@@ -57,19 +58,36 @@ public class ShoppingUI : BaseUI
 
     private void Update()
     {
+        //todo 활성화되고 일정 시간은 체크 안하도록 해야할 듯
         if (!_panelContainer.activeSelf) return;
 
+        //todo 하단 버튼 영역일 경우에는 버튼이 선택되어야 함
         //# 안드로이드 터치 감지
         if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began)
         {
             var touchPos = Input.GetTouch(0).position;
 
             //# 패널 안에 터치가 있는지 확인
-            if (!RectTransformUtility.RectangleContainsScreenPoint(_mainPanelRect, touchPos))
+            if (RectTransformUtility.RectangleContainsScreenPoint(_mainPanelRect, touchPos)) return;
+
+            foreach (var buttonRect in _buttonsRect)
             {
-                OnUICloseRequested?.Invoke(UIName.ShoppingUI);
+                if (RectTransformUtility.RectangleContainsScreenPoint(buttonRect, touchPos))
+                {
+                    StartCoroutine(DelayedCloseCall(true));
+                    return;
+                }
             }
+
+            StartCoroutine(DelayedCloseCall());
         }
+    }
+
+    private IEnumerator DelayedCloseCall(bool uiOnly = false)
+    {
+        yield return new WaitForSeconds(0.2f);
+
+        OnUICloseRequested?.Invoke(UIName.ShoppingUI, uiOnly);
     }
 
     //todo 상점 관련 설정(재료, 가격, Reset, Buy Button 연동 필요)

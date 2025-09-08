@@ -26,6 +26,7 @@ namespace SDW
 
         private GameManager _gameManager;
         private bool _isLoaded;
+        private bool _uiOnly;
 
         /// <summary>
         /// Firebase 연결 및 초기화
@@ -143,6 +144,7 @@ namespace SDW
                 case UIName.PartyCharListUI: ConnectPartyCharListUI(uiName); break;
                 case UIName.CharInfoUI: ConnectCharInfoUI(uiName); break;
                 case UIName.ShoppingUI: ConnectShoppingUI(uiName); break;
+                case UIName.InventoryUI: ConnectInventoryUI(uiName); break;
             }
         }
 
@@ -247,6 +249,7 @@ namespace SDW
                 case UIName.PartyCharListUI: DisconnectPartyCharListUI(uiName); break;
                 case UIName.CharInfoUI: DisconnectCharInfoUI(uiName); break;
                 case UIName.ShoppingUI: DisconnectShoppingUI(uiName); break;
+                case UIName.InventoryUI: DisconnectInventoryUI(uiName); break;
             }
         }
 
@@ -535,11 +538,26 @@ namespace SDW
         {
             var shoppingUI = _uiDic[uiName] as ShoppingUI;
             var stageGlobalUI = _uiDic[UIName.StageGlobalUI] as StageGlobalUI;
-            var partyUI = _uiDic[UIName.PartyUI] as PartyUI;
 
             stageGlobalUI.ButtonToBottomMoveAway();
-            partyUI.UISecondPositionMoveAway();
-            shoppingUI.OnUICloseRequested += ClosePanel;
+            shoppingUI.OnUICloseRequested += (ui, uiOnly) =>
+            {
+                _uiOnly = uiOnly;
+                ClosePanel(ui);
+            };
+        }
+
+        private void ConnectInventoryUI(UIName uiName)
+        {
+            var inventoryUI = _uiDic[uiName] as InventoryUI;
+            var stageGlobalUI = _uiDic[UIName.StageGlobalUI] as StageGlobalUI;
+
+            stageGlobalUI.ButtonToBottomMoveAway();
+            inventoryUI.OnUICloseRequested += (ui, uiOnly) =>
+            {
+                _uiOnly = uiOnly;
+                ClosePanel(ui);
+            };
         }
 
         #endregion
@@ -864,10 +882,36 @@ namespace SDW
             var stageGlobalUI = _uiDic[UIName.StageGlobalUI] as StageGlobalUI;
             var partyUI = _uiDic[UIName.PartyUI] as PartyUI;
 
-            stageGlobalUI.ButtonToMoveBack();
-            stageGlobalUI.PushPrevUI();
-            partyUI.UIMoveBack();
-            shoppingUI.OnUICloseRequested -= ClosePanel;
+            if (!_uiOnly)
+            {
+                stageGlobalUI.ButtonToMoveBack();
+                stageGlobalUI.PushPrevUI();
+                partyUI.UIMoveBack();
+            }
+            shoppingUI.OnUICloseRequested -= (ui, uiOnly) =>
+            {
+                _uiOnly = uiOnly;
+                ClosePanel(ui);
+            };
+        }
+
+        private void DisconnectInventoryUI(UIName uiName)
+        {
+            var inventoryUI = _uiDic[uiName] as InventoryUI;
+            var stageGlobalUI = _uiDic[UIName.StageGlobalUI] as StageGlobalUI;
+            var partyUI = _uiDic[UIName.PartyUI] as PartyUI;
+
+            if (!_uiOnly)
+            {
+                stageGlobalUI.ButtonToMoveBack();
+                stageGlobalUI.PushPrevUI();
+                partyUI.UIMoveBack();
+            }
+            inventoryUI.OnUICloseRequested -= (ui, uiOnly) =>
+            {
+                _uiOnly = uiOnly;
+                ClosePanel(ui);
+            };
         }
 
         #endregion

@@ -50,13 +50,11 @@ public class StageGlobalUI : BaseUI
     {
         base.Open();
         StartCoroutine(DelayedOpenAndClose(true));
-        // OnUIOpenRequested?.Invoke(UIName.RouteSelectUI);
     }
 
     public override void Close()
     {
         StartCoroutine(DelayedOpenAndClose(false));
-        // OnUICloseRequested?.Invoke(UIName.RouteSelectUI);
         base.Close();
     }
 
@@ -75,29 +73,68 @@ public class StageGlobalUI : BaseUI
         }
     }
 
+    private IEnumerator DelayedDeactive(GameObject target, float delay)
+    {
+        yield return new WaitForSeconds(delay);
+
+        target.SetActive(false);
+    }
+
+    public void PushPrevUI()
+    {
+        OnUIOpenRequested?.Invoke(_prevUIName);
+        _uiStack.Push(_prevUIName);
+    }
+
+    public void SetPrevUI(UIName uiName)
+    {
+        if (_uiStack.Count > 0)
+            _uiStack.Pop();
+        _uiStack.Push(uiName);
+        _prevUIName = uiName;
+    }
+
+    #region Button Methods
+
     private void SettingButtonClicked()
     {
         OnUIOpenRequested?.Invoke(UIName.PopupSettingUI);
-        _prevUIName = _uiStack.Pop();
-        OnUICloseRequested?.Invoke(_prevUIName);
+        if (_uiStack.Count > 0)
+        {
+            _prevUIName = _uiStack.Pop();
+            OnUICloseRequested?.Invoke(_prevUIName);
+        }
     }
 
     private void ShopButtonClicked()
     {
         OnUIOpenRequested?.Invoke(UIName.ShoppingUI);
-        _prevUIName = _uiStack.Pop();
-        OnUICloseRequested?.Invoke(_prevUIName);
+        if (_uiStack.Count > 0)
+        {
+            _prevUIName = _uiStack.Pop();
+            OnUICloseRequested?.Invoke(_prevUIName);
+        }
     }
 
     private void InventoryButtonClicked()
     {
-        throw new NotImplementedException();
+        OnUIOpenRequested?.Invoke(UIName.InventoryUI);
+
+        if (_uiStack.Count > 0)
+        {
+            _prevUIName = _uiStack.Pop();
+            OnUICloseRequested?.Invoke(_prevUIName);
+        }
     }
 
     private void CookButtonClicked()
     {
         throw new NotImplementedException();
     }
+
+    #endregion
+
+    #region DoTWeen Methods
 
     public void ButtonContainerMoveAway()
     {
@@ -127,24 +164,5 @@ public class StageGlobalUI : BaseUI
         }
     }
 
-    private IEnumerator DelayedDeactive(GameObject target, float delay)
-    {
-        yield return new WaitForSeconds(delay);
-
-        target.SetActive(false);
-    }
-
-    public void PushPrevUI()
-    {
-        OnUIOpenRequested?.Invoke(_prevUIName);
-        _uiStack.Push(_prevUIName);
-    }
-
-    public void SetPrevUI(UIName uiName)
-    {
-        if (_uiStack.Count > 0)
-            _uiStack.Pop();
-        _uiStack.Push(uiName);
-        _prevUIName = uiName;
-    }
+    #endregion
 }

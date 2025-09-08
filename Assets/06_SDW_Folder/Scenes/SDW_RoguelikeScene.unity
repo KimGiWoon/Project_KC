@@ -3662,9 +3662,9 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1336865654}
-  - {fileID: 1830928243}
   - {fileID: 446500371}
+  - {fileID: 1830928243}
+  - {fileID: 1336865654}
   m_Father: {fileID: 1357146812}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
@@ -22772,10 +22772,10 @@ RectTransform:
   - {fileID: 1787907980}
   - {fileID: 1368979801}
   - {fileID: 1524937421}
+  - {fileID: 1751719562}
   - {fileID: 1870212020}
   - {fileID: 804487299}
   - {fileID: 758316194}
-  - {fileID: 1751719562}
   - {fileID: 601034635}
   - {fileID: 1603797398}
   m_Father: {fileID: 1703711089}
@@ -53127,7 +53127,7 @@ GameObject:
   - component: {fileID: 446500373}
   - component: {fileID: 446500372}
   m_Layer: 5
-  m_Name: IngredientPanel_center
+  m_Name: IngredientPanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -55813,7 +55813,7 @@ GameObject:
   - component: {fileID: 474630619}
   - component: {fileID: 474630618}
   m_Layer: 5
-  m_Name: FoodText_Full
+  m_Name: Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -89267,7 +89267,7 @@ GameObject:
   - component: {fileID: 753899007}
   - component: {fileID: 753899006}
   m_Layer: 5
-  m_Name: panelBG_full
+  m_Name: BackgroundImage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -119757,7 +119757,7 @@ GameObject:
   - component: {fileID: 1026660194}
   - component: {fileID: 1026660193}
   m_Layer: 5
-  m_Name: RelicText_Full
+  m_Name: Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -152579,7 +152579,7 @@ GameObject:
   - component: {fileID: 1308189983}
   - component: {fileID: 1308189982}
   m_Layer: 5
-  m_Name: IngredientList_center
+  m_Name: Contents
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -155898,7 +155898,7 @@ GameObject:
   - component: {fileID: 1336865656}
   - component: {fileID: 1336865655}
   m_Layer: 5
-  m_Name: RelicButton_center
+  m_Name: RelicButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -158222,7 +158222,7 @@ GameObject:
   - component: {fileID: 1357146814}
   - component: {fileID: 1357146813}
   m_Layer: 5
-  m_Name: Title_Collection_topCenter
+  m_Name: InventoryPanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -177174,6 +177174,10 @@ MonoBehaviour:
   _resetButton: {fileID: 1607464652}
   _buyButton: {fileID: 204480630}
   _mainPanelRect: {fileID: 507581696}
+  _buttonsRect:
+  - {fileID: 1518380866}
+  - {fileID: 635640528}
+  - {fileID: 1435763292}
 --- !u!1 &1528690748
 GameObject:
   m_ObjectHideFlags: 0
@@ -189068,7 +189072,7 @@ GameObject:
   - component: {fileID: 1633587875}
   - component: {fileID: 1633587874}
   m_Layer: 5
-  m_Name: TitleText_Full
+  m_Name: TitleText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -204371,7 +204375,7 @@ GameObject:
   - component: {fileID: 1751719563}
   - component: {fileID: 1751719564}
   m_Layer: 5
-  m_Name: InventoryUI_Full
+  m_Name: InventoryContainer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -204429,7 +204433,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Name: 28
-  _panelContainer: {fileID: 0}
+  _panelContainer: {fileID: 1357146811}
+  _contents: {fileID: 1308189980}
+  _foodButton: {fileID: 1830928244}
+  _relicButton: {fileID: 1336865655}
+  _inventoryPanelRect: {fileID: 23357394}
+  _buttonsRect:
+  - {fileID: 1518380866}
+  - {fileID: 635640528}
+  - {fileID: 1435763292}
 --- !u!1 &1751947735
 GameObject:
   m_ObjectHideFlags: 0
@@ -213496,7 +213508,7 @@ GameObject:
   - component: {fileID: 1830928245}
   - component: {fileID: 1830928244}
   m_Layer: 5
-  m_Name: FoodButton_center
+  m_Name: FoddButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -213955,7 +213967,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1839044755
 RectTransform:
   m_ObjectHideFlags: 0
