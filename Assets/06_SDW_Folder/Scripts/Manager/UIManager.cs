@@ -145,6 +145,7 @@ namespace SDW
                 case UIName.CharInfoUI: ConnectCharInfoUI(uiName); break;
                 case UIName.ShoppingUI: ConnectShoppingUI(uiName); break;
                 case UIName.InventoryUI: ConnectInventoryUI(uiName); break;
+                case UIName.CookingUI: ConnectCookingUI(uiName); break;
             }
         }
 
@@ -250,6 +251,7 @@ namespace SDW
                 case UIName.CharInfoUI: DisconnectCharInfoUI(uiName); break;
                 case UIName.ShoppingUI: DisconnectShoppingUI(uiName); break;
                 case UIName.InventoryUI: DisconnectInventoryUI(uiName); break;
+                case UIName.CookingUI: DisconnectCookingUI(uiName); break;
             }
         }
 
@@ -484,7 +486,11 @@ namespace SDW
         {
             var stageGlobalUI = _uiDic[uiName] as StageGlobalUI;
             stageGlobalUI.OnUIOpenRequested += OpenPanel;
-            stageGlobalUI.OnUICloseRequested += ClosePanel;
+            stageGlobalUI.OnUICloseRequested += (ui, uiOnly) =>
+            {
+                _uiOnly = uiOnly;
+                ClosePanel(ui);
+            };
         }
 
         private void ConnectPopupSettingUI(UIName uiName)
@@ -554,6 +560,19 @@ namespace SDW
 
             stageGlobalUI.ButtonToBottomMoveAway();
             inventoryUI.OnUICloseRequested += (ui, uiOnly) =>
+            {
+                _uiOnly = uiOnly;
+                ClosePanel(ui);
+            };
+        }
+
+        private void ConnectCookingUI(UIName uiName)
+        {
+            var cookingUI = _uiDic[uiName] as CookingUI;
+            var stageGlobalUI = _uiDic[UIName.StageGlobalUI] as StageGlobalUI;
+
+            stageGlobalUI.ButtonToBottomMoveAway();
+            cookingUI.OnUICloseRequested += (ui, uiOnly) =>
             {
                 _uiOnly = uiOnly;
                 ClosePanel(ui);
@@ -831,7 +850,11 @@ namespace SDW
         {
             var stageGlobalUI = _uiDic[uiName] as StageGlobalUI;
             stageGlobalUI.OnUIOpenRequested -= OpenPanel;
-            stageGlobalUI.OnUICloseRequested -= ClosePanel;
+            stageGlobalUI.OnUICloseRequested -= (ui, uiOnly) =>
+            {
+                _uiOnly = uiOnly;
+                ClosePanel(ui);
+            };
         }
 
         private void DisconnectPopupSettingUI(UIName uiName)
@@ -908,6 +931,25 @@ namespace SDW
                 partyUI.UIMoveBack();
             }
             inventoryUI.OnUICloseRequested -= (ui, uiOnly) =>
+            {
+                _uiOnly = uiOnly;
+                ClosePanel(ui);
+            };
+        }
+
+        private void DisconnectCookingUI(UIName uiName)
+        {
+            var cookingUI = _uiDic[uiName] as CookingUI;
+            var stageGlobalUI = _uiDic[UIName.StageGlobalUI] as StageGlobalUI;
+            var partyUI = _uiDic[UIName.PartyUI] as PartyUI;
+
+            if (!_uiOnly)
+            {
+                stageGlobalUI.ButtonToMoveBack();
+                stageGlobalUI.PushPrevUI();
+                partyUI.UIMoveBack();
+            }
+            cookingUI.OnUICloseRequested -= (ui, uiOnly) =>
             {
                 _uiOnly = uiOnly;
                 ClosePanel(ui);

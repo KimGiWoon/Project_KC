@@ -16,7 +16,7 @@ public class StageGlobalUI : BaseUI
     [SerializeField] private TweenAnimation _buttonContainerTweenAnimation;
 
     public Action<UIName> OnUIOpenRequested;
-    public Action<UIName> OnUICloseRequested;
+    public Action<UIName, bool> OnUICloseRequested;
 
     private Stack<UIName> _uiStack = new Stack<UIName>();
     private UIName _prevUIName;
@@ -68,7 +68,7 @@ public class StageGlobalUI : BaseUI
         }
         else
         {
-            OnUICloseRequested?.Invoke(_prevUIName);
+            OnUICloseRequested?.Invoke(_prevUIName, false);
             _uiStack.Clear();
         }
     }
@@ -88,8 +88,10 @@ public class StageGlobalUI : BaseUI
 
     public void SetPrevUI(UIName uiName)
     {
-        if (_uiStack.Count > 0)
+        while (_uiStack.Count > 0)
+        {
             _uiStack.Pop();
+        }
         _uiStack.Push(uiName);
         _prevUIName = uiName;
     }
@@ -98,38 +100,59 @@ public class StageGlobalUI : BaseUI
 
     private void SettingButtonClicked()
     {
-        OnUIOpenRequested?.Invoke(UIName.PopupSettingUI);
+        var tempUI = _uiStack.Peek();
         if (_uiStack.Count > 0)
         {
-            _prevUIName = _uiStack.Pop();
-            OnUICloseRequested?.Invoke(_prevUIName);
+            tempUI = _uiStack.Pop();
+            if (tempUI != UIName.PopupSettingUI)
+                OnUICloseRequested?.Invoke(tempUI, false);
         }
+        OnUIOpenRequested?.Invoke(UIName.PopupSettingUI);
     }
 
     private void ShopButtonClicked()
     {
-        OnUIOpenRequested?.Invoke(UIName.ShoppingUI);
+        var tempUI = _uiStack.Peek();
         if (_uiStack.Count > 0)
         {
-            _prevUIName = _uiStack.Pop();
-            OnUICloseRequested?.Invoke(_prevUIName);
+            tempUI = _uiStack.Pop();
+            if (_prevUIName != UIName.ShoppingUI)
+                OnUICloseRequested?.Invoke(tempUI, true);
         }
+
+        _uiStack.Push(UIName.ShoppingUI);
+        if (_prevUIName != UIName.ShoppingUI)
+            OnUIOpenRequested?.Invoke(UIName.ShoppingUI);
     }
 
     private void InventoryButtonClicked()
     {
-        OnUIOpenRequested?.Invoke(UIName.InventoryUI);
-
+        var tempUI = _uiStack.Peek();
         if (_uiStack.Count > 0)
         {
-            _prevUIName = _uiStack.Pop();
-            OnUICloseRequested?.Invoke(_prevUIName);
+            tempUI = _uiStack.Pop();
+            if (tempUI != UIName.InventoryUI)
+                OnUICloseRequested?.Invoke(tempUI, true);
         }
+
+        _uiStack.Push(UIName.InventoryUI);
+        if (tempUI != UIName.InventoryUI)
+            OnUIOpenRequested?.Invoke(UIName.InventoryUI);
     }
 
     private void CookButtonClicked()
     {
-        throw new NotImplementedException();
+        var tempUI = _uiStack.Peek();
+        if (_uiStack.Count > 0)
+        {
+            tempUI = _uiStack.Pop();
+            if (tempUI != UIName.CookingUI)
+                OnUICloseRequested?.Invoke(tempUI, true);
+        }
+
+        _uiStack.Push(UIName.CookingUI);
+        if (tempUI != UIName.CookingUI)
+            OnUIOpenRequested?.Invoke(UIName.CookingUI);
     }
 
     #endregion

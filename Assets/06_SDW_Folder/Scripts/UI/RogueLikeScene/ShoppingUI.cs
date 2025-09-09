@@ -17,6 +17,8 @@ public class ShoppingUI : BaseUI
     [SerializeField] private RectTransform _mainPanelRect;
     [SerializeField] private RectTransform[] _buttonsRect;
     private TweenAnimation _tweenAnimation;
+    private WaitForSeconds _waitForSeconds = new WaitForSeconds(1f);
+    private bool _canInteract;
 
     public Action<UIName, bool> OnUICloseRequested;
 
@@ -40,6 +42,7 @@ public class ShoppingUI : BaseUI
 
     public override void Open()
     {
+        StartCoroutine(InteractDelay());
         base.Open();
         _tweenAnimation.moveAway();
     }
@@ -50,6 +53,12 @@ public class ShoppingUI : BaseUI
         StartCoroutine(DelayedClose());
     }
 
+    private IEnumerator InteractDelay()
+    {
+        yield return _waitForSeconds;
+        _canInteract = true;
+    }
+
     private IEnumerator DelayedClose()
     {
         yield return new WaitForSeconds(_tweenAnimation.tweenTime);
@@ -58,10 +67,8 @@ public class ShoppingUI : BaseUI
 
     private void Update()
     {
-        //todo 활성화되고 일정 시간은 체크 안하도록 해야할 듯
-        if (!_panelContainer.activeSelf) return;
+        if (!_panelContainer.activeSelf || !_canInteract) return;
 
-        //todo 하단 버튼 영역일 경우에는 버튼이 선택되어야 함
         //# 안드로이드 터치 감지
         if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began)
         {
@@ -70,11 +77,13 @@ public class ShoppingUI : BaseUI
             //# 패널 안에 터치가 있는지 확인
             if (RectTransformUtility.RectangleContainsScreenPoint(_mainPanelRect, touchPos)) return;
 
+            //# 버튼을 클릭했는지 확인
             foreach (var buttonRect in _buttonsRect)
             {
                 if (RectTransformUtility.RectangleContainsScreenPoint(buttonRect, touchPos))
                 {
-                    StartCoroutine(DelayedCloseCall(true));
+                    if (buttonRect.CompareTag("ShopButton")) return;
+                    StartCoroutine(InteractDelay());
                     return;
                 }
             }
@@ -83,11 +92,13 @@ public class ShoppingUI : BaseUI
         }
     }
 
-    private IEnumerator DelayedCloseCall(bool uiOnly = false)
+    private IEnumerator DelayedCloseCall()
     {
-        yield return new WaitForSeconds(0.2f);
+        _canInteract = false;
+        StartCoroutine(InteractDelay());
+        yield return new WaitForSeconds(0.1f);
 
-        OnUICloseRequested?.Invoke(UIName.ShoppingUI, uiOnly);
+        OnUICloseRequested?.Invoke(UIName.ShoppingUI, false);
     }
 
     //todo 상점 관련 설정(재료, 가격, Reset, Buy Button 연동 필요)
