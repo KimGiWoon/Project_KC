@@ -29,6 +29,7 @@ public class MonsterController : UnitBaseData
 
     // 체력 절반 이벤트
     public event Action OnHalfHp;
+    public event Action OnRelicMonsterDeath;
 
     protected override void Awake()
     {
@@ -269,7 +270,7 @@ public class MonsterController : UnitBaseData
     protected override void Death()
     {
         base.Death();
-
+        OnRelicMonsterDeath?.Invoke();
         if (gameObject.layer == LayerMask.NameToLayer("Boss"))
         {
             _isDetect = false;

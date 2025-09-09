@@ -27,8 +27,8 @@ namespace KSH
             relics = Resources.LoadAll<RelicDatas>("Relics").ToList();
             relicRarityPicker = new WeightedRandom<RelicGrade>();
             //TODO : 확률 정해지면 다시 넣기 (임의로 노말 80 레어 20)
-            relicRarityPicker.Add(RelicGrade.Normal, 1);
-            relicRarityPicker.Add(RelicGrade.Rare, 99);
+            relicRarityPicker.Add(RelicGrade.Normal,99);
+            relicRarityPicker.Add(RelicGrade.Rare, 1);
         }
 
         private void Start()

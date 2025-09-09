@@ -65,6 +65,8 @@ public class BattleManager : MonoBehaviour
     public event Action<float, float> OnTotalHpChange;
     private GameManager _gameManager;
     private bool _isDownloaded;
+    
+    public event Action OnCharacterDeath;
 
     private void Awake()
     {
@@ -87,8 +89,9 @@ public class BattleManager : MonoBehaviour
 
     private void Update()
     {
-        if (!_gameManager.CompleteDownload || !_gameManager.ImageSpriteConnected || !_gameManager.PrefabAndSoConnected ||
-            _isDownloaded) return;
+       //if (!_gameManager.CompleteDownload || !_gameManager.ImageSpriteConnected || !_gameManager.PrefabAndSoConnected ||
+       //    _isDownloaded) return;
+       if(_isDownloaded) return;
         _battleUI = FindObjectOfType<BattleUI>();
 
         //_isLocalBoss = ;
@@ -285,7 +288,7 @@ public class BattleManager : MonoBehaviour
     public void CharacterDeathCheck()
     {
         _characterCount = Math.Max(0, _characterCount - 1);
-
+        OnCharacterDeath?.Invoke();
         // 클리어 체크
         BattleClearCheck();
     }
