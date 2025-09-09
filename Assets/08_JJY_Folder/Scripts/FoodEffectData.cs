@@ -1,9 +1,8 @@
-using System;
 using UnityEngine;
 
 namespace JJY
 {
-    [CreateAssetMenu(menuName = "ScriptableObjects/FoodEffectData")]
+    [CreateAssetMenu(menuName = "ScriptableObjects/RecipeData/FoodEffectData")]
     public class FoodEffectData : ScriptableObject
     {
         public EffectType type;

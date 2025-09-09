@@ -1073,7 +1073,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &5274112207074410746
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1189,22 +1189,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 70c0bce9b9f2a6244b7f94ca4867e61f, type: 2}
   - {fileID: 11400000, guid: b9e4a6087f32c2d4f940691faefb94c4, type: 2}
   - {fileID: 11400000, guid: fa1a7c5b28fbc5242a8f7c56ee0da1b2, type: 2}
-  ingredientSprites:
-  - {fileID: 21300000, guid: debabdc223908af4f9ed4289150ff4ac, type: 3}
-  - {fileID: 21300000, guid: 6a6faed0b1b4bd64fa0bcce227561431, type: 3}
-  - {fileID: 21300000, guid: 210bdef5ab0d91e408c7d6f04ee818ee, type: 3}
-  - {fileID: 21300000, guid: 35eb77092608afd49afb14088992c4ba, type: 3}
-  - {fileID: 21300000, guid: cad960076a76dd94db47e3e6ff99b2cd, type: 3}
-  - {fileID: 21300000, guid: 6e2b6b0448c7a60449d600c471f92e6e, type: 3}
-  - {fileID: 21300000, guid: 36d213c98a74bfe47b9e8e10061c064b, type: 3}
-  - {fileID: 21300000, guid: 37313712a3f64e9448f20586872ea0ea, type: 3}
-  - {fileID: 21300000, guid: e0639531d2153584ea1a60dc446f89cb, type: 3}
-  - {fileID: 21300000, guid: 7c6724d0ca79c2b48a5677eaa8fc746a, type: 3}
-  - {fileID: 21300000, guid: 42c4d49ac405b8345accf8d9af7ddf02, type: 3}
-  - {fileID: 21300000, guid: 79f47713e0aa4d647ade6820e28eee95, type: 3}
-  - {fileID: 21300000, guid: cf9ef574557a49441b76c553cf1c942c, type: 3}
-  - {fileID: 21300000, guid: 597e9b4a942ff904e82eab66b141e3c1, type: 3}
-  - {fileID: 21300000, guid: d9d7541694fb59f4e9e8436d7d0243e9, type: 3}
+  ingredientDatabase: {fileID: 11400000, guid: ddb682d1b45fc6648b273d2d988f0189, type: 2}
   resetBtn: {fileID: 6574593172584785102}
   cookBtn: {fileID: 1004195007497930289}
   foodImage: {fileID: 6906196883188576775}

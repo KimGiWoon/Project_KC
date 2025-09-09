@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -13,6 +12,8 @@ namespace JJY
         public FoodEffectData effect;
         public float remaining;
         public string sourceId;
+        public Dictionary<MyCharacterController, float> appliedBuffAmounts = new Dictionary<MyCharacterController, float>();
+        public Dictionary<MonsterController, float> appliedDebuffAmounts = new Dictionary<MonsterController, float>();
 
         public ActiveBuff(FoodEffectData e)
         {
@@ -37,7 +38,7 @@ namespace JJY
 
         [Header("Debug")]
         [SerializeField] bool logActions = true;
-        [SerializeField] List<InventoryItem> testFoodInventory = new List<InventoryItem>(); // 테스트 인벤토리, CookManager의 인벤토리와 연결해야함.
+        // [SerializeField] List<InventoryItem> testRelicInventory = new List<InventoryItem>(); // 테스트 인벤토리, CookManager의 인벤토리와 연결해야함.
         // 활성 버프 리스트
         List<ActiveBuff> activeBuffs = new List<ActiveBuff>();
 
@@ -53,16 +54,22 @@ namespace JJY
 
             InitFoodIcon();
         }
-#if UNITY_EDITOR
-        void Start()
+        void OnEnable()
         {
-            for (int i = 0; i < testFoodInventory.Count; i++)
-            {
-                CookManager.Instance.AddFood(testFoodInventory[i].recipe);
-                if (logActions) Debug.Log($"{testFoodInventory[i].recipe.recipeName}추가됨");
-            }
             InitFoodIcon();
         }
+#if UNITY_EDITOR
+        // void Start()
+        // {
+        //     for (int i = 0; i < testRelicInventory.Count; i++)
+        //     {
+        //         if (testRelicInventory[i].relic == null && testRelicInventory[i].recipe == null) continue;
+        //         if (testRelicInventory[i].relic != null) RelicDropManager.Instance.GetRelic(testRelicInventory[i].relic);
+        //         if (testRelicInventory[i].recipe != null) CookManager.Instance.AddFood(testRelicInventory[i].recipe);
+        //         // if (logActions) Debug.Log($"{testRelicInventory[i].relic.relicEnName}추가됨");
+        //     }
+        //     InitFoodIcon();
+        // }
 #endif
         void Update()
         {
@@ -339,19 +346,43 @@ namespace JJY
             {
                 case EffectType.AttackBuff:
                     foreach (var p in btManager._characters)
-                        if (p._isAlive) p._characterState._chaAttack += (p._characterState._chaAttack * e.value);
+                    {
+                        if (!p._isAlive) continue;
+                        float baseAttack = p._characterState._chaAttack;
+                        float added = baseAttack * e.value;
+
+                        p._characterState._chaAttack += added;
+                        buff.appliedBuffAmounts[p] = added;
+                    }
                     break;
                 case EffectType.DefenseBuff:
                     foreach (var p in btManager._characters)
-                        if (p._isAlive) p._characterState._chaArmor += e.value;
+                    {
+                        if (!p._isAlive) continue;
+                        float added = e.value;
+                        p._characterState._chaArmor += added;
+                        buff.appliedBuffAmounts[p] = added;
+                    }
                     break;
                 case EffectType.EnemyAttackDebuff:
                     foreach (var m in btManager._monsters)
-                        if (m._isAlive) m._monsterState._monAttack -= (m._monsterState._monAttack * e.value);
+                    {
+                        if (!m._isAlive) continue;
+                        float baseAttack = m._monsterState._monAttack;
+                        float reduced = baseAttack * e.value;
+
+                        m._monsterState._monAttack -= reduced;
+                        buff.appliedDebuffAmounts[m] = reduced;
+                    }
                     break;
                 case EffectType.EnemyDefenseDebuff:
                     foreach (var m in btManager._monsters)
-                        if (m._isAlive) m._monsterState._monArmor -= e.value;
+                    {
+                        if (!m._isAlive) continue;
+                        float reduced = e.value; // 절대값 가정
+                        m._monsterState._monArmor -= reduced;
+                        buff.appliedDebuffAmounts[m] = reduced;
+                    }
                     break;
             }
         }
@@ -361,24 +392,48 @@ namespace JJY
             var e = buff.effect;
             if (logActions) Debug.Log($"[BuffManager] 버프 삭제됨 : {e.type} ");
 
-            switch (e.type)
+            if (buff.appliedBuffAmounts != null)
             {
-                case EffectType.AttackBuff:
-                    foreach (var p in btManager._characters)
-                        if (p._isAlive) p._characterState._chaAttack -= (p._characterState._chaAttack * e.value);
-                    break;
-                case EffectType.DefenseBuff:
-                    foreach (var p in btManager._characters)
-                        if (p._isAlive) p._characterState._chaArmor -= e.value;
-                    break;
-                case EffectType.EnemyAttackDebuff:
-                    foreach (var m in btManager._monsters)
-                        if (m._isAlive) m._monsterState._monAttack += (m._monsterState._monAttack * e.value);
-                    break;
-                case EffectType.EnemyDefenseDebuff:
-                    foreach (var m in btManager._monsters)
-                        if (m._isAlive) m._monsterState._monArmor += e.value;
-                    break;
+                foreach (var kv in buff.appliedBuffAmounts)
+                {
+                    var p = kv.Key;
+                    var amount = kv.Value;
+
+                    if (p == null) continue;
+
+                    switch (e.type)
+                    {
+                        case EffectType.AttackBuff:
+                            p._characterState._chaAttack -= amount;
+                            break;
+                        case EffectType.DefenseBuff:
+                            p._characterState._chaArmor -= amount;
+                            break;
+                    }
+                }
+                buff.appliedBuffAmounts.Clear();
+            }
+
+            if (buff.appliedDebuffAmounts != null)
+            {
+                foreach (var kv in buff.appliedDebuffAmounts)
+                {
+                    var m = kv.Key;
+                    var amount = kv.Value;
+
+                    if (m == null) continue;
+
+                    switch (e.type)
+                    {
+                        case EffectType.EnemyAttackDebuff:
+                            m._monsterState._monAttack += amount;
+                            break;
+                        case EffectType.EnemyDefenseDebuff:
+                            m._monsterState._monArmor += amount;
+                            break;
+                    }
+                }
+                buff.appliedDebuffAmounts.Clear();
             }
         }
     }

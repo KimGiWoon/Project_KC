@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Globalization;
 using KSH;
 using TMPro;
 using UnityEngine;
@@ -24,11 +23,12 @@ namespace JJY
         [SerializeField] Transform inventoryContent;
         [SerializeField] GameObject itemPrefab;
 
+        [Header("Debug")]
+        [SerializeField] List<InventoryItem> testInventory = new List<InventoryItem>();
+
         // --- 풀링 관련 컬렉션 ---
         Queue<GameObject> pool = new Queue<GameObject>();               // 비활성화된(재사용 가능한) 버튼 풀
         List<GameObject> activeButtons = new List<GameObject>();        // 현재 활성화된 버튼들 추적
-
-        List<bool> seenList = new List<bool>(); // 새로운 아이템인지 확인하는 리스트.
 
         void Start()
         {
@@ -37,7 +37,22 @@ namespace JJY
 
             foodTabBtn.onClick.AddListener(InitFoodInventory);
             relicTabBtn.onClick.AddListener(InitRelicInventory);
+#if UNITY_EDITOR
+            TestInventory();
+#endif
         }
+#if UNITY_EDITOR
+        void TestInventory()
+        {
+            for (int i = 0; i < testInventory.Count; i++)
+            {
+                if (testInventory[i].relic == null && testInventory[i].recipe == null) continue;
+                if (testInventory[i].relic != null) RelicDropManager.Instance.GetRelic(testInventory[i].relic);
+                if (testInventory[i].recipe != null) CookManager.Instance.AddFood(testInventory[i].recipe);
+            }
+            InitFoodInventory();
+        }
+#endif
         void OnEnable()
         {
             InitFoodInventory();
@@ -224,9 +239,22 @@ namespace JJY
 
         void SeenNewItems()
         {
-            foreach (var i in CookManager.Instance.playerFoodInventory)
+            if (CookManager.Instance.playerFoodInventory != null &&
+            CookManager.Instance.playerFoodInventory.Count > 0)
             {
-                i.isNew = false;
+                foreach (var i in CookManager.Instance.playerFoodInventory)
+                {
+                    if (i.isNew) i.isNew = !i.isNew;
+                }
+            }
+
+            if (RelicDropManager.Instance.acquiredRelicLists != null &&
+            RelicDropManager.Instance.acquiredRelicLists.Count > 0)
+            {
+                foreach (var i in RelicDropManager.Instance.acquiredRelicLists)
+                {
+                    if (i.isNew) i.isNew = !i.isNew;
+                }
             }
         }
     }

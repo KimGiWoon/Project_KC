@@ -13,6 +13,7 @@ namespace JJY
         public Image iconImage;              // 재료 아이콘
         public TextMeshProUGUI ingNameText;  // 재료 이름
         public TextMeshProUGUI priceText;    // 가격 텍스트
+        public Ingredient ingredient;
     }
 
     public class IngredientStoreUIManager : MonoBehaviour
@@ -32,8 +33,8 @@ namespace JJY
 
         [Header("Config")]
         [SerializeField] int refreshCost = 5;
-        [SerializeField] List<Sprite> ingredientIcons;      // ingredientIndexMap 순서와 일치
-        [SerializeField] List<int> basePricePerIngredient;  // ingredientIndexMap 순서와 일치
+        [SerializeField] IngredientDatabase ingredientDatabase;
+        Dictionary<Ingredient, IngredientData> ingredientMap;
 
         class SlotData { public Ingredient ingredient; public int price; public bool sold; }
         List<SlotData> slotDatas = new List<SlotData>();
@@ -48,6 +49,7 @@ namespace JJY
             TestAddYeopjeon();
 #endif
             InitIngredientIndexMap();
+            InitIngredients();
             InitStoreSlots();
 
             for (int i = 0; i < slots.Count; i++)
@@ -61,6 +63,21 @@ namespace JJY
             }
             buyBtn.onClick.AddListener(TryBuyIngredient);
             refreshBtn.onClick.AddListener(RefreshStore);
+        }
+        void InitIngredients()
+        {
+            ingredientMap = new Dictionary<Ingredient, IngredientData>();
+            if (ingredientDatabase == null)
+            {
+                Debug.LogWarning("[CookManager] ingredientDatabase 미설정");
+                return;
+            }
+            foreach (var d in ingredientDatabase.ingredients)
+            {
+                if (d == null) continue;
+                if (!ingredientMap.ContainsKey(d.ingredient)) ingredientMap[d.ingredient] = d;
+                else Debug.LogWarning($"중복 IngredientData: {d.ingredient}");
+            }
         }
         void InitIngredientIndexMap()
         {
@@ -91,13 +108,12 @@ namespace JJY
             {
                 // 랜덤 선택(중복 허용)
                 Ingredient chosen = allIngredients[UnityEngine.Random.Range(0, allIngredients.Length)];
-                int idx = GetIndexByIngredient(chosen);
-                int price = 100; // 기본 fallback price
+                
+                IngredientData data = null;
+                if (ingredientMap != null) ingredientMap.TryGetValue(chosen, out data);
 
-                if (basePricePerIngredient != null && idx >= 0 && idx < basePricePerIngredient.Count) price = basePricePerIngredient[idx];
-
-                slotDatas[i].ingredient = chosen;
-                slotDatas[i].price = price;
+                slotDatas[i].ingredient = data.ingredient;
+                slotDatas[i].price = data.cost;
                 slotDatas[i].sold = false;
             }
 
@@ -119,13 +135,12 @@ namespace JJY
             {
                 // 랜덤 선택(중복 허용)
                 Ingredient chosen = allIngredients[UnityEngine.Random.Range(0, allIngredients.Length)];
-                int idx = GetIndexByIngredient(chosen);
-                int price = 100; // 기본 fallback price
 
-                if (basePricePerIngredient != null && idx >= 0 && idx < basePricePerIngredient.Count) price = basePricePerIngredient[idx];
+                IngredientData data = null;
+                if (ingredientMap != null) ingredientMap.TryGetValue(chosen, out data);
 
-                slotDatas[i].ingredient = chosen;
-                slotDatas[i].price = price;
+                slotDatas[i].ingredient = data.ingredient;
+                slotDatas[i].price = data.cost;
                 slotDatas[i].sold = false;
             }
 
@@ -149,11 +164,11 @@ namespace JJY
                     slotUI.ingNameText.text = data.ingredient != Ingredient.None ? data.ingredient.ToString() : "";
                 }
 
-                // icon
-                int idx = GetIndexByIngredient(data.ingredient);
-                if (slotUI.iconImage != null && idx >= 0 && idx < ingredientIcons.Count)
+                IngredientData ingdata = null;
+                if (ingredientMap != null) ingredientMap.TryGetValue(data.ingredient, out ingdata);
+                if (ingdata != null && ingdata.icon != null)
                 {
-                    slotUI.iconImage.sprite = ingredientIcons[idx];
+                    slotUI.iconImage.sprite = ingdata.icon;
                     slotUI.iconImage.enabled = true;
                 }
 
@@ -219,15 +234,6 @@ namespace JJY
             UpdateSlotUI();
             successedPanel.SetActive(true);
 
-        }
-
-        int GetIndexByIngredient(Ingredient ing)
-        {
-            for (int i = 0; i < allIngredients.Length; i++)
-            {
-                if (allIngredients[i] == ing) return i;
-            }
-            return -1;
         }
     }
 }

@@ -5405,7 +5405,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2511791766991901819, guid: 89a9530360f2d1142a1f827d9ffbdec5, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2511791766991901819, guid: 89a9530360f2d1142a1f827d9ffbdec5, type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -5425,7 +5425,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3320377629574751451, guid: 89a9530360f2d1142a1f827d9ffbdec5, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3320377629574751451, guid: 89a9530360f2d1142a1f827d9ffbdec5, type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -7707,7 +7707,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: -0.00030517578, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: -1080, y: 0}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!114 &465008861
 MonoBehaviour:
@@ -8975,7 +8975,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be2b34b329cf0154c81c3cc384bd432b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _mappingSo: {fileID: 11400000, guid: cc76ce107944b05449ae589e01e78619, type: 2}
+  _mappingSo: {fileID: 0}
 --- !u!114 &548274582
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9128,8 +9128,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 44a9b1d79e051554ba84ac2522c3e28c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  battleManager: {fileID: 0}
-  myCharacterController: {fileID: 0}
 --- !u!4 &549374644
 Transform:
   m_ObjectHideFlags: 0
@@ -9356,40 +9354,6 @@ MonoBehaviour:
   foodContent: {fileID: 465008860}
   foodBtnPrefab: {fileID: 8665683076589498544, guid: 24ebee958139a88488fd62e8803caf55, type: 3}
   logActions: 1
-  testFoodInventory:
-  - recipe: {fileID: 11400000, guid: 0c493d05ed322284894a49da06e45e52, type: 2}
-    relic: {fileID: 0}
-    isNew: 1
-  - recipe: {fileID: 11400000, guid: 0c493d05ed322284894a49da06e45e52, type: 2}
-    relic: {fileID: 0}
-    isNew: 1
-  - recipe: {fileID: 11400000, guid: 8fda17a23e7aa53488384fe5ad65d3d9, type: 2}
-    relic: {fileID: 0}
-    isNew: 1
-  - recipe: {fileID: 11400000, guid: bb6b8af267d629d40b3fc6205f685eb1, type: 2}
-    relic: {fileID: 0}
-    isNew: 1
-  - recipe: {fileID: 11400000, guid: 9614a5b032c09c24e8037384d5912967, type: 2}
-    relic: {fileID: 0}
-    isNew: 1
-  - recipe: {fileID: 11400000, guid: 9fd679b1099d3384c8b797fa92f862da, type: 2}
-    relic: {fileID: 0}
-    isNew: 1
-  - recipe: {fileID: 11400000, guid: c39bab6c46794b44890952af6e37a4cb, type: 2}
-    relic: {fileID: 0}
-    isNew: 1
-  - recipe: {fileID: 11400000, guid: a6a0de74cd11cf64dbf8c90ab7e303e9, type: 2}
-    relic: {fileID: 0}
-    isNew: 1
-  - recipe: {fileID: 11400000, guid: 70c0bce9b9f2a6244b7f94ca4867e61f, type: 2}
-    relic: {fileID: 0}
-    isNew: 1
-  - recipe: {fileID: 11400000, guid: b9e4a6087f32c2d4f940691faefb94c4, type: 2}
-    relic: {fileID: 0}
-    isNew: 1
-  - recipe: {fileID: 11400000, guid: fa1a7c5b28fbc5242a8f7c56ee0da1b2, type: 2}
-    relic: {fileID: 0}
-    isNew: 1
 --- !u!4 &557514348
 Transform:
   m_ObjectHideFlags: 0
@@ -9602,7 +9566,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2511791766991901819, guid: 89a9530360f2d1142a1f827d9ffbdec5, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2511791766991901819, guid: 89a9530360f2d1142a1f827d9ffbdec5, type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -9622,7 +9586,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3320377629574751451, guid: 89a9530360f2d1142a1f827d9ffbdec5, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3320377629574751451, guid: 89a9530360f2d1142a1f827d9ffbdec5, type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -13868,7 +13832,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be2b34b329cf0154c81c3cc384bd432b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _mappingSo: {fileID: 11400000, guid: cc76ce107944b05449ae589e01e78619, type: 2}
+  _mappingSo: {fileID: 0}
 --- !u!114 &853889464
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -25015,7 +24979,7 @@ RectTransform:
   m_Father: {fileID: 105588664}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 4.743988, y: 0}
   m_SizeDelta: {x: 19.48798, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -25242,12 +25206,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ecd19c60f5f1f54aa67c3255ef8c506, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  relicDetailImage: {fileID: 902464780}
-  relicDetailName: {fileID: 583326826}
-  relicDetailDescription1: {fileID: 421158632}
-  relicDetailDescription2: {fileID: 467991310}
-  DetailUI: {fileID: 591400503}
-  backButton: {fileID: 1180188017}
 --- !u!224 &1546649771
 RectTransform:
   m_ObjectHideFlags: 0
@@ -25893,11 +25851,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7653813201108885930, guid: f7ccdd5c9c7d7c84980de33bc26319ae, type: 3}
       propertyPath: m_Name
-      value: IngradientStore
-      objectReference: {fileID: 0}
-    - target: {fileID: 7653813201108885930, guid: f7ccdd5c9c7d7c84980de33bc26319ae, type: 3}
-      propertyPath: m_IsActive
-      value: 1
+      value: IngredientStoreUI
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -27223,10 +27177,6 @@ PrefabInstance:
     - target: {fileID: 4387778262173607704, guid: 17dd8fa13e3a5114a8f5f83b3640de66, type: 3}
       propertyPath: m_Name
       value: Cook UI
-      objectReference: {fileID: 0}
-    - target: {fileID: 4387778262173607704, guid: 17dd8fa13e3a5114a8f5f83b3640de66, type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5274112207074410746, guid: 17dd8fa13e3a5114a8f5f83b3640de66, type: 3}
       propertyPath: m_Pivot.x
@@ -28569,7 +28519,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1726272752
 RectTransform:
   m_ObjectHideFlags: 0
@@ -31575,13 +31525,73 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 853889468}
     m_Modifications:
+    - target: {fileID: 2549897985188691367, guid: e6fbb333082d9004e99fe4133700c252, type: 3}
+      propertyPath: testInventory.Array.size
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 2549897985188691367, guid: e6fbb333082d9004e99fe4133700c252, type: 3}
+      propertyPath: testInventory.Array.data[0].isNew
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2549897985188691367, guid: e6fbb333082d9004e99fe4133700c252, type: 3}
+      propertyPath: testInventory.Array.data[1].isNew
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2549897985188691367, guid: e6fbb333082d9004e99fe4133700c252, type: 3}
+      propertyPath: testInventory.Array.data[2].isNew
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2549897985188691367, guid: e6fbb333082d9004e99fe4133700c252, type: 3}
+      propertyPath: testInventory.Array.data[3].isNew
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2549897985188691367, guid: e6fbb333082d9004e99fe4133700c252, type: 3}
+      propertyPath: testInventory.Array.data[3].relic
+      value: 
+      objectReference: {fileID: 11400000, guid: 94e50d61152c7ab4a923308d30150ed9, type: 2}
+    - target: {fileID: 2549897985188691367, guid: e6fbb333082d9004e99fe4133700c252, type: 3}
+      propertyPath: testInventory.Array.data[4].isNew
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2549897985188691367, guid: e6fbb333082d9004e99fe4133700c252, type: 3}
+      propertyPath: testInventory.Array.data[4].relic
+      value: 
+      objectReference: {fileID: 11400000, guid: 6ddf176743c16ae46949ee73b7e34e67, type: 2}
+    - target: {fileID: 2549897985188691367, guid: e6fbb333082d9004e99fe4133700c252, type: 3}
+      propertyPath: testInventory.Array.data[5].isNew
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2549897985188691367, guid: e6fbb333082d9004e99fe4133700c252, type: 3}
+      propertyPath: testInventory.Array.data[5].relic
+      value: 
+      objectReference: {fileID: 11400000, guid: f0a1c32938eee1a4eb4269b297820de0, type: 2}
+    - target: {fileID: 2549897985188691367, guid: e6fbb333082d9004e99fe4133700c252, type: 3}
+      propertyPath: testInventory.Array.data[6].isNew
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2549897985188691367, guid: e6fbb333082d9004e99fe4133700c252, type: 3}
+      propertyPath: testInventory.Array.data[6].relic
+      value: 
+      objectReference: {fileID: 11400000, guid: 1e0b0d38a7882f947be55d35836c7e62, type: 2}
+    - target: {fileID: 2549897985188691367, guid: e6fbb333082d9004e99fe4133700c252, type: 3}
+      propertyPath: testInventory.Array.data[0].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: 0c493d05ed322284894a49da06e45e52, type: 2}
+    - target: {fileID: 2549897985188691367, guid: e6fbb333082d9004e99fe4133700c252, type: 3}
+      propertyPath: testInventory.Array.data[1].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: 8fda17a23e7aa53488384fe5ad65d3d9, type: 2}
+    - target: {fileID: 2549897985188691367, guid: e6fbb333082d9004e99fe4133700c252, type: 3}
+      propertyPath: testInventory.Array.data[2].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: bb6b8af267d629d40b3fc6205f685eb1, type: 2}
+    - target: {fileID: 2549897985188691367, guid: e6fbb333082d9004e99fe4133700c252, type: 3}
+      propertyPath: testInventory.Array.data[6].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: 9614a5b032c09c24e8037384d5912967, type: 2}
     - target: {fileID: 5959022905253681451, guid: e6fbb333082d9004e99fe4133700c252, type: 3}
       propertyPath: m_Name
       value: Inventory UI
-      objectReference: {fileID: 0}
-    - target: {fileID: 5959022905253681451, guid: e6fbb333082d9004e99fe4133700c252, type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7982544166911700611, guid: e6fbb333082d9004e99fe4133700c252, type: 3}
       propertyPath: m_Pivot.x
@@ -34081,7 +34091,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2511791766991901819, guid: 89a9530360f2d1142a1f827d9ffbdec5, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2511791766991901819, guid: 89a9530360f2d1142a1f827d9ffbdec5, type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -34101,7 +34111,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3320377629574751451, guid: 89a9530360f2d1142a1f827d9ffbdec5, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3320377629574751451, guid: 89a9530360f2d1142a1f827d9ffbdec5, type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -35203,6 +35213,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: BattleManager
       objectReference: {fileID: 0}
+    - target: {fileID: 4304284262462380119, guid: fa761daa402395443998ecabe6307359, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7952994145548464279, guid: fa761daa402395443998ecabe6307359, type: 3}
       propertyPath: m_LocalPosition.x
       value: 536.7456
@@ -36008,13 +36022,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6e7e39aae17781e4f8ae0072b79efc9f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  content: {fileID: 1477991224}
-  relicPrefab: {fileID: 9136602848948372974, guid: 98c5d8002c0f47340bdd879e3049d661, type: 3}
-  getButton: {fileID: 428262351}
-  DetailUI: {fileID: 1546649769}
-  RelicWindow: {fileID: 1120085403}
-  ignoreText: {fileID: 755979946}
-  relicDetailUI: {fileID: 1546649770}
 --- !u!4 &2064304055
 Transform:
   m_ObjectHideFlags: 0
@@ -37165,17 +37172,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _dontDestroyOnLoad: 1
-  relics:
-  - {fileID: 11400000, guid: f534310e4322287408dc9aebfbf8d787, type: 2}
-  - {fileID: 11400000, guid: 544c142de1bbba54b8312bc9b9ef4e84, type: 2}
-  - {fileID: 11400000, guid: df708d4b8505df449b5aff60dfe47321, type: 2}
-  - {fileID: 11400000, guid: 858aa86670d1ab44e8f58031d63af4e3, type: 2}
-  - {fileID: 11400000, guid: 34edfd97ab9b0184095bdfee9bce34a6, type: 2}
-  - {fileID: 11400000, guid: 1de6d8c1bdd9cf64baeb2934b4b30525, type: 2}
-  - {fileID: 11400000, guid: fe7ada2cb081be54fa0b0e14d262d910, type: 2}
-  - {fileID: 11400000, guid: 788bfb2904714ca428ed4b888b30f4b9, type: 2}
-  relicResultUI: {fileID: 2064304054}
-  buffRelicManager: {fileID: 549374643}
+  relics: []
+  relicResultUI: {fileID: 0}
+  buffRelicManager: {fileID: 0}
   acquiredRelicLists: []
 --- !u!4 &2123376125
 Transform:

@@ -1,18 +1,14 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class MoraleDeclineController : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    // 공격력 감소 계산 값 변환
+    public float Init(float chance, float value)
     {
-        
-    }
+        float skillChance = chance * 0.01f;
+        float attckDownValue = (Random.value < skillChance) ? value : 0f;
+        Destroy(gameObject, 0.1f);
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        return attckDownValue;
     }
 }
