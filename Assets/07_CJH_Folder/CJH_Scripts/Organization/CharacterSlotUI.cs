@@ -25,6 +25,7 @@ namespace CJH
         {
             currentCharacterData = data;
             characterImage.sprite = data.characterIcon;
+
         }
 
         public void OnPointerDown(PointerEventData eventData)

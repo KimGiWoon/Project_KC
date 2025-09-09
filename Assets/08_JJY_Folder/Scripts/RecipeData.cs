@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace JJY
 {
-    [CreateAssetMenu(menuName = "ScriptableObjects/RecipeData")]
+    [CreateAssetMenu(menuName = "ScriptableObjects/RecipeData/RecipeData")]
     public class RecipeData : ScriptableObject
     {
         public string recipeName;                  // 레시피 이름 (인스펙터 표시)

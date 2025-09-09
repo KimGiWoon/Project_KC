@@ -4,15 +4,69 @@ using UnityEngine;
 
 public class WolfSlashController : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    private float _skillDamage;
+    private float _skillAttackHit;
+    private float _skillTick;
+    private MyCharacterController _character;
+    private MonsterController _monster;
+    private Coroutine _attackRoutine;
+    private WaitForSeconds _time;
+
+    public void Init(MyCharacterController caster, MonsterController target, float hit, float damageValue, float armorValue, float tick)
     {
-        
+        _skillDamage = damageValue * caster._characterState._chaAttack;
+        _skillAttackHit = hit;
+        _skillTick = tick;
+        _character = caster;
+        _monster = target;
+        _time = new WaitForSeconds(_skillTick);
+
+        AllMonsterWolfSlash();
     }
 
-    // Update is called once per frame
-    void Update()
+    // 전체 몬스터에게 늑대 베기 사용
+    public void AllMonsterWolfSlash()
     {
-        
+        foreach (var mon in _monster._battleManager._monsters)
+        {
+            if (!mon._isAlive) continue;
+            // 데미지 코루틴 시작
+            _attackRoutine = StartCoroutine(MonsterAttackCoroutine(mon));
+        }
+
+        // 게임 종료가 되면 감소된 방어력 원복
+        if (_character._battleManager._isGameOver)
+        {
+            AttackCoroutineStop();
+        }
+    }
+    
+    // 몬스터 스킬 다단 히트 공격 코루틴
+    public IEnumerator MonsterAttackCoroutine(MonsterController mon)
+    {
+        float count = 0;
+
+        while (count < _skillAttackHit)
+        {
+            mon.TakeDamage(_skillDamage);
+            Debug.Log($"{mon._monsterState._monEnName}가 {_skillDamage}의 데미지를 받았습니다.{count}");
+            count++;
+
+            // 공격한 만큼 캐릭터의 체력 회복
+            _character.CharacterHealApply(_skillDamage);
+            Debug.Log($"{_character._characterState._chaEnName}의 체력이 {_skillDamage}만큼 회복됬습니다.");
+
+            yield return _time;
+        }
+    }
+
+    // 코루틴 정지
+    public void AttackCoroutineStop()
+    {
+        if (_attackRoutine != null)
+        {
+            StopCoroutine(_attackRoutine);
+            _attackRoutine = null;
+        }
     }
 }
