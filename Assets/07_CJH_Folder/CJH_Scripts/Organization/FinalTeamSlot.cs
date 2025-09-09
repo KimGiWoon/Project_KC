@@ -4,29 +4,31 @@ using TMPro;
 
 public class FinalTeamSlot : MonoBehaviour
 {
-    [SerializeField] private GameObject characterInfoGroup; // 이미지, 텍스트를 포함하는 그룹
+    [SerializeField] private GameObject characterInfoGroup;
     [SerializeField] private Image characterImage;
     [SerializeField] private TextMeshProUGUI levelText;
+    [SerializeField] private Button characterButton;
 
     private CharacterDataSO characterData;
     private TeamFormationManager manager;
 
     void Start()
     {
-        manager = GetComponentInParent<TeamFormationManager>();
-        GetComponent<Button>().onClick.AddListener(OnClick);
+        // manager를 Start에서 찾으면 패널이 꺼져있을 때 못찾을 수 있으니, DisplayCharacter에서 설정
+        if (characterButton) characterButton.onClick.AddListener(OnClick);
     }
 
-    // 캐릭터 정보 표시
     public void DisplayCharacter(CharacterDataSO data)
     {
         characterData = data;
+        // manager를 처음 데이터를 받을 때 한 번만 찾아옵니다.
+        if (manager == null) manager = FindObjectOfType<TeamFormationManager>();
+
         characterInfoGroup.SetActive(true);
-        characterImage.sprite = characterData._characterSprite;
-        levelText.text = "Lv." + characterData._chaLv;
+        characterImage.sprite = data._characterSprite;
+        levelText.text = "Lv." + data._chaLv;
     }
 
-    // 빈 슬롯으로 표시
     public void DisplayEmpty()
     {
         characterData = null;
@@ -35,12 +37,9 @@ public class FinalTeamSlot : MonoBehaviour
 
     private void OnClick()
     {
-        Debug.Log(gameObject.name + " 버튼 클릭됨! 현재 캐릭터: " + (characterData != null ? characterData._chaBaseData.ChaName : "없음"));
-        // 캐릭터가 할당된 상태에서만 (빈 슬롯이 아닐 때만)
-        if (characterData != null)
+        if (characterData != null && manager != null)
         {
-            // 매니저에게 내 캐릭터를 팀에서 빼달라고 요청합니다.
-            manager.DeselectCharacter(characterData);
+            manager.ToggleCharacterSelection(characterData);
         }
     }
 }

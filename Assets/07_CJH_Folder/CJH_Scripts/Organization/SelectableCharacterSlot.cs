@@ -6,6 +6,8 @@ public class SelectableCharacterSlot : MonoBehaviour
 {
     [SerializeField] private Image characterImage;
     [SerializeField] private TextMeshProUGUI levelText;
+    [SerializeField] private GameObject selectionOverlay;
+    [SerializeField] private Button characterButton;
 
     private CharacterDataSO characterData;
     private TeamFormationManager manager;
@@ -15,15 +17,24 @@ public class SelectableCharacterSlot : MonoBehaviour
         characterData = data;
         manager = formationManager;
 
-        // UI 업데이트
-        characterImage.sprite = characterData._characterSprite;
-        levelText.text = "Lv." + characterData._chaLv;
+        characterImage.sprite = data._characterSprite;
+        levelText.text = "Lv." + data._chaLv;
 
-        GetComponent<Button>().onClick.AddListener(OnClick);
+        if (characterButton) characterButton.onClick.AddListener(OnClick);
     }
 
     private void OnClick()
     {
-        manager.SelectCharacter(characterData);
+        manager.ToggleCharacterSelection(characterData);
+    }
+
+    public void UpdateSelectionVisual(bool isSelected)
+    {
+        if (selectionOverlay) selectionOverlay.SetActive(isSelected);
+    }
+
+    public CharacterDataSO GetCharacterData()
+    {
+        return characterData;
     }
 }

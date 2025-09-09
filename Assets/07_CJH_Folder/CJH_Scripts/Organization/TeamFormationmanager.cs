@@ -5,132 +5,146 @@ using System.Linq;
 
 public class TeamFormationManager : MonoBehaviour
 {
-    [Header("--- UI 연결 ---")]
-    [SerializeField] private GameObject characterSlotPrefab; // 보유 캐릭터 슬롯의 프리팹
-    [SerializeField] private Transform ownedCharacterGrid;   // 보유 캐릭터들이 생성될 Grid 영역
-    [SerializeField] private List<FinalTeamSlot> finalTeamSlots; // 최종 팀 슬롯 3개의 스크립트
+    [Header("--- UI 요소 연결 ---")]
+    [SerializeField] private GameObject teamFormationPanel;
+    [SerializeField] private GameObject characterSlotPrefab;
+    [SerializeField] private Transform ownedCharacterGrid;
+    [SerializeField] private List<FinalTeamSlot> finalTeamSlots_InPanel; // 편성창 내부의 최종 슬롯
+    [SerializeField] private List<FinalTeamSlot> finalTeamSlots_OutPanel; // 바깥의 최종 슬롯
     [SerializeField] private Button confirmButton;
     [SerializeField] private Button closeButton;
 
-    [Header("--- 데이터 ---")]
-    [SerializeField] private List<CharacterDataSO> allOwnedCharacters; // 테스트용 보유 캐릭터 목록
+    [Header("--- 팝업 UI 연결 ---")]
+    [SerializeField] private GameObject warningPopup;
+    [SerializeField] private Button popupConfirmButton;
 
-    private List<CharacterDataSO> selectedTeam = new List<CharacterDataSO>(); // 현재 선택된 팀원 목록
+    [Header("--- 데이터 (테스트용) ---")]
+    [SerializeField] private List<CharacterDataSO> allOwnedCharacters;
+
+    private List<CharacterDataSO> pendingTeam = new List<CharacterDataSO>();   // 임시 선택 명단
+    private List<CharacterDataSO> confirmedTeam = new List<CharacterDataSO>(); // 확정된 최종 팀 명단
+    private List<SelectableCharacterSlot> selectableSlots = new List<SelectableCharacterSlot>();
+
+    void Awake()
+    {
+        // 버튼 기능 연결
+        if (confirmButton) confirmButton.onClick.AddListener(OnConfirm);
+        if (closeButton) closeButton.onClick.AddListener(OnClose);
+        if (popupConfirmButton) popupConfirmButton.onClick.AddListener(CloseWarningPopup);
+    }
 
     void Start()
     {
+        // 시작할 때 패널과 팝업은 비활성화
+        if (teamFormationPanel) teamFormationPanel.SetActive(false);
+        if (warningPopup) warningPopup.SetActive(false);
+        // 시작할 때 외부 패널을 초기화
+        UpdateFinalTeamPanel(finalTeamSlots_OutPanel, confirmedTeam);
+    }
+
+    // [외부용] 편성 창을 여는 함수
+    public void OpenFormationPanel()
+    {
+        if (teamFormationPanel) teamFormationPanel.SetActive(true);
         Initialize();
     }
 
-    // 이 패널 오브젝트가 활성화될 때마다 호출됩니다.
-    void OnEnable()
+    // 창이 열릴 때마다 호출
+    private void Initialize()
     {
-        Initialize();
-    }
+        if (warningPopup) warningPopup.SetActive(false);
+        // 이전에 확정했던 팀을 임시 선택팀으로 복사해서 시작
+        pendingTeam = new List<CharacterDataSO>(confirmedTeam);
 
-    // 초기화 함수
-    public void Initialize()
-    {
-        // 테스트용 보유 캐릭터 강제 추가
-        // allOwnedCharacters.Add(...);
-
-        // 선택된 팀 목록 초기화
-        selectedTeam.Clear();
-
-
-        // UI 업데이트
         PopulateOwnedCharacterGrid();
-        UpdateFinalTeamUI();
+        UpdateAllVisuals();
     }
 
-    // 보유 캐릭터 목록 UI를 채우는 함수
+    // 상단 보유 캐릭터 목록 UI 생성
     private void PopulateOwnedCharacterGrid()
     {
-        // 기존에 있던 슬롯들 모두 삭제
-        foreach (Transform child in ownedCharacterGrid)
-        {
-            Destroy(child.gameObject);
-        }
+        foreach (Transform child in ownedCharacterGrid) Destroy(child.gameObject);
+        selectableSlots.Clear();
 
-        // 보유한 캐릭터 수만큼 슬롯 생성
         foreach (var characterData in allOwnedCharacters)
         {
             GameObject slotGO = Instantiate(characterSlotPrefab, ownedCharacterGrid);
             var slotScript = slotGO.GetComponent<SelectableCharacterSlot>();
             slotScript.Setup(characterData, this);
+            selectableSlots.Add(slotScript);
         }
     }
 
-    // 하단 최종 팀 슬롯 3개의 UI를 업데이트하는 함수
-    private void UpdateFinalTeamUI()
+    // 편성창이 열려있을 때 모든 UI를 현재 선택 상태(pendingTeam)에 맞춰 새로고침
+    private void UpdateAllVisuals()
     {
-        for (int i = 0; i < finalTeamSlots.Count; i++)
+        // 1. 상단 슬롯들의 오버레이(체크 표시) 업데이트
+        foreach (var slot in selectableSlots)
         {
-            if (i < selectedTeam.Count)
+            slot.UpdateSelectionVisual(pendingTeam.Contains(slot.GetCharacterData()));
+        }
+
+        // 2. 편성창 내부의 하단 슬롯 UI를 업데이트
+        UpdateFinalTeamPanel(finalTeamSlots_InPanel, pendingTeam);
+    }
+
+    // 최종 팀 슬롯 패널 한 개를 업데이트하는 전용 함수
+    private void UpdateFinalTeamPanel(List<FinalTeamSlot> slots, List<CharacterDataSO> teamData)
+    {
+        if (slots == null) return;
+        for (int i = 0; i < slots.Count; i++)
+        {
+            if (i < teamData.Count)
             {
-                finalTeamSlots[i].DisplayCharacter(selectedTeam[i]);
+                slots[i].DisplayCharacter(teamData[i]);
             }
             else
             {
-                finalTeamSlots[i].DisplayEmpty(); // 빈 슬롯으로 표시
+                slots[i].DisplayEmpty();
             }
         }
-
-        // 팀원이 3명일 때만 버튼 활성화
-        bool isTeamFull = selectedTeam.Count == 3;
-        confirmButton.interactable = isTeamFull;
-        closeButton.interactable = isTeamFull;
     }
 
-    // (SelectableCharacterSlot에서 호출) 캐릭터를 팀에 추가 시도
-    public void SelectCharacter(CharacterDataSO character)
+    // [상단/하단 슬롯 공용] 캐릭터 선택/해제 처리
+    public void ToggleCharacterSelection(CharacterDataSO character)
     {
-        // 중복 확인
-        if (selectedTeam.Contains(character))
+        if (pendingTeam.Contains(character))
         {
-            Debug.Log(character._chaBaseData.ChaName + "은(는) 이미 팀에 포함되어 있습니다.");
+            pendingTeam.Remove(character); // 이미 있으면 제거 (선택 해제)
+        }
+        else
+        {
+            if (pendingTeam.Count < 3)
+            {
+                pendingTeam.Add(character); // 없으면 추가 (선택)
+            }
+        }
+        UpdateAllVisuals(); // 모든 UI 즉시 새로고침
+    }
+
+    // '편성' 버튼 기능 (저장)
+    private void OnConfirm()
+    {
+        if (pendingTeam.Count < 3)
+        {
+            ShowWarningPopup();
             return;
         }
-
-        // 팀이 꽉 찼는지 확인
-        if (selectedTeam.Count >= 3)
-        {
-            Debug.Log("팀이 가득 찼습니다.");
-            return;
-        }
-
-        // 팀에 추가
-        selectedTeam.Add(character);
-        UpdateFinalTeamUI();
+        Debug.Log("팀 편성 확정! 변경사항을 저장합니다.");
+        // 임시 명단을 확정 명단으로 복사(저장)
+        confirmedTeam = new List<CharacterDataSO>(pendingTeam);
+        // 바깥 패널도 최신 정보로 업데이트
+        UpdateFinalTeamPanel(finalTeamSlots_OutPanel, confirmedTeam);
+        if (teamFormationPanel) teamFormationPanel.SetActive(false);
     }
 
-    /// <summary>
-    /// (FinalTeamSlot에서 호출) 캐릭터를 팀에서 제거합니다.
-    /// </summary>
-    public void DeselectCharacter(CharacterDataSO character)
+    // '닫기' 버튼 기능 (저장 안함)
+    private void OnClose()
     {
-        // 명단에 빼려는 캐릭터가 있는지 확인
-        if (selectedTeam.Contains(character))
-        {
-            // 명단에서 제거
-            selectedTeam.Remove(character);
-
-            // UI를 최신 상태로 업데이트하여 빈 칸으로 보이게 함
-            UpdateFinalTeamUI();
-        }
+        Debug.Log("편성 취소. 변경사항을 저장하지 않습니다.");
+        if (teamFormationPanel) teamFormationPanel.SetActive(false);
     }
 
-    // 외부에서 호출할 함수들 (버튼에 연결)
-    public void OnConfirm()
-    {
-        Debug.Log("팀 편성 완료!");
-        // TODO: 팀 정보를 저장하고 창을 닫는 로직
-        gameObject.SetActive(false);
-    }
-
-    public void OnClose()
-    {
-        Debug.Log("팀 편성 취소");
-        gameObject.SetActive(false);
-    }
+    private void ShowWarningPopup() { if (warningPopup) warningPopup.SetActive(true); }
+    private void CloseWarningPopup() { if (warningPopup) warningPopup.SetActive(false); }
 }
