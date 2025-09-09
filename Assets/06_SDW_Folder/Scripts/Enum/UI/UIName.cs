@@ -35,6 +35,18 @@
         GachaResultUI,
 
         //# None
-        None
+        None,
+
+        //# Roguelike Scene
+        StageGlobalUI,
+        PopupSettingUI,
+        RouteSelectUI,
+        PartyUI,
+        PartyCharListUI,
+        CharInfoUI,
+        ShoppingUI,
+        InventoryUI,
+        CookingUI,
+        FoodDescriptionUI
     }
 }

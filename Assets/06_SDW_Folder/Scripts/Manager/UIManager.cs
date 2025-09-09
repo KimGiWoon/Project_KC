@@ -26,6 +26,7 @@ namespace SDW
 
         private GameManager _gameManager;
         private bool _isLoaded;
+        private bool _uiOnly;
 
         /// <summary>
         /// Firebase 연결 및 초기화
@@ -82,6 +83,7 @@ namespace SDW
                 case SceneName.SDW_SignInScene: OpenSignInScene(uiName); break;
                 case SceneName.KSH_Gacha:
                 case SceneName.SDW_LobbyScene: OpenLobbyScene(uiName); break;
+                case SceneName.SDW_RoguelikeScene: OpenRoguelikeScene(uiName); break;
                 case SceneName.KGW_TestIngameScene: OpenInGameScene(uiName); break;
             }
 
@@ -130,6 +132,24 @@ namespace SDW
             }
         }
 
+        private void OpenRoguelikeScene(UIName uiName)
+        {
+            switch (uiName)
+            {
+                //# Main Lobby Scene
+                case UIName.StageGlobalUI: ConnectStageGlobalUI(uiName); break;
+                case UIName.PopupSettingUI: ConnectPopupSettingUI(uiName); break;
+                case UIName.RouteSelectUI: ConnectRouteSelectUI(uiName); break;
+                case UIName.PartyUI: ConnectPartyUI(uiName); break;
+                case UIName.PartyCharListUI: ConnectPartyCharListUI(uiName); break;
+                case UIName.CharInfoUI: ConnectCharInfoUI(uiName); break;
+                case UIName.ShoppingUI: ConnectShoppingUI(uiName); break;
+                case UIName.InventoryUI: ConnectInventoryUI(uiName); break;
+                case UIName.CookingUI: ConnectCookingUI(uiName); break;
+                case UIName.FoodDescriptionUI: ConnectFoodDescriptionUI(uiName); break;
+            }
+        }
+
         /// <summary>
         /// InGameScene에 맞는 UI 패널을 초기화하고 연결
         /// </summary>
@@ -169,6 +189,7 @@ namespace SDW
                 case SceneName.SDW_SignInScene: CloseSignInScene(uiName); break;
                 case SceneName.KSH_Gacha:
                 case SceneName.SDW_LobbyScene: CloseLobbyScene(uiName); break;
+                case SceneName.SDW_RoguelikeScene: CloseRoguelikeScene(uiName); break;
                 case SceneName.KGW_TestIngameScene: CloseInGameScene(uiName); break;
             }
 
@@ -218,6 +239,23 @@ namespace SDW
             }
         }
 
+        private void CloseRoguelikeScene(UIName uiName)
+        {
+            switch (uiName)
+            {
+                //# Main Lobby Scene
+                case UIName.StageGlobalUI: DisconnectStageGlobalUI(uiName); break;
+                case UIName.PopupSettingUI: DisconnectPopupSettingUI(uiName); break;
+                case UIName.RouteSelectUI: DisconnectRouteSelectUI(uiName); break;
+                case UIName.PartyUI: DisconnectPartyUI(uiName); break;
+                case UIName.PartyCharListUI: DisconnectPartyCharListUI(uiName); break;
+                case UIName.CharInfoUI: DisconnectCharInfoUI(uiName); break;
+                case UIName.ShoppingUI: DisconnectShoppingUI(uiName); break;
+                case UIName.InventoryUI: DisconnectInventoryUI(uiName); break;
+                case UIName.CookingUI: DisconnectCookingUI(uiName); break;
+                case UIName.FoodDescriptionUI: DisconnectFoodDescriptionUI(uiName); break;
+            }
+        }
         /// <summary>
         /// InGameScene에 맞는 UI 패널을 초기화하고 연결
         /// </summary>
@@ -439,6 +477,115 @@ namespace SDW
             var gachaResultUI = _uiDic[uiName] as GachaResultUI;
             gachaResultUI.OnUIOpenRequested += OpenPanel;
             gachaResultUI.OnUICloseRequested += ClosePanel;
+        }
+
+        #endregion
+
+        #region Stage UI Connect Methods
+
+        private void ConnectStageGlobalUI(UIName uiName)
+        {
+            var stageGlobalUI = _uiDic[uiName] as StageGlobalUI;
+            stageGlobalUI.OnUIOpenRequested += OpenPanel;
+            stageGlobalUI.OnUICloseRequested += (ui, uiOnly) =>
+            {
+                _uiOnly = uiOnly;
+                ClosePanel(ui);
+            };
+        }
+
+        private void ConnectPopupSettingUI(UIName uiName)
+        {
+            var popupSettingUI = _uiDic[uiName] as PopupSettingUI;
+            var stageGlobalUI = _uiDic[UIName.StageGlobalUI] as StageGlobalUI;
+
+            stageGlobalUI.ButtonContainerMoveAway();
+            popupSettingUI.OnUICloseRequested += ClosePanel;
+        }
+
+        private void ConnectRouteSelectUI(UIName uiName)
+        {
+            var routeSelectUI = _uiDic[uiName] as RouteSelectUI;
+            var stageGlobalUI = _uiDic[UIName.StageGlobalUI] as StageGlobalUI;
+
+            stageGlobalUI.SetPrevUI(uiName);
+            routeSelectUI.OnUIOpenRequested += OpenPanel;
+            routeSelectUI.OnUICloseRequested += ClosePanel;
+        }
+
+        private void ConnectPartyUI(UIName uiName)
+        {
+            var partyUI = _uiDic[uiName] as PartyUI;
+            var stageGlobalUI = _uiDic[UIName.StageGlobalUI] as StageGlobalUI;
+
+            stageGlobalUI.SetPrevUI(uiName);
+            partyUI.OnUIOpenRequested += OpenPanel;
+            partyUI.OnUICloseRequested += ClosePanel;
+        }
+
+        private void ConnectPartyCharListUI(UIName uiName)
+        {
+            var partyCharListUI = _uiDic[uiName] as PartyCharListUI;
+            var stageGlobalUI = _uiDic[UIName.StageGlobalUI] as StageGlobalUI;
+            var partyUI = _uiDic[UIName.PartyUI] as PartyUI;
+
+            stageGlobalUI.ButtonContainerMoveAway();
+            partyUI.UISecondPositionMoveAway();
+            partyCharListUI.OnUIOpenRequested += OpenPanel;
+            partyCharListUI.OnUICloseRequested += ClosePanel;
+        }
+
+        private void ConnectCharInfoUI(UIName uiName)
+        {
+            var charInfoUI = _uiDic[uiName] as CharacterInfoUI;
+            charInfoUI.OnUICloseRequested += ClosePanel;
+        }
+
+        private void ConnectShoppingUI(UIName uiName)
+        {
+            var shoppingUI = _uiDic[uiName] as ShoppingUI;
+            var stageGlobalUI = _uiDic[UIName.StageGlobalUI] as StageGlobalUI;
+
+            stageGlobalUI.ButtonToBottomMoveAway();
+            shoppingUI.OnUICloseRequested += (ui, uiOnly) =>
+            {
+                _uiOnly = uiOnly;
+                ClosePanel(ui);
+            };
+        }
+
+        private void ConnectInventoryUI(UIName uiName)
+        {
+            var inventoryUI = _uiDic[uiName] as InventoryUI;
+            var stageGlobalUI = _uiDic[UIName.StageGlobalUI] as StageGlobalUI;
+
+            stageGlobalUI.ButtonToBottomMoveAway();
+            inventoryUI.OnUICloseRequested += (ui, uiOnly) =>
+            {
+                _uiOnly = uiOnly;
+                ClosePanel(ui);
+            };
+        }
+
+        private void ConnectCookingUI(UIName uiName)
+        {
+            var cookingUI = _uiDic[uiName] as CookingUI;
+            var stageGlobalUI = _uiDic[UIName.StageGlobalUI] as StageGlobalUI;
+
+            stageGlobalUI.ButtonToBottomMoveAway();
+            cookingUI.OnUIOpenRequested += OpenPanel;
+            cookingUI.OnUICloseRequested += (ui, uiOnly) =>
+            {
+                _uiOnly = uiOnly;
+                ClosePanel(ui);
+            };
+        }
+
+        private void ConnectFoodDescriptionUI(UIName uiName)
+        {
+            var foodDescriptionUI = _uiDic[uiName] as FoodDescriptionUI;
+
+            foodDescriptionUI.OnUICloseRequrested += ClosePanel;
         }
 
         #endregion
@@ -702,6 +849,128 @@ namespace SDW
             var gachaResultUI = _uiDic[uiName] as GachaResultUI;
             gachaResultUI.OnUIOpenRequested -= OpenPanel;
             gachaResultUI.OnUICloseRequested -= ClosePanel;
+        }
+
+        #endregion
+
+        #region Stage UI Disconnect Methods
+
+        private void DisconnectStageGlobalUI(UIName uiName)
+        {
+            var stageGlobalUI = _uiDic[uiName] as StageGlobalUI;
+            stageGlobalUI.OnUIOpenRequested -= OpenPanel;
+            stageGlobalUI.OnUICloseRequested -= (ui, uiOnly) =>
+            {
+                _uiOnly = uiOnly;
+                ClosePanel(ui);
+            };
+        }
+
+        private void DisconnectPopupSettingUI(UIName uiName)
+        {
+            var popupSettingUI = _uiDic[uiName] as PopupSettingUI;
+            var stageGlobalUI = _uiDic[UIName.StageGlobalUI] as StageGlobalUI;
+
+            stageGlobalUI.ButtonContainerMoveBack();
+            stageGlobalUI.PushPrevUI();
+            popupSettingUI.OnUICloseRequested -= ClosePanel;
+        }
+
+        private void DisconnectRouteSelectUI(UIName uiName)
+        {
+            var routeSelectUI = _uiDic[uiName] as RouteSelectUI;
+            routeSelectUI.OnUIOpenRequested -= OpenPanel;
+            routeSelectUI.OnUICloseRequested -= ClosePanel;
+        }
+
+        private void DisconnectPartyUI(UIName uiName)
+        {
+            var partyUI = _uiDic[uiName] as PartyUI;
+            partyUI.OnUIOpenRequested -= OpenPanel;
+            partyUI.OnUICloseRequested -= ClosePanel;
+        }
+
+        private void DisconnectPartyCharListUI(UIName uiName)
+        {
+            var partyCharListUI = _uiDic[uiName] as PartyCharListUI;
+            var stageGlobalUI = _uiDic[UIName.StageGlobalUI] as StageGlobalUI;
+            var partyUI = _uiDic[UIName.PartyUI] as PartyUI;
+
+            stageGlobalUI.ButtonContainerMoveBack();
+            partyUI.UIMoveBack();
+            partyCharListUI.OnUIOpenRequested -= OpenPanel;
+            partyCharListUI.OnUICloseRequested -= ClosePanel;
+        }
+
+        private void DisconnectCharInfoUI(UIName uiName)
+        {
+            var charInfoUI = _uiDic[uiName] as CharacterInfoUI;
+            charInfoUI.OnUICloseRequested -= ClosePanel;
+        }
+
+        private void DisconnectShoppingUI(UIName uiName)
+        {
+            var shoppingUI = _uiDic[uiName] as ShoppingUI;
+            var stageGlobalUI = _uiDic[UIName.StageGlobalUI] as StageGlobalUI;
+            var partyUI = _uiDic[UIName.PartyUI] as PartyUI;
+
+            if (!_uiOnly)
+            {
+                stageGlobalUI.ButtonToMoveBack();
+                stageGlobalUI.PushPrevUI();
+                partyUI.UIMoveBack();
+            }
+            shoppingUI.OnUICloseRequested -= (ui, uiOnly) =>
+            {
+                _uiOnly = uiOnly;
+                ClosePanel(ui);
+            };
+        }
+
+        private void DisconnectInventoryUI(UIName uiName)
+        {
+            var inventoryUI = _uiDic[uiName] as InventoryUI;
+            var stageGlobalUI = _uiDic[UIName.StageGlobalUI] as StageGlobalUI;
+            var partyUI = _uiDic[UIName.PartyUI] as PartyUI;
+
+            if (!_uiOnly)
+            {
+                stageGlobalUI.ButtonToMoveBack();
+                stageGlobalUI.PushPrevUI();
+                partyUI.UIMoveBack();
+            }
+            inventoryUI.OnUICloseRequested -= (ui, uiOnly) =>
+            {
+                _uiOnly = uiOnly;
+                ClosePanel(ui);
+            };
+        }
+
+        private void DisconnectCookingUI(UIName uiName)
+        {
+            var cookingUI = _uiDic[uiName] as CookingUI;
+            var stageGlobalUI = _uiDic[UIName.StageGlobalUI] as StageGlobalUI;
+            var partyUI = _uiDic[UIName.PartyUI] as PartyUI;
+
+            if (!_uiOnly)
+            {
+                stageGlobalUI.ButtonToMoveBack();
+                stageGlobalUI.PushPrevUI();
+                partyUI.UIMoveBack();
+            }
+            cookingUI.OnUIOpenRequested -= OpenPanel;
+            cookingUI.OnUICloseRequested -= (ui, uiOnly) =>
+            {
+                _uiOnly = uiOnly;
+                ClosePanel(ui);
+            };
+        }
+
+        private void DisconnectFoodDescriptionUI(UIName uiName)
+        {
+            var foodDescriptionUI = _uiDic[uiName] as FoodDescriptionUI;
+
+            foodDescriptionUI.OnUICloseRequrested -= ClosePanel;
         }
 
         #endregion
