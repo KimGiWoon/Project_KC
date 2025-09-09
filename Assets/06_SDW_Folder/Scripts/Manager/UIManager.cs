@@ -571,9 +571,14 @@ namespace SDW
         {
             var cookingUI = _uiDic[uiName] as CookingUI;
             var stageGlobalUI = _uiDic[UIName.StageGlobalUI] as StageGlobalUI;
+            var foodDescription = _uiDic[UIName.FoodDescriptionUI] as FoodDescriptionUI;
 
             stageGlobalUI.ButtonToBottomMoveAway();
-            cookingUI.OnUIOpenRequested += OpenPanel;
+            cookingUI.OnUIOpenRequested += (ui, description) =>
+            {
+                OpenPanel(ui);
+                foodDescription.SetFoodDescription(description);
+            };
             cookingUI.OnUICloseRequested += (ui, uiOnly) =>
             {
                 _uiOnly = uiOnly;
@@ -951,6 +956,7 @@ namespace SDW
             var cookingUI = _uiDic[uiName] as CookingUI;
             var stageGlobalUI = _uiDic[UIName.StageGlobalUI] as StageGlobalUI;
             var partyUI = _uiDic[UIName.PartyUI] as PartyUI;
+            var foodDescription = _uiDic[UIName.FoodDescriptionUI] as FoodDescriptionUI;
 
             if (!_uiOnly)
             {
@@ -958,7 +964,11 @@ namespace SDW
                 stageGlobalUI.PushPrevUI();
                 partyUI.UIMoveBack();
             }
-            cookingUI.OnUIOpenRequested -= OpenPanel;
+            cookingUI.OnUIOpenRequested -= (ui, description) =>
+            {
+                OpenPanel(ui);
+                foodDescription.SetFoodDescription(description);
+            };
             cookingUI.OnUICloseRequested -= (ui, uiOnly) =>
             {
                 _uiOnly = uiOnly;
