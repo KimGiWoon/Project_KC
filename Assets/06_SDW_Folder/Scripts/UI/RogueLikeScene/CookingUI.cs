@@ -35,6 +35,11 @@ public class CookingUI : BaseUI
     {
         _panelContainer.SetActive(false);
         _tweenAnimation = GetComponent<TweenAnimation>();
+    }
+
+    protected override void Start()
+    {
+        base.Start();
         _cookManager = CookManager.Instance;
     }
 

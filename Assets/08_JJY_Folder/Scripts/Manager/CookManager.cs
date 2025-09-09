@@ -485,14 +485,14 @@ namespace JJY
         {
             if (!playerIngredientInventory.ContainsKey(ing)) playerIngredientInventory[ing] = 0; // 없으면 0으로 초기화
             playerIngredientInventory[ing] += count; // 수량 증가
-            RefreshInventoryUI(); // UI 갱신
+            // RefreshInventoryUI(); // UI 갱신
         }
         public void SubtractIngredient(Ingredient ing, int count = 1)
         {
             if (!playerIngredientInventory.ContainsKey(ing)) return; // 없으면 무시
             playerIngredientInventory[ing] -= count; // 수량 차감
             if (playerIngredientInventory[ing] < 0) playerIngredientInventory[ing] = 0; // 음수 방지
-            RefreshInventoryUI(); // UI 갱신
+            // RefreshInventoryUI(); // UI 갱신
         }
 
         public void AddFood(RecipeData dish)

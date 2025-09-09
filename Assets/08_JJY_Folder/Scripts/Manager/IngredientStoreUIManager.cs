@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -7,64 +8,72 @@ using UnityEngine.UI;
 namespace JJY
 {
     [Serializable]
-    public class StoreSlotUI
+    public class StoreSlotUIData
     {
-        public Button button;                // 슬롯 버튼
-        public Image iconImage;              // 재료 아이콘
-        public TextMeshProUGUI ingNameText;  // 재료 이름
-        public TextMeshProUGUI priceText;    // 가격 텍스트
-        public Ingredient ingredient;
+        public Sprite iconSprite; // 재료 아이콘
+        public string ingNameText; // 재료 이름
+        public string priceText; // 가격 텍스트
+        public bool isEnabled;
+        public bool canInteractable;
     }
 
     public class IngredientStoreUIManager : MonoBehaviour
     {
-        [Header("Buttons")]
-        [SerializeField] Button outBtn;
-        [SerializeField] Button buyBtn;
-        [SerializeField] Button refreshBtn;
-
-        [Header("PopUp UI")]
-        [SerializeField] GameObject failedPanel;
-        [SerializeField] TextMeshProUGUI failedText;
-        [SerializeField] GameObject successedPanel;
+        public static IngredientStoreUIManager Instance { get; private set; }
 
         [Header("Store Slot (3)")]
-        [SerializeField] List<StoreSlotUI> slots; // 구매 가능한 목록 (버튼의 데이터는 모든 재료 가운데 랜덤으로 정해진다.)
+        [SerializeField]
+        private List<StoreSlotUIData> slots = new List<StoreSlotUIData>(); // 구매 가능한 목록 (버튼의 데이터는 모든 재료 가운데 랜덤으로 정해진다.)
 
         [Header("Config")]
-        [SerializeField] int refreshCost = 5;
-        [SerializeField] IngredientDatabase ingredientDatabase;
-        Dictionary<Ingredient, IngredientData> ingredientMap;
+        [SerializeField]
+        private int refreshCost = 5;
+        [SerializeField] private IngredientDatabase ingredientDatabase;
+        private Dictionary<Ingredient, IngredientData> ingredientMap;
 
-        class SlotData { public Ingredient ingredient; public int price; public bool sold; }
-        List<SlotData> slotDatas = new List<SlotData>();
-
-        int selectedSlotIndex = -1;
-        Ingredient[] allIngredients;
-        bool logAction = true;
-
-        void Start()
+        private class SlotData
         {
+            public Ingredient ingredient;
+            public int price;
+            public bool sold;
+        }
+
+        private List<SlotData> slotDatas = new List<SlotData>();
+
+        public int selectedSlotIndex = -1;
+        private Ingredient[] allIngredients;
+        private bool logAction = true;
+        [SerializeField] private ShoppingUI _shoppingUI;
+
+        private void Awake()
+        {
+            // 싱글톤 초기화: 이미 인스턴스가 있으면 자신을 파괴
+            if (Instance == null) Instance = this;
+            else
+            {
+                Destroy(gameObject);
+                return;
+            }
+        }
+
+        private void Start()
+        {
+            StartCoroutine(DelayedInit());
+        }
+
+        private IEnumerator DelayedInit()
+        {
+            yield return new WaitForSeconds(1f);
+
 #if UNITY_EDITOR
             TestAddYeopjeon();
 #endif
             InitIngredientIndexMap();
             InitIngredients();
             InitStoreSlots();
-
-            for (int i = 0; i < slots.Count; i++)
-            {
-                int idx = i;
-                if (slots[idx] != null && slots[idx].button != null)
-                {
-                    slots[idx].button.onClick.RemoveAllListeners();
-                    slots[idx].button.onClick.AddListener(() => OnSlotClicked(idx));
-                }
-            }
-            buyBtn.onClick.AddListener(TryBuyIngredient);
-            refreshBtn.onClick.AddListener(RefreshStore);
         }
-        void InitIngredients()
+
+        private void InitIngredients()
         {
             ingredientMap = new Dictionary<Ingredient, IngredientData>();
             if (ingredientDatabase == null)
@@ -79,10 +88,10 @@ namespace JJY
                 else Debug.LogWarning($"중복 IngredientData: {d.ingredient}");
             }
         }
-        void InitIngredientIndexMap()
+        private void InitIngredientIndexMap()
         {
             var values = Enum.GetValues(typeof(Ingredient));
-            List<Ingredient> tmp = new List<Ingredient>();
+            var tmp = new List<Ingredient>();
             foreach (Ingredient ing in values)
             {
                 if (ing == Ingredient.None) continue;
@@ -91,12 +100,12 @@ namespace JJY
             allIngredients = tmp.ToArray();
         }
 #if UNITY_EDITOR
-        void TestAddYeopjeon()
+        private void TestAddYeopjeon()
         {
             CoinManager.Instance.AddYeopjeon(500);
         }
 #endif
-        void InitStoreSlots()
+        private void InitStoreSlots()
         {
             slotDatas.Clear();
             for (int i = 0; i < slots.Count; i++)
@@ -107,8 +116,8 @@ namespace JJY
             for (int i = 0; i < slotDatas.Count; i++)
             {
                 // 랜덤 선택(중복 허용)
-                Ingredient chosen = allIngredients[UnityEngine.Random.Range(0, allIngredients.Length)];
-                
+                var chosen = allIngredients[UnityEngine.Random.Range(0, allIngredients.Length)];
+
                 IngredientData data = null;
                 if (ingredientMap != null) ingredientMap.TryGetValue(chosen, out data);
 
@@ -119,8 +128,6 @@ namespace JJY
 
             selectedSlotIndex = -1;
             UpdateSlotUI();
-
-            failedPanel.SetActive(false);
         }
 
         /// <summary>
@@ -134,7 +141,7 @@ namespace JJY
             for (int i = 0; i < slotDatas.Count; i++)
             {
                 // 랜덤 선택(중복 허용)
-                Ingredient chosen = allIngredients[UnityEngine.Random.Range(0, allIngredients.Length)];
+                var chosen = allIngredients[UnityEngine.Random.Range(0, allIngredients.Length)];
 
                 IngredientData data = null;
                 if (ingredientMap != null) ingredientMap.TryGetValue(chosen, out data);
@@ -151,7 +158,7 @@ namespace JJY
         /// <summary>
         /// 슬릇의 정보를 동기화한다.
         /// </summary>
-        void UpdateSlotUI()
+        public void UpdateSlotUI()
         {
             for (int i = 0; i < slots.Count; i++)
             {
@@ -161,40 +168,31 @@ namespace JJY
                 // name
                 if (slotUI.ingNameText != null)
                 {
-                    slotUI.ingNameText.text = data.ingredient != Ingredient.None ? data.ingredient.ToString() : "";
+                    slotUI.ingNameText = data.ingredient != Ingredient.None ? data.ingredient.ToString() : "";
                 }
 
                 IngredientData ingdata = null;
                 if (ingredientMap != null) ingredientMap.TryGetValue(data.ingredient, out ingdata);
                 if (ingdata != null && ingdata.icon != null)
                 {
-                    slotUI.iconImage.sprite = ingdata.icon;
-                    slotUI.iconImage.enabled = true;
+                    slotUI.iconSprite = ingdata.icon;
+                    slotUI.isEnabled = true;
                 }
 
                 // price
                 if (slotUI.priceText != null)
                 {
-                    slotUI.priceText.text = $"{data.price}";
+                    slotUI.priceText = $"{data.price}";
                 }
 
-                // Interactable
-                if (slotUI.button != null)
-                {
-                    // sold이면 비활성
-                    slotUI.button.interactable = !data.sold;
-                }
-
-                // 선택 표시
-                var img = slotUI.button != null ? slotUI.button.GetComponent<Image>() : null;
-                if (img != null)
-                {
-                    img.color = (selectedSlotIndex == i) ? Color.gray : Color.white;
-                }
+                // sold이면 비활성
+                slotUI.canInteractable = !data.sold;
             }
-            failedPanel.SetActive(false);
+
+            _shoppingUI.UpdateSlotUI(slots);
         }
-        void OnSlotClicked(int index)
+
+        public void OnSlotClicked(int index)
         {
             if (index < 0 || index >= slotDatas.Count) return;
 
@@ -213,16 +211,14 @@ namespace JJY
         {
             if (selectedSlotIndex < 0 || selectedSlotIndex >= slotDatas.Count)
             {
-                if (failedPanel != null) failedPanel.SetActive(true);
-                if (failedText != null) failedText.text = "아무런 아이템도 선택되지 않았습니다.";
+                _shoppingUI.ActiveFailedPanel("아무런 아이템도 선택되지 않았습니다.");
                 return;
             }
             var data = slotDatas[selectedSlotIndex];
 
             if (CoinManager.Instance.yeopjeon < data.price)
             {
-                if (failedPanel != null) failedPanel.SetActive(true);
-                if (failedText != null) failedText.text = "아이템을 구매하기 위한 재화가 부족합니다.";
+                _shoppingUI.ActiveFailedPanel("아이템을 구매하기 위한 재화가 부족합니다.");
                 return;
             }
 
@@ -232,8 +228,6 @@ namespace JJY
             slotDatas[selectedSlotIndex].sold = true;
             selectedSlotIndex = -1;
             UpdateSlotUI();
-            successedPanel.SetActive(true);
-
         }
     }
 }
