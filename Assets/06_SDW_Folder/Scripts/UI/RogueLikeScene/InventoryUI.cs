@@ -3,7 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 using SDW;
+using JJY;
 
 public class InventoryUI : BaseUI
 {
@@ -13,9 +15,19 @@ public class InventoryUI : BaseUI
     [SerializeField] private Button _relicButton;
     [SerializeField] private RectTransform _inventoryPanelRect;
     [SerializeField] private RectTransform[] _buttonsRect;
+
+    [Header("Description Components")]
+    [SerializeField] private GameObject _descriptionPanel;
+    [SerializeField] private Image _itemIcon;
+    [SerializeField] private TextMeshProUGUI _itemNameText;
+    [SerializeField] private TextMeshProUGUI _itemDescriptionText;
+    [SerializeField] private TextMeshProUGUI _itemEffectText;
+    [SerializeField] private Button _confirmButton;
+
     private TweenAnimation _tweenAnimation;
     private WaitForSeconds _waitForSeconds = new WaitForSeconds(1f);
     private bool _canInteract;
+    private InventoryUIManager _inventoryUIManager;
 
     public Action<UIName, bool> OnUICloseRequested;
 
@@ -25,16 +37,24 @@ public class InventoryUI : BaseUI
         _tweenAnimation = GetComponent<TweenAnimation>();
     }
 
+    protected override void Start()
+    {
+        base.Start();
+        _inventoryUIManager = InventoryUIManager.Instance;
+    }
+
     private void OnEnable()
     {
         _foodButton.onClick.AddListener(FoodButtonClicked);
         _relicButton.onClick.AddListener(RelicButtonClicked);
+        _confirmButton.onClick.AddListener(ConfirmButtonClicked);
     }
 
     private void OnDisable()
     {
         _foodButton.onClick.RemoveListener(FoodButtonClicked);
         _relicButton.onClick.RemoveListener(RelicButtonClicked);
+        _confirmButton.onClick.RemoveListener(ConfirmButtonClicked);
     }
 
     public override void Open()
@@ -42,6 +62,7 @@ public class InventoryUI : BaseUI
         StartCoroutine(InteractDelay());
         base.Open();
         _tweenAnimation.moveAway();
+        _inventoryUIManager.InitFoodInventory();
     }
 
     public override void Close()
@@ -59,6 +80,7 @@ public class InventoryUI : BaseUI
     private IEnumerator DelayedClose()
     {
         yield return new WaitForSeconds(_tweenAnimation.tweenTime);
+        _inventoryUIManager.SeenNewItems();
         base.Close();
     }
 
@@ -95,17 +117,39 @@ public class InventoryUI : BaseUI
         StartCoroutine(InteractDelay());
         yield return new WaitForSeconds(0.1f);
 
+        _descriptionPanel.SetActive(false);
         OnUICloseRequested?.Invoke(UIName.InventoryUI, false);
     }
 
-    //todo 인벤토리 관련 설정
+    public void PopupDescription(PopupDescription description)
+    {
+        _itemIcon.sprite = description.Sprite;
+        _itemNameText.text = description.Name;
+        _itemDescriptionText.text = description.Description;
+        _itemEffectText.text = description.Effect;
+        _descriptionPanel.SetActive(true);
+    }
+
+    public void SetContent(List<Button> itemList)
+    {
+        foreach (var item in itemList)
+        {
+            item.transform.SetParent(_contents.transform);
+            item.gameObject.SetActive(true);
+        }
+    }
 
     private void FoodButtonClicked()
     {
-        throw new NotImplementedException();
+        _inventoryUIManager.InitFoodInventory();
     }
     private void RelicButtonClicked()
     {
-        throw new NotImplementedException();
+        _inventoryUIManager.InitRelicInventory();
+    }
+
+    private void ConfirmButtonClicked()
+    {
+        _descriptionPanel.SetActive(false);
     }
 }
