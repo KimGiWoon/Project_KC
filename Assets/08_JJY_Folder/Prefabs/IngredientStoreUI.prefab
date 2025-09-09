@@ -3020,17 +3020,19 @@ MonoBehaviour:
     iconImage: {fileID: 3613839374647083316}
     ingNameText: {fileID: 2024121882620727991}
     priceText: {fileID: 7577592913606175121}
+    ingredient: 0
   - button: {fileID: 6303464984761438668}
     iconImage: {fileID: 5885343560559331586}
     ingNameText: {fileID: 5228207726358271232}
     priceText: {fileID: 561533189114099372}
+    ingredient: 0
   - button: {fileID: 2519159013396254878}
     iconImage: {fileID: 7599156646471537234}
     ingNameText: {fileID: 5340899220850232180}
     priceText: {fileID: 5446076403292041322}
+    ingredient: 0
   refreshCost: 5
-  ingredientIcons: []
-  basePricePerIngredient: 640000006400000064000000640000006400000064000000640000006400000064000000640000006400000064000000640000006400000064000000
+  ingredientDatabase: {fileID: 11400000, guid: ddb682d1b45fc6648b273d2d988f0189, type: 2}
 --- !u!1 &8640399531422528459
 GameObject:
   m_ObjectHideFlags: 0

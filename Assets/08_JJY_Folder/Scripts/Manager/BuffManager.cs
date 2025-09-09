@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -39,7 +38,7 @@ namespace JJY
 
         [Header("Debug")]
         [SerializeField] bool logActions = true;
-        [SerializeField] List<InventoryItem> testFoodInventory = new List<InventoryItem>(); // 테스트 인벤토리, CookManager의 인벤토리와 연결해야함.
+        // [SerializeField] List<InventoryItem> testRelicInventory = new List<InventoryItem>(); // 테스트 인벤토리, CookManager의 인벤토리와 연결해야함.
         // 활성 버프 리스트
         List<ActiveBuff> activeBuffs = new List<ActiveBuff>();
 
@@ -60,15 +59,17 @@ namespace JJY
             InitFoodIcon();
         }
 #if UNITY_EDITOR
-        void Start()
-        {
-            // for (int i = 0; i < testFoodInventory.Count; i++)
-            // {
-            //     CookManager.Instance.AddFood(testFoodInventory[i].recipe);
-            //     if (logActions) Debug.Log($"{testFoodInventory[i].recipe.recipeName}추가됨");
-            // }
-            // InitFoodIcon();
-        }
+        // void Start()
+        // {
+        //     for (int i = 0; i < testRelicInventory.Count; i++)
+        //     {
+        //         if (testRelicInventory[i].relic == null && testRelicInventory[i].recipe == null) continue;
+        //         if (testRelicInventory[i].relic != null) RelicDropManager.Instance.GetRelic(testRelicInventory[i].relic);
+        //         if (testRelicInventory[i].recipe != null) CookManager.Instance.AddFood(testRelicInventory[i].recipe);
+        //         // if (logActions) Debug.Log($"{testRelicInventory[i].relic.relicEnName}추가됨");
+        //     }
+        //     InitFoodIcon();
+        // }
 #endif
         void Update()
         {
