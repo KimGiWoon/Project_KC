@@ -11,6 +11,7 @@ public class PartyCharListUI : BaseUI
     [SerializeField] private GameObject _scrollContents;
     [SerializeField] private Button _infoButton;
     [SerializeField] private Button _closeButton;
+    [SerializeField] private GameObject _partyWarningPanel;
     private TweenAnimation _tweenAnimation;
 
     public Action<UIName> OnUIOpenRequested;

@@ -46,6 +46,7 @@
         CharInfoUI,
         ShoppingUI,
         InventoryUI,
-        CookingUI
+        CookingUI,
+        FoodDescriptionUI
     }
 }

@@ -13,6 +13,7 @@ public class CookingUI : BaseUI
     [SerializeField] private Image _foodImage;
 
     [Header("Buttons")]
+    [SerializeField] private Button _foodInfoButton;
     [SerializeField] private Button _resetButton;
     [SerializeField] private Button _cookButton;
 
@@ -24,6 +25,7 @@ public class CookingUI : BaseUI
     private WaitForSeconds _waitForSeconds = new WaitForSeconds(1f);
     private bool _canInteract;
 
+    public Action<UIName> OnUIOpenRequested;
     public Action<UIName, bool> OnUICloseRequested;
 
     private void Awake()
@@ -34,12 +36,14 @@ public class CookingUI : BaseUI
 
     private void OnEnable()
     {
+        _foodInfoButton.onClick.AddListener(FoodInfoButtonClicked);
         _resetButton.onClick.AddListener(ResetButtonClicked);
         _cookButton.onClick.AddListener(CookButtonClicked);
     }
 
     private void OnDisable()
     {
+        _foodInfoButton.onClick.RemoveListener(FoodInfoButtonClicked);
         _resetButton.onClick.RemoveListener(ResetButtonClicked);
         _cookButton.onClick.RemoveListener(CookButtonClicked);
     }
@@ -106,6 +110,12 @@ public class CookingUI : BaseUI
     }
 
     //todo 요리 관련 설정
+
+    private void FoodInfoButtonClicked()
+    {
+        //todo food 관련 정보도 같이 보내야 함
+        OnUIOpenRequested?.Invoke(UIName.FoodDescriptionUI);
+    }
 
     private void ResetButtonClicked()
     {

@@ -146,6 +146,7 @@ namespace SDW
                 case UIName.ShoppingUI: ConnectShoppingUI(uiName); break;
                 case UIName.InventoryUI: ConnectInventoryUI(uiName); break;
                 case UIName.CookingUI: ConnectCookingUI(uiName); break;
+                case UIName.FoodDescriptionUI: ConnectFoodDescriptionUI(uiName); break;
             }
         }
 
@@ -252,9 +253,9 @@ namespace SDW
                 case UIName.ShoppingUI: DisconnectShoppingUI(uiName); break;
                 case UIName.InventoryUI: DisconnectInventoryUI(uiName); break;
                 case UIName.CookingUI: DisconnectCookingUI(uiName); break;
+                case UIName.FoodDescriptionUI: DisconnectFoodDescriptionUI(uiName); break;
             }
         }
-
         /// <summary>
         /// InGameScene에 맞는 UI 패널을 초기화하고 연결
         /// </summary>
@@ -572,11 +573,19 @@ namespace SDW
             var stageGlobalUI = _uiDic[UIName.StageGlobalUI] as StageGlobalUI;
 
             stageGlobalUI.ButtonToBottomMoveAway();
+            cookingUI.OnUIOpenRequested += OpenPanel;
             cookingUI.OnUICloseRequested += (ui, uiOnly) =>
             {
                 _uiOnly = uiOnly;
                 ClosePanel(ui);
             };
+        }
+
+        private void ConnectFoodDescriptionUI(UIName uiName)
+        {
+            var foodDescriptionUI = _uiDic[uiName] as FoodDescriptionUI;
+
+            foodDescriptionUI.OnUICloseRequrested += ClosePanel;
         }
 
         #endregion
@@ -949,11 +958,19 @@ namespace SDW
                 stageGlobalUI.PushPrevUI();
                 partyUI.UIMoveBack();
             }
+            cookingUI.OnUIOpenRequested -= OpenPanel;
             cookingUI.OnUICloseRequested -= (ui, uiOnly) =>
             {
                 _uiOnly = uiOnly;
                 ClosePanel(ui);
             };
+        }
+
+        private void DisconnectFoodDescriptionUI(UIName uiName)
+        {
+            var foodDescriptionUI = _uiDic[uiName] as FoodDescriptionUI;
+
+            foodDescriptionUI.OnUICloseRequrested -= ClosePanel;
         }
 
         #endregion
