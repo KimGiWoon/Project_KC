@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using SDW;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -31,6 +32,8 @@ namespace JJY
         [SerializeField] private IngredientDatabase ingredientDatabase;
         private Dictionary<Ingredient, IngredientData> ingredientMap;
 
+        private CoinManager _coin;
+
         private class SlotData
         {
             public Ingredient ingredient;
@@ -59,6 +62,7 @@ namespace JJY
         private void Start()
         {
             StartCoroutine(DelayedInit());
+            _coin = GameManager.Instance.Coin;
         }
 
         private IEnumerator DelayedInit()
@@ -102,7 +106,7 @@ namespace JJY
 #if UNITY_EDITOR
         private void TestAddYeopjeon()
         {
-            CoinManager.Instance.AddYeopjeon(500);
+            _coin.AddYeopjeon(500);
         }
 #endif
         private void InitStoreSlots()
@@ -135,8 +139,8 @@ namespace JJY
         /// </summary>
         public void RefreshStore()
         {
-            if (CoinManager.Instance.yeopjeon < 5) return; // 새로고침 시 5엽전 소모.
-            CoinManager.Instance.SubtractYeopjeon(5);
+            if (_coin.yeopjeon < 5) return; // 새로고침 시 5엽전 소모.
+            _coin.SubtractYeopjeon(5);
 
             for (int i = 0; i < slotDatas.Count; i++)
             {
@@ -153,7 +157,7 @@ namespace JJY
 
             selectedSlotIndex = -1;
             UpdateSlotUI();
-            if (logAction) Debug.Log($"상점 새로고침:엽전 {CoinManager.Instance.yeopjeon}개 보유중");
+            if (logAction) Debug.Log($"상점 새로고침:엽전 {_coin.yeopjeon}개 보유중");
         }
         /// <summary>
         /// 슬릇의 정보를 동기화한다.
@@ -216,14 +220,14 @@ namespace JJY
             }
             var data = slotDatas[selectedSlotIndex];
 
-            if (CoinManager.Instance.yeopjeon < data.price)
+            if (_coin.yeopjeon < data.price)
             {
                 _shoppingUI.ActiveFailedPanel("아이템을 구매하기 위한 재화가 부족합니다.");
                 return;
             }
 
-            CoinManager.Instance.SubtractYeopjeon(data.price);
-            if (logAction) Debug.Log($"아이템 {data.ingredient} 구매: 엽전 {CoinManager.Instance.yeopjeon}개 보유중");
+            _coin.SubtractYeopjeon(data.price);
+            if (logAction) Debug.Log($"아이템 {data.ingredient} 구매: 엽전 {_coin.yeopjeon}개 보유중");
             CookManager.Instance.playerIngredientInventory[data.ingredient]++;
             slotDatas[selectedSlotIndex].sold = true;
             selectedSlotIndex = -1;

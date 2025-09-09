@@ -7,16 +7,9 @@ namespace JJY
     // TODO : GameManager 연결
     public class CoinManager : MonoBehaviour
     {
-        public static CoinManager Instance { get; private set; }
-        void Awake()
+        // public static CoinManager Instance { get; private set; }
+        private void Awake()
         {
-            if (Instance == null)
-            {
-                Instance = this;
-                DontDestroyOnLoad(gameObject);
-            }
-            else Destroy(gameObject);
-
             // TODO : Firebase와 연동
             items.Add(beek, 0);
             items.Add(fineDining, 0);
@@ -26,15 +19,16 @@ namespace JJY
         public int yeopjeon { get; private set; } // 전투에서 획득, 소모하는 재화. 서버에 저장할 필요 없음.
         public int totalYeopjeon { get; private set; } // 이번 전투에서 얻은 총 재화량
         public int starCandy { get; private set; } // 인게임 재화, GameManager의 변수명 변경해야함. (Fire base)
+
         public int shiningStarCandy { get; private set; } // 인게임 유료 재화, 변수명 변경해야함. (Fire base)
         // 아웃게임 아이템
         private Dictionary<string, int> items = new Dictionary<string, int>();
         private string _beek = "Beek's Recipe Book";
         private string _fineDining = "Fine Dining Recipe Book";
         private string _masterChef = "Master Chef Recipe Book";
-        public string beek { get { return _beek; } }
-        public string fineDining { get { return _fineDining; } }
-        public string masterChef { get { return _masterChef; } }
+        public string beek => _beek;
+        public string fineDining => _fineDining;
+        public string masterChef => _masterChef;
         public Action OnItemsChanged;
 
         /// <summary>
@@ -136,7 +130,6 @@ namespace JJY
 
             shiningStarCandy -= value;
         }
-
 
 #if UNITY_EDITOR
         /// <summary>

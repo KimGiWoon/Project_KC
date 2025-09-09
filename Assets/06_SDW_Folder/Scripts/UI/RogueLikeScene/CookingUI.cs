@@ -28,7 +28,7 @@ public class CookingUI : BaseUI
     private WaitForSeconds _waitForSeconds = new WaitForSeconds(1f);
     private bool _canInteract;
 
-    public Action<UIName, FoodDescription> OnUIOpenRequested;
+    public Action<UIName, PopupDescription> OnUIOpenRequested;
     public Action<UIName, bool> OnUICloseRequested;
 
     private void Awake()
@@ -63,6 +63,7 @@ public class CookingUI : BaseUI
         base.Open();
         _tweenAnimation.moveAway();
         _cookManager.RefreshInventoryUI();
+        _cookManager.UpdateResultButton(); // result 버튼 활성화 여부 반영
     }
 
     public override void Close()
@@ -135,6 +136,7 @@ public class CookingUI : BaseUI
     public void SetFoodInfoButton(Sprite sprite, bool isActive)
     {
         _foodImage.gameObject.SetActive(isActive);
+        // _foodInfoButton.interactable = isActive;
 
         if (!isActive) return;
 

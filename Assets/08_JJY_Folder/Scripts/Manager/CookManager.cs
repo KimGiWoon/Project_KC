@@ -222,7 +222,6 @@ namespace JJY
 
         private IEnumerator SetContentsInit()
         {
-            // yield return new WaitForSeconds(0.1f);
             yield return null;
             var ingredientsList = new List<GameObject>();
 
@@ -373,7 +372,7 @@ namespace JJY
 
         // ---------------------
         // 선택된 조합이 레시피와 정확히 일치하면 Cook 버튼을 활성/세팅
-        private void UpdateResultButton()
+        public void UpdateResultButton()
         {
             if (recipes.TryGetValue(selected, out var dish)) // 레시피 일치 확인
                 _cookingUI.SetFoodInfoButton(dish.image, true);
@@ -447,7 +446,7 @@ namespace JJY
         }
 
         // 상세설명 Image, Text 변경
-        public FoodDescription InitDescription()
+        public PopupDescription InitDescription()
         {
             Sprite sprite = null;
             string foodName = "";
@@ -459,14 +458,14 @@ namespace JJY
                 sprite = dish.image; // TODO : Addressable
                 foodName = dish.recipeName;
                 foodEffect = dish.description; // TODO : CSV
-                foodDescription = dish.description2;
+                foodDescription = dish.effect;
             }
 
-            return new FoodDescription
+            return new PopupDescription
             {
                 Sprite = sprite,
-                FoodName = foodName,
-                FoodEffect = foodEffect,
+                Name = foodName,
+                Effect = foodEffect,
                 Description = foodDescription
             };
         }
