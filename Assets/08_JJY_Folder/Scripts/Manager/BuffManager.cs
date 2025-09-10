@@ -28,7 +28,6 @@ namespace JJY
     // 전투에만 포함되는 매니저. 전투끝나고 노드씬으로 이동 시 사라짐.
     public class BuffManager : MonoBehaviour
     {
-        public static BuffManager Instance { get; private set; }
         [SerializeField] BattleManager btManager;
 
         List<MyCharacterController> downed = new List<MyCharacterController>();
@@ -39,55 +38,45 @@ namespace JJY
 
         [Header("Debug")]
         [SerializeField] bool logActions = true;
-        // [SerializeField] List<InventoryItem> testRelicInventory = new List<InventoryItem>(); // 테스트 인벤토리, CookManager의 인벤토리와 연결해야함.
+        // [SerializeField] List<InventoryItem> testInventory = new List<InventoryItem>();
         // 활성 버프 리스트
         List<ActiveBuff> activeBuffs = new List<ActiveBuff>();
 
-
-        void Awake()
+        void Start()
         {
-            if (Instance == null) Instance = this;
-            else
-            {
-                Destroy(gameObject);
-                return;
-            }
-
+            
+// #if UNITY_EDITOR
+//             for (int i = 0; i < testInventory.Count; i++)
+//             {
+//                 if (testInventory[i].relic == null && testInventory[i].recipe == null) continue;
+//                 if (testInventory[i].relic != null) GameManager.Instance.InGameItem.AddItem(testInventory[i].relic);
+//                 if (testInventory[i].recipe != null) GameManager.Instance.InGameItem.AddItem(testInventory[i].recipe);
+//                 // if (logActions) Debug.Log($"{testRelicInventory[i].relic.relicEnName}추가됨");
+//             }
+// #endif
             InitFoodIcon();
         }
-        void OnEnable()
-        {
-            InitFoodIcon();
-        }
-#if UNITY_EDITOR
-        // void Start()
-        // {
-        //     for (int i = 0; i < testRelicInventory.Count; i++)
-        //     {
-        //         if (testRelicInventory[i].relic == null && testRelicInventory[i].recipe == null) continue;
-        //         if (testRelicInventory[i].relic != null) RelicDropManager.Instance.GetRelic(testRelicInventory[i].relic);
-        //         if (testRelicInventory[i].recipe != null) CookManager.Instance.AddFood(testRelicInventory[i].recipe);
-        //         // if (logActions) Debug.Log($"{testRelicInventory[i].relic.relicEnName}추가됨");
-        //     }
-        //     InitFoodIcon();
-        // }
-#endif
+
         void Update()
         {
             if (activeBuffs.Count == 0) return;
 
             float dt = Time.deltaTime;
-            for (int i = activeBuffs.Count - 1; i >= 0; i--)
+            if (CharacterSelectManager.Instance._isFastGame)
             {
-                activeBuffs[i].remaining -= dt;
-                if (activeBuffs[i].remaining <= 0f)
-                {
-                    // 만료 시 원상복구
-                    if (logActions) Debug.Log($"[BuffManager] 스탯 복구됨 : {activeBuffs[i].effect.type}");
-                    RemoveBuffEffect(activeBuffs[i]);
-                    activeBuffs.RemoveAt(i);
-                }
+                dt *= 2f;
             }
+            for (int i = activeBuffs.Count - 1; i >= 0; i--)
+                {
+                    activeBuffs[i].remaining -= dt;
+                    if (activeBuffs[i].remaining <= 0f)
+                    {
+                        // 만료 시 원상복구
+                        if (logActions) Debug.Log($"[BuffManager] 스탯 복구됨 : {activeBuffs[i].effect.type}");
+                        RemoveBuffEffect(activeBuffs[i]);
+                        activeBuffs.RemoveAt(i);
+                    }
+                }
         }
 
         void InitFoodIcon()

@@ -1510,6 +1510,7 @@ MonoBehaviour:
   - {fileID: 1487809103}
   _failedPopup: {fileID: 1204586010}
   _failedText: {fileID: 1847162248}
+  _backgroundObject: {fileID: 0}
 --- !u!114 &49446179
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4189,9 +4190,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: 23
   _panelContainer: {fileID: 1734380148}
-  _moveLeftButton: {fileID: 1264879962}
-  _moveStraightButton: {fileID: 1572659941}
-  _moveRightButton: {fileID: 530500101}
   _partyButton: {fileID: 1175982980}
 --- !u!114 &144830860
 MonoBehaviour:
@@ -15477,9 +15475,11 @@ MonoBehaviour:
   Name: 25
   _panelContainer: {fileID: 1791916255}
   _scrollContents: {fileID: 498574631}
+  _confirmButton: {fileID: 0}
   _infoButton: {fileID: 843428866}
   _closeButton: {fileID: 2121422358}
   _partyWarningPanel: {fileID: 1669924460}
+  _backgroundObject: {fileID: 0}
 --- !u!114 &502902060
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17055,6 +17055,7 @@ GameObject:
   m_Component:
   - component: {fileID: 557514348}
   - component: {fileID: 557514351}
+  - component: {fileID: 557514352}
   m_Layer: 0
   m_Name: MyManagers
   m_TagString: Untagged
@@ -17089,6 +17090,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 255f98b165e186d468625db8a6943ee2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &557514352
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 557514346}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7abd9aa27f4ed742b5ff010569d6ff1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  btManager: {fileID: 0}
+  foodContent: {fileID: 0}
+  foodBtnPrefab: {fileID: 0}
+  logActions: 1
+  testInventory:
+  - recipe: {fileID: 0}
+    relic: {fileID: 0}
+    isNew: 0
 --- !u!1 &558250671
 GameObject:
   m_ObjectHideFlags: 0
@@ -28085,6 +28106,7 @@ MonoBehaviour:
   _effectVolumeSlider: {fileID: 249989996}
   _giveUpButton: {fileID: 1553039625}
   _saveButton: {fileID: 946540565}
+  _backgroundObject: {fileID: 0}
 --- !u!1 &906620971
 GameObject:
   m_ObjectHideFlags: 0
@@ -37251,6 +37273,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: 26
   _panelContainer: {fileID: 1053845733}
+  _characterImage: {fileID: 0}
   _characterNameText: {fileID: 987263875}
   _startValueText: {fileID: 639992042}
   _classNameText: {fileID: 987263875}
@@ -43633,6 +43656,7 @@ MonoBehaviour:
   - {fileID: 751732736}
   - {fileID: 617903487}
   - {fileID: 1487809103}
+  _backgroundObject: {fileID: 0}
   _descriptionPanel: {fileID: 451381398}
   _itemIcon: {fileID: 1323557708}
   _itemNameText: {fileID: 758622761}
@@ -56455,7 +56479,6 @@ MonoBehaviour:
   relics: []
   relicResultUI: {fileID: 0}
   buffRelicManager: {fileID: 0}
-  acquiredRelicLists: []
 --- !u!4 &1885007603
 Transform:
   m_ObjectHideFlags: 0
@@ -61344,6 +61367,7 @@ MonoBehaviour:
   - {fileID: 751732736}
   - {fileID: 617903487}
   - {fileID: 1487809103}
+  _backgroundObject: {fileID: 0}
 --- !u!114 &2078897869
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -62578,7 +62602,6 @@ MonoBehaviour:
   relics: []
   relicResultUI: {fileID: 0}
   buffRelicManager: {fileID: 0}
-  acquiredRelicLists: []
 --- !u!4 &2123376125
 Transform:
   m_ObjectHideFlags: 0
