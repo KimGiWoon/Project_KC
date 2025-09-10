@@ -17,14 +17,13 @@ namespace JJY
         private Dictionary<Ingredient, RecipeData> recipes = new Dictionary<Ingredient, RecipeData>(); // 레시피 사전(조합마스크 -> 데이터)
         private Ingredient selected = Ingredient.None; // 현재 선택된 재료들의 비트마스크
         private int selectedCount = 0;
-        private List<InventoryItem> _playerFoodInventory = new List<InventoryItem>(); // 플레이어 음식 인벤토리
+        // private List<InventoryItem> _playerFoodInventory = new List<InventoryItem>(); // 플레이어 음식 인벤토리
 
-        public List<InventoryItem> playerFoodInventory
-        {
-            get => _playerFoodInventory;
-            private set => _playerFoodInventory = value;
-        }
-
+        // public List<InventoryItem> playerFoodInventory
+        // {
+        //     get => _playerFoodInventory;
+        //     private set => _playerFoodInventory = value;
+        // }
         private Dictionary<Ingredient, int> _playerIngredientInventory = new Dictionary<Ingredient, int>(); // 플레이어 재료 실제 보유량
 
         public Dictionary<Ingredient, int> playerIngredientInventory
@@ -42,9 +41,6 @@ namespace JJY
 
         [Header("Recipe / Slots")]
         [SerializeField] private List<RecipeData> recipeSO;
-
-        // [Header("Icons")]
-        // [SerializeField] List<Sprite> ingredientSprites; // 인덱스 기반 재료 아이콘(ingredientIndexMap 순서와 동일)
 
         [Header("Ingredient Data base")]
         [SerializeField]
@@ -76,7 +72,6 @@ namespace JJY
                 Destroy(gameObject);
                 return;
             }
-
             StartCoroutine(DelayedInit());
         }
 
@@ -121,16 +116,7 @@ namespace JJY
         private void InitRecipes()
         {
             recipes.Clear();
-            // recipes.Add(Ingredient.마늘 | Ingredient.기름, new RecipeData("구운 마늘 조각"));
-            // recipes.Add(Ingredient.마늘 | Ingredient.물, new RecipeData("마늘 즙"));
-            // recipes.Add(Ingredient.마늘 | Ingredient.빵, new RecipeData("마늘 빵"));
-            // recipes.Add(Ingredient.마늘 | Ingredient.면 | Ingredient.허브, new RecipeData("알리오 올리오"));
-            // recipes.Add(Ingredient.마늘 | Ingredient.고기 | Ingredient.양파, new RecipeData("마늘 돼지 볶음"));
-            // recipes.Add(Ingredient.마늘 | Ingredient.감자 | Ingredient.우유, new RecipeData("마늘 스프"));
-            // recipes.Add(Ingredient.마늘 | Ingredient.고추 | Ingredient.밥, new RecipeData("마늘 볶음밥"));
-            // recipes.Add(Ingredient.고기 | Ingredient.버터 | Ingredient.허브, new RecipeData("고기 스테이크"));
-            // recipes.Add(Ingredient.면 | Ingredient.우유 | Ingredient.버터, new RecipeData("크림 파스타"));
-            // recipes.Add(Ingredient.두부 | Ingredient.채소, new RecipeData("두부 채소 볶음"));
+
             if (recipeSO == null) return;
             foreach (var so in recipeSO)
             {
@@ -299,20 +285,13 @@ namespace JJY
         // 인벤토리 버튼 클릭 처리 (토글: 예약 추가/해제)
         private void OnInventoryButtonClicked(Ingredient ing)
         {
-            // 이미 예약되어 있다면 예약 해제(복구)
-            // if (reservedIngredients.ContainsKey(ing) && reservedIngredients[ing] > 0)
-            // {
-            //     ReleaseReservation(ing, 1); // 내부에서 UI 갱신
-            // }
-            // else
-            // {
+            
             // 예약 시 실제 재고의 '가용 수량' 확인
             int available = GetDisplayCount(ing); // actual - reserved
             if (available <= 0) return;
 
             // 예약 추가 (1개)
             ReserveIngredient(ing, 1); // 내부에서 UI 갱신 및 selected 처리
-            // }
         }
 
         // 예약 추가: UI 텍스트이 바로 차감되는 효과 (실제 playerIngredientInventory는 아직 줄지 않음)
@@ -361,10 +340,6 @@ namespace JJY
                 {
                     selectedSpriteList.Add(data.icon);
                 }
-
-                // int idx = GetIndexByIngredient(selectedList[i]); // 재료 인덱스 찾기
-                // if (img != null && ingredientSprites != null && idx >= 0 && idx < ingredientSprites.Count)
-                //     img.sprite = ingredientSprites[idx];       // 슬롯에 재료 아이콘 세팅
             }
 
             _cookingUI.SetRecipeSlots(selectedSpriteList);
@@ -393,12 +368,6 @@ namespace JJY
                 return;
             }
 
-            // selected에 포함된 재료들을 하나씩 소모
-            // foreach (Ingredient ing in GetIngredientsFromMask(selected))
-            // {
-            //     SubtractIngredient(ing, 1); // 수량 차감
-            // }
-
             // 예약된 재료들을 실제 재고에서 차감
             // (한 번에 적용 -> RefreshInventoryUI 한 번만 호출)
             foreach (var kv in new Dictionary<Ingredient, int>(reservedIngredients))
@@ -412,8 +381,8 @@ namespace JJY
                 }
             }
 
-            AddFood(dish);
-            Debug.Log($"{dish.recipeName} 완성! : {playerFoodInventory.Count}개 음식 보유중");
+            GameManager.Instance.InGameItem.AddItem(dish);
+            // Debug.Log($"{dish.recipeName} 완성! : {_inGameItem.inGameInventory.}개 음식 보유중");
 
             reservedIngredients.Clear();
             selectedCount = 0;
@@ -494,20 +463,19 @@ namespace JJY
             // RefreshInventoryUI(); // UI 갱신
         }
 
-        public void AddFood(RecipeData dish)
-        {
-            var item = new InventoryItem(dish);
-            _playerFoodInventory.Add(item);
-        }
-        public void SubtractFood(InventoryItem item)
-        {
-            _playerFoodInventory.Remove(item);
-        }
+        // public void AddFood(RecipeData dish)
+        // {
+        //     var item = new InventoryItem(dish);
+        //     _inGameItem.foodInventory.Add(item);
+        // }
+        // public void SubtractFood(InventoryItem item)
+        // {
+        //     _inGameItem.foodInventory.Remove(item);
+        // }
 
         #endregion
 
         #region 헬퍼
-
         // 마스크에서 포함된 재료 리스트 반환
         private Ingredient[] GetIngredientsFromMask(Ingredient mask)
         {
@@ -519,14 +487,6 @@ namespace JJY
             }
             return list.ToArray(); // 배열로 반환
         }
-        // // ingredientIndexMap에서 재료의 인덱스 찾기
-        // int GetIndexByIngredient(Ingredient ing)
-        // {
-        //     for (int i = 0; i < ingredientIndexMap.Length; i++)
-        //         if (ingredientIndexMap[i] == ing) return i;
-        //     return -1; // 못찾으면 -1 반환
-        // }
-
         #endregion
     }
 }
