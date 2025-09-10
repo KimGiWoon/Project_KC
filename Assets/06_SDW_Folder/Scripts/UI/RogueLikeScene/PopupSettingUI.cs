@@ -15,6 +15,7 @@ namespace SDW
         [SerializeField] private VolumeSliderController _effectVolumeSlider;
         [SerializeField] private Button _giveUpButton;
         [SerializeField] private Button _saveButton;
+        [SerializeField] private GameObject _backgroundObject;
         private TweenAnimation _tweenAnimation;
 
         public Action<UIName> OnUICloseRequested;
@@ -39,6 +40,7 @@ namespace SDW
 
         public override void Open()
         {
+            _backgroundObject.SetActive(true);
             base.Open();
             _tweenAnimation.moveAway();
         }
@@ -47,6 +49,7 @@ namespace SDW
         {
             _tweenAnimation.moveBack();
             StartCoroutine(DelayedClose());
+            _backgroundObject.SetActive(false);
         }
 
         private IEnumerator DelayedClose()

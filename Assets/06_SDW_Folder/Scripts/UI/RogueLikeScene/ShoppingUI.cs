@@ -25,6 +25,7 @@ namespace SDW
         [Header("ETC")]
         [SerializeField] private GameObject _failedPopup;
         [SerializeField] private TextMeshProUGUI _failedText;
+        [SerializeField] private GameObject _backgroundObject;
 
         private TweenAnimation _tweenAnimation;
         private WaitForSeconds _waitForSeconds = new WaitForSeconds(1f);
@@ -69,6 +70,7 @@ namespace SDW
 
         public override void Open()
         {
+            _backgroundObject.SetActive(true);
             StartCoroutine(InteractDelay());
             base.Open();
             _tweenAnimation.moveAway();
@@ -78,6 +80,7 @@ namespace SDW
         {
             _tweenAnimation.moveBack();
             StartCoroutine(DelayedClose());
+            _backgroundObject.SetActive(false);
         }
 
         private IEnumerator InteractDelay()

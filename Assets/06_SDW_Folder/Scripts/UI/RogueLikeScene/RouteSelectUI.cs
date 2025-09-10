@@ -9,9 +9,6 @@ namespace SDW
     public class RouteSelectUI : BaseUI
     {
         [Header("UI Components")]
-        [SerializeField] private Button _moveLeftButton;
-        [SerializeField] private Button _moveStraightButton;
-        [SerializeField] private Button _moveRightButton;
         [SerializeField] private Button _partyButton;
         private TextMeshProUGUI _partyButtonText;
 
@@ -28,17 +25,11 @@ namespace SDW
 
         private void OnEnable()
         {
-            // _moveLeftButton.onClick.AddListener(LeftButtonClicked);
-            // _moveStraightButton.onClick.AddListener(CenterButtonClicked);
-            // _moveRightButton.onClick.AddListener(RightButtonClicked);
             _partyButton.onClick.AddListener(PartyButtonClicked);
         }
 
         private void OnDisable()
         {
-            // _moveLeftButton.onClick.RemoveListener(LeftButtonClicked);
-            // _moveStraightButton.onClick.RemoveListener(CenterButtonClicked);
-            // _moveRightButton.onClick.RemoveListener(RightButtonClicked);
             _partyButton.onClick.RemoveListener(PartyButtonClicked);
         }
 
@@ -60,21 +51,6 @@ namespace SDW
         {
             yield return new WaitForSeconds(_tweenAnimation.tweenTime);
             base.Close();
-        }
-
-        private void LeftButtonClicked()
-        {
-            throw new NotImplementedException();
-        }
-
-        private void CenterButtonClicked()
-        {
-            throw new NotImplementedException();
-        }
-
-        private void RightButtonClicked()
-        {
-            throw new NotImplementedException();
         }
 
         private void PartyButtonClicked()

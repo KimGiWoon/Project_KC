@@ -13,6 +13,7 @@ namespace SDW
         [SerializeField] private Button _infoButton;
         [SerializeField] private Button _closeButton;
         [SerializeField] private GameObject _partyWarningPanel;
+        [SerializeField] private GameObject _backgroundObject;
         private TweenAnimation _tweenAnimation;
         private TeamFormationManager _teamManager;
 
@@ -23,11 +24,6 @@ namespace SDW
         {
             _panelContainer.SetActive(false);
             _tweenAnimation = GetComponent<TweenAnimation>();
-        }
-
-        protected override void Start()
-        {
-            base.Start();
         }
 
         private void OnEnable()
@@ -46,6 +42,7 @@ namespace SDW
 
         public override void Open()
         {
+            _backgroundObject.SetActive(true);
             _teamManager = TeamFormationManager.Instance;
             _teamManager.Initialize();
             base.Open();
@@ -57,6 +54,7 @@ namespace SDW
             _tweenAnimation.moveBack();
             _teamManager.ClearPrevFinalTeamSlots();
             StartCoroutine(DelayedClose());
+            _backgroundObject.SetActive(false);
         }
 
         private IEnumerator DelayedClose()

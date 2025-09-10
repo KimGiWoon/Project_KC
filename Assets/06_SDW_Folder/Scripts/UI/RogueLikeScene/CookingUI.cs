@@ -22,6 +22,7 @@ namespace SDW
         [SerializeField] private GameObject _contents;
         [SerializeField] private RectTransform _cookPanelRect;
         [SerializeField] private RectTransform[] _buttonsRect;
+        [SerializeField] private GameObject _backgroundObject;
 
         private CookManager _cookManager;
         private TweenAnimation _tweenAnimation;
@@ -59,6 +60,7 @@ namespace SDW
 
         public override void Open()
         {
+            _backgroundObject.SetActive(true);
             StartCoroutine(InteractDelay());
             base.Open();
             _tweenAnimation.moveAway();
@@ -70,6 +72,7 @@ namespace SDW
         {
             _tweenAnimation.moveBack();
             StartCoroutine(DelayedClose());
+            _backgroundObject.SetActive(false);
         }
 
         private IEnumerator InteractDelay()

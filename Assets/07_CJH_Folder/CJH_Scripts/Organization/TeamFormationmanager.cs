@@ -42,12 +42,15 @@ public class TeamFormationManager : MonoBehaviour
             _prevFinalTeamSlots.Add(new TeamCharacterInfo
             {
                 Sprite = finalTeamSlots[i].characterImage.sprite,
-                LevelText = finalTeamSlots[i].levelText.text
+                LevelText = finalTeamSlots[i].levelText.text,
+                Data = finalTeamSlots[i].characterData
             });
         }
 
         selectedTeam.Clear();
         PopulateOwnedCharacterGrid();
+        //todo finalTeamSlots에서 selectedTeam으로 추가해야 함
+        UpdateSelectedTeam();
         UpdateAllVisuals();
     }
 
@@ -64,6 +67,14 @@ public class TeamFormationManager : MonoBehaviour
             var slotScript = slotGO.GetComponent<SelectableCharacterSlot>();
             slotScript.Setup(characterData, this);
             selectableSlots.Add(slotScript);
+        }
+    }
+
+    private void UpdateSelectedTeam()
+    {
+        foreach (var finalTeam in finalTeamSlots)
+        {
+            selectedTeam.Add(finalTeam.characterData);
         }
     }
 
@@ -140,6 +151,11 @@ public class TeamFormationManager : MonoBehaviour
             return false;
         }
 
+        for (int i = 0; i < _prevFinalTeamSlots.Count; i++)
+        {
+            finalTeamSlots[i].characterButton.interactable = false;
+        }
+
         _lastSelectedCharacter = null;
         return true;
     }
@@ -149,7 +165,9 @@ public class TeamFormationManager : MonoBehaviour
         for (int i = 0; i < _prevFinalTeamSlots.Count; i++)
         {
             finalTeamSlots[i].characterImage.sprite = _prevFinalTeamSlots[i].Sprite;
+            finalTeamSlots[i].characterButton.interactable = false;
             finalTeamSlots[i].levelText.text = _prevFinalTeamSlots[i].LevelText;
+            finalTeamSlots[i].characterData = _prevFinalTeamSlots[i].Data;
             finalTeamSlots[i].gameObject.SetActive(true);
         }
 

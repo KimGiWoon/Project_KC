@@ -34,6 +34,7 @@ namespace SDW
         [SerializeField] private TextMeshProUGUI _activeSkillDescriptionText;
 
         [SerializeField] private Button _closeButton;
+        [SerializeField] private GameObject _backgroundObject;
 
         public Action<UIName> OnUICloseRequested;
 
@@ -50,6 +51,18 @@ namespace SDW
         private void OnDisable()
         {
             _closeButton.onClick.RemoveListener(CloseButtonClicked);
+        }
+
+        public override void Open()
+        {
+            base.Open();
+            _backgroundObject.SetActive(true);
+        }
+
+        public override void Close()
+        {
+            base.Close();
+            _backgroundObject.SetActive(false);
         }
 
         //todo UIManager에서 SetCharacterInfo를 호출하면서 data 전달이 필요함

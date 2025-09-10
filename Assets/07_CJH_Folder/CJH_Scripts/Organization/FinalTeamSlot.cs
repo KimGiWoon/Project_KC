@@ -7,9 +7,9 @@ public class FinalTeamSlot : MonoBehaviour
     [SerializeField] private GameObject characterInfoGroup;
     public Image characterImage;
     public TextMeshProUGUI levelText;
-    [SerializeField] private Button characterButton;
+    public Button characterButton;
 
-    private CharacterDataSO characterData;
+    public CharacterDataSO characterData;
     private TeamFormationManager manager;
 
     private void Start()
@@ -26,6 +26,7 @@ public class FinalTeamSlot : MonoBehaviour
         characterInfoGroup.SetActive(true);
         characterImage.sprite = data._characterSprite;
         levelText.text = "Lv." + data._chaLv;
+        characterButton.interactable = true;
     }
 
     public void DisplayEmpty()

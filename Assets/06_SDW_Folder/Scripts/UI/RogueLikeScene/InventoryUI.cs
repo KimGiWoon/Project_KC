@@ -16,6 +16,7 @@ namespace SDW
         [SerializeField] private Button _relicButton;
         [SerializeField] private RectTransform _inventoryPanelRect;
         [SerializeField] private RectTransform[] _buttonsRect;
+        [SerializeField] private GameObject _backgroundObject;
 
         [Header("Description Components")]
         [SerializeField] private GameObject _descriptionPanel;
@@ -60,6 +61,7 @@ namespace SDW
 
         public override void Open()
         {
+            _backgroundObject.SetActive(true);
             StartCoroutine(InteractDelay());
             base.Open();
             _tweenAnimation.moveAway();
@@ -70,6 +72,7 @@ namespace SDW
         {
             _tweenAnimation.moveBack();
             StartCoroutine(DelayedClose());
+            _backgroundObject.SetActive(false);
         }
 
         private IEnumerator InteractDelay()
