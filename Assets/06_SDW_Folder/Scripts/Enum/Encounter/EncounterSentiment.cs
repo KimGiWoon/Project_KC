@@ -1,9 +1,12 @@
-﻿namespace SDW
+namespace SDW
 {
     public enum EncounterSentiment
     {
         Good,
         Neutral,
-        Bad
+        Bad,
+        Fixed,
+        Subtlety,
+        None
     }
 }
