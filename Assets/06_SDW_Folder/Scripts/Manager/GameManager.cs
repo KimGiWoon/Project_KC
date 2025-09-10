@@ -63,6 +63,10 @@ namespace SDW
         private CoinManager _coin;
         public CoinManager Coin => _coin;
 
+        //# InGameItem
+        private InGameItemManager _inGameItem;
+        public InGameItemManager InGameItem => _inGameItem;
+
         //todo 추후 유료 관련 Manager로 이동해야 함
         [SerializeField] private bool _buyAdRemover;
         public bool BuyAdRemover => _buyAdRemover;
@@ -123,6 +127,7 @@ namespace SDW
 
             //# Coin & Item
             _coin = GetComponentInChildren<CoinManager>();
+            _inGameItem = GetComponentInChildren<InGameItemManager>();
         }
 
         /// <summary>
