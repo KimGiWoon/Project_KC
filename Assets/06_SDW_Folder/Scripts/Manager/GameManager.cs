@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using JJY;
+﻿using JJY;
 using UnityEngine;
 using KSH;
 
