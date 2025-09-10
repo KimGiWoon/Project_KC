@@ -61,6 +61,9 @@ public abstract class UnitBaseData : MonoBehaviour
     // 유닛의 데미지 받음
     public virtual void TakeDamage(float damage)
     {
+        // 최종데미지 계산
+        float finalDamage;
+
         // 보스가 아니면 넉백 가능
         if (gameObject.layer != LayerMask.NameToLayer("Boss"))
         {

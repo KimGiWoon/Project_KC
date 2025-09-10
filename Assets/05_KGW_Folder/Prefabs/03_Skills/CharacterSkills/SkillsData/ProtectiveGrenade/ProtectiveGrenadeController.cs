@@ -25,7 +25,6 @@ public class ProtectiveGrenadeController : MonoBehaviour
             if (!mon._isAlive) continue;
 
             mon.TakeDamage(_skillDamage);
-            Debug.Log($"{mon._monsterState._monEnName}몬스터에게 {_skillDamage}만큼 데미지를 가합니다.");
         }
 
         AllCharacterBarrier();
@@ -37,7 +36,8 @@ public class ProtectiveGrenadeController : MonoBehaviour
         foreach (var cha in _character._battleManager._characters)
         {
             cha._characterState._isBarrier = true;
-            Debug.Log($"{cha._characterState._chaEnName}에게 1회의 배리어를 부여했습니다.");
         }
+
+        Destroy(gameObject);
     }
 }

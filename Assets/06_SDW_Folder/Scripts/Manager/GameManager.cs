@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using JJY;
 using UnityEngine;
 using KSH;
 
@@ -54,8 +55,13 @@ namespace SDW
         private CharacterGacha _gacha;
         public CharacterGacha Gacha => _gacha;
 
+        //# Reward
         private RewardChangeManager _reward;
         public RewardChangeManager Reward => _reward;
+
+        //# Coin
+        private CoinManager _coin;
+        public CoinManager Coin => _coin;
 
         //todo 추후 유료 관련 Manager로 이동해야 함
         [SerializeField] private bool _buyAdRemover;
@@ -114,6 +120,9 @@ namespace SDW
             //# Gacha
             _gacha = GetComponentInChildren<CharacterGacha>();
             _reward = GetComponentInChildren<RewardChangeManager>();
+
+            //# Coin & Item
+            _coin = GetComponentInChildren<CoinManager>();
         }
 
         /// <summary>

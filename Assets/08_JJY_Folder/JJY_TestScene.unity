@@ -8962,7 +8962,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &548274581
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9128,6 +9128,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 44a9b1d79e051554ba84ac2522c3e28c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  battleManager: {fileID: 0}
 --- !u!4 &549374644
 Transform:
   m_ObjectHideFlags: 0
@@ -25206,6 +25207,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ecd19c60f5f1f54aa67c3255ef8c506, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  relicDetailImage: {fileID: 0}
+  relicDetailName: {fileID: 0}
+  relicDetailDescription1: {fileID: 0}
+  relicDetailDescription2: {fileID: 0}
+  DetailUI: {fileID: 0}
+  backButton: {fileID: 0}
 --- !u!224 &1546649771
 RectTransform:
   m_ObjectHideFlags: 0
@@ -25852,6 +25859,10 @@ PrefabInstance:
     - target: {fileID: 7653813201108885930, guid: f7ccdd5c9c7d7c84980de33bc26319ae, type: 3}
       propertyPath: m_Name
       value: IngredientStoreUI
+      objectReference: {fileID: 0}
+    - target: {fileID: 7653813201108885930, guid: f7ccdd5c9c7d7c84980de33bc26319ae, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -27174,9 +27185,17 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 853889468}
     m_Modifications:
+    - target: {fileID: 2935936512584602966, guid: 17dd8fa13e3a5114a8f5f83b3640de66, type: 3}
+      propertyPath: ingredientButtonPrefab
+      value: 
+      objectReference: {fileID: 209856911067638695, guid: 3d4c1df5ca9658a44b42ff3c2d11c74c, type: 3}
     - target: {fileID: 4387778262173607704, guid: 17dd8fa13e3a5114a8f5f83b3640de66, type: 3}
       propertyPath: m_Name
       value: Cook UI
+      objectReference: {fileID: 0}
+    - target: {fileID: 4387778262173607704, guid: 17dd8fa13e3a5114a8f5f83b3640de66, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5274112207074410746, guid: 17dd8fa13e3a5114a8f5f83b3640de66, type: 3}
       propertyPath: m_Pivot.x
@@ -31592,6 +31611,10 @@ PrefabInstance:
     - target: {fileID: 5959022905253681451, guid: e6fbb333082d9004e99fe4133700c252, type: 3}
       propertyPath: m_Name
       value: Inventory UI
+      objectReference: {fileID: 0}
+    - target: {fileID: 5959022905253681451, guid: e6fbb333082d9004e99fe4133700c252, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7982544166911700611, guid: e6fbb333082d9004e99fe4133700c252, type: 3}
       propertyPath: m_Pivot.x
@@ -36022,6 +36045,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6e7e39aae17781e4f8ae0072b79efc9f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  content: {fileID: 0}
+  relicPrefab: {fileID: 0}
+  getButton: {fileID: 0}
+  DetailUI: {fileID: 0}
+  RelicWindow: {fileID: 0}
+  ignoreText: {fileID: 0}
+  relicDetailUI: {fileID: 0}
 --- !u!4 &2064304055
 Transform:
   m_ObjectHideFlags: 0

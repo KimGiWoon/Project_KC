@@ -1,13 +1,13 @@
-﻿캐릭터 스킬 ID	스킬 명	스킬 명(영문)	스킬 발동 타입	스킬 타겟 타입	스킬 효과 유형	스킬 발동 확률	스킬 지속 시간	스킬 효과 주기	스킬 타격 횟수	데미지 / 회복 계수	스킬 기타 계수	스킬 설명1,
-chaSkillID	chaSkillName	chaSkillNameEn	chaSkillType	chaSkillTargetType	chaSkillEfftectType	chaSkillChance	chaSkillDuration	chaSkillTick	chaSkillHit	chaSkillValue	chaEffectValue	chaSkillDescription1,
-int	string	string	string	string	string	float	float	float	int	float	float	string,
-12001	재생의 일격	RegenerativeStrike	Passive	FriendlyAll	Heal	50	-1	-1	1	0.8	-1	공격 시 <chaSkillChance>%로  모든 아군의 체력을 <chaAttack>*<chaSkillValue> 회복 시킨다.,
-12002	선봉장	Vanguard	Passive	FriendlyAll	BuffArm	100	-1	-1	1	1	30	모든 아군의 방어력을 <chaEffectValue> 만큼 상승시킨다.,
-12003	사기 저하	MoraleDecline	Passive	EnemySingle	DebuffDmg	50	3	-1	1	1.2	20	공격 시 <chaSkillChance>%로 적의 공격력을 <chaEffectValue> 만큼 감소 시킨다.,
-12004	강철의 파동	WaveOfSteel	Passive	EnemyAll	Direct	70	-1	-1	1	1.5	-1	공격 시 <chaSkillChance>%로 모든 적에게 <chaAttack>*<chaSkillValue>의 피해를 입힌다.,
-12005	상처 조준	AimForTheWound	Passive	EnemySingle	Direct	50	-1	-1	1	2.2	-1	공격 시 <chaSkillChance>%로 적에게 <chaAttack>*<chaSkillValue>의 피해를 입힌다.,
-12201	응원	Cheer	Active	FriendlyAll	BuffDmg	-1	5	-1	-1	-1	30	모든 아군의 공격력을 <chaEffectValue>% 만큼 상승시킨다.,
-12202	보호 수류탄	ProtectiveGrenade	Active	FriendlyAll	Barrier	-1	-1	-1	1	2	-1	모든 적에게 수류탄을 던져 <chaAttack>*<chaSkillValue>의 피해를 입히고, 모든 아군에게 배리어 1회를 부여한다.
-12203	괴로운 향기	PainfulScent	Active	EnemyAll	DebuffArm	-1	5	0.2	3	0.5	20	지독한 마늘향을 뿜어내어 <chaAttack>*<chaSkillValue> x <chaSkillHit>의 피해를 입히고, 모든 적의 방어력을  <chaEffectValue> 만큼 감소 시킨다.
-12204	늑대 베기	WolfSlash	Active	EnemyAll	Drain	-1	-1	0.2	3	1.2	-1	검을 크게 휘둘러 모든 적에게 <chaAttack>*<chaSkillValue> x <chaSkillHit>의 피해를 입히고, 입힌 피해량 만큼 HP를 회복한다.
-12205	수호령의 분노	WrathOfTheGuardian	Active	EnemySingle	Direct	-1	-1	0.2	5	1.2	-1	수호령을 불러내어 현재 공격 중인 대상에게 <chaAttack>*<chaSkillValue> x <chaSkillHit>의 강력한 피해를 입힌다.,
+﻿"캐릭터 스킬 ID	스킬 명	스킬 명(영문)	스킬 발동 타입	스킬 타겟 타입	스킬 효과 유형	스킬 발동 확률	스킬 지속 시간	스킬 효과 주기	스킬 타격 횟수	데미지 / 회복 계수	스킬 기타 계수	스킬 설명1",
+"chaSkillID	chaSkillName	chaSkillNameEn	chaSkillType	chaSkillTargetType	chaSkillEfftectType	chaSkillChance	chaSkillDuration	chaSkillTick	chaSkillHit	chaSkillValue	chaEffectValue	chaSkillDescription1",
+"int	string	string	string	string	string	float	float	float	int	float	float	string",
+"12001	재생의 일격	RegenerativeStrike	Passive	FriendlyAll	Heal	50	-1	-1	1	0.8	-1	공격 시 <chaSkillChance>%로  모든 아군의 체력을 <chaAttack>*<chaSkillValue> 회복 시킨다.",
+"12002	선봉장	Vanguard	Passive	FriendlyAll	BuffArm	100	-1	-1	1	1	0.3	모든 아군의 방어력을 <chaEffectValue> 만큼 상승시킨다.",
+"12003	사기 저하	MoraleDecline	Passive	EnemySingle	DebuffDmg	50	3	-1	1	1.2	0.2	공격 시 <chaSkillChance>%로 적의 공격력을 <chaEffectValue> 만큼 감소 시킨다.",
+"12004	강철의 파동	WaveOfSteel	Passive	EnemyAll	Direct	70	-1	-1	1	1.5	-1	공격 시 <chaSkillChance>%로 모든 적에게 <chaAttack>*<chaSkillValue>의 피해를 입힌다.",
+"12005	상처 조준	AimForTheWound	Passive	EnemySingle	Direct	50	-1	-1	1	2.2	-1	공격 시 <chaSkillChance>%로 적에게 <chaAttack>*<chaSkillValue>의 피해를 입힌다.",
+"12201	응원	Cheer	Active	FriendlyAll	BuffDmg	-1	5	-1	-1	-1	0.3	모든 아군의 공격력을 <chaEffectValue>% 만큼 상승시킨다.",
+"12202	보호 수류탄	ProtectiveGrenade	Active	FriendlyAll	Barrier	-1	-1	-1	1	2	-1	모든 적에게 수류탄을 던져 <chaAttack>*<chaSkillValue>의 피해를 입히고", 모든 아군에게 배리어 1회를 부여한다.
+"12203	괴로운 향기	PainfulScent	Active	EnemyAll	DebuffArm	-1	5	0.2	3	0.5	0.2	지독한 마늘향을 뿜어내어 <chaAttack>*<chaSkillValue> x <chaSkillHit>의 피해를 입히고", 모든 적의 방어력을  <chaEffectValue> 만큼 감소 시킨다.
+"12204	늑대 베기	WolfSlash	Active	EnemyAll	Drain	-1	-1	0.2	3	1.2	-1	검을 크게 휘둘러 모든 적에게 <chaAttack>*<chaSkillValue> x <chaSkillHit>의 피해를 입히고", 입힌 피해량 만큼 HP를 회복한다.
+"12205	수호령의 분노	WrathOfTheGuardian	Active	EnemySingle	Direct	-1	-1	0.2	5	1.2	-1	수호령을 불러내어 현재 공격 중인 대상에게 <chaAttack>*<chaSkillValue> x <chaSkillHit>의 강력한 피해를 입힌다.",

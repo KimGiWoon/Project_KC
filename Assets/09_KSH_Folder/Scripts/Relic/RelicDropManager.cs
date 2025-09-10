@@ -11,14 +11,14 @@ namespace KSH
     {
         [Header("유물 리스트")]
         [SerializeField] private List<RelicDatas> relics;
-        
+
         //유물 나오는 UI 있어야함
         [SerializeField] private RelicResultUI relicResultUI;
         [SerializeField] private BuffRelicManager buffRelicManager;
         public List<InventoryItem> acquiredRelicLists = new List<InventoryItem>();
-        
+
         private WeightedRandom<RelicGrade> relicRarityPicker;
-        
+
         private CharacterState characterState;
 
         //public System.Action OnRelicSkill;
@@ -34,42 +34,42 @@ namespace KSH
 
         private void Start()
         {
-            RarityPick(RelicKind.Debuff,3); //임시로 해둠
+            RarityPick(RelicKind.Debuff, 3); //임시로 해둠
         }
 
         //테스트용
         private void Update()
         {
-        //if (Input.GetKeyDown(KeyCode.R))
-        //{
-        //    OnRelicSkill?.Invoke();
-        //}
+            //if (Input.GetKeyDown(KeyCode.R))
+            //{
+            //    OnRelicSkill?.Invoke();
+            //}
         }
 
         public void RarityPick(RelicKind relicKind, int amount)
-        { 
+        {
             RelicGrade relicGrade;
-            
+
             if (relicKind == RelicKind.Debuff)
-                 relicGrade = RelicGrade.Debuff;
+                relicGrade = RelicGrade.Debuff;
             else
                 relicGrade = relicRarityPicker.GetRandom();
-            
-            List<RelicDatas> getRelicList = relics
+
+            var getRelicList = relics
                 .Where(relic => relic.relicGrade == relicGrade && !acquiredRelicLists.Any(r => r.relic == relic))
                 .ToList();
 
             for (int i = 0; i < getRelicList.Count; i++)
             {
-                RelicDatas relic = getRelicList[i];
+                var relic = getRelicList[i];
                 int index = Random.Range(i, getRelicList.Count);
                 getRelicList[i] = getRelicList[index];
                 getRelicList[index] = relic;
             }
-            
-            List<RelicDatas> result = getRelicList.Take(amount).ToList();
-            
-            relicResultUI.ShowRelic(result, relicGrade);
+
+            var result = getRelicList.Take(amount).ToList();
+
+            relicResultUI?.ShowRelic(result, relicGrade);
         }
 
         public void GetRelic(RelicDatas relic)
@@ -81,10 +81,10 @@ namespace KSH
             {
                 var item = new InventoryItem(relic);
                 acquiredRelicLists.Add(item); //아이템 추가
-            
+
                 Debug.Log($"{relic.relicName} 획득");
-                buffRelicManager.ApplyRelicEffect(relic); //아이템 효과적용
+                // buffRelicManager.ApplyRelicEffect(relic); //아이템 효과적용
             }
         }
-    }    
+    }
 }

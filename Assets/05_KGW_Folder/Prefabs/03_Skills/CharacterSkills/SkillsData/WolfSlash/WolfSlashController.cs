@@ -34,13 +34,13 @@ public class WolfSlashController : MonoBehaviour
             _attackRoutine = StartCoroutine(MonsterAttackCoroutine(mon));
         }
 
-        // 게임 종료가 되면 감소된 방어력 원복
         if (_character._battleManager._isGameOver)
         {
             AttackCoroutineStop();
         }
+
     }
-    
+
     // 몬스터 스킬 다단 히트 공격 코루틴
     public IEnumerator MonsterAttackCoroutine(MonsterController mon)
     {
@@ -49,15 +49,15 @@ public class WolfSlashController : MonoBehaviour
         while (count < _skillAttackHit)
         {
             mon.TakeDamage(_skillDamage);
-            Debug.Log($"{mon._monsterState._monEnName}가 {_skillDamage}의 데미지를 받았습니다.{count}");
             count++;
 
             // 공격한 만큼 캐릭터의 체력 회복
             _character.CharacterHealApply(_skillDamage);
-            Debug.Log($"{_character._characterState._chaEnName}의 체력이 {_skillDamage}만큼 회복됬습니다.");
 
             yield return _time;
         }
+
+        Destroy(gameObject, 0.5f);
     }
 
     // 코루틴 정지
