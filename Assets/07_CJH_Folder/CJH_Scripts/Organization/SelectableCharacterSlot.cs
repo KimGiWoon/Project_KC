@@ -25,7 +25,7 @@ public class SelectableCharacterSlot : MonoBehaviour
 
     private void OnClick()
     {
-        manager.ToggleCharacterSelection(characterData);
+        manager.SelectCharacter(characterData);
     }
 
     public void UpdateSelectionVisual(bool isSelected)

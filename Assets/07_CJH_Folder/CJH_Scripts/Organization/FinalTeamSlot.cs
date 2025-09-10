@@ -39,7 +39,7 @@ public class FinalTeamSlot : MonoBehaviour
     {
         if (characterData != null && manager != null)
         {
-            manager.ToggleCharacterSelection(characterData);
+            manager.SelectCharacter(characterData);
         }
     }
 }

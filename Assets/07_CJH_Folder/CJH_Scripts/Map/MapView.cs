@@ -185,7 +185,6 @@ namespace CJH
 
         private void UpdateBottomPanel()
         {
-            // 기존에 있던 버튼들을 모두 삭제
             foreach (Transform child in bottomPanelContainer)
             {
                 Destroy(child.gameObject);
@@ -194,38 +193,34 @@ namespace CJH
             Node currentNode = currentMap.CurrentNode;
             if (currentNode == null || currentNode.nextNodes == null || !currentNode.nextNodes.Any()) return;
 
-            // 다음 노드에 해당하는 MapNode들을 리스트 전달
-            List<MapNode> nextMapNodes = new List<MapNode>();
-            foreach (Node nextNodeData in currentNode.nextNodes)
+            List<MapNode> nextMapNodes = new();
+            foreach (var next in currentNode.nextNodes)
             {
-                if (nodeObjects.TryGetValue(nextNodeData.point, out MapNode targetMapNode))
-                {
-                    nextMapNodes.Add(targetMapNode);
-                }
+                if (nodeObjects.TryGetValue(next.point, out var mapNode))
+                    nextMapNodes.Add(mapNode);
             }
 
-            // MapNode들을 월드 좌표의 x값을 기준으로 정렬 (왼쪽 -> 오른쪽).
-            List<MapNode> sortedNextMapNodes = nextMapNodes.OrderBy(mapNode => mapNode.transform.position.x).ToList();
-
-            // 정렬된 순서대로 버튼을 생성하고 기능을 연결
-            foreach (MapNode targetMapNode in sortedNextMapNodes)
+            foreach (var targetNode in nextMapNodes)
             {
-                GameObject buttonObj = Instantiate(nodeButtonPrefab, bottomPanelContainer);
-                buttonObj.transform.localScale = Vector3.one;
-                Button button = buttonObj.GetComponent<Button>();
+                GameObject arrowBtn = Instantiate(nodeButtonPrefab, bottomPanelContainer);
+                arrowBtn.transform.localScale = Vector3.one;
 
-                Image buttonImage = buttonObj.GetComponent<Image>();
-                if (buttonImage != null)
+                // 화살표 방향 계산
+                Vector3 from = nodeObjects[currentNode.point].transform.position;
+                Vector3 to = targetNode.transform.position;
+                float angle = Mathf.Atan2(to.y - from.y, to.x - from.x) * Mathf.Rad2Deg;
+
+                Image arrowImage = arrowBtn.GetComponentInChildren<Image>();
+                if (arrowImage != null)
                 {
-                    // MapNode에게 Node 전달 받음
-                    buttonImage.sprite = targetMapNode.GetSpriteForNodeType();
+                    arrowImage.transform.rotation = Quaternion.Euler(0, 0, angle - 90f); // Sprite 기준 보정
                 }
 
-                button.onClick.AddListener(() =>
+                Button button = arrowBtn.GetComponent<Button>();
+                if (button != null)
                 {
-                    Debug.Log($"[MapView] UI 버튼 클릭 '{targetMapNode.gameObject.name}'으로 이동 시도.");
-                    SelectNode(targetMapNode);
-                });
+                    button.onClick.AddListener(() => SelectNode(targetNode));
+                }
             }
         }
 
