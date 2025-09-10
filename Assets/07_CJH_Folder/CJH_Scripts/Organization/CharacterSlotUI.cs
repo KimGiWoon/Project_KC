@@ -7,8 +7,8 @@ namespace CJH
 {
     public class CharacterSlotUI : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IPointerExitHandler
     {
-        public CharacterData currentCharacterData;
-        public UnityEvent<CharacterData> OnLongPress = new UnityEvent<CharacterData>();
+        public CharacterDataSO currentCharacterDataSO;
+        public UnityEvent<CharacterDataSO> OnLongPress = new UnityEvent<CharacterDataSO>();
 
         private Image characterImage;
         private const float requiredHoldTime = 1.0f;
@@ -21,11 +21,14 @@ namespace CJH
             characterImage = GetComponent<Image>();
         }
 
-        public void Setup(CharacterData data)
+        public void Setup(CharacterDataSO data)
         {
-            currentCharacterData = data;
-            characterImage.sprite = data.characterIcon;
-
+            currentCharacterDataSO = data;
+            // CharacterDataSO의 _characterSprite를 직접 사용
+            if (data._characterSprite != null)
+            {
+                characterImage.sprite = data._characterSprite;
+            }
         }
 
         public void OnPointerDown(PointerEventData eventData)
@@ -52,7 +55,7 @@ namespace CJH
                 pointerDownTimer += Time.deltaTime;
                 if (pointerDownTimer >= requiredHoldTime && !isLongPressTriggered)
                 {
-                    OnLongPress.Invoke(currentCharacterData);
+                    OnLongPress.Invoke(currentCharacterDataSO);
                     isLongPressTriggered = true;
                     isPointerDown = false;
                 }
