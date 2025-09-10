@@ -56,7 +56,8 @@ namespace JJY
             for (int i = 0; i < testInventory.Count; i++)
             {
                 if (testInventory[i].relic == null && testInventory[i].recipe == null) continue;
-                if (testInventory[i].relic != null) RelicDropManager.Instance.GetRelic(testInventory[i].relic);
+                // 유물은 GetRelic 호출 시 유뮬의 효과를 바로 적용하기 때문에 테스트 부적합. 테스트 하려면 RelicDropManager에서 주석처리 해야함.
+                // if (testInventory[i].relic != null) RelicDropManager.Instance.GetRelic(testInventory[i].relic);
                 if (testInventory[i].recipe != null) GameManager.Instance.InGameItem.AddItem(testInventory[i].recipe);
             }
             InitFoodInventory();
@@ -199,7 +200,7 @@ namespace JJY
             yield return null;
             var relicList = new List<Button>();
 
-            var list = RelicDropManager.Instance.acquiredRelicLists;
+            var list = GameManager.Instance.InGameItem.relicInventory;
 
             for (int i = list.Count - 1; i >= 0; i--)
             {
@@ -287,12 +288,10 @@ namespace JJY
                 }
             }
 
-
-            //TODO : GameManager.Instance>InGameItem.relicInventory와 연결해야함.
-            if (RelicDropManager.Instance.acquiredRelicLists != null &&
-                RelicDropManager.Instance.acquiredRelicLists.Count > 0)
+            if (GameManager.Instance.InGameItem.relicInventory != null &&
+                GameManager.Instance.InGameItem.relicInventory.Count > 0)
             {
-                foreach (var i in RelicDropManager.Instance.acquiredRelicLists)
+                foreach (var i in GameManager.Instance.InGameItem.relicInventory)
                 {
                     if (i.isNew) i.isNew = !i.isNew;
                 }
