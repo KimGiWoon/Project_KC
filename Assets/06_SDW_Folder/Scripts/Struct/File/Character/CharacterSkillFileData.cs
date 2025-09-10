@@ -35,7 +35,7 @@ namespace SDW
             ChaSkillTick = float.Parse(fields[8]);
             ChaSkillHit = int.Parse(fields[9]);
             ChaSkillValue = float.Parse(fields[10]);
-            ChaEffectValue = int.Parse(fields[11]);
+            ChaEffectValue = float.Parse(fields[11]);
             ChaSkillDescription = fields[12];
         }
     }
