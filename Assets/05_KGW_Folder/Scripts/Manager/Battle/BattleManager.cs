@@ -262,6 +262,23 @@ public class BattleManager : MonoBehaviour
         // 통합 체력 변화
         OnTotalHpChange?.Invoke(_monsterTotalCurrentHp, _monsterTotalMaxHp);
     }
+    
+    // 몬스터의 개별 체력 회복 확인
+    public void ReportMonsterHeal(float healValue)
+    {
+        // 통합 체력 계산
+        _monsterTotalCurrentHp += healValue;
+
+        // 현재 체력이 최대 체력보다 크면
+        if (_monsterTotalCurrentHp >= _monsterTotalMaxHp)
+        {
+            // 최대 체력으로 세팅
+            _monsterTotalCurrentHp = _monsterTotalMaxHp;
+        }
+
+        // 통합 체력 변화
+        OnTotalHpChange?.Invoke(_monsterTotalCurrentHp, _monsterTotalMaxHp);
+    }
 
     // 스폰위치 섞기 (Fisher Yates Shuffle 알고리즘 사용)
     private void SpawnPointShuffle<T>(IList<T> list)

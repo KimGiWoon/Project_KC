@@ -13,8 +13,8 @@ namespace KSH
         
         //유물 나오는 UI 있어야함
         [SerializeField] private RelicResultUI relicResultUI;
-        [SerializeField] private BuffRelicManager buffRelicManager;
-        public List<InventoryItem> acquiredRelicLists = new List<InventoryItem>();
+        //[SerializeField] private BuffRelicManager buffRelicManager;
+        //public List<InventoryItem> acquiredRelicLists = new List<InventoryItem>();
         
         private WeightedRandom<RelicGrade> relicRarityPicker;
         
@@ -55,7 +55,7 @@ namespace KSH
                 relicGrade = relicRarityPicker.GetRandom();
             
             List<RelicDatas> getRelicList = relics
-                .Where(relic => relic.relicGrade == relicGrade && !acquiredRelicLists.Any(r => r.relic == relic))
+                .Where(relic => relic.relicGrade == relicGrade && !GameManager.Instance.InGameItem.relicInventory.Any(r => r.relic == relic))
                 .ToList();
 
             for (int i = 0; i < getRelicList.Count; i++)
@@ -74,15 +74,14 @@ namespace KSH
         public void GetRelic(RelicDatas relic)
         {
             //리스트에 같은 유물이 있는지 Bool값
-            bool alreadyAcquired = acquiredRelicLists.Any(r => r.relic == relic);
+            bool alreadyAcquired = GameManager.Instance.InGameItem.relicInventory.Any(r => r.relic == relic);
 
             if (!alreadyAcquired) //만약 없다면
             {
-                var item = new InventoryItem(relic);
-                acquiredRelicLists.Add(item); //아이템 추가
+                GameManager.Instance.InGameItem.AddItem(relic);
             
                 Debug.Log($"{relic.relicName} 획득");
-                buffRelicManager.ApplyRelicEffect(relic); //아이템 효과적용
+                BuffRelicManager.Instance.ApplyRelicEffect(relic); //아이템 효과적용
             }
         }
     }    

@@ -2,15 +2,71 @@ using System.Collections.Generic;
 using UnityEngine;
 using SDW;
 using System.Collections;
+using System.Linq;
 
-public class BuffRelicManager : MonoBehaviour
+public class BuffRelicManager : SingletonManager<BuffRelicManager>
 {
     [SerializeField] private BattleManager battleManager;
     List<MyCharacterController> myCharacterController;
     List<MonsterController> monsterController;
+    private Dictionary<MyCharacterController, CharacterState> baseStates = new Dictionary<MyCharacterController, CharacterState>();
     
     private RelicDatas currentRelic;
     private int attackCount = 0;
+    private float defalutAvoid;
+
+    private void Awake()
+    {
+        foreach (var p in battleManager._characters)
+        {
+            defalutAvoid = p._characterState._chaAvoid;
+        }
+        
+        CacheBaseState();
+    }
+
+    private void CacheBaseState() //캐릭터 기본 스탯
+    {
+        foreach (var p in battleManager._characters)
+        {
+            CharacterState state = new CharacterState
+            {
+                _chaAtkSpeed = p._characterState._chaAtkSpeed,
+                _chaAttack = p._characterState._chaAttack,
+                _chaAvoid = p._characterState._chaAvoid,
+                _chaCritDmg = p._characterState._chaCritDmg,
+                _chaAccuracy = p._characterState._chaAccuracy,
+                _chaArmor = p._characterState._chaArmor,
+                _chaMaxHP = p._characterState._chaMaxHP,
+                _chaMPRecovery = p._characterState._chaMPRecovery,
+            };
+            
+            baseStates[p] = state;
+        }
+    }
+
+    private void ResetState(MyCharacterController p)
+    {
+        if (baseStates.TryGetValue(p, out CharacterState state))
+        {
+            p._characterState._chaAtkSpeed = state._chaAtkSpeed;
+            p._characterState._chaAttack = state._chaAttack;
+            p._characterState._chaAvoid = state._chaAvoid;
+            p._characterState._chaCritDmg = state._chaCritDmg;
+            p._characterState._chaAccuracy = state._chaAccuracy;
+            p._characterState._chaArmor = state._chaArmor;
+            p._characterState._chaMaxHP = state._chaMaxHP;
+            p._characterState._chaMPRecovery = state._chaMPRecovery;
+        }
+    }
+
+    private void ResetAll()
+    {
+        foreach (var p in battleManager._characters)
+        {
+            ResetState(p);
+        }
+    }
 
     private float AddStat(float stat, float percent)
     {
@@ -54,7 +110,7 @@ public class BuffRelicManager : MonoBehaviour
 
             if (relic.chaArmor != 0) //방어력
             {
-                p._characterState._chaArmor += AddStat(p._characterState._chaArmor, relic.chaArmor);
+                p._characterState._chaArmor += relic.chaArmor;
                 Debug.Log($"캐릭터 이름 {p._characterState._chaEnName},{relic.relicName}: 방어력 +{relic.chaArmor}% → 최종 {p._characterState._chaArmor}");
             }
 
@@ -111,18 +167,29 @@ public class BuffRelicManager : MonoBehaviour
         {
             case RelicTarget.Character: //유물 적용 대상이 Character
                 //기본 스탯만 올라가는 유물들
-                if (relic.relicRole == RelicRole.None && relic.relicIsPassive && relic.relicType == RelicType.None)
+                if (relic.relicRole == RelicRole.None && relic.relicIsPassive)
                 {
-                    if (relic.chaDrain != 0)
+                    if (relic.relicType == RelicType.None)
+                    {
+                        if (relic.chaDrain != 0)
+                        {
+                            foreach (var p in battleManager._characters)
+                            {
+                                p.OnRelicAttack -= OnRelicAttackHeal;
+                                p.OnRelicAttack += OnRelicAttackHeal;
+                            }
+                        }
+
+                        ApplyStatToCharacter(relic);    
+                    }
+                    else if (relic.relicType == RelicType.RelicNumber)
                     {
                         foreach (var p in battleManager._characters)
                         {
-                            p.OnRelicAttack -= OnRelicAttackHeal;
-                            p.OnRelicAttack += OnRelicAttackHeal;
+                            GameManager.Instance.InGameItem.OnItemChanged -= OnRelicNumberHandler;
+                            GameManager.Instance.InGameItem.OnItemChanged += OnRelicNumberHandler;
                         }
                     }
-
-                    ApplyStatToCharacter(relic);
                 }
                 //스킬을 쓸 때 스탯이 올라가는 유물
                 else if (relic.relicRole == RelicRole.None && !relic.relicIsPassive)
@@ -206,12 +273,20 @@ public class BuffRelicManager : MonoBehaviour
         CharacterNumberCheck();
         BattleChaCountCheck();
     }
+
+    private void OnRelicNumberHandler()
+    {
+        BufRelicCheck();
+        DebuffRelicCheck();   
+    }
     
     private void OnRelicAttackHeal() => CharacterHeal(currentRelic);
     private void OnRelicEffectStat() => ApplyStatToCharacter(currentRelic);
     private void OnRelicAttackStack() => AttackSpeedStack(currentRelic);
     private void MonsterDieBuff() => ApplyStatToCharacter(currentRelic);
     private void BattleChaCountCheck()=> BattleCharacterCheck(currentRelic);
+    private void BufRelicCheck() => RelicCountCheck(currentRelic, RelicGrade.Buf);
+    private void DebuffRelicCheck() => RelicCountCheck(currentRelic, RelicGrade.Debuff);
 
     private void Heal(MyCharacterController p, RelicDatas relic) //회복 기능
     {
@@ -278,16 +353,55 @@ public class BuffRelicManager : MonoBehaviour
         }
     }
 
-    private void BattleCharacterCheck(RelicDatas relic) 
+    private void BattleCharacterCheck(RelicDatas relic)
     {
+        if (relic.chaAvoid == 0) return;
+        //TODO : 누적되기전 값 캐싱해놓기
+        int aliveCount = battleManager._characterCount; //살아있는 캐릭터 수
+        
         foreach (var p in battleManager._characters)
         {
-            if (p._isAlive && relic.chaAvoid != 0)
+            if (p._isAlive)
             {
-                float avoid = p._characterState._chaAvoid;
-                p._characterState._chaAvoid = avoid * (1f + battleManager._characterCount * (relic.chaAvoid / 100f));
-                Debug.Log($"캐릭터 이름 {p._characterState._chaEnName},{relic.chaAvoid}: 회피율 +{relic.chaAvoid}% → 최종 {p._characterState._chaAvoid}");
+                float avoid = defalutAvoid;
+                float addAvoid = avoid * (aliveCount * (relic.chaAvoid * 0.01f));
+                p._characterState._chaAvoid = avoid + addAvoid;
+                
+                Debug.Log($"캐릭터 이름 {p._characterState._chaEnName},{relic.chaAvoid}: 회피율 +{aliveCount * (relic.chaAvoid / 100f)}% → 최종 {p._characterState._chaAvoid}");
             }
         }
+    }
+
+    private void RelicCountCheck(RelicDatas relic, RelicGrade grade)
+    {
+        ResetAll();
+        
+        int buffRelicCount = GameManager.Instance.InGameItem.relicInventory
+            .Count(r => r.relic.relicGrade == grade);
+
+        foreach (var p in battleManager._characters)
+        {
+            if (relic.chaAtkSpeed != 0)
+                p._characterState._chaAtkSpeed += AddRelicCountStat(baseStates[p]._chaAtkSpeed, relic.chaAtkSpeed, buffRelicCount);
+            if (relic.chaAttack != 0)
+                p._characterState._chaAttack += AddRelicCountStat(baseStates[p]._chaAttack, relic.chaAttack, buffRelicCount);
+            if (relic.chaAvoid != 0)    
+                p._characterState._chaAvoid += AddRelicCountStat(baseStates[p]._chaAvoid, relic.chaAvoid, buffRelicCount);
+            if (relic.chaCritDmg != 0)   
+                p._characterState._chaCritDmg += AddRelicCountStat(baseStates[p]._chaCritDmg, relic.chaCritDmg, buffRelicCount);
+            if (relic.chaAccuracy != 0)    
+                p._characterState._chaAccuracy += AddRelicCountStat(baseStates[p]._chaAccuracy, relic.chaAccuracy, buffRelicCount);
+            if (relic.chaArmor != 0)    
+                p._characterState._chaArmor += relic.chaArmor;
+            if (relic.chaHP != 0)    
+                p._characterState._chaMaxHP += AddRelicCountStat(baseStates[p]._chaMaxHP, relic.chaHP, buffRelicCount);
+            if (relic.chaMPRecovery != 0)
+                p._characterState._chaMPRecovery *= (1f + ((buffRelicCount * (relic.chaMPRecovery / 100f))));
+        }
+    }
+
+    private float AddRelicCountStat(float stat, float percent, int relicCount)
+    {
+        return stat * (relicCount * (percent / 100f));
     }
 }
