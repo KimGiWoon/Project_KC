@@ -1,72 +1,77 @@
 using System;
 using System.Collections;
 using UnityEngine;
-using SDW;
 using TMPro;
 using UnityEngine.UI;
 
-public class PopupSettingUI : BaseUI
+namespace SDW
 {
-    [Header("UI Components")]
-    [SerializeField] private TextMeshProUGUI _uidText;
-    [SerializeField] private VolumeSliderController _masterVolumeSlider;
-    [SerializeField] private VolumeSliderController _backgroundVolumeSlider;
-    [SerializeField] private VolumeSliderController _effectVolumeSlider;
-    [SerializeField] private Button _giveUpButton;
-    [SerializeField] private Button _saveButton;
-    private TweenAnimation _tweenAnimation;
-
-    public Action<UIName> OnUICloseRequested;
-
-    private void Awake()
+    public class PopupSettingUI : BaseUI
     {
-        _panelContainer.SetActive(false);
-        _tweenAnimation = GetComponent<TweenAnimation>();
-    }
+        [Header("UI Components")]
+        [SerializeField] private TextMeshProUGUI _uidText;
+        [SerializeField] private VolumeSliderController _masterVolumeSlider;
+        [SerializeField] private VolumeSliderController _backgroundVolumeSlider;
+        [SerializeField] private VolumeSliderController _effectVolumeSlider;
+        [SerializeField] private Button _giveUpButton;
+        [SerializeField] private Button _saveButton;
+        [SerializeField] private GameObject _backgroundObject;
+        private TweenAnimation _tweenAnimation;
 
-    private void OnEnable()
-    {
-        _giveUpButton.onClick.AddListener(GiveUpButtonClicked);
-        _saveButton.onClick.AddListener(SaveButtonClicked);
-    }
+        public Action<UIName> OnUICloseRequested;
 
-    private void OnDisable()
-    {
-        _giveUpButton.onClick.RemoveListener(GiveUpButtonClicked);
-        _saveButton.onClick.RemoveListener(SaveButtonClicked);
-    }
+        private void Awake()
+        {
+            _panelContainer.SetActive(false);
+            _tweenAnimation = GetComponent<TweenAnimation>();
+        }
 
-    public override void Open()
-    {
-        base.Open();
-        _tweenAnimation.moveAway();
-    }
+        private void OnEnable()
+        {
+            _giveUpButton.onClick.AddListener(GiveUpButtonClicked);
+            _saveButton.onClick.AddListener(SaveButtonClicked);
+        }
 
-    public override void Close()
-    {
-        _tweenAnimation.moveBack();
-        StartCoroutine(DelayedClose());
-    }
+        private void OnDisable()
+        {
+            _giveUpButton.onClick.RemoveListener(GiveUpButtonClicked);
+            _saveButton.onClick.RemoveListener(SaveButtonClicked);
+        }
 
-    private IEnumerator DelayedClose()
-    {
-        yield return new WaitForSeconds(_tweenAnimation.tweenTime);
-        base.Close();
-    }
+        public override void Open()
+        {
+            _backgroundObject.SetActive(true);
+            base.Open();
+            _tweenAnimation.moveAway();
+        }
 
-    private void GiveUpButtonClicked()
-    {
-        _masterVolumeSlider.Cancel();
-        _backgroundVolumeSlider.Cancel();
-        _effectVolumeSlider.Cancel();
-        //todo Lobby로 이동 vs MainLobbyUI Open 고민
-        //OnUIOpenRequested?.Invoke(UIName.MainLobbyUI);
-        OnUICloseRequested?.Invoke(UIName.PopupSettingUI);
-    }
+        public override void Close()
+        {
+            _tweenAnimation.moveBack();
+            StartCoroutine(DelayedClose());
+            _backgroundObject.SetActive(false);
+        }
 
-    private void SaveButtonClicked()
-    {
-        //todo 추후 관련 세팅을 저장해야 함
-        OnUICloseRequested?.Invoke(UIName.PopupSettingUI);
+        private IEnumerator DelayedClose()
+        {
+            yield return new WaitForSeconds(_tweenAnimation.tweenTime);
+            base.Close();
+        }
+
+        private void GiveUpButtonClicked()
+        {
+            _masterVolumeSlider.Cancel();
+            _backgroundVolumeSlider.Cancel();
+            _effectVolumeSlider.Cancel();
+            //todo Lobby로 이동 vs MainLobbyUI Open 고민
+            //OnUIOpenRequested?.Invoke(UIName.MainLobbyUI);
+            OnUICloseRequested?.Invoke(UIName.PopupSettingUI);
+        }
+
+        private void SaveButtonClicked()
+        {
+            //todo 추후 관련 세팅을 저장해야 함
+            OnUICloseRequested?.Invoke(UIName.PopupSettingUI);
+        }
     }
 }
