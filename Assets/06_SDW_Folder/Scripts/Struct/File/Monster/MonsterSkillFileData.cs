@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace SDW
 {
@@ -18,7 +18,7 @@ namespace SDW
         public float MonSkillTick;
         public int MonSkillHit;
         public float MonSkillValue;
-        public string MonEffectValue;
+        public float MonEffectValue;
         public SkillCC MonSkillCC;
         public string SkillDescription;
 
@@ -42,10 +42,10 @@ namespace SDW
             MonSkillTick = float.Parse(fields[11]);
             MonSkillHit = int.Parse(fields[12]);
             MonSkillValue = float.Parse(fields[13]);
-            MonEffectValue = fields[14];
+            MonEffectValue = float.Parse(fields[14]);
             MonSkillCC = (SkillCC)Enum.Parse(typeof(SkillCC), fields[15]);
             SkillDescription = fields[16];
-            ;
+            
         }
     }
 }

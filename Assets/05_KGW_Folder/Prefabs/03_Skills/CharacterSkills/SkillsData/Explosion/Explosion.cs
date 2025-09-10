@@ -14,6 +14,6 @@ public class Explosion : SkillDataSO
         ExplosionController explosionController = explosion.GetComponent<ExplosionController>();
 
         // 스킬의 데미지, 사거리 데이터 전달
-        explosionController.Init(base._skillDamage, base._skillRange);
+        //explosionController.Init(base._skillDamage, base._skillRange);
     }
 }

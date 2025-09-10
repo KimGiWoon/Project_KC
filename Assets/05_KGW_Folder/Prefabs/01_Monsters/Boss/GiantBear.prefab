@@ -299,6 +299,7 @@ MonoBehaviour:
   _attackCoolTimer: 0
   _moveDir: {x: 0, y: 0, z: 0}
   _gameSpeed: 0
+  _battleManager: {fileID: 0}
   _monsterData: {fileID: 11400000, guid: 436d8ae2a98747d47971bec028c6cfe8, type: 2}
   _monsterHp: {fileID: 0}
   _attackTargets: []
@@ -307,7 +308,11 @@ MonoBehaviour:
   _monsterState:
     _monID: 0
     _monName: 
+    _monEnName: 0
+    _monType: 0
     _monLevel: 0
+    _monBreak: 0
+    _breakGage: 0
     _monCurrentHP: 0
     _monMaxHP: 0
     _monAtkRange: 0
@@ -318,8 +323,15 @@ MonoBehaviour:
     _monAccuracy: 0
     _monAvoid: 0
     _monReg: 0
+    _monHPIncrase: 0
+    _monAttackIncrease: 0
+    _monArmorIncrease: 0
+    _monAvoidIncrease: 0
+    _monActiveSkill_1: {fileID: 11400000, guid: 5b1a9fc2697330b4cbab40789b3d582d, type: 2}
+    _monActiveSkill_2: {fileID: 11400000, guid: cec0ae30819b60149b8b7a68f27d921a, type: 2}
   _isDetect: 0
   _isFirst: 0
+  _isApplyPassive: 0
 --- !u!114 &8367841818794511618
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -23,6 +23,8 @@ public class MonsterController : UnitBaseData
     public bool _isDetect;
     public bool _isFirst;
     public bool _isApplyPassive;
+    private float _skill1Timer;
+    private float _skill2Timer;
     private RecallPointProvider _recallPointProvider;
     private MonsterController _monster;
     private float decreaseAttackValue;
@@ -36,6 +38,13 @@ public class MonsterController : UnitBaseData
         base.Awake();
 
         _monster = GetComponent<MonsterController>();
+    }
+
+    protected override void Update()
+    {
+        base.Update();
+
+        UseSkill();
     }
 
     private void OnDestroy()
@@ -68,9 +77,14 @@ public class MonsterController : UnitBaseData
         _monsterState._monArmorIncrease = _monsterData.MonArmorIncrease;
         _monsterState._monAvoidIncrease = _monsterData.MonAvoidIncrease;
 
+        _monsterState._monActiveSkill_1 = _monsterData._monActiveSkill_1;
+        _monsterState._monActiveSkill_2 = _monsterData._monActiveSkill_2;
+
         _moveDir = Vector3.left;
         _isAlive = true;
         _isApplyPassive = false;
+        _skill1Timer = 0f;
+        _skill2Timer = 0f;
         _monData = _monsterData;
         _attackCoolTimer = _monsterState._monAtkSpeed;
         _recallPointProvider = GetComponent<RecallPointProvider>();
@@ -182,7 +196,42 @@ public class MonsterController : UnitBaseData
     // 몬스터의 스킬
     public void UseSkill()
     {
-        
+        // 정예 몬스터 이상만 스킬 사용 가능
+        if (_monsterData.MonType == MonsterType.Normal) return;
+        // 타겟이 없으면 미사용
+        if (_attackTarget == null) return;
+
+        _skill1Timer += Time.deltaTime;
+        _skill2Timer += Time.deltaTime;
+
+        // 액티브 스킬1을 보유하고 있는지 확인
+        if (_monsterState._monActiveSkill_1)
+        {
+            // 액티브 스킬1의 쿨타임 시간
+            if (_monsterState._monActiveSkill_1._monSkillCd <= _skill1Timer)
+            {
+                Debug.Log("액티브 스킬 1");
+                // 액티브 스킬1 사용
+                _monsterState._monActiveSkill_1.UseSkill(_monster, _monsterState._monActiveSkill_1, _attackTarget);
+
+                // 타이머 초기화
+                _skill1Timer = 0f;
+            }
+        }
+        // 액티브 스킬2을 보유하고 있는지 확인
+        if (_monsterState._monActiveSkill_2)
+        {
+            // 액티브 스킬2의 쿨타임 시간
+            if (_monsterState._monActiveSkill_2._monSkillCd <= _skill2Timer)
+            {
+                Debug.Log("액티브 스킬 2 사용");
+                // 액티브 스킬2 사용
+                _monsterState._monActiveSkill_2.UseSkill(_monster, _monsterState._monActiveSkill_2, _attackTarget);
+
+                // 타이머 초기화
+                _skill2Timer = 0f;
+            }
+        }
     }
 
     // 보스 몬스터 소환 스킬사용 (적을 감지 하면 사용)
@@ -197,12 +246,8 @@ public class MonsterController : UnitBaseData
             // 보유한 스킬이 없으면 미사용
             if (_monsterData._recallSkills == null) return;
 
-            // 보유한 스킬을 순회
-            foreach (var skill in _monsterData._recallSkills)
-            {
-                // 스킬 사용
-                skill.UseSkill(_monster, _researchTarget, recallPoint);
-            }
+            // 스킬 사용
+            _monsterData._recallSkills.UseSkill(_monster, _researchTarget, recallPoint);
         }
     }
 
@@ -296,7 +341,35 @@ public class MonsterController : UnitBaseData
 
         // 공격 대상 전환
         _attackTarget = chaData;
+    }
 
+    // 전체 몬스터 회복
+    public void MonsterHealApply(float healValue)
+    {
+        // 데미지 받기 전 체력 저장
+        float saveCurHp = _monsterState._monCurrentHP;
+
+        // 체력 회복
+        _monsterState._monCurrentHP += healValue;
+
+        // 현재 체력이 최대 체력보다 크면 최대 체력으로 세팅
+        if(_monsterState._monCurrentHP >= _monsterState._monMaxHP)
+        {
+            _monsterState._monCurrentHP = _monsterState._monMaxHP;
+        }
+
+        // 보스가 아니면 개인 체력바 변화
+        if (gameObject.layer != LayerMask.NameToLayer("Boss"))
+        {
+            // 체력 변화에 체력바 변화
+            _monsterHp.value = _monsterState._monCurrentHP / _monsterState._monMaxHP;
+        }
+
+        // 실제 증가한 체력
+        float increaseHp = _monsterState._monCurrentHP - saveCurHp;
+
+        // 실제 증가한 체력 전달
+        _battleManager.ReportMonsterHeal(increaseHp);
     }
 
     #region 캐릭터의 패시브 스킬 효과
@@ -306,12 +379,8 @@ public class MonsterController : UnitBaseData
         // 지속 시간 중 중복 적용 방지
         if (!_isApplyPassive)
         {
-            Debug.Log($"{_monsterState._monEnName}의 공격력이 {attackDownValue}만큼 감소했습니다.");
-
             // 공격력이 마이너스로 가는걸 방지
             decreaseAttackValue = MathF.Min(saveAttack, attackDownValue);
-
-            Debug.Log($"실제로 {_monsterState._monEnName}의 공격력이 {decreaseAttackValue}만큼 감소했습니다.");
 
             // 공격한 몬스터의 공격력 감소
             _monsterState._monAttack -= decreaseAttackValue;
@@ -329,7 +398,6 @@ public class MonsterController : UnitBaseData
         {
             _isApplyPassive = false;
             _monsterState._monAttack += decreaseAttackValue;
-            Debug.Log($"지속시간이 지나서 {_monsterState._monEnName}의 공격력이 {decreaseAttackValue}만큼 증가했습니다.");
         }
     }
     #endregion

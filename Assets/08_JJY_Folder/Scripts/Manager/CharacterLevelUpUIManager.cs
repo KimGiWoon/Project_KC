@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using SDW;
 
 namespace JJY
 {
@@ -10,55 +11,61 @@ namespace JJY
     public class CharacterLevelUpUIManager : MonoBehaviour
     {
         [Header("User Info")]
-        [SerializeField] TextMeshProUGUI userLevelText; // 현재 레벨 수치
-        private int curLevel;                           // TODO : 유저의 레벨
-        [SerializeField] TextMeshProUGUI curExpText;    // 현재 경험치 수치 (현재 경험치 / 최대 경험치)
-        private int curExp;                             // TODO : 유저의 현재 경험치
-        private int maxExp;                             // TODO : 유저의 현재 레벨의 최대 경험치 (CSV)
-        [SerializeField] TextMeshProUGUI addedExpText;  // 아이템을 사용해서 얻는 경험치 수치
-        [SerializeField] TextMeshProUGUI addedLevelText;// 아이템을 사용해서 얻는 레벨 수치
-        [SerializeField] Image expBar;                  // 현재 경험치 바
+        [SerializeField]
+        private TextMeshProUGUI userLevelText; // 현재 레벨 수치
+        private int curLevel; // TODO : 유저의 레벨
+        [SerializeField] private TextMeshProUGUI curExpText; // 현재 경험치 수치 (현재 경험치 / 최대 경험치)
+        private int curExp; // TODO : 유저의 현재 경험치
+        private int maxExp; // TODO : 유저의 현재 레벨의 최대 경험치 (CSV)
+        [SerializeField] private TextMeshProUGUI addedExpText; // 아이템을 사용해서 얻는 경험치 수치
+        [SerializeField] private TextMeshProUGUI addedLevelText; // 아이템을 사용해서 얻는 레벨 수치
+        [SerializeField] private Image expBar; // 현재 경험치 바
 
         [Header("Item Count Text")]
-        private string selectedItem;                            // 현재 선택된 아이템의 이름
-        private int selectedItemUseCount;                       // 현재 선택된 아이템의 사용하려는 개수
-        private int selectedItemMaxCount;                       // 현재 선택된 아이템의 최대 보유량
-        private int beeksCount;                                 // TODO : 유저의 현재 beek's 보유량
-        private int fineDinigCount;                             // TODO : 유저의 현재 fine Dining 보유량
-        private int masterChefCount;                            // TODO : 유저의 현재 master Chef 보유량
-        [SerializeField] TextMeshProUGUI beeksCountText;        // beek's의 수량 텍스트
-        [SerializeField] TextMeshProUGUI finediningCountText;   // fine dining의 수량 텍스트
-        [SerializeField] TextMeshProUGUI masterChefCountText;   // masterChef의 수량 텍스트
-        [SerializeField] TextMeshProUGUI useItemCountText;      // 선택된 아이템의 사용량 (1 / 현재 보유량)
-        [SerializeField] Image itemBar;                         // 아이템 사용 슬라이더 게이지
-        [SerializeField] Slider itemBarSlider;                  // 아이템 사용 슬라이더
-        [SerializeField] GameObject useItemPanel;               // 아이템 버튼 클릭 시, SetActive true가 될 Panel.
+        private string selectedItem; // 현재 선택된 아이템의 이름
+        private int selectedItemUseCount; // 현재 선택된 아이템의 사용하려는 개수
+        private int selectedItemMaxCount; // 현재 선택된 아이템의 최대 보유량
+        private int beeksCount; // TODO : 유저의 현재 beek's 보유량
+        private int fineDinigCount; // TODO : 유저의 현재 fine Dining 보유량
+        private int masterChefCount; // TODO : 유저의 현재 master Chef 보유량
+        [SerializeField] private TextMeshProUGUI beeksCountText; // beek's의 수량 텍스트
+        [SerializeField] private TextMeshProUGUI finediningCountText; // fine dining의 수량 텍스트
+        [SerializeField] private TextMeshProUGUI masterChefCountText; // masterChef의 수량 텍스트
+        [SerializeField] private TextMeshProUGUI useItemCountText; // 선택된 아이템의 사용량 (1 / 현재 보유량)
+        [SerializeField] private Image itemBar; // 아이템 사용 슬라이더 게이지
+        [SerializeField] private Slider itemBarSlider; // 아이템 사용 슬라이더
+        [SerializeField] private GameObject useItemPanel; // 아이템 버튼 클릭 시, SetActive true가 될 Panel.
 
         [Header("Dialog Text")]
-        [SerializeField] Image dialogPanelColor;
-        [SerializeField] TextMeshProUGUI dialogText;    // dialog 표시
+        [SerializeField]
+        private Image dialogPanelColor;
+        [SerializeField] private TextMeshProUGUI dialogText; // dialog 표시
 
         [Header("Button")]
-        [SerializeField] Button backBtn;            // TODO : 돌아가기 버튼
-        [SerializeField] Button useItemBtn;         // 아이템 사용 버튼
-        [SerializeField] Button beekBtn;            // beek 버튼
-        [SerializeField] Button fineDinigBtn;       // fineDining 버튼
-        [SerializeField] Button masterChefBtn;      // masterChef 버튼
+        [SerializeField]
+        private Button backBtn; // TODO : 돌아가기 버튼
+        [SerializeField] private Button useItemBtn; // 아이템 사용 버튼
+        [SerializeField] private Button beekBtn; // beek 버튼
+        [SerializeField] private Button fineDinigBtn; // fineDining 버튼
+        [SerializeField] private Button masterChefBtn; // masterChef 버튼
 
         // Addressable 연결
         [Header("Image Assets")]
-        [SerializeField] Image BGimage;
-        [SerializeField] Image Charimage;
-        [SerializeField] Image beekimage;
-        [SerializeField] Image fineimage;
-        [SerializeField] Image masterimage;
+        [SerializeField]
+        private Image BGimage;
+        [SerializeField] private Image Charimage;
+        [SerializeField] private Image beekimage;
+        [SerializeField] private Image fineimage;
+        [SerializeField] private Image masterimage;
 
         private Dictionary<string, int> itemExpTable = new Dictionary<string, int>();
         private Coroutine dialogCoroutine;
+        private CoinManager _coin;
 
-        void Start()
+        private void Start()
         {
-            CoinManager.Instance.OnItemsChanged += InitItemCountText;
+            _coin = GameManager.Instance.Coin;
+            _coin.OnItemsChanged += InitItemCountText;
             InitEXPTable();
             InitItemCountText();
             InitUserInfo();
@@ -69,11 +76,11 @@ namespace JJY
         /// <summary>
         /// 아이템의 경험치 수치 초기화.
         /// </summary>
-        void InitEXPTable()
+        private void InitEXPTable()
         {
-            itemExpTable[CoinManager.Instance.beek] = 300;
-            itemExpTable[CoinManager.Instance.fineDining] = 500;
-            itemExpTable[CoinManager.Instance.masterChef] = 1000;
+            itemExpTable[_coin.beek] = 300;
+            itemExpTable[_coin.fineDining] = 500;
+            itemExpTable[_coin.masterChef] = 1000;
         }
 
         /// <summary>
@@ -81,9 +88,9 @@ namespace JJY
         /// </summary>
         private void InitItemCountText()
         {
-            beeksCount = CoinManager.Instance.GetRecipeItemCount(CoinManager.Instance.beek);
-            fineDinigCount = CoinManager.Instance.GetRecipeItemCount(CoinManager.Instance.fineDining);
-            masterChefCount = CoinManager.Instance.GetRecipeItemCount(CoinManager.Instance.masterChef);
+            beeksCount = _coin.GetRecipeItemCount(_coin.beek);
+            fineDinigCount = _coin.GetRecipeItemCount(_coin.fineDining);
+            masterChefCount = _coin.GetRecipeItemCount(_coin.masterChef);
 
             beeksCountText.text = $"{beeksCount}";
             finediningCountText.text = $"{fineDinigCount}";
@@ -115,19 +122,19 @@ namespace JJY
         }
         private void OnClickBeeks()
         {
-            selectedItem = CoinManager.Instance.beek;
+            selectedItem = _coin.beek;
             selectedItemMaxCount = beeksCount;
             InitItemBar();
         }
         private void OnClickFineDining()
         {
-            selectedItem = CoinManager.Instance.fineDining;
+            selectedItem = _coin.fineDining;
             selectedItemMaxCount = fineDinigCount;
             InitItemBar();
         }
         private void OnClickMasterChef()
         {
-            selectedItem = CoinManager.Instance.masterChef;
+            selectedItem = _coin.masterChef;
             selectedItemMaxCount = masterChefCount;
             InitItemBar();
         }
@@ -193,7 +200,6 @@ namespace JJY
 
             if (!addedLevelText.gameObject.activeSelf) addedLevelText.gameObject.SetActive(true);
             addedLevelText.text = levelUpCount > 0 ? $"+{levelUpCount}" : "";
-
         }
 
         private void UseItem()
@@ -202,12 +208,12 @@ namespace JJY
 
             if (backBtn.interactable) backBtn.interactable = false;
 
-            CoinManager.Instance.SubtractRecipeItem(selectedItem, selectedItemUseCount);
+            _coin.SubtractRecipeItem(selectedItem, selectedItemUseCount);
 
             int gainedExp;
-            if (selectedItem == CoinManager.Instance.beek) gainedExp = itemExpTable[CoinManager.Instance.beek] * selectedItemUseCount;
-            else if (selectedItem == CoinManager.Instance.fineDining) gainedExp = itemExpTable[CoinManager.Instance.fineDining] * selectedItemUseCount;
-            else if (selectedItem == CoinManager.Instance.masterChef) gainedExp = itemExpTable[CoinManager.Instance.masterChef] * selectedItemUseCount;
+            if (selectedItem == _coin.beek) gainedExp = itemExpTable[_coin.beek] * selectedItemUseCount;
+            else if (selectedItem == _coin.fineDining) gainedExp = itemExpTable[_coin.fineDining] * selectedItemUseCount;
+            else if (selectedItem == _coin.masterChef) gainedExp = itemExpTable[_coin.masterChef] * selectedItemUseCount;
             else gainedExp = 0;
 
             if (gainedExp <= 0) return;
@@ -261,32 +267,30 @@ namespace JJY
         /// <summary>
         /// 테스트 레벨 경험치
         /// </summary>
-        private int GetMaxExpByLevel(int level)
-        {
-            return 1000 + (level - 1) * 200;
-        }
+        private int GetMaxExpByLevel(int level) => 1000 + (level - 1) * 200;
 
-        IEnumerator DialogPanelFadeOut()
+        private IEnumerator DialogPanelFadeOut()
         {
-            dialogPanelColor.color = new Color(dialogPanelColor.color.r, dialogPanelColor.color.g, dialogPanelColor.color.b, 200f / 255f);
+            dialogPanelColor.color = new Color(dialogPanelColor.color.r, dialogPanelColor.color.g, dialogPanelColor.color.b,
+                200f / 255f);
             dialogText.color = new Color(dialogText.color.r, dialogText.color.g, dialogText.color.b, 1f);
             yield return new WaitForSeconds(10f);
 
             float duration = 0.5f;
             float elapsed = 0f;
 
-            Color startPanelColor = dialogPanelColor.color;
-            Color startDialogColor = dialogText.color;
+            var startPanelColor = dialogPanelColor.color;
+            var startDialogColor = dialogText.color;
 
             while (elapsed < duration)
             {
                 elapsed += Time.deltaTime;
                 float t = elapsed / duration;
 
-                Color newPanelColor = startPanelColor;
+                var newPanelColor = startPanelColor;
                 newPanelColor.a = Mathf.Lerp(startPanelColor.a, 0f, t);
 
-                Color newDialogColor = startDialogColor;
+                var newDialogColor = startDialogColor;
                 newDialogColor.a = Mathf.Lerp(startDialogColor.a, 0f, t);
 
                 dialogPanelColor.color = newPanelColor;
