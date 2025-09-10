@@ -1,3 +1,4 @@
+using SDW;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -132,16 +133,42 @@ public class MapGenerator : MonoBehaviour
         var eventNodes = _map.SelectMany(floor => floor).Where(node => node.nodeType == NodeType.Event);
         foreach (var eventNode in eventNodes)
         {
-            int enumCount = System.Enum.GetValues(typeof(EventTypeKC)).Length;
-            int randomIndex = Random.Range(1, enumCount); // 1부터 시작하여 NotAssigned 제외
-            eventNode.EventTypeKC = (EventTypeKC)randomIndex;
+            // 1. 노드에 긍정/부정/중립/미묘 감정 타입을 랜덤으로 할당
+            // EventTypeKC enum에서 실제 감정을 나타내는 값들만 추립니다.
+            List<EventTypeKC> sentimentTypes = new List<EventTypeKC> { EventTypeKC.Positive, EventTypeKC.Negative, EventTypeKC.Neutral, EventTypeKC.Subtlety };
+            eventNode.EventTypeKC = sentimentTypes[Random.Range(0, sentimentTypes.Count)];
 
-            // 사용 가능한 사건이 있다면, 무작위로 ID를 할당
-            if (availableEncounters != null && availableEncounters.Count > 0)
+            // 2. 위에서 만든 변환 함수를 사용해 안전하게 Sentiment 타입을 얻습니다.
+            EncounterSentiment sentiment = ConvertEventTypeToSentiment(eventNode.EventTypeKC);
+
+            // 3. DataManager에게 노드의 감정 타입과 현재 스테이지에 맞는 랜덤 사건 ID를 요청하여 저장
+            int currentStage = eventNode.point.x; // 노드의 floor index를 스테이지로 간주
+            if (DataManager.Instance != null)
             {
-                eventNode.EncounterID = availableEncounters[Random.Range(0, availableEncounters.Count)].EncounterID;
-                Debug.Log($"노드 ({eventNode.point.x}, {eventNode.point.y})에 사건 ID {eventNode.EncounterID} 할당됨.");
+                eventNode.EncounterID = DataManager.Instance.GetRandomEncounterID(sentiment, currentStage);
+                Debug.Log($"노드 ({eventNode.point.x}, {eventNode.point.y})에 감정({sentiment}), 스테이지({currentStage})에 따른 사건 ID {eventNode.EncounterID} 할당됨.");
             }
+            else
+            {
+                Debug.LogError("DataManager.Instance가 없습니다! Script Execution Order를 확인해주세요.");
+            }
+        }
+    }
+
+    private EncounterSentiment ConvertEventTypeToSentiment(EventTypeKC eventType)
+    {
+        switch (eventType)
+        {
+            case EventTypeKC.Positive:
+                return EncounterSentiment.Good;
+            case EventTypeKC.Negative:
+                return EncounterSentiment.Bad;
+            case EventTypeKC.Neutral:
+                return EncounterSentiment.Fixed;
+            case EventTypeKC.Subtlety:
+                return EncounterSentiment.Subtlety;
+            default:
+                return EncounterSentiment.None; // 그 외의 경우는 없음(None) 처리
         }
     }
 

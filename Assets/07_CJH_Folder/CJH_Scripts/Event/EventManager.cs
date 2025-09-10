@@ -1,4 +1,5 @@
 using UnityEngine;
+using SDW;
 
 namespace CJH
 {
@@ -7,57 +8,46 @@ namespace CJH
         public static EventManager Instance;
         private GameObject currentEventInstance;
 
-        public void StartEncounterForStage(int stage)
+        void Awake()
         {
-            if (currentEventInstance != null)
+            if (Instance == null) Instance = this;
+            else Destroy(gameObject);
+        }
+
+        // MapView가 사건 ID를 직접 전달하도록 변경
+        public void StartEncounter(int encounterID)
+        {
+            if (currentEventInstance != null) Destroy(currentEventInstance);
+
+            // DataManager에서 ID로 정확한 사건 데이터를 가져옵니다.
+            EncounterTable encounterData = DataManager.Instance.GetEncounterByID(encounterID);
+
+            if (encounterData.EncounterID != 0) // 유효한 데이터인지 확인
             {
-                Destroy(currentEventInstance);
-            }
-
-            EncounterDataSO randomEncounter = EncounterStageManager.Instance.GetRandomEncounter(stage);
-
-            if (randomEncounter != null)
-            {
-                Debug.Log($"EventManager: {stage} 스테이지의 사건 시작 (ID: {randomEncounter.Row.EncounterID})");
-
-                // Event을 Resources 폴더에서 불러옵니다.
                 GameObject prefab = Resources.Load<GameObject>("Event");
                 if (prefab == null)
                 {
-                    Debug.LogError("'Event'을 Resources 폴더에서 찾을 수 없습니다!");
+                    Debug.LogError("'Event.prefab'을 'Assets/Resources' 폴더에서 찾을 수 없습니다!");
                     return;
                 }
 
-                // 씬의 메인 캔버스 아래에 프리팹을 생성합니다.
                 Canvas mainCanvas = FindObjectOfType<Canvas>();
                 if (mainCanvas != null)
                 {
                     currentEventInstance = Instantiate(prefab, mainCanvas.transform);
-                    EventStart eventStart = currentEventInstance.GetComponentInChildren<EventStart>();
+                    var eventStart = currentEventInstance.GetComponentInChildren<EventStart>();
                     if (eventStart != null)
                     {
-                        // EventStart에게 데이터를 넘겨 UI를 초기화시킵니다.
-                        eventStart.Initialize(randomEncounter.Row);
+                        eventStart.Initialize(encounterData);
                     }
                 }
-                else
-                {
-                    Debug.LogError("씬에 Canvas가 없습니다!");
-                }
-            }
-            else
-            {
-                Debug.LogError($"{stage} 스테이지에 대한 인카운터를 시작할 수 없습니다.");
             }
         }
 
         public void EndEncounter()
         {
-            Debug.Log("EventManager: 사건 종료");
-            if (currentEventInstance != null)
-            {
-                Destroy(currentEventInstance);
-            }
+            if (currentEventInstance != null) Destroy(currentEventInstance);
+            if (MapView.Instance != null) MapView.Instance.UpdateMapState();
         }
     }
 }
