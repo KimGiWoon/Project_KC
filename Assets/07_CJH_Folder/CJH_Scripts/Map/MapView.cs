@@ -18,7 +18,6 @@ namespace CJH
         public float playerMoveDuration = 0.5f; // 캐릭터가 이동하는 데 걸리는 시간
         public Ease playerMoveEase = Ease.OutQuad; // 캐릭터 이동 애니메이션 방식
 
-
         [Header("카메라 이동 애니메이션")]
         public float cameraMoveDuration = 0.8f;
         public Ease cameraMoveEase = Ease.OutCubic;
@@ -81,7 +80,7 @@ namespace CJH
 
             foreach (var dataNode in map.Nodes)
             {
-                if (nodeObjects.TryGetValue(dataNode.point, out MapNode mapNode))
+                if (nodeObjects.TryGetValue(dataNode.point, out var mapNode))
                 {
                     mapNode.Setup(dataNode, mapConfig);
                     mapNode.gameObject.SetActive(true);
@@ -93,7 +92,6 @@ namespace CJH
 
         public void SelectNode(MapNode selectedNode)
         {
-
             Debug.Log($"[MapView] SelectNode 실행: {selectedNode.gameObject.name} 선택됨");
 
             if (currentMap.Path.Contains(selectedNode.nodeData)) return;
@@ -103,12 +101,14 @@ namespace CJH
                 case NodeType.Event:
                     if (EncounterStageManager.Instance == null)
                     {
-                        Debug.LogError("EncounterStageManager.Instance가 없습니다! Hierarchy에 EncounterStageManager 오브젝트가 있는지, '활성화'되어 있는지, Script Execution Order가 설정되었는지 확인해주세요.");
+                        Debug.LogError(
+                            "EncounterStageManager.Instance가 없습니다! Hierarchy에 EncounterStageManager 오브젝트가 있는지, '활성화'되어 있는지, Script Execution Order가 설정되었는지 확인해주세요.");
                         return; // Manager가 없으므로 여기서 실행을 멈춥니다.
                     }
                     if (EventManager.Instance == null)
                     {
-                        Debug.LogError("EventManager.Instance가 없습니다! Hierarchy에 EventManager 오브젝트가 있는지, '활성화'되어 있는지, Script Execution Order가 설정되었는지 확인해주세요.");
+                        Debug.LogError(
+                            "EventManager.Instance가 없습니다! Hierarchy에 EventManager 오브젝트가 있는지, '활성화'되어 있는지, Script Execution Order가 설정되었는지 확인해주세요.");
                         return;
                     }
                     // 이벤트 노드일 경우,EventManager에게 사건 시작을 요청
@@ -130,7 +130,7 @@ namespace CJH
 
         public void UpdateMapState()
         {
-            Node currentNode = currentMap.CurrentNode;
+            var currentNode = currentMap.CurrentNode;
             if (currentNode == null) return;
 
             // 기존 화살표들 삭제
@@ -155,7 +155,7 @@ namespace CJH
                 mapNode.UpdateVisuals();
 
                 // 다음 노드일 경우 화살표 생성
-                if (isNextNode && arrowPrefab != null && nodeObjects.TryGetValue(currentNode.point, out MapNode currentNodeObject))
+                if (isNextNode && arrowPrefab != null && nodeObjects.TryGetValue(currentNode.point, out var currentNodeObject))
                 {
                     CreateArrow(currentNodeObject, mapNode);
                 }
@@ -166,17 +166,17 @@ namespace CJH
         // 두 노드 사이에 화살표를 생성하는 함수
         private void CreateArrow(MapNode from, MapNode to)
         {
-            GameObject arrow = Instantiate(arrowPrefab, transform);
+            var arrow = Instantiate(arrowPrefab, transform);
             lineArrows.Add(arrow); // 리스트에 추가하여 관리
 
-            Vector3 startPos = from.transform.position;
-            Vector3 endPos = to.transform.position;
+            var startPos = from.transform.position;
+            var endPos = to.transform.position;
 
             // 화살표의 위치를 두 노드의 중간으로 설정
             arrow.transform.position = Vector3.Lerp(startPos, endPos, 0.5f);
 
             // 화살표가 노드를 바라보도록 회전
-            Vector3 direction = (endPos - startPos).normalized;
+            var direction = (endPos - startPos).normalized;
             float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
 
             // 위를 향하는 화살표 스프라이트에 맞게 회전 값을 보정합니다. (-90도)
@@ -190,10 +190,10 @@ namespace CJH
                 Destroy(child.gameObject);
             }
 
-            Node currentNode = currentMap.CurrentNode;
+            var currentNode = currentMap.CurrentNode;
             if (currentNode == null || currentNode.nextNodes == null || !currentNode.nextNodes.Any()) return;
 
-            List<MapNode> nextMapNodes = new();
+            var nextMapNodes = new List<MapNode>();
             foreach (var next in currentNode.nextNodes)
             {
                 if (nodeObjects.TryGetValue(next.point, out var mapNode))
@@ -202,21 +202,21 @@ namespace CJH
 
             foreach (var targetNode in nextMapNodes)
             {
-                GameObject arrowBtn = Instantiate(nodeButtonPrefab, bottomPanelContainer);
-                arrowBtn.transform.localScale = Vector3.one;
+                var arrowBtn = Instantiate(nodeButtonPrefab, bottomPanelContainer);
+                // arrowBtn.transform.localScale = Vector3.one;
 
                 // 화살표 방향 계산
-                Vector3 from = nodeObjects[currentNode.point].transform.position;
-                Vector3 to = targetNode.transform.position;
+                var from = nodeObjects[currentNode.point].transform.position;
+                var to = targetNode.transform.position;
                 float angle = Mathf.Atan2(to.y - from.y, to.x - from.x) * Mathf.Rad2Deg;
 
-                Image arrowImage = arrowBtn.GetComponentInChildren<Image>();
+                var arrowImage = arrowBtn.GetComponentInChildren<Image>();
                 if (arrowImage != null)
                 {
                     arrowImage.transform.rotation = Quaternion.Euler(0, 0, angle - 90f); // Sprite 기준 보정
                 }
 
-                Button button = arrowBtn.GetComponent<Button>();
+                var button = arrowBtn.GetComponent<Button>();
                 if (button != null)
                 {
                     button.onClick.AddListener(() => SelectNode(targetNode));
@@ -229,7 +229,7 @@ namespace CJH
         {
             if (playerCharacterInstance == null || currentMap.CurrentNode == null) return;
             // 현재 노드의 게임 오브젝트를 찾습니다.
-            if (nodeObjects.TryGetValue(currentMap.CurrentNode.point, out MapNode currentNodeObject))
+            if (nodeObjects.TryGetValue(currentMap.CurrentNode.point, out var currentNodeObject))
             {
                 // DoTween을 사용해 부드럽게 이동
                 playerCharacterInstance.transform.DOKill();
@@ -239,11 +239,10 @@ namespace CJH
 
                 if (cameraTransform != null && cameraScrollLinker != null)
                 {
-
                     // 처음 시작 시 스크롤 기능 해제
                     cameraScrollLinker.SetManualScroll(false);
 
-                    Vector3 targetPosition = currentNodeObject.transform.position;
+                    var targetPosition = currentNodeObject.transform.position;
                     targetPosition.z = cameraTransform.position.z;
 
                     cameraTransform.DOKill();
@@ -251,12 +250,12 @@ namespace CJH
                     cameraTransform.DOMoveY(currentNodeObject.transform.position.y, cameraMoveDuration)
                         .SetEase(cameraMoveEase)
 
-                    // 작업이 끝나면
-                    .OnComplete(() =>
-                    {
-                        // 위치 동기화
-                        cameraScrollLinker.CameraPositon();
-                    });
+                        // 작업이 끝나면
+                        .OnComplete(() =>
+                        {
+                            // 위치 동기화
+                            cameraScrollLinker.CameraPositon();
+                        });
                 }
             }
         }

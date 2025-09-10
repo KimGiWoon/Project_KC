@@ -528,10 +528,15 @@ namespace SDW
             var partyCharListUI = _uiDic[uiName] as PartyCharListUI;
             var stageGlobalUI = _uiDic[UIName.StageGlobalUI] as StageGlobalUI;
             var partyUI = _uiDic[UIName.PartyUI] as PartyUI;
+            var charInfoUI = _uiDic[UIName.CharInfoUI] as CharacterInfoUI;
 
             stageGlobalUI.ButtonContainerMoveAway();
             partyUI.UISecondPositionMoveAway();
-            partyCharListUI.OnUIOpenRequested += OpenPanel;
+            partyCharListUI.OnUIOpenRequested += (ui, characterData) =>
+            {
+                charInfoUI.SetCharacterInfo(characterData);
+                OpenPanel(ui);
+            };
             partyCharListUI.OnUICloseRequested += ClosePanel;
         }
 
@@ -900,10 +905,15 @@ namespace SDW
             var partyCharListUI = _uiDic[uiName] as PartyCharListUI;
             var stageGlobalUI = _uiDic[UIName.StageGlobalUI] as StageGlobalUI;
             var partyUI = _uiDic[UIName.PartyUI] as PartyUI;
+            var charInfoUI = _uiDic[UIName.CharInfoUI] as CharacterInfoUI;
 
             stageGlobalUI.ButtonContainerMoveBack();
             partyUI.UIMoveBack();
-            partyCharListUI.OnUIOpenRequested -= OpenPanel;
+            partyCharListUI.OnUIOpenRequested -= (ui, characterData) =>
+            {
+                charInfoUI.SetCharacterInfo(characterData);
+                OpenPanel(ui);
+            };
             partyCharListUI.OnUICloseRequested -= ClosePanel;
         }
 
