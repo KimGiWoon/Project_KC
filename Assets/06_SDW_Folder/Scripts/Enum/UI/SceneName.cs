@@ -5,6 +5,7 @@
         SDW_SignInScene,
         SDW_LobbyScene,
         KGW_TestIngameScene,
-        KSH_Gacha
+        KSH_Gacha,
+        SDW_RoguelikeScene
     }
 }
