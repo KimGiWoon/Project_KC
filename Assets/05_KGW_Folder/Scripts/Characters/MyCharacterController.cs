@@ -65,6 +65,9 @@ public class MyCharacterController : UnitBaseData
         _characterState._chaCritDmg = _characterData._chaTypeData.ChaCritDmg;
         _characterState._chaReg = _characterData._chaTypeData.ChaReg;
         _characterState._chaMoveSpeed = _characterData._chaTypeData.ChaMoveSpeed;
+        _characterState._reductionUpValue = 0f;
+        _characterState._reductionDownValue = 0f;
+
         _characterState._isBarrier = false;
         _characterState._groggyDamage = 0f;
         _characterState._chaPassiveSkill = _characterData._chaPassiveSkill;
@@ -209,8 +212,8 @@ public class MyCharacterController : UnitBaseData
 
         base.TakeDamage(damage);
 
-        // 데미지를 받음, 방어력에 대한 것은??
-        _characterState._chaCurrentHP -= damage;
+        // 최종데미지로 체력 감소
+        _characterState._chaCurrentHP -= FinalDamage(damage, _characterState._reductionUpValue, _characterState._reductionDownValue);
 
         // 체력이 0이 됨
         if (_characterState._chaCurrentHP <= 0)
@@ -292,7 +295,7 @@ public class MyCharacterController : UnitBaseData
         OnHpChange?.Invoke(Mathf.Clamp01(_characterState._chaCurrentHP / _characterState._chaMaxHP));
     }
 
-    // 아머 상승 패시브 스킬
+    // 피해 감소 패시브 스킬
     public void ArmorUpPassive()
     {
         if (_characterData._chaPassiveSkill._chaSkillEnName == CharacterSkillEnName.Vanguard)
@@ -300,15 +303,15 @@ public class MyCharacterController : UnitBaseData
             float chaAamor = _characterState._chaArmor;
             float upValue = _characterData._chaPassiveSkill.UsePassiveSkill(_character, _characterData._chaPassiveSkill, chaAamor);
 
-            // 전체 캐릭터 아머 상승
+            // 전체 캐릭터 피해 감소 상승
             _battleManager.AllCharacterArmorUp(upValue);
         }
     }
 
-    // 전체 아머 상승
+    // 전체 피해 감소 상승
     public void AllCharacterArmorUpApply(float upValue)
     {
-        _characterState._chaArmor += upValue;
+        _characterState._reductionUpValue += upValue;
     }
 
     // 공격력 다운 패시브 확인
@@ -366,6 +369,19 @@ public class MyCharacterController : UnitBaseData
         {
             base.Death();
         }
+    }
+
+    // 최종데미지 계산
+    private float FinalDamage(float damage, float reducUpValue, float reducDownValue)
+    {
+        float reduction = _characterState._chaArmor / (_characterState._chaArmor + 100);
+        float buffReduction = (_characterState._reductionUpValue - _characterState._reductionDownValue);
+        float finalReduction = MathF.Min(reduction + buffReduction, 0.95f);
+        float finalDamage = damage * (1 - finalReduction);
+
+        Debug.Log($"캐릭터 방어력 : {_characterState._chaArmor}");
+        Debug.Log($"캐릭터가 받은 데미지 계산 Reduction : {reduction}, BuffReduction : {buffReduction}, FinalReduction : {finalReduction}, FinalDamage : {finalDamage}");
+        return finalDamage;
     }
 
     // 캐릭터 마나 상태 확인

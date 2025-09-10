@@ -1,18 +1,19 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class CheerController : MonoBehaviour
 {
     private float _attackUpValue;
-    private float _saveAttack;
     private float _activeSkillDuration;
     private bool _isAttackUp;
     private MyCharacterController _character;
 
+    private Dictionary<MyCharacterController, float> _originalAttackValue = new Dictionary<MyCharacterController, float>();
+
     public void Init(MyCharacterController caster, float value, float duration)
     {
-        _attackUpValue = value;
+        _attackUpValue = caster._characterState._chaAttack * value;
         _activeSkillDuration = duration;
-        _saveAttack = caster._characterState._chaAttack;
         _isAttackUp = false;
         _character = caster;
 
@@ -27,6 +28,9 @@ public class CheerController : MonoBehaviour
         foreach (var cha in _character._battleManager._characters)
         {
             if (!cha._isAlive) continue;
+
+            // 캐릭터의 원래 공격력 저장
+            _originalAttackValue[cha] = cha._characterState._chaAttack;
 
             cha._characterState._chaAttack += _attackUpValue;
         }
@@ -46,7 +50,10 @@ public class CheerController : MonoBehaviour
     {
         foreach (var cha in _character._battleManager._characters)
         {
-            cha._characterState._chaAttack = _saveAttack;
+            if (_originalAttackValue.ContainsKey(cha))
+            {
+                cha._characterState._chaAttack = _originalAttackValue[cha];
+            }
 
             _isAttackUp = false;
         }

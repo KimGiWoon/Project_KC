@@ -15,7 +15,7 @@ public class RoarController : MonoBehaviour
     public void Init(MonsterController caster, MyCharacterController target, float duration, float attackValue, float reductionDownValue)
     {
         _attackValue = caster._monsterState._monAttack * attackValue;
-        _damageReductionDownValue = caster._monsterState._monAttack * reductionDownValue;
+        _damageReductionDownValue = reductionDownValue;
         _activeSkillDuration = duration;
         _monster = caster;
         _character = target;
@@ -31,11 +31,14 @@ public class RoarController : MonoBehaviour
             if (!cha._isAlive) continue;
 
             // 몬스터의 원래 피해감소 저장
-            _originalReductionValue[cha] = cha._characterState._chaArmor;
+            _originalReductionValue[cha] = cha._characterState._reductionDownValue;
 
+            // 공격
             cha.TakeDamage(_attackValue);
 
-            // 피해감소율 감소 추가 예정
+            // 피해 감소 적용
+            cha._characterState._reductionDownValue -= _damageReductionDownValue;
+
         }
 
         Invoke(nameof(CharacterReductionReset), _activeSkillDuration);
@@ -47,6 +50,7 @@ public class RoarController : MonoBehaviour
         }
     }
 
+
     // 지속시간 후 감소된 피해감소율 원복
     public void CharacterReductionReset()
     {
@@ -54,7 +58,7 @@ public class RoarController : MonoBehaviour
         {
             if (_originalReductionValue.ContainsKey(cha))
             {
-                cha._characterState._chaArmor = _originalReductionValue[cha];
+                cha._characterState._reductionDownValue = _originalReductionValue[cha];
             }
         }
 
