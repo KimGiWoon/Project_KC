@@ -1,18 +1,31 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class DangerousPollenController : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    private float _healValue;
+    private MonsterController _monster;
+
+    public void Init(MonsterController caster, float value, float duration)
     {
-        
+        _healValue = caster._monsterState._monAttack * value;
+        _monster = caster;
+
+        AllMonsterHpHeal();
     }
 
-    // Update is called once per frame
-    void Update()
+    // 전체 몬스터의 체력 회복
+    public void AllMonsterHpHeal()
     {
-        
+        foreach (var mon in _monster._battleManager._monsters)
+        {
+            if (!mon._isAlive) continue;
+
+            mon.MonsterHealApply(_healValue);
+
+        }
+
+        Destroy(gameObject);
     }
 }
+    
+

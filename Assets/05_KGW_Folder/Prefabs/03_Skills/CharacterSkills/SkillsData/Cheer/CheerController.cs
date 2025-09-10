@@ -29,7 +29,6 @@ public class CheerController : MonoBehaviour
             if (!cha._isAlive) continue;
 
             cha._characterState._chaAttack += _attackUpValue;
-            Debug.Log($"{cha._characterState._chaEnName}의 공격력이 {_attackUpValue}만큼 상승했습니다.");
         }
         _isAttackUp = true;
 
@@ -48,9 +47,10 @@ public class CheerController : MonoBehaviour
         foreach (var cha in _character._battleManager._characters)
         {
             cha._characterState._chaAttack = _saveAttack;
-            Debug.Log($"{cha._characterState._chaEnName}의 공격력이 원상복귀 되었습니다.");
 
             _isAttackUp = false;
         }
+
+        Destroy(gameObject);
     }
 }

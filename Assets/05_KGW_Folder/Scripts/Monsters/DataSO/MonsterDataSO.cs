@@ -47,12 +47,12 @@ public class MonsterDataSO : ScriptableObject
     [Header("Skills Setting")]
     public float _useSkillTime;     // 스킬 사용 시간
 
-    [Header("Boss Attack Skill")]
-    public MonsterSkillDataSO _bossSkill;   // 보스의 공격 스킬
+    [Header("Monster Skill")]
+    public MonsterSkillDataSO _monActiveSkill_1;   // 몬스터 액티브 스킬1
+    public MonsterSkillDataSO _monActiveSkill_2;   // 몬스터 액티브 스킬2
 
     [Header("Boss Monster Recall Skill")]
-    public SkillDataSO[] _recallSkills;           // 보스의 몬스터 소환 스킬
-    public MonsterSkillDataSO _monterRecallSkill;   // 보스의 몬스터 소환 스킬
+    public SkillDataSO _recallSkills;           // 보스의 몬스터 소환 스킬
 
     // 파싱 데이터를 매핑
     public virtual void DataApply(MonsterDataFileData monsterData, MonsterStatFileData statData)

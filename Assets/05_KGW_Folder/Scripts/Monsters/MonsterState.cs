@@ -32,4 +32,8 @@ public class MonsterState
     public float _monAttackIncrease;
     public float _monArmorIncrease;
     public float _monAvoidIncrease;
+
+    [Header("Monster Skill Data")]
+    public MonsterSkillDataSO _monActiveSkill_1;
+    public MonsterSkillDataSO _monActiveSkill_2;
 }

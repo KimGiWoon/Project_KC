@@ -28,7 +28,7 @@ MonoBehaviour:
   MonLv: 1
   MonBreak: 0
   BreakGage: 0
-  MonHP: 1000
+  MonHP: 200
   MonHPIncrase: 0.1
   MonAtkSpeed: 0.7
   MonAttack: 10
@@ -41,6 +41,7 @@ MonoBehaviour:
   MonReg: 0
   _prefab: {fileID: 3833880438077353650, guid: bd99561b9ab62854398e1eeab4ea558e, type: 3}
   _useSkillTime: 0
-  _bossSkill: {fileID: 0}
+  _monActiveSkill_1: {fileID: 0}
+  _monActiveSkill_2: {fileID: 0}
   _recallSkills: []
   _monterRecallSkill: {fileID: 0}

@@ -47,7 +47,6 @@ public class PainfulScentController : MonoBehaviour
             _decreaseDownValue = Mathf.Min(_saveArmor, _armorDownValue);
 
             mon._monsterState._monArmor -= _decreaseDownValue;
-            Debug.Log($"{mon._monsterState._monEnName}의 방어력이 {_decreaseDownValue}만큼 하락했습니다.");
 
             // 데미지 코루틴 시작
             _attackRoutine = StartCoroutine(MonsterAttackCoroutine(mon));
@@ -70,10 +69,11 @@ public class PainfulScentController : MonoBehaviour
         foreach (var mon in _monster._battleManager._monsters)
         {
             mon._monsterState._monArmor = _saveArmor;
-            Debug.Log($"{mon._monsterState._monEnName}의 방어력이 원상복귀 되었습니다.");
 
             _isArmorDown = false;
         }
+
+        Destroy(gameObject);
     }
 
     // 몬스터 스킬 다단 히트 공격 코루틴
@@ -84,7 +84,6 @@ public class PainfulScentController : MonoBehaviour
         while (count < _skillAttackHit)
         {
             mon.TakeDamage(_skillDamage);
-            Debug.Log($"{mon._monsterState._monEnName}가 {_skillDamage}의 데미지를 받았습니다.{count}");
             count++;
 
             yield return _time;
