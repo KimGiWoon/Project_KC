@@ -5,8 +5,6 @@ public abstract class SkillDataSO : ScriptableObject
 {
     [Header("Skill Data Setting")]
     public string _skillName;       // 스킬의 이름
-    public float _skillRange;       // 스킬의 사거리
-    public float _skillDamage;      // 스킬의 데미지
     public GameObject _skillPrefab; // 스킬 프리팹
 
     // 보스전용 스킬사용 메서드

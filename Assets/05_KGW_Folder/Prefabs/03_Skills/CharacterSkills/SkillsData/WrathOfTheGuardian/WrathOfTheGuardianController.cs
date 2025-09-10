@@ -36,6 +36,7 @@ public class WrathOfTheGuardianController : MonoBehaviour
         {
             AttackCoroutineStop();
         }
+
     }
 
     // 몬스터 스킬 다단 히트 공격 코루틴
@@ -46,11 +47,12 @@ public class WrathOfTheGuardianController : MonoBehaviour
         while (count < _skillAttackHit)
         {
             mon.TakeDamage(_skillDamage);
-            Debug.Log($"{mon._monsterState._monEnName}가 {_skillDamage}의 데미지를 받았습니다.{count}");
             count++;
 
             yield return _time;
         }
+
+        Destroy(gameObject, 0.5f);
     }
 
     // 코루틴 정지

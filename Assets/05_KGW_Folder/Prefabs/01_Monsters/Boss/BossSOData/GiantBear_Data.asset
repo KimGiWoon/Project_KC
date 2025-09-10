@@ -43,5 +43,6 @@ MonoBehaviour:
   MonReg: 0
   _prefab: {fileID: 3833880438077353650, guid: a1d9d3e5155e58744b310115c45b456a, type: 3}
   _useSkillTime: 10
-  _recallSkills:
-  - {fileID: 11400000, guid: e517e72d588b0224c9ca5af351d20648, type: 2}
+  _monActiveSkill_1: {fileID: 11400000, guid: 5b1a9fc2697330b4cbab40789b3d582d, type: 2}
+  _monActiveSkill_2: {fileID: 11400000, guid: cec0ae30819b60149b8b7a68f27d921a, type: 2}
+  _recallSkills: {fileID: 11400000, guid: b1ba387729ffb2241bb3c20b0df62b19, type: 2}

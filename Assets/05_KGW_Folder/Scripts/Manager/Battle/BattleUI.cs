@@ -128,7 +128,7 @@ public class BattleUI : BaseUI
         _totalMonsterHp.minValue = 0f;
         _totalMonsterHp.maxValue = 1f;
 
-        _totalHpText.text = totalCurrnetHp.ToString();
+        _totalHpText.text = totalCurrnetHp.ToString("F0");
 
         _totalMonsterHp.value = totalCurrnetHp / totalMaxHp;
     }
