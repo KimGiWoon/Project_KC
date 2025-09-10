@@ -15,7 +15,7 @@ MonoBehaviour:
   m_DefaultGroup: 6e29a68307d558b48bb739f4a265f55a
   m_currentHash:
     serializedVersion: 2
-    Hash: 00000000000000000000000000000000
+    Hash: a1565821dddfa3ff8c6bcc69dafa8f71
   m_OptimizeCatalogSize: 0
   m_BuildRemoteCatalog: 1
   m_BundleLocalCatalog: 0
@@ -44,9 +44,11 @@ MonoBehaviour:
   m_BuildAddressablesWithPlayerBuild: 0
   m_overridePlayerVersion: '[UnityEditor.PlayerSettings.bundleVersion]'
   m_GroupAssets:
+  - {fileID: 11400000, guid: 747fb313c227c364dad1ae5d04857eb0, type: 2}
   - {fileID: 11400000, guid: dfe184efbca417340898a27911a0de48, type: 2}
   - {fileID: 11400000, guid: a6c49784b0c128d4ab60cf6cad477b54, type: 2}
   - {fileID: 11400000, guid: 49ba3c976ceb85749969c0f7809cdd01, type: 2}
+  - {fileID: 11400000, guid: 2bc709f44cbac6d44aee6e8236906fa1, type: 2}
   - {fileID: 11400000, guid: f120f058f36f22a49b105e7682958000, type: 2}
   - {fileID: 11400000, guid: 9ed338bc79311fc4f9ade027d5c6ce7e, type: 2}
   - {fileID: 11400000, guid: f9675cc7f07033344b5ef51ab2d923bc, type: 2}
@@ -98,6 +100,8 @@ MonoBehaviour:
     - Lobby_Prefab_SO
     - InGame_UI
     - InGame_Prefab_SO
+    - Roguelike_UI
+    - Roguelike_Prefab_SO
   m_SchemaTemplates: []
   m_GroupTemplateObjects:
   - {fileID: 11400000, guid: bda71db4be1e3f346a06bcd06c971d01, type: 2}
