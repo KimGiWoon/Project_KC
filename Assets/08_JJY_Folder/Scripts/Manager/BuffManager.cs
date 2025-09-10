@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using SDW;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -96,7 +97,7 @@ namespace JJY
                 Destroy(foodContent.GetChild(i).gameObject);
             }
 
-            var list = CookManager.Instance.playerFoodInventory;
+            var list = GameManager.Instance.InGameItem.foodInventory;
             // var list = testFoodInventory;
             for (int i = 0; i < list.Count; i++)
             {
@@ -142,7 +143,7 @@ namespace JJY
                 }
             }
 
-            CookManager.Instance.SubtractFood(itemLocal);
+            GameManager.Instance.InGameItem.SubtractFood(itemLocal);
             // var testItem = new InventoryItem(recipeLocal);
             // testFoodInventory.Remove(testItem);
 

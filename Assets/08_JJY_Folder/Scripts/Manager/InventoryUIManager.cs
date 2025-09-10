@@ -33,7 +33,6 @@ namespace JJY
                 Destroy(gameObject);
                 return;
             }
-
             StartCoroutine(DelayedInit());
         }
 
@@ -58,7 +57,7 @@ namespace JJY
             {
                 if (testInventory[i].relic == null && testInventory[i].recipe == null) continue;
                 if (testInventory[i].relic != null) RelicDropManager.Instance.GetRelic(testInventory[i].relic);
-                if (testInventory[i].recipe != null) CookManager.Instance.AddFood(testInventory[i].recipe);
+                if (testInventory[i].recipe != null) GameManager.Instance.InGameItem.AddItem(testInventory[i].recipe);
             }
             InitFoodInventory();
         }
@@ -136,7 +135,7 @@ namespace JJY
             yield return null;
             var foodList = new List<Button>();
 
-            var list = CookManager.Instance.playerFoodInventory;
+            var list = GameManager.Instance.InGameItem.foodInventory;
             for (int i = list.Count - 1; i >= 0; i--)
             {
                 var food = list[i];
@@ -279,15 +278,17 @@ namespace JJY
 
         public void SeenNewItems()
         {
-            if (CookManager.Instance.playerFoodInventory != null &&
-                CookManager.Instance.playerFoodInventory.Count > 0)
+            if (GameManager.Instance.InGameItem.foodInventory != null &&
+                GameManager.Instance.InGameItem.foodInventory.Count > 0)
             {
-                foreach (var i in CookManager.Instance.playerFoodInventory)
+                foreach (var i in GameManager.Instance.InGameItem.foodInventory)
                 {
                     if (i.isNew) i.isNew = !i.isNew;
                 }
             }
 
+
+            //TODO : GameManager.Instance>InGameItem.relicInventory와 연결해야함.
             if (RelicDropManager.Instance.acquiredRelicLists != null &&
                 RelicDropManager.Instance.acquiredRelicLists.Count > 0)
             {
