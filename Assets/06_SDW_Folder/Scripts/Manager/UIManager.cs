@@ -1148,6 +1148,9 @@ namespace SDW
                     else
                         OpenPanel(targetUI);
                     break;
+                case SceneName.SDW_RoguelikeScene:
+                    OpenPanel(UIName.StageGlobalUI);
+                    break;
                 case SceneName.KGW_TestIngameScene:
                     if (targetUI == UIName.None)
                         OpenPanel(UIName.BattleUI);

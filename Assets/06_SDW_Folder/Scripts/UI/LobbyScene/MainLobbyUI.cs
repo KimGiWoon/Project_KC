@@ -64,7 +64,8 @@ namespace SDW
         /// </summary>
         private void GameStartButtonClicked()
         {
-            OnUIOpenRequested?.Invoke(UIName.KGW_StageSelectUI);
+            //todo Scene은 변경해야 함
+            GameManager.Instance.Scene.LoadSceneAsync(SceneName.SDW_RoguelikeScene);
             OnUICloseRequested?.Invoke(UIName.MainLobbyUI);
         }
 

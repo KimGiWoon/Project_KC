@@ -1,0 +1,589 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 429858b7358497341860536dc63325ff, type: 3}
+  m_Name: PrefabAndSOMapping_SDW_RoguelikeScene
+  m_EditorClassIdentifier: 
+  prefabEntries:
+  - PathHash: 15703115714788746632
+    AddressKey: 6861ca5fd7922654b851134b76556b08
+    fieldName: _prefab
+    index: -1
+    AssetPath: Assets/05_KGW_Folder/Prefabs/00_Characters/BW.prefab
+    PathPreview: '- UI/StageGlobalCanvas/PartyContainer/PartyPanel/SelectedCharContainer/SelectedChar2'
+  - PathHash: 15703115714788746632
+    AddressKey: e9e04faab6d169f4abe5c607ab5bac22
+    fieldName: _chaSkillPrefab
+    index: -1
+    AssetPath: Assets/05_KGW_Folder/Prefabs/03_Skills/CharacterSkills/SkillsData/AimForTheWound/AimForTheWound.prefab
+    PathPreview: '- UI/StageGlobalCanvas/PartyContainer/PartyPanel/SelectedCharContainer/SelectedChar2'
+  - PathHash: 15703115714788746632
+    AddressKey: ef3fef9e16e18ee4e93fd9850795f051
+    fieldName: _chaSkillPrefab
+    index: -1
+    AssetPath: Assets/05_KGW_Folder/Prefabs/03_Skills/CharacterSkills/SkillsData/WrathOfTheGuardian/WrathOfTheGuardian.prefab
+    PathPreview: '- UI/StageGlobalCanvas/PartyContainer/PartyPanel/SelectedCharContainer/SelectedChar2'
+  - PathHash: 1098363828195140374
+    AddressKey: 3b0a73deead0dc041a11dd194bf2cfb0
+    fieldName: playerCharacterPrefab
+    index: -1
+    AssetPath: Assets/07_CJH_Folder/CJH_Prefabs/Character.prefab
+    PathPreview: '- Map/MapView'
+  - PathHash: 1098363828195140374
+    AddressKey: d99358c57b189bc4ea4cd191eac17a0f
+    fieldName: arrowPrefab
+    index: -1
+    AssetPath: Assets/07_CJH_Folder/CJH_Prefabs/Arrow.prefab
+    PathPreview: '- Map/MapView'
+  - PathHash: 1098363828195140374
+    AddressKey: 8cf8ba5e4903fe245a05e258613b630f
+    fieldName: nodeButtonPrefab
+    index: -1
+    AssetPath: Assets/06_SDW_Folder/Prefabs/MoveStraightButton.prefab
+    PathPreview: '- Map/MapView'
+  - PathHash: 15703119013323631265
+    AddressKey: e2d9fb0ff2abe3a4caac52a1c5bcc451
+    fieldName: _prefab
+    index: -1
+    AssetPath: Assets/05_KGW_Folder/Prefabs/00_Characters/BCA.prefab
+    PathPreview: '- UI/StageGlobalCanvas/PartyContainer/PartyPanel/SelectedCharContainer/SelectedChar1'
+  - PathHash: 15703119013323631265
+    AddressKey: 6e3eba291fade8043b99a824641233b4
+    fieldName: _chaSkillPrefab
+    index: -1
+    AssetPath: Assets/05_KGW_Folder/Prefabs/03_Skills/CharacterSkills/SkillsData/Vanguard/Vanguard.prefab
+    PathPreview: '- UI/StageGlobalCanvas/PartyContainer/PartyPanel/SelectedCharContainer/SelectedChar1'
+  - PathHash: 15703119013323631265
+    AddressKey: 346537fde4010da49ba98236b66aac38
+    fieldName: _chaSkillPrefab
+    index: -1
+    AssetPath: Assets/05_KGW_Folder/Prefabs/03_Skills/CharacterSkills/SkillsData/ProtectiveGrenade/ProtectiveGrenade.prefab
+    PathPreview: '- UI/StageGlobalCanvas/PartyContainer/PartyPanel/SelectedCharContainer/SelectedChar1'
+  - PathHash: 12851514038449099306
+    AddressKey: 3d4c1df5ca9658a44b42ff3c2d11c74c
+    fieldName: ingredientButtonPrefab
+    index: -1
+    AssetPath: Assets/08_JJY_Folder/Prefabs/IngredientButtonPrefab.prefab
+    PathPreview: '- LocalManager/CookManager'
+  - PathHash: 16996063776977380322
+    AddressKey: ad70a377b08cee941a1d760d8411e636
+    fieldName: mapNodePrefabs
+    index: 0
+    AssetPath: Assets/07_CJH_Folder/CJH_Prefabs/Map Prefab 1.prefab
+    PathPreview: '- Map/MapPrefabRandomizer'
+  - PathHash: 16996063776977380322
+    AddressKey: 0ca5741936035a2468177aaa5d4df827
+    fieldName: mapNodePrefabs
+    index: 1
+    AssetPath: Assets/07_CJH_Folder/CJH_Prefabs/Map Prefab 2.prefab
+    PathPreview: '- Map/MapPrefabRandomizer'
+  - PathHash: 16996063776977380322
+    AddressKey: 764401bcc62d4104581f853f3d008117
+    fieldName: mapNodePrefabs
+    index: 2
+    AssetPath: Assets/07_CJH_Folder/CJH_Prefabs/Map Prefab 3.prefab
+    PathPreview: '- Map/MapPrefabRandomizer'
+  - PathHash: 16996063776977380322
+    AddressKey: 08eb32ba6c2bfe44f87ee1fceb066650
+    fieldName: mapNodePrefabs
+    index: 3
+    AssetPath: Assets/07_CJH_Folder/CJH_Prefabs/Map Prefab 4.prefab
+    PathPreview: '- Map/MapPrefabRandomizer'
+  - PathHash: 16996063776977380322
+    AddressKey: 3ecfd832edbe6bf48bd563f086f82d8c
+    fieldName: mapNodePrefabs
+    index: 4
+    AssetPath: Assets/07_CJH_Folder/CJH_Prefabs/Map Prefab 5.prefab
+    PathPreview: '- Map/MapPrefabRandomizer'
+  - PathHash: 15703116814300374843
+    AddressKey: 527750cc54288f14c8be073cf35314c9
+    fieldName: _prefab
+    index: -1
+    AssetPath: Assets/05_KGW_Folder/Prefabs/00_Characters/DRA.prefab
+    PathPreview: '- UI/StageGlobalCanvas/PartyContainer/PartyPanel/SelectedCharContainer/SelectedChar3'
+  - PathHash: 15703116814300374843
+    AddressKey: 77cf2f03e94412f4396a146ec41d3c1f
+    fieldName: _chaSkillPrefab
+    index: -1
+    AssetPath: Assets/05_KGW_Folder/Prefabs/03_Skills/CharacterSkills/SkillsData/WaveOfSteel/WaveOfSteel.prefab
+    PathPreview: '- UI/StageGlobalCanvas/PartyContainer/PartyPanel/SelectedCharContainer/SelectedChar3'
+  - PathHash: 7830547508454300312
+    AddressKey: da4f265053f43d34a994aefe2142a773
+    fieldName: mapTemplatePrefab
+    index: -1
+    AssetPath: Assets/07_CJH_Folder/CJH_Prefabs/MapParent.prefab
+    PathPreview: '- Map/MapGenerator'
+  - PathHash: 3525767098326012302
+    AddressKey: 825ccdf668af77a42be47a6559afb8bf
+    fieldName: characterSlotPrefab
+    index: -1
+    AssetPath: Assets/06_SDW_Folder/Prefabs/TeamMakingCharacter.prefab
+    PathPreview: '- NeedExternalDataSync/TeamFormationManager'
+  - PathHash: 3525767098326012302
+    AddressKey: 825ccdf668af77a42be47a6559afb8bf
+    fieldName: selectionOverlay
+    index: -1
+    AssetPath: Assets/06_SDW_Folder/Prefabs/TeamMakingCharacter.prefab
+    PathPreview: '- NeedExternalDataSync/TeamFormationManager'
+  - PathHash: 3525767098326012302
+    AddressKey: afb62200e0b6f05468de468ab653ac86
+    fieldName: _chaSkillPrefab
+    index: -1
+    AssetPath: Assets/05_KGW_Folder/Prefabs/03_Skills/CharacterSkills/SkillsData/RegenerativeStrike/RegenerativeStrike.prefab
+    PathPreview: '- NeedExternalDataSync/TeamFormationManager'
+  - PathHash: 14555946167916621192
+    AddressKey: 97821f566f49c564abd957711d46cada
+    fieldName: itemPrefab
+    index: -1
+    AssetPath: Assets/08_JJY_Folder/Prefabs/InventoryItemPrefab.prefab
+    PathPreview: '- LocalManager/InventoryManager'
+  soEntries:
+  - PathHash: 15703115714788746632
+    AddressKey: 103b7f3043d88a9429d25209c9d1f182
+    fieldName: characterData
+    index: -1
+    AssetPath: Assets/05_KGW_Folder/Prefabs/00_Characters/CharactersSOData/BW_Data.asset
+    PathPreview: '- UI/StageGlobalCanvas/PartyContainer/PartyPanel/SelectedCharContainer/SelectedChar2'
+  - PathHash: 15703115714788746632
+    AddressKey: 103b7f3043d88a9429d25209c9d1f182
+    fieldName: _characterData
+    index: -1
+    AssetPath: Assets/05_KGW_Folder/Prefabs/00_Characters/CharactersSOData/BW_Data.asset
+    PathPreview: '- UI/StageGlobalCanvas/PartyContainer/PartyPanel/SelectedCharContainer/SelectedChar2'
+  - PathHash: 15703115714788746632
+    AddressKey: 47189edbb54ca18499e51caaa3eb7486
+    fieldName: _characterState
+    index: -1
+    AssetPath: Assets/05_KGW_Folder/Prefabs/03_Skills/CharacterSkills/SkillsSOData/AimForTheWound_Data.asset
+    PathPreview: '- UI/StageGlobalCanvas/PartyContainer/PartyPanel/SelectedCharContainer/SelectedChar2'
+  - PathHash: 15703115714788746632
+    AddressKey: 0e1f6a269f20a784ca12b6ae5669cda8
+    fieldName: _characterState
+    index: -1
+    AssetPath: Assets/05_KGW_Folder/Prefabs/03_Skills/CharacterSkills/SkillsSOData/WrathOfTheGuardian_Data.asset
+    PathPreview: '- UI/StageGlobalCanvas/PartyContainer/PartyPanel/SelectedCharContainer/SelectedChar2'
+  - PathHash: 15703115714788746632
+    AddressKey: 0e1f6a269f20a784ca12b6ae5669cda8
+    fieldName: _chaActiveSkill
+    index: -1
+    AssetPath: Assets/05_KGW_Folder/Prefabs/03_Skills/CharacterSkills/SkillsSOData/WrathOfTheGuardian_Data.asset
+    PathPreview: '- UI/StageGlobalCanvas/PartyContainer/PartyPanel/SelectedCharContainer/SelectedChar2'
+  - PathHash: 15703115714788746632
+    AddressKey: 47189edbb54ca18499e51caaa3eb7486
+    fieldName: _chaPassiveSkill
+    index: -1
+    AssetPath: Assets/05_KGW_Folder/Prefabs/03_Skills/CharacterSkills/SkillsSOData/AimForTheWound_Data.asset
+    PathPreview: '- UI/StageGlobalCanvas/PartyContainer/PartyPanel/SelectedCharContainer/SelectedChar2'
+  - PathHash: 1098363828195140374
+    AddressKey: 1bcc5d240b86c65409d04d652ea76f67
+    fieldName: mapConfig
+    index: -1
+    AssetPath: Assets/07_CJH_Folder/CJH_DataSO/MapConfig.asset
+    PathPreview: '- Map/MapView'
+  - PathHash: 1098363828195140374
+    AddressKey: bf3f9fcd656db564e91095a5b89bf2f3
+    fieldName: NodeTemplates
+    index: 0
+    AssetPath: Assets/07_CJH_Folder/CJH_DataSO/StartNode.asset
+    PathPreview: '- Map/MapView'
+  - PathHash: 1098363828195140374
+    AddressKey: 0bf8beafcbb0bb44683d0ad090f5caea
+    fieldName: NodeTemplates
+    index: 1
+    AssetPath: Assets/07_CJH_Folder/CJH_DataSO/BattleNode.asset
+    PathPreview: '- Map/MapView'
+  - PathHash: 1098363828195140374
+    AddressKey: 6d5692b623c60fe42aad844ebedfec3f
+    fieldName: NodeTemplates
+    index: 2
+    AssetPath: Assets/07_CJH_Folder/CJH_DataSO/EventNode.asset
+    PathPreview: '- Map/MapView'
+  - PathHash: 1098363828195140374
+    AddressKey: 129f9f89a6a045b4b890b9a3aa8d7ff7
+    fieldName: NodeTemplates
+    index: 3
+    AssetPath: Assets/07_CJH_Folder/CJH_DataSO/MysteryNode.asset
+    PathPreview: '- Map/MapView'
+  - PathHash: 1098363828195140374
+    AddressKey: 2ca6a7e30acca1e4c8fe822c43d75843
+    fieldName: NodeTemplates
+    index: 4
+    AssetPath: Assets/07_CJH_Folder/CJH_DataSO/BossNode.asset
+    PathPreview: '- Map/MapView'
+  - PathHash: 1399650426235421119
+    AddressKey: ddb682d1b45fc6648b273d2d988f0189
+    fieldName: ingredientDatabase
+    index: -1
+    AssetPath: Assets/00_Imports/Scriptable Object/IngredientData/Ingredient Database.asset
+    PathPreview: '- LocalManager/StoreManager'
+  - PathHash: 1399650426235421119
+    AddressKey: 27ee3b2f8530bb349bf5d96988d6595f
+    fieldName: ingredients
+    index: 0
+    AssetPath: Assets/00_Imports/Scriptable Object/IngredientData/Garlic.asset
+    PathPreview: '- LocalManager/StoreManager'
+  - PathHash: 1399650426235421119
+    AddressKey: 00bbcf24bdc3d174d83a19c351d66403
+    fieldName: ingredients
+    index: 1
+    AssetPath: Assets/00_Imports/Scriptable Object/IngredientData/Oil.asset
+    PathPreview: '- LocalManager/StoreManager'
+  - PathHash: 1399650426235421119
+    AddressKey: 9dd6229ae02819941b13470c283ef80d
+    fieldName: ingredients
+    index: 2
+    AssetPath: Assets/00_Imports/Scriptable Object/IngredientData/Water.asset
+    PathPreview: '- LocalManager/StoreManager'
+  - PathHash: 1399650426235421119
+    AddressKey: 8b43ea89484518846ba75c0165199d5c
+    fieldName: ingredients
+    index: 3
+    AssetPath: Assets/00_Imports/Scriptable Object/IngredientData/Bread.asset
+    PathPreview: '- LocalManager/StoreManager'
+  - PathHash: 1399650426235421119
+    AddressKey: 3fa02da616d2f164a87d80fc12d135a9
+    fieldName: ingredients
+    index: 4
+    AssetPath: Assets/00_Imports/Scriptable Object/IngredientData/Tofu.asset
+    PathPreview: '- LocalManager/StoreManager'
+  - PathHash: 1399650426235421119
+    AddressKey: bd30487ab6f046e42ab4f2f0e72d2836
+    fieldName: ingredients
+    index: 5
+    AssetPath: Assets/00_Imports/Scriptable Object/IngredientData/Noddle.asset
+    PathPreview: '- LocalManager/StoreManager'
+  - PathHash: 1399650426235421119
+    AddressKey: af00778c504522c4eb3c3303363d08c8
+    fieldName: ingredients
+    index: 6
+    AssetPath: Assets/00_Imports/Scriptable Object/IngredientData/Herb.asset
+    PathPreview: '- LocalManager/StoreManager'
+  - PathHash: 1399650426235421119
+    AddressKey: b9e429e7729fa664f89f471699754737
+    fieldName: ingredients
+    index: 7
+    AssetPath: Assets/00_Imports/Scriptable Object/IngredientData/Meat.asset
+    PathPreview: '- LocalManager/StoreManager'
+  - PathHash: 1399650426235421119
+    AddressKey: 15c97dc8e76cba94bae97937f3e1404c
+    fieldName: ingredients
+    index: 8
+    AssetPath: Assets/00_Imports/Scriptable Object/IngredientData/Onion.asset
+    PathPreview: '- LocalManager/StoreManager'
+  - PathHash: 1399650426235421119
+    AddressKey: 364b8610058deb744918a9deead30ed6
+    fieldName: ingredients
+    index: 9
+    AssetPath: Assets/00_Imports/Scriptable Object/IngredientData/Potato.asset
+    PathPreview: '- LocalManager/StoreManager'
+  - PathHash: 1399650426235421119
+    AddressKey: f674b08f8f8e27641b6e83a7a5b1658f
+    fieldName: ingredients
+    index: 10
+    AssetPath: Assets/00_Imports/Scriptable Object/IngredientData/Milk.asset
+    PathPreview: '- LocalManager/StoreManager'
+  - PathHash: 1399650426235421119
+    AddressKey: d6f001a6fa340cc4b9891ff05a86f929
+    fieldName: ingredients
+    index: 11
+    AssetPath: Assets/00_Imports/Scriptable Object/IngredientData/Chili.asset
+    PathPreview: '- LocalManager/StoreManager'
+  - PathHash: 1399650426235421119
+    AddressKey: c30baf4006854c7419c30eca5610fe34
+    fieldName: ingredients
+    index: 12
+    AssetPath: Assets/00_Imports/Scriptable Object/IngredientData/Rice.asset
+    PathPreview: '- LocalManager/StoreManager'
+  - PathHash: 1399650426235421119
+    AddressKey: b0dae388e258f2b4ea55f64f30204508
+    fieldName: ingredients
+    index: 13
+    AssetPath: Assets/00_Imports/Scriptable Object/IngredientData/Vegetable.asset
+    PathPreview: '- LocalManager/StoreManager'
+  - PathHash: 1399650426235421119
+    AddressKey: 3a023de2a3728b342bed920c5702b921
+    fieldName: ingredients
+    index: 14
+    AssetPath: Assets/00_Imports/Scriptable Object/IngredientData/Butter.asset
+    PathPreview: '- LocalManager/StoreManager'
+  - PathHash: 15703119013323631265
+    AddressKey: 0977072b4d0ff2c4bb1c250d908f0ba6
+    fieldName: characterData
+    index: -1
+    AssetPath: Assets/05_KGW_Folder/Prefabs/00_Characters/CharactersSOData/BCA_Data.asset
+    PathPreview: '- UI/StageGlobalCanvas/PartyContainer/PartyPanel/SelectedCharContainer/SelectedChar1'
+  - PathHash: 15703119013323631265
+    AddressKey: 0977072b4d0ff2c4bb1c250d908f0ba6
+    fieldName: _characterData
+    index: -1
+    AssetPath: Assets/05_KGW_Folder/Prefabs/00_Characters/CharactersSOData/BCA_Data.asset
+    PathPreview: '- UI/StageGlobalCanvas/PartyContainer/PartyPanel/SelectedCharContainer/SelectedChar1'
+  - PathHash: 15703119013323631265
+    AddressKey: 225cf737d40a09d48b2ddce59168cd9a
+    fieldName: _characterState
+    index: -1
+    AssetPath: Assets/05_KGW_Folder/Prefabs/03_Skills/CharacterSkills/SkillsSOData/Vanguard_Data.asset
+    PathPreview: '- UI/StageGlobalCanvas/PartyContainer/PartyPanel/SelectedCharContainer/SelectedChar1'
+  - PathHash: 15703119013323631265
+    AddressKey: 4a2c293d48547944daadf326f357d3c6
+    fieldName: _characterState
+    index: -1
+    AssetPath: Assets/05_KGW_Folder/Prefabs/03_Skills/CharacterSkills/SkillsSOData/ProtectiveGrenade_Data.asset
+    PathPreview: '- UI/StageGlobalCanvas/PartyContainer/PartyPanel/SelectedCharContainer/SelectedChar1'
+  - PathHash: 15703119013323631265
+    AddressKey: 4a2c293d48547944daadf326f357d3c6
+    fieldName: _chaActiveSkill
+    index: -1
+    AssetPath: Assets/05_KGW_Folder/Prefabs/03_Skills/CharacterSkills/SkillsSOData/ProtectiveGrenade_Data.asset
+    PathPreview: '- UI/StageGlobalCanvas/PartyContainer/PartyPanel/SelectedCharContainer/SelectedChar1'
+  - PathHash: 15703119013323631265
+    AddressKey: 225cf737d40a09d48b2ddce59168cd9a
+    fieldName: _chaPassiveSkill
+    index: -1
+    AssetPath: Assets/05_KGW_Folder/Prefabs/03_Skills/CharacterSkills/SkillsSOData/Vanguard_Data.asset
+    PathPreview: '- UI/StageGlobalCanvas/PartyContainer/PartyPanel/SelectedCharContainer/SelectedChar1'
+  - PathHash: 12851514038449099306
+    AddressKey: 0c493d05ed322284894a49da06e45e52
+    fieldName: recipeSO
+    index: 0
+    AssetPath: Assets/00_Imports/Scriptable Object/RecipeData/Aglio e Olio.asset
+    PathPreview: '- LocalManager/CookManager'
+  - PathHash: 12851514038449099306
+    AddressKey: ebd90d39abd82354cb355a74095a875d
+    fieldName: effects
+    index: 0
+    AssetPath: Assets/00_Imports/Scriptable Object/EffectData/Revive Random.asset
+    PathPreview: '- LocalManager/CookManager'
+  - PathHash: 12851514038449099306
+    AddressKey: 8fda17a23e7aa53488384fe5ad65d3d9
+    fieldName: recipeSO
+    index: 1
+    AssetPath: Assets/00_Imports/Scriptable Object/RecipeData/Cream Pasta.asset
+    PathPreview: '- LocalManager/CookManager'
+  - PathHash: 12851514038449099306
+    AddressKey: 0061c6056fbe4864e95f49f60caa27c0
+    fieldName: effects
+    index: 0
+    AssetPath: Assets/00_Imports/Scriptable Object/EffectData/Heal All Buff.asset
+    PathPreview: '- LocalManager/CookManager'
+  - PathHash: 12851514038449099306
+    AddressKey: bb6b8af267d629d40b3fc6205f685eb1
+    fieldName: recipeSO
+    index: 2
+    AssetPath: Assets/00_Imports/Scriptable Object/RecipeData/Garlic Bread.asset
+    PathPreview: '- LocalManager/CookManager'
+  - PathHash: 12851514038449099306
+    AddressKey: 45a0b532a3f18c44fa9e50f60136970c
+    fieldName: effects
+    index: 0
+    AssetPath: Assets/00_Imports/Scriptable Object/EffectData/Attack Buff.asset
+    PathPreview: '- LocalManager/CookManager'
+  - PathHash: 12851514038449099306
+    AddressKey: 9614a5b032c09c24e8037384d5912967
+    fieldName: recipeSO
+    index: 3
+    AssetPath: Assets/00_Imports/Scriptable Object/RecipeData/Garlic Fried Rice.asset
+    PathPreview: '- LocalManager/CookManager'
+  - PathHash: 12851514038449099306
+    AddressKey: 1af51fb9c1bcd1a46a5d246ce897c32c
+    fieldName: effects
+    index: 0
+    AssetPath: Assets/00_Imports/Scriptable Object/EffectData/Create Barrier For
+      All.asset
+    PathPreview: '- LocalManager/CookManager'
+  - PathHash: 12851514038449099306
+    AddressKey: 9fd679b1099d3384c8b797fa92f862da
+    fieldName: recipeSO
+    index: 4
+    AssetPath: Assets/00_Imports/Scriptable Object/RecipeData/Garlic Juice.asset
+    PathPreview: '- LocalManager/CookManager'
+  - PathHash: 12851514038449099306
+    AddressKey: 09b9c985da12ffb4abfe15332fb004f3
+    fieldName: effects
+    index: 0
+    AssetPath: Assets/00_Imports/Scriptable Object/EffectData/Enemy Attack Debuff.asset
+    PathPreview: '- LocalManager/CookManager'
+  - PathHash: 12851514038449099306
+    AddressKey: c39bab6c46794b44890952af6e37a4cb
+    fieldName: recipeSO
+    index: 5
+    AssetPath: Assets/00_Imports/Scriptable Object/RecipeData/Garlic Pork Stir-fry.asset
+    PathPreview: '- LocalManager/CookManager'
+  - PathHash: 12851514038449099306
+    AddressKey: c11137913795e9c43860e42575c7ebe8
+    fieldName: effects
+    index: 0
+    AssetPath: Assets/00_Imports/Scriptable Object/EffectData/Bonus Damage To Groggy
+      Monsters.asset
+    PathPreview: '- LocalManager/CookManager'
+  - PathHash: 12851514038449099306
+    AddressKey: a6a0de74cd11cf64dbf8c90ab7e303e9
+    fieldName: recipeSO
+    index: 6
+    AssetPath: Assets/00_Imports/Scriptable Object/RecipeData/Garlic Soup.asset
+    PathPreview: '- LocalManager/CookManager'
+  - PathHash: 12851514038449099306
+    AddressKey: f3fa296e7e864d146b89965d1ad07cb2
+    fieldName: effects
+    index: 0
+    AssetPath: Assets/00_Imports/Scriptable Object/EffectData/Restore Mana.asset
+    PathPreview: '- LocalManager/CookManager'
+  - PathHash: 12851514038449099306
+    AddressKey: 70c0bce9b9f2a6244b7f94ca4867e61f
+    fieldName: recipeSO
+    index: 7
+    AssetPath: Assets/00_Imports/Scriptable Object/RecipeData/Meat Steak.asset
+    PathPreview: '- LocalManager/CookManager'
+  - PathHash: 12851514038449099306
+    AddressKey: 0d0260ee8543e414998ce0b3604d60f4
+    fieldName: effects
+    index: 0
+    AssetPath: Assets/00_Imports/Scriptable Object/EffectData/Accumulate Boss Groggy
+      Percent.asset
+    PathPreview: '- LocalManager/CookManager'
+  - PathHash: 12851514038449099306
+    AddressKey: b9e4a6087f32c2d4f940691faefb94c4
+    fieldName: recipeSO
+    index: 8
+    AssetPath: Assets/00_Imports/Scriptable Object/RecipeData/Roasted Garlic.asset
+    PathPreview: '- LocalManager/CookManager'
+  - PathHash: 12851514038449099306
+    AddressKey: f3fa718abf6d25b4aa2f5fd747857b14
+    fieldName: effects
+    index: 0
+    AssetPath: Assets/00_Imports/Scriptable Object/EffectData/Defense Buff.asset
+    PathPreview: '- LocalManager/CookManager'
+  - PathHash: 12851514038449099306
+    AddressKey: fa1a7c5b28fbc5242a8f7c56ee0da1b2
+    fieldName: recipeSO
+    index: 9
+    AssetPath: Assets/00_Imports/Scriptable Object/RecipeData/Tofu Veggie Stir-fry.asset
+    PathPreview: '- LocalManager/CookManager'
+  - PathHash: 12851514038449099306
+    AddressKey: 854496e930eafb245bd9b72e971d8a32
+    fieldName: effects
+    index: 0
+    AssetPath: Assets/00_Imports/Scriptable Object/EffectData/Enemy Defense Debuff.asset
+    PathPreview: '- LocalManager/CookManager'
+  - PathHash: 12851514038449099306
+    AddressKey: ddb682d1b45fc6648b273d2d988f0189
+    fieldName: ingredientDatabase
+    index: -1
+    AssetPath: Assets/00_Imports/Scriptable Object/IngredientData/Ingredient Database.asset
+    PathPreview: '- LocalManager/CookManager'
+  - PathHash: 7152077305429826109
+    AddressKey: 1bcc5d240b86c65409d04d652ea76f67
+    fieldName: config
+    index: -1
+    AssetPath: Assets/07_CJH_Folder/CJH_DataSO/MapConfig.asset
+    PathPreview: '- Map/MapSelectionInitializer'
+  - PathHash: 15703116814300374843
+    AddressKey: b2b81c36db1a8e54ea99f22c0ce7f76f
+    fieldName: characterData
+    index: -1
+    AssetPath: Assets/05_KGW_Folder/Prefabs/00_Characters/CharactersSOData/DRA_Data.asset
+    PathPreview: '- UI/StageGlobalCanvas/PartyContainer/PartyPanel/SelectedCharContainer/SelectedChar3'
+  - PathHash: 15703116814300374843
+    AddressKey: b2b81c36db1a8e54ea99f22c0ce7f76f
+    fieldName: _characterData
+    index: -1
+    AssetPath: Assets/05_KGW_Folder/Prefabs/00_Characters/CharactersSOData/DRA_Data.asset
+    PathPreview: '- UI/StageGlobalCanvas/PartyContainer/PartyPanel/SelectedCharContainer/SelectedChar3'
+  - PathHash: 15703116814300374843
+    AddressKey: d878cb11f5f90e548a5f492a57a47010
+    fieldName: _chaPassiveSkill
+    index: -1
+    AssetPath: Assets/05_KGW_Folder/Prefabs/03_Skills/CharacterSkills/SkillsSOData/WaveOfSteel_Data.asset
+    PathPreview: '- UI/StageGlobalCanvas/PartyContainer/PartyPanel/SelectedCharContainer/SelectedChar3'
+  - PathHash: 7830547508454300312
+    AddressKey: 1bcc5d240b86c65409d04d652ea76f67
+    fieldName: config
+    index: -1
+    AssetPath: Assets/07_CJH_Folder/CJH_DataSO/MapConfig.asset
+    PathPreview: '- Map/MapGenerator'
+  - PathHash: 3525767098326012302
+    AddressKey: 0977072b4d0ff2c4bb1c250d908f0ba6
+    fieldName: allOwnedCharacters
+    index: 0
+    AssetPath: Assets/05_KGW_Folder/Prefabs/00_Characters/CharactersSOData/BCA_Data.asset
+    PathPreview: '- NeedExternalDataSync/TeamFormationManager'
+  - PathHash: 3525767098326012302
+    AddressKey: 103b7f3043d88a9429d25209c9d1f182
+    fieldName: allOwnedCharacters
+    index: 1
+    AssetPath: Assets/05_KGW_Folder/Prefabs/00_Characters/CharactersSOData/BW_Data.asset
+    PathPreview: '- NeedExternalDataSync/TeamFormationManager'
+  - PathHash: 3525767098326012302
+    AddressKey: b2b81c36db1a8e54ea99f22c0ce7f76f
+    fieldName: allOwnedCharacters
+    index: 2
+    AssetPath: Assets/05_KGW_Folder/Prefabs/00_Characters/CharactersSOData/DRA_Data.asset
+    PathPreview: '- NeedExternalDataSync/TeamFormationManager'
+  - PathHash: 3525767098326012302
+    AddressKey: 9a13d90448a4f63409bf98028055be21
+    fieldName: allOwnedCharacters
+    index: 3
+    AssetPath: Assets/05_KGW_Folder/Prefabs/00_Characters/CharactersSOData/EMA_Data.asset
+    PathPreview: '- NeedExternalDataSync/TeamFormationManager'
+  - PathHash: 3525767098326012302
+    AddressKey: d10e51f1b5c6b5a4fb362c7e9535f891
+    fieldName: _chaPassiveSkill
+    index: -1
+    AssetPath: Assets/05_KGW_Folder/Prefabs/03_Skills/CharacterSkills/SkillsSOData/RegenerativeStrike_Data.asset
+    PathPreview: '- NeedExternalDataSync/TeamFormationManager'
+  - PathHash: 14555946167916621192
+    AddressKey: 0c493d05ed322284894a49da06e45e52
+    fieldName: testInventory.Array.data[0].recipe
+    index: -1
+    AssetPath: Assets/00_Imports/Scriptable Object/RecipeData/Aglio e Olio.asset
+    PathPreview: '- LocalManager/InventoryManager'
+  - PathHash: 14555946167916621192
+    AddressKey: 8fda17a23e7aa53488384fe5ad65d3d9
+    fieldName: testInventory.Array.data[1].recipe
+    index: -1
+    AssetPath: Assets/00_Imports/Scriptable Object/RecipeData/Cream Pasta.asset
+    PathPreview: '- LocalManager/InventoryManager'
+  - PathHash: 14555946167916621192
+    AddressKey: bb6b8af267d629d40b3fc6205f685eb1
+    fieldName: testInventory.Array.data[2].recipe
+    index: -1
+    AssetPath: Assets/00_Imports/Scriptable Object/RecipeData/Garlic Bread.asset
+    PathPreview: '- LocalManager/InventoryManager'
+  - PathHash: 14555946167916621192
+    AddressKey: 94e50d61152c7ab4a923308d30150ed9
+    fieldName: testInventory.Array.data[3].relic
+    index: -1
+    AssetPath: Assets/09_KSH_Folder/Resources/Relics/BloodstainedCleaver_Data.asset
+    PathPreview: '- LocalManager/InventoryManager'
+  - PathHash: 14555946167916621192
+    AddressKey: 6ddf176743c16ae46949ee73b7e34e67
+    fieldName: testInventory.Array.data[4].relic
+    index: -1
+    AssetPath: Assets/09_KSH_Folder/Resources/Relics/BoneBroth_Data.asset
+    PathPreview: '- LocalManager/InventoryManager'
+  - PathHash: 14555946167916621192
+    AddressKey: f0a1c32938eee1a4eb4269b297820de0
+    fieldName: testInventory.Array.data[5].relic
+    index: -1
+    AssetPath: Assets/09_KSH_Folder/Resources/Relics/BrothPot_Data.asset
+    PathPreview: '- LocalManager/InventoryManager'
+  - PathHash: 14555946167916621192
+    AddressKey: 9614a5b032c09c24e8037384d5912967
+    fieldName: testInventory.Array.data[6].recipe
+    index: -1
+    AssetPath: Assets/00_Imports/Scriptable Object/RecipeData/Garlic Fried Rice.asset
+    PathPreview: '- LocalManager/InventoryManager'
+  - PathHash: 14555946167916621192
+    AddressKey: 1e0b0d38a7882f947be55d35836c7e62
+    fieldName: testInventory.Array.data[6].relic
+    index: -1
+    AssetPath: Assets/09_KSH_Folder/Resources/Relics/BurdenedQuiver_Data.asset
+    PathPreview: '- LocalManager/InventoryManager'
