@@ -26,7 +26,7 @@ public class MonsterDataSO : ScriptableObject
     [Header("Monster Stat Setting")]
     public int MonLv;
     public bool MonBreak;
-    public float BreakGage;
+    public float MonBreakGage;
     public float MonHP;
     //# Increase는 % 증가(명중률은 +)
     public float MonHPIncrase;
@@ -71,6 +71,7 @@ public class MonsterDataSO : ScriptableObject
 
         MonLv = statData.MonLv;
         MonBreak = statData.MonBreak;
+        MonBreakGage = statData.BreakGage;
         MonHP = statData.MonHP;
         MonHPIncrase = statData.MonHPIncrase;
         MonAtkSpeed = statData.MonAtkSpeed;

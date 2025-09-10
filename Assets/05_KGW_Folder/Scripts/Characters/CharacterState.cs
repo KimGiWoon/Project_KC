@@ -24,6 +24,8 @@ public class CharacterState
     public float _chaArmor;
     public bool _isBarrier;
     public float _groggyDamage;
+    public float _reductionUpValue;
+    public float _reductionDownValue;
 
     [Header("Character Role State Data")]
     public int _chaAtkIsMelee;

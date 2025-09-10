@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using SDW;
+using TableForge.Demo;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -27,7 +28,7 @@ public class MonsterController : UnitBaseData
     private float _skill2Timer;
     private RecallPointProvider _recallPointProvider;
     private MonsterController _monster;
-    private float decreaseAttackValue;
+    private float _saveAttackValue;
 
     // 체력 절반 이벤트
     public event Action OnHalfHp;
@@ -60,6 +61,8 @@ public class MonsterController : UnitBaseData
         _monsterState._monEnName = _monsterData.MonEnName;
         _monsterState._monType = _monsterData.MonType;
         _monsterState._monLevel = _monsterData.MonLv;
+        _monsterState._monBreak = _monsterData.MonBreak;
+        _monsterState._monbreakGage = _monsterData.MonBreakGage;
         _monsterState._monCurrentHP = _monsterData.MonHP;
         _monsterState._monMaxHP = _monsterData.MonHP;
         _monsterState._monAtkRange = _monsterData.MonAtkRange;
@@ -70,6 +73,8 @@ public class MonsterController : UnitBaseData
         _monsterState._monAccuracy = _monsterData.MonAccuracy;
         _monsterState._monAvoid = _monsterData.MonAvoid;
         _monsterState._monReg = _monsterData.MonReg;
+        _monsterState._reductionUpValue = 0f;
+        _monsterState._reductionDownValue = 0f;
 
         _monsterState._monHPIncrase = _monsterData.MonHPIncrase;
         _monsterState._monAttackIncrease = _monsterData.MonAttackIncrease;
@@ -252,13 +257,14 @@ public class MonsterController : UnitBaseData
 
     public override void TakeDamage(float damage)
     {
+        // 캐릭터 넉백
         base.TakeDamage(damage);
 
         // 데미지 받기 전 체력 저장
         float saveCurHp = _monsterState._monCurrentHP;
 
-        // 데미지를 받음, 방어력에 대한 것은??
-        _monsterState._monCurrentHP -= damage;
+        // 최종데미지로 체력 감소
+        _monsterState._monCurrentHP -= FinalDamage(damage, _monsterState._reductionUpValue, _monsterState._reductionDownValue);
 
         // 체력이 0이 됨
         if (_monsterState._monCurrentHP <= 0)
@@ -371,6 +377,19 @@ public class MonsterController : UnitBaseData
         _battleManager.ReportMonsterHeal(increaseHp);
     }
 
+    // 최종데미지 계산
+    private float FinalDamage(float damage, float reducUpValue, float reducDownValue)
+    {
+        float reduction = _monsterState._monArmor / (_monsterState._monArmor + 100);
+        float buffReduction = (_monsterState._reductionUpValue - _monsterState._reductionDownValue);
+        float finalReduction = MathF.Min(reduction + buffReduction, 0.95f);
+        float finalDamage = damage * (1 - finalReduction);
+
+        Debug.Log($"몬스터 방어력 : {_monsterState._monArmor}");
+        Debug.Log($"몬스터가 받은 데미지 계산 Reduction : {reduction}, BuffReduction : {buffReduction}, FinalReduction : {finalReduction}, FinalDamage : {finalDamage}");
+        return finalDamage;
+    }
+
     #region 캐릭터의 패시브 스킬 효과
     // 사기 저하 패시브 스킬
     public void AttackDownPassive(float saveAttack, float attackDownValue)
@@ -378,11 +397,9 @@ public class MonsterController : UnitBaseData
         // 지속 시간 중 중복 적용 방지
         if (!_isApplyPassive)
         {
-            // 공격력이 마이너스로 가는걸 방지
-            decreaseAttackValue = MathF.Min(saveAttack, attackDownValue);
-
+            _saveAttackValue = saveAttack;
             // 공격한 몬스터의 공격력 감소
-            _monsterState._monAttack -= decreaseAttackValue;
+            _monsterState._monAttack -= _monsterState._monAttack * attackDownValue;
             _isApplyPassive = true;
 
             // 사기 저하 원복
@@ -396,7 +413,7 @@ public class MonsterController : UnitBaseData
         if (_isApplyPassive)
         {
             _isApplyPassive = false;
-            _monsterState._monAttack += decreaseAttackValue;
+            _monsterState._monAttack = _saveAttackValue;
         }
     }
     #endregion

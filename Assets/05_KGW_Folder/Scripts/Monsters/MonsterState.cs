@@ -15,7 +15,7 @@ public class MonsterState
     public MonsterType _monType;
     public int _monLevel;
     public bool _monBreak;
-    public float _breakGage;
+    public float _monbreakGage;
     public float _monCurrentHP;
     public float _monMaxHP;
     public int _monAtkRange;
@@ -26,6 +26,8 @@ public class MonsterState
     public float _monAccuracy;
     public float _monAvoid;
     public float _monReg;
+    public float _reductionUpValue;
+    public float _reductionDownValue;
 
     [Header("Monster Stat Increase")]
     public float _monHPIncrase;

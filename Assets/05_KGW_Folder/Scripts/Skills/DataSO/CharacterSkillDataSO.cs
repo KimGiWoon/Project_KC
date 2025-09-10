@@ -97,7 +97,7 @@ public class CharacterSkillDataSO : ScriptableObject
         GameObject cheer = Instantiate(_chaSkillPrefab, caster.transform.position, caster.transform.rotation);
         CheerController skillCon = cheer.GetComponent<CheerController>();
 
-        skillCon.Init(caster, _chaSkillValue, _chaSkillDuration);
+        skillCon.Init(caster, _chaEffectValue, _chaSkillDuration);
     }
 
     // 보호 수류탄 액티브 스킬
