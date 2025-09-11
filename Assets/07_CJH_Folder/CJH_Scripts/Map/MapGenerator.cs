@@ -24,7 +24,7 @@ public class MapGenerator : MonoBehaviour
 
         // 전달받은 config를 이 컴포넌트의 config 변수에 저장합니다.
         config = configToGenerate;
-        Debug.Log("--- 맵 생성 시작 ---");
+        // Debug.Log("--- 맵 생성 시작 ---");
 
         InitSetting(config);
         _map = GenerateInitialGrid();
@@ -44,7 +44,7 @@ public class MapGenerator : MonoBehaviour
 
         AssignNodeTypesToPaths(startNode, bossNode);
 
-        Debug.Log("--- 모든 맵 생성 과정 완료 ---");
+        // Debug.Log("--- 모든 맵 생성 과정 완료 ---");
         var allPaths = GetAllPaths(startNode, bossNode);
         return new MapData(_map, allPaths, startNode, bossNode);
     }
@@ -153,8 +153,8 @@ public class MapGenerator : MonoBehaviour
             if (_dataManager != null)
             {
                 eventNode.EncounterID = _dataManager.GetRandomEncounterID(sentiment, currentStage);
-                Debug.Log(
-                    $"노드 ({eventNode.point.x}, {eventNode.point.y})에 감정({sentiment}), 스테이지({currentStage})에 따른 사건 ID {eventNode.EncounterID} 할당됨.");
+                // Debug.Log(
+                //     $"노드 ({eventNode.point.x}, {eventNode.point.y})에 감정({sentiment}), 스테이지({currentStage})에 따른 사건 ID {eventNode.EncounterID} 할당됨.");
             }
             else
             {

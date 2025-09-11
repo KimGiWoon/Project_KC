@@ -5,14 +5,15 @@ namespace SDW
 {
     public class EncounterDataManager : MonoBehaviour
     {
-        //todo 사건 ID별 정리
+        //# 사건 ID별 정리
         private Dictionary<int, EncounterTable> _encounterIDDataTable = new Dictionary<int, EncounterTable>();
         public Dictionary<int, EncounterTable> EncounterIDDataTable => _encounterIDDataTable;
 
-        //todo Stage 별로 일어날 수 있는 일 정리
+        //# Stage 별로 일어날 수 있는 일 정리
         private Dictionary<int, List<EncounterTable>> _encounterStageDataTables = new Dictionary<int, List<EncounterTable>>();
         public Dictionary<int, List<EncounterTable>> EncounterStageDataTables => _encounterStageDataTables;
 
+        //# EncounterSentiment+Stage - EncounterID
         private Dictionary<(EncounterSentiment, int), List<int>> _encountersBySentimentAndStage =
             new Dictionary<(EncounterSentiment, int), List<int>>();
         public Dictionary<(EncounterSentiment, int), List<int>> EncountersBySentimentAndStage => _encountersBySentimentAndStage;

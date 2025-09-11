@@ -2,6 +2,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
+using System.Linq;
 using SDW;
 
 public class TeamFormationManager : MonoBehaviour
@@ -47,9 +48,17 @@ public class TeamFormationManager : MonoBehaviour
             });
         }
 
+        //# 1. Level - 내ㅊ림        
+        //# 1. Level - 내림차순, 2. 이름 - 오름차순
+        //# 1. Level - 내림차순, 2. 이름 - 오름차순
+        var sorted = allOwnedCharacters
+            .OrderByDescending(name => name._chaLv)
+            .ThenBy(name => name._chaBaseData.ChaName);
+
+        allOwnedCharacters = sorted.ToList();
+
         selectedTeam.Clear();
         PopulateOwnedCharacterGrid();
-        //todo finalTeamSlots에서 selectedTeam으로 추가해야 함
         UpdateSelectedTeam();
         UpdateAllVisuals();
     }

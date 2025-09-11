@@ -68,18 +68,37 @@ namespace SDW
             //todo Level에 따른 방어력으로 변경되어야 함
             _deffenceText.text = data._chaBaseData.ChaArmor.ToString();
 
-            var passiveSkill = GameManager.Instance.CharacterData.ChaIdSkillData[data._chaBaseData.ChaPassiveSkill];
+            var characterBaseData = data._chaBaseData;
+
+            var passiveSkill = data._chaPassiveSkill;
             _passiveSkillImage.sprite = data._passiveSkillSprite;
-            _passiveSkillNameText.text = passiveSkill.ChaSkillName;
-            _passiveSkillDescriptionText.text = passiveSkill.ChaSkillDescription;
+            _passiveSkillNameText.text = passiveSkill._chaSkillName;
+            _passiveSkillDescriptionText.text = GetDescription(passiveSkill, characterBaseData);
 
-            var activeSkill = GameManager.Instance.CharacterData.ChaIdSkillData[data._chaBaseData.ChaActiveSkill];
-
-            if (activeSkill.ChaSkillID == -1) return;
+            var activeSkill = data._chaActiveSkill;
+            if (activeSkill._chaSkillID == -1) return;
 
             _activeSkillImage.sprite = data._activeSkillSprite;
-            _activeSkillNameText.text = activeSkill.ChaSkillName;
-            _activeSkillDescriptionText.text = activeSkill.ChaSkillDescription;
+            _activeSkillNameText.text = activeSkill._chaSkillName;
+            _activeSkillDescriptionText.text = GetDescription(passiveSkill, characterBaseData);
+        }
+
+        private string GetDescription(CharacterSkillDataSO skillData, CharacterBaseDataFileData characterBaseData)
+        {
+            string description = skillData._chaSkillDescription.Replace(
+                "{chaSkillChance}", skillData._chaSkillChance.ToString()
+            );
+            description = description.Replace(
+                "{chaAttack*chaSkillValue}", (skillData._chaSkillValue * characterBaseData.ChaAttack).ToString()
+            );
+            description = description.Replace(
+                "{chaEffectValue}", skillData._chaEffectValue.ToString()
+            );
+            description = description.Replace(
+                "{chaSkillHit}", skillData._chaSkillHit.ToString()
+            );
+
+            return description;
         }
 
         private void CloseButtonClicked() => OnUICloseRequested?.Invoke(UIName.CharInfoUI);
