@@ -39,6 +39,11 @@ public class CharacterInfoSlotUI : MonoBehaviour
         _characterSkillButton.onClick.AddListener(OnUseSkillClick);
     }
 
+    private void OnDisable()
+    {
+        UnReadySkill();
+    }
+
     private void OnDestroy()
     {
         // 이벤트 구독 해제

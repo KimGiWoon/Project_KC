@@ -105,12 +105,15 @@ namespace SDW
                 var touchPos = Input.GetTouch(0).position;
 
                 //# 패널 안에 터치가 있는지 확인
-                if (RectTransformUtility.RectangleContainsScreenPoint(_mainPanelRect, touchPos)) return;
+                if (RectTransformUtility.RectangleContainsScreenPoint(
+                        _mainPanelRect,
+                        touchPos,
+                        Camera.main)) return;
 
                 //# 버튼을 클릭했는지 확인
                 foreach (var buttonRect in _buttonsRect)
                 {
-                    if (RectTransformUtility.RectangleContainsScreenPoint(buttonRect, touchPos))
+                    if (RectTransformUtility.RectangleContainsScreenPoint(buttonRect, touchPos, Camera.main))
                     {
                         if (buttonRect.CompareTag("ShopButton")) return;
                         StartCoroutine(InteractDelay());

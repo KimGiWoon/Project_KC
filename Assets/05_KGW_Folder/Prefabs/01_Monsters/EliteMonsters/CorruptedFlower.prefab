@@ -73,7 +73,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 13
   m_Sprite: {fileID: 21300000, guid: 0ccc508108fa6ed4fa11b4a467d7f609, type: 3}
   m_Color: {r: 0.7221175, g: 0, b: 0.9607843, a: 1}
   m_FlipX: 0
@@ -351,7 +351,7 @@ MonoBehaviour:
     _monType: 1
     _monLevel: 0
     _monBreak: 0
-    _breakGage: 0
+    _monbreakGage: 0
     _monCurrentHP: 0
     _monMaxHP: 0
     _monAtkRange: 0
@@ -362,6 +362,8 @@ MonoBehaviour:
     _monAccuracy: 0
     _monAvoid: 0
     _monReg: 0
+    _reductionUpValue: 0
+    _reductionDownValue: 0
     _monHPIncrase: 0
     _monAttackIncrease: 0
     _monArmorIncrease: 0
@@ -466,7 +468,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 0
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 11
   m_TargetDisplay: 0
 --- !u!114 &7930597230908678094
 MonoBehaviour:
