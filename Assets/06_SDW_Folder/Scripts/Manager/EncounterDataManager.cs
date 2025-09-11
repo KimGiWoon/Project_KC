@@ -13,6 +13,10 @@ namespace SDW
         private Dictionary<int, List<EncounterTable>> _encounterStageDataTables = new Dictionary<int, List<EncounterTable>>();
         public Dictionary<int, List<EncounterTable>> EncounterStageDataTables => _encounterStageDataTables;
 
+        private Dictionary<(EncounterSentiment, int), List<int>> _encountersBySentimentAndStage =
+            new Dictionary<(EncounterSentiment, int), List<int>>();
+        public Dictionary<(EncounterSentiment, int), List<int>> EncountersBySentimentAndStage => _encountersBySentimentAndStage;
+
         /// <summary>
         /// Data Table 데이터 연결
         /// </summary>
@@ -45,6 +49,11 @@ namespace SDW
                         _encounterStageDataTables[i].Add(encounter);
                     }
                 }
+
+                var key = (encounter.Sentiment, encounter.EncounterStage);
+                if (!_encountersBySentimentAndStage.ContainsKey(key))
+                    _encountersBySentimentAndStage.Add(key, new List<int>());
+                _encountersBySentimentAndStage[key].Add(encounter.EncounterID);
             }
         }
     }

@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using SDW;
 
 namespace CJH
 {
@@ -7,13 +8,33 @@ namespace CJH
     {
         [Header("연결할 컴포넌트")]
         public MapGenerator mapGenerator; // 인스펙터에서 MapGenerator 오브젝트를 연결할 변수
-        public MapView mapView;             // 인스펙터에서 MapView 오브젝트를 연결할 변수
+        public MapView mapView; // 인스펙터에서 MapView 오브젝트를 연결할 변수
 
         [Header("랜덤으로 선택될 프리팹 목록")]
         public List<GameObject> mapNodePrefabs; // 5개의 맵 노드 프리팹을 담을 리스트
+        private GameManager _gameManager;
+        private bool _isDownloaded;
+        public bool IsDownloaded => _isDownloaded;
+
+        private void Start()
+        {
+            _gameManager = GameManager.Instance;
+
+            //# Test 코드
+            _gameManager.SetCompleteDownload(true);
+        }
+
+        private void Update()
+        {
+            if (!_gameManager.CompleteDownload || !_gameManager.ImageSpriteConnected || !_gameManager.PrefabAndSoConnected ||
+                _isDownloaded) return;
+
+            Init();
+            _isDownloaded = true;
+        }
 
         // 게임이 시작될 때 Awake() 함수가 가장 먼저 호출됩니다.
-        void Awake()
+        private void Init()
         {
             // 프리팹 목록이 비어있지 않은지 확인합니다.
             if (mapNodePrefabs != null && mapNodePrefabs.Count > 0)
@@ -22,7 +43,8 @@ namespace CJH
                 int randomIndex = Random.Range(0, mapNodePrefabs.Count);
 
                 // 랜덤하게 선택된 프리팹을 변수에 저장합니다.
-                GameObject selectedPrefab = mapNodePrefabs[randomIndex];
+                var selectedPrefab = Instantiate(mapNodePrefabs[randomIndex]);
+                selectedPrefab.SetActive(false);
 
                 // MapGenerator와 MapView의 mapTemplatePrefab 변수에 선택된 프리팹을 할당합니다.
                 if (mapGenerator != null)
