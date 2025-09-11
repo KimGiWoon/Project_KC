@@ -287,7 +287,7 @@ namespace CJH
                     type = BattleEventType.Elite;
                     break;
                 case NodeType.Boss:
-                    isBattle = false;
+                    isBattle = true;
                     if (RoguelikeManager.Instance.StageNumber == 3)
                         type = BattleEventType.BossFinal;
                     else

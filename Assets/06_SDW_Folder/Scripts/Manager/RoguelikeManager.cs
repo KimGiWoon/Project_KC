@@ -9,8 +9,11 @@ namespace SDW
     {
         public static RoguelikeManager Instance { get; private set; }
 
-        private BattleEventType _isElite;
-        public BattleEventType IsElite => _isElite;
+        [SerializeField] private CameraDragControl _cameraDrag;
+        [SerializeField] private CameraScrollLinker _cameraScrollLinker;
+
+        private BattleEventType monsterType;
+        public BattleEventType MonsterType => monsterType;
 
         public Action OnBattleStart;
         public Action OnBattleEnd;
@@ -19,6 +22,9 @@ namespace SDW
         public int ChapterNumber => _chapterNumber;
         private int _stageNumber;
         public int StageNumber => _stageNumber;
+
+        private Vector3 _prevCameraPosition;
+        private Vector3 _initialCameraPosition;
 
         //todo
         //# 1. 입장하기 버튼 클릭 시
@@ -44,22 +50,34 @@ namespace SDW
             }
         }
 
-        private void Start()
+        private void OnEnable()
         {
+            OnBattleStart += BattleStart;
+            OnBattleEnd += BattleEnd;
+            _initialCameraPosition = _cameraDrag.transform.position;
         }
 
-        private void Update()
+        private void OnDisable()
         {
+            OnBattleStart -= BattleStart;
+            OnBattleEnd -= BattleEnd;
         }
 
         private void BattleStart()
         {
+            _cameraDrag.enabled = false;
+            _cameraScrollLinker.enabled = false;
+            _prevCameraPosition = _cameraDrag.transform.position;
+            _cameraDrag.transform.position = _initialCameraPosition;
         }
 
         private void BattleEnd()
         {
+            _cameraDrag.enabled = true;
+            _cameraScrollLinker.enabled = true;
+            _cameraDrag.transform.position = _prevCameraPosition;
         }
 
-        public void SetBattleEventType(BattleEventType type) => _isElite = type;
+        public void SetBattleEventType(BattleEventType type) => monsterType = type;
     }
 }

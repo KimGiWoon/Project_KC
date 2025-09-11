@@ -7,10 +7,12 @@ using UnityEngine;
 public class MyCharacterController : UnitBaseData
 {
     [Header("Character Data Setting")]
-    [SerializeField] CharacterDataSO _characterData; // 캐릭터 데이터
+    [SerializeField]
+    private CharacterDataSO _characterData; // 캐릭터 데이터
 
     [Header("Attack Unit List & Controller")]
-    [SerializeField] CharacterAttackController _attackController;
+    [SerializeField]
+    private CharacterAttackController _attackController;
     public List<MonsterController> _attackTargets = new List<MonsterController>(); // 사거리에 들어온 몬스터 데이터
     public MonsterController _attackTarget; // 현재 공격 대상
 
@@ -31,6 +33,7 @@ public class MyCharacterController : UnitBaseData
 
     // 스킬 사용 모드 변화 이벤트
     public event Action<bool> OnSkillModeChange;
+
     // 유물 효과 적용 이벤트
     public event Action OnRelicEffect;
     public event Action OnRelicAttack;
@@ -180,9 +183,11 @@ public class MyCharacterController : UnitBaseData
                 // 사용하려는 패시브와 캐릭터가 사용하는 패시브가 같은지 확인
                 if (_characterData._chaPassiveSkill._chaSkillEnName == CharacterSkillEnName.AimForTheWound)
                 {
-                    passiveDamage = _characterData._chaPassiveSkill.UsePassiveSkill(_character, _characterData._chaPassiveSkill, attackDamage);
+                    passiveDamage =
+                        _characterData._chaPassiveSkill.UsePassiveSkill(_character, _characterData._chaPassiveSkill,
+                            attackDamage);
                 }
-                else    // 패시브 없으면 원래 공격력
+                else // 패시브 없으면 원래 공격력
                 {
                     passiveDamage = attackDamage;
                 }
@@ -195,12 +200,12 @@ public class MyCharacterController : UnitBaseData
                 AllMonsterDamagePassive();
 
                 // 몬스터가 살아있으면 공격
-                if (_attackTarget._isAlive)
+                if (_attackTarget != null && _attackTarget._isAlive)
                 {
                     // 캐릭터의 데미지로 몬스터에 주기
                     _attackTarget.TakeDamage(passiveDamage, _characterState._chaAccuracy);
 
-                    if(_attackTarget != null)
+                    if (_attackTarget != null)
                     {
                         // 몬스터의 공격 타겟 전환
                         _attackTarget.AttackTargetChange(_character);
@@ -240,7 +245,8 @@ public class MyCharacterController : UnitBaseData
         base.TakeDamage(damage, hitRate);
 
         // 최종데미지로 체력 감소
-        _characterState._chaCurrentHP -= FinalDamage(damage, _characterState._reductionUpValue, _characterState._reductionDownValue);
+        _characterState._chaCurrentHP -=
+            FinalDamage(damage, _characterState._reductionUpValue, _characterState._reductionDownValue);
 
         // 체력이 0이 됨
         if (_characterState._chaCurrentHP <= 0)
@@ -324,6 +330,7 @@ public class MyCharacterController : UnitBaseData
     }
 
     #region 캐릭터의 패시브 스킬 동작 메서드
+
     // 체력 회복 패시브 스킬
     public void HealHpPassive()
     {
@@ -333,7 +340,8 @@ public class MyCharacterController : UnitBaseData
         // 체력 회복 패시브 스킬이 있는지 확인
         if (_characterData._chaPassiveSkill._chaSkillEnName == CharacterSkillEnName.RegenerativeStrike)
         {
-            healValue = _characterData._chaPassiveSkill.UsePassiveSkill(_character, _characterData._chaPassiveSkill, attackDamage);
+            healValue = _characterData._chaPassiveSkill.UsePassiveSkill(_character, _characterData._chaPassiveSkill,
+                attackDamage);
 
             // 회복량이 0이면 넘어감
             if (healValue == 0f) return;
@@ -357,7 +365,8 @@ public class MyCharacterController : UnitBaseData
         if (_characterData._chaPassiveSkill._chaSkillEnName == CharacterSkillEnName.Vanguard)
         {
             float chaAamor = _characterState._chaArmor;
-            float upValue = _characterData._chaPassiveSkill.UsePassiveSkill(_character, _characterData._chaPassiveSkill, chaAamor);
+            float upValue =
+                _characterData._chaPassiveSkill.UsePassiveSkill(_character, _characterData._chaPassiveSkill, chaAamor);
 
             // 전체 캐릭터 피해 감소 상승
             _battleManager.AllCharacterArmorUp(upValue);
@@ -374,10 +383,11 @@ public class MyCharacterController : UnitBaseData
     public void AttackDownPassiveCheck()
     {
         // 사기 저하 패시브 스킬이 있는지 확인
-        if(_characterData._chaPassiveSkill._chaSkillEnName == CharacterSkillEnName.MoraleDecline)
+        if (_characterData._chaPassiveSkill._chaSkillEnName == CharacterSkillEnName.MoraleDecline)
         {
             float saveAttack = _attackTarget._monsterState._monAttack;
-            float attackDownValue = _characterData._chaPassiveSkill.UsePassiveSkill(_character, _characterState._chaPassiveSkill, _characterState._chaPassiveSkill._chaEffectValue);
+            float attackDownValue = _characterData._chaPassiveSkill.UsePassiveSkill(_character, _characterState._chaPassiveSkill,
+                _characterState._chaPassiveSkill._chaEffectValue);
 
             // 감소할 공격력이 0이면 넘어감
             if (attackDownValue == 0f) return;
@@ -396,7 +406,8 @@ public class MyCharacterController : UnitBaseData
         // 체력 회복 패시브 스킬이 있는지 확인
         if (_characterData._chaPassiveSkill._chaSkillEnName == CharacterSkillEnName.WaveOfSteel)
         {
-            allAttackDamage = _characterData._chaPassiveSkill.UsePassiveSkill(_character, _characterData._chaPassiveSkill, attackDamage);
+            allAttackDamage =
+                _characterData._chaPassiveSkill.UsePassiveSkill(_character, _characterData._chaPassiveSkill, attackDamage);
 
             // 데미지가 0이면 넘어감
             if (allAttackDamage == 0f) return;
@@ -404,6 +415,7 @@ public class MyCharacterController : UnitBaseData
             _battleManager.AllMonsterDamage(allAttackDamage, _characterState._chaAccuracy);
         }
     }
+
     #endregion
 
     // 캐릭터 사망
@@ -431,16 +443,17 @@ public class MyCharacterController : UnitBaseData
     private float FinalDamage(float damage, float reducUpValue, float reducDownValue)
     {
         // 치명타 계산
-        float critical = (UnityEngine.Random.value < (_characterState._chaCrit * 0.01f) ? _characterState._chaCritDmg * 0.01f : 1f);
+        float critical = UnityEngine.Random.value < _characterState._chaCrit * 0.01f ? _characterState._chaCritDmg * 0.01f : 1f;
 
         // 데미지 계산
         float reduction = _characterState._chaArmor / (_characterState._chaArmor + 100);
-        float buffReduction = (_characterState._reductionUpValue - _characterState._reductionDownValue);
+        float buffReduction = _characterState._reductionUpValue - _characterState._reductionDownValue;
         float finalReduction = MathF.Min(reduction + buffReduction, 0.95f);
         float finalDamage = damage * (1 - finalReduction) * critical;
 
         Debug.Log($"캐릭터 방어력 : {_characterState._chaArmor}");
-        Debug.Log($"캐릭터가 받은 데미지 계산 Reduction : {reduction}, BuffReduction : {buffReduction}, FinalReduction : {finalReduction}, FinalDamage : {finalDamage}");
+        Debug.Log(
+            $"캐릭터가 받은 데미지 계산 Reduction : {reduction}, BuffReduction : {buffReduction}, FinalReduction : {finalReduction}, FinalDamage : {finalDamage}");
         return finalDamage;
     }
 
@@ -462,7 +475,7 @@ public class MyCharacterController : UnitBaseData
         Debug.Log($"{_characterState._chaEnName} 회피율 : {evasionRate}");
 
         // 회피 가능 확인
-        bool isEvasion = (UnityEngine.Random.value < evasionRate) ? true : false;
+        bool isEvasion = UnityEngine.Random.value < evasionRate ? true : false;
 
         return isEvasion;
     }
@@ -525,6 +538,7 @@ public class MyCharacterController : UnitBaseData
     }
 
     #region 캐릭터 스탯 변화 함수(음식 효과)
+
     public void HPHeal(float value)
     {
         _characterState._chaCurrentHP += Mathf.Clamp(value, 0, _characterState._chaMaxHP);
@@ -551,5 +565,6 @@ public class MyCharacterController : UnitBaseData
     {
         _characterState._groggyDamage += value;
     }
+
     #endregion
 }

@@ -73,7 +73,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 11
   m_Sprite: {fileID: 21300000, guid: 0ccc508108fa6ed4fa11b4a467d7f609, type: 3}
   m_Color: {r: 0.5188679, g: 0.22761656, b: 0.22761656, a: 1}
   m_FlipX: 0
@@ -377,6 +377,7 @@ MonoBehaviour:
   _attackCoolTimer: 0
   _moveDir: {x: 0, y: 0, z: 0}
   _gameSpeed: 0
+  _battleManager: {fileID: 0}
   _monsterData: {fileID: 11400000, guid: 0754b2ff384af964fbbc0e2e7a83eb65, type: 2}
   _monsterHp: {fileID: 2928197131278624699}
   _attackTargets: []
@@ -389,7 +390,7 @@ MonoBehaviour:
     _monType: 0
     _monLevel: 0
     _monBreak: 0
-    _breakGage: 0
+    _monbreakGage: 0
     _monCurrentHP: 0
     _monMaxHP: 0
     _monAtkRange: 0
@@ -400,12 +401,17 @@ MonoBehaviour:
     _monAccuracy: 0
     _monAvoid: 0
     _monReg: 0
+    _reductionUpValue: 0
+    _reductionDownValue: 0
     _monHPIncrase: 0
     _monAttackIncrease: 0
     _monArmorIncrease: 0
     _monAvoidIncrease: 0
+    _monActiveSkill_1: {fileID: 0}
+    _monActiveSkill_2: {fileID: 0}
   _isDetect: 0
   _isFirst: 0
+  _isApplyPassive: 0
 --- !u!1 &3841804844485260431
 GameObject:
   m_ObjectHideFlags: 0
@@ -501,7 +507,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 0
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 11
   m_TargetDisplay: 0
 --- !u!114 &7930597230908678094
 MonoBehaviour:

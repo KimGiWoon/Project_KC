@@ -108,6 +108,8 @@ public class BattleUI : BaseUI
 
     private void BattleEnd()
     {
+        StopTimeCoroutine();
+        _battleManager.Wall.gameObject.SetActive(false);
         _popupUI.gameObject.SetActive(false);
         OnUIOpenRequested?.Invoke(UIName.StageGlobalUI);
         OnUICloseRequested?.Invoke(UIName.BattleUI);
@@ -205,7 +207,7 @@ public class BattleUI : BaseUI
             if (_battleManager._isGameOver)
             {
                 // 부활을 하고 다시 죽으면 코루틴 정지
-                if (!_battleManager._canResurrection) StopTimeCoroutine();
+                if (!_battleManager._canResurrection) break;
             }
             else if (_isOnMenu)
                 yield return null;
@@ -217,7 +219,7 @@ public class BattleUI : BaseUI
                 // 타이머 UI 출력
                 _timerText.text = _time.ToString();
 
-                if (_count <= 0f)
+                if (_count <= 0f && !_battleManager.Wall.gameObject.activeSelf)
                 {
                     _battleManager.Wall.gameObject.SetActive(true);
                 }
@@ -241,6 +243,7 @@ public class BattleUI : BaseUI
                 yield return null;
             }
         }
+        _timerRoutine = null;
     }
 
     public void StartTimeCoroutine()

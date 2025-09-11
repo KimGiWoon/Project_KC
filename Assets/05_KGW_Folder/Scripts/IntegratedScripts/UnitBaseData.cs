@@ -82,7 +82,8 @@ public abstract class UnitBaseData : MonoBehaviour
         _isAlive = false;
 
         // 오브젝트 삭제
-        Destroy(gameObject);
+        // Destroy(gameObject);
+        gameObject.SetActive(false);
     }
 
     // 캐릭터 넉백
