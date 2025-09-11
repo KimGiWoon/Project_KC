@@ -15,6 +15,7 @@ namespace CJH
         public GameObject resultPanel;
         public TextMeshProUGUI resultText;
         public GameObject choiceButtonPrefab;
+        private EventManager _eventManager;
 
         [System.Serializable]
         public class EncounterSpriteMapping
@@ -22,10 +23,12 @@ namespace CJH
             public EncounterType typeEnum;
             public Sprite sprite;
         }
+
         public List<EncounterSpriteMapping> encounterSprites;
 
         public void Initialize(EncounterTable data)
         {
+            _eventManager = FindObjectOfType<EventManager>();
             var mapping = encounterSprites.Find(m => m.typeEnum == data.Type);
             if (mapping != null && eventImage != null)
             {
@@ -39,11 +42,14 @@ namespace CJH
 
             encounterText.text = data.EncounterText;
 
-            foreach (Transform child in buttonContainer) Destroy(child.gameObject);
+            foreach (Transform child in buttonContainer)
+            {
+                Destroy(child.gameObject);
+            }
 
             for (int i = 0; i < data.ChoiceCount; i++)
             {
-                GameObject buttonObj = Instantiate(choiceButtonPrefab, buttonContainer);
+                var buttonObj = Instantiate(choiceButtonPrefab, buttonContainer);
                 int choiceIndex = i;
 
                 var buttonText = buttonObj.GetComponentInChildren<TextMeshProUGUI>();
@@ -67,7 +73,7 @@ namespace CJH
             resultPanel.SetActive(false);
         }
 
-        void OnChoiceSelected(EncounterTable data, int choiceIndex)
+        private void OnChoiceSelected(EncounterTable data, int choiceIndex)
         {
             if (choiceIndex < data.EncounterExitText.Count && !string.IsNullOrEmpty(data.EncounterExitText[choiceIndex]))
             {
@@ -76,7 +82,7 @@ namespace CJH
             }
             else
             {
-                EventManager.Instance.EndEncounter();
+                _eventManager.EndEncounter();
             }
 
             foreach (var btn in buttonContainer.GetComponentsInChildren<Button>())

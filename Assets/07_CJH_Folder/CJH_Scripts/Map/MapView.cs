@@ -34,6 +34,7 @@ namespace CJH
         private MapData currentMap;
         private Dictionary<Vector2Int, MapNode> nodeObjects;
         private List<GameObject> lineArrows = new List<GameObject>();
+        [SerializeField] private EventManager _eventManager;
 
         // 생성된 플레이어 캐릭터를 담을 변수
         private GameObject playerCharacterInstance;
@@ -59,8 +60,8 @@ namespace CJH
         {
             ClearMap();
             currentMap = map;
-            currentMapInstance = Instantiate(mapTemplatePrefab);
             nodeObjects = new Dictionary<Vector2Int, MapNode>();
+            mapTemplatePrefab.SetActive(true);
 
             // 플레이어 캐릭터 생성 (씬에 없으면 새로 생성)
             if (playerCharacterInstance == null && playerCharacterPrefab != null)
@@ -68,7 +69,7 @@ namespace CJH
                 playerCharacterInstance = Instantiate(playerCharacterPrefab, transform);
             }
 
-            foreach (var placeholder in currentMapInstance.GetComponentsInChildren<MapNodeIdentifier>())
+            foreach (var placeholder in mapTemplatePrefab.GetComponentsInChildren<MapNodeIdentifier>())
             {
                 var point = new Vector2Int(placeholder.floorIndex, placeholder.nodeIndexInFloor);
                 if (!nodeObjects.ContainsKey(point))
@@ -100,7 +101,7 @@ namespace CJH
             {
                 case NodeType.Event:
                     // EventManager에게 스테이지 번호가 아닌, 노드가 가진 EncounterID를 직접 전달합니다.
-                    EventManager.Instance.StartEncounter(selectedNode.nodeData.EncounterID);
+                    _eventManager.StartEncounter(selectedNode.nodeData.EncounterID);
                     break;
 
                 case NodeType.Battle:
