@@ -57,7 +57,7 @@ namespace CJH
                     mapView.mapTemplatePrefab = selectedPrefab;
                 }
 
-                Debug.Log($"선택된 맵 프리팹: {selectedPrefab.name}");
+                // Debug.Log($"선택된 맵 프리팹: {selectedPrefab.name}");
             }
             else
             {

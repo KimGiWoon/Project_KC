@@ -7,5 +7,6 @@ public enum NodeType
     Battle,
     Event,
     Mystery,
-    Boss
+    Boss,
+    EventBattle
 }

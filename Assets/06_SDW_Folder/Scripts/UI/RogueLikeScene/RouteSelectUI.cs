@@ -3,6 +3,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using CJH;
 
 namespace SDW
 {
@@ -10,6 +11,7 @@ namespace SDW
     {
         [Header("UI Components")]
         [SerializeField] private Button _partyButton;
+        [SerializeField] private MapView _mapView;
         private TextMeshProUGUI _partyButtonText;
 
         public Action<UIName> OnUIOpenRequested;
@@ -26,11 +28,13 @@ namespace SDW
         private void OnEnable()
         {
             _partyButton.onClick.AddListener(PartyButtonClicked);
+            _mapView.OnCharacterMoved += CharacterMoved;
         }
 
         private void OnDisable()
         {
             _partyButton.onClick.RemoveListener(PartyButtonClicked);
+            _mapView.OnCharacterMoved -= CharacterMoved;
         }
 
         private TweenAnimation _tweenAnimation;
@@ -57,6 +61,15 @@ namespace SDW
         {
             OnUIOpenRequested?.Invoke(UIName.PartyUI);
             OnUICloseRequested?.Invoke(UIName.RouteSelectUI);
+        }
+
+        private void CharacterMoved(bool isBattle)
+        {
+            if (isBattle)
+            {
+                OnUIOpenRequested?.Invoke(UIName.PartyUI);
+                OnUICloseRequested?.Invoke(UIName.RouteSelectUI);
+            }
         }
     }
 }

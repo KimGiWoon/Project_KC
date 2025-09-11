@@ -18,7 +18,7 @@ public class DataManager : MonoBehaviour
         {
             return data;
         }
-        Debug.LogError($"[DataManager] ID: {id}에 해당하는 사건을 찾을 수 없습니다!");
+        // Debug.LogError($"[DataManager] ID: {id}에 해당하는 사건을 찾을 수 없습니다!");
         return default;
     }
 
@@ -36,7 +36,7 @@ public class DataManager : MonoBehaviour
             return commonIdList[Random.Range(0, commonIdList.Count)];
         }
 
-        Debug.LogWarning($"[DataManager] 감정({sentiment})에 해당하는 사건이 없어, 스테이지({stage})의 다른 사건을 대신 탐색합니다.");
+
         var anySentimentIds = _encounterData.EncountersBySentimentAndStage.Where(pair => pair.Key.Item2 == stage)
             .SelectMany(pair => pair.Value)
             .ToList();
@@ -53,7 +53,7 @@ public class DataManager : MonoBehaviour
             return anyCommonSentimentIds[Random.Range(0, anyCommonSentimentIds.Count)];
         }
 
-        Debug.LogError($"[DataManager] 대체할 사건을 찾지 못했습니다! CSV 파일에 이벤트가 충분한지 확인해주세요.");
+        // Debug.LogError($"[DataManager] 대체할 사건을 찾지 못했습니다! CSV 파일에 이벤트가 충분한지 확인해주세요.");
         return 0; // 최악의 경우에만 0 반환
     }
 }

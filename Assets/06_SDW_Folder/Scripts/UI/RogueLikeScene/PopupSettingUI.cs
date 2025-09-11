@@ -63,8 +63,9 @@ namespace SDW
             _masterVolumeSlider.Cancel();
             _backgroundVolumeSlider.Cancel();
             _effectVolumeSlider.Cancel();
-            //todo Lobby로 이동 vs MainLobbyUI Open 고민
-            //OnUIOpenRequested?.Invoke(UIName.MainLobbyUI);
+
+            //todo 추후 Popup - 진짜 포기할지, 정산창도 띄워야 함
+            GameManager.Instance.Scene.LoadSceneAsync(SceneName.SDW_LobbyScene);
             OnUICloseRequested?.Invoke(UIName.PopupSettingUI);
         }
 
