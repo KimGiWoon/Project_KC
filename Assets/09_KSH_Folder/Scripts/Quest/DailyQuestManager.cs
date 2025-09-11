@@ -22,10 +22,7 @@ public class DailyQuestManager : MonoBehaviour
     private void Start()
     {
         _gameManager = GameManager.Instance;
-    }
 
-    private void OnEnable()
-    {
         if (_gameManager.Time != null)
         {
             _gameManager.Time.OnDailyReset += InitQuest;

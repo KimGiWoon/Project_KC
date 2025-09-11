@@ -82,7 +82,7 @@ namespace KSH
                 GameManager.Instance.InGameItem.AddItem(relic);
 
                 Debug.Log($"{relic.relicName} 획득");
-                buffRelicManager.ApplyRelicEffect(relic); //아이템 효과적용
+                // buffRelicManager.ApplyRelicEffect(relic); //아이템 효과적용
             }
         }
     }

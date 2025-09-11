@@ -57,7 +57,7 @@ namespace JJY
             {
                 if (testInventory[i].relic == null && testInventory[i].recipe == null) continue;
                 // 유물은 GetRelic 호출 시 유뮬의 효과를 바로 적용하기 때문에 테스트 부적합. 테스트 하려면 RelicDropManager에서 주석처리 해야함.
-                // if (testInventory[i].relic != null) RelicDropManager.Instance.GetRelic(testInventory[i].relic);
+                if (testInventory[i].relic != null) RelicDropManager.Instance.GetRelic(testInventory[i].relic);
                 if (testInventory[i].recipe != null) GameManager.Instance.InGameItem.AddItem(testInventory[i].recipe);
             }
             InitFoodInventory();
