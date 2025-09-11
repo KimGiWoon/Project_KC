@@ -25,7 +25,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 626996100361033228}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -768.44666, y: -1024.5166, z: 282.81216}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -44,8 +44,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f11f2321074faf548a8c02b0db8fd19c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  eventImage: {fileID: 0}
   encounterText: {fileID: 0}
   buttonContainer: {fileID: 0}
   resultPanel: {fileID: 0}
   resultText: {fileID: 0}
   choiceButtonPrefab: {fileID: 0}
+  encounterSprites:
+  - typeEnum: 1
+    sprite: {fileID: 21300000, guid: 68cea2103c29b2a41ad1b9752a8f09a2, type: 3}

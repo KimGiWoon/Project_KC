@@ -4541,6 +4541,7 @@ MonoBehaviour:
   cameraScrollLinker: {fileID: 215445880}
   bottomPanelContainer: {fileID: 295432484}
   nodeButtonPrefab: {fileID: 8165636628960663768, guid: 8cf8ba5e4903fe245a05e258613b630f, type: 3}
+  _eventManager: {fileID: 530157130}
 --- !u!4 &446551789
 Transform:
   m_ObjectHideFlags: 0
@@ -5897,7 +5898,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 530157129}
-  - component: {fileID: 530157131}
   - component: {fileID: 530157130}
   m_Layer: 0
   m_Name: EventManager
@@ -5933,18 +5933,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ed6ff05c0a9e1047b08b49bd541200b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &530157131
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 530157128}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 67d35ac51e476514fb4ac19777ecb624, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  _dataManager: {fileID: 44007068}
 --- !u!1 &530949258
 GameObject:
   m_ObjectHideFlags: 0
@@ -6118,7 +6107,6 @@ MonoBehaviour:
   _dontDestroyOnLoad: 1
   relics: []
   relicResultUI: {fileID: 0}
-  buffRelicManager: {fileID: 0}
 --- !u!4 &562965213
 Transform:
   m_ObjectHideFlags: 0
@@ -15680,50 +15668,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1348399025}
   m_CullTransparentMesh: 1
---- !u!1 &1355260714
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1355260716}
-  - component: {fileID: 1355260715}
-  m_Layer: 0
-  m_Name: EventManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1355260715
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1355260714}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7ed6ff05c0a9e1047b08b49bd541200b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!4 &1355260716
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1355260714}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -2.6362183, y: 1.2768078, z: 3966.4453}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1357146811
 GameObject:
   m_ObjectHideFlags: 0
@@ -17087,6 +17031,7 @@ MonoBehaviour:
   previewRenderer: {fileID: 429741102}
   mapView: {fileID: 446551788}
   numberOfMaps: 3
+  _prefabRandomizer: {fileID: 1324336330}
 --- !u!4 &1456985970
 Transform:
   m_ObjectHideFlags: 0
@@ -19061,8 +19006,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3f94e1d3bc1a9349ad8ecd9686cc3dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mapTemplatePrefab: {fileID: 8835277253704229638, guid: da4f265053f43d34a994aefe2142a773, type: 3}
+  mapTemplatePrefab: {fileID: 0}
   config: {fileID: 11400000, guid: 1bcc5d240b86c65409d04d652ea76f67, type: 2}
+  _dataManager: {fileID: 44007068}
 --- !u!4 &1623127168
 Transform:
   m_ObjectHideFlags: 0
@@ -24730,6 +24676,5 @@ SceneRoots:
   - {fileID: 1213460229}
   - {fileID: 197512268}
   - {fileID: 178163700}
-  - {fileID: 1355260716}
   - {fileID: 378407344}
   - {fileID: 897264369}
