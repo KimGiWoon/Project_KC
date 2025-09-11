@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using SDW;
 using TableForge.Demo;
@@ -26,9 +27,11 @@ public class MonsterController : UnitBaseData
     public bool _isApplyPassive;
     private float _skill1Timer;
     private float _skill2Timer;
+    private float _breakCount;
     private RecallPointProvider _recallPointProvider;
     private MonsterController _monster;
     private float _saveAttackValue;
+    private Coroutine _bossBreakRoutine;
 
     // 체력 절반 이벤트
     public event Action OnHalfHp;
@@ -85,11 +88,15 @@ public class MonsterController : UnitBaseData
         _monsterState._monActiveSkill_1 = _monsterData._monActiveSkill_1;
         _monsterState._monActiveSkill_2 = _monsterData._monActiveSkill_2;
 
+        // 캐릭터 레벨 업 스텟 적용
+        LevelUpStatUpdate();
+
         _moveDir = Vector3.left;
         _isAlive = true;
         _isApplyPassive = false;
         _skill1Timer = 0f;
         _skill2Timer = 0f;
+        _breakCount = 0f;
         _monData = _monsterData;
         _attackCoolTimer = _monsterState._monAtkSpeed;
         _recallPointProvider = GetComponent<RecallPointProvider>();
@@ -184,7 +191,7 @@ public class MonsterController : UnitBaseData
             if (attackDistance <= attackSpareDistance && _attackCoolTimer <= 0f)
             {
                 // 몬스터의 데미지로 캐릭터에 주기
-                _attackTarget.TakeDamage(_monsterState._monAttack);
+                _attackTarget.TakeDamage(_monsterState._monAttack, _monsterState._monAccuracy);
 
                 _isAttack = true;
 
@@ -198,6 +205,16 @@ public class MonsterController : UnitBaseData
         }
     }
 
+    // 몬스터 레벨 업 스텟 적용
+    private void LevelUpStatUpdate()
+    {
+        _monsterState._monCurrentHP = _monsterState._monCurrentHP + (_monsterState._monLevel - 1) * _monsterState._monHPIncrase * _monsterState._monCurrentHP;
+        _monsterState._monMaxHP = _monsterState._monMaxHP + (_monsterState._monLevel - 1) * _monsterState._monHPIncrase * _monsterState._monMaxHP;
+        _monsterState._monAttack = _monsterState._monAttack + (_monsterState._monLevel - 1) * _monsterState._monAttackIncrease * _monsterState._monAttack;
+        _monsterState._monArmor = _monsterState._monArmor + (_monsterState._monLevel - 1) * _monsterState._monArmorIncrease * _monsterState._monArmor;
+        _monsterState._monAvoid = _monsterState._monAvoid + (_monsterState._monLevel - 1) * _monsterState._monAvoidIncrease;
+    }
+
     // 몬스터의 스킬
     public void UseSkill()
     {
@@ -206,8 +223,8 @@ public class MonsterController : UnitBaseData
         // 타겟이 없으면 미사용
         if (_attackTarget == null) return;
 
-        _skill1Timer += Time.deltaTime;
-        _skill2Timer += Time.deltaTime;
+        _skill1Timer += Time.deltaTime * _gameSpeed;
+        _skill2Timer += Time.deltaTime * _gameSpeed;
 
         // 액티브 스킬1을 보유하고 있는지 확인
         if (_monsterState._monActiveSkill_1)
@@ -256,10 +273,17 @@ public class MonsterController : UnitBaseData
         }
     }
 
-    public override void TakeDamage(float damage)
+    public override void TakeDamage(float damage, float hitRate)
     {
+        // 공격 회피
+        if (AttackEvasion(_monsterState._monAvoid, hitRate))
+        {
+            Debug.Log($"{_monsterState._monEnName}가 공격을 회피했습니다.");
+            return;
+        }
+
         // 캐릭터 넉백
-        base.TakeDamage(damage);
+        base.TakeDamage(damage, hitRate);
 
         // 데미지 받기 전 체력 저장
         float saveCurHp = _monsterState._monCurrentHP;
@@ -282,6 +306,11 @@ public class MonsterController : UnitBaseData
         }
         else // 보스이면 통합 체력 변화
         {
+            // 그로기 수치 상승
+            _breakCount++;
+            // 보스 그로기 확인
+            BossBreakCheck();
+
             // 실제 줄어든 체력
             float decreaseBossHp = MathF.Max(0f, saveCurHp - _monsterState._monCurrentHP);
 
@@ -381,6 +410,7 @@ public class MonsterController : UnitBaseData
     // 최종데미지 계산
     private float FinalDamage(float damage, float reducUpValue, float reducDownValue)
     {
+        // 데미지 계산
         float reduction = _monsterState._monArmor / (_monsterState._monArmor + 100);
         float buffReduction = (_monsterState._reductionUpValue - _monsterState._reductionDownValue);
         float finalReduction = MathF.Min(reduction + buffReduction, 0.95f);
@@ -391,9 +421,53 @@ public class MonsterController : UnitBaseData
         return finalDamage;
     }
 
+    // 공격 회피
+    private bool AttackEvasion(float avoid, float hitRate)
+    {
+        float evasionRate = (avoid - (hitRate - 100)) * 0.01f;
+
+        // 회피율 0이하 1초과 금지
+        if (evasionRate < 0)
+        {
+            evasionRate = 0f;
+        }
+        else if (evasionRate >= 1)
+        {
+            evasionRate = 1f;
+        }
+
+        Debug.Log($"{_monsterState._monEnName} 회피율 : {evasionRate}");
+
+        // 회피 가능 확인
+        bool isEvasion = (UnityEngine.Random.value < evasionRate) ? true : false;
+
+        return isEvasion;
+    }
+
+    // 보스 몬스터 그로기 확인
+    private void BossBreakCheck()
+    {
+        if(_breakCount == _monsterState._monbreakGage)
+        {
+            _isStern = true;
+            // 보스 그로기 타임
+            _bossBreakRoutine = StartCoroutine(BossBreakCoroutine());
+        }
+    }
+
+    // 보스 그로기 코루틴
+    private IEnumerator BossBreakCoroutine()
+    {
+        yield return new WaitForSeconds(2f);
+
+        // 그로기 초기화
+        _isStern = false;
+        _breakCount = 0f;
+    }
+
     #region 캐릭터의 패시브 스킬 효과
     // 사기 저하 패시브 스킬
-    public void AttackDownPassive(float saveAttack, float attackDownValue)
+    public void AttackDownPassive(float saveAttack, float attackDownValue, float duration)
     {
         // 지속 시간 중 중복 적용 방지
         if (!_isApplyPassive)
@@ -404,7 +478,7 @@ public class MonsterController : UnitBaseData
             _isApplyPassive = true;
 
             // 사기 저하 원복
-            Invoke(nameof(AttackDownPassiveRestoration), 3f);
+            Invoke(nameof(AttackDownPassiveRestoration), duration / _gameSpeed);
         }
     }
 

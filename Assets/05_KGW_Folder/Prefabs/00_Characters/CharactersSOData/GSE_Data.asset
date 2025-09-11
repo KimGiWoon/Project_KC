@@ -41,8 +41,10 @@ MonoBehaviour:
   _characterSprite: {fileID: 21300002, guid: 1eaee135ce037439d925cee5e41ce026, type: 3}
   _prefab: {fileID: 315290852922950502, guid: 8a088c029d820b74d8b77cfb12e77bc1, type: 3}
   _chaLv: 1
-  _chaSkills: []
-  _chaActiveSkill: {fileID: 11400000, guid: 431d938b1a2067345b62be8d3e323b3d, type: 2}
-  _chaPassiveSkill: {fileID: 11400000, guid: d878cb11f5f90e548a5f492a57a47010, type: 2}
+  _chaUpgradeLevel: 0
+  _chaActiveSkill: {fileID: 11400000, guid: 0e1f6a269f20a784ca12b6ae5669cda8, type: 2}
+  _chaPassiveSkill: {fileID: 11400000, guid: 47189edbb54ca18499e51caaa3eb7486, type: 2}
+  _passiveSkillSprite: {fileID: 0}
+  _activeSkillSprite: {fileID: 0}
   Beads: 0
   GachaBackground: {fileID: 21300000, guid: 130367da1bf541340908399ee44a9855, type: 3}

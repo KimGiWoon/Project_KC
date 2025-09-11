@@ -22,7 +22,7 @@ public class BattleManager : MonoBehaviour
     [SerializeField]
     private Transform _bossSpawnPoint;
 
-    [Header("Monster List Setting")]
+    [Header("Character List Setting")]
     [SerializeField] public List<CharacterDataSO> _characterList;
 
     [Header("Monster List Setting")]
@@ -61,6 +61,8 @@ public class BattleManager : MonoBehaviour
 
     // 게임 결과 확인 이벤트
     public event Action<bool> OnGameResult;
+    // 캐릭터 애니메이션 전환 이벤트
+    public event Action OnAniChange;
 
     // 전체 체력 변화 이벤트
     public event Action<float, float> OnTotalHpChange;
@@ -339,6 +341,7 @@ public class BattleManager : MonoBehaviour
             _isGameOver = true;
 
             // 이벤트 호출
+            OnAniChange?.Invoke();
             OnGameResult?.Invoke(_isClear);
         }
 
@@ -350,6 +353,7 @@ public class BattleManager : MonoBehaviour
             _isGameOver = true;
 
             // 이벤트 호출
+            OnAniChange?.Invoke();
             OnGameResult?.Invoke(_isClear);
         }
     }
@@ -405,7 +409,7 @@ public class BattleManager : MonoBehaviour
     }
 
     // 몬스터 전체 공격
-    public void AllMonsterDamage(float damageValue)
+    public void AllMonsterDamage(float damageValue, float hitRate)
     {
         foreach (var mon in _monsters)
         {
@@ -415,7 +419,7 @@ public class BattleManager : MonoBehaviour
 
                 if (mon != null)
                 {
-                    mon.TakeDamage(damageValue);
+                    mon.TakeDamage(damageValue, hitRate);
                 }
             }
         }

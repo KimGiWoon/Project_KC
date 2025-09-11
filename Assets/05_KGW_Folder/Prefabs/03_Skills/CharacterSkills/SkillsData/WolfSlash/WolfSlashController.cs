@@ -48,7 +48,7 @@ public class WolfSlashController : MonoBehaviour
 
         while (count < _skillAttackHit)
         {
-            mon.TakeDamage(_skillDamage);
+            mon.TakeDamage(_skillDamage, _character._characterState._chaAccuracy);
             count++;
 
             // 공격한 만큼 캐릭터의 체력 회복

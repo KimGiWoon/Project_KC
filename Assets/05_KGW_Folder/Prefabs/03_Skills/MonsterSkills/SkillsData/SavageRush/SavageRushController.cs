@@ -58,7 +58,7 @@ public class SavageRushController : MonoBehaviour
         timer = 0f;
 
         // 공격 대상의 캐릭터 공격
-        _character.TakeDamage(_skillDamage);
+        _character.TakeDamage(_skillDamage, _monster._monsterState._monAccuracy);
         Debug.Log($"{_character._characterState._chaEnName}에게 {_skillDamage}의 데미지를 주었습니다.");
 
         // 돌진 전 위치로 돌아오기

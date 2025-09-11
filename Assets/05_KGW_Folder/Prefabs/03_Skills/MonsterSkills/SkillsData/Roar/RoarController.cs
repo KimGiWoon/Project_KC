@@ -34,14 +34,14 @@ public class RoarController : MonoBehaviour
             _originalReductionValue[cha] = cha._characterState._reductionDownValue;
 
             // 공격
-            cha.TakeDamage(_attackValue);
+            cha.TakeDamage(_attackValue, _monster._monsterState._monAccuracy);
 
             // 피해 감소 적용
             cha._characterState._reductionDownValue -= _damageReductionDownValue;
 
         }
 
-        Invoke(nameof(CharacterReductionReset), _activeSkillDuration);
+        Invoke(nameof(CharacterReductionReset), _activeSkillDuration / _monster._gameSpeed);
 
         // 게임 종료가 되면 상승된 공격력 원복
         if (_monster._battleManager._isGameOver)

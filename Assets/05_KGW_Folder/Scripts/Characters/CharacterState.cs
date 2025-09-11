@@ -14,6 +14,7 @@ public class CharacterState
     public CharacterGrade _chaGrade;
     public CharacterRole _chaRole;
     public int _chaLevel;
+    public int _chaUpgrade;
     public float _chaCurrentHP;
     public float _chaMaxHP;
     public float _chaCurrentMP;

@@ -108,6 +108,8 @@ MonoBehaviour:
     _chaArmor: 0
     _isBarrier: 0
     _groggyDamage: 0
+    _reductionUpValue: 0
+    _reductionDownValue: 0
     _chaAtkIsMelee: 0
     _chaAccuracy: 0
     _chaAvoid: 0
@@ -115,8 +117,8 @@ MonoBehaviour:
     _chaCritDmg: 0
     _chaReg: 0
     _chaMoveSpeed: 0
-    _chaPassiveSkill: {fileID: 11400000, guid: d878cb11f5f90e548a5f492a57a47010, type: 2}
-    _chaActiveSkill: {fileID: 11400000, guid: 431d938b1a2067345b62be8d3e323b3d, type: 2}
+    _chaPassiveSkill: {fileID: 11400000, guid: 47189edbb54ca18499e51caaa3eb7486, type: 2}
+    _chaActiveSkill: {fileID: 11400000, guid: 0e1f6a269f20a784ca12b6ae5669cda8, type: 2}
     _isManaFull: 0
 --- !u!70 &3348997761910632104
 CapsuleCollider2D:

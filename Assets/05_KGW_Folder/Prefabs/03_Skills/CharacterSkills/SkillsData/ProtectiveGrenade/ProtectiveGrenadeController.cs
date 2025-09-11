@@ -24,7 +24,7 @@ public class ProtectiveGrenadeController : MonoBehaviour
         {
             if (!mon._isAlive) continue;
 
-            mon.TakeDamage(_skillDamage);
+            mon.TakeDamage(_skillDamage, _character._characterState._chaAccuracy);
         }
 
         AllCharacterBarrier();

@@ -31,7 +31,7 @@ public class EerieDarknessController : MonoBehaviour
             mon._monsterState._monAttack += _attackUpValue;
         }
 
-        Invoke(nameof(CharacterAttackReset), _activeSkillDuration);
+        Invoke(nameof(CharacterAttackReset), _activeSkillDuration / _monster._gameSpeed);
 
         // 게임 종료가 되면 상승된 공격력 원복
         if (_monster._battleManager._isGameOver)
