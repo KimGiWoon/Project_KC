@@ -33,6 +33,7 @@ public class MyCharacterController : UnitBaseData
     public event Action<bool> OnSkillModeChange;
     // 유물 효과 적용 이벤트
     public event Action OnRelicEffect;
+    public event Action OnRelicAttack;
 
     // 캐릭터 애니메이션
     public readonly int Idle_Hash = Animator.StringToHash("Idle");
@@ -169,6 +170,7 @@ public class MyCharacterController : UnitBaseData
         {
             if (_attackCoolTimer <= 0f)
             {
+                OnRelicAttack?.Invoke();
                 float attackDamage = _characterState._chaAttack;
                 float passiveDamage;
 

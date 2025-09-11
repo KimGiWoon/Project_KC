@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using JJY;
@@ -14,8 +13,8 @@ namespace KSH
 
         //유물 나오는 UI 있어야함
         [SerializeField] private RelicResultUI relicResultUI;
-        [SerializeField] private BuffRelicManager buffRelicManager;
-        // public List<InventoryItem> acquiredRelicLists = new List<InventoryItem>();
+        //[SerializeField] private BuffRelicManager buffRelicManager;
+        //public List<InventoryItem> acquiredRelicLists = new List<InventoryItem>();
 
         private WeightedRandom<RelicGrade> relicRarityPicker;
 
@@ -28,22 +27,18 @@ namespace KSH
             relics = Resources.LoadAll<RelicDatas>("Relics").ToList();
             relicRarityPicker = new WeightedRandom<RelicGrade>();
             //TODO : 확률 정해지면 다시 넣기 (임의로 노말 80 레어 20)
-            relicRarityPicker.Add(RelicGrade.Normal, 1);
-            relicRarityPicker.Add(RelicGrade.Rare, 99);
-        }
-
-        private void Start()
-        {
-            RarityPick(RelicKind.Debuff, 3); //임시로 해둠
+            relicRarityPicker.Add(RelicGrade.Normal, 99);
+            relicRarityPicker.Add(RelicGrade.Rare, 1);
         }
 
         //테스트용
         private void Update()
         {
-            //if (Input.GetKeyDown(KeyCode.R))
-            //{
-            //    OnRelicSkill?.Invoke();
-            //}
+            if (Input.GetKeyDown(KeyCode.R)) //테스트용
+            {
+                RarityPick(RelicKind.Buf, 3);
+                relicResultUI.RelicWindow.SetActive(true);
+            }
         }
 
         public void RarityPick(RelicKind relicKind, int amount)
@@ -56,7 +51,8 @@ namespace KSH
                 relicGrade = relicRarityPicker.GetRandom();
 
             var getRelicList = relics
-                .Where(relic => relic.relicGrade == relicGrade && !GameManager.Instance.InGameItem.relicInventory.Any(r => r.relic == relic))
+                .Where(relic =>
+                    relic.relicGrade == relicGrade && !GameManager.Instance.InGameItem.relicInventory.Any(r => r.relic == relic))
                 .ToList();
 
             for (int i = 0; i < getRelicList.Count; i++)
@@ -69,7 +65,7 @@ namespace KSH
 
             var result = getRelicList.Take(amount).ToList();
 
-            relicResultUI?.ShowRelic(result, relicGrade);
+            relicResultUI.ShowRelic(result, relicGrade);
         }
 
         public void GetRelic(RelicDatas relic)
@@ -82,7 +78,8 @@ namespace KSH
                 GameManager.Instance.InGameItem.AddItem(relic);
 
                 Debug.Log($"{relic.relicName} 획득");
-                buffRelicManager.ApplyRelicEffect(relic); //아이템 효과적용
+                //todo 추후 전투 Scene에 들어갈 때 한번에 유물드 효과를 적용하도록 수정 필요
+                // BuffRelicManager.Instance.ApplyRelicEffect(relic); //아이템 효과적용
             }
         }
     }

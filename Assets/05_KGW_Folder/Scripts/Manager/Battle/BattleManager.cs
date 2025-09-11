@@ -47,7 +47,7 @@ public class BattleManager : MonoBehaviour
 
     public BattleUI _battleUI;
     //private List<CharacterDataSO> _selectCharacters;
-    Coroutine _armorRoutine;
+    private Coroutine _armorRoutine;
     public int _monsterCount;
     public int _characterCount;
     public bool _isClear;
@@ -57,6 +57,7 @@ public class BattleManager : MonoBehaviour
     public int _timer;
     public float _monsterTotalMaxHp;
     public float _monsterTotalCurrentHp;
+    private bool _isBattleStarted;
 
     // 게임 결과 확인 이벤트
     public event Action<bool> OnGameResult;
@@ -66,32 +67,46 @@ public class BattleManager : MonoBehaviour
     // 전체 체력 변화 이벤트
     public event Action<float, float> OnTotalHpChange;
     private GameManager _gameManager;
-    private bool _isDownloaded;
+    private bool _isSpawned;
+
+    public event Action OnCharacterDeath;
 
     private void Awake()
     {
         Init();
-        _gameManager = GameManager.Instance;
     }
 
-    //private void Start()
-    //{
-    //    _battleUI = FindObjectOfType<BattleUI>();
+    private void Start()
+    {
+        _gameManager = GameManager.Instance;
+        RoguelikeManager.Instance.OnBattleStart += BattleStart;
+        RoguelikeManager.Instance.OnBattleEnd += BattleEnd;
+    }
 
-    //    //_isLocalBoss = ;
-    //    _isLastBoss = GameManager.Instance.LastBoss;
-    //    // _monsterList = monsterData[stageName].NormalMonsters;
-    //    // _eliteList = monsterData[stageName].EliteMonsters;
-    //    // _bossList = monsterData[stageName].BossMonsters;
+    private void OnDisable()
+    {
+        RoguelikeManager.Instance.OnBattleStart -= BattleStart;
+        RoguelikeManager.Instance.OnBattleEnd -= BattleEnd;
+    }
 
-    //    StartCoroutine(Spwan());
-    //}
+    // private void Start()
+    // {
+    //     _battleUI = FindObjectOfType<BattleUI>();
+    //
+    //     //_isLocalBoss = ;
+    //     _isLastBoss = GameManager.Instance.LastBoss;
+    //     // _monsterList = monsterData[stageName].NormalMonsters;
+    //     // _eliteList = monsterData[stageName].EliteMonsters;
+    //     // _bossList = monsterData[stageName].BossMonsters;
+    //
+    //     StartCoroutine(Spwan());
+    // }
 
     private void Update()
     {
-        //if (!_gameManager.CompleteDownload || !_gameManager.ImageSpriteConnected || !_gameManager.PrefabAndSoConnected ||
-        //    _isDownloaded) return;
-        if(_isDownloaded) return;
+        if (!_gameManager.CompleteDownload || !_gameManager.ImageSpriteConnected || !_gameManager.PrefabAndSoConnected ||
+            _isSpawned || !_isBattleStarted) return;
+        // if(_isDownloaded) return;
         _battleUI = FindObjectOfType<BattleUI>();
 
         //_isLocalBoss = ;
@@ -101,7 +116,7 @@ public class BattleManager : MonoBehaviour
         // _bossList = monsterData[stageName].BossMonsters;
 
         StartCoroutine(Spwan());
-        _isDownloaded = true;
+        _isSpawned = true;
     }
 
     private IEnumerator Spwan()
@@ -160,7 +175,7 @@ public class BattleManager : MonoBehaviour
             var characterOIL = character.GetComponentInChildren<SpriteRenderer>();
 
             // 마직막 캐릭터를 맨 앞으로 보여주기
-            characterOIL.sortingOrder = count - i;
+            characterOIL.sortingOrder = 10 + count - i;
 
             // 생성된 캐릭터 저장
             var createCharacter = character.GetComponent<MyCharacterController>();
@@ -191,6 +206,10 @@ public class BattleManager : MonoBehaviour
             // 몬스터 생성
             var monster = Instantiate(monsterData._prefab, spawnPoint.position, spawnPoint.rotation);
 
+            var monterOIL = monster.GetComponentInChildren<SpriteRenderer>();
+
+            // 마직막 캐릭터를 맨 앞으로 보여주기
+            monterOIL.sortingOrder = 10 + i;
             // 생성된 캐릭터 저장
             var createMonster = monster.GetComponent<MonsterController>();
             _monsters.Add(createMonster);
@@ -305,7 +324,7 @@ public class BattleManager : MonoBehaviour
     public void CharacterDeathCheck()
     {
         _characterCount = Math.Max(0, _characterCount - 1);
-
+        OnCharacterDeath?.Invoke();
         // 클리어 체크
         BattleClearCheck();
     }
@@ -339,13 +358,20 @@ public class BattleManager : MonoBehaviour
         }
     }
 
-    #region 캐릭터의 패시브 스킬 동작 
+    private void BattleStart() => _isBattleStarted = true;
+
+    #region 캐릭터의 액티브 스킬 동작
+
+    #endregion
+
+    #region 캐릭터의 패시브 스킬 동작
+
     // 캐릭터 전체 체력 회복
     public void AllCharacterHeal(float healValue)
     {
-        foreach(var cha in _characters)
+        foreach (var cha in _characters)
         {
-            if(cha._isAlive) cha.CharacterHealApply(healValue);
+            if (cha._isAlive) cha.CharacterHealApply(healValue);
         }
     }
 
@@ -367,7 +393,7 @@ public class BattleManager : MonoBehaviour
     // 캐릭터 전체 아머 상승
     public void AllCharacterArmorUp(float upValue)
     {
-        foreach(var cha in _characters)
+        foreach (var cha in _characters)
         {
             // 전체 캐릭터 아머 상승 적용
             cha.AllCharacterArmorUpApply(upValue);
@@ -385,18 +411,32 @@ public class BattleManager : MonoBehaviour
     // 몬스터 전체 공격
     public void AllMonsterDamage(float damageValue, float hitRate)
     {
-        foreach(var mon in _monsters)
+        foreach (var mon in _monsters)
         {
-            if(mon._isAlive)
+            if (mon._isAlive)
             {
                 Debug.Log($"{mon._monsterState._monEnName}가 {damageValue}의 공격받음");
 
-                if(mon != null)
+                if (mon != null)
                 {
                     mon.TakeDamage(damageValue, hitRate);
                 }
             }
         }
     }
+
+    private void BattleEnd()
+    {
+        foreach (var character in _characters)
+        {
+            Destroy(character?.gameObject);
+        }
+
+        _isSpawned = false;
+        _isBattleStarted = false;
+        _isGameOver = false;
+        _monsterTotalMaxHp = 0;
+    }
+
     #endregion
 }

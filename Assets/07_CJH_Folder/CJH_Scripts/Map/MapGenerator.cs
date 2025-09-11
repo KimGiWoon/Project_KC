@@ -8,8 +8,9 @@ public class MapGenerator : MonoBehaviour
     [Header("프리팹 설정")]
     public GameObject mapTemplatePrefab;
 
-
     public MapConfig config;
+
+    [SerializeField] private DataManager _dataManager;
 
     private int _floors;
     private int _mapWidth;
@@ -22,18 +23,18 @@ public class MapGenerator : MonoBehaviour
         availableEncounters = Resources.LoadAll<EncounterData>("Data/EncounterData").ToList();
 
         // 전달받은 config를 이 컴포넌트의 config 변수에 저장합니다.
-        this.config = configToGenerate;
-        Debug.Log("--- 맵 생성 시작 ---");
+        config = configToGenerate;
+        // Debug.Log("--- 맵 생성 시작 ---");
 
-        InitSetting(this.config);
+        InitSetting(config);
         _map = GenerateInitialGrid();
 
-        var nodeIdentifiers = mapTemplatePrefab.GetComponentsInChildren<MapNodeIdentifier>();
+        var nodeIdentifiers = mapTemplatePrefab.GetComponentsInChildren<MapNodeIdentifier>(true);
         ActivateNodesFromPrefab(nodeIdentifiers);
         BuildConnectionsFromPrefab(nodeIdentifiers);
 
-        Node startNode = _map.SelectMany(f => f).FirstOrDefault(n => n.nodeType == NodeType.Start);
-        Node bossNode = _map.SelectMany(f => f).FirstOrDefault(n => n.nodeType == NodeType.Boss);
+        var startNode = _map.SelectMany(f => f).FirstOrDefault(n => n.nodeType == NodeType.Start);
+        var bossNode = _map.SelectMany(f => f).FirstOrDefault(n => n.nodeType == NodeType.Boss);
 
         if (startNode == null || bossNode == null)
         {
@@ -43,8 +44,8 @@ public class MapGenerator : MonoBehaviour
 
         AssignNodeTypesToPaths(startNode, bossNode);
 
-        Debug.Log("--- 모든 맵 생성 과정 완료 ---");
-        List<List<Node>> allPaths = GetAllPaths(startNode, bossNode);
+        // Debug.Log("--- 모든 맵 생성 과정 완료 ---");
+        var allPaths = GetAllPaths(startNode, bossNode);
         return new MapData(_map, allPaths, startNode, bossNode);
     }
 
@@ -74,7 +75,7 @@ public class MapGenerator : MonoBehaviour
         int maxFloorIndex = identifiers.Max(id => id.floorIndex);
         foreach (var id in identifiers)
         {
-            Node node = _map[id.floorIndex][id.nodeIndexInFloor];
+            var node = _map[id.floorIndex][id.nodeIndexInFloor];
 
             if (id.floorIndex == 0) node.nodeType = NodeType.Start;
             else if (id.floorIndex == maxFloorIndex) node.nodeType = NodeType.Boss;
@@ -92,11 +93,11 @@ public class MapGenerator : MonoBehaviour
         foreach (var parentId in identifiers)
         {
             if (parentId.connections == null || !parentId.connections.Any()) continue;
-            Node parentNode = identifierToNodeMap[parentId];
+            var parentNode = identifierToNodeMap[parentId];
             foreach (var childId in parentId.connections)
             {
                 if (childId == null) continue;
-                Node childNode = identifierToNodeMap[childId];
+                var childNode = identifierToNodeMap[childId];
                 if (!parentNode.nextNodes.Contains(childNode))
                 {
                     parentNode.nextNodes.Add(childNode);
@@ -109,21 +110,26 @@ public class MapGenerator : MonoBehaviour
     private void AssignNodeTypesToPaths(Node start, Node end)
     {
         foreach (var node in _map[start.point.x + 1].Where(n => n.nodeType == NodeType.Event))
+        {
             node.nodeType = NodeType.Battle;
+        }
 
         foreach (var node in _map[4].Where(n => n.nodeType == NodeType.Battle))
+        {
             node.nodeType = NodeType.Event;
+        }
 
         var floor2Nodes = _map[2].Where(n => n.nodeType == NodeType.Event).ToList();
         foreach (var node2 in floor2Nodes)
         {
-            node2.nodeType = (Random.value > 0.5f) ? NodeType.Battle : NodeType.Event;
+            node2.nodeType = Random.value > 0.5f ? NodeType.Battle : NodeType.Event;
         }
 
-        var floor3Nodes = _map[3].Where(n => n.nodeType != NodeType.NotAssigned && n.nodeType != NodeType.Start && n.nodeType != NodeType.Boss).ToList();
+        var floor3Nodes = _map[3].Where(n =>
+            n.nodeType != NodeType.NotAssigned && n.nodeType != NodeType.Start && n.nodeType != NodeType.Boss).ToList();
         foreach (var childNode in floor3Nodes)
         {
-            List<Node> parents = childNode.previousNodes;
+            var parents = childNode.previousNodes;
             if (parents.Any())
             {
                 childNode.nodeType = parents.Any(p => p.nodeType == NodeType.Event) ? NodeType.Battle : NodeType.Event;
@@ -135,18 +141,20 @@ public class MapGenerator : MonoBehaviour
         {
             // 1. 노드에 긍정/부정/중립/미묘 감정 타입을 랜덤으로 할당
             // EventTypeKC enum에서 실제 감정을 나타내는 값들만 추립니다.
-            List<EventTypeKC> sentimentTypes = new List<EventTypeKC> { EventTypeKC.Positive, EventTypeKC.Negative, EventTypeKC.Neutral, EventTypeKC.Subtlety };
+            var sentimentTypes = new List<EventTypeKC>
+                { EventTypeKC.Positive, EventTypeKC.Negative, EventTypeKC.Neutral, EventTypeKC.Subtlety };
             eventNode.EventTypeKC = sentimentTypes[Random.Range(0, sentimentTypes.Count)];
 
             // 2. 위에서 만든 변환 함수를 사용해 안전하게 Sentiment 타입을 얻습니다.
-            EncounterSentiment sentiment = ConvertEventTypeToSentiment(eventNode.EventTypeKC);
+            var sentiment = ConvertEventTypeToSentiment(eventNode.EventTypeKC);
 
             // 3. DataManager에게 노드의 감정 타입과 현재 스테이지에 맞는 랜덤 사건 ID를 요청하여 저장
             int currentStage = eventNode.point.x; // 노드의 floor index를 스테이지로 간주
-            if (DataManager.Instance != null)
+            if (_dataManager != null)
             {
-                eventNode.EncounterID = DataManager.Instance.GetRandomEncounterID(sentiment, currentStage);
-                Debug.Log($"노드 ({eventNode.point.x}, {eventNode.point.y})에 감정({sentiment}), 스테이지({currentStage})에 따른 사건 ID {eventNode.EncounterID} 할당됨.");
+                eventNode.EncounterID = _dataManager.GetRandomEncounterID(sentiment, currentStage);
+                // Debug.Log(
+                //     $"노드 ({eventNode.point.x}, {eventNode.point.y})에 감정({sentiment}), 스테이지({currentStage})에 따른 사건 ID {eventNode.EncounterID} 할당됨.");
             }
             else
             {
@@ -189,7 +197,7 @@ public class MapGenerator : MonoBehaviour
         }
         else
         {
-            foreach (Node next in current.nextNodes)
+            foreach (var next in current.nextNodes)
             {
                 // 순환 구조가 있을 때 무한 루프를 방지
                 if (!path.Contains(next))

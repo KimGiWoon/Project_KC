@@ -139,6 +139,11 @@ namespace SDW
         {
             _ingredientStoreManager.RefreshStore();
 
+            ResetIngredientColor();
+        }
+
+        public void ResetIngredientColor()
+        {
             for (int i = 0; i < _ingredientImage.Count; i++)
             {
                 _ingredientImage[i].color = Color.white;

@@ -84,7 +84,6 @@ namespace SDW
                 case SceneName.KSH_Gacha:
                 case SceneName.SDW_LobbyScene: OpenLobbyScene(uiName); break;
                 case SceneName.SDW_RoguelikeScene: OpenRoguelikeScene(uiName); break;
-                case SceneName.KGW_TestIngameScene: OpenInGameScene(uiName); break;
             }
 
             if (_prevOpenedUI == _prevClosedUI)
@@ -121,9 +120,6 @@ namespace SDW
                 case UIName.DeleteAccountUI: ConnectDeleteAccountUI(uiName); break;
                 case UIName.EditUsernameUI: ConnectEditUsernameUI(uiName); break;
                 case UIName.ChangeIconUI: ConnectChangeIconUI(uiName); break;
-                //@ Stage UI
-                case UIName.KGW_StageSelectUI: ConnectKGW_StageUI(uiName); break;
-                case UIName.KGW_CharacterSelectUI: ConnectKGW_CharacterSelectUI(uiName); break;
                 //@ Daily Quest UI
                 case UIName.DailyQuestUI: ConnectDailyQuestUI(uiName); break;
                 //@ Gacha UI
@@ -136,7 +132,7 @@ namespace SDW
         {
             switch (uiName)
             {
-                //# Main Lobby Scene
+                //# Roguelike Scene
                 case UIName.StageGlobalUI: ConnectStageGlobalUI(uiName); break;
                 case UIName.PopupSettingUI: ConnectPopupSettingUI(uiName); break;
                 case UIName.RouteSelectUI: ConnectRouteSelectUI(uiName); break;
@@ -147,17 +143,7 @@ namespace SDW
                 case UIName.InventoryUI: ConnectInventoryUI(uiName); break;
                 case UIName.CookingUI: ConnectCookingUI(uiName); break;
                 case UIName.FoodDescriptionUI: ConnectFoodDescriptionUI(uiName); break;
-            }
-        }
 
-        /// <summary>
-        /// InGameScene에 맞는 UI 패널을 초기화하고 연결
-        /// </summary>
-        /// <param name="uiName">열려는 UI 패널의 이름</param>
-        private void OpenInGameScene(UIName uiName)
-        {
-            switch (uiName)
-            {
                 //# Battle Scene
                 case UIName.BattleUI: ConnectBattleUI(uiName); break;
                 case UIName.MenuUI: ConnectMenuUI(uiName); break;
@@ -190,7 +176,6 @@ namespace SDW
                 case SceneName.KSH_Gacha:
                 case SceneName.SDW_LobbyScene: CloseLobbyScene(uiName); break;
                 case SceneName.SDW_RoguelikeScene: CloseRoguelikeScene(uiName); break;
-                case SceneName.KGW_TestIngameScene: CloseInGameScene(uiName); break;
             }
 
 
@@ -228,9 +213,6 @@ namespace SDW
                 case UIName.DeleteAccountUI: DisconnectDeleteAccountUI(uiName); break;
                 case UIName.EditUsernameUI: DisconnectEdiUsernameUI(uiName); break;
                 case UIName.ChangeIconUI: DisconnectChangeIconUI(uiName); break;
-                //@ Stage UI
-                case UIName.KGW_StageSelectUI: DisconnectKGW_StageUI(uiName); break;
-                case UIName.KGW_CharacterSelectUI: DisconnectKGW_CharacterSelectUI(uiName); break;
                 //@ Daily Quest UI
                 case UIName.DailyQuestUI: DisconnectDailyQuestUI(uiName); break;
                 //@ Gacha UI
@@ -243,7 +225,7 @@ namespace SDW
         {
             switch (uiName)
             {
-                //# Main Lobby Scene
+                //# Roguelike Scene
                 case UIName.StageGlobalUI: DisconnectStageGlobalUI(uiName); break;
                 case UIName.PopupSettingUI: DisconnectPopupSettingUI(uiName); break;
                 case UIName.RouteSelectUI: DisconnectRouteSelectUI(uiName); break;
@@ -254,17 +236,8 @@ namespace SDW
                 case UIName.InventoryUI: DisconnectInventoryUI(uiName); break;
                 case UIName.CookingUI: DisconnectCookingUI(uiName); break;
                 case UIName.FoodDescriptionUI: DisconnectFoodDescriptionUI(uiName); break;
-            }
-        }
-        /// <summary>
-        /// InGameScene에 맞는 UI 패널을 초기화하고 연결
-        /// </summary>
-        /// <param name="uiName">닫으려는 UI 패널의 이름</param>
-        private void CloseInGameScene(UIName uiName)
-        {
-            switch (uiName)
-            {
-                //# battle scene
+
+                //# Battle scene
                 case UIName.BattleUI: DisconnectBattleUI(uiName); break;
                 case UIName.MenuUI: DisconnectMenuUI(uiName); break;
                 case UIName.ClearChapterUI: DisconnectClearChapterUI(uiName); break;
@@ -423,27 +396,27 @@ namespace SDW
             changeIconUI.OnUICloseRequested += ClosePanel;
         }
 
-        /// <summary>
-        /// KGW_StageUI 연결 및 이벤트 핸들러 설정
-        /// </summary>
-        /// <param name="uiName">연결할 KGW_StageUI 패널의 이름</param>
-        private void ConnectKGW_StageUI(UIName uiName)
-        {
-            var kgwStageUI = _uiDic[uiName] as KGW_StageSelectUI;
-            kgwStageUI.OnUIOpenRequested += OpenPanel;
-            kgwStageUI.OnUICloseRequested += ClosePanel;
-        }
-
-        /// <summary>
-        /// KGW_CharacterSelectUI 연결 및 이벤트 핸들러 설정
-        /// </summary>
-        /// <param name="uiName">연결할 KGW_CharacterSelectUI 패널의 이름</param>
-        private void ConnectKGW_CharacterSelectUI(UIName uiName)
-        {
-            var kgwCharacterSelectUI = _uiDic[uiName] as KGW_CharacterSelectUI;
-            kgwCharacterSelectUI.OnUIOpenRequested += OpenPanel;
-            kgwCharacterSelectUI.OnUICloseRequested += ClosePanel;
-        }
+        // /// <summary>
+        // /// KGW_StageUI 연결 및 이벤트 핸들러 설정
+        // /// </summary>
+        // /// <param name="uiName">연결할 KGW_StageUI 패널의 이름</param>
+        // private void ConnectKGW_StageUI(UIName uiName)
+        // {
+        //     var kgwStageUI = _uiDic[uiName] as KGW_StageSelectUI;
+        //     kgwStageUI.OnUIOpenRequested += OpenPanel;
+        //     kgwStageUI.OnUICloseRequested += ClosePanel;
+        // }
+        //
+        // /// <summary>
+        // /// KGW_CharacterSelectUI 연결 및 이벤트 핸들러 설정
+        // /// </summary>
+        // /// <param name="uiName">연결할 KGW_CharacterSelectUI 패널의 이름</param>
+        // private void ConnectKGW_CharacterSelectUI(UIName uiName)
+        // {
+        //     var kgwCharacterSelectUI = _uiDic[uiName] as KGW_CharacterSelectUI;
+        //     kgwCharacterSelectUI.OnUIOpenRequested += OpenPanel;
+        //     kgwCharacterSelectUI.OnUICloseRequested += ClosePanel;
+        // }
 
         /// <summary>
         /// DailyQuestUI 연결 및 이벤트 핸들러 설정
@@ -598,10 +571,6 @@ namespace SDW
             foodDescriptionUI.OnUICloseRequrested += ClosePanel;
         }
 
-        #endregion
-
-        #region Ingame Scene UI Connect Methods
-
         /// <summary>
         /// BattleUI 연결 및 이벤트 핸들러 설정
         /// </summary>
@@ -610,6 +579,7 @@ namespace SDW
         {
             var battleUI = _uiDic[uiName] as BattleUI;
             battleUI.OnUIOpenRequested += OpenPanel;
+            battleUI.OnUICloseRequested += ClosePanel;
         }
 
         /// <summary>
@@ -805,27 +775,27 @@ namespace SDW
             changeIconUI.OnUICloseRequested -= ClosePanel;
         }
 
-        /// <summary>
-        /// KGW_StageUI 연결해제 및 이벤트 핸들러 연결해제 설정
-        /// </summary>
-        /// <param name="uiName">연결해제할 KGW_StageUI 패널의 이름</param>
-        private void DisconnectKGW_StageUI(UIName uiName)
-        {
-            var kgwStageUI = _uiDic[uiName] as KGW_StageSelectUI;
-            kgwStageUI.OnUIOpenRequested -= OpenPanel;
-            kgwStageUI.OnUICloseRequested -= ClosePanel;
-        }
-
-        /// <summary>
-        /// KGW_CharacterSelectUI 연결해제 및 이벤트 핸들러 연결해제 설정
-        /// </summary>
-        /// <param name="uiName">연결해제할 KGW_CharacterSelectUI 패널의 이름</param>
-        private void DisconnectKGW_CharacterSelectUI(UIName uiName)
-        {
-            var kgwCharacterSelectUI = _uiDic[uiName] as KGW_CharacterSelectUI;
-            kgwCharacterSelectUI.OnUIOpenRequested -= OpenPanel;
-            kgwCharacterSelectUI.OnUICloseRequested -= ClosePanel;
-        }
+        // /// <summary>
+        // /// KGW_StageUI 연결해제 및 이벤트 핸들러 연결해제 설정
+        // /// </summary>
+        // /// <param name="uiName">연결해제할 KGW_StageUI 패널의 이름</param>
+        // private void DisconnectKGW_StageUI(UIName uiName)
+        // {
+        //     var kgwStageUI = _uiDic[uiName] as KGW_StageSelectUI;
+        //     kgwStageUI.OnUIOpenRequested -= OpenPanel;
+        //     kgwStageUI.OnUICloseRequested -= ClosePanel;
+        // }
+        //
+        // /// <summary>
+        // /// KGW_CharacterSelectUI 연결해제 및 이벤트 핸들러 연결해제 설정
+        // /// </summary>
+        // /// <param name="uiName">연결해제할 KGW_CharacterSelectUI 패널의 이름</param>
+        // private void DisconnectKGW_CharacterSelectUI(UIName uiName)
+        // {
+        //     var kgwCharacterSelectUI = _uiDic[uiName] as KGW_CharacterSelectUI;
+        //     kgwCharacterSelectUI.OnUIOpenRequested -= OpenPanel;
+        //     kgwCharacterSelectUI.OnUICloseRequested -= ClosePanel;
+        // }
 
         /// <summary>
         /// DailyQuestUI 연결해제 및 이벤트 핸들러 연결해제 설정
@@ -993,10 +963,6 @@ namespace SDW
             foodDescriptionUI.OnUICloseRequrested -= ClosePanel;
         }
 
-        #endregion
-
-        #region Ingame Scene UI Disconnect Methods
-
         /// <summary>
         /// BattleUI 연결해제 및 이벤트 핸들러 연결해제 설정
         /// </summary>
@@ -1005,6 +971,7 @@ namespace SDW
         {
             var battleUI = _uiDic[uiName] as BattleUI;
             battleUI.OnUIOpenRequested -= OpenPanel;
+            battleUI.OnUICloseRequested -= ClosePanel;
         }
 
         /// <summary>
@@ -1149,11 +1116,8 @@ namespace SDW
                         OpenPanel(targetUI);
                     break;
                 case SceneName.SDW_RoguelikeScene:
-                    OpenPanel(UIName.StageGlobalUI);
-                    break;
-                case SceneName.KGW_TestIngameScene:
                     if (targetUI == UIName.None)
-                        OpenPanel(UIName.BattleUI);
+                        OpenPanel(UIName.StageGlobalUI);
                     else
                         OpenPanel(targetUI);
                     break;

@@ -25,7 +25,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 626996100361033228}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -768.44666, y: -1024.5166, z: 282.81216}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -44,8 +44,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f11f2321074faf548a8c02b0db8fd19c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  eventImage: {fileID: 0}
   encounterText: {fileID: 0}
   buttonContainer: {fileID: 0}
   resultPanel: {fileID: 0}
   resultText: {fileID: 0}
   choiceButtonPrefab: {fileID: 0}
+  encounterSprites:
+  - typeEnum: 1
+    sprite: {fileID: 21300000, guid: fc3aa4e463eff9240ba7543adda4c4e1, type: 3}
+  - typeEnum: 2
+    sprite: {fileID: 21300000, guid: 401eaf354071eaa44a69a6fa2e7d9e0d, type: 3}
+  - typeEnum: 3
+    sprite: {fileID: 21300000, guid: 0a68b915059898f4ca92f2b9b92b1e70, type: 3}
+  - typeEnum: 4
+    sprite: {fileID: 21300000, guid: 9b1accb56fec2d441b85ce6093d8c131, type: 3}
+  - typeEnum: 5
+    sprite: {fileID: 21300000, guid: da908d70e4585c84cb4c78d27923a379, type: 3}
+  - typeEnum: 6
+    sprite: {fileID: 21300000, guid: 5d1e212e808600047a530862f3ae3de8, type: 3}
+  - typeEnum: 7
+    sprite: {fileID: 21300000, guid: 401eaf354071eaa44a69a6fa2e7d9e0d, type: 3}
+  - typeEnum: 8
+    sprite: {fileID: 21300000, guid: 9b1accb56fec2d441b85ce6093d8c131, type: 3}
+  - typeEnum: 9
+    sprite: {fileID: 21300000, guid: 401eaf354071eaa44a69a6fa2e7d9e0d, type: 3}
+  - typeEnum: 10
+    sprite: {fileID: 21300000, guid: 6cf9c8cf5b484ac4884c8875c31fc23e, type: 3}
+  - typeEnum: 11
+    sprite: {fileID: 21300000, guid: 43f697a88c51d4b4b84ebe46b0d65ee2, type: 3}

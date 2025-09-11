@@ -139,7 +139,14 @@ namespace JJY
         /// </summary>
         public void RefreshStore()
         {
-            if (_coin.yeopjeon < 5) return; // 새로고침 시 5엽전 소모.
+            selectedSlotIndex = -1;
+
+            if (_coin.yeopjeon < 5)
+            {
+                //todo 돈 부족 알림 띄워야 함
+                _shoppingUI.ActiveFailedPanel("어짜피 다른 거 가져와도 못 사실 텐데요?");
+                return; // 새로고침 시 5엽전 소모.
+            }
             _coin.SubtractYeopjeon(5);
 
             for (int i = 0; i < slotDatas.Count; i++)
@@ -155,7 +162,6 @@ namespace JJY
                 slotDatas[i].sold = false;
             }
 
-            selectedSlotIndex = -1;
             UpdateSlotUI();
             if (logAction) Debug.Log($"상점 새로고침:엽전 {_coin.yeopjeon}개 보유중");
         }
@@ -215,14 +221,16 @@ namespace JJY
         {
             if (selectedSlotIndex < 0 || selectedSlotIndex >= slotDatas.Count)
             {
-                _shoppingUI.ActiveFailedPanel("아무런 아이템도 선택되지 않았습니다.");
+                _shoppingUI.ActiveFailedPanel("아이쇼핑만 하실 거예요~ 셰프님? ^^");
                 return;
             }
             var data = slotDatas[selectedSlotIndex];
 
             if (_coin.yeopjeon < data.price)
             {
-                _shoppingUI.ActiveFailedPanel("아이템을 구매하기 위한 재화가 부족합니다.");
+                selectedSlotIndex = -1;
+                _shoppingUI.ResetIngredientColor();
+                _shoppingUI.ActiveFailedPanel("셰프님…? 한도 초과라고 하네요…?");
                 return;
             }
 
