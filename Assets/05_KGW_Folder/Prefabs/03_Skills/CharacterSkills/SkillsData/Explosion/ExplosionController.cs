@@ -28,7 +28,7 @@ public class ExplosionController : MonoBehaviour
             if (skillAttackDistance <= _explosionAttackRange)
             {
                 // 몬스터에게 데미지 주기
-                monster.TakeDamage(_explosionDamage);
+                //monster.TakeDamage(_explosionDamage);
             }
         }
 

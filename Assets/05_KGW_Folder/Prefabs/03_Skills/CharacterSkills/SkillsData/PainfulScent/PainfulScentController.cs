@@ -55,7 +55,7 @@ public class PainfulScentController : MonoBehaviour
         _isArmorDown = true;
 
         // 지속시간 후 피해 감소 원복
-        Invoke(nameof(MonsterArmorReset), _activeSkillDuration);
+        Invoke(nameof(MonsterArmorReset), _activeSkillDuration / _character._gameSpeed);
 
         // 게임 종료가 되면 감소된 피래 감소 원복
         if (_character._battleManager._isGameOver)
@@ -88,7 +88,7 @@ public class PainfulScentController : MonoBehaviour
 
         while (count < _skillAttackHit)
         {
-            mon.TakeDamage(_skillDamage);
+            mon.TakeDamage(_skillDamage, _character._characterState._chaAccuracy);
             count++;
 
             yield return _time;

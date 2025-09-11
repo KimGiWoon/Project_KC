@@ -8,6 +8,7 @@ public class SavageSlashController : MonoBehaviour
     private float _skillAttackHit;
     private float _skillTick;
     private MyCharacterController _character;
+    private MonsterController _monster;
     private Coroutine _attackRoutine;
     private WaitForSeconds _time;
 
@@ -17,6 +18,7 @@ public class SavageSlashController : MonoBehaviour
         _skillAttackHit = hit;
         _skillTick = tick;
         _character = target;
+        _monster = caster;
         _time = new WaitForSeconds(_skillTick);
 
         AllCharacterSavageSlash();
@@ -47,7 +49,7 @@ public class SavageSlashController : MonoBehaviour
 
         while (count < _skillAttackHit)
         {
-            cha.TakeDamage(_skillDamage);
+            cha.TakeDamage(_skillDamage, _monster._monsterState._monAccuracy);
             count++;
 
             yield return _time;
