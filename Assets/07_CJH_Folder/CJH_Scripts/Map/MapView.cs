@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Linq;
 using DG.Tweening;
+using SDW;
 
 namespace CJH
 {
@@ -46,6 +47,7 @@ namespace CJH
         public static MapView Instance;
 
         public Action<bool> OnCharacterMoved;
+        public Action<BattleEventType> OnEventTypeChanged;
 
         private void Awake()
         {
@@ -58,6 +60,18 @@ namespace CJH
             {
                 cameraTransform = Camera.main.transform;
             }
+        }
+
+        private void Start()
+        {
+            RoguelikeManager.Instance.OnBattleStart += BattleStart;
+            RoguelikeManager.Instance.OnBattleEnd += BattleEnd;
+        }
+
+        private void OnDisable()
+        {
+            RoguelikeManager.Instance.OnBattleStart -= BattleStart;
+            RoguelikeManager.Instance.OnBattleEnd -= BattleEnd;
         }
 
         public void CreateMapView(MapData map)
@@ -136,7 +150,7 @@ namespace CJH
             lineArrows.Clear();
 
             // 현재 노드로 플레이어 캐릭터 이동
-            UpdatePlayerPosition(currentNode);
+            UpdatePlayerPosition(currentNode.nodeType, currentNode.EncounterID);
 
             foreach (var mapNode in nodeObjects.Values)
             {
@@ -220,7 +234,7 @@ namespace CJH
         }
 
         // 플레이어 캐릭터를 현재 노드 위치로 이동시키는 함수
-        private void UpdatePlayerPosition(Node currentNode)
+        private void UpdatePlayerPosition(NodeType currentNodeType, int encounterId)
         {
             if (playerCharacterInstance == null || currentMap.CurrentNode == null) return;
             // 현재 노드의 게임 오브젝트를 찾습니다.
@@ -232,7 +246,7 @@ namespace CJH
                     .DOMove(currentNodeObject.transform.position, playerMoveDuration)
                     .SetEase(playerMoveEase);
 
-                StartCoroutine(CharacterMovedNotify(playerMoveDuration, currentNode));
+                StartCoroutine(CharacterMovedNotify(playerMoveDuration, currentNodeType, encounterId));
 
                 if (cameraTransform != null && cameraScrollLinker != null)
                 {
@@ -257,14 +271,37 @@ namespace CJH
             }
         }
 
-        private IEnumerator CharacterMovedNotify(float delay, Node currentNode)
+        private IEnumerator CharacterMovedNotify(float delay, NodeType currentNode, int encounterId)
         {
-            bool isBattle = currentNode.nodeType == NodeType.Battle || currentNode.nodeType == NodeType.Boss;
+            bool isBattle = false;
+            var type = BattleEventType.Normal;
+
+            switch (currentNode)
+            {
+                case NodeType.Battle:
+                    isBattle = true;
+                    type = BattleEventType.Normal;
+                    break;
+                case NodeType.EventBattle:
+                    isBattle = true;
+                    type = BattleEventType.Elite;
+                    break;
+                case NodeType.Boss:
+                    isBattle = false;
+                    if (RoguelikeManager.Instance.StageNumber == 3)
+                        type = BattleEventType.BossFinal;
+                    else
+                        type = BattleEventType.Boss;
+                    break;
+            }
+
             yield return new WaitForSeconds(delay);
             OnCharacterMoved?.Invoke(isBattle);
+            OnEventTypeChanged?.Invoke(type);
+
 
             if (!isBattle)
-                _eventManager.StartEncounter(currentNode.EncounterID);
+                _eventManager.StartEncounter(encounterId);
         }
 
         private void ClearMap()
@@ -280,6 +317,26 @@ namespace CJH
                 Destroy(arrow);
             }
             lineArrows.Clear();
+        }
+
+        private void BattleStart()
+        {
+            mapTemplatePrefab.SetActive(false);
+            playerCharacterInstance.SetActive(false);
+            foreach (var arrow in lineArrows)
+            {
+                arrow.SetActive(false);
+            }
+        }
+
+        private void BattleEnd()
+        {
+            mapTemplatePrefab.SetActive(true);
+            playerCharacterInstance.SetActive(true);
+            foreach (var arrow in lineArrows)
+            {
+                arrow.SetActive(true);
+            }
         }
     }
 }
