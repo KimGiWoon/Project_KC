@@ -59,7 +59,7 @@ public abstract class UnitBaseData : MonoBehaviour
     protected abstract void Attack();
 
     // 유닛의 데미지 받음
-    public virtual void TakeDamage(float damage)
+    public virtual void TakeDamage(float damage, float hitRate)
     {
         // 보스가 아니면 넉백 가능
         if (gameObject.layer != LayerMask.NameToLayer("Boss"))

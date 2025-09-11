@@ -36,7 +36,7 @@ public class CheerController : MonoBehaviour
         }
         _isAttackUp = true;
 
-        Invoke(nameof(CharacterAttackReset), _activeSkillDuration);
+        Invoke(nameof(CharacterAttackReset), _activeSkillDuration / _character._gameSpeed);
 
         // 게임 종료가 되면 상승된 공격력 원복
         if (_character._battleManager._isGameOver)

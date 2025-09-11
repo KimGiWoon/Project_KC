@@ -46,7 +46,7 @@ public class WrathOfTheGuardianController : MonoBehaviour
 
         while (count < _skillAttackHit)
         {
-            mon.TakeDamage(_skillDamage);
+            mon.TakeDamage(_skillDamage, _character._characterState._chaAccuracy);
             count++;
 
             yield return _time;

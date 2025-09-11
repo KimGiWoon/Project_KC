@@ -17617,22 +17617,6 @@ MonoBehaviour:
   foodContent: {fileID: 1160436775}
   foodBtnPrefab: {fileID: 8665683076589498544, guid: 24ebee958139a88488fd62e8803caf55, type: 3}
   logActions: 1
-  testInventory:
-  - recipe: {fileID: 11400000, guid: bb6b8af267d629d40b3fc6205f685eb1, type: 2}
-    relic: {fileID: 0}
-    isNew: 0
-  - recipe: {fileID: 11400000, guid: bb6b8af267d629d40b3fc6205f685eb1, type: 2}
-    relic: {fileID: 0}
-    isNew: 0
-  - recipe: {fileID: 11400000, guid: bb6b8af267d629d40b3fc6205f685eb1, type: 2}
-    relic: {fileID: 0}
-    isNew: 0
-  - recipe: {fileID: 11400000, guid: bb6b8af267d629d40b3fc6205f685eb1, type: 2}
-    relic: {fileID: 0}
-    isNew: 0
-  - recipe: {fileID: 11400000, guid: bb6b8af267d629d40b3fc6205f685eb1, type: 2}
-    relic: {fileID: 0}
-    isNew: 0
 --- !u!1 &2129775170
 GameObject:
   m_ObjectHideFlags: 0
@@ -17776,101 +17760,17 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 499883419036032184, guid: fa761daa402395443998ecabe6307359, type: 3}
-      propertyPath: _slot
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 499883419036032184, guid: fa761daa402395443998ecabe6307359, type: 3}
       propertyPath: _wall
       value: 
       objectReference: {fileID: 936472022}
-    - target: {fileID: 499883419036032184, guid: fa761daa402395443998ecabe6307359, type: 3}
-      propertyPath: _timer
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 499883419036032184, guid: fa761daa402395443998ecabe6307359, type: 3}
-      propertyPath: _isBoss
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 499883419036032184, guid: fa761daa402395443998ecabe6307359, type: 3}
-      propertyPath: _clearPanel
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 499883419036032184, guid: fa761daa402395443998ecabe6307359, type: 3}
-      propertyPath: _isLastBoss
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 499883419036032184, guid: fa761daa402395443998ecabe6307359, type: 3}
-      propertyPath: _isLocalBoss
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 499883419036032184, guid: fa761daa402395443998ecabe6307359, type: 3}
-      propertyPath: _BossSpawnPoint
-      value: 
-      objectReference: {fileID: 1037446379}
     - target: {fileID: 499883419036032184, guid: fa761daa402395443998ecabe6307359, type: 3}
       propertyPath: _bossSpawnPoint
       value: 
       objectReference: {fileID: 1037446379}
     - target: {fileID: 499883419036032184, guid: fa761daa402395443998ecabe6307359, type: 3}
-      propertyPath: _monsterSpawnPoint
-      value: 
-      objectReference: {fileID: 1632805607}
-    - target: {fileID: 499883419036032184, guid: fa761daa402395443998ecabe6307359, type: 3}
-      propertyPath: _BossList.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 499883419036032184, guid: fa761daa402395443998ecabe6307359, type: 3}
-      propertyPath: _bossList.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 499883419036032184, guid: fa761daa402395443998ecabe6307359, type: 3}
-      propertyPath: _eliteList.Array.size
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 499883419036032184, guid: fa761daa402395443998ecabe6307359, type: 3}
-      propertyPath: _BossList.Array.data[0]
-      value: 
-      objectReference: {fileID: 11400000, guid: a2aa931df011c4a4cb546eca0daff2b2, type: 2}
-    - target: {fileID: 499883419036032184, guid: fa761daa402395443998ecabe6307359, type: 3}
-      propertyPath: _bossList.Array.data[0]
-      value: 
-      objectReference: {fileID: 11400000, guid: 436d8ae2a98747d47971bec028c6cfe8, type: 2}
-    - target: {fileID: 499883419036032184, guid: fa761daa402395443998ecabe6307359, type: 3}
-      propertyPath: _monsterList.Array.size
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 499883419036032184, guid: fa761daa402395443998ecabe6307359, type: 3}
-      propertyPath: _characterList.Array.size
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 499883419036032184, guid: fa761daa402395443998ecabe6307359, type: 3}
       propertyPath: _monsterList.Array.data[0]
       value: 
       objectReference: {fileID: 11400000, guid: e40e68bac195a3d4ca495c39b3c68f55, type: 2}
-    - target: {fileID: 499883419036032184, guid: fa761daa402395443998ecabe6307359, type: 3}
-      propertyPath: _monsterList.Array.data[1]
-      value: 
-      objectReference: {fileID: 11400000, guid: e40e68bac195a3d4ca495c39b3c68f55, type: 2}
-    - target: {fileID: 499883419036032184, guid: fa761daa402395443998ecabe6307359, type: 3}
-      propertyPath: _monsterList.Array.data[2]
-      value: 
-      objectReference: {fileID: 11400000, guid: e40e68bac195a3d4ca495c39b3c68f55, type: 2}
-    - target: {fileID: 499883419036032184, guid: fa761daa402395443998ecabe6307359, type: 3}
-      propertyPath: _characterList.Array.data[0]
-      value: 
-      objectReference: {fileID: 11400000, guid: 65f2c3ff647fbb64882a5e1b70abfa2e, type: 2}
-    - target: {fileID: 499883419036032184, guid: fa761daa402395443998ecabe6307359, type: 3}
-      propertyPath: _characterList.Array.data[1]
-      value: 
-      objectReference: {fileID: 11400000, guid: 103b7f3043d88a9429d25209c9d1f182, type: 2}
-    - target: {fileID: 499883419036032184, guid: fa761daa402395443998ecabe6307359, type: 3}
-      propertyPath: _characterList.Array.data[2]
-      value: 
-      objectReference: {fileID: 11400000, guid: 9ed735c570481004a8718f1c6026da54, type: 2}
-    - target: {fileID: 499883419036032184, guid: fa761daa402395443998ecabe6307359, type: 3}
-      propertyPath: _monsterSpawnPoint.Array.size
-      value: 3
-      objectReference: {fileID: 0}
     - target: {fileID: 499883419036032184, guid: fa761daa402395443998ecabe6307359, type: 3}
       propertyPath: _monsterSpawnPoint.Array.data[0]
       value: 
@@ -17884,14 +17784,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 219947055}
     - target: {fileID: 499883419036032184, guid: fa761daa402395443998ecabe6307359, type: 3}
-      propertyPath: _monsterSpawnPoint.Array.data[3]
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 499883419036032184, guid: fa761daa402395443998ecabe6307359, type: 3}
-      propertyPath: _monsterSpawnPoint.Array.data[4]
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 499883419036032184, guid: fa761daa402395443998ecabe6307359, type: 3}
       propertyPath: _characterSpawnPoint.Array.data[0]
       value: 
       objectReference: {fileID: 1010833453}
@@ -17903,10 +17795,6 @@ PrefabInstance:
       propertyPath: _characterSpawnPoint.Array.data[2]
       value: 
       objectReference: {fileID: 1494591778}
-    - target: {fileID: 499883419036032184, guid: fa761daa402395443998ecabe6307359, type: 3}
-      propertyPath: _characterResurrectionPoint.Array.size
-      value: 3
-      objectReference: {fileID: 0}
     - target: {fileID: 499883419036032184, guid: fa761daa402395443998ecabe6307359, type: 3}
       propertyPath: _characterResurrectionPoint.Array.data[0]
       value: 
@@ -17922,10 +17810,6 @@ PrefabInstance:
     - target: {fileID: 4304284262462380119, guid: fa761daa402395443998ecabe6307359, type: 3}
       propertyPath: m_Name
       value: BattleManager
-      objectReference: {fileID: 0}
-    - target: {fileID: 4304284262462380119, guid: fa761daa402395443998ecabe6307359, type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7952994145548464279, guid: fa761daa402395443998ecabe6307359, type: 3}
       propertyPath: m_LocalPosition.x

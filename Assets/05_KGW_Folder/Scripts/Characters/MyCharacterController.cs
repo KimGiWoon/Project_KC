@@ -23,6 +23,7 @@ public class MyCharacterController : UnitBaseData
     private Coroutine _manaRoutine;
     private float _manaChangeValue;
     private MyCharacterController _character;
+    private Animator _chaAnimatior;
 
     // 체력과 마나의 변화 이벤트
     public event Action<float> OnHpChange;
@@ -33,18 +34,26 @@ public class MyCharacterController : UnitBaseData
     // 유물 효과 적용 이벤트
     public event Action OnRelicEffect;
 
+    // 캐릭터 애니메이션
+    public readonly int Idle_Hash = Animator.StringToHash("Idle");
+    public readonly int Attack_Hash = Animator.StringToHash("Attack");
+
     protected override void Awake()
     {
         base.Awake();
 
         _attackController.RecheckAttackTarget();
         _character = GetComponent<MyCharacterController>();
+        _chaAnimatior = GetComponentInChildren<Animator>();
     }
+
     // 캐릭터 생성 초기화
     protected override void Init()
     {
         _characterState._chaLevel = _characterData._chaLv;
+        _characterState._chaUpgrade = _characterData._chaUpgradeLevel;
         _characterState._chaID = _characterData._chaBaseData.ChaID;
+
         _characterState._chaName = _characterData._chaBaseData.ChaName;
         _characterState._chaEnName = _characterData._chaBaseData.ChaEnName;
         _characterState._chaGrade = _characterData._chaBaseData.ChaGrade;
@@ -73,11 +82,17 @@ public class MyCharacterController : UnitBaseData
         _moveDir = Vector3.right;
         _isAlive = true;
 
+        // 캐릭터 레벨 업 스텟 적용
+        LevelUpStatUpdate();
+        // 캐릭터 돌파 스텟 적용
+        UpgradeStatUpdate();
+
         // 체력, 마나 게이지 현재값 초기화
         OnHpChange?.Invoke(_characterState._chaCurrentHP / _characterState._chaMaxHP);
         OnMpChange?.Invoke(_characterState._chaCurrentMP / _characterState._chaMaxMP);
         // 타임오버에 대한 캐릭터 삭제 이벤트 구독
         _battleUI.OnTimeOver += TimeDeath;
+        _battleManager.OnAniChange += CharacterAniIdle;
 
         _attackCoolTimer = _characterState._chaAtkSpeed;
 
@@ -91,6 +106,7 @@ public class MyCharacterController : UnitBaseData
     {
         // 타임오버에 대한 캐릭터 삭제 이벤트 구독 해제
         _battleUI.OnTimeOver -= TimeDeath;
+        _battleManager.OnAniChange -= CharacterAniIdle;
     }
 
     // 캐릭터 이동
@@ -156,6 +172,9 @@ public class MyCharacterController : UnitBaseData
                 float attackDamage = _characterState._chaAttack;
                 float passiveDamage;
 
+                // 공격애니메이션
+                _chaAnimatior.Play(Attack_Hash);
+
                 // 사용하려는 패시브와 캐릭터가 사용하는 패시브가 같은지 확인
                 if (_characterData._chaPassiveSkill._chaSkillEnName == CharacterSkillEnName.AimForTheWound)
                 {
@@ -177,7 +196,7 @@ public class MyCharacterController : UnitBaseData
                 if (_attackTarget._isAlive)
                 {
                     // 캐릭터의 데미지로 몬스터에 주기
-                    _attackTarget.TakeDamage(passiveDamage);
+                    _attackTarget.TakeDamage(passiveDamage, _characterState._chaAccuracy);
 
                     if(_attackTarget != null)
                     {
@@ -199,8 +218,15 @@ public class MyCharacterController : UnitBaseData
     }
 
     // 데미지를 받음
-    public override void TakeDamage(float damage)
+    public override void TakeDamage(float damage, float hitRate)
     {
+        // 공격 회피
+        if (AttackEvasion(_characterState._chaAvoid, hitRate))
+        {
+            Debug.Log($"{_characterState._chaEnName}가 공격을 회피했습니다.");
+            return;
+        }
+
         // 배리어 상태일때는 공격을 무시함.
         if (_characterState._isBarrier)
         {
@@ -209,7 +235,7 @@ public class MyCharacterController : UnitBaseData
             return;
         }
 
-        base.TakeDamage(damage);
+        base.TakeDamage(damage, hitRate);
 
         // 최종데미지로 체력 감소
         _characterState._chaCurrentHP -= FinalDamage(damage, _characterState._reductionUpValue, _characterState._reductionDownValue);
@@ -223,6 +249,28 @@ public class MyCharacterController : UnitBaseData
 
         // 체력 변화에 대한 이벤트 호출
         OnHpChange?.Invoke(Mathf.Clamp01(_characterState._chaCurrentHP / _characterState._chaMaxHP));
+    }
+
+    // 캐릭터 레벨 업 스텟 적용
+    private void LevelUpStatUpdate()
+    {
+        var levelData = GameManager.Instance.CharacterData.ChaLevelUpStatData[_characterState._chaLevel];
+
+        _characterState._chaCurrentHP *= levelData.ChaHPIncrease;
+        _characterState._chaMaxHP *= levelData.ChaHPIncrease;
+        _characterState._chaAttack *= levelData.ChaAttackIncrease;
+        _characterState._chaArmor *= levelData.ChaArmorIncrease;
+    }
+
+    // 캐릭터 돌파 스텟 적용
+    private void UpgradeStatUpdate()
+    {
+        var upgradeData = GameManager.Instance.CharacterData.ChaBeadsData[_characterState._chaUpgrade];
+
+        _characterState._chaCurrentHP *= upgradeData.ChaHP;
+        _characterState._chaMaxHP *= upgradeData.ChaHP;
+        _characterState._chaAttack *= upgradeData.ChaAttack;
+        _characterState._chaArmor *= upgradeData.ChaArmor;
     }
 
     // 마나 회복
@@ -264,6 +312,13 @@ public class MyCharacterController : UnitBaseData
 
             CharacterManaState();
         }
+    }
+
+    // 캐릭터 애니메이션 전환
+    private void CharacterAniIdle()
+    {
+        // Idle로 전환
+        _chaAnimatior.Play(Idle_Hash);
     }
 
     #region 캐릭터의 패시브 스킬 동작 메서드
@@ -326,7 +381,7 @@ public class MyCharacterController : UnitBaseData
             if (attackDownValue == 0f) return;
 
             // 사기 저하 패시브 스킬
-            _attackTarget.AttackDownPassive(saveAttack, attackDownValue);
+            _attackTarget.AttackDownPassive(saveAttack, attackDownValue, _characterState._chaPassiveSkill._chaSkillDuration);
         }
     }
 
@@ -344,7 +399,7 @@ public class MyCharacterController : UnitBaseData
             // 데미지가 0이면 넘어감
             if (allAttackDamage == 0f) return;
 
-            _battleManager.AllMonsterDamage(allAttackDamage);
+            _battleManager.AllMonsterDamage(allAttackDamage, _characterState._chaAccuracy);
         }
     }
     #endregion
@@ -373,14 +428,41 @@ public class MyCharacterController : UnitBaseData
     // 최종데미지 계산
     private float FinalDamage(float damage, float reducUpValue, float reducDownValue)
     {
+        // 치명타 계산
+        float critical = (UnityEngine.Random.value < (_characterState._chaCrit * 0.01f) ? _characterState._chaCritDmg * 0.01f : 1f);
+
+        // 데미지 계산
         float reduction = _characterState._chaArmor / (_characterState._chaArmor + 100);
         float buffReduction = (_characterState._reductionUpValue - _characterState._reductionDownValue);
         float finalReduction = MathF.Min(reduction + buffReduction, 0.95f);
-        float finalDamage = damage * (1 - finalReduction);
+        float finalDamage = damage * (1 - finalReduction) * critical;
 
         Debug.Log($"캐릭터 방어력 : {_characterState._chaArmor}");
         Debug.Log($"캐릭터가 받은 데미지 계산 Reduction : {reduction}, BuffReduction : {buffReduction}, FinalReduction : {finalReduction}, FinalDamage : {finalDamage}");
         return finalDamage;
+    }
+
+    // 공격 회피
+    private bool AttackEvasion(float avoid, float hitRate)
+    {
+        float evasionRate = (avoid - (hitRate - 100)) * 0.01f;
+
+        // 회피율 0이하 1초과 금지
+        if (evasionRate < 0)
+        {
+            evasionRate = 0f;
+        }
+        else if (evasionRate >= 1)
+        {
+            evasionRate = 1f;
+        }
+
+        Debug.Log($"{_characterState._chaEnName} 회피율 : {evasionRate}");
+
+        // 회피 가능 확인
+        bool isEvasion = (UnityEngine.Random.value < evasionRate) ? true : false;
+
+        return isEvasion;
     }
 
     // 캐릭터 마나 상태 확인
