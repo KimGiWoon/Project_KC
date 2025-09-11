@@ -7,24 +7,23 @@ using UnityEngine.UI;
 /// </summary>
 public class EventCloseButton : MonoBehaviour
 {
-    private EventManager _eventManager;
+    [SerializeField] private EventManager _eventManager;
 
     // 스크립트가 시작될 때 한 번 실행
     private void Start()
     {
         _eventManager = FindObjectOfType<EventManager>();
-        // 이 게임 오브젝트와 모든 자식 오브젝트에 있는 Button 컴포넌트를 할당
-        var allButtons = GetComponentsInChildren<Button>(true); // true는 비활성화된 오브젝트의 버튼도 포함
 
-        // 찾은 모든 버튼에 대해 반복 작업을 진행
-        foreach (var button in allButtons)
+        var button = GetComponent<Button>();
+        if (button != null)
         {
-            // 각 버튼의 OnClick 이벤트에 EndEncounterViaManager 함수를 리스너로 등록
-            // 이렇게 하면 어떤 버튼을 눌러도 이벤트 종료 함수가 호출
             button.onClick.AddListener(EndEncounterViaManager);
+            Debug.Log($"'{gameObject.name}' 버튼에 닫기 기능을 연결했습니다.");
         }
-
-        Debug.Log($"'{gameObject.name}' 패널에서 총 {allButtons.Length}개의 버튼에 닫기 기능을 자동으로 연결했습니다.");
+        else
+        {
+            Debug.LogError("EventCloseButton이 붙은 오브젝트에 Button 컴포넌트가 없습니다!");
+        }
     }
 
     /// <summary>
