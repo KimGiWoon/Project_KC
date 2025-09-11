@@ -12,7 +12,7 @@ public class RelicResultUI : MonoBehaviour
     
     [SerializeField] private Button getButton;
     [SerializeField] private GameObject DetailUI;
-    [SerializeField] private GameObject RelicWindow;
+    [SerializeField] public GameObject RelicWindow;
     [SerializeField] private TextMeshProUGUI ignoreText;
     
     private RelicUI currentRelicUI;

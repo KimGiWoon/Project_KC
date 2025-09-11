@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using JJY;
 using UnityEngine;
-
+using System;
 public class InGameItemManager : MonoBehaviour
 {
     // 여기에는 노드 - 전투 씬에 사용 될 아이템들을 보관한다.
@@ -18,6 +18,8 @@ public class InGameItemManager : MonoBehaviour
         private set => relicInventory = value;
     }
 
+    public event Action OnItemChanged;
+
     public void AddItem(RecipeData dish)
     {
         var item = new InventoryItem(dish);
@@ -27,6 +29,7 @@ public class InGameItemManager : MonoBehaviour
     {
         var item = new InventoryItem(relic);
         relicInventory.Add(item);
+        OnItemChanged?.Invoke();
     }
 
     public void SubtractFood(InventoryItem food)
