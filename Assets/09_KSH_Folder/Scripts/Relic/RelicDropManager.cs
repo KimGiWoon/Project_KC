@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using JJY;
@@ -11,14 +10,14 @@ namespace KSH
     {
         [Header("유물 리스트")]
         [SerializeField] private List<RelicDatas> relics;
-
+        
         //유물 나오는 UI 있어야함
         [SerializeField] private RelicResultUI relicResultUI;
-        [SerializeField] private BuffRelicManager buffRelicManager;
-        // public List<InventoryItem> acquiredRelicLists = new List<InventoryItem>();
-
+        //[SerializeField] private BuffRelicManager buffRelicManager;
+        //public List<InventoryItem> acquiredRelicLists = new List<InventoryItem>();
+        
         private WeightedRandom<RelicGrade> relicRarityPicker;
-
+        
         private CharacterState characterState;
 
         //public System.Action OnRelicSkill;
@@ -28,48 +27,44 @@ namespace KSH
             relics = Resources.LoadAll<RelicDatas>("Relics").ToList();
             relicRarityPicker = new WeightedRandom<RelicGrade>();
             //TODO : 확률 정해지면 다시 넣기 (임의로 노말 80 레어 20)
-            relicRarityPicker.Add(RelicGrade.Normal, 1);
-            relicRarityPicker.Add(RelicGrade.Rare, 99);
+            relicRarityPicker.Add(RelicGrade.Normal,99);
+            relicRarityPicker.Add(RelicGrade.Rare, 1);
         }
-
-        private void Start()
-        {
-            RarityPick(RelicKind.Debuff, 3); //임시로 해둠
-        }
-
+        
         //테스트용
         private void Update()
         {
-            //if (Input.GetKeyDown(KeyCode.R))
-            //{
-            //    OnRelicSkill?.Invoke();
-            //}
+            if (Input.GetKeyDown(KeyCode.R))//테스트용
+            {
+                RarityPick(RelicKind.Buf,3);
+                relicResultUI.RelicWindow.SetActive(true);
+            }
         }
 
         public void RarityPick(RelicKind relicKind, int amount)
-        {
+        { 
             RelicGrade relicGrade;
-
+            
             if (relicKind == RelicKind.Debuff)
-                relicGrade = RelicGrade.Debuff;
+                 relicGrade = RelicGrade.Debuff;
             else
                 relicGrade = relicRarityPicker.GetRandom();
-
-            var getRelicList = relics
+            
+            List<RelicDatas> getRelicList = relics
                 .Where(relic => relic.relicGrade == relicGrade && !GameManager.Instance.InGameItem.relicInventory.Any(r => r.relic == relic))
                 .ToList();
 
             for (int i = 0; i < getRelicList.Count; i++)
             {
-                var relic = getRelicList[i];
+                RelicDatas relic = getRelicList[i];
                 int index = Random.Range(i, getRelicList.Count);
                 getRelicList[i] = getRelicList[index];
                 getRelicList[index] = relic;
             }
-
-            var result = getRelicList.Take(amount).ToList();
-
-            relicResultUI?.ShowRelic(result, relicGrade);
+            
+            List<RelicDatas> result = getRelicList.Take(amount).ToList();
+            
+            relicResultUI.ShowRelic(result, relicGrade);
         }
 
         public void GetRelic(RelicDatas relic)
@@ -80,10 +75,10 @@ namespace KSH
             if (!alreadyAcquired) //만약 없다면
             {
                 GameManager.Instance.InGameItem.AddItem(relic);
-
+            
                 Debug.Log($"{relic.relicName} 획득");
-                // buffRelicManager.ApplyRelicEffect(relic); //아이템 효과적용
+                BuffRelicManager.Instance.ApplyRelicEffect(relic); //아이템 효과적용
             }
         }
-    }
+    }    
 }
