@@ -41,7 +41,7 @@ namespace CJH
         public void EndEncounter()
         {
             if (currentEventInstance != null) Destroy(currentEventInstance);
-            if (MapView.Instance != null) MapView.Instance.UpdateMapState();
+            // if (MapView.Instance != null) MapView.Instance.UpdateMapState();
         }
     }
 }
