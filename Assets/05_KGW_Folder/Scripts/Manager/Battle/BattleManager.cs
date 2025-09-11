@@ -61,6 +61,7 @@ public class BattleManager : MonoBehaviour
 
     // 게임 결과 확인 이벤트
     public event Action<bool> OnGameResult;
+
     // 캐릭터 애니메이션 전환 이벤트
     public event Action OnAniChange;
 
@@ -110,7 +111,8 @@ public class BattleManager : MonoBehaviour
         _battleUI = FindObjectOfType<BattleUI>();
 
         //_isLocalBoss = ;
-        _isLastBoss = GameManager.Instance.LastBoss;
+        //todo BossFinal과 Boss는 구분되어야 함 - 아래 코드는 Test 코드
+        _isLastBoss = RoguelikeManager.Instance.MonsterType == BattleEventType.Boss;
         // _monsterList = monsterData[stageName].NormalMonsters;
         // _eliteList = monsterData[stageName].EliteMonsters;
         // _bossList = monsterData[stageName].BossMonsters;
@@ -431,6 +433,14 @@ public class BattleManager : MonoBehaviour
         {
             Destroy(character?.gameObject);
         }
+
+        foreach (var monster in _monsters)
+        {
+            Destroy(monster?.gameObject);
+        }
+
+        _characters.Clear();
+        _monsters.Clear();
 
         _isSpawned = false;
         _isBattleStarted = false;
