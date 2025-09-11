@@ -30,19 +30,15 @@ namespace KSH
             relicRarityPicker.Add(RelicGrade.Normal,99);
             relicRarityPicker.Add(RelicGrade.Rare, 1);
         }
-
-        private void Start()
-        {
-            RarityPick(RelicKind.Buf,3); //임시로 해둠
-        }
-
+        
         //테스트용
         private void Update()
         {
-        //if (Input.GetKeyDown(KeyCode.R))
-        //{
-        //    OnRelicSkill?.Invoke();
-        //}
+            if (Input.GetKeyDown(KeyCode.R))//테스트용
+            {
+                RarityPick(RelicKind.Buf,3);
+                relicResultUI.RelicWindow.SetActive(true);
+            }
         }
 
         public void RarityPick(RelicKind relicKind, int amount)
