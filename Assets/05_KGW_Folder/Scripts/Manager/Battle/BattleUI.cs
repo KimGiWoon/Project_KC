@@ -17,6 +17,7 @@ public class BattleUI : BaseUI
     [SerializeField] public GameObject _clearStageUI;
     [SerializeField] public GameObject _noneRemoveADUI;
     [SerializeField] public GameObject _RemoveADUI;
+    [SerializeField] public GameObject _popupUI;
 
     [Header("Option UI Setting")]
     [SerializeField] private Button _optionButton;
@@ -39,6 +40,7 @@ public class BattleUI : BaseUI
     private Coroutine _timerRoutine;
 
     public Action<UIName> OnUIOpenRequested;
+    public Action<UIName> OnUICloseRequested;
     public event Action<bool> OnTimeOver;
 
     private void Awake()
@@ -50,17 +52,41 @@ public class BattleUI : BaseUI
         _optionButton.onClick.AddListener(MenuButtonClick);
     }
 
-    private void OnEnable()
+    protected override void Start()
     {
+        base.Start();
         // 게임 결과 확인 이벤트 구독
         _battleManager.OnGameResult += GamePlayResultCheck;
         // 몬스터 통합 체력 변화 이벤트 구독
         _battleManager.OnTotalHpChange += MonsterTotalHpChange;
+        RoguelikeManager.Instance.OnBattleStart += BattleStart;
+        RoguelikeManager.Instance.OnBattleEnd += BattleEnd;
     }
 
-    protected override void Start()
+    private void OnDisable()
     {
-        base.Start();
+        // 게임 결과 확인 이벤트 구독
+        _battleManager.OnGameResult -= GamePlayResultCheck;
+        // 몬스터 통합 체력 변화 이벤트 구독
+        _battleManager.OnTotalHpChange -= MonsterTotalHpChange;
+        RoguelikeManager.Instance.OnBattleStart -= BattleStart;
+        RoguelikeManager.Instance.OnBattleEnd -= BattleEnd;
+    }
+
+    protected override void OnDestroy()
+    {
+        base.OnDestroy();
+        // 게임 결과 확인 이벤트 구독 해제
+        _battleManager.OnGameResult -= GamePlayResultCheck;
+        // 몬스터 통합 체력 변화 이벤트 구독 해제
+        _battleManager.OnTotalHpChange -= MonsterTotalHpChange;
+
+        _fastButtonX2.onClick.RemoveListener(X2FastButtonClick);
+        _optionButton.onClick.RemoveListener(MenuButtonClick);
+    }
+
+    private void BattleStart()
+    {
         _time = _battleManager._timer;
         _count = 3f;
         _battleManager.Wall.gameObject.SetActive(false);
@@ -80,27 +106,17 @@ public class BattleUI : BaseUI
         _timerRoutine = StartCoroutine(TimerCoroutine());
     }
 
-    protected override void OnDestroy()
+    private void BattleEnd()
     {
-        base.OnDestroy();
-        // 게임 결과 확인 이벤트 구독 해제
-        _battleManager.OnGameResult -= GamePlayResultCheck;
-        // 몬스터 통합 체력 변화 이벤트 구독 해제
-        _battleManager.OnTotalHpChange -= MonsterTotalHpChange;
-
-        _fastButtonX2.onClick.RemoveListener(X2FastButtonClick);
-        _optionButton.onClick.RemoveListener(MenuButtonClick);
-    }
-
-    //# Panel Container가 열리지 않게 override
-    public override void Open()
-    {
+        _popupUI.gameObject.SetActive(false);
+        OnUIOpenRequested?.Invoke(UIName.StageGlobalUI);
+        OnUICloseRequested?.Invoke(UIName.BattleUI);
     }
 
     // 게임 결과 확인
     public void GamePlayResultCheck(bool result)
     {
-        _panelContainer.SetActive(true);
+        _popupUI.SetActive(true);
 
         // 게임 클리어
         if (result)
@@ -123,14 +139,14 @@ public class BattleUI : BaseUI
     }
 
     // 몬스터 총합 체력 변화
-    public void MonsterTotalHpChange(float totalCurrnetHp, float totalMaxHp)
+    public void MonsterTotalHpChange(float totalCurrentHp, float totalMaxHp)
     {
         _totalMonsterHp.minValue = 0f;
         _totalMonsterHp.maxValue = 1f;
 
-        _totalHpText.text = totalCurrnetHp.ToString("F0");
+        _totalHpText.text = totalCurrentHp.ToString("F0");
 
-        _totalMonsterHp.value = totalCurrnetHp / totalMaxHp;
+        _totalMonsterHp.value = totalCurrentHp / totalMaxHp;
     }
 
     // 타이머 배속 변경
@@ -169,7 +185,7 @@ public class BattleUI : BaseUI
     // 메뉴 버튼 클릭
     private void MenuButtonClick()
     {
-        _panelContainer.SetActive(true);
+        _popupUI.SetActive(true);
         _isOnMenu = true;
         OnUIOpenRequested?.Invoke(UIName.MenuUI);
     }
@@ -209,7 +225,7 @@ public class BattleUI : BaseUI
                 // 시간 초과하면 게임 패배
                 if (_time <= 0)
                 {
-                    _panelContainer.SetActive(true);
+                    _popupUI.SetActive(true);
 
                     Debug.Log("클리어 실패!");
                     _battleManager._isClear = false;
@@ -229,7 +245,7 @@ public class BattleUI : BaseUI
 
     public void StartTimeCoroutine()
     {
-        if(_timerRoutine != null)
+        if (_timerRoutine != null)
         {
             StopCoroutine(_timerRoutine);
             _timerRoutine = null;
@@ -248,7 +264,4 @@ public class BattleUI : BaseUI
             _timerRoutine = null;
         }
     }
-
-    //todo 재시작 시 panelContainer를 꺼줘야 함
-    //_panelContainer.SetActive(false);
 }

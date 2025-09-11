@@ -1,8 +1,11 @@
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System.Linq;
 using DG.Tweening;
+using SDW;
 
 namespace CJH
 {
@@ -43,6 +46,9 @@ namespace CJH
 
         public static MapView Instance;
 
+        public Action<bool> OnCharacterMoved;
+        public Action<BattleEventType> OnEventTypeChanged;
+
         private void Awake()
         {
             DOTween.Init();
@@ -54,6 +60,18 @@ namespace CJH
             {
                 cameraTransform = Camera.main.transform;
             }
+        }
+
+        private void Start()
+        {
+            RoguelikeManager.Instance.OnBattleStart += BattleStart;
+            RoguelikeManager.Instance.OnBattleEnd += BattleEnd;
+        }
+
+        private void OnDisable()
+        {
+            RoguelikeManager.Instance.OnBattleStart -= BattleStart;
+            RoguelikeManager.Instance.OnBattleEnd -= BattleEnd;
         }
 
         public void CreateMapView(MapData map)
@@ -97,24 +115,26 @@ namespace CJH
 
             if (currentMap.Path.Contains(selectedNode.nodeData)) return;
             currentMap.Path.Add(selectedNode.nodeData);
-            switch (selectedNode.nodeData.nodeType)
-            {
-                case NodeType.Event:
-                    // EventManager에게 스테이지 번호가 아닌, 노드가 가진 EncounterID를 직접 전달합니다.
-                    _eventManager.StartEncounter(selectedNode.nodeData.EncounterID);
-                    break;
-
-                case NodeType.Battle:
-                    // TODO: 전투 시작 로직 호출 (예: GameManager.Instance.StartBattle(...))
-                    UpdateMapState(); // 임시로 맵 상태만 업데이트
-                    break;
-
-
-                default:
-                    // 그 외의 노드는 즉시 맵 상태를 업데이트
-                    UpdateMapState();
-                    break;
-            }
+            // switch (selectedNode.nodeData.nodeType)
+            // {
+            //     case NodeType.Event:
+            //         // EventManager에게 스테이지 번호가 아닌, 노드가 가진 EncounterID를 직접 전달합니다.
+            //         //todo Player가 이동한 후 아래가 호출되어야 함
+            //         UpdateMapState(); // 임시로 맵 상태만 업데이트
+            //         break;
+            //
+            //     case NodeType.Battle:
+            //         // TODO: 전투 시작 로직 호출 (예: GameManager.Instance.StartBattle(...))
+            //         UpdateMapState(); // 임시로 맵 상태만 업데이트
+            //         break;
+            //
+            //
+            //     default:
+            //         // 그 외의 노드는 즉시 맵 상태를 업데이트
+            //         UpdateMapState();
+            //         break;
+            // }
+            UpdateMapState();
         }
 
         public void UpdateMapState()
@@ -130,7 +150,7 @@ namespace CJH
             lineArrows.Clear();
 
             // 현재 노드로 플레이어 캐릭터 이동
-            UpdatePlayerPosition();
+            UpdatePlayerPosition(currentNode.nodeType, currentNode.EncounterID);
 
             foreach (var mapNode in nodeObjects.Values)
             {
@@ -214,7 +234,7 @@ namespace CJH
         }
 
         // 플레이어 캐릭터를 현재 노드 위치로 이동시키는 함수
-        private void UpdatePlayerPosition()
+        private void UpdatePlayerPosition(NodeType currentNodeType, int encounterId)
         {
             if (playerCharacterInstance == null || currentMap.CurrentNode == null) return;
             // 현재 노드의 게임 오브젝트를 찾습니다.
@@ -225,6 +245,8 @@ namespace CJH
                 playerCharacterInstance.transform
                     .DOMove(currentNodeObject.transform.position, playerMoveDuration)
                     .SetEase(playerMoveEase);
+
+                StartCoroutine(CharacterMovedNotify(playerMoveDuration, currentNodeType, encounterId));
 
                 if (cameraTransform != null && cameraScrollLinker != null)
                 {
@@ -249,6 +271,39 @@ namespace CJH
             }
         }
 
+        private IEnumerator CharacterMovedNotify(float delay, NodeType currentNode, int encounterId)
+        {
+            bool isBattle = false;
+            var type = BattleEventType.Normal;
+
+            switch (currentNode)
+            {
+                case NodeType.Battle:
+                    isBattle = true;
+                    type = BattleEventType.Normal;
+                    break;
+                case NodeType.EventBattle:
+                    isBattle = true;
+                    type = BattleEventType.Elite;
+                    break;
+                case NodeType.Boss:
+                    isBattle = false;
+                    if (RoguelikeManager.Instance.StageNumber == 3)
+                        type = BattleEventType.BossFinal;
+                    else
+                        type = BattleEventType.Boss;
+                    break;
+            }
+
+            yield return new WaitForSeconds(delay);
+            OnCharacterMoved?.Invoke(isBattle);
+            OnEventTypeChanged?.Invoke(type);
+
+
+            if (!isBattle)
+                _eventManager.StartEncounter(encounterId);
+        }
+
         private void ClearMap()
         {
             if (currentMapInstance != null)
@@ -262,6 +317,26 @@ namespace CJH
                 Destroy(arrow);
             }
             lineArrows.Clear();
+        }
+
+        private void BattleStart()
+        {
+            mapTemplatePrefab.SetActive(false);
+            playerCharacterInstance.SetActive(false);
+            foreach (var arrow in lineArrows)
+            {
+                arrow.SetActive(false);
+            }
+        }
+
+        private void BattleEnd()
+        {
+            mapTemplatePrefab.SetActive(true);
+            playerCharacterInstance.SetActive(true);
+            foreach (var arrow in lineArrows)
+            {
+                arrow.SetActive(true);
+            }
         }
     }
 }

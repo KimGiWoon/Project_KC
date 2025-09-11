@@ -117,15 +117,15 @@ namespace SDW
                                 System.Reflection.BindingFlags.NonPublic |
                                 System.Reflection.BindingFlags.Instance);
 
-                            foreach (var f in fields)
-                            {
-                                if (f.FieldType == typeof(Sprite))
-                                {
-                                    // f.SetValue(mb, handle.Result);
-                                    Debug.Log(
-                                        $"Found Sprite field: {mb.GetType().Name}.{f.Name} = {((Sprite)f.GetValue(mb))?.name}");
-                                }
-                            }
+                            // foreach (var f in fields)
+                            // {
+                            //     if (f.FieldType == typeof(Sprite))
+                            //     {
+                            //         f.SetValue(mb, handle.Result);
+                            //         Debug.Log(
+                            //             $"Found Sprite field: {mb.GetType().Name}.{f.Name} = {((Sprite)f.GetValue(mb))?.name}");
+                            //     }
+                            // }
                         }
                     }
                     else

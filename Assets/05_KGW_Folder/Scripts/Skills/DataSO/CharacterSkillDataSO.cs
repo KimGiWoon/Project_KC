@@ -29,19 +29,19 @@ public class CharacterSkillDataSO : ScriptableObject
     {
         switch (skill._chaSkillEnName)
         {
-            case CharacterSkillEnName.Cheer:   // 응원
+            case CharacterSkillEnName.Cheer: // 응원
                 skill.UseCheer(caster);
                 break;
-            case CharacterSkillEnName.ProtectiveGrenade:    // 보호 수류탄
+            case CharacterSkillEnName.ProtectiveGrenade: // 보호 수류탄
                 skill.UseProtectiveGrenade(caster, target);
                 break;
-            case CharacterSkillEnName.PainfulScent:    // 괴로운 향기
+            case CharacterSkillEnName.PainfulScent: // 괴로운 향기
                 skill.UsePainfulScent(caster, target);
                 break;
-            case CharacterSkillEnName.WolfSlash:  // 늑대 베기
+            case CharacterSkillEnName.WolfSlash: // 늑대 베기
                 skill.UseWolfSlash(caster, target);
                 break;
-            case CharacterSkillEnName.WrathOfTheGuardian:   // 수호령의 분노
+            case CharacterSkillEnName.WrathOfTheGuardian: // 수호령의 분노
                 skill.UseWrathOfTheGuardian(caster, target);
                 break;
             default:
@@ -54,17 +54,17 @@ public class CharacterSkillDataSO : ScriptableObject
     public virtual float UsePassiveSkill(MyCharacterController caster, CharacterSkillDataSO skill, float value)
     {
         switch (skill._chaSkillEnName)
-        {           
-            case CharacterSkillEnName.RegenerativeStrike:   // 재생의 일격
+        {
+            case CharacterSkillEnName.RegenerativeStrike: // 재생의 일격
                 return UseRegenerativeStrike(caster, value);
             case CharacterSkillEnName.Vanguard: // 선봉장
                 return UseVanguard(caster, value);
-            case CharacterSkillEnName.MoraleDecline:    // 사기 저하
+            case CharacterSkillEnName.MoraleDecline: // 사기 저하
                 return UseMoraleDecline(caster, value);
-            case CharacterSkillEnName.WaveOfSteel:  // 강철의 파동
+            case CharacterSkillEnName.WaveOfSteel: // 강철의 파동
                 return UseWaveOfSteel(caster, value);
-            case CharacterSkillEnName.AimForTheWound:   // 상처 조준
-                return UseAimForTheWound(caster, value);    
+            case CharacterSkillEnName.AimForTheWound: // 상처 조준
+                return UseAimForTheWound(caster, value);
             default:
                 Debug.Log("스킬이 없음");
                 return value;
@@ -90,12 +90,13 @@ public class CharacterSkillDataSO : ScriptableObject
     }
 
     #region 캐릭터의 액티브 스킬
+
     // 응원 액티브 스킬
     public void UseCheer(MyCharacterController caster)
     {
         Debug.Log($"{caster._characterState._chaEnName} : 응원 액티브 발동");
-        GameObject cheer = Instantiate(_chaSkillPrefab, caster.transform.position, caster.transform.rotation);
-        CheerController skillCon = cheer.GetComponent<CheerController>();
+        var cheer = Instantiate(_chaSkillPrefab, caster.transform.position, caster.transform.rotation);
+        var skillCon = cheer.GetComponent<CheerController>();
 
         skillCon.Init(caster, _chaEffectValue, _chaSkillDuration);
     }
@@ -104,8 +105,8 @@ public class CharacterSkillDataSO : ScriptableObject
     public void UseProtectiveGrenade(MyCharacterController caster, MonsterController target)
     {
         Debug.Log($"{caster._characterState._chaEnName} : 보호 수류탄 액티브 발동");
-        GameObject protectiveGrenade = Instantiate(_chaSkillPrefab, caster.transform.position, caster.transform.rotation);
-        ProtectiveGrenadeController skillCon = protectiveGrenade.GetComponent<ProtectiveGrenadeController>();
+        var protectiveGrenade = Instantiate(_chaSkillPrefab, caster.transform.position, caster.transform.rotation);
+        var skillCon = protectiveGrenade.GetComponent<ProtectiveGrenadeController>();
 
         skillCon.Init(caster, target, _chaSkillValue);
     }
@@ -114,8 +115,8 @@ public class CharacterSkillDataSO : ScriptableObject
     public void UsePainfulScent(MyCharacterController caster, MonsterController target)
     {
         Debug.Log($"{caster._characterState._chaEnName} : 괴로운 향기 액티브 발동");
-        GameObject painfulScent = Instantiate(_chaSkillPrefab, caster.transform.position, caster.transform.rotation);
-        PainfulScentController skillCon = painfulScent.GetComponent<PainfulScentController>();
+        var painfulScent = Instantiate(_chaSkillPrefab, caster.transform.position, caster.transform.rotation);
+        var skillCon = painfulScent.GetComponent<PainfulScentController>();
 
         skillCon.Init(caster, target, _chaSkillHit, _chaSkillValue, _chaEffectValue, _chaSkillDuration, _chaSkillTick);
     }
@@ -124,8 +125,8 @@ public class CharacterSkillDataSO : ScriptableObject
     public void UseWolfSlash(MyCharacterController caster, MonsterController target)
     {
         Debug.Log($"{caster._characterState._chaEnName} : 늑대 베기 액티브 발동");
-        GameObject wolfSlash = Instantiate(_chaSkillPrefab, caster.transform.position, caster.transform.rotation);
-        WolfSlashController skillCon = wolfSlash.GetComponent<WolfSlashController>();
+        var wolfSlash = Instantiate(_chaSkillPrefab, caster.transform.position, caster.transform.rotation);
+        var skillCon = wolfSlash.GetComponent<WolfSlashController>();
 
         skillCon.Init(caster, target, _chaSkillHit, _chaSkillValue, _chaEffectValue, _chaSkillTick);
     }
@@ -134,20 +135,22 @@ public class CharacterSkillDataSO : ScriptableObject
     public void UseWrathOfTheGuardian(MyCharacterController caster, MonsterController target)
     {
         Debug.Log($"{caster._characterState._chaEnName} : 수호령의 분노 액티브 발동");
-        GameObject wrathOfTheGuardian = Instantiate(_chaSkillPrefab, caster.transform.position, caster.transform.rotation);
-        WrathOfTheGuardianController skillCon = wrathOfTheGuardian.GetComponent<WrathOfTheGuardianController>();
+        var wrathOfTheGuardian = Instantiate(_chaSkillPrefab, caster.transform.position, caster.transform.rotation);
+        var skillCon = wrathOfTheGuardian.GetComponent<WrathOfTheGuardianController>();
 
         skillCon.Init(caster, target, _chaSkillHit, _chaSkillValue, _chaSkillTick);
     }
+
     #endregion
 
     #region 캐릭터의 패시브 스킬
+
     // 재생의 일격 패시브 스킬
     public float UseRegenerativeStrike(MyCharacterController caster, float value)
     {
         Debug.Log($"{caster._characterState._chaEnName} : 재생의 일격 패시브 발동");
-        GameObject regenerativeStrike = Instantiate(_chaSkillPrefab, caster.transform.position, caster.transform.rotation);
-        RegenerativeStrikeContoller skillCon = regenerativeStrike.GetComponent<RegenerativeStrikeContoller>();
+        var regenerativeStrike = Instantiate(_chaSkillPrefab, caster.transform.position, caster.transform.rotation);
+        var skillCon = regenerativeStrike.GetComponent<RegenerativeStrikeContoller>();
 
         return skillCon.Init(_chaSkillChance, _chaSkillValue, caster._characterState._chaAttack);
     }
@@ -156,8 +159,8 @@ public class CharacterSkillDataSO : ScriptableObject
     public float UseVanguard(MyCharacterController caster, float value)
     {
         Debug.Log($"{caster._characterState._chaEnName} : 선봉장 패시브 발동");
-        GameObject vanguard = Instantiate(_chaSkillPrefab, caster.transform.position, caster.transform.rotation);
-        VanguardController skillCon = vanguard.GetComponent<VanguardController>();
+        var vanguard = Instantiate(_chaSkillPrefab, caster.transform.position, caster.transform.rotation);
+        var skillCon = vanguard.GetComponent<VanguardController>();
 
         return skillCon.Init(_chaEffectValue);
     }
@@ -166,8 +169,8 @@ public class CharacterSkillDataSO : ScriptableObject
     public float UseMoraleDecline(MyCharacterController caster, float value)
     {
         Debug.Log($"{caster._characterState._chaEnName} : 사기 저하 패시브 발동");
-        GameObject moraleDecline = Instantiate(_chaSkillPrefab, caster.transform.position, caster.transform.rotation);
-        MoraleDeclineController skillCon = moraleDecline.GetComponent<MoraleDeclineController>();
+        var moraleDecline = Instantiate(_chaSkillPrefab, caster.transform.position, caster.transform.rotation);
+        var skillCon = moraleDecline.GetComponent<MoraleDeclineController>();
 
         return skillCon.Init(_chaSkillChance, _chaEffectValue);
     }
@@ -176,8 +179,8 @@ public class CharacterSkillDataSO : ScriptableObject
     public float UseWaveOfSteel(MyCharacterController caster, float value)
     {
         Debug.Log($"{caster._characterState._chaEnName} : 강철의 파동 패시브 발동");
-        GameObject waveOfSteel = Instantiate(_chaSkillPrefab, caster.transform.position, caster.transform.rotation);
-        WaveOfSteelController skillCon = waveOfSteel.GetComponent<WaveOfSteelController>();
+        var waveOfSteel = Instantiate(_chaSkillPrefab, caster.transform.position, caster.transform.rotation);
+        var skillCon = waveOfSteel.GetComponent<WaveOfSteelController>();
 
         return skillCon.Init(_chaSkillChance, _chaSkillValue, caster._characterState._chaAttack);
     }
@@ -185,10 +188,11 @@ public class CharacterSkillDataSO : ScriptableObject
     public float UseAimForTheWound(MyCharacterController caster, float value)
     {
         Debug.Log($"{caster._characterState._chaEnName} : 상처 조준 패시브 발동");
-        GameObject aimForTheWound = Instantiate(_chaSkillPrefab, caster.transform.position, caster.transform.rotation);
-        AimForTheWoundController skillCon = aimForTheWound.GetComponent<AimForTheWoundController>();
+        var aimForTheWound = Instantiate(_chaSkillPrefab, caster.transform.position, caster.transform.rotation);
+        var skillCon = aimForTheWound.GetComponent<AimForTheWoundController>();
 
         return skillCon.Init(_chaSkillChance, _chaSkillValue, caster._characterState._chaAttack);
     }
+
     #endregion
 }

@@ -31,12 +31,14 @@ namespace SDW
             _prevUIName = UIName.RouteSelectUI;
         }
 
-        private void OnEnable()
+        protected override void Start()
         {
+            base.Start();
             _settingButton.onClick.AddListener(SettingButtonClicked);
             _shopButton.onClick.AddListener(ShopButtonClicked);
             _inventoryButton.onClick.AddListener(InventoryButtonClicked);
             _cookButton.onClick.AddListener(CookButtonClicked);
+            RoguelikeManager.Instance.OnBattleStart += () => { OnUICloseRequested?.Invoke(UIName.StageGlobalUI, true); };
         }
 
         private void OnDisable()
@@ -45,6 +47,7 @@ namespace SDW
             _shopButton.onClick.RemoveListener(ShopButtonClicked);
             _inventoryButton.onClick.RemoveListener(InventoryButtonClicked);
             _cookButton.onClick.RemoveListener(CookButtonClicked);
+            RoguelikeManager.Instance.OnBattleStart -= () => { OnUICloseRequested?.Invoke(UIName.StageGlobalUI, true); };
         }
 
         public override void Open()

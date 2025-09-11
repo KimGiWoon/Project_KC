@@ -28,7 +28,8 @@ public class ClearStageUI : BaseUI
 
     private void ConfirmButtonClicked()
     {
-        GameManager.Instance.Scene.LoadSceneAsync(SceneName.SDW_LobbyScene, UIName.KGW_StageSelectUI);
+        //todo Roguelike BattleEnd 호출
+        RoguelikeManager.Instance.OnBattleEnd?.Invoke();
         OnUICloseRequested?.Invoke(UIName.ClearStageUI);
     }
 }

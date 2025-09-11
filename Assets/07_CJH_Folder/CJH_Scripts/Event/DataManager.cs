@@ -5,48 +5,7 @@ using SDW; // EncounterTable을 사용하기 위해 네임스페이스 추가
 
 public class DataManager : MonoBehaviour
 {
-    // public static DataManager Instance;
     private EncounterDataManager _encounterData;
-
-    //# EncounterDataManager와 중복이라 주석처리
-    // private Dictionary<int, EncounterTable> encounterDatabase = new Dictionary<int, EncounterTable>();
-    // private Dictionary<(EncounterSentiment, int), List<int>> encountersBySentimentAndStage =
-    //     new Dictionary<(EncounterSentiment, int), List<int>>();
-
-    // private void LoadEncounterData()
-    // {
-    //     var textAsset = Resources.Load<TextAsset>("EncounterTable");
-    //     if (textAsset == null)
-    //     {
-    //         Debug.LogError("'EncounterTable.csv' 파일을 'Assets/Resources' 폴더에서 찾을 수 없습니다!");
-    //         return;
-    //     }
-    //
-    //     string[] lines = textAsset.text.Split('\n').Skip(3).ToArray();
-    //
-    //     foreach (string line in lines)
-    //     {
-    //         if (string.IsNullOrWhiteSpace(line)) continue;
-    //         string[] fields = line.Split('\t');
-    //         if (fields.Length < 16) continue;
-    //
-    //         var encounter = new EncounterTable(fields);
-    //
-    //         if (!encounterDatabase.ContainsKey(encounter.EncounterID))
-    //         {
-    //             encounterDatabase.Add(encounter.EncounterID, encounter);
-    //         }
-    //
-    //         var key = (encounter.Sentiment, encounter.EncounterStage);
-    //         if (!encountersBySentimentAndStage.ContainsKey(key))
-    //         {
-    //             encountersBySentimentAndStage.Add(key, new List<int>());
-    //         }
-    //         encountersBySentimentAndStage[key].Add(encounter.EncounterID);
-    //     }
-    //
-    //     Debug.Log($"[DataManager] 총 {encounterDatabase.Count}개의 인카운터 데이터를 CSV에서 성공적으로 불러왔습니다.");
-    // }
 
     private void Start()
     {
@@ -59,11 +18,10 @@ public class DataManager : MonoBehaviour
         {
             return data;
         }
-        Debug.LogError($"[DataManager] ID: {id}에 해당하는 사건을 찾을 수 없습니다!");
+        // Debug.LogError($"[DataManager] ID: {id}에 해당하는 사건을 찾을 수 없습니다!");
         return default;
     }
 
-    // ▼▼▼ 이 함수가 더 똑똑하게 변경되었습니다! ▼▼▼
     public int GetRandomEncounterID(EncounterSentiment sentiment, int stage)
     {
         // 1순위: 해당 스테이지의 특정 감정 사건 검색
@@ -81,7 +39,7 @@ public class DataManager : MonoBehaviour
         }
 
         // 3순위 (비상 대책): 요청한 감정의 사건이 없으면, 해당 스테이지의 '아무 감정' 사건이라도 검색
-        Debug.LogWarning($"[DataManager] 감정({sentiment})에 해당하는 사건이 없어, 스테이지({stage})의 다른 사건을 대신 탐색합니다.");
+        // Debug.LogWarning($"[DataManager] 감정({sentiment})에 해당하는 사건이 없어, 스테이지({stage})의 다른 사건을 대신 탐색합니다.");
         var anySentimentIds = _encounterData.EncountersBySentimentAndStage.Where(pair => pair.Key.Item2 == stage)
             .SelectMany(pair => pair.Value)
             .ToList();
@@ -99,7 +57,7 @@ public class DataManager : MonoBehaviour
             return anyCommonSentimentIds[Random.Range(0, anyCommonSentimentIds.Count)];
         }
 
-        Debug.LogError($"[DataManager] 대체할 사건을 찾지 못했습니다! CSV 파일에 이벤트가 충분한지 확인해주세요.");
+        // Debug.LogError($"[DataManager] 대체할 사건을 찾지 못했습니다! CSV 파일에 이벤트가 충분한지 확인해주세요.");
         return 0; // 최악의 경우에만 0 반환
     }
 }

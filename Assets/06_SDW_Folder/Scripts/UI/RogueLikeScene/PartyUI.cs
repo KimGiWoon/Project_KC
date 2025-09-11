@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
+using CJH;
 
 namespace SDW
 {
@@ -12,17 +13,21 @@ namespace SDW
         [SerializeField] private Button _charChangeButton;
         [SerializeField] private Button _enterStageButton;
         [SerializeField] private Button _moveButton;
+        [SerializeField] private MapView _mapView;
+        [SerializeField] private GameObject _battleBackgroundObject;
         private TweenAnimation _tweenAnimation;
         private TweenAnimation[] _selectedCharTweens;
 
         public Action<UIName> OnUIOpenRequested;
         public Action<UIName> OnUICloseRequested;
+        private BattleEventType _eventType;
 
         private void Awake()
         {
             _panelContainer.SetActive(false);
             _tweenAnimation = GetComponent<TweenAnimation>();
-
+            _enterStageButton.interactable = false;
+            _battleBackgroundObject.SetActive(false);
             //todo 추후 선택된 Character 추가 시 TweenAnimation을 설정해야 함
             _selectedCharTweens = _selectedCharContainer.GetComponentsInChildren<TweenAnimation>();
         }
@@ -32,6 +37,15 @@ namespace SDW
             _charChangeButton.onClick.AddListener(CharChangeButtonClicked);
             _enterStageButton.onClick.AddListener(EnterStageButtonClicked);
             _moveButton.onClick.AddListener(MoveButtonClicked);
+            _mapView.OnCharacterMoved += CharacterMoved;
+            _mapView.OnEventTypeChanged += SetEventType;
+            RoguelikeManager.Instance.OnBattleStart += () =>
+            {
+                OnUIOpenRequested?.Invoke(UIName.BattleUI);
+                OnUICloseRequested.Invoke(UIName.PartyUI);
+            };
+
+            RoguelikeManager.Instance.OnBattleEnd += BattleEnd;
         }
 
         private void OnDisable()
@@ -39,6 +53,14 @@ namespace SDW
             _charChangeButton.onClick.RemoveListener(CharChangeButtonClicked);
             _enterStageButton.onClick.RemoveListener(EnterStageButtonClicked);
             _moveButton.onClick.RemoveListener(MoveButtonClicked);
+            _mapView.OnCharacterMoved -= CharacterMoved;
+            _mapView.OnEventTypeChanged -= SetEventType;
+            RoguelikeManager.Instance.OnBattleStart -= () =>
+            {
+                OnUIOpenRequested?.Invoke(UIName.BattleUI);
+                OnUICloseRequested.Invoke(UIName.PartyUI);
+            };
+            RoguelikeManager.Instance.OnBattleEnd -= BattleEnd;
         }
 
         public override void Open()
@@ -66,7 +88,9 @@ namespace SDW
 
         private void EnterStageButtonClicked()
         {
-            throw new NotImplementedException();
+            RoguelikeManager.Instance.SetBattleEventType(_eventType);
+            RoguelikeManager.Instance.OnBattleStart?.Invoke();
+            _enterStageButton.interactable = false;
         }
 
         private void MoveButtonClicked()
@@ -101,6 +125,22 @@ namespace SDW
             }
 
             _tweenAnimation.moveAway();
+        }
+
+        private void CharacterMoved(bool isBattle)
+        {
+            _battleBackgroundObject.SetActive(isBattle);
+            _enterStageButton.interactable = isBattle;
+            _moveButton.interactable = !isBattle;
+        }
+
+        private void SetEventType(BattleEventType type) => _eventType = type;
+
+        private void BattleEnd()
+        {
+            _battleBackgroundObject.SetActive(false);
+            _moveButton.interactable = true;
+            _enterStageButton.interactable = false;
         }
     }
 }
