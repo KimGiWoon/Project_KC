@@ -126,6 +126,9 @@ namespace JJY
                 if (ingredientMap != null) ingredientMap.TryGetValue(chosen, out data);
 
                 slotDatas[i].ingredient = data.ingredient;
+                // RelicType relicType;
+                // int price = GameManager.Instance.InGameItem.relicInventory.유물 == null ? data.cost : data.cost * 유물 할인율;
+                // slotDatas[i].price = price;
                 slotDatas[i].price = data.cost;
                 slotDatas[i].sold = false;
             }
@@ -158,6 +161,8 @@ namespace JJY
                 if (ingredientMap != null) ingredientMap.TryGetValue(chosen, out data);
 
                 slotDatas[i].ingredient = data.ingredient;
+                // int price = GameManager.Instance.InGameItem.HasRelic()? data.cost : data.cost * 유물 할인율;
+                // slotDatas[i].price = price;
                 slotDatas[i].price = data.cost;
                 slotDatas[i].sold = false;
             }
