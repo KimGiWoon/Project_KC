@@ -10,39 +10,39 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a5539c5b86c1dd94eb1cf013975553ba, type: 3}
-  m_Name: MountainBoar_Data
+  m_Name: GhostBat_Data
   m_EditorClassIdentifier: 
-  MonId: 21004
-  MonName: "\uC0B0 \uBA67\uB3FC\uC9C0"
-  MonEnName: 3
+  MonId: 21005
+  MonName: "\uADC0\uC2E0 \uBC15\uC950"
+  MonEnName: 4
   MonType: 0
   MonSummon: 0
-  MonAtkRange: 1
-  MonMoveSpeed: 1.2
+  MonAtkRange: 3
+  MonMoveSpeed: 1
   MonSkill: 
   MonSummonID: 
-  MonTag: "#\uADFC\uAC70\uB9AC"
+  MonTag: "#\uC6D0\uAC70\uB9AC"
   MonDescription:
-  - "\uC0B0\uC5D0\uC11C \uBCFC \uC218 \uC788\uB294 \uBA67\uB3FC\uC9C0"
-  - "\uB208\uC55E\uC5D0 \uC6C0\uC9C1\uC774\uB294 \uB300\uC0C1\uC744 \uACF5\uACA9\uD558\uB294
-    \uC2B5\uC131\uC774 \uC788\uB2E4.\r"
+  - "\uADC0\uC2E0 \uB4E4\uB9B0 \uC0DD\uBA85\uCCB4\uB97C \uD761\uD608\uD558\uC5EC
+    \uBAB8\uC9D1\uACFC \uD798\uC774 \uAC15\uD574\uC9C4 \uBC15\uC950"
+  - "\uC77C\uBC18 \uBC15\uC950 \uBCF4\uB2E4 \uAC15\uB825\uD55C \uCD08\uC74C\uD30C\uB97C
+    \uB0B4\uBFDC\uC5B4 \uC801\uC744 \uACF5\uACA9\uD55C\uB2E4.\r"
   MonLv: 1
   MonBreak: 0
-  BreakGage: 0
-  MonHP: 200
+  MonBreakGage: -1
+  MonHP: 20000
   MonHPIncrase: 0.1
   MonAtkSpeed: 0.7
-  MonAttack: 20
+  MonAttack: 10
   MonAttackIncrease: 0.1
-  MonArmor: 30
+  MonArmor: 20
   MonArmorIncrease: 0.1
   MonAccuracy: 100
-  MonAvoid: 0
+  MonAvoid: 10
   MonAvoidIncrease: 2
   MonReg: 0
-  _prefab: {fileID: 3833880438077353650, guid: 5bd06ca61eca5fe459dcd1b90eb0447e, type: 3}
+  _prefab: {fileID: 3833880438077353650, guid: 851a93c6574cc0649a562531a558982b, type: 3}
   _useSkillTime: 0
   _monActiveSkill_1: {fileID: 0}
   _monActiveSkill_2: {fileID: 0}
-  _recallSkills: []
-  _monterRecallSkill: {fileID: 0}
+  _recallSkills: {fileID: 0}

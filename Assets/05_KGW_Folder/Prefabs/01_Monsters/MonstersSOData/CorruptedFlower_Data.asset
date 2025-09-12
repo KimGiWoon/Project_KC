@@ -30,8 +30,8 @@ MonoBehaviour:
     \uC8FC\uC704\uB85C \uAC00\uC9C0 \uB9D0\uC790.\r"
   MonLv: 1
   MonBreak: 0
-  BreakGage: 0
-  MonHP: 500
+  MonBreakGage: -1
+  MonHP: 50000
   MonHPIncrase: 0.1
   MonAtkSpeed: 0.7
   MonAttack: 50
@@ -46,5 +46,4 @@ MonoBehaviour:
   _useSkillTime: 0
   _monActiveSkill_1: {fileID: 11400000, guid: 8ab50784f2df62c48bab96cb801a11ba, type: 2}
   _monActiveSkill_2: {fileID: 0}
-  _recallSkills: []
-  _monterRecallSkill: {fileID: 0}
+  _recallSkills: {fileID: 0}

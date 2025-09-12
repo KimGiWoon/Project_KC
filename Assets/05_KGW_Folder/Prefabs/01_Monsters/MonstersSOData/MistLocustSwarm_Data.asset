@@ -10,30 +10,29 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a5539c5b86c1dd94eb1cf013975553ba, type: 3}
-  m_Name: HerbSlime_Data
+  m_Name: MistLocustSwarm_Data
   m_EditorClassIdentifier: 
-  MonId: 21003
-  MonName: "\uD5C8\uBE0C \uC2AC\uB77C\uC784"
-  MonEnName: 2
+  MonId: 21002
+  MonName: "\uD76C\uBBF8\uD55C \uB3C4\uAE68\uBE44 \uBD88"
+  MonEnName: 1
   MonType: 0
   MonSummon: 0
   MonAtkRange: 3
-  MonMoveSpeed: 1
+  MonMoveSpeed: 1.2
   MonSkill: 
   MonSummonID: 
   MonTag: "#\uC6D0\uAC70\uB9AC"
   MonDescription:
-  - "\uC57D\uCD08\uC5D0\uC11C \uD758\uB7EC\uB098\uC628 \uAE30\uC6B4\uC774 \uBAA8\uC5EC
-    \uD615\uC131\uB41C \uC2AC\uB77C\uC784."
-  - "\uC57D\uCD08\uC758 \uD6A8\uB2A5\uC774 \uBCC0\uC9C8\uB418\uC5C8\uC73C\uB2C8 \uD639\uC2DC\uB77C\uB3C4
-    \uBA39\uC744 \uC0DD\uAC01\uC740 \uD558\uC9C0 \uB9D0\uC790.\r"
+  - "\uC5B4\uB450\uC6B4 \uC2DC\uACE8 \uAE38\uC5D0\uC11C \uB4DC\uBB3C\uAC8C \uBCFC
+    \uC218 \uC788\uB294 \uB3C4\uAE68\uBE44 \uBD88."
+  - "\uC7A5\uB09C\uAE30\uAC00 \uC2EC\uD558\uB2C8 \uB9C8\uC8FC\uCE58\uBA74 \uC870\uC2EC\uD558\uC790.\r"
   MonLv: 1
   MonBreak: 0
-  BreakGage: 0
-  MonHP: 200
+  MonBreakGage: -1
+  MonHP: 800
   MonHPIncrase: 0.1
   MonAtkSpeed: 0.7
-  MonAttack: 10
+  MonAttack: 30
   MonAttackIncrease: 0.1
   MonArmor: 20
   MonArmorIncrease: 0.1
@@ -41,9 +40,8 @@ MonoBehaviour:
   MonAvoid: 0
   MonAvoidIncrease: 2
   MonReg: 0
-  _prefab: {fileID: 3833880438077353650, guid: 02fedd0aa824d3144aa93a4b5c6ea95c, type: 3}
+  _prefab: {fileID: 3833880438077353650, guid: c8c2f86999c52e04e9e821d379769fc9, type: 3}
   _useSkillTime: 0
   _monActiveSkill_1: {fileID: 0}
   _monActiveSkill_2: {fileID: 0}
-  _recallSkills: []
-  _monterRecallSkill: {fileID: 0}
+  _recallSkills: {fileID: 0}

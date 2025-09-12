@@ -20,10 +20,10 @@ MonoBehaviour:
     ChaRole: 1
     ChaMP: 0
     ChaMPRecovery: 0
-    ChaHP: 100
+    ChaHP: 600
     ChaAtkSpeed: 0.7
-    ChaAttack: 10
-    ChaArmor: 20
+    ChaAttack: 100
+    ChaArmor: 5
     ChaPassiveSkill: 12004
     ChaActiveSkill: -1
     ChaPassiveSkillEffect: -1
@@ -41,7 +41,10 @@ MonoBehaviour:
   _characterSprite: {fileID: 0}
   _prefab: {fileID: 315290852922950502, guid: 527750cc54288f14c8be073cf35314c9, type: 3}
   _chaLv: 1
-  _chaActiveSkill: {fileID: 0}
+  _chaUpgradeLevel: 0
   _chaPassiveSkill: {fileID: 11400000, guid: d878cb11f5f90e548a5f492a57a47010, type: 2}
+  _chaActiveSkill: {fileID: 0}
+  _passiveSkillSprite: {fileID: 0}
+  _activeSkillSprite: {fileID: 0}
   Beads: 0
   GachaBackground: {fileID: 21300000, guid: 47ad4cf55a5e2204d9edec35e0c797f7, type: 3}
