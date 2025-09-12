@@ -1,12 +1,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-// ÀÌ ÄÄÆ÷³ÍÆ®´Â ÅÛÇÃ¸´ ÇÁ¸®ÆÕ ¾ÈÀÇ ³ëµå À§Ä¡¸¦ ½Äº°ÇÏ´Â ¿ªÇÒ¸¸ ÇÕ´Ï´Ù.
+// ì´ ì»´í¬ë„ŒíŠ¸ëŠ” í…œí”Œë¦¿ í”„ë¦¬íŒ¹ ì•ˆì˜ ë…¸ë“œ ìœ„ì¹˜ë¥¼ ì‹ë³„í•˜ëŠ” ì—­í• ë§Œ í•©ë‹ˆë‹¤.
 public class MapNodeIdentifier : MonoBehaviour
 {
-    // ÀÎ½ºÆåÅÍ¿¡¼­ Á÷Á¢ ¼³Á¤ÇÒ °ª
-    public int floorIndex; // ¸î ¹øÂ° Ãş¿¡ ¼ÓÇÏ´Â°¡ (0ºÎÅÍ ½ÃÀÛ)
-    public int nodeIndexInFloor; // ÇØ´ç Ãş¿¡¼­ ¸î ¹øÂ° ³ëµåÀÎ°¡ (0ºÎÅÍ ½ÃÀÛ)
+    // ì¸ìŠ¤í™í„°ì—ì„œ ì§ì ‘ ì„¤ì •í•  ê°’
+    public int floorIndex; // ëª‡ ë²ˆì§¸ ì¸µì— ì†í•˜ëŠ”ê°€ (0ë¶€í„° ì‹œì‘)
+    public int nodeIndexInFloor; // í•´ë‹¹ ì¸µì—ì„œ ëª‡ ë²ˆì§¸ ë…¸ë“œì¸ê°€ (0ë¶€í„° ì‹œì‘)
+    public bool forcePositiveEvent = false;
 
     public List<MapNodeIdentifier> connections;
+
 }
