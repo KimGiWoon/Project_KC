@@ -9,24 +9,34 @@ public class BuffRelicManager : SingletonManager<BuffRelicManager>
     [SerializeField] private BattleManager battleManager;
     List<MyCharacterController> myCharacterController;
     List<MonsterController> monsterController;
-    private Dictionary<MyCharacterController, CharacterState> baseStates = new Dictionary<MyCharacterController, CharacterState>();
-    
+
+    private Dictionary<MyCharacterController, CharacterState> baseStates =
+        new Dictionary<MyCharacterController, CharacterState>();
+
     private RelicDatas currentRelic;
     private int attackCount = 0;
-    private float defalutAvoid;
 
     private void Awake()
     {
-        foreach (var p in battleManager._characters)
-        {
-            defalutAvoid = p._characterState._chaAvoid;
-        }
-        
+        base.Awake();
         CacheBaseState();
     }
 
-    private void CacheBaseState() //캐릭터 기본 스탯
+    public void BattleStart()
     {
+        CacheBaseState();
+        ResetAll();
+        ApplyAll();
+    }
+
+    public void BattleEnd()
+    {
+        ResetAll();
+    }
+
+    private void CacheBaseState() //캐릭터 기본 스탯 캐싱
+    {
+        baseStates.Clear();
         foreach (var p in battleManager._characters)
         {
             CharacterState state = new CharacterState
@@ -65,6 +75,14 @@ public class BuffRelicManager : SingletonManager<BuffRelicManager>
         foreach (var p in battleManager._characters)
         {
             ResetState(p);
+        }
+    }
+
+    private void ApplyAll()
+    {
+        foreach (var r in GameManager.Instance.InGameItem.relicInventory)
+        {
+            ApplyRelicEffect(r.relic);
         }
     }
 
@@ -331,7 +349,7 @@ public class BuffRelicManager : SingletonManager<BuffRelicManager>
             {
                 if (relic.chaAttack != 0) //공격력
                 {
-                    p._characterState._chaAttack = AddStat(p._characterState._chaAttack, relic.chaAttack);
+                    p._characterState._chaAttack += AddStat(p._characterState._chaAttack, relic.chaAttack);
                     Debug.Log($"캐릭터 이름 {p._characterState._chaEnName},{relic.relicName}: 공격력 +{relic.chaAttack}% → 최종 {p._characterState._chaAttack}");
                 }
             }
@@ -356,14 +374,17 @@ public class BuffRelicManager : SingletonManager<BuffRelicManager>
     private void BattleCharacterCheck(RelicDatas relic)
     {
         if (relic.chaAvoid == 0) return;
-        //TODO : 누적되기전 값 캐싱해놓기
+        
         int aliveCount = battleManager._characterCount; //살아있는 캐릭터 수
         
         foreach (var p in battleManager._characters)
         {
+            if(!baseStates.TryGetValue(p, out var baseState))
+                continue;
+            
             if (p._isAlive)
             {
-                float avoid = defalutAvoid;
+                float avoid = baseStates[p]._chaAvoid;
                 float addAvoid = avoid * (aliveCount * (relic.chaAvoid * 0.01f));
                 p._characterState._chaAvoid = avoid + addAvoid;
                 
