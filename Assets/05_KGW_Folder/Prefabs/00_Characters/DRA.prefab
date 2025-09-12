@@ -98,6 +98,7 @@ MonoBehaviour:
     _chaGrade: 0
     _chaRole: 0
     _chaLevel: 0
+    _chaUpgrade: 0
     _chaCurrentHP: 0
     _chaMaxHP: 0
     _chaCurrentMP: 0
@@ -235,7 +236,7 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 2
+  m_Radius: 5
 --- !u!1 &4337047149908994281
 GameObject:
   m_ObjectHideFlags: 0
@@ -409,7 +410,7 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 3
+  m_Radius: 6
 --- !u!114 &2743582578182173411
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -176,7 +176,7 @@ public class MyCharacterController : UnitBaseData
                 float attackDamage = _characterState._chaAttack;
                 float passiveDamage;
 
-                // 공격애니메이션
+                // 공격 애니메이션
                 _chaAnimatior.Play(Attack_Hash);
 
                 // 사용하려는 패시브와 캐릭터가 사용하는 패시브가 같은지 확인
@@ -220,6 +220,9 @@ public class MyCharacterController : UnitBaseData
         else
         {
             _isAttack = false;
+
+            // 대기 애니메이션
+            //_chaAnimatior.Play(Idle_Hash);
         }
     }
 
