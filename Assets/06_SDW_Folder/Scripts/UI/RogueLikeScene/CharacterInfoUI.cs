@@ -57,7 +57,7 @@ namespace SDW
         public void SetCharacterInfo(CharacterDataSO data)
         {
             _characterImage.sprite = data._characterSprite;
-            _characterNameText.text = data.name;
+            _characterNameText.text = data._chaBaseData.ChaName;
             _startValueText.text = data._chaUpgradeLevel.ToString();
             _classNameText.text = data._chaBaseData.ChaRole.ToString();
             _classLevelText.text = "Lv. " + data._chaLv;
@@ -76,6 +76,8 @@ namespace SDW
             _passiveSkillDescriptionText.text = GetDescription(passiveSkill, characterBaseData);
 
             var activeSkill = data._chaActiveSkill;
+            if (activeSkill == null) return;
+
             if (activeSkill._chaSkillID == -1) return;
 
             _activeSkillImage.sprite = data._activeSkillSprite;

@@ -68,9 +68,12 @@ public class TeamFormationManager : MonoBehaviour
         }
 
         //# 1. Level - 내림차순, 2. 이름 - 오름차순
+        //# 레벨 >> 등급 (레어가 먼저) >> 역할군 (탱커, 근거리, 디버퍼, 힐러, 원거리) >> 이름
         _sortedCharacterData = _charData.AllOwnedCharacters
-            .OrderByDescending(name => name._chaLv)
-            .ThenBy(name => name._chaBaseData.ChaName)
+            .OrderByDescending(data => data._chaLv)
+            .OrderByDescending(data => data._chaBaseData.ChaGrade)
+            .ThenBy(data => data._chaBaseData.ChaRole)
+            .ThenBy(data => data._chaBaseData.ChaName)
             .ToList();
 
         _charData.SelectedTeam.Clear();

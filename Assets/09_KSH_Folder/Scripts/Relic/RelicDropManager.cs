@@ -12,7 +12,9 @@ namespace KSH
         [SerializeField] private List<RelicDatas> relics;
 
         //유물 나오는 UI 있어야함
-        [SerializeField] private RelicResultUI relicResultUI;
+        [SerializeField] private ClearStageUI _clearStageUI;
+        [SerializeField] private BattleManager _battle;
+        private GameManager _gameManager;
         //[SerializeField] private BuffRelicManager buffRelicManager;
         //public List<InventoryItem> acquiredRelicLists = new List<InventoryItem>();
 
@@ -31,13 +33,19 @@ namespace KSH
             relicRarityPicker.Add(RelicGrade.Rare, 99);
         }
 
-        //테스트용
-        private void Update()
+        private void Start()
         {
-            if (Input.GetKeyDown(KeyCode.R)) //테스트용
-            {
-                RarityPick(RelicKind.Buf, 3);
-            }
+            _gameManager = GameManager.Instance;
+        }
+
+        private void OnEnable()
+        {
+            _battle.OnGameResult += GameCleared;
+        }
+
+        private void OnDisable()
+        {
+            _battle.OnGameResult -= GameCleared;
         }
 
         public void RarityPick(RelicKind relicKind, int amount)
@@ -64,7 +72,7 @@ namespace KSH
 
             var result = getRelicList.Take(amount).ToList();
 
-            relicResultUI.ShowRelic(result, relicGrade);
+            _clearStageUI.ShowRelic(result, relicGrade);
         }
 
         public void GetRelic(RelicDatas relic)
@@ -80,6 +88,12 @@ namespace KSH
                 //todo 추후 전투 Scene에 들어갈 때 한번에 유물들 효과를 적용하도록 수정 필요
                 //BuffRelicManager.Instance.ApplyRelicEffect(relic); //아이템 효과적용
             }
+        }
+
+        private void GameCleared(bool isCleared)
+        {
+            if (!isCleared) return;
+            RarityPick(RelicKind.Buf, 3);
         }
     }
 }

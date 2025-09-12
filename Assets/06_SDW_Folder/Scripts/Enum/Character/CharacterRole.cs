@@ -3,9 +3,9 @@
     public enum CharacterRole
     {
         Tanker,
-        Ranged,
         Melee,
+        Debuffer,
         Buffer,
-        Debuffer
+        Ranged
     }
 }
