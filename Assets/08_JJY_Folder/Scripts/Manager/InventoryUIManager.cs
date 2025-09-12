@@ -72,6 +72,9 @@ namespace JJY
         private void OnDestroy()
         {
             GameManager.Instance.InGameItem.foodInventory.Clear();
+            GameManager.Instance.InGameItem.relicInventory.Clear();
+            //todo 엽전도 초기화되어야 하나 테스트를 위해서 보류
+            // GameManager.Instance.Coin.ClearYeopjeon();
         }
 
         // private void OnDisable()

@@ -41,8 +41,12 @@ namespace CJH
             }
         }
 
+        //todo 1번만 뜨는 애들 -> 창이 뜰 때 돈/유물
+        //todo 2
+
         public void EndEncounter()
         {
+            //todo End인지, 선택지인지
             if (currentEventInstance != null) Destroy(currentEventInstance);
         }
 

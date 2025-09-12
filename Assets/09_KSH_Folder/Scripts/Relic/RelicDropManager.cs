@@ -6,8 +6,10 @@ using SDW;
 
 namespace KSH
 {
-    public class RelicDropManager : SingletonManager<RelicDropManager>
+    public class RelicDropManager : MonoBehaviour
     {
+        public static RelicDropManager Instance;
+
         [Header("유물 리스트")]
         [SerializeField] private List<RelicDatas> relics;
 
@@ -23,10 +25,19 @@ namespace KSH
         private CharacterState characterState;
 
         //public System.Action OnRelicSkill;
-        protected override void Awake()
+        private void Awake()
         {
-            base.Awake();
+            if (Instance == null)
+            {
+                Instance = this;
+                DontDestroyOnLoad(gameObject);
+            }
+            else
+            {
+                Destroy(gameObject);
+            }
             relics = Resources.LoadAll<RelicDatas>("Relics").ToList();
+
             relicRarityPicker = new WeightedRandom<RelicGrade>();
             //TODO : 확률 정해지면 다시 넣기 (임의로 노말 80 레어 20)
             relicRarityPicker.Add(RelicGrade.Normal, 1);
