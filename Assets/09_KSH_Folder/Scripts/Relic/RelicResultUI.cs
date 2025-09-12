@@ -40,6 +40,8 @@ public class RelicResultUI : MonoBehaviour
     
     public void ShowRelic(List<RelicDatas> relics, RelicGrade grade)
     {
+        RelicWindow.SetActive(true);
+        getButton.interactable = true;
         foreach (Transform child in content)
         {
             Destroy(child.gameObject);

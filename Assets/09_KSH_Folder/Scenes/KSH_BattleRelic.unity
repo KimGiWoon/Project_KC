@@ -14460,6 +14460,7 @@ MonoBehaviour:
   _clearStageUI: {fileID: 355563027}
   _noneRemoveADUI: {fileID: 230781176}
   _RemoveADUI: {fileID: 1387876664}
+  _popupUI: {fileID: 0}
   _optionButton: {fileID: 1653641501}
   _fastButtonBG: {fileID: 1498981105}
   _fastButtonX2: {fileID: 325613917}
@@ -14521,8 +14522,8 @@ Canvas:
   m_GameObject: {fileID: 1406195659}
   m_Enabled: 1
   serializedVersion: 3
-  m_RenderMode: 0
-  m_Camera: {fileID: 0}
+  m_RenderMode: 1
+  m_Camera: {fileID: 67901438}
   m_PlaneDistance: 100
   m_PixelPerfect: 0
   m_ReceivesEvents: 1

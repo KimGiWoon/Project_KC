@@ -82,6 +82,7 @@ public class BattleManager : MonoBehaviour
         _gameManager = GameManager.Instance;
         RoguelikeManager.Instance.OnBattleStart += BattleStart;
         RoguelikeManager.Instance.OnBattleEnd += BattleEnd;
+        BuffRelicManager.Instance.BattleStart();
     }
 
     private void OnDisable()
@@ -345,6 +346,7 @@ public class BattleManager : MonoBehaviour
             // 이벤트 호출
             OnAniChange?.Invoke();
             OnGameResult?.Invoke(_isClear);
+            BuffRelicManager.Instance.BattleEnd();
         }
 
         // 남아있는 플레이어가 없으면
@@ -357,6 +359,7 @@ public class BattleManager : MonoBehaviour
             // 이벤트 호출
             OnAniChange?.Invoke();
             OnGameResult?.Invoke(_isClear);
+            BuffRelicManager.Instance.BattleEnd();
         }
     }
 
