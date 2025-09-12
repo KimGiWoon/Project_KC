@@ -46,9 +46,9 @@ public class CharacterInfoSlotUI : MonoBehaviour
 
     private void OnDestroy()
     {
-        if (_characterController == null)
-            // 이벤트 구독 해제
-            _characterController.OnHpChange -= HpChangeCheck;
+        if (_characterController == null) return;
+        // 이벤트 구독 해제
+        _characterController.OnHpChange -= HpChangeCheck;
         _characterController.OnMpChange -= MpChangeCheck;
         _characterController.OnSkillModeChange -= CanUseSkillMode;
 

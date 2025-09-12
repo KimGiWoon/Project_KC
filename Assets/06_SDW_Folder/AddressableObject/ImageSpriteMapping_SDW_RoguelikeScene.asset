@@ -29,22 +29,6 @@ MonoBehaviour:
     AddressKey: cbb100b9b8fc7cf40b52289f13994d4d
     AssetPath: Assets/00_Imports/11_LCS_Assets/UI/Rectangle 2.png
     PathPreview: '- Battle UI/BattleUICanvas/BattleUIContainer/BattleUIPanel/BottomUI/Button_CharacterCard_Second'
-  - PathHash: 6277092447404689561
-    AddressKey: 0c92d89ca2497324a85c04d355a14743
-    AssetPath: Assets/00_Imports/11_LCS_Assets/UI/Rectangle 27 (3).png
-    PathPreview: '- Battle UI/BattleUICanvas/BattleUIContainer/BattleUIPanel/BottomUI/Button_CharacterCard_Third/MPBar/Outline'
-  - PathHash: 1337292998753583678
-    AddressKey: 0c92d89ca2497324a85c04d355a14743
-    AssetPath: Assets/00_Imports/11_LCS_Assets/UI/Rectangle 27 (3).png
-    PathPreview: '- Battle UI/BattleUICanvas/BattleUIContainer/BattleUIPanel/BottomUI/Button_CharacterCard_Third/HPBar/Outline'
-  - PathHash: 2511009448083338486
-    AddressKey: baefb0215243a804982570185e7eec30
-    AssetPath: Assets/00_Imports/10_LYH_Assets/UI/simpleWhite.jpg
-    PathPreview: '- Battle UI/BattleUICanvas/BattleUIContainer/BattleUIPanel/BottomUI/Button_CharacterCard_Third/CharacterImage'
-  - PathHash: 11456650560584240189
-    AddressKey: cbb100b9b8fc7cf40b52289f13994d4d
-    AssetPath: Assets/00_Imports/11_LCS_Assets/UI/Rectangle 2.png
-    PathPreview: '- Battle UI/BattleUICanvas/BattleUIContainer/BattleUIPanel/BottomUI/Button_CharacterCard_Third'
   - PathHash: 17767006176488765130
     AddressKey: 0c92d89ca2497324a85c04d355a14743
     AssetPath: Assets/00_Imports/11_LCS_Assets/UI/Rectangle 27 (3).png
@@ -61,6 +45,22 @@ MonoBehaviour:
     AddressKey: cbb100b9b8fc7cf40b52289f13994d4d
     AssetPath: Assets/00_Imports/11_LCS_Assets/UI/Rectangle 2.png
     PathPreview: '- Battle UI/BattleUICanvas/BattleUIContainer/BattleUIPanel/BottomUI/Button_CharacterCard_First'
+  - PathHash: 6277092447404689561
+    AddressKey: 0c92d89ca2497324a85c04d355a14743
+    AssetPath: Assets/00_Imports/11_LCS_Assets/UI/Rectangle 27 (3).png
+    PathPreview: '- Battle UI/BattleUICanvas/BattleUIContainer/BattleUIPanel/BottomUI/Button_CharacterCard_Third/MPBar/Outline'
+  - PathHash: 1337292998753583678
+    AddressKey: 0c92d89ca2497324a85c04d355a14743
+    AssetPath: Assets/00_Imports/11_LCS_Assets/UI/Rectangle 27 (3).png
+    PathPreview: '- Battle UI/BattleUICanvas/BattleUIContainer/BattleUIPanel/BottomUI/Button_CharacterCard_Third/HPBar/Outline'
+  - PathHash: 2511009448083338486
+    AddressKey: baefb0215243a804982570185e7eec30
+    AssetPath: Assets/00_Imports/10_LYH_Assets/UI/simpleWhite.jpg
+    PathPreview: '- Battle UI/BattleUICanvas/BattleUIContainer/BattleUIPanel/BottomUI/Button_CharacterCard_Third/CharacterImage'
+  - PathHash: 11456650560584240189
+    AddressKey: cbb100b9b8fc7cf40b52289f13994d4d
+    AssetPath: Assets/00_Imports/11_LCS_Assets/UI/Rectangle 2.png
+    PathPreview: '- Battle UI/BattleUICanvas/BattleUIContainer/BattleUIPanel/BottomUI/Button_CharacterCard_Third'
   - PathHash: 6852340885075050017
     AddressKey: d904a97b3a42dcf4185407a86db1dcd5
     AssetPath: Assets/00_Imports/DatingGameUI/Exports/HomeScreen/ButtonPressed.png
@@ -115,6 +115,10 @@ MonoBehaviour:
     AddressKey: cada637cbbdba4448a8dda967b38b3bd
     AssetPath: Assets/00_Imports/10_LYH_Assets/CharImgs/ShopNPC.png
     PathPreview: '- Roguelike UI/StageGlobalCanvas/ShoppingContainer/ShoppingPanel/MainPanel/TopContainer/BackgrounImage/CharacterImage'
+  - PathHash: 4328703959425836770
+    AddressKey: dbaf53e7bca762e4ca8002e2b3261ca2
+    AssetPath: Assets/00_Imports/11_LCS_Assets/UI/Group 16.png
+    PathPreview: '- Battle UI/PopupCanvas/ClearStageContainer/MenuBox/SelectTreasure/RelicDetailUI/Popup_TreasureExplanation'
   - PathHash: 10258213910424740959
     AddressKey: 202cca839338a4d49aa5db82c2459568
     AssetPath: Assets/00_Imports/12_LSR_Assets/Farm Game UI - Simple 2D UI/Sprites/256x256/button_yellow_default_2.png
@@ -155,10 +159,6 @@ MonoBehaviour:
     AddressKey: d6eb3acf2e024f84eba4a6269e4bc134
     AssetPath: Assets/00_Imports/DatingGameUI/Exports/CharacterScreen/CharacterContainer.png
     PathPreview: '- Roguelike UI/StageGlobalCanvas/RouteSelectContainer/RouteSelectPanel/RoutBackgroundImage'
-  - PathHash: 10847924598751609060
-    AddressKey: 781799cc038aec24f9e14c5c4fbd96a0
-    AssetPath: Assets/00_Imports/11_LCS_Assets/UI/Dopboki1-01.png
-    PathPreview: '- Battle UI/PopupCanvas/ClearStageContainer/MenuBox/SelectTreasure/SelectTreasure1/Button_TreasureExplanation/Image'
   - PathHash: 13159057426279052039
     AddressKey: 46ed5ff2447472e4cae54147f34d1f5e
     AssetPath: Assets/00_Imports/DatingGameUI/Exports/Messaging/InMessageBackgroundPink.png
@@ -191,10 +191,6 @@ MonoBehaviour:
     AddressKey: d904a97b3a42dcf4185407a86db1dcd5
     AssetPath: Assets/00_Imports/DatingGameUI/Exports/HomeScreen/ButtonPressed.png
     PathPreview: '- Roguelike UI/StageGlobalCanvas/CharacterInfoContainer/CharacterInfoPanel/CloseButton'
-  - PathHash: 12915279946561674201
-    AddressKey: c9aca08061ecc37419462ae563e2036b
-    AssetPath: Assets/00_Imports/11_LCS_Assets/UI/Ellipse 4.png
-    PathPreview: '- Battle UI/PopupCanvas/ClearStageContainer/MenuBox/SelectTreasure/Popup_TreasureExplanation/Button_Close'
   - PathHash: 14175407583991041764
     AddressKey: d6eb3acf2e024f84eba4a6269e4bc134
     AssetPath: Assets/00_Imports/DatingGameUI/Exports/CharacterScreen/CharacterContainer.png
@@ -269,18 +265,10 @@ MonoBehaviour:
     AddressKey: 9e9eca082bb6b3242904bf6a870283ac
     AssetPath: Assets/00_Imports/11_LCS_Assets/UI/Rectangle 34.png
     PathPreview: '- Battle UI/PopupCanvas/SettingConainer/MenuBox/Slider_SFX/Background'
-  - PathHash: 3762687803481054152
-    AddressKey: c9aca08061ecc37419462ae563e2036b
-    AssetPath: Assets/00_Imports/11_LCS_Assets/UI/Ellipse 4.png
-    PathPreview: '- Battle UI/PopupCanvas/ClearStageContainer/MenuBox/SelectTreasure/SelectTreasure3/Button_TreasureExplanation'
   - PathHash: 8161223924958740154
     AddressKey: d6eb3acf2e024f84eba4a6269e4bc134
     AssetPath: Assets/00_Imports/DatingGameUI/Exports/CharacterScreen/CharacterContainer.png
     PathPreview: '- Roguelike UI/StageGlobalCanvas/CharacterInfoContainer/CharacterInfoPanel/PassiveSkillContainer/SkillIconBackgroundImage'
-  - PathHash: 7541726385691363241
-    AddressKey: dbaf53e7bca762e4ca8002e2b3261ca2
-    AssetPath: Assets/00_Imports/11_LCS_Assets/UI/Group 16.png
-    PathPreview: '- Battle UI/PopupCanvas/ClearStageContainer/MenuBox/SelectTreasure/Popup_TreasureExplanation/TreasureExBG'
   - PathHash: 14522289069776234131
     AddressKey: b3aa72fb83080a942a7cf397f6860771
     AssetPath: Assets/00_Imports/12_LSR_Assets/Farm Game UI - Simple 2D UI/Sprites/256x256/panel_inner_2.png
@@ -318,6 +306,10 @@ MonoBehaviour:
     AddressKey: 840052e1f1b87484abf6eb7069bba3be
     AssetPath: Assets/00_Imports/11_LCS_Assets/UI/Rectangle 26 (2).png
     PathPreview: '- Battle UI/BattleUICanvas/BattleUIContainer/BattleUIPanel/TopUI/StageInfo_Time_EnemyHP/InsideBar_Empty'
+  - PathHash: 6031745347726375996
+    AddressKey: c9aca08061ecc37419462ae563e2036b
+    AssetPath: Assets/00_Imports/11_LCS_Assets/UI/Ellipse 4.png
+    PathPreview: '- Battle UI/PopupCanvas/ClearStageContainer/MenuBox/SelectTreasure/RelicDetailUI/Popup_TreasureExplanation/Button_Close'
   - PathHash: 12262077411914231196
     AddressKey: f6b30aa533db96c43ade1c8ba5784ceb
     AssetPath: Assets/00_Imports/11_LCS_Assets/UI/Rectangle 35.png
@@ -346,14 +338,6 @@ MonoBehaviour:
     AddressKey: 0e3d32e53abe9a241a1a3086fa0a4b82
     AssetPath: Assets/00_Imports/11_LCS_Assets/UI/Rectangle 33.png
     PathPreview: '- Battle UI/PopupCanvas/RemoveAdContainer/MenuBox/IsOkaytoGoLobby/SubMenuBox'
-  - PathHash: 7296770007705650710
-    AddressKey: dbaf53e7bca762e4ca8002e2b3261ca2
-    AssetPath: Assets/00_Imports/11_LCS_Assets/UI/Group 16.png
-    PathPreview: '- Battle UI/PopupCanvas/ClearStageContainer/MenuBox/SelectTreasure/SelectTreasure3'
-  - PathHash: 7296767808682394288
-    AddressKey: dbaf53e7bca762e4ca8002e2b3261ca2
-    AssetPath: Assets/00_Imports/11_LCS_Assets/UI/Group 16.png
-    PathPreview: '- Battle UI/PopupCanvas/ClearStageContainer/MenuBox/SelectTreasure/SelectTreasure1'
   - PathHash: 2245863514795722229
     AddressKey: d6eb3acf2e024f84eba4a6269e4bc134
     AssetPath: Assets/00_Imports/DatingGameUI/Exports/CharacterScreen/CharacterContainer.png
@@ -362,10 +346,6 @@ MonoBehaviour:
     AddressKey: f6b30aa533db96c43ade1c8ba5784ceb
     AssetPath: Assets/00_Imports/11_LCS_Assets/UI/Rectangle 35.png
     PathPreview: '- Battle UI/PopupCanvas/SettingConainer/MenuBox/IsOkaytoGoLobby/SubMenuBox/Button_No'
-  - PathHash: 7296771107217278921
-    AddressKey: dbaf53e7bca762e4ca8002e2b3261ca2
-    AssetPath: Assets/00_Imports/11_LCS_Assets/UI/Group 16.png
-    PathPreview: '- Battle UI/PopupCanvas/ClearStageContainer/MenuBox/SelectTreasure/SelectTreasure2'
   - PathHash: 1635924434963351285
     AddressKey: 0e3d32e53abe9a241a1a3086fa0a4b82
     AssetPath: Assets/00_Imports/11_LCS_Assets/UI/Rectangle 33.png
@@ -483,6 +463,10 @@ MonoBehaviour:
     AddressKey: b3aa72fb83080a942a7cf397f6860771
     AssetPath: Assets/00_Imports/12_LSR_Assets/Farm Game UI - Simple 2D UI/Sprites/256x256/panel_inner_2.png
     PathPreview: '- Roguelike UI/StageGlobalCanvas/ShoppingContainer/ShoppingPanel/MainPanel/TopContainer/BackgrounImage'
+  - PathHash: 2975176353529342928
+    AddressKey: dbaf53e7bca762e4ca8002e2b3261ca2
+    AssetPath: Assets/00_Imports/11_LCS_Assets/UI/Group 16.png
+    PathPreview: '- Battle UI/PopupCanvas/ClearStageContainer/MenuBox/SelectTreasure/RelicDetailUI/Popup_TreasureExplanation/TreasureExBG'
   - PathHash: 9313375991537256742
     AddressKey: 0a471cb1f9aef564d84b02f39772cd66
     AssetPath: Assets/00_Imports/10_LYH_Assets/TempCharacter/BW_BattleIcon.png
@@ -528,10 +512,6 @@ MonoBehaviour:
     AssetPath: Assets/00_Imports/12_LSR_Assets/Farm Game UI - Simple 2D UI/Sprites/256x256/panel_inner_2.png
     PathPreview: '- Roguelike UI/StageGlobalCanvas/InventoryContainer/Description
       Panel/BackgroundImage/IconBackgroundImage/IconImage'
-  - PathHash: 3152704967999260810
-    AddressKey: c9aca08061ecc37419462ae563e2036b
-    AssetPath: Assets/00_Imports/11_LCS_Assets/UI/Ellipse 4.png
-    PathPreview: '- Battle UI/PopupCanvas/ClearStageContainer/MenuBox/SelectTreasure/SelectTreasure1/Button_TreasureExplanation'
   - PathHash: 11769874915227007358
     AddressKey: 0e3d32e53abe9a241a1a3086fa0a4b82
     AssetPath: Assets/00_Imports/11_LCS_Assets/UI/Rectangle 33.png
@@ -581,22 +561,10 @@ MonoBehaviour:
     AddressKey: 1d7501232a26f3d4ba68eb61c8ac5dcf
     AssetPath: Assets/00_Imports/12_LSR_Assets/Farm Game UI - Simple 2D UI/Sprites/256x256/panel_2.png
     PathPreview: '- Roguelike UI/StageGlobalCanvas/ShoppingContainer/ShoppingPanel/MainPanel/MiddleContainer/IngredientButton2'
-  - PathHash: 11149953408786779162
-    AddressKey: 781799cc038aec24f9e14c5c4fbd96a0
-    AssetPath: Assets/00_Imports/11_LCS_Assets/UI/Dopboki1-01.png
-    PathPreview: '- Battle UI/PopupCanvas/ClearStageContainer/MenuBox/SelectTreasure/SelectTreasure3/Button_TreasureExplanation/Image'
   - PathHash: 712494620572494504
     AddressKey: d6eb3acf2e024f84eba4a6269e4bc134
     AssetPath: Assets/00_Imports/DatingGameUI/Exports/CharacterScreen/CharacterContainer.png
     PathPreview: '- Roguelike UI/StageGlobalCanvas/PartyContainer/PartyPanel/SelectedCharContainer/SelectedChar2/CharacterBackgroundImage'
-  - PathHash: 2441635334398975501
-    AddressKey: dbaf53e7bca762e4ca8002e2b3261ca2
-    AssetPath: Assets/00_Imports/11_LCS_Assets/UI/Group 16.png
-    PathPreview: '- Battle UI/PopupCanvas/ClearStageContainer/MenuBox/SelectTreasure/Popup_TreasureExplanation/TreasureImgBG'
-  - PathHash: 5140013659221939115
-    AddressKey: 781799cc038aec24f9e14c5c4fbd96a0
-    AssetPath: Assets/00_Imports/11_LCS_Assets/UI/Dopboki1-01.png
-    PathPreview: '- Battle UI/PopupCanvas/ClearStageContainer/MenuBox/SelectTreasure/SelectTreasure2/Button_TreasureExplanation/Image'
   - PathHash: 6633995344143605367
     AddressKey: 335f7c7ba8037d54386f17ba306f438f
     AssetPath: Assets/00_Imports/11_LCS_Assets/UI/Treasure.png
@@ -642,10 +610,6 @@ MonoBehaviour:
     AddressKey: 7dce5b391dddf81448e2b4c71f5820cf
     AssetPath: Assets/00_Imports/11_LCS_Assets/UI/StageBanner.png
     PathPreview: '- Battle UI/BattleUICanvas/BattleUIContainer/BattleUIPanel/TopUI/StageText'
-  - PathHash: 2203970155609806413
-    AddressKey: c9aca08061ecc37419462ae563e2036b
-    AssetPath: Assets/00_Imports/11_LCS_Assets/UI/Ellipse 4.png
-    PathPreview: '- Battle UI/PopupCanvas/ClearStageContainer/MenuBox/SelectTreasure/SelectTreasure2/Button_TreasureExplanation'
   - PathHash: 17173805286799194700
     AddressKey: 1d7501232a26f3d4ba68eb61c8ac5dcf
     AssetPath: Assets/00_Imports/12_LSR_Assets/Farm Game UI - Simple 2D UI/Sprites/256x256/panel_2.png
@@ -671,14 +635,14 @@ MonoBehaviour:
     AddressKey: 088fc6bac380aac46956f3962150b793
     AssetPath: Assets/00_Imports/DatingGameUI/Exports/Settings/MasterVolumeContainer.png
     PathPreview: '- Roguelike UI/StageGlobalCanvas/PopupSettingContainer/SettingPanel/Midle/MasterVolumeSlider'
+  - PathHash: 5603194310893550378
+    AddressKey: dbaf53e7bca762e4ca8002e2b3261ca2
+    AssetPath: Assets/00_Imports/11_LCS_Assets/UI/Group 16.png
+    PathPreview: '- Battle UI/PopupCanvas/ClearStageContainer/MenuBox/SelectTreasure/RelicDetailUI/Popup_TreasureExplanation/TreasureImgBG'
   - PathHash: 290651293701154651
     AddressKey: 1d7501232a26f3d4ba68eb61c8ac5dcf
     AssetPath: Assets/00_Imports/12_LSR_Assets/Farm Game UI - Simple 2D UI/Sprites/256x256/panel_2.png
     PathPreview: '- Roguelike UI/StageGlobalCanvas/CookingContainer/CookingPanel/MainPanel/RecipeContainer/Ingredient1'
-  - PathHash: 11569921536744155189
-    AddressKey: dbaf53e7bca762e4ca8002e2b3261ca2
-    AssetPath: Assets/00_Imports/11_LCS_Assets/UI/Group 16.png
-    PathPreview: '- Battle UI/PopupCanvas/ClearStageContainer/MenuBox/SelectTreasure/Popup_TreasureExplanation'
   - PathHash: 5801146177513124324
     AddressKey: 088fc6bac380aac46956f3962150b793
     AssetPath: Assets/00_Imports/DatingGameUI/Exports/Settings/MasterVolumeContainer.png
@@ -708,22 +672,6 @@ MonoBehaviour:
     AddressKey: cbb100b9b8fc7cf40b52289f13994d4d
     AssetPath: Assets/00_Imports/11_LCS_Assets/UI/Rectangle 2.png
     PathPreview: '- Battle UI/BattleUICanvas/BattleUIContainer/BattleUIPanel/BottomUI/Button_CharacterCard_Second'
-  - PathHash: 6277092447404689561
-    AddressKey: 0c92d89ca2497324a85c04d355a14743
-    AssetPath: Assets/00_Imports/11_LCS_Assets/UI/Rectangle 27 (3).png
-    PathPreview: '- Battle UI/BattleUICanvas/BattleUIContainer/BattleUIPanel/BottomUI/Button_CharacterCard_Third/MPBar/Outline'
-  - PathHash: 1337292998753583678
-    AddressKey: 0c92d89ca2497324a85c04d355a14743
-    AssetPath: Assets/00_Imports/11_LCS_Assets/UI/Rectangle 27 (3).png
-    PathPreview: '- Battle UI/BattleUICanvas/BattleUIContainer/BattleUIPanel/BottomUI/Button_CharacterCard_Third/HPBar/Outline'
-  - PathHash: 2511009448083338486
-    AddressKey: baefb0215243a804982570185e7eec30
-    AssetPath: Assets/00_Imports/10_LYH_Assets/UI/simpleWhite.jpg
-    PathPreview: '- Battle UI/BattleUICanvas/BattleUIContainer/BattleUIPanel/BottomUI/Button_CharacterCard_Third/CharacterImage'
-  - PathHash: 11456650560584240189
-    AddressKey: cbb100b9b8fc7cf40b52289f13994d4d
-    AssetPath: Assets/00_Imports/11_LCS_Assets/UI/Rectangle 2.png
-    PathPreview: '- Battle UI/BattleUICanvas/BattleUIContainer/BattleUIPanel/BottomUI/Button_CharacterCard_Third'
   - PathHash: 17767006176488765130
     AddressKey: 0c92d89ca2497324a85c04d355a14743
     AssetPath: Assets/00_Imports/11_LCS_Assets/UI/Rectangle 27 (3).png
@@ -740,6 +688,22 @@ MonoBehaviour:
     AddressKey: cbb100b9b8fc7cf40b52289f13994d4d
     AssetPath: Assets/00_Imports/11_LCS_Assets/UI/Rectangle 2.png
     PathPreview: '- Battle UI/BattleUICanvas/BattleUIContainer/BattleUIPanel/BottomUI/Button_CharacterCard_First'
+  - PathHash: 6277092447404689561
+    AddressKey: 0c92d89ca2497324a85c04d355a14743
+    AssetPath: Assets/00_Imports/11_LCS_Assets/UI/Rectangle 27 (3).png
+    PathPreview: '- Battle UI/BattleUICanvas/BattleUIContainer/BattleUIPanel/BottomUI/Button_CharacterCard_Third/MPBar/Outline'
+  - PathHash: 1337292998753583678
+    AddressKey: 0c92d89ca2497324a85c04d355a14743
+    AssetPath: Assets/00_Imports/11_LCS_Assets/UI/Rectangle 27 (3).png
+    PathPreview: '- Battle UI/BattleUICanvas/BattleUIContainer/BattleUIPanel/BottomUI/Button_CharacterCard_Third/HPBar/Outline'
+  - PathHash: 2511009448083338486
+    AddressKey: baefb0215243a804982570185e7eec30
+    AssetPath: Assets/00_Imports/10_LYH_Assets/UI/simpleWhite.jpg
+    PathPreview: '- Battle UI/BattleUICanvas/BattleUIContainer/BattleUIPanel/BottomUI/Button_CharacterCard_Third/CharacterImage'
+  - PathHash: 11456650560584240189
+    AddressKey: cbb100b9b8fc7cf40b52289f13994d4d
+    AssetPath: Assets/00_Imports/11_LCS_Assets/UI/Rectangle 2.png
+    PathPreview: '- Battle UI/BattleUICanvas/BattleUIContainer/BattleUIPanel/BottomUI/Button_CharacterCard_Third'
   - PathHash: 6852340885075050017
     AddressKey: d904a97b3a42dcf4185407a86db1dcd5
     AssetPath: Assets/00_Imports/DatingGameUI/Exports/HomeScreen/ButtonPressed.png
@@ -794,6 +758,10 @@ MonoBehaviour:
     AddressKey: cada637cbbdba4448a8dda967b38b3bd
     AssetPath: Assets/00_Imports/10_LYH_Assets/CharImgs/ShopNPC.png
     PathPreview: '- Roguelike UI/StageGlobalCanvas/ShoppingContainer/ShoppingPanel/MainPanel/TopContainer/BackgrounImage/CharacterImage'
+  - PathHash: 4328703959425836770
+    AddressKey: dbaf53e7bca762e4ca8002e2b3261ca2
+    AssetPath: Assets/00_Imports/11_LCS_Assets/UI/Group 16.png
+    PathPreview: '- Battle UI/PopupCanvas/ClearStageContainer/MenuBox/SelectTreasure/RelicDetailUI/Popup_TreasureExplanation'
   - PathHash: 10258213910424740959
     AddressKey: 202cca839338a4d49aa5db82c2459568
     AssetPath: Assets/00_Imports/12_LSR_Assets/Farm Game UI - Simple 2D UI/Sprites/256x256/button_yellow_default_2.png
@@ -834,10 +802,6 @@ MonoBehaviour:
     AddressKey: d6eb3acf2e024f84eba4a6269e4bc134
     AssetPath: Assets/00_Imports/DatingGameUI/Exports/CharacterScreen/CharacterContainer.png
     PathPreview: '- Roguelike UI/StageGlobalCanvas/RouteSelectContainer/RouteSelectPanel/RoutBackgroundImage'
-  - PathHash: 10847924598751609060
-    AddressKey: 781799cc038aec24f9e14c5c4fbd96a0
-    AssetPath: Assets/00_Imports/11_LCS_Assets/UI/Dopboki1-01.png
-    PathPreview: '- Battle UI/PopupCanvas/ClearStageContainer/MenuBox/SelectTreasure/SelectTreasure1/Button_TreasureExplanation/Image'
   - PathHash: 13159057426279052039
     AddressKey: 46ed5ff2447472e4cae54147f34d1f5e
     AssetPath: Assets/00_Imports/DatingGameUI/Exports/Messaging/InMessageBackgroundPink.png
@@ -870,10 +834,6 @@ MonoBehaviour:
     AddressKey: d904a97b3a42dcf4185407a86db1dcd5
     AssetPath: Assets/00_Imports/DatingGameUI/Exports/HomeScreen/ButtonPressed.png
     PathPreview: '- Roguelike UI/StageGlobalCanvas/CharacterInfoContainer/CharacterInfoPanel/CloseButton'
-  - PathHash: 12915279946561674201
-    AddressKey: c9aca08061ecc37419462ae563e2036b
-    AssetPath: Assets/00_Imports/11_LCS_Assets/UI/Ellipse 4.png
-    PathPreview: '- Battle UI/PopupCanvas/ClearStageContainer/MenuBox/SelectTreasure/Popup_TreasureExplanation/Button_Close'
   - PathHash: 14175407583991041764
     AddressKey: d6eb3acf2e024f84eba4a6269e4bc134
     AssetPath: Assets/00_Imports/DatingGameUI/Exports/CharacterScreen/CharacterContainer.png
@@ -948,18 +908,10 @@ MonoBehaviour:
     AddressKey: 9e9eca082bb6b3242904bf6a870283ac
     AssetPath: Assets/00_Imports/11_LCS_Assets/UI/Rectangle 34.png
     PathPreview: '- Battle UI/PopupCanvas/SettingConainer/MenuBox/Slider_SFX/Background'
-  - PathHash: 3762687803481054152
-    AddressKey: c9aca08061ecc37419462ae563e2036b
-    AssetPath: Assets/00_Imports/11_LCS_Assets/UI/Ellipse 4.png
-    PathPreview: '- Battle UI/PopupCanvas/ClearStageContainer/MenuBox/SelectTreasure/SelectTreasure3/Button_TreasureExplanation'
   - PathHash: 8161223924958740154
     AddressKey: d6eb3acf2e024f84eba4a6269e4bc134
     AssetPath: Assets/00_Imports/DatingGameUI/Exports/CharacterScreen/CharacterContainer.png
     PathPreview: '- Roguelike UI/StageGlobalCanvas/CharacterInfoContainer/CharacterInfoPanel/PassiveSkillContainer/SkillIconBackgroundImage'
-  - PathHash: 7541726385691363241
-    AddressKey: dbaf53e7bca762e4ca8002e2b3261ca2
-    AssetPath: Assets/00_Imports/11_LCS_Assets/UI/Group 16.png
-    PathPreview: '- Battle UI/PopupCanvas/ClearStageContainer/MenuBox/SelectTreasure/Popup_TreasureExplanation/TreasureExBG'
   - PathHash: 14522289069776234131
     AddressKey: b3aa72fb83080a942a7cf397f6860771
     AssetPath: Assets/00_Imports/12_LSR_Assets/Farm Game UI - Simple 2D UI/Sprites/256x256/panel_inner_2.png
@@ -997,6 +949,10 @@ MonoBehaviour:
     AddressKey: 840052e1f1b87484abf6eb7069bba3be
     AssetPath: Assets/00_Imports/11_LCS_Assets/UI/Rectangle 26 (2).png
     PathPreview: '- Battle UI/BattleUICanvas/BattleUIContainer/BattleUIPanel/TopUI/StageInfo_Time_EnemyHP/InsideBar_Empty'
+  - PathHash: 6031745347726375996
+    AddressKey: c9aca08061ecc37419462ae563e2036b
+    AssetPath: Assets/00_Imports/11_LCS_Assets/UI/Ellipse 4.png
+    PathPreview: '- Battle UI/PopupCanvas/ClearStageContainer/MenuBox/SelectTreasure/RelicDetailUI/Popup_TreasureExplanation/Button_Close'
   - PathHash: 12262077411914231196
     AddressKey: f6b30aa533db96c43ade1c8ba5784ceb
     AssetPath: Assets/00_Imports/11_LCS_Assets/UI/Rectangle 35.png
@@ -1025,14 +981,6 @@ MonoBehaviour:
     AddressKey: 0e3d32e53abe9a241a1a3086fa0a4b82
     AssetPath: Assets/00_Imports/11_LCS_Assets/UI/Rectangle 33.png
     PathPreview: '- Battle UI/PopupCanvas/RemoveAdContainer/MenuBox/IsOkaytoGoLobby/SubMenuBox'
-  - PathHash: 7296770007705650710
-    AddressKey: dbaf53e7bca762e4ca8002e2b3261ca2
-    AssetPath: Assets/00_Imports/11_LCS_Assets/UI/Group 16.png
-    PathPreview: '- Battle UI/PopupCanvas/ClearStageContainer/MenuBox/SelectTreasure/SelectTreasure3'
-  - PathHash: 7296767808682394288
-    AddressKey: dbaf53e7bca762e4ca8002e2b3261ca2
-    AssetPath: Assets/00_Imports/11_LCS_Assets/UI/Group 16.png
-    PathPreview: '- Battle UI/PopupCanvas/ClearStageContainer/MenuBox/SelectTreasure/SelectTreasure1'
   - PathHash: 2245863514795722229
     AddressKey: d6eb3acf2e024f84eba4a6269e4bc134
     AssetPath: Assets/00_Imports/DatingGameUI/Exports/CharacterScreen/CharacterContainer.png
@@ -1041,10 +989,6 @@ MonoBehaviour:
     AddressKey: f6b30aa533db96c43ade1c8ba5784ceb
     AssetPath: Assets/00_Imports/11_LCS_Assets/UI/Rectangle 35.png
     PathPreview: '- Battle UI/PopupCanvas/SettingConainer/MenuBox/IsOkaytoGoLobby/SubMenuBox/Button_No'
-  - PathHash: 7296771107217278921
-    AddressKey: dbaf53e7bca762e4ca8002e2b3261ca2
-    AssetPath: Assets/00_Imports/11_LCS_Assets/UI/Group 16.png
-    PathPreview: '- Battle UI/PopupCanvas/ClearStageContainer/MenuBox/SelectTreasure/SelectTreasure2'
   - PathHash: 1635924434963351285
     AddressKey: 0e3d32e53abe9a241a1a3086fa0a4b82
     AssetPath: Assets/00_Imports/11_LCS_Assets/UI/Rectangle 33.png
@@ -1162,6 +1106,10 @@ MonoBehaviour:
     AddressKey: b3aa72fb83080a942a7cf397f6860771
     AssetPath: Assets/00_Imports/12_LSR_Assets/Farm Game UI - Simple 2D UI/Sprites/256x256/panel_inner_2.png
     PathPreview: '- Roguelike UI/StageGlobalCanvas/ShoppingContainer/ShoppingPanel/MainPanel/TopContainer/BackgrounImage'
+  - PathHash: 2975176353529342928
+    AddressKey: dbaf53e7bca762e4ca8002e2b3261ca2
+    AssetPath: Assets/00_Imports/11_LCS_Assets/UI/Group 16.png
+    PathPreview: '- Battle UI/PopupCanvas/ClearStageContainer/MenuBox/SelectTreasure/RelicDetailUI/Popup_TreasureExplanation/TreasureExBG'
   - PathHash: 9313375991537256742
     AddressKey: 0a471cb1f9aef564d84b02f39772cd66
     AssetPath: Assets/00_Imports/10_LYH_Assets/TempCharacter/BW_BattleIcon.png
@@ -1207,10 +1155,6 @@ MonoBehaviour:
     AssetPath: Assets/00_Imports/12_LSR_Assets/Farm Game UI - Simple 2D UI/Sprites/256x256/panel_inner_2.png
     PathPreview: '- Roguelike UI/StageGlobalCanvas/InventoryContainer/Description
       Panel/BackgroundImage/IconBackgroundImage/IconImage'
-  - PathHash: 3152704967999260810
-    AddressKey: c9aca08061ecc37419462ae563e2036b
-    AssetPath: Assets/00_Imports/11_LCS_Assets/UI/Ellipse 4.png
-    PathPreview: '- Battle UI/PopupCanvas/ClearStageContainer/MenuBox/SelectTreasure/SelectTreasure1/Button_TreasureExplanation'
   - PathHash: 11769874915227007358
     AddressKey: 0e3d32e53abe9a241a1a3086fa0a4b82
     AssetPath: Assets/00_Imports/11_LCS_Assets/UI/Rectangle 33.png
@@ -1260,22 +1204,10 @@ MonoBehaviour:
     AddressKey: 1d7501232a26f3d4ba68eb61c8ac5dcf
     AssetPath: Assets/00_Imports/12_LSR_Assets/Farm Game UI - Simple 2D UI/Sprites/256x256/panel_2.png
     PathPreview: '- Roguelike UI/StageGlobalCanvas/ShoppingContainer/ShoppingPanel/MainPanel/MiddleContainer/IngredientButton2'
-  - PathHash: 11149953408786779162
-    AddressKey: 781799cc038aec24f9e14c5c4fbd96a0
-    AssetPath: Assets/00_Imports/11_LCS_Assets/UI/Dopboki1-01.png
-    PathPreview: '- Battle UI/PopupCanvas/ClearStageContainer/MenuBox/SelectTreasure/SelectTreasure3/Button_TreasureExplanation/Image'
   - PathHash: 712494620572494504
     AddressKey: d6eb3acf2e024f84eba4a6269e4bc134
     AssetPath: Assets/00_Imports/DatingGameUI/Exports/CharacterScreen/CharacterContainer.png
     PathPreview: '- Roguelike UI/StageGlobalCanvas/PartyContainer/PartyPanel/SelectedCharContainer/SelectedChar2/CharacterBackgroundImage'
-  - PathHash: 2441635334398975501
-    AddressKey: dbaf53e7bca762e4ca8002e2b3261ca2
-    AssetPath: Assets/00_Imports/11_LCS_Assets/UI/Group 16.png
-    PathPreview: '- Battle UI/PopupCanvas/ClearStageContainer/MenuBox/SelectTreasure/Popup_TreasureExplanation/TreasureImgBG'
-  - PathHash: 5140013659221939115
-    AddressKey: 781799cc038aec24f9e14c5c4fbd96a0
-    AssetPath: Assets/00_Imports/11_LCS_Assets/UI/Dopboki1-01.png
-    PathPreview: '- Battle UI/PopupCanvas/ClearStageContainer/MenuBox/SelectTreasure/SelectTreasure2/Button_TreasureExplanation/Image'
   - PathHash: 6633995344143605367
     AddressKey: 335f7c7ba8037d54386f17ba306f438f
     AssetPath: Assets/00_Imports/11_LCS_Assets/UI/Treasure.png
@@ -1321,10 +1253,6 @@ MonoBehaviour:
     AddressKey: 7dce5b391dddf81448e2b4c71f5820cf
     AssetPath: Assets/00_Imports/11_LCS_Assets/UI/StageBanner.png
     PathPreview: '- Battle UI/BattleUICanvas/BattleUIContainer/BattleUIPanel/TopUI/StageText'
-  - PathHash: 2203970155609806413
-    AddressKey: c9aca08061ecc37419462ae563e2036b
-    AssetPath: Assets/00_Imports/11_LCS_Assets/UI/Ellipse 4.png
-    PathPreview: '- Battle UI/PopupCanvas/ClearStageContainer/MenuBox/SelectTreasure/SelectTreasure2/Button_TreasureExplanation'
   - PathHash: 17173805286799194700
     AddressKey: 1d7501232a26f3d4ba68eb61c8ac5dcf
     AssetPath: Assets/00_Imports/12_LSR_Assets/Farm Game UI - Simple 2D UI/Sprites/256x256/panel_2.png
@@ -1350,14 +1278,14 @@ MonoBehaviour:
     AddressKey: 088fc6bac380aac46956f3962150b793
     AssetPath: Assets/00_Imports/DatingGameUI/Exports/Settings/MasterVolumeContainer.png
     PathPreview: '- Roguelike UI/StageGlobalCanvas/PopupSettingContainer/SettingPanel/Midle/MasterVolumeSlider'
+  - PathHash: 5603194310893550378
+    AddressKey: dbaf53e7bca762e4ca8002e2b3261ca2
+    AssetPath: Assets/00_Imports/11_LCS_Assets/UI/Group 16.png
+    PathPreview: '- Battle UI/PopupCanvas/ClearStageContainer/MenuBox/SelectTreasure/RelicDetailUI/Popup_TreasureExplanation/TreasureImgBG'
   - PathHash: 290651293701154651
     AddressKey: 1d7501232a26f3d4ba68eb61c8ac5dcf
     AssetPath: Assets/00_Imports/12_LSR_Assets/Farm Game UI - Simple 2D UI/Sprites/256x256/panel_2.png
     PathPreview: '- Roguelike UI/StageGlobalCanvas/CookingContainer/CookingPanel/MainPanel/RecipeContainer/Ingredient1'
-  - PathHash: 11569921536744155189
-    AddressKey: dbaf53e7bca762e4ca8002e2b3261ca2
-    AssetPath: Assets/00_Imports/11_LCS_Assets/UI/Group 16.png
-    PathPreview: '- Battle UI/PopupCanvas/ClearStageContainer/MenuBox/SelectTreasure/Popup_TreasureExplanation'
   - PathHash: 5801146177513124324
     AddressKey: 088fc6bac380aac46956f3962150b793
     AssetPath: Assets/00_Imports/DatingGameUI/Exports/Settings/MasterVolumeContainer.png
