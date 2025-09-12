@@ -10,27 +10,25 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a5539c5b86c1dd94eb1cf013975553ba, type: 3}
-  m_Name: GhostBat_Data
+  m_Name: FieldMouse_Data
   m_EditorClassIdentifier: 
-  MonId: 21005
-  MonName: "\uADC0\uC2E0 \uBC15\uC950"
-  MonEnName: 4
+  MonId: 21001
+  MonName: "\uC2DC\uACE8 \uB4E4\uC950"
+  MonEnName: 0
   MonType: 0
   MonSummon: 0
-  MonAtkRange: 3
-  MonMoveSpeed: 1
+  MonAtkRange: 1
+  MonMoveSpeed: 1.2
   MonSkill: 
   MonSummonID: 
-  MonTag: "#\uC6D0\uAC70\uB9AC"
+  MonTag: "#\uADFC\uAC70\uB9AC"
   MonDescription:
-  - "\uADC0\uC2E0 \uB4E4\uB9B0 \uC0DD\uBA85\uCCB4\uB97C \uD761\uD608\uD558\uC5EC
-    \uBAB8\uC9D1\uACFC \uD798\uC774 \uAC15\uD574\uC9C4 \uBC15\uC950"
-  - "\uC77C\uBC18 \uBC15\uC950 \uBCF4\uB2E4 \uAC15\uB825\uD55C \uCD08\uC74C\uD30C\uB97C
-    \uB0B4\uBFDC\uC5B4 \uC801\uC744 \uACF5\uACA9\uD55C\uB2E4.\r"
+  - "\uC2DC\uACE8\uC5D0\uC11C \uD754\uD788 \uBCFC \uC218 \uC788\uB294 \uB4E4\uC950."
+  - "\uB369\uCE58\uB294 \uC791\uC9C0\uB9CC, \uBB3C\uB9AC\uC9C0 \uC54A\uAC8C \uC870\uC2EC\uD558\uC790.\r"
   MonLv: 1
   MonBreak: 0
-  BreakGage: 0
-  MonHP: 200
+  MonBreakGage: -1
+  MonHP: 1000
   MonHPIncrase: 0.1
   MonAtkSpeed: 0.7
   MonAttack: 10
@@ -38,12 +36,11 @@ MonoBehaviour:
   MonArmor: 20
   MonArmorIncrease: 0.1
   MonAccuracy: 100
-  MonAvoid: 10
+  MonAvoid: 0
   MonAvoidIncrease: 2
   MonReg: 0
-  _prefab: {fileID: 3833880438077353650, guid: 851a93c6574cc0649a562531a558982b, type: 3}
+  _prefab: {fileID: 3833880438077353650, guid: bd99561b9ab62854398e1eeab4ea558e, type: 3}
   _useSkillTime: 0
   _monActiveSkill_1: {fileID: 0}
   _monActiveSkill_2: {fileID: 0}
-  _recallSkills: []
-  _monterRecallSkill: {fileID: 0}
+  _recallSkills: {fileID: 0}
