@@ -107,54 +107,70 @@ public class MapGenerator : MonoBehaviour
         }
     }
 
+
     private void AssignNodeTypesToPaths(Node start, Node end)
     {
+        // --- 1. 일반 규칙을 적용합니다. ---
+
+        // 시작 노드 바로 다음 층은 모두 'Battle'로 설정
         foreach (var node in _map[start.point.x + 1].Where(n => n.nodeType == NodeType.Event))
         {
             node.nodeType = NodeType.Battle;
         }
 
-        foreach (var node in _map[4].Where(n => n.nodeType == NodeType.Battle))
+        // 2번 인덱스 층(3번째 층)은 'Battle'과 'Event'를 50% 확률로 설정
+        foreach (var node in _map[2].Where(n => n.nodeType == NodeType.Event))
         {
-            node.nodeType = NodeType.Event;
+            node.nodeType = Random.value > 0.5f ? NodeType.Battle : NodeType.Event;
         }
 
-        var floor2Nodes = _map[2].Where(n => n.nodeType == NodeType.Event).ToList();
-        foreach (var node2 in floor2Nodes)
+        // 3번 인덱스 층(4번째 층)은 이전 노드 타입에 따라 'Battle' 또는 'Event'로 설정
+        foreach (var childNode in _map[3].Where(n => n.nodeType != NodeType.NotAssigned && n.nodeType != NodeType.Start && n.nodeType != NodeType.Boss))
         {
-            node2.nodeType = Random.value > 0.5f ? NodeType.Battle : NodeType.Event;
-        }
-
-        var floor3Nodes = _map[3].Where(n =>
-            n.nodeType != NodeType.NotAssigned && n.nodeType != NodeType.Start && n.nodeType != NodeType.Boss).ToList();
-        foreach (var childNode in floor3Nodes)
-        {
-            var parents = childNode.previousNodes;
-            if (parents.Any())
+            if (childNode.previousNodes.Any())
             {
-                childNode.nodeType = parents.Any(p => p.nodeType == NodeType.Event) ? NodeType.Battle : NodeType.Event;
+                childNode.nodeType = childNode.previousNodes.Any(p => p.nodeType == NodeType.Event) ? NodeType.Battle : NodeType.Event;
             }
         }
 
-        var eventNodes = _map.SelectMany(floor => floor).Where(node => node.nodeType == NodeType.Event);
-        foreach (var eventNode in eventNodes)
+        // --- 2. 모든 'Event' 노드에 감정 타입을 할당합니다. ---
+
+        var allEventNodes = _map.SelectMany(floor => floor).Where(node => node.nodeType == NodeType.Event);
+        foreach (var eventNode in allEventNodes)
         {
-            // 1. 노드에 긍정/부정/중립/미묘 감정 타입을 랜덤으로 할당
-            // EventTypeKC enum에서 실제 감정을 나타내는 값들만 추립니다.
+            // 일단 모든 이벤트 노드에 랜덤 감정을 할당합니다.
             var sentimentTypes = new List<EventTypeKC>
-                { EventTypeKC.Positive, EventTypeKC.Negative, EventTypeKC.Neutral, EventTypeKC.Subtlety };
+            { EventTypeKC.Positive, EventTypeKC.Negative, EventTypeKC.Neutral, EventTypeKC.Subtlety };
             eventNode.EventTypeKC = sentimentTypes[Random.Range(0, sentimentTypes.Count)];
+        }
 
-            // 2. 위에서 만든 변환 함수를 사용해 안전하게 Sentiment 타입을 얻습니다.
+        // --- 3. [가장 중요] MapNodeIdentifier의 설정값을 읽어와서 덮어씁니다. ---
+
+        var nodeIdentifiers = mapTemplatePrefab.GetComponentsInChildren<MapNodeIdentifier>(true);
+        foreach (var identifier in nodeIdentifiers)
+        {
+            // "긍정 이벤트로 고정"이 체크된 Identifier를 찾습니다.
+            if (identifier.forcePositiveEvent)
+            {
+                // 해당 Identifier에 연결된 실제 노드 데이터를 가져옵니다.
+                var node = _map[identifier.floorIndex][identifier.nodeIndexInFloor];
+
+                // 타입과 감정을 'Positive' 이벤트로 강제 설정합니다.
+                node.nodeType = NodeType.Event;
+                node.EventTypeKC = EventTypeKC.Positive;
+            }
+        }
+
+        // --- 4. 최종적으로 모든 'Event' 노드에 EncounterID를 할당합니다. ---
+
+        var finalEventNodes = _map.SelectMany(floor => floor).Where(node => node.nodeType == NodeType.Event);
+        foreach (var eventNode in finalEventNodes)
+        {
             var sentiment = ConvertEventTypeToSentiment(eventNode.EventTypeKC);
-
-            // 3. DataManager에게 노드의 감정 타입과 현재 스테이지에 맞는 랜덤 사건 ID를 요청하여 저장
-            int currentStage = eventNode.point.x; // 노드의 floor index를 스테이지로 간주
+            int currentStage = eventNode.point.x;
             if (_dataManager != null)
             {
                 eventNode.EncounterID = _dataManager.GetRandomEncounterID(sentiment, currentStage);
-                // Debug.Log(
-                //     $"노드 ({eventNode.point.x}, {eventNode.point.y})에 감정({sentiment}), 스테이지({currentStage})에 따른 사건 ID {eventNode.EncounterID} 할당됨.");
             }
             else
             {

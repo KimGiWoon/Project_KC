@@ -115,25 +115,6 @@ namespace CJH
 
             if (currentMap.Path.Contains(selectedNode.nodeData)) return;
             currentMap.Path.Add(selectedNode.nodeData);
-            // switch (selectedNode.nodeData.nodeType)
-            // {
-            //     case NodeType.Event:
-            //         // EventManager에게 스테이지 번호가 아닌, 노드가 가진 EncounterID를 직접 전달합니다.
-            //         //todo Player가 이동한 후 아래가 호출되어야 함
-            //         UpdateMapState(); // 임시로 맵 상태만 업데이트
-            //         break;
-            //
-            //     case NodeType.Battle:
-            //         // TODO: 전투 시작 로직 호출 (예: GameManager.Instance.StartBattle(...))
-            //         UpdateMapState(); // 임시로 맵 상태만 업데이트
-            //         break;
-            //
-            //
-            //     default:
-            //         // 그 외의 노드는 즉시 맵 상태를 업데이트
-            //         UpdateMapState();
-            //         break;
-            // }
             UpdateMapState();
         }
 

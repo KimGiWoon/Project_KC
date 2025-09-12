@@ -32,6 +32,21 @@ public class InGameItemManager : MonoBehaviour
         _relicInventory.Add(item);
         OnItemChanged?.Invoke();
     }
+
+    // CJH 코드 추가
+    public void RemoveItem(RelicDatas relicToRemove)
+    {
+        // 인벤토리에서 제거할 유물을 찾습니다.
+        InventoryItem itemToRemove = relicInventory.FirstOrDefault(r => r.relic == relicToRemove);
+
+        // 유물이 인벤토리에 있으면 제거합니다.
+        if (itemToRemove != null)
+        {
+            relicInventory.Remove(itemToRemove);
+            OnItemChanged?.Invoke(); // 아이템 변경 이벤트를 호출하여 UI를 업데이트합니다.
+        }
+    }
+
     public bool HasRelic(RelicDatas relic)
     {
         if (relic == null) return false;
