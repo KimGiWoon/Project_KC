@@ -42,20 +42,20 @@ namespace JJY
         // 활성 버프 리스트
         List<ActiveBuff> activeBuffs = new List<ActiveBuff>();
 
-        void Start()
-        {
+//         void Start()
+//         {
             
-// #if UNITY_EDITOR
-//             for (int i = 0; i < testInventory.Count; i++)
-//             {
-//                 if (testInventory[i].relic == null && testInventory[i].recipe == null) continue;
-//                 if (testInventory[i].relic != null) GameManager.Instance.InGameItem.AddItem(testInventory[i].relic);
-//                 if (testInventory[i].recipe != null) GameManager.Instance.InGameItem.AddItem(testInventory[i].recipe);
-//                 // if (logActions) Debug.Log($"{testRelicInventory[i].relic.relicEnName}추가됨");
-//             }
-// #endif
-            InitFoodIcon();
-        }
+// // #if UNITY_EDITOR
+// //             for (int i = 0; i < testInventory.Count; i++)
+// //             {
+// //                 if (testInventory[i].relic == null && testInventory[i].recipe == null) continue;
+// //                 if (testInventory[i].relic != null) GameManager.Instance.InGameItem.AddItem(testInventory[i].relic);
+// //                 if (testInventory[i].recipe != null) GameManager.Instance.InGameItem.AddItem(testInventory[i].recipe);
+// //                 // if (logActions) Debug.Log($"{testRelicInventory[i].relic.relicEnName}추가됨");
+// //             }
+// // #endif
+//             InitFoodIcon();
+//         }
 
         void Update()
         {
@@ -79,7 +79,7 @@ namespace JJY
                 }
         }
 
-        void InitFoodIcon()
+        public void InitFoodIcon()
         {
             for (int i = foodContent.childCount - 1; i >= 0; i--)
             {

@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using JJY;
 using SDW;
 using UnityEngine;
 
@@ -39,6 +40,9 @@ public class BattleManager : MonoBehaviour
     public bool IsLastBoss => _isLastBoss;
     [SerializeField] public GameObject _wall;
     public GameObject Wall => _wall;
+
+    [Header("BuffManager")]
+    [SerializeField] private BuffManager buffManager;
 
     // 생성된 캐릭터 보관
     public List<MyCharacterController> _characters = new List<MyCharacterController>();
@@ -360,7 +364,11 @@ public class BattleManager : MonoBehaviour
         }
     }
 
-    private void BattleStart() => _isBattleStarted = true;
+    private void BattleStart()
+    {
+        buffManager?.InitFoodIcon();
+        _isBattleStarted = true;
+    }
 
     #region 캐릭터의 액티브 스킬 동작
 
