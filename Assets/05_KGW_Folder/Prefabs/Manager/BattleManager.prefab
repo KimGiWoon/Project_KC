@@ -44,18 +44,44 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec41e51fa09b82d4ebe36e2845c2bf20, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _dontDestroyOnLoad: 1
   _characterSpawnPoint:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  _monsterSpawnPoint: {fileID: 0}
+  _characterResurrectionPoint:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  _monsterSpawnPoint:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  _bossSpawnPoint: {fileID: 0}
+  _characterList:
+  - {fileID: 11400000, guid: 65f2c3ff647fbb64882a5e1b70abfa2e, type: 2}
+  - {fileID: 11400000, guid: 103b7f3043d88a9429d25209c9d1f182, type: 2}
+  - {fileID: 11400000, guid: 9ed735c570481004a8718f1c6026da54, type: 2}
   _monsterList:
-  - {fileID: 11400000, guid: 64427ff466a91b547a9fe286fa731173, type: 2}
-  - {fileID: 11400000, guid: 64427ff466a91b547a9fe286fa731173, type: 2}
-  - {fileID: 11400000, guid: 64427ff466a91b547a9fe286fa731173, type: 2}
-  - {fileID: 11400000, guid: 64427ff466a91b547a9fe286fa731173, type: 2}
-  - {fileID: 11400000, guid: 64427ff466a91b547a9fe286fa731173, type: 2}
-  _clearPanel: {fileID: 0}
+  - {fileID: 11400000, guid: e40e68bac195a3d4ca495c39b3c68f55, type: 2}
+  - {fileID: 11400000, guid: e40e68bac195a3d4ca495c39b3c68f55, type: 2}
+  - {fileID: 11400000, guid: e40e68bac195a3d4ca495c39b3c68f55, type: 2}
+  _eliteList: []
+  _bossList:
+  - {fileID: 11400000, guid: 436d8ae2a98747d47971bec028c6cfe8, type: 2}
+  _isLocalBoss: 0
+  _isLastBoss: 0
+  _wall: {fileID: 0}
+  buffManager: {fileID: 0}
+  _characters: []
+  _monsters: []
+  _bossMonster: []
+  _battleUI: {fileID: 0}
   _monsterCount: 0
   _characterCount: 0
+  _isClear: 0
+  _isGameOver: 0
+  _isTimeOver: 0
+  _canResurrection: 0
+  _timer: 5
+  _monsterTotalMaxHp: 0
+  _monsterTotalCurrentHp: 0
