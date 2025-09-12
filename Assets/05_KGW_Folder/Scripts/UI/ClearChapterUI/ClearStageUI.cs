@@ -39,6 +39,12 @@ namespace SDW
             _confirmButton.onClick.RemoveListener(ConfirmButtonClicked);
         }
 
+        public override void Open()
+        {
+            base.Open();
+            _confirmButton.interactable = false;
+        }
+
         private void ConfirmButtonClicked()
         {
             GetRelic();
@@ -63,7 +69,6 @@ namespace SDW
         public void ShowRelic(List<RelicDatas> relics, RelicGrade grade)
         {
             RelicWindow.SetActive(true);
-            _confirmButton.interactable = true;
             foreach (Transform child in content)
             {
                 Destroy(child.gameObject);
@@ -79,6 +84,7 @@ namespace SDW
 
         private void OnClickRelic(RelicUI relicUI)
         {
+            _confirmButton.interactable = true;
             currentRelicUI = relicUI;
         }
     }
