@@ -241,7 +241,10 @@ namespace JJY
 
             _coin.SubtractYeopjeon(data.price);
             if (logAction) Debug.Log($"아이템 {data.ingredient} 구매: 엽전 {_coin.yeopjeon}개 보유중");
-            CookManager.Instance.playerIngredientInventory[data.ingredient]++;
+            if (!CookManager.Instance.playerIngredientInventory.ContainsKey(data.ingredient))
+                CookManager.Instance.playerIngredientInventory[data.ingredient] = 1;
+            else
+                CookManager.Instance.playerIngredientInventory[data.ingredient]++;
             slotDatas[selectedSlotIndex].sold = true;
             selectedSlotIndex = -1;
             UpdateSlotUI();

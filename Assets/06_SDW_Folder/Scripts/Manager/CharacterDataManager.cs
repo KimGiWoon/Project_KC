@@ -54,12 +54,21 @@ namespace SDW
 
         private List<CharacterDataSO> _selectedTeam = new List<CharacterDataSO>();
         public List<CharacterDataSO> SelectedTeam => _selectedTeam;
+        private GameManager _gameManager;
+        private bool _isDownloaded;
+
+        private void Start()
+        {
+            _gameManager = GameManager.Instance;
+        }
 
         /// <summary>
         /// 각 Data Table 데이터 연결
         /// </summary>
-        private void Start()
+        private void Update()
         {
+            if (!_gameManager.CompleteDownload || !_gameManager.ImageSpriteConnected || !_gameManager.PrefabAndSoConnected ||
+                _isDownloaded) return;
             LoadCharacterBase();
             LoadCharacterType();
             LoadCharacterUpgrade();
@@ -68,6 +77,7 @@ namespace SDW
             LoadCharacterSO();
 
             StartCoroutine(DelayedInit());
+            _isDownloaded = true;
         }
 
         private IEnumerator DelayedInit()

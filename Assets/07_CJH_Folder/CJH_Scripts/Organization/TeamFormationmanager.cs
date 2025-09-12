@@ -187,11 +187,18 @@ public class TeamFormationManager : MonoBehaviour
 
     public void OnClose()
     {
+        _charData.SelectedTeam.Clear();
+
         for (int i = 0; i < _prevFinalTeamSlots.Count; i++)
         {
             finalTeamSlots[i].characterImage.sprite = _prevFinalTeamSlots[i].Sprite;
             finalTeamSlots[i].characterButton.interactable = false;
             finalTeamSlots[i].levelText.text = _prevFinalTeamSlots[i].LevelText;
+            finalTeamSlots[i].characterData = _prevFinalTeamSlots[i].Data;
+            finalTeamSlots[i].gameObject.SetActive(true);
+
+            _charData.SelectedTeam.Add(_prevFinalTeamSlots[i].Data);
+
             finalTeamSlots[i].characterData = _prevFinalTeamSlots[i].Data;
             finalTeamSlots[i].gameObject.SetActive(true);
         }

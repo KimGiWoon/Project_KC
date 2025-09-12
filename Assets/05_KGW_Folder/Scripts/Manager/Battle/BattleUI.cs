@@ -14,9 +14,6 @@ public class BattleUI : BaseUI
     [SerializeField] public CharacterInfoSlotUI[] _infoSlot = new CharacterInfoSlotUI[3];
 
     [Header("Panel UI Reference")]
-    [SerializeField] public GameObject _clearStageUI;
-    [SerializeField] public GameObject _noneRemoveADUI;
-    [SerializeField] public GameObject _RemoveADUI;
     [SerializeField] public GameObject _popupUI;
 
     [Header("Option UI Setting")]
