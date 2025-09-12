@@ -115,7 +115,6 @@ public class BattleManager : MonoBehaviour
         if (!_gameManager.CompleteDownload || !_gameManager.ImageSpriteConnected || !_gameManager.PrefabAndSoConnected ||
             _isSpawned || !_isBattleStarted) return;
         // if(_isDownloaded) return;
-        _battleUI = FindObjectOfType<BattleUI>();
 
         //_isLocalBoss = ;
         //todo BossFinal과 Boss는 구분되어야 함 - 아래 코드는 Test 코드
@@ -221,6 +220,7 @@ public class BattleManager : MonoBehaviour
             monterOIL.sortingOrder = 10 + i;
             // 생성된 캐릭터 저장
             var createMonster = monster.GetComponent<MonsterController>();
+            createMonster.Battle = this;
             _monsters.Add(createMonster);
 
             // 통합 제력 저장

@@ -9,7 +9,8 @@ using UnityEngine.UI;
 public class MonsterController : UnitBaseData
 {
     [Header("Monster Data Setting")]
-    [SerializeField] MonsterDataSO _monsterData; // 몬스터 데이터
+    [SerializeField]
+    private MonsterDataSO _monsterData; // 몬스터 데이터
     [SerializeField] private Slider _monsterHp;
 
     [Header("Attack Unit List")]
@@ -32,6 +33,7 @@ public class MonsterController : UnitBaseData
     private MonsterController _monster;
     private float _saveAttackValue;
     private Coroutine _bossBreakRoutine;
+    public BattleManager Battle;
 
     // 체력 절반 이벤트
     public event Action OnHalfHp;
@@ -46,7 +48,9 @@ public class MonsterController : UnitBaseData
 
     protected override void Update()
     {
+        if (_battleManager._isGameOver || _battleUI._isOnMenu || _isStern) return;
         base.Update();
+
 
         UseSkill();
     }
@@ -208,10 +212,14 @@ public class MonsterController : UnitBaseData
     // 몬스터 레벨 업 스텟 적용
     private void LevelUpStatUpdate()
     {
-        _monsterState._monCurrentHP = _monsterState._monCurrentHP + (_monsterState._monLevel - 1) * _monsterState._monHPIncrase * _monsterState._monCurrentHP;
-        _monsterState._monMaxHP = _monsterState._monMaxHP + (_monsterState._monLevel - 1) * _monsterState._monHPIncrase * _monsterState._monMaxHP;
-        _monsterState._monAttack = _monsterState._monAttack + (_monsterState._monLevel - 1) * _monsterState._monAttackIncrease * _monsterState._monAttack;
-        _monsterState._monArmor = _monsterState._monArmor + (_monsterState._monLevel - 1) * _monsterState._monArmorIncrease * _monsterState._monArmor;
+        _monsterState._monCurrentHP = _monsterState._monCurrentHP +
+                                      (_monsterState._monLevel - 1) * _monsterState._monHPIncrase * _monsterState._monCurrentHP;
+        _monsterState._monMaxHP = _monsterState._monMaxHP +
+                                  (_monsterState._monLevel - 1) * _monsterState._monHPIncrase * _monsterState._monMaxHP;
+        _monsterState._monAttack = _monsterState._monAttack +
+                                   (_monsterState._monLevel - 1) * _monsterState._monAttackIncrease * _monsterState._monAttack;
+        _monsterState._monArmor = _monsterState._monArmor +
+                                  (_monsterState._monLevel - 1) * _monsterState._monArmorIncrease * _monsterState._monArmor;
         _monsterState._monAvoid = _monsterState._monAvoid + (_monsterState._monLevel - 1) * _monsterState._monAvoidIncrease;
     }
 
@@ -388,7 +396,7 @@ public class MonsterController : UnitBaseData
         _monsterState._monCurrentHP += healValue;
 
         // 현재 체력이 최대 체력보다 크면 최대 체력으로 세팅
-        if(_monsterState._monCurrentHP >= _monsterState._monMaxHP)
+        if (_monsterState._monCurrentHP >= _monsterState._monMaxHP)
         {
             _monsterState._monCurrentHP = _monsterState._monMaxHP;
         }
@@ -412,12 +420,13 @@ public class MonsterController : UnitBaseData
     {
         // 데미지 계산
         float reduction = _monsterState._monArmor / (_monsterState._monArmor + 100);
-        float buffReduction = (_monsterState._reductionUpValue - _monsterState._reductionDownValue);
+        float buffReduction = _monsterState._reductionUpValue - _monsterState._reductionDownValue;
         float finalReduction = MathF.Min(reduction + buffReduction, 0.95f);
         float finalDamage = damage * (1 - finalReduction);
 
         Debug.Log($"몬스터 방어력 : {_monsterState._monArmor}");
-        Debug.Log($"몬스터가 받은 데미지 계산 Reduction : {reduction}, BuffReduction : {buffReduction}, FinalReduction : {finalReduction}, FinalDamage : {finalDamage}");
+        Debug.Log(
+            $"몬스터가 받은 데미지 계산 Reduction : {reduction}, BuffReduction : {buffReduction}, FinalReduction : {finalReduction}, FinalDamage : {finalDamage}");
         return finalDamage;
     }
 
@@ -439,7 +448,7 @@ public class MonsterController : UnitBaseData
         Debug.Log($"{_monsterState._monEnName} 회피율 : {evasionRate}");
 
         // 회피 가능 확인
-        bool isEvasion = (UnityEngine.Random.value < evasionRate) ? true : false;
+        bool isEvasion = UnityEngine.Random.value < evasionRate ? true : false;
 
         return isEvasion;
     }
@@ -447,7 +456,7 @@ public class MonsterController : UnitBaseData
     // 보스 몬스터 그로기 확인
     private void BossBreakCheck()
     {
-        if(_breakCount == _monsterState._monbreakGage)
+        if (_breakCount == _monsterState._monbreakGage)
         {
             _isStern = true;
             // 보스 그로기 타임
@@ -466,6 +475,7 @@ public class MonsterController : UnitBaseData
     }
 
     #region 캐릭터의 패시브 스킬 효과
+
     // 사기 저하 패시브 스킬
     public void AttackDownPassive(float saveAttack, float attackDownValue, float duration)
     {
@@ -491,5 +501,6 @@ public class MonsterController : UnitBaseData
             _monsterState._monAttack = _saveAttackValue;
         }
     }
+
     #endregion
 }
