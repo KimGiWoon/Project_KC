@@ -15,6 +15,7 @@ public class BattleUI : BaseUI
 
     [Header("Panel UI Reference")]
     [SerializeField] public GameObject _popupUI;
+    [SerializeField] public GameObject _bottomUI;
 
     [Header("Option UI Setting")]
     [SerializeField] private Button _optionButton;
@@ -45,6 +46,7 @@ public class BattleUI : BaseUI
         _isOnMenu = false;
         _isFast = false;
         _panelContainer.SetActive(false);
+        _bottomUI.SetActive(false);
         _fastButtonX2.onClick.AddListener(X2FastButtonClick);
         _optionButton.onClick.AddListener(MenuButtonClick);
     }
@@ -80,6 +82,18 @@ public class BattleUI : BaseUI
 
         _fastButtonX2.onClick.RemoveListener(X2FastButtonClick);
         _optionButton.onClick.RemoveListener(MenuButtonClick);
+    }
+
+    public override void Open()
+    {
+        base.Open();
+        _bottomUI.SetActive(true);
+    }
+
+    public override void Close()
+    {
+        base.Close();
+        _bottomUI.SetActive(false);
     }
 
     private void BattleStart()
