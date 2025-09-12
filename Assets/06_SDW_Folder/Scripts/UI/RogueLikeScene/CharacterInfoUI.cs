@@ -76,6 +76,8 @@ namespace SDW
             _passiveSkillDescriptionText.text = GetDescription(passiveSkill, characterBaseData);
 
             var activeSkill = data._chaActiveSkill;
+            if (activeSkill == null) return;
+
             if (activeSkill._chaSkillID == -1) return;
 
             _activeSkillImage.sprite = data._activeSkillSprite;
