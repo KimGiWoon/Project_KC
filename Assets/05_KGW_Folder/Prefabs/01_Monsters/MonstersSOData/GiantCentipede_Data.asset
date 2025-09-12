@@ -29,8 +29,8 @@ MonoBehaviour:
     \uB2F4\uAD88 \uBA39\uB294\uB2E4\uACE0\uB3C4 \uD55C\uB2E4.\r"
   MonLv: 1
   MonBreak: 0
-  BreakGage: 0
-  MonHP: 200
+  MonBreakGage: -1
+  MonHP: 12000
   MonHPIncrase: 0.1
   MonAtkSpeed: 0.7
   MonAttack: 10
@@ -45,5 +45,4 @@ MonoBehaviour:
   _useSkillTime: 0
   _monActiveSkill_1: {fileID: 0}
   _monActiveSkill_2: {fileID: 0}
-  _recallSkills: []
-  _monterRecallSkill: {fileID: 0}
+  _recallSkills: {fileID: 0}
