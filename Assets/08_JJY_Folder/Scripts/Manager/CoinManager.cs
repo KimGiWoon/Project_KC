@@ -100,6 +100,13 @@ namespace JJY
             yeopjeon -= value;
             if (yeopjeon < 0) yeopjeon = 0;
         }
+
+        public void ClearYeopjeon()
+        {
+            yeopjeon = 0;
+            totalYeopjeon = 0;
+        }
+
         /// <summary>
         /// StarCandy 재화 증가
         /// </summary>
