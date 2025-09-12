@@ -27,8 +27,8 @@ namespace KSH
             relics = Resources.LoadAll<RelicDatas>("Relics").ToList();
             relicRarityPicker = new WeightedRandom<RelicGrade>();
             //TODO : 확률 정해지면 다시 넣기 (임의로 노말 80 레어 20)
-            relicRarityPicker.Add(RelicGrade.Normal, 99);
-            relicRarityPicker.Add(RelicGrade.Rare, 1);
+            relicRarityPicker.Add(RelicGrade.Normal, 1);
+            relicRarityPicker.Add(RelicGrade.Rare, 99);
         }
 
         //테스트용
@@ -37,7 +37,6 @@ namespace KSH
             if (Input.GetKeyDown(KeyCode.R)) //테스트용
             {
                 RarityPick(RelicKind.Buf, 3);
-                relicResultUI.RelicWindow.SetActive(true);
             }
         }
 
@@ -78,8 +77,8 @@ namespace KSH
                 GameManager.Instance.InGameItem.AddItem(relic);
 
                 Debug.Log($"{relic.relicName} 획득");
-                //todo 추후 전투 Scene에 들어갈 때 한번에 유물드 효과를 적용하도록 수정 필요
-                // BuffRelicManager.Instance.ApplyRelicEffect(relic); //아이템 효과적용
+                //todo 추후 전투 Scene에 들어갈 때 한번에 유물들 효과를 적용하도록 수정 필요
+                //BuffRelicManager.Instance.ApplyRelicEffect(relic); //아이템 효과적용
             }
         }
     }
