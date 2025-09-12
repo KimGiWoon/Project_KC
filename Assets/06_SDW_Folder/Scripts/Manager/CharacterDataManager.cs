@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace SDW
@@ -37,6 +38,23 @@ namespace SDW
             new Dictionary<CharacterSkillEnName, CharacterSkillFileData>();
         public Dictionary<CharacterSkillEnName, CharacterSkillFileData> ChaEnNameSkillData => _chaEnNameSkillData;
 
+        //# Character List
+        [SerializeField] private List<CharacterDataSO> _characterLists; //캐릭터 리스트
+        public List<CharacterDataSO> CharacterLists => _characterLists;
+
+        private Dictionary<CharacterEnName, CharacterDataSO> _characterEnNameData =
+            new Dictionary<CharacterEnName, CharacterDataSO>();
+        public Dictionary<CharacterEnName, CharacterDataSO> CharacterEnNameData => _characterEnNameData;
+
+        private Dictionary<string, bool> _ownedCharacters = new Dictionary<string, bool>();
+        public Dictionary<string, bool> OwnedCharacters => _ownedCharacters;
+
+        private HashSet<CharacterDataSO> _allOwnedCharacters = new HashSet<CharacterDataSO>();
+        public HashSet<CharacterDataSO> AllOwnedCharacters => _allOwnedCharacters;
+
+        private List<CharacterDataSO> _selectedTeam = new List<CharacterDataSO>();
+        public List<CharacterDataSO> SelectedTeam => _selectedTeam;
+
         /// <summary>
         /// 각 Data Table 데이터 연결
         /// </summary>
@@ -47,6 +65,22 @@ namespace SDW
             LoadCharacterUpgrade();
             LoadCharacterLevelUpStat();
             LoadCharacterSkill();
+            LoadCharacterSO();
+
+            StartCoroutine(DelayedInit());
+        }
+
+        private IEnumerator DelayedInit()
+        {
+            yield return new WaitForSeconds(0.5f);
+
+            //# 기본 캐릭터 추가
+            GameManager.Instance.Reward.ProcessCharacter(_characterEnNameData[CharacterEnName.SIL]);
+            GameManager.Instance.Reward.ProcessCharacter(_characterEnNameData[CharacterEnName.BW]);
+            GameManager.Instance.Reward.ProcessCharacter(_characterEnNameData[CharacterEnName.HSR]);
+            _selectedTeam.Add(_characterEnNameData[CharacterEnName.SIL]);
+            _selectedTeam.Add(_characterEnNameData[CharacterEnName.BW]);
+            _selectedTeam.Add(_characterEnNameData[CharacterEnName.HSR]);
         }
 
         /// <summary>
@@ -118,6 +152,14 @@ namespace SDW
             {
                 _chaIdSkillData[chaSkill.ChaSkillID] = chaSkill;
                 _chaEnNameSkillData[chaSkill.ChaSkillEnName] = chaSkill;
+            }
+        }
+
+        private void LoadCharacterSO()
+        {
+            foreach (var character in _characterLists)
+            {
+                _characterEnNameData[character._chaBaseData.ChaEnName] = character;
             }
         }
     }

@@ -19,12 +19,11 @@ public class TeamFormationManager : MonoBehaviour
     [SerializeField] private List<FinalTeamSlot> finalTeamSlots; // 첫 번째 패널의 슬롯 3개
     private List<TeamCharacterInfo> _prevFinalTeamSlots = new List<TeamCharacterInfo>();
 
-    [Header("--- 데이터 (테스트용) ---")]
-    [SerializeField] private List<CharacterDataSO> allOwnedCharacters;
+    private List<CharacterDataSO> _sortedCharacterData = new List<CharacterDataSO>();
 
-    private List<CharacterDataSO> selectedTeam = new List<CharacterDataSO>();
     private List<SelectableCharacterSlot> selectableSlots = new List<SelectableCharacterSlot>();
     private CharacterDataSO _lastSelectedCharacter;
+    private CharacterDataManager _charData;
 
     private void Awake()
     {
@@ -36,8 +35,28 @@ public class TeamFormationManager : MonoBehaviour
         }
     }
 
+    private void Start()
+    {
+        _charData = GameManager.Instance.CharacterData;
+        InitPartUI();
+    }
+
+    public void InitPartUI()
+    {
+        for (int i = 0; i < _charData.SelectedTeam.Count; i++)
+        {
+            finalTeamSlots[i].characterImage.sprite = _charData.SelectedTeam[i]._characterSprite;
+            finalTeamSlots[i].characterButton.interactable = false;
+            finalTeamSlots[i].levelText.text = _charData.SelectedTeam[i]._chaLv.ToString();
+            finalTeamSlots[i].characterData = _charData.SelectedTeam[i];
+            finalTeamSlots[i].gameObject.SetActive(true);
+        }
+    }
+
     public void Initialize()
     {
+        _charData = GameManager.Instance.CharacterData;
+
         for (int i = 0; i < finalTeamSlots.Count; i++)
         {
             _prevFinalTeamSlots.Add(new TeamCharacterInfo
@@ -48,16 +67,13 @@ public class TeamFormationManager : MonoBehaviour
             });
         }
 
-        //# 1. Level - 내ㅊ림        
         //# 1. Level - 내림차순, 2. 이름 - 오름차순
-        //# 1. Level - 내림차순, 2. 이름 - 오름차순
-        var sorted = allOwnedCharacters
+        _sortedCharacterData = _charData.AllOwnedCharacters
             .OrderByDescending(name => name._chaLv)
-            .ThenBy(name => name._chaBaseData.ChaName);
+            .ThenBy(name => name._chaBaseData.ChaName)
+            .ToList();
 
-        allOwnedCharacters = sorted.ToList();
-
-        selectedTeam.Clear();
+        _charData.SelectedTeam.Clear();
         PopulateOwnedCharacterGrid();
         UpdateSelectedTeam();
         UpdateAllVisuals();
@@ -70,7 +86,7 @@ public class TeamFormationManager : MonoBehaviour
             Destroy(child.gameObject);
         }
         selectableSlots.Clear();
-        foreach (var characterData in allOwnedCharacters)
+        foreach (var characterData in _sortedCharacterData)
         {
             var slotGO = Instantiate(characterSlotPrefab, ownedCharacterGrid);
             var slotScript = slotGO.GetComponent<SelectableCharacterSlot>();
@@ -83,7 +99,7 @@ public class TeamFormationManager : MonoBehaviour
     {
         foreach (var finalTeam in finalTeamSlots)
         {
-            selectedTeam.Add(finalTeam.characterData);
+            _charData.SelectedTeam.Add(finalTeam.characterData);
         }
     }
 
@@ -93,7 +109,7 @@ public class TeamFormationManager : MonoBehaviour
         // 상단 슬롯 오버레이 업데이트
         foreach (var slot in selectableSlots)
         {
-            slot.UpdateSelectionVisual(selectedTeam.Contains(slot.GetCharacterData()));
+            slot.UpdateSelectionVisual(_charData.SelectedTeam.Contains(slot.GetCharacterData()));
         }
 
         UpdateFinalTeamPanel(finalTeamSlots);
@@ -106,9 +122,9 @@ public class TeamFormationManager : MonoBehaviour
         if (slots == null || slots.Count == 0) return;
         for (int i = 0; i < slots.Count; i++)
         {
-            if (i < selectedTeam.Count)
+            if (i < _charData.SelectedTeam.Count)
             {
-                slots[i].DisplayCharacter(selectedTeam[i]);
+                slots[i].DisplayCharacter(_charData.SelectedTeam[i]);
             }
             else
             {
@@ -131,22 +147,22 @@ public class TeamFormationManager : MonoBehaviour
     {
         //# 선택/비선택 구분
         _lastSelectedCharacter = character;
-        if (selectedTeam.Contains(character))
+        if (_charData.SelectedTeam.Contains(character))
         {
-            selectedTeam.Remove(character);
+            _charData.SelectedTeam.Remove(character);
         }
-        else if (selectedTeam.Count >= 3) return;
+        else if (_charData.SelectedTeam.Count >= 3) return;
         else
         {
-            selectedTeam.Add(character);
+            _charData.SelectedTeam.Add(character);
         }
         UpdateAllVisuals();
     }
     public void DeselectCharacter(CharacterDataSO character)
     {
-        if (selectedTeam.Contains(character))
+        if (_charData.SelectedTeam.Contains(character))
         {
-            selectedTeam.Remove(character);
+            _charData.SelectedTeam.Remove(character);
             UpdateAllVisuals();
         }
     }
@@ -154,7 +170,7 @@ public class TeamFormationManager : MonoBehaviour
     public bool OnConfirm()
     {
         // 팀원이 3명 이하로 선택된 상태에서 편성하면 경고 팝업 표시
-        if (selectedTeam.Count < 3)
+        if (_charData.SelectedTeam.Count < 3)
         {
             ShowWarningPopup();
             return false;

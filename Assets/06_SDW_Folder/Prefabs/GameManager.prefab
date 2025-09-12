@@ -55,7 +55,7 @@ GameObject:
   - component: {fileID: 2330145471151043395}
   - component: {fileID: 3235687797074226860}
   m_Layer: 0
-  m_Name: RewardData
+  m_Name: RewardChangeManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -69,12 +69,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 36744204131849465}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 8677729567340216137}
+  m_Father: {fileID: 1838285111673133106}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &3235687797074226860
 MonoBehaviour:
@@ -364,6 +364,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5ea38764025481085188a30d710b180, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _characterLists:
+  - {fileID: 11400000, guid: 0977072b4d0ff2c4bb1c250d908f0ba6, type: 2}
+  - {fileID: 11400000, guid: 103b7f3043d88a9429d25209c9d1f182, type: 2}
+  - {fileID: 11400000, guid: b2b81c36db1a8e54ea99f22c0ce7f76f, type: 2}
+  - {fileID: 11400000, guid: 9a13d90448a4f63409bf98028055be21, type: 2}
+  - {fileID: 11400000, guid: 53f708173e2eda44480072ad77fcc9bd, type: 2}
+  - {fileID: 11400000, guid: 9ed735c570481004a8718f1c6026da54, type: 2}
+  - {fileID: 11400000, guid: 965766ae0e04c104fa450eef4279d84e, type: 2}
+  - {fileID: 11400000, guid: 265ffa3c68152e74a8ca0b6b30d27bd8, type: 2}
+  - {fileID: 11400000, guid: 65f2c3ff647fbb64882a5e1b70abfa2e, type: 2}
+  - {fileID: 11400000, guid: a933f06d6c448424f8215186aa712cb0, type: 2}
 --- !u!1 &3256955993052400061
 GameObject:
   m_ObjectHideFlags: 0
@@ -401,6 +412,7 @@ Transform:
   - {fileID: 8636792098586322753}
   - {fileID: 3392115506396367594}
   - {fileID: 7279177316684618440}
+  - {fileID: 2330145471151043395}
   - {fileID: 1220907326926548257}
   - {fileID: 8638853181126040875}
   - {fileID: 8677729567340216137}
@@ -551,7 +563,6 @@ Transform:
   - {fileID: 7238799132523906218}
   - {fileID: 5646026398035983414}
   - {fileID: 7763212830685068788}
-  - {fileID: 2330145471151043395}
   - {fileID: 1159684252421917939}
   - {fileID: 4215503858691205786}
   m_Father: {fileID: 1838285111673133106}
@@ -644,17 +655,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: deb620ae5950afc488929907aa2b8035, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  characterLists:
-  - {fileID: 11400000, guid: 0977072b4d0ff2c4bb1c250d908f0ba6, type: 2}
-  - {fileID: 11400000, guid: 103b7f3043d88a9429d25209c9d1f182, type: 2}
-  - {fileID: 11400000, guid: b2b81c36db1a8e54ea99f22c0ce7f76f, type: 2}
-  - {fileID: 11400000, guid: 9a13d90448a4f63409bf98028055be21, type: 2}
-  - {fileID: 11400000, guid: 53f708173e2eda44480072ad77fcc9bd, type: 2}
-  - {fileID: 11400000, guid: 9ed735c570481004a8718f1c6026da54, type: 2}
-  - {fileID: 11400000, guid: 965766ae0e04c104fa450eef4279d84e, type: 2}
-  - {fileID: 11400000, guid: 265ffa3c68152e74a8ca0b6b30d27bd8, type: 2}
-  - {fileID: 11400000, guid: 65f2c3ff647fbb64882a5e1b70abfa2e, type: 2}
-  - {fileID: 11400000, guid: a933f06d6c448424f8215186aa712cb0, type: 2}
   gachaResultUI: {fileID: 0}
   gachaUI: {fileID: 0}
 --- !u!1 &6399783604550612513

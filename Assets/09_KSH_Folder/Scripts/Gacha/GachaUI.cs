@@ -16,12 +16,14 @@ namespace KSH
         [SerializeField] private GameObject bead;
         [SerializeField] private TextMeshProUGUI beadText;
         private RewardChangeManager manager;
+        private CharacterDataManager _data;
 
         private bool isSet = false;
 
         private void OnEnable()
         {
             manager = GameManager.Instance.Reward;
+            _data = GameManager.Instance.CharacterData;
             if (manager != null)
             {
                 manager.OnStarCandyGained += SetStarCandy;
@@ -64,7 +66,7 @@ namespace KSH
                 Debug.Log($"스타캔디트루 {manager.isStarCandy[data._chaBaseData.ChaName]}");
                 SetBead(bead);
             }
-            manager.ownedCharacters[data._chaBaseData.ChaName] = true;
+            _data.OwnedCharacters[data._chaBaseData.ChaName] = true;
             // }
         }
 

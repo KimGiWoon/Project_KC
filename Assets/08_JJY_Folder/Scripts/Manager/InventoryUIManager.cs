@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using KSH;
@@ -66,6 +67,11 @@ namespace JJY
         private void OnEnable()
         {
             InitFoodInventory();
+        }
+
+        private void OnDestroy()
+        {
+            GameManager.Instance.InGameItem.foodInventory.Clear();
         }
 
         // private void OnDisable()
