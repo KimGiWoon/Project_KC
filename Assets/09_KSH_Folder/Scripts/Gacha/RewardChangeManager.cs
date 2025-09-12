@@ -8,14 +8,17 @@ namespace KSH
     // public class RewardChangeManager : SingletonManager<RewardChangeManager>
     public class RewardChangeManager : MonoBehaviour
     {
-        public Dictionary<string, bool> ownedCharacters = new Dictionary<string, bool>();
+        // public Dictionary<string, bool> ownedCharacters = new Dictionary<string, bool>();
         public Dictionary<string, int> beadsInventory = new Dictionary<string, int>();
+
+        private CharacterDataManager _charData;
 
         private int starCandy;
 
         private void Start()
         {
             starCandy = GameManager.Instance.RainbowStarCandy;
+            _charData = GameManager.Instance.CharacterData;
         }
 
         public int StarCandy
@@ -47,7 +50,7 @@ namespace KSH
         public (int starCandy, int bead, int currentBead) ProcessCharacter(CharacterDataSO character)
         {
             int currentBead = 0;
-            if (ownedCharacters.ContainsKey(character._chaBaseData.ChaName))
+            if (_charData.OwnedCharacters.ContainsKey(character._chaBaseData.ChaName))
             {
                 if (!beadsInventory.ContainsKey(character._chaBaseData.ChaName))
                     beadsInventory[character._chaBaseData.ChaName] = 1;
@@ -85,7 +88,8 @@ namespace KSH
             }
             else
             {
-                ownedCharacters[character._chaBaseData.ChaName] = true;
+                _charData.OwnedCharacters[character._chaBaseData.ChaName] = true;
+                _charData.AllOwnedCharacters.Add(character);
                 // ownedCharacters.Add(character._chaBaseData.ChaName, false);
                 beadsInventory.Add(character._chaBaseData.ChaName, 0);
                 isStarCandy[character._chaBaseData.ChaName] = false;

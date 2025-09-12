@@ -23,8 +23,8 @@ public class BattleManager : MonoBehaviour
     [SerializeField]
     private Transform _bossSpawnPoint;
 
-    [Header("Character List Setting")]
-    [SerializeField] public List<CharacterDataSO> _characterList;
+    // [Header("Character List Setting")]
+    // [SerializeField] public List<CharacterDataSO> _characterList;
 
     [Header("Monster List Setting")]
     [SerializeField] public List<MonsterDataSO> _monsterList;
@@ -71,10 +71,12 @@ public class BattleManager : MonoBehaviour
 
     // 전체 체력 변화 이벤트
     public event Action<float, float> OnTotalHpChange;
-    private GameManager _gameManager;
     private bool _isSpawned;
 
     public event Action OnCharacterDeath;
+
+    private GameManager _gameManager;
+    private CharacterDataManager _charData;
 
     private void Awake()
     {
@@ -84,6 +86,7 @@ public class BattleManager : MonoBehaviour
     private void Start()
     {
         _gameManager = GameManager.Instance;
+        _charData = GameManager.Instance.CharacterData;
         RoguelikeManager.Instance.OnBattleStart += BattleStart;
         RoguelikeManager.Instance.OnBattleEnd += BattleEnd;
         BuffRelicManager.Instance.BattleStart();
@@ -113,7 +116,6 @@ public class BattleManager : MonoBehaviour
         if (!_gameManager.CompleteDownload || !_gameManager.ImageSpriteConnected || !_gameManager.PrefabAndSoConnected ||
             _isSpawned || !_isBattleStarted) return;
         // if(_isDownloaded) return;
-        _battleUI = FindObjectOfType<BattleUI>();
 
         //_isLocalBoss = ;
         //todo BossFinal과 Boss는 구분되어야 함 - 아래 코드는 Test 코드
@@ -166,12 +168,12 @@ public class BattleManager : MonoBehaviour
         SpawnPointShuffle(Points);
 
         // 선택된 캐릭터의 수와 스폰 포인트의 수를 비교하여 작은 쪽으로 배치
-        int count = Mathf.Min(_characterList.Count, Points.Count);
+        int count = Mathf.Min(_charData.SelectedTeam.Count, Points.Count);
 
         for (int i = 0; i < count; i++)
         {
             // 생성을 위한 선택한 캐릭터의 정보 확인
-            var characterData = _characterList[i];
+            var characterData = _charData.SelectedTeam[i];
 
             // 캐릭터 스폰위치 설정
             var spawnPoint = Points[i];
@@ -219,6 +221,7 @@ public class BattleManager : MonoBehaviour
             monterOIL.sortingOrder = 10 + i;
             // 생성된 캐릭터 저장
             var createMonster = monster.GetComponent<MonsterController>();
+            createMonster.Battle = this;
             _monsters.Add(createMonster);
 
             // 통합 제력 저장

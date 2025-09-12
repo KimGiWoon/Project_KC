@@ -14,6 +14,7 @@ namespace JJY
             items.Add(beek, 0);
             items.Add(fineDining, 0);
             items.Add(masterChef, 0);
+            yeopjeon = 999999;
         }
 
         public int yeopjeon { get; private set; } // 전투에서 획득, 소모하는 재화. 서버에 저장할 필요 없음.

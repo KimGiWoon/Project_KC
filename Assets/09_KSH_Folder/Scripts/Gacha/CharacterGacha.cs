@@ -10,8 +10,7 @@ namespace KSH
     {
         [Header("캐릭터들")]
         // [SerializeField] private List<CharacterData> characterLists; //캐릭터 리스트
-        [SerializeField] private List<CharacterDataSO> characterLists; //캐릭터 리스트
-
+        // [SerializeField] private List<CharacterDataSO> characterLists; //캐릭터 리스트
         [Header("UI")]
         [SerializeField] private GachaResultUI gachaResultUI; //캐릭터 결과 UI
 
@@ -61,12 +60,12 @@ namespace KSH
                 GameManager.Instance.ClearGachaCount();
 
             //랜덤으로 뽑힌 등급의 캐릭터들을 리스트로 모은다.
-            var getChracterList = characterLists
+            var getCharacterList = GameManager.Instance.CharacterData.CharacterLists
                 .Where(c => c._chaBaseData.ChaGrade == getRarity)
                 .ToList();
 
             //뽑힌 등급의 캐릭터들을 랜덤으로 돌린다.
-            var selectChracter = getChracterList[Random.Range(0, getChracterList.Count)];
+            var selectChracter = getCharacterList[Random.Range(0, getCharacterList.Count)];
 
             Debug.Log($"가챠 결과 → {selectChracter._chaBaseData.ChaName} (등급: {selectChracter._chaBaseData.ChaGrade})");
             return selectChracter;
