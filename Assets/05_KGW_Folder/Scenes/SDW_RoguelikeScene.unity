@@ -10210,6 +10210,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _dataManager: {fileID: 44007068}
+  _relicDropManager: {fileID: 0}
+  _relicInventoryUI: {fileID: 0}
 --- !u!1 &530949258
 GameObject:
   m_ObjectHideFlags: 0
@@ -19446,7 +19448,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!61 &969739231
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -19524,7 +19526,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.73, y: 0}
+  m_Offset: {x: 0.67, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -37878,7 +37880,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 103b7f3043d88a9429d25209c9d1f182, type: 2}
   - {fileID: 11400000, guid: 9ed735c570481004a8718f1c6026da54, type: 2}
   - {fileID: 11400000, guid: 65f2c3ff647fbb64882a5e1b70abfa2e, type: 2}
-  selectedTeam: []
 --- !u!1 &1829563048
 GameObject:
   m_ObjectHideFlags: 0

@@ -360,6 +360,13 @@ public class BattleManager : MonoBehaviour
             _isClear = false;
             _isGameOver = true;
 
+            foreach (var boss in _bossMonster)
+            {
+                Debug.Log("보스 몬스터의 공격타겟 삭제");
+                boss._attackTarget = null;
+                boss._attackTargets.Clear();
+            }
+
             // 이벤트 호출
             OnAniChange?.Invoke();
             OnGameResult?.Invoke(_isClear);

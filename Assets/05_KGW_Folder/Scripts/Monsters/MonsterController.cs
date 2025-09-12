@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using SDW;
 using TableForge.Demo;
 using UnityEngine;
+using UnityEngine.TextCore.Text;
 using UnityEngine.UI;
 
 public class MonsterController : UnitBaseData
@@ -190,13 +191,23 @@ public class MonsterController : UnitBaseData
             // 공격 대상의 거리가 몬스터의 공격 사거리에 들어오면 타겟 공격
             if (attackDistance <= attackSpareDistance && _attackCoolTimer <= 0f)
             {
-                // 몬스터의 데미지로 캐릭터에 주기
-                _attackTarget.TakeDamage(_monsterState._monAttack, _monsterState._monAccuracy);
+                // 캐릭터가 살아있으면 공격
+                if (_attackTarget != null && _attackTarget._isAlive)
+                {
+                    // 몬스터의 데미지로 캐릭터에 주기
+                    _attackTarget.TakeDamage(_monsterState._monAttack, _monsterState._monAccuracy);
 
-                _isAttack = true;
+                    _isAttack = true;
 
-                // 공격 쿨타임 초기화
-                _attackCoolTimer = _monsterState._monAtkSpeed / _gameSpeed;
+                    if (_attackTarget != null)
+                    {
+                        // 캐릭터의 공격 타겟 전환
+                        _attackTarget.AttackTargetChange(_monster);
+                    }
+
+                    // 공격 쿨타임 초기화
+                    _attackCoolTimer = _monsterState._monAtkSpeed / _gameSpeed;
+                }
             }
             else
             {
@@ -458,7 +469,11 @@ public class MonsterController : UnitBaseData
     // 보스 그로기 코루틴
     private IEnumerator BossBreakCoroutine()
     {
+        Debug.Log("보스가 그로기 상태 입니다.");
+
         yield return new WaitForSeconds(2f);
+
+        Debug.Log("보스가 그로기 상태가 끝났습니다.");
 
         // 그로기 초기화
         _isStern = false;

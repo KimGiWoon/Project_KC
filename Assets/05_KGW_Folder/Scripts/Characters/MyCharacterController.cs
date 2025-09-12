@@ -46,7 +46,6 @@ public class MyCharacterController : UnitBaseData
     {
         base.Awake();
 
-        _attackController.RecheckAttackTarget();
         _character = GetComponent<MyCharacterController>();
         _chaAnimatior = GetComponentInChildren<Animator>();
     }
@@ -222,6 +221,16 @@ public class MyCharacterController : UnitBaseData
         {
             _isAttack = false;
         }
+    }
+
+    // 공격 대상 변경
+    public void AttackTargetChange(MonsterController monData)
+    {
+        // 공격한 캐릭터가 죽었으면 넘어가기
+        if (monData == null || !monData.isActiveAndEnabled) return;
+
+        // 공격 대상 전환
+        _attackTarget = monData;
     }
 
     // 데미지를 받음
