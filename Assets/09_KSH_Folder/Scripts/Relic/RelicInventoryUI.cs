@@ -12,24 +12,14 @@ public class RelicInventoryUI : MonoBehaviour
     [SerializeField] private InGameItemManager inGameItemManager;
     [SerializeField] private Button inventoryButton;
     [SerializeField] private GameObject inventoryUI;
-    [SerializeField] private TextMeshProUGUI relicNameText;
 
     private void Awake()
     {
         inventoryButton.onClick.AddListener(RelicInventoryOpen);
         inventoryUI.SetActive(false);
     }
-    private void OnEnable()
-    {
-        inGameItemManager.OnItemChanged += RelicUIAdd;
-    }
-
-    private void OnDisable()
-    {
-        inGameItemManager.OnItemChanged -= RelicUIAdd;   
-    }
-
-    private void RelicUIAdd()
+   
+    public void RelicUIAdd()
     {
         foreach (Transform child in Content)
             Destroy(child.gameObject);
@@ -37,9 +27,9 @@ public class RelicInventoryUI : MonoBehaviour
         foreach (var r in inGameItemManager.relicInventory)
         {
             GameObject relic = Instantiate(relicPrefab, Content);
-            TextMeshProUGUI relicNameText = relic.GetComponentInChildren<TextMeshProUGUI>();
-            if(relicNameText != null)
-                relicNameText.text = r.relic.relicName;
+            var image = relic.GetComponent<Image>();
+            if(image != null)
+                image.sprite = r.relic.relicImage;
         }
     }
 

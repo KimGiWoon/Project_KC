@@ -43,6 +43,8 @@ public class BattleManager : MonoBehaviour
 
     [Header("BuffManager")]
     [SerializeField] private BuffManager buffManager;
+    [Header("RelicInventoryUI")]
+    [SerializeField] private RelicInventoryUI _relicInventoryUI;
 
     // 생성된 캐릭터 보관
     public List<MyCharacterController> _characters = new List<MyCharacterController>();
@@ -380,6 +382,7 @@ public class BattleManager : MonoBehaviour
     private void BattleStart()
     {
         buffManager?.InitFoodIcon();
+        _relicInventoryUI?.RelicUIAdd();
         _isBattleStarted = true;
     }
 
