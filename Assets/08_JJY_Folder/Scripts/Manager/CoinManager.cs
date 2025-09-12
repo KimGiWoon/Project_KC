@@ -95,9 +95,10 @@ namespace JJY
         /// </summary>
         public void SubtractYeopjeon(int value)
         {
-            if (yeopjeon < value) return;
+            // if (yeopjeon < value) return;
 
             yeopjeon -= value;
+            if (yeopjeon < 0) yeopjeon = 0;
         }
         /// <summary>
         /// StarCandy 재화 증가
