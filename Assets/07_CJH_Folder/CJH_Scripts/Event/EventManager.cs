@@ -7,9 +7,10 @@ namespace CJH
     public class EventManager : MonoBehaviour
     {
         [SerializeField] private DataManager _dataManager;
-        [SerializeField] private RelicDropManager _relicDropManager;
-        [SerializeField] private RelicInventoryUI _relicInventoryUI;
+        [SerializeField] private GameObject resultWindowUI; // 유니티 에디터에서 결과창 UI 오브젝트를 연결해주세요.
+
         private GameObject currentEventInstance;
+
 
         // MapView가 사건 ID를 직접 전달하도록 변경
         public void StartEncounter(int encounterID)
@@ -43,22 +44,18 @@ namespace CJH
 
         public void EndEncounter()
         {
-            if (currentEventInstance != null) Destroy(currentEventInstance);
+            if (currentEventInstance != null)
+            {
+                Destroy(currentEventInstance);
+            }
+            Debug.Log("모든 이벤트가 종료되었습니다. 결과창을 엽니다.");
+
+            // 결과창을 활성화하는 코드를 추가
+            if (resultWindowUI != null)
+            {
+                resultWindowUI.SetActive(true);
+            }
         }
 
-        // 유물 획득
-        public void GetRelic(RelicDatas relic)
-        {
-            _relicDropManager.GetRelic(relic);
-            _relicInventoryUI.gameObject.SetActive(true); // 인벤토리 UI 활성화
-        }
-
-        // 유물 잃기
-        public void LoseRelic(RelicDatas relic)
-        {
-            GameManager.Instance.InGameItem.RemoveItem(relic);
-            Debug.Log($"{relic.relicName} 잃음");
-            _relicInventoryUI.gameObject.SetActive(true); // 인벤토리 UI 활성화
-        }
     }
 }

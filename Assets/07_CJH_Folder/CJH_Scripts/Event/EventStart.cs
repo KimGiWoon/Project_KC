@@ -3,22 +3,25 @@ using UnityEngine.UI;
 using TMPro;
 using System.Collections.Generic;
 using SDW;
+using JJY;
 
 namespace CJH
 {
     public class EventStart : MonoBehaviour
     {
         [Header("프리팹 내부 UI 연결")]
-        public TextMeshProUGUI eventTitleText; // 이벤트 종류 텍스트 (예: 긍정적 사건)
+        public TextMeshProUGUI eventTitleText;
         public Image eventImage;
         public TextMeshProUGUI encounterText;
         public Transform buttonContainer;
+
         public GameObject resultPanel;
         public TextMeshProUGUI resultText;
+
         public GameObject choiceButtonPrefab;
+
         private EventManager _eventManager;
 
-        [System.Serializable]
         public class EncounterSpriteMapping
         {
             public EncounterType typeEnum;
@@ -31,38 +34,7 @@ namespace CJH
         {
             _eventManager = FindObjectOfType<EventManager>();
 
-            // --- 이벤트 종류에 따라 제목 텍스트 설정 ---
-            if (eventTitleText != null)
-            {
-                switch (data.Type)
-                {
-                    case EncounterType.Money:
-                        eventTitleText.text = "긍정적 사건 발생!";
-                        break;
-                    case EncounterType.Relic:
-                        eventTitleText.text = "긍정적 사건 발생!";
-                        break;
-                    case EncounterType.RelicSel:
-                        eventTitleText.text = "긍정적 사건 발생!";
-                        break;
-                    case EncounterType.Luck:
-                        eventTitleText.text = "긍정적 사건 발생!";
-                        break;
-
-                    case EncounterType.MoneyFight:
-                        eventTitleText.text = "부정적 사건 발생!";
-                        break;
-                    case EncounterType.BadRelic:
-                        eventTitleText.text = "부정적 사건 발생!";
-                        break;
-                    case EncounterType.RelicDel:
-                        eventTitleText.text = "부정적 사건 발생!";
-                        break;
-                    default:
-                        eventTitleText.text = "사건 발생!";
-                        break;
-                }
-            }
+            SetTitleByType(data.Type);
 
             var mapping = encounterSprites.Find(m => m.typeEnum == data.Type);
             if (mapping != null && eventImage != null)
@@ -78,9 +50,7 @@ namespace CJH
             encounterText.text = data.EncounterText;
 
             foreach (Transform child in buttonContainer)
-            {
                 Destroy(child.gameObject);
-            }
 
             for (int i = 0; i < data.ChoiceCount; i++)
             {
@@ -89,16 +59,7 @@ namespace CJH
 
                 var buttonText = buttonObj.GetComponentInChildren<TextMeshProUGUI>();
                 if (buttonText != null && choiceIndex < data.ChoiceTexts.Count)
-                {
-                    if (string.IsNullOrEmpty(data.ChoiceTexts[choiceIndex]) || data.ChoiceTexts[choiceIndex].ToLower() == "null")
-                    {
-                        buttonText.text = "확인";
-                    }
-                    else
-                    {
-                        buttonText.text = data.ChoiceTexts[choiceIndex];
-                    }
-                }
+                    buttonText.text = string.IsNullOrEmpty(data.ChoiceTexts[choiceIndex]) ? "확인" : data.ChoiceTexts[choiceIndex];
 
                 var button = buttonObj.GetComponent<Button>();
                 button.onClick.AddListener(() => OnChoiceSelected(data, choiceIndex));
@@ -109,12 +70,20 @@ namespace CJH
 
         private void OnChoiceSelected(EncounterTable data, int choiceIndex)
         {
+            foreach (var btn in buttonContainer.GetComponentsInChildren<Button>())
+                btn.interactable = false;
+
+            if (EventBranches.Map.TryGetValue((data.EncounterID, choiceIndex), out var branch))
+            {
+                Initialize(branch); // 🔁 분기 이벤트로 넘어가기
+                return;
+            }
+
             if (choiceIndex < data.EncounterExitText.Count && !string.IsNullOrEmpty(data.EncounterExitText[choiceIndex]))
             {
                 resultPanel.SetActive(true);
                 resultText.text = data.EncounterExitText[choiceIndex];
 
-                // 결과창이 표시될 때 기존 UI 요소들을 비활성화합니다.
                 if (eventTitleText != null) eventTitleText.gameObject.SetActive(false);
                 eventImage.gameObject.SetActive(false);
                 encounterText.gameObject.SetActive(false);
@@ -124,10 +93,106 @@ namespace CJH
             {
                 _eventManager.EndEncounter();
             }
+        }
 
-            foreach (var btn in buttonContainer.GetComponentsInChildren<Button>())
+        //코드 기반 분기 이벤트용
+        public void Initialize(EventBranchData branch)
+        {
+            _eventManager = FindObjectOfType<EventManager>();
+
+            SetTitleByType(branch.Type ?? EncounterType.None);
+            eventImage.gameObject.SetActive(false); // 분기 이벤트는 이미지 없음
+
+            encounterText.text = branch.Text;
+
+            foreach (Transform child in buttonContainer)
+                Destroy(child.gameObject);
+
+            for (int i = 0; i < branch.Choices.Count; i++)
             {
+                var buttonObj = Instantiate(choiceButtonPrefab, buttonContainer);
+                int choiceIndex = i;
+
+                var buttonText = buttonObj.GetComponentInChildren<TextMeshProUGUI>();
+                if (buttonText != null)
+                    buttonText.text = branch.Choices[choiceIndex];
+
+                var button = buttonObj.GetComponent<Button>();
+                button.onClick.AddListener(() => OnBranchChoiceSelected(branch, choiceIndex));
+            }
+
+            resultPanel.SetActive(false);
+        }
+
+        private void OnBranchChoiceSelected(EventBranchData branch, int index)
+        {
+            foreach (var btn in buttonContainer.GetComponentsInChildren<Button>())
                 btn.interactable = false;
+
+            if (branch.Rewards != null && index < branch.Rewards.Count)
+                ApplyRewards(branch.Rewards[index]);
+
+            resultPanel.SetActive(true);
+            resultText.text = branch.Results[index];
+
+            if (eventTitleText != null) eventTitleText.gameObject.SetActive(false);
+            eventImage.gameObject.SetActive(false);
+            encounterText.gameObject.SetActive(false);
+            buttonContainer.gameObject.SetActive(false);
+        }
+
+        private void SetTitleByType(EncounterType type)
+        {
+            if (eventTitleText == null) return;
+
+            switch (type)
+            {
+                case EncounterType.Money:
+                case EncounterType.Relic:
+                case EncounterType.RelicSel:
+                case EncounterType.Luck:
+                    eventTitleText.text = "긍정적 사건 발생!";
+                    break;
+
+                case EncounterType.MoneyFight:
+                case EncounterType.BadRelic:
+                case EncounterType.RelicDel:
+                    eventTitleText.text = "부정적 사건 발생!";
+                    break;
+
+                default:
+                    eventTitleText.text = "사건 발생!";
+                    break;
+            }
+        }
+
+        private void ApplyRewards(List<BranchReward> rewards)
+        {
+            var coinManager = FindObjectOfType<CoinManager>();
+            //todo 렐릭 연동 코드에 맞게 수정
+            //var relicManager = FindObjectOfType<RelicManager>();
+
+            foreach (var reward in rewards)
+            {
+                switch (reward.Type)
+                {
+                    case BranchReward.RewardType.Coin:
+                        if (coinManager != null)
+                            coinManager.AddYeopjeon(reward.Amount);
+                        else
+                            Debug.LogError("CoinManager 인스턴스를 찾을 수 없습니다");
+                        break;
+
+                   //case BranchReward.RewardType.BuffRelic:
+                   //    if (relicManager != null)
+                   //        relicManager.GiveRandomRelic(true);
+                   //    break;
+                   //
+                   //case BranchReward.RewardType.DebuffRelic:
+                   //    if (relicManager != null)
+                   //        relicManager.GiveRandomRelic(false);
+                   //    break;
+                }
             }
         }
     }

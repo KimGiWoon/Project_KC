@@ -35,8 +35,10 @@ namespace SDW
             ChoiceTexts = new List<string>();
             EncounterExitText = new List<string>();
 
+
             try
             {
+
                 int.TryParse(fields[0], out EncounterID);
                 Enum.TryParse<EncounterSentiment>(fields[1], true, out Sentiment);
                 int.TryParse(fields[2], out EncounterStage);
