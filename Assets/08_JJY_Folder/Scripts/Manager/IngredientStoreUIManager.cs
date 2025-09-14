@@ -146,7 +146,6 @@ namespace JJY
 
             if (_coin.yeopjeon < 5)
             {
-                //todo 돈 부족 알림 띄워야 함
                 _shoppingUI.ActiveFailedPanel("어짜피 다른 거 가져와도 못 사실 텐데요?");
                 return; // 새로고침 시 5엽전 소모.
             }

@@ -70,8 +70,10 @@ namespace SDW
         /// <summary>
         /// 메인 로비 UI의 닉네임을 업데이트
         /// </summary>
-        /// <param name="email">사용자의 이메일 주소</param>
-        /// <param name="nickname">업데이트할 사용자의 닉네임</param>
-        public void UpdateUserInfo(string nickname, string email = null, string uid = null) => _currentNickname = nickname;
+        /// <param name="user">사용자 정보</param>
+        public void UpdateUserInfo(UserInfo user)
+        {
+            _currentNickname = user.Nickname;
+        }
     }
 }

@@ -65,7 +65,6 @@ namespace SDW
 
         private void ConfirmButtonClicked()
         {
-            //todo 현재 편성 정보 적용
             if (_teamManager.OnConfirm())
             {
                 OnUICloseRequested?.Invoke(UIName.PartyCharListUI);
@@ -82,7 +81,6 @@ namespace SDW
         private void CloseButtonClicked()
         {
             _teamManager.OnClose();
-            //todo 이전 편성 정보로 복구해야 함
             OnUICloseRequested?.Invoke(UIName.PartyCharListUI);
         }
 
