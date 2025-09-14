@@ -1196,6 +1196,11 @@ MonoBehaviour:
   resultPanel: {fileID: 2403706812237077982}
   resultText: {fileID: 3409228418921217506}
   choiceButtonPrefab: {fileID: 2138952870216548467}
+  encounterSprites:
+  - typeEnum: 1
+    sprite: {fileID: 21300000, guid: fc3aa4e463eff9240ba7543adda4c4e1, type: 3}
+  - typeEnum: 2
+    sprite: {fileID: 21300000, guid: 5d1e212e808600047a530862f3ae3de8, type: 3}
 --- !u!1 &7440256196015356102
 GameObject:
   m_ObjectHideFlags: 0

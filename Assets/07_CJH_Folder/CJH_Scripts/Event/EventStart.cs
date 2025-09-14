@@ -4,6 +4,7 @@ using TMPro;
 using System.Collections.Generic;
 using SDW;
 using JJY;
+using System;
 
 namespace CJH
 {
@@ -22,15 +23,16 @@ namespace CJH
 
         private EventManager _eventManager;
 
-        public class EncounterSpriteMapping
+
+
+        [Serializable] public class EncounterSpriteMapping
         {
             public EncounterType typeEnum;
             public Sprite sprite;
         }
-
         public List<EncounterSpriteMapping> encounterSprites;
 
-  
+
 
         public void Initialize(EncounterTable data)
         {
