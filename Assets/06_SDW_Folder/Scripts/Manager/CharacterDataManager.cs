@@ -84,6 +84,7 @@ namespace SDW
         {
             yield return new WaitForSeconds(0.5f);
 
+            //todo DB에서 Load가 된 이후에 추가하기
             //# 기본 캐릭터 추가
             GameManager.Instance.Reward.ProcessCharacter(_characterEnNameData[CharacterEnName.SIL]);
             GameManager.Instance.Reward.ProcessCharacter(_characterEnNameData[CharacterEnName.BW]);

@@ -8,7 +8,7 @@ namespace JJY
     {
         public string recipeName; // 레시피 이름 (인스펙터 표시)
         public Ingredient[] requiredIngredients; // 레시피를 구성하는 재료들
-        public Sprite image; // TODO : Addressable
+        public Sprite image;
         public string description; // 설명 (CSV?)
         public string effect; // 설명 (CSV?)
         public List<FoodEffectData> effects; // 가질 효과

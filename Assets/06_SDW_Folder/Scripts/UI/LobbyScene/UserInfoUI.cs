@@ -103,8 +103,6 @@ namespace SDW
             {
                 var touchPos = Input.GetTouch(0).position;
 
-                //todo 영역이 각 panel의 영억으로 변경해야 함
-
                 //# 패널 안에 터치가 있는지 확인
                 if (!RectTransformUtility.RectangleContainsScreenPoint(_userInfoPanelRect, touchPos))
                 {
@@ -124,13 +122,11 @@ namespace SDW
         /// <summary>
         /// 사용자 정보를 UI 컴포넌트에 업데이트
         /// </summary>
-        /// <param name="nickname">사용자 닉네임</param>
-        /// <param name="email">사용자 이메일</param>
-        /// <param name="uid">사용자 고유 ID</param>
-        public void UpdateUserInfo(string nickname, string email, string uid)
+        /// <param name="user">사용자 정보</param>
+        public void UpdateUserInfo(UserInfo user)
         {
-            _uidInfoText.text = $"uid : {uid}";
-            _nicknameInfoText.text = $"{nickname}";
+            _uidInfoText.text = $"uid : {user.UserId}";
+            _nicknameInfoText.text = $"{user.Nickname}";
         }
 
         #endregion
@@ -172,15 +168,6 @@ namespace SDW
         /// <param name="sprite">변경할 새로운 아이콘 스프라이트</param>
         public void SetIcon(Sprite sprite)
         {
-            Debug.Log($"Old sprite atlas: {_userIcon.sprite?.texture?.name}");
-            Debug.Log($"New sprite atlas: {sprite?.texture?.name}");
-
-            // 해당 Image가 ImageSpriteLoader 대상인지 확인
-            string path = ImageSpriteLoader.GetPath(_userIcon.gameObject);
-            ulong hash = PathHasher.Hash(path);
-            Debug.Log($"Image Path: {path}");
-            // Debug.Log($"Is in mapping: {_mappingSo.entries.Any(e => e.PathHash == hash)}");
-
             _userIconBackUp = _userIcon.sprite;
             _userIcon.sprite = sprite;
         }

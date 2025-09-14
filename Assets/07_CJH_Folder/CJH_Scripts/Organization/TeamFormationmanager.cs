@@ -108,8 +108,6 @@ public class TeamFormationManager : MonoBehaviour
 
     private void UpdateAllVisuals()
     {
-        //todo 선택 취소 기능
-        // 상단 슬롯 오버레이 업데이트
         foreach (var slot in selectableSlots)
         {
             slot.UpdateSelectionVisual(_charData.SelectedTeam.Contains(slot.GetCharacterData()));

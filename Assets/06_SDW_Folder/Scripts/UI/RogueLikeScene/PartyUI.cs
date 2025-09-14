@@ -28,7 +28,6 @@ namespace SDW
             _tweenAnimation = GetComponent<TweenAnimation>();
             _enterStageButton.interactable = false;
             _battleBackgroundObject.SetActive(false);
-            //todo 추후 선택된 Character 추가 시 TweenAnimation을 설정해야 함
             _selectedCharTweens = _selectedCharContainer.GetComponentsInChildren<TweenAnimation>();
         }
 

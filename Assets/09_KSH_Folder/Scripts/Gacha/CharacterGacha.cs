@@ -73,7 +73,6 @@ namespace KSH
 
         private ResultData SingleGacha() //1회 뽑기
         {
-            //todo Result UI가 열릴 때 호출해서 가져오도록 수정
             var result = GetRandomCharacter();
             (int gainedStarCandy, int gainedBead, int currentBead) = GameManager.Instance.Reward.ProcessCharacter(result); //중복 처리
 
@@ -88,7 +87,6 @@ namespace KSH
 
         private ResultData TenGacha() //10회 뽑기
         {
-            //todo Result UI가 열릴 때 호출해서 가져오도록 수정
             var result = new List<CharacterDataSO>();
             var gainedStarCandy = new List<int>();
             var gainedBead = new List<int>();

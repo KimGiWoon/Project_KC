@@ -5,6 +5,7 @@ using Firebase.Auth;
 using Firebase.Database;
 using Firebase.Extensions;
 using Google;
+using KSH;
 using UnityEngine;
 
 namespace SDW
@@ -21,7 +22,11 @@ namespace SDW
         public DatabaseReference DB => _db;
 
         public Action<ButtonType> OnSignInSetButtonType;
-        public Action<string, string, string> OnSendUserInfo;
+        public Action<UserInfo> OnSendUserInfo;
+        public Action<Dictionary<string, object>> OnCoinDataLoaded;
+        public Action<Dictionary<string, object>> OnCharacterDataLoaded;
+        public Action<Dictionary<string, object>> OnDailyQuestedDataLoaded;
+        public Action<Dictionary<string, object>> OnEtcDataLoaded;
         public Action OnCheckUpdate;
 
         [SerializeField] private FirebaseDataSO _cliendData;
@@ -30,6 +35,7 @@ namespace SDW
 
         private UserData _userData;
         private UIManager _ui;
+        private CharacterDataManager _character;
 
         #region Firebase Intialize Methods
 
@@ -39,6 +45,7 @@ namespace SDW
         public void ConnectToFirebase()
         {
             _ui = GameManager.Instance.UI;
+            _character = GameManager.Instance.CharacterData;
             InitializeFirebaseDependencies();
         }
 
@@ -218,11 +225,67 @@ namespace SDW
         /// <param name="user">Auth의 유저 정보</param>
         private void RegisterEmail(string email, string uid, FirebaseUser user)
         {
-            var userData = new Dictionary<string, object>
+            var profileData = new Dictionary<string, object>
             {
                 { "email", email },
-                { "lastLogin", DateTime.UtcNow.AddHours(9).ToString("yyyy-MM-dd HH:mm:ss") },
-                { "nickname", "" }
+                { "joinDate", DateTime.UtcNow.AddHours(9).ToString("yyyy-MM-dd HH:mm:ss") },
+                { "nickname", "" },
+                { "icon", 0 }
+            };
+
+            var coinData = new Dictionary<string, object>
+            {
+                { "baekRecipeBook", 0 }, //# 1000 경험치 재화
+                { "fineDiningRecipeBook", 0 }, //# 5000 경험치 재화
+                { "masterChefRecipeBook", 0 }, //# 20000 경험치 재화
+                { "point", 0 }, //# 영구 성장 포인트
+                { "startCandy", 0 }, //# 유료 -> 뽑기 재화
+                { "shiningStarCandy", 0 } //# 유료 재화
+            };
+
+            var characters = new Dictionary<string, object>();
+
+            foreach (var character in _character.CharacterLists)
+            {
+                var characterData = new Dictionary<string, object>
+                {
+                    { "owned", false },
+                    { "count", 0 },
+                    { "level", 1 },
+                    { "exp", 0 }
+                };
+
+                if (character._chaBaseData.ChaGrade == CharacterGrade.Normal)
+                {
+                    characterData["owned"] = true;
+                    characterData["count"] = 1;
+                }
+
+                characters[character._chaBaseData.ChaID.ToString()] = characterData;
+            }
+
+            var dailyQuests = new Dictionary<string, object>();
+
+            foreach (QuestType quest in Enum.GetValues(typeof(QuestType)))
+            {
+                dailyQuests[quest.ToString()] = false;
+            }
+
+            var etcData = new Dictionary<string, object>
+            {
+                { "score", 0 },
+                { "questUpdate", DateTime.UtcNow.AddHours(9).ToString("yyyy-MM-dd HH:mm:ss") },
+                { "buyAdRemover", false },
+                { "gachaCounter", 0 }
+            };
+
+            var userData = new Dictionary<string, object>
+            {
+                { "profile", profileData },
+                { "coinData", coinData },
+                { "characters", characters },
+                { "dailyQuests", dailyQuests },
+                { "etcData", etcData }
             };
 
             _db.Child("users").Child(uid).SetValueAsync(userData).ContinueWithOnMainThread(task =>
@@ -234,6 +297,13 @@ namespace SDW
                     _auth.SignOut();
                     return;
                 }
+
+                if (task.IsCanceled)
+                {
+                    Debug.LogWarning("이메일 등록 취소됨");
+                    return;
+                }
+
                 CheckUserInDatabase(user);
             });
         }
@@ -305,15 +375,33 @@ namespace SDW
 
             if (userData != null)
             {
-                _userData = new UserData(
-                    userData.ContainsKey("email") ? userData["email"].ToString() : "",
-                    userData.ContainsKey("joinDate") ? userData["joinDate"].ToString() : "",
-                    userData.ContainsKey("nickname") ? userData["nickname"].ToString() : ""
-                );
+                if (userData.ContainsKey("profile"))
+                {
+                    var profileData = userData["profile"] as Dictionary<string, object>;
 
-                CheckNicknameRequired();
+                    if (profileData != null)
+                    {
+                        _userData = new UserData(
+                            profileData.ContainsKey("email") ? profileData["email"].ToString() : "",
+                            profileData.ContainsKey("joinDate") ? profileData["joinDate"].ToString() : "",
+                            profileData.ContainsKey("nickname") ? profileData["nickname"].ToString() : "",
+                            profileData.ContainsKey("icon") ? int.Parse(profileData["icon"].ToString()) : 0
+                        );
+
+                        CheckNicknameRequired();
+                    }
+                    else Debug.LogWarning("사용자 데이터를 Dictionary로 변환할 수 없습니다");
+                }
+
+                if (userData.ContainsKey("coinData"))
+                    OnCoinDataLoaded?.Invoke(userData["coinData"] as Dictionary<string, object>);
+                if (userData.ContainsKey("characters"))
+                    OnCharacterDataLoaded?.Invoke(userData["characters"] as Dictionary<string, object>);
+                if (userData.ContainsKey("dailyQuest"))
+                    OnDailyQuestedDataLoaded?.Invoke(userData["dailyQuest"] as Dictionary<string, object>);
+                if (userData.ContainsKey("etcData"))
+                    OnEtcDataLoaded?.Invoke(userData["etcData"] as Dictionary<string, object>);
             }
-            else Debug.LogWarning("사용자 데이터를 Dictionary로 변환할 수 없습니다");
         }
 
         /// <summary>
@@ -322,18 +410,74 @@ namespace SDW
         /// <param name="user">Firebase에서 인증된 사용자 정보</param>
         private void SaveUserData(FirebaseUser user)
         {
-            var userData = new Dictionary<string, object>
+            var profileData = new Dictionary<string, object>
             {
                 { "email", user.Email },
-                { "lastLogin", DateTime.UtcNow.AddHours(9).ToString("yyyy-MM-dd HH:mm:ss") },
-                { "nickname", "" }
-                // { "uid", user.UserId }
+                { "joinDate", DateTime.UtcNow.AddHours(9).ToString("yyyy-MM-dd HH:mm:ss") },
+                { "nickname", "" },
+                { "icon", 0 }
+            };
+
+            var coinData = new Dictionary<string, object>
+            {
+                { "baekRecipeBook", 0 }, //# 1000 경험치 재화
+                { "fineDiningRecipeBook", 0 }, //# 5000 경험치 재화
+                { "masterChefRecipeBook", 0 }, //# 20000 경험치 재화
+                { "point", 0 }, //# 영구 성장 포인트
+                { "startCandy", 0 }, //# 유료 -> 뽑기 재화
+                { "shiningStarCandy", 0 } //# 유료 재화
+            };
+
+            var characters = new Dictionary<string, object>();
+
+            foreach (var character in _character.CharacterLists)
+            {
+                var characterData = new Dictionary<string, object>
+                {
+                    { "owned", false },
+                    { "count", 0 },
+                    { "level", 1 },
+                    { "exp", 0 }
+                };
+
+                if (character._chaBaseData.ChaGrade == CharacterGrade.Normal)
+                {
+                    characterData["owned"] = true;
+                    characterData["count"] = 1;
+                }
+
+                characters[character._chaBaseData.ChaID.ToString()] = characterData;
+            }
+
+            var dailyQuests = new Dictionary<string, object>();
+
+            foreach (QuestType quest in Enum.GetValues(typeof(QuestType)))
+            {
+                dailyQuests[quest.ToString()] = false;
+            }
+
+            var etcData = new Dictionary<string, object>
+            {
+                { "score", 0 },
+                { "questUpdate", DateTime.UtcNow.AddHours(9).ToString("yyyy-MM-dd HH:mm:ss") },
+                { "buyAdRemover", false },
+                { "gachaCounter", 0 }
+            };
+
+            var userData = new Dictionary<string, object>
+            {
+                { "profile", profileData },
+                { "coinData", coinData },
+                { "characters", characters },
+                { "dailyQuests", dailyQuests },
+                { "etcData", etcData }
             };
 
             _userData = new UserData(
-                userData.ContainsKey("email") ? userData["email"].ToString() : "",
-                userData.ContainsKey("joinDate") ? userData["joinDate"].ToString() : "",
-                userData.ContainsKey("nickname") ? userData["nickname"].ToString() : ""
+                profileData.ContainsKey("email") ? profileData["email"].ToString() : "",
+                profileData.ContainsKey("joinDate") ? profileData["joinDate"].ToString() : "",
+                profileData.ContainsKey("nickname") ? profileData["nickname"].ToString() : "",
+                profileData.ContainsKey("icon") ? int.Parse(profileData["icon"].ToString()) : 0
             );
 
             _db.Child("users").Child(user.UserId).SetValueAsync(userData).ContinueWithOnMainThread(task =>
@@ -377,7 +521,7 @@ namespace SDW
 
             var updateData = new Dictionary<string, object>
             {
-                { "nickname", nickname }
+                { "profile/nickname", nickname }
             };
 
             _db.Child("users").Child(_auth.CurrentUser.UserId).UpdateChildrenAsync(updateData).ContinueWithOnMainThread(task =>
@@ -400,6 +544,24 @@ namespace SDW
                     case SceneName.SDW_LobbyScene:
                         RequestUserInfo();
                         break;
+                }
+            });
+        }
+
+        public void SetIconNumber(int iconNumber)
+        {
+            _userData.IconNumber = iconNumber;
+
+            var updateData = new Dictionary<string, object>
+            {
+                { "profile/icon", iconNumber }
+            };
+
+            _db.Child("users").Child(_auth.CurrentUser.UserId).UpdateChildrenAsync(updateData).ContinueWithOnMainThread(task =>
+            {
+                if (task.IsFaulted)
+                {
+                    Debug.LogWarning($"닉네임 저장 실패: {task.Exception.Message}");
                 }
             });
         }
@@ -482,7 +644,15 @@ namespace SDW
         /// <summary>
         /// 유저에 대한 정보를 UI로 전달
         /// </summary>
-        public void RequestUserInfo() => OnSendUserInfo?.Invoke(_userData.Nickname, _userData.Email, _auth.CurrentUser.UserId);
+        public void RequestUserInfo()
+        {
+            OnSendUserInfo?.Invoke(new UserInfo(
+                _userData.Nickname,
+                _userData.Email,
+                _auth.CurrentUser.UserId,
+                _userData.IconNumber
+            ));
+        }
 
         #endregion
     }
