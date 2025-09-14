@@ -121,13 +121,6 @@ namespace SDW
         /// <param name="uiName">연결할 SignInUI 패널의 이름</param>
         private void ConnectSignInUI(UIName uiName)
         {
-            var signUI = _uiDic[uiName] as SignInUI;
-
-            if (_firebase != null)
-            {
-                signUI.OnSignInButtonClicked += _firebase.SignInWithGoogle;
-                _firebase.OnSignInSetButtonType += signUI.SetButtonImage;
-            }
         }
 
         /// <summary>
@@ -154,9 +147,15 @@ namespace SDW
             downloadUI.OnUIOpenRequested += OpenPanel;
             downloadUI.OnUICloseRequested += ClosePanel;
 
+            var signUI = _uiDic[UIName.SignInUI] as SignInUI;
+
             if (_firebase != null)
             {
-                _firebase.OnCheckUpdate += downloadUI.OnCheckUpdate;
+                signUI.OnSignInButtonClicked -= _firebase.SignInWithGoogle;
+                _firebase.OnSignInSetButtonType -= signUI.SetButtonImage;
+
+                signUI.OnSignInButtonClicked += _firebase.SignInWithGoogle;
+                _firebase.OnSignInSetButtonType += signUI.SetButtonImage;
             }
         }
 

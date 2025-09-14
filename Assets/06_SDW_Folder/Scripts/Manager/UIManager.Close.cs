@@ -119,11 +119,11 @@ namespace SDW
         {
             var signUI = _uiDic[uiName] as SignInUI;
 
-            if (_firebase != null)
-            {
-                signUI.OnSignInButtonClicked -= _firebase.SignInWithGoogle;
-                _firebase.OnSignInSetButtonType -= signUI.SetButtonImage;
-            }
+            // if (_firebase != null)
+            // {
+            //     signUI.OnSignInButtonClicked -= _firebase.SignInWithGoogle;
+            //     _firebase.OnSignInSetButtonType -= signUI.SetButtonImage;
+            // }
         }
 
         /// <summary>
@@ -147,11 +147,6 @@ namespace SDW
             var downloadUI = _uiDic[uiName] as DownloadUI;
             downloadUI.OnUIOpenRequested -= OpenPanel;
             downloadUI.OnUICloseRequested -= ClosePanel;
-
-            if (_firebase != null)
-            {
-                _firebase.OnCheckUpdate -= downloadUI.OnCheckUpdate;
-            }
         }
 
         #endregion

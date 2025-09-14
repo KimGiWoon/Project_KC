@@ -40,7 +40,8 @@ namespace SDW
             _dailyQuestButton.onClick.AddListener(DailyQuestButtonClicked);
             _gachaButton.onClick.AddListener(GachaButtonClicked);
 
-            UpdateRainbowStar(GameManager.Instance.RainbowStarCandy);
+            UpdateRainbowStar(GameManager.Instance.Coin.starCandy);
+            UpdateShiningStarCandy(GameManager.Instance.Coin.shiningStarCandy);
             GameManager.Instance.Reward.OnStarCandyChange += UpdateRainbowStar;
             GameManager.Instance.DailyQuest.OnStarCandyChange += UpdateRainbowStar;
         }
@@ -113,6 +114,11 @@ namespace SDW
         private void UpdateRainbowStar(int numOfStars)
         {
             _rainbowStarText.text = numOfStars.ToString();
+        }
+
+        private void UpdateShiningStarCandy(int numOfStars)
+        {
+            _cashStarText.text = numOfStars.ToString();
         }
     }
 }

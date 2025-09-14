@@ -33,8 +33,16 @@ namespace SDW
         {
             _gameManager = GameManager.Instance;
             _firebase = _gameManager.Firebase;
-            _firebase?.ConnectToFirebase();
             ConnectLoading();
+            StartCoroutine(DelayedOpenDownloadUI());
+        }
+
+        private IEnumerator DelayedOpenDownloadUI()
+        {
+            yield return new WaitForSeconds(0.5f);
+            OpenPanel(UIName.DownloadUI);
+            var downloadUI = _uiDic[UIName.DownloadUI] as DownloadUI;
+            downloadUI.OnCheckUpdate();
         }
 
         /// <summary>
@@ -55,6 +63,7 @@ namespace SDW
         private IEnumerator DelayedLoading()
         {
             yield return new WaitForSeconds(0.5f);
+            _firebase?.ConnectToFirebase();
             _loadingCanvas.SetActive(false);
         }
 
