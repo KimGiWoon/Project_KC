@@ -1,6 +1,7 @@
-﻿using JJY;
+using JJY;
 using UnityEngine;
 using KSH;
+using KGW;
 
 namespace SDW
 {
@@ -66,6 +67,10 @@ namespace SDW
         private InGameItemManager _inGameItem;
         public InGameItemManager InGameItem => _inGameItem;
 
+        //# Character Battle Data Save
+        private CharacterBattleDataSaveManager _characterBattleDataSave;
+        public CharacterBattleDataSaveManager CharacterBattleDataSave => _characterBattleDataSave;
+
         //todo 추후 유료 관련 Manager로 이동해야 함
         [SerializeField] private bool _buyAdRemover;
         public bool BuyAdRemover => _buyAdRemover;
@@ -127,6 +132,9 @@ namespace SDW
             //# Coin & Item
             _coin = GetComponentInChildren<CoinManager>();
             _inGameItem = GetComponentInChildren<InGameItemManager>();
+
+            //# Character Stat Save
+            _characterBattleDataSave = GetComponentInChildren<CharacterBattleDataSaveManager>();
         }
 
         /// <summary>

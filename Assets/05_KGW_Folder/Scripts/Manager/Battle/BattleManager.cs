@@ -350,6 +350,9 @@ public class BattleManager : MonoBehaviour
             _isClear = true;
             _isGameOver = true;
 
+            // 캐릭터의 체력 저장
+            CharacterStatSave();
+
             // 이벤트 호출
             OnAniChange?.Invoke();
             OnGameResult?.Invoke(_isClear);
@@ -383,9 +386,47 @@ public class BattleManager : MonoBehaviour
         _isBattleStarted = true;
     }
 
-    #region 캐릭터의 액티브 스킬 동작
+    // 캐릭터의 체력 저장
+    public void CharacterStatSave()
+    {
+        foreach(var cha in _characters)
+        {
+            // 캐릭터가 죽었으면
+            if (!cha._isAlive)
+            {
+                // 체력의 30%만 저장
+                GameManager.Instance.CharacterBattleDataSave._chaHpSave[cha._characterState._chaEnName] = cha._characterState._chaMaxHP * 0.3f;
+                Debug.Log($"{cha._characterState._chaEnName}의 전체 체력의 30%인 {cha._characterState._chaCurrentHP}저장");
+            }
+            else
+            {
+                // 캐릭터의 현재 남은 체력 저장
+                GameManager.Instance.CharacterBattleDataSave._chaHpSave[cha._characterState._chaEnName] = cha._characterState._chaCurrentHP;
+                Debug.Log($"{cha._characterState._chaEnName}의 현재 남은 체력 {cha._characterState._chaCurrentHP}저장");
+            }
+        }
+    }
 
-    #endregion
+    private void BattleEnd()
+    {
+        foreach (var character in _characters)
+        {
+            Destroy(character?.gameObject);
+        }
+
+        foreach (var monster in _monsters)
+        {
+            Destroy(monster?.gameObject);
+        }
+
+        _characters.Clear();
+        _monsters.Clear();
+
+        _isSpawned = false;
+        _isBattleStarted = false;
+        _isGameOver = false;
+        _monsterTotalMaxHp = 0;
+    }
 
     #region 캐릭터의 패시브 스킬 동작
 
@@ -446,27 +487,6 @@ public class BattleManager : MonoBehaviour
                 }
             }
         }
-    }
-
-    private void BattleEnd()
-    {
-        foreach (var character in _characters)
-        {
-            Destroy(character?.gameObject);
-        }
-
-        foreach (var monster in _monsters)
-        {
-            Destroy(monster?.gameObject);
-        }
-
-        _characters.Clear();
-        _monsters.Clear();
-
-        _isSpawned = false;
-        _isBattleStarted = false;
-        _isGameOver = false;
-        _monsterTotalMaxHp = 0;
     }
 
     #endregion

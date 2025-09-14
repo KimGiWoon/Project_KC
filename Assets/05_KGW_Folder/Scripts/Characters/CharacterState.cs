@@ -42,4 +42,5 @@ public class CharacterState
     public CharacterSkillDataSO _chaActiveSkill;
 
     public bool _isManaFull;    // 마나 풀 여부
+    public bool _isResurrection; // 캐릭터의 부활 여부
 }
