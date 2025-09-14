@@ -29,11 +29,17 @@ namespace SDW
         public int ResultChoiceCount;
         public List<string> EncounterExitText;
 
+        public List<ChoiceResultType> ChoiceResults;
+        public List<int> ChoiceResultValues;
+
         public EncounterTable(string[] fields)
         {
             this = default;
             ChoiceTexts = new List<string>();
             EncounterExitText = new List<string>();
+
+            ChoiceResults = new List<ChoiceResultType>();
+            ChoiceResultValues = new List<int>();
 
 
             try
@@ -82,6 +88,33 @@ namespace SDW
                 if (fields.Length > 15 && !string.IsNullOrEmpty(fields[15]))
                 {
                     EncounterExitText.AddRange(fields[15].Split('`'));
+                }
+                if (fields.Length > 16 && !string.IsNullOrEmpty(fields[16]))
+                {
+                    string[] results = fields[16].Split('`');
+                    foreach (var res in results)
+                    {
+                        if (Enum.TryParse<ChoiceResultType>(res, true, out var resultType))
+                        {
+                            ChoiceResults.Add(resultType);
+                        }
+                    }
+                }
+                if (fields.Length > 17 && !string.IsNullOrEmpty(fields[17]))
+                {
+                    string[] values = fields[17].Split('`');
+                    foreach (var val in values)
+                    {
+                        if (int.TryParse(val, out var resultValue))
+                        {
+                            ChoiceResultValues.Add(resultValue);
+                        }
+                    }
+                }
+                // ChoiceResultValues의 개수가 ChoiceResults보다 적으면, 부족한 만큼 0으로 채워줍니다.
+                while (ChoiceResultValues.Count < ChoiceResults.Count)
+                {
+                    ChoiceResultValues.Add(0); // 기본값 0을 추가
                 }
             }
             catch (Exception e)
