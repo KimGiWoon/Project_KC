@@ -4,9 +4,15 @@ using UnityEngine;
 
 namespace JJY
 {
-    // TODO : GameManager 연결
     public class CoinManager : MonoBehaviour
     {
+        public int yeopjeon { get; private set; } // 전투에서 획득, 소모하는 재화. 서버에 저장할 필요 없음.
+        public int totalYeopjeon { get; private set; } // 이번 전투에서 얻은 총 재화량
+        public int starCandy { get; private set; } // 인게임 재화, GameManager의 변수명 변경해야함. (Fire base)
+
+        public int shiningStarCandy { get; private set; } // 인게임 유료 재화, 변수명 변경해야함. (Fire base)
+        public int point { get; private set; }
+
         // public static CoinManager Instance { get; private set; }
         private void Awake()
         {
@@ -15,13 +21,9 @@ namespace JJY
             items.Add(fineDining, 0);
             items.Add(masterChef, 0);
             yeopjeon = 999999;
+            starCandy = 999999;
         }
 
-        public int yeopjeon { get; private set; } // 전투에서 획득, 소모하는 재화. 서버에 저장할 필요 없음.
-        public int totalYeopjeon { get; private set; } // 이번 전투에서 얻은 총 재화량
-        public int starCandy { get; private set; } // 인게임 재화, GameManager의 변수명 변경해야함. (Fire base)
-
-        public int shiningStarCandy { get; private set; } // 인게임 유료 재화, 변수명 변경해야함. (Fire base)
         // 아웃게임 아이템
         private Dictionary<string, int> items = new Dictionary<string, int>();
         private string _beek = "Beek's Recipe Book";
@@ -137,6 +139,19 @@ namespace JJY
             if (shiningStarCandy < value) return;
 
             shiningStarCandy -= value;
+        }
+
+        public void AddPoint(int value)
+        {
+            point += value;
+        }
+
+        public bool SubtractPoint(int value)
+        {
+            if (point < value) return false;
+
+            point += value;
+            return true;
         }
 
 #if UNITY_EDITOR

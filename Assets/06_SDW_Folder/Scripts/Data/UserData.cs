@@ -8,6 +8,7 @@ namespace SDW
         public string Email;
         public string JoinDate;
         public string Nickname;
+        public int IconNumber;
         // public string Uid;
 
         /// <summary>
@@ -18,11 +19,12 @@ namespace SDW
         /// <param name="nickname">설정할 nickname</param>
         /// <param name="uid">설정할 uid</param>
         // public UserData(string email, string joinDate, string nickname, string uid)
-        public UserData(string email, string joinDate, string nickname)
+        public UserData(string email, string joinDate, string nickname, int iconNumber)
         {
             Email = email;
             JoinDate = joinDate;
             Nickname = nickname;
+            IconNumber = iconNumber;
         }
     }
 }

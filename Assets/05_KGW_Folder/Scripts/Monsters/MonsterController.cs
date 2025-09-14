@@ -252,12 +252,15 @@ public class MonsterController : UnitBaseData
             if (_monsterState._monActiveSkill_1._monSkillCd <= _skill1Timer)
             {
                 Debug.Log("액티브 스킬 1");
+
+                _isUseSkill = true;
                 // 액티브 스킬1 사용
                 _monsterState._monActiveSkill_1.UseSkill(_monster, _monsterState._monActiveSkill_1, _attackTarget);
 
                 // 타이머 초기화
                 _skill1Timer = 0f;
             }
+            _isUseSkill = false;
         }
         // 액티브 스킬2을 보유하고 있는지 확인
         if (_monsterState._monActiveSkill_2)
@@ -266,13 +269,17 @@ public class MonsterController : UnitBaseData
             if (_monsterState._monActiveSkill_2._monSkillCd <= _skill2Timer)
             {
                 Debug.Log("액티브 스킬 2 사용");
+
+                _isUseSkill = true;
                 // 액티브 스킬2 사용
                 _monsterState._monActiveSkill_2.UseSkill(_monster, _monsterState._monActiveSkill_2, _attackTarget);
 
                 // 타이머 초기화
                 _skill2Timer = 0f;
             }
+            _isUseSkill = false;
         }
+
     }
 
     // 보스 몬스터 소환 스킬사용 (적을 감지 하면 사용)

@@ -82,6 +82,7 @@ public class MyCharacterController : UnitBaseData
         _characterState._isBarrier = false;
         _characterState._groggyDamage = 0f;
         _characterState._chaPassiveSkill = _characterData._chaPassiveSkill;
+        _characterState._isResurrection = false;
         _moveDir = Vector3.right;
         _isAlive = true;
 
@@ -89,6 +90,8 @@ public class MyCharacterController : UnitBaseData
         LevelUpStatUpdate();
         // 캐릭터 돌파 스텟 적용
         UpgradeStatUpdate();
+        // 캐릭터의 저장된 체력 불러오기
+        CharacterSaveDataLoad();
 
         // 체력, 마나 게이지 현재값 초기화
         OnHpChange?.Invoke(_characterState._chaCurrentHP / _characterState._chaMaxHP);
@@ -293,6 +296,21 @@ public class MyCharacterController : UnitBaseData
         _characterState._chaArmor *= upgradeData.ChaArmor;
     }
 
+    // 저장된 캐릭터의 체력 불러오기
+    private void CharacterSaveDataLoad()
+    {
+        // 전체 부활하면 저장된 체력 불러오지 않음 
+        if (!_battleManager._canResurrection) return;
+
+        var characterSaveData = GameManager.Instance.CharacterBattleDataSave._chaHpSave;
+
+        if (characterSaveData.ContainsKey(_characterState._chaEnName))
+        {
+            // 저장된 체력 불러오기
+            _characterState._chaCurrentHP = characterSaveData[_characterState._chaEnName];
+        }
+    }
+
     // 마나 회복
     public void ManaRecovery()
     {
@@ -324,6 +342,7 @@ public class MyCharacterController : UnitBaseData
             // 타겟이 없으면 미사용
             if (_attackTarget == null) return;
 
+            _isUseSkill = true;
             // 유물 효과 적용
             OnRelicEffect?.Invoke();
 
@@ -456,6 +475,15 @@ public class MyCharacterController : UnitBaseData
     {
         // 치명타 계산
         float critical = UnityEngine.Random.value < _characterState._chaCrit * 0.01f ? _characterState._chaCritDmg * 0.01f : 1f;
+        
+        if(critical != 1f)
+        {
+            _isCritical = true;
+        }
+        else
+        {
+            _isCritical = false;
+        }
 
         // 데미지 계산
         float reduction = _characterState._chaArmor / (_characterState._chaArmor + 100);
@@ -497,6 +525,7 @@ public class MyCharacterController : UnitBaseData
     {
         // 마나 초기화
         _characterState._chaCurrentMP = 0f;
+        _isUseSkill = false;
         // 마나 변화에 대한 이벤트 호출
         OnMpChange?.Invoke(Mathf.Clamp01(_characterState._chaCurrentMP / _characterState._chaMaxMP));
 

@@ -134,8 +134,6 @@ namespace SDW
             OnUICloseRequested?.Invoke(UIName.ShoppingUI, false);
         }
 
-        //todo 상점 관련 설정(재료, 가격, Reset, Buy Button 연동 필요)
-
         #region Button Methods
 
         private void ResetButtonClicked()
