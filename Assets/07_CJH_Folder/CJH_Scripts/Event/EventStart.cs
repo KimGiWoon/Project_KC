@@ -30,8 +30,16 @@ namespace CJH
 
         public List<EncounterSpriteMapping> encounterSprites;
 
+  
+
         public void Initialize(EncounterTable data)
         {
+            Debug.LogWarning(">>>>> 이 로그를 실행하는 오브젝트: " + this.gameObject.name, this.gameObject);
+            Debug.LogWarning($"--- EventStart 데이터 수신 ---");
+            Debug.Log($"ID: {data.EncounterID}, 타입: {data.Type}");
+            Debug.Log($"내용: '{data.EncounterText}'");
+            Debug.Log($"선택지 개수: {data.ChoiceCount}");
+            Debug.LogWarning($"--------------------------");
             _eventManager = FindObjectOfType<EventManager>();
 
             SetTitleByType(data.Type);
@@ -73,9 +81,11 @@ namespace CJH
             foreach (var btn in buttonContainer.GetComponentsInChildren<Button>())
                 btn.interactable = false;
 
-            if (EventBranches.Map.TryGetValue((data.EncounterID, choiceIndex), out var branch))
+            if (EventBranches.Map.ContainsKey((data.EncounterID, choiceIndex)))
             {
-                Initialize(branch); // 🔁 분기 이벤트로 넘어가기
+                Debug.Log($"[Branch Detected] ID: {data.EncounterID}, Choice: {choiceIndex}");
+                var branch = EventBranches.Map[(data.EncounterID, choiceIndex)];
+                Initialize(branch);
                 return;
             }
 
@@ -115,8 +125,8 @@ namespace CJH
 
                 var buttonText = buttonObj.GetComponentInChildren<TextMeshProUGUI>();
                 if (buttonText != null)
-                    buttonText.text = branch.Choices[choiceIndex];
 
+                    buttonText.text = branch.Choices[choiceIndex];
                 var button = buttonObj.GetComponent<Button>();
                 button.onClick.AddListener(() => OnBranchChoiceSelected(branch, choiceIndex));
             }
@@ -143,6 +153,8 @@ namespace CJH
 
         private void SetTitleByType(EncounterType type)
         {
+            Debug.Log($"SetTitleByType called with type: {type}");
+
             if (eventTitleText == null) return;
 
             switch (type)
