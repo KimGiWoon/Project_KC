@@ -27,7 +27,6 @@ namespace SDW
         public Action<Dictionary<string, object>> OnCharacterDataLoaded;
         public Action<Dictionary<string, object>> OnDailyQuestedDataLoaded;
         public Action<Dictionary<string, object>> OnEtcDataLoaded;
-        public Action OnCheckUpdate;
 
         [SerializeField] private FirebaseDataSO _cliendData;
         private string _googleClientId;
@@ -36,6 +35,7 @@ namespace SDW
         private UserData _userData;
         private UIManager _ui;
         private CharacterDataManager _character;
+        private Dictionary<string, object> _loadedCharacters;
 
         #region Firebase Intialize Methods
 
@@ -66,9 +66,7 @@ namespace SDW
                     _auth = FirebaseAuth.DefaultInstance;
                     _db = FirebaseDatabase.DefaultInstance.RootReference;
 
-                    _ui.OpenPanel(UIName.DownloadUI);
-                    OnCheckUpdate?.Invoke();
-
+                    //todo signinUI가 open되기 전에 invoke 되기에 반응이 없음
                     if (PlayerPrefs.GetInt("SignedUp", 0) == 0)
                         OnSignInSetButtonType?.Invoke(ButtonType.SignUpButton);
                     else if (_auth.CurrentUser != null)
@@ -238,13 +236,15 @@ namespace SDW
                 { "baekRecipeBook", 0 }, //# 1000 경험치 재화
                 { "fineDiningRecipeBook", 0 }, //# 5000 경험치 재화
                 { "masterChefRecipeBook", 0 }, //# 20000 경험치 재화
-                { "point", 0 }, //# 영구 성장 포인트
-                { "startCandy", 0 }, //# 유료 -> 뽑기 재화
-                { "shiningStarCandy", 0 } //# 유료 재화
+                { "point", 9999999 }, //# 영구 성장 포인트
+                //todo 추후 0으로 설정
+                { "starCandy", 9999999 }, //# 유료 -> 뽑기 재화
+                { "shiningStarCandy", 9999999 } //# 유료 재화
             };
 
             var characters = new Dictionary<string, object>();
 
+            int selectedTeamCount = 0;
             foreach (var character in _character.CharacterLists)
             {
                 var characterData = new Dictionary<string, object>
@@ -252,17 +252,26 @@ namespace SDW
                     { "owned", false },
                     { "count", 0 },
                     { "level", 1 },
-                    { "exp", 0 }
+                    { "exp", 0 },
+                    { "selected", false }
                 };
 
                 if (character._chaBaseData.ChaGrade == CharacterGrade.Normal)
                 {
                     characterData["owned"] = true;
-                    characterData["count"] = 1;
+                    characterData["count"] = 0;
+
+                    if (selectedTeamCount < 3)
+                    {
+                        characterData["selected"] = true;
+                        selectedTeamCount++;
+                    }
                 }
 
                 characters[character._chaBaseData.ChaID.ToString()] = characterData;
             }
+
+            Debug.Log($"Number of characters : {characters.Count}");
 
             var dailyQuests = new Dictionary<string, object>();
 
@@ -276,7 +285,7 @@ namespace SDW
                 { "score", 0 },
                 { "questUpdate", DateTime.UtcNow.AddHours(9).ToString("yyyy-MM-dd HH:mm:ss") },
                 { "buyAdRemover", false },
-                { "gachaCounter", 0 }
+                { "gachaCount", 0 }
             };
 
             var userData = new Dictionary<string, object>
@@ -348,6 +357,9 @@ namespace SDW
         {
             string userId = user.UserId;
 
+            FirebaseDatabase.DefaultInstance.GoOffline();
+            FirebaseDatabase.DefaultInstance.GoOnline();
+
             _db.Child("users").Child(userId).GetValueAsync().ContinueWithOnMainThread(task =>
             {
                 if (task.IsFaulted)
@@ -385,13 +397,15 @@ namespace SDW
                             profileData.ContainsKey("email") ? profileData["email"].ToString() : "",
                             profileData.ContainsKey("joinDate") ? profileData["joinDate"].ToString() : "",
                             profileData.ContainsKey("nickname") ? profileData["nickname"].ToString() : "",
-                            profileData.ContainsKey("icon") ? int.Parse(profileData["icon"].ToString()) : 0
+                            profileData.ContainsKey("icon") ? Convert.ToInt32(profileData["icon"]) : 0
                         );
 
                         CheckNicknameRequired();
                     }
                     else Debug.LogWarning("사용자 데이터를 Dictionary로 변환할 수 없습니다");
                 }
+
+                _loadedCharacters = userData["characters"] as Dictionary<string, object>;
 
                 if (userData.ContainsKey("coinData"))
                     OnCoinDataLoaded?.Invoke(userData["coinData"] as Dictionary<string, object>);
@@ -423,13 +437,15 @@ namespace SDW
                 { "baekRecipeBook", 0 }, //# 1000 경험치 재화
                 { "fineDiningRecipeBook", 0 }, //# 5000 경험치 재화
                 { "masterChefRecipeBook", 0 }, //# 20000 경험치 재화
-                { "point", 0 }, //# 영구 성장 포인트
-                { "startCandy", 0 }, //# 유료 -> 뽑기 재화
-                { "shiningStarCandy", 0 } //# 유료 재화
+                //todo 추후 0으로 설정
+                { "point", 9999999 }, //# 영구 성장 포인트
+                { "starCandy", 9999999 }, //# 유료 -> 뽑기 재화
+                { "shiningStarCandy", 9999999 } //# 유료 재화
             };
 
             var characters = new Dictionary<string, object>();
 
+            int selectedTeamCount = 0;
             foreach (var character in _character.CharacterLists)
             {
                 var characterData = new Dictionary<string, object>
@@ -437,17 +453,26 @@ namespace SDW
                     { "owned", false },
                     { "count", 0 },
                     { "level", 1 },
-                    { "exp", 0 }
+                    { "exp", 0 },
+                    { "selected", false }
                 };
 
                 if (character._chaBaseData.ChaGrade == CharacterGrade.Normal)
                 {
                     characterData["owned"] = true;
-                    characterData["count"] = 1;
+                    characterData["count"] = 0;
+
+                    if (selectedTeamCount < 3)
+                    {
+                        characterData["selected"] = true;
+                        selectedTeamCount++;
+                    }
                 }
 
                 characters[character._chaBaseData.ChaID.ToString()] = characterData;
             }
+
+            Debug.Log($"Number of characters : {characters.Count}");
 
             var dailyQuests = new Dictionary<string, object>();
 
@@ -461,7 +486,7 @@ namespace SDW
                 { "score", 0 },
                 { "questUpdate", DateTime.UtcNow.AddHours(9).ToString("yyyy-MM-dd HH:mm:ss") },
                 { "buyAdRemover", false },
-                { "gachaCounter", 0 }
+                { "gachaCount", 0 }
             };
 
             var userData = new Dictionary<string, object>
@@ -477,7 +502,7 @@ namespace SDW
                 profileData.ContainsKey("email") ? profileData["email"].ToString() : "",
                 profileData.ContainsKey("joinDate") ? profileData["joinDate"].ToString() : "",
                 profileData.ContainsKey("nickname") ? profileData["nickname"].ToString() : "",
-                profileData.ContainsKey("icon") ? int.Parse(profileData["icon"].ToString()) : 0
+                profileData.ContainsKey("icon") ? Convert.ToInt32(profileData["icon"]) : 0
             );
 
             _db.Child("users").Child(user.UserId).SetValueAsync(userData).ContinueWithOnMainThread(task =>
@@ -556,6 +581,86 @@ namespace SDW
             {
                 { "profile/icon", iconNumber }
             };
+
+            _db.Child("users").Child(_auth.CurrentUser.UserId).UpdateChildrenAsync(updateData).ContinueWithOnMainThread(task =>
+            {
+                if (task.IsFaulted)
+                {
+                    Debug.LogWarning($"닉네임 저장 실패: {task.Exception.Message}");
+                }
+            });
+        }
+
+        //todo Userdata도 업데이트를 해야 함 - 필수는 아님, CharacterDataManager는 게임 실행 시에만 로드되기 때문
+        //@ 변경에 대한 반영을 할지는 고민
+        public void SetStarCandy(int starCandy)
+        {
+            var updateData = new Dictionary<string, object>
+            {
+                { "coinData/starCandy", starCandy }
+            };
+
+            _db.Child("users").Child(_auth.CurrentUser.UserId).UpdateChildrenAsync(updateData).ContinueWithOnMainThread(task =>
+            {
+                if (task.IsFaulted)
+                {
+                    Debug.LogWarning($"닉네임 저장 실패: {task.Exception.Message}");
+                }
+            });
+        }
+
+        public void SetBead(string key, int value)
+        {
+            var updateData = new Dictionary<string, object>
+            {
+                { $"characters/{key}/count", value }
+            };
+
+            _db.Child("users").Child(_auth.CurrentUser.UserId).UpdateChildrenAsync(updateData).ContinueWithOnMainThread(task =>
+            {
+                if (task.IsFaulted)
+                {
+                    Debug.LogWarning($"닉네임 저장 실패: {task.Exception.Message}");
+                }
+            });
+        }
+
+        public void SetOwnedCharacter(string key, bool value)
+        {
+            var updateData = new Dictionary<string, object>
+            {
+                { $"characters/{key}/owned", value }
+            };
+
+            _db.Child("users").Child(_auth.CurrentUser.UserId).UpdateChildrenAsync(updateData).ContinueWithOnMainThread(task =>
+            {
+                if (task.IsFaulted)
+                {
+                    Debug.LogWarning($"닉네임 저장 실패: {task.Exception.Message}");
+                }
+            });
+        }
+
+        public void SetSelectedTeam(Dictionary<string, bool> selectedTeam)
+        {
+            var updateData = new Dictionary<string, object>();
+            var selectedKeyList = new List<string>();
+
+            foreach (var selectedCharacter in selectedTeam)
+            {
+                selectedKeyList.Add(selectedCharacter.Key);
+                var loadedCharacter = _loadedCharacters[selectedCharacter.Key] as Dictionary<string, object>;
+                if (Convert.ToBoolean(loadedCharacter["selected"])) continue;
+
+                updateData.Add($"characters/{selectedCharacter.Key}/selected", selectedCharacter.Value);
+            }
+
+            foreach (var character in _loadedCharacters)
+            {
+                if (selectedKeyList.Contains(character.Key)) continue;
+
+                updateData.Add($"characters/{character.Key}/selected", false);
+            }
 
             _db.Child("users").Child(_auth.CurrentUser.UserId).UpdateChildrenAsync(updateData).ContinueWithOnMainThread(task =>
             {

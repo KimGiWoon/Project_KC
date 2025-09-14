@@ -9,7 +9,7 @@ namespace KSH
     public class RewardChangeManager : MonoBehaviour
     {
         // public Dictionary<string, bool> ownedCharacters = new Dictionary<string, bool>();
-        public Dictionary<string, int> beadsInventory = new Dictionary<string, int>();
+        // public Dictionary<string, int> beadsInventory = new Dictionary<string, int>();
 
         private CharacterDataManager _charData;
 
@@ -17,17 +17,21 @@ namespace KSH
 
         private void Start()
         {
-            starCandy = GameManager.Instance.RainbowStarCandy;
+            starCandy = GameManager.Instance.Coin.starCandy;
             _charData = GameManager.Instance.CharacterData;
         }
 
         public int StarCandy
         {
-            get => starCandy;
+            get
+            {
+                starCandy = GameManager.Instance.Coin.starCandy;
+                return starCandy;
+            }
             private set
             {
                 starCandy = value;
-                GameManager.Instance.SetRainbowStarCandy(starCandy);
+                GameManager.Instance.Coin.SetStarCandy(starCandy);
                 OnStarCandyChange?.Invoke(starCandy);
             }
         }
@@ -50,12 +54,13 @@ namespace KSH
         public (int starCandy, int bead, int currentBead) ProcessCharacter(CharacterDataSO character)
         {
             int currentBead = 0;
-            if (_charData.OwnedCharacters.ContainsKey(character._chaBaseData.ChaName))
+            if (_charData.OwnedCharacters.ContainsKey(character._chaBaseData.ChaEnName))
             {
-                if (!beadsInventory.ContainsKey(character._chaBaseData.ChaName))
-                    beadsInventory[character._chaBaseData.ChaName] = 1;
+                if (!_charData.BeadsInventory.ContainsKey(character._chaBaseData.ChaEnName))
+                    _charData.SetBead(character._chaBaseData.ChaEnName, 1);
 
-                beadsInventory[character._chaBaseData.ChaName]++;
+                _charData.SetBead(character._chaBaseData.ChaEnName,
+                    _charData.BeadsInventory[character._chaBaseData.ChaEnName] + 1);
                 character.Beads++;
                 currentBead = character.Beads;
 
@@ -63,7 +68,7 @@ namespace KSH
                 {
                     gainedStarCandy = character._chaBaseData.ChaGrade == CharacterGrade.Rare ? RareReward : normalReward;
                     gainedBead = 0;
-                    beadsInventory[character._chaBaseData.ChaName] = beadMax;
+                    _charData.SetBead(character._chaBaseData.ChaEnName, beadMax);
                     character.Beads = beadMax;
                     StarCandy += gainedStarCandy;
 
@@ -88,16 +93,27 @@ namespace KSH
             }
             else
             {
-                _charData.OwnedCharacters[character._chaBaseData.ChaName] = true;
-                _charData.AllOwnedCharacters.Add(character);
-                // ownedCharacters.Add(character._chaBaseData.ChaName, false);
-                beadsInventory.Add(character._chaBaseData.ChaName, 0);
-                isStarCandy[character._chaBaseData.ChaName] = false;
-                character.Beads = 0;
-                currentBead = 0;
-                Debug.Log($"{character._chaBaseData.ChaName} 획득!");
+                currentBead = AddFirstCharacter(character);
             }
             return (gainedStarCandy, gainedBead, currentBead);
+        }
+
+        public int AddFirstCharacter(CharacterDataSO character, int beads = 0)
+        {
+            int currentBead;
+            _charData.SetOwnedCharacter(character._chaBaseData.ChaEnName, true);
+            _charData.AllOwnedCharacters.Add(character);
+            // ownedCharacters.Add(character._chaBaseData.ChaName, false);
+
+            if (beads > beadMax) currentBead = beadMax;
+            else currentBead = beads;
+
+            _charData.SetBead(character._chaBaseData.ChaEnName, currentBead);
+            isStarCandy[character._chaBaseData.ChaName] = false;
+
+            character.Beads = beads;
+            Debug.Log($"{character._chaBaseData.ChaName} 획득!");
+            return currentBead;
         }
 
         public void AddStarCandy(int count)
