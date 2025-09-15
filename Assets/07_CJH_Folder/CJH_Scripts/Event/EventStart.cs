@@ -27,6 +27,8 @@ namespace CJH
 
         public List<EncounterSpriteMapping> encounterSprites;
 
+        private static int gambleCount = 0;
+
         public void Initialize(EncounterTable data)
         {
             _eventManager = FindObjectOfType<EventManager>();
@@ -96,6 +98,27 @@ namespace CJH
             ChoiceResultType resultType = ChoiceResultType.None; // 기본값
             int resultValue = (choiceIndex < data.ChoiceResultValues.Count) ? data.ChoiceResultValues[choiceIndex] : 0;
 
+            if(data.Type == EncounterType.Gamb)
+            {
+                if(choiceIndex == 0)
+                {
+                    gambleCount = 0;
+                }
+
+                if(choiceIndex == 1)
+                {
+                    _eventManager.EndEncounter();
+                    return;
+                }
+
+                gambleCount++;
+
+                if(gambleCount == 2)
+                {
+                    //todo 겜블 3번째 때 동작 확인 후 작성
+                }
+            }
+
             switch (data.Type)
             {
                 case EncounterType.MoneySpend:
@@ -147,7 +170,24 @@ namespace CJH
                     resultType = ChoiceResultType.None;
                     break;
             }
+            //todo 이벤트 버튼 분기 시 동작 연결 필요
+            switch (resultType)
+            {
+                case ChoiceResultType.Combat:
+                    Debug.Log("전투");
+                    break;
+                case ChoiceResultType.LoseYeopjeon:
+                    Debug.Log("엽전 잃음");
+                    break;
+                case ChoiceResultType.LoseRelic:
+                    Debug.Log("유물 잃음");
+                    break;
+                case ChoiceResultType.None:
+                    Debug.Log(" 이벤트 지나감 ");
+                    break;
+            }
 
+            // 결과가 있으면 결과창 보여주고 없으면 이벤트 종료
             if (choiceIndex < data.EncounterExitText.Count && !string.IsNullOrEmpty(data.EncounterExitText[choiceIndex]))
             {
                 resultPanel.SetActive(true);
