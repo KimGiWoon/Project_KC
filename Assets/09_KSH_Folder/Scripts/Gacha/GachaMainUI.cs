@@ -33,8 +33,6 @@ namespace KSH
         {
             base.Start();
             gacha = GameManager.Instance.Gacha;
-
-            CandyUpdate(GameManager.Instance.Reward.StarCandy);
         }
 
         private void OnEnable()
@@ -63,7 +61,7 @@ namespace KSH
         private void Initialize()
         {
             GameManager.Instance.Reward.OnStarCandyChange += CandyUpdate;
-            CandyUpdate(GameManager.Instance.RainbowStarCandy);
+            CandyUpdate(GameManager.Instance.Coin.starCandy);
             _backButton.onClick.AddListener(BackButtonClicked);
         }
 
@@ -80,6 +78,7 @@ namespace KSH
 
         private void SingleButtonClicked()
         {
+            CandyUpdate(GameManager.Instance.Reward.StarCandy);
             if (GameManager.Instance.Reward.StarCandy >= 150) //별사탕이 150개 이상 가지고 있으면 1회 뽑기
             {
                 GatchaUI.SetActive(false);
@@ -96,6 +95,7 @@ namespace KSH
 
         private void MultipleButtonClicked()
         {
+            CandyUpdate(GameManager.Instance.Reward.StarCandy);
             if (GameManager.Instance.Reward.StarCandy >= 1500) //별사탕을 1500개 이상 가지고 있으면 10회 뽑기
             {
                 GatchaUI.SetActive(false);

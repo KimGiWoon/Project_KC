@@ -24,6 +24,9 @@ public class TeamFormationManager : MonoBehaviour
     private List<SelectableCharacterSlot> selectableSlots = new List<SelectableCharacterSlot>();
     private CharacterDataSO _lastSelectedCharacter;
     private CharacterDataManager _charData;
+    private List<CharacterDataSO> _selectedTeam = new List<CharacterDataSO>();
+    private GameManager _gameManager;
+    private bool _isDownloaded;
 
     private void Awake()
     {
@@ -37,8 +40,17 @@ public class TeamFormationManager : MonoBehaviour
 
     private void Start()
     {
-        _charData = GameManager.Instance.CharacterData;
+        _gameManager = GameManager.Instance;
+        _charData = _gameManager.CharacterData;
+    }
+
+    private void Update()
+    {
+        if (!_gameManager.CompleteDownload || !_gameManager.ImageSpriteConnected || !_gameManager.PrefabAndSoConnected ||
+            _isDownloaded) return;
+
         InitPartUI();
+        _isDownloaded = true;
     }
 
     public void InitPartUI()
@@ -50,6 +62,7 @@ public class TeamFormationManager : MonoBehaviour
             finalTeamSlots[i].levelText.text = _charData.SelectedTeam[i]._chaLv.ToString();
             finalTeamSlots[i].characterData = _charData.SelectedTeam[i];
             finalTeamSlots[i].gameObject.SetActive(true);
+            _selectedTeam.Add(_charData.SelectedTeam[i]);
         }
     }
 
@@ -76,7 +89,7 @@ public class TeamFormationManager : MonoBehaviour
             .ThenBy(data => data._chaBaseData.ChaName)
             .ToList();
 
-        _charData.SelectedTeam.Clear();
+        _charData.ClearSelectedTeam();
         PopulateOwnedCharacterGrid();
         UpdateSelectedTeam();
         UpdateAllVisuals();
@@ -100,16 +113,17 @@ public class TeamFormationManager : MonoBehaviour
 
     private void UpdateSelectedTeam()
     {
+        var selectedTeam = new List<CharacterDataSO>();
         foreach (var finalTeam in finalTeamSlots)
         {
-            _charData.SelectedTeam.Add(finalTeam.characterData);
+            finalTeam.characterButton.interactable = true;
+            selectedTeam.Add(finalTeam.characterData);
         }
+        _charData.SetSelectedTeam(selectedTeam, false);
     }
 
     private void UpdateAllVisuals()
     {
-        //todo 선택 취소 기능
-        // 상단 슬롯 오버레이 업데이트
         foreach (var slot in selectableSlots)
         {
             slot.UpdateSelectionVisual(_charData.SelectedTeam.Contains(slot.GetCharacterData()));
@@ -152,23 +166,25 @@ public class TeamFormationManager : MonoBehaviour
         _lastSelectedCharacter = character;
         if (_charData.SelectedTeam.Contains(character))
         {
-            _charData.SelectedTeam.Remove(character);
+            _charData.RemoveSelectedTeamMember(character);
+            _selectedTeam.Remove(character);
         }
         else if (_charData.SelectedTeam.Count >= 3) return;
         else
         {
-            _charData.SelectedTeam.Add(character);
+            _charData.AddSelectedTeamMember(character);
+            _selectedTeam.Add(character);
         }
         UpdateAllVisuals();
     }
-    public void DeselectCharacter(CharacterDataSO character)
-    {
-        if (_charData.SelectedTeam.Contains(character))
-        {
-            _charData.SelectedTeam.Remove(character);
-            UpdateAllVisuals();
-        }
-    }
+    // public void DeselectCharacter(CharacterDataSO character)
+    // {
+    //     if (_charData.SelectedTeam.Contains(character))
+    //     {
+    //         _charData.RemoveSelectedTeamMember(character);
+    //         UpdateAllVisuals();
+    //     }
+    // }
 
     public bool OnConfirm()
     {
@@ -184,13 +200,17 @@ public class TeamFormationManager : MonoBehaviour
             finalTeamSlots[i].characterButton.interactable = false;
         }
 
+        _charData.SetSelectedTeam(_selectedTeam, true);
+        _selectedTeam.Clear();
         _lastSelectedCharacter = null;
         return true;
     }
 
     public void OnClose()
     {
-        _charData.SelectedTeam.Clear();
+        _charData.ClearSelectedTeam();
+
+        var selectedTeam = new List<CharacterDataSO>();
 
         for (int i = 0; i < _prevFinalTeamSlots.Count; i++)
         {
@@ -200,12 +220,13 @@ public class TeamFormationManager : MonoBehaviour
             finalTeamSlots[i].characterData = _prevFinalTeamSlots[i].Data;
             finalTeamSlots[i].gameObject.SetActive(true);
 
-            _charData.SelectedTeam.Add(_prevFinalTeamSlots[i].Data);
+            selectedTeam.Add(_prevFinalTeamSlots[i].Data);
 
             finalTeamSlots[i].characterData = _prevFinalTeamSlots[i].Data;
             finalTeamSlots[i].gameObject.SetActive(true);
         }
 
+        _charData.SetSelectedTeam(selectedTeam, false);
         _lastSelectedCharacter = null;
     }
     private void ShowWarningPopup() => _partyCharListUI.ShowWarningPopup();

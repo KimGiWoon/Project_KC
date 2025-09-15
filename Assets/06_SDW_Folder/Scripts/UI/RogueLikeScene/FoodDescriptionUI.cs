@@ -36,7 +36,6 @@ namespace SDW
             }
         }
 
-        //todo 추후 파라미터 등은 추가 필요
         public void SetFoodDescription(PopupDescription description)
         {
             _foodImage.sprite = description.Sprite;

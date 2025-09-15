@@ -94,10 +94,6 @@ namespace KSH
             if (!alreadyAcquired) //만약 없다면
             {
                 GameManager.Instance.InGameItem.AddItem(relic);
-
-                Debug.Log($"{relic.relicName} 획득");
-                //todo 추후 전투 Scene에 들어갈 때 한번에 유물들 효과를 적용하도록 수정 필요
-                //BuffRelicManager.Instance.ApplyRelicEffect(relic); //아이템 효과적용
             }
         }
 

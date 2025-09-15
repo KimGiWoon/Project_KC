@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
-using SDW; // EncounterTable을 사용하기 위해 네임스페이스 추가
+using SDW;
 
 public class DataManager : MonoBehaviour
 {
@@ -18,7 +18,6 @@ public class DataManager : MonoBehaviour
         {
             return data;
         }
-        // Debug.LogError($"[DataManager] ID: {id}에 해당하는 사건을 찾을 수 없습니다!");
         return default;
     }
 
@@ -53,7 +52,6 @@ public class DataManager : MonoBehaviour
             return anyCommonSentimentIds[Random.Range(0, anyCommonSentimentIds.Count)];
         }
 
-        // Debug.LogError($"[DataManager] 대체할 사건을 찾지 못했습니다! CSV 파일에 이벤트가 충분한지 확인해주세요.");
-        return 0; // 최악의 경우에만 0 반환
+        return 0;
     }
 }

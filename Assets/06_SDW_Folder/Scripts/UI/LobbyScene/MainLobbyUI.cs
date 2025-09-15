@@ -20,6 +20,7 @@ namespace SDW
 
         public Action<UIName> OnUIOpenRequested;
         public Action<UIName> OnUICloseRequested;
+        public Action<int> OnIconRequested;
 
         /// <summary>
         /// UI 컴포넌트 활성화 설정 및 이벤트 리스너 할당을 수행
@@ -39,7 +40,8 @@ namespace SDW
             _dailyQuestButton.onClick.AddListener(DailyQuestButtonClicked);
             _gachaButton.onClick.AddListener(GachaButtonClicked);
 
-            UpdateRainbowStar(GameManager.Instance.RainbowStarCandy);
+            UpdateRainbowStar(GameManager.Instance.Coin.starCandy);
+            UpdateShiningStarCandy(GameManager.Instance.Coin.shiningStarCandy);
             GameManager.Instance.Reward.OnStarCandyChange += UpdateRainbowStar;
             GameManager.Instance.DailyQuest.OnStarCandyChange += UpdateRainbowStar;
         }
@@ -64,7 +66,6 @@ namespace SDW
         /// </summary>
         private void GameStartButtonClicked()
         {
-            //todo Scene은 변경해야 함
             GameManager.Instance.Scene.LoadSceneAsync(SceneName.SDW_RoguelikeScene);
             OnUICloseRequested?.Invoke(UIName.MainLobbyUI);
         }
@@ -91,9 +92,12 @@ namespace SDW
         /// <summary>
         /// UserInfoUI의 Nickname을 업데이트
         /// </summary>
-        /// <param name="email">사용자의 이메일 주소</param>
-        /// <param name="nickname">업데이트할 사용자의 닉네임</param>
-        public void UpdateUserInfo(string nickname, string email = null, string uid = null) => _nicknameText.text = nickname;
+        /// <param name="user">사용자의 정보</param>
+        public void UpdateUserInfo(UserInfo user)
+        {
+            _nicknameText.text = user.Nickname;
+            OnIconRequested?.Invoke(user.IconNumber);
+        }
 
         /// <summary>
         /// Icon을 설정하기 위한 메서드
@@ -110,6 +114,11 @@ namespace SDW
         private void UpdateRainbowStar(int numOfStars)
         {
             _rainbowStarText.text = numOfStars.ToString();
+        }
+
+        private void UpdateShiningStarCandy(int numOfStars)
+        {
+            _cashStarText.text = numOfStars.ToString();
         }
     }
 }

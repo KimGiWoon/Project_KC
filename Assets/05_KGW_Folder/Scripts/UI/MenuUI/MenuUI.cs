@@ -98,14 +98,9 @@ public class MenuUI : BaseUI
     // 계속하기 버튼 클릭
     private void ContinueButtonClick()
     {
-        // TODO : 김기운 : 추후에 UI매니저에서 관리
-        // 메뉴 패널 비활성화
         OnUICloseRequested?.Invoke(UIName.MenuUI);
         _popupBackground.SetActive(false);
-
         _battleUI._isOnMenu = false;
-        //todo 기획팀에 문의해야 함
-        //todo UI가 닫혔을 때 게임이 다시 시작되도록
     }
 
     // 로비 이동 버튼 클릭

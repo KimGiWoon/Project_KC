@@ -1,6 +1,7 @@
-﻿using JJY;
+using JJY;
 using UnityEngine;
 using KSH;
+using KGW;
 
 namespace SDW
 {
@@ -66,6 +67,10 @@ namespace SDW
         private InGameItemManager _inGameItem;
         public InGameItemManager InGameItem => _inGameItem;
 
+        //# Character Battle Data Save
+        private CharacterBattleDataSaveManager _characterBattleDataSave;
+        public CharacterBattleDataSaveManager CharacterBattleDataSave => _characterBattleDataSave;
+
         //todo 추후 유료 관련 Manager로 이동해야 함
         [SerializeField] private bool _buyAdRemover;
         public bool BuyAdRemover => _buyAdRemover;
@@ -85,10 +90,6 @@ namespace SDW
         //# BattleMonsterManager로 이전?
         private bool _lastBoss;
         public bool LastBoss => _lastBoss;
-
-        //todo 추후 재화 관련 Manager로 이동해야 함
-        private int rainbowStarCandy = 999999;
-        public int RainbowStarCandy => rainbowStarCandy;
 
         //todo Gacha에 통함?
         private int _gachaCount;
@@ -127,6 +128,9 @@ namespace SDW
             //# Coin & Item
             _coin = GetComponentInChildren<CoinManager>();
             _inGameItem = GetComponentInChildren<InGameItemManager>();
+
+            //# Character Stat Save
+            _characterBattleDataSave = GetComponentInChildren<CharacterBattleDataSaveManager>();
         }
 
         /// <summary>
@@ -160,12 +164,6 @@ namespace SDW
         /// </summary>
         /// <param name="isBoss">현재 전투가 보스 모드인지 여부를 나타냄</param>
         public void SetStageBoss(bool isBoss) => _lastBoss = isBoss;
-
-        /// <summary>
-        /// 무지개 별 사탕 개수를 설정
-        /// </summary>
-        /// <param name="number">설정할 무지개 별 사탕의 개수</param>
-        public void SetRainbowStarCandy(int number) => rainbowStarCandy = number;
 
         /// <summary>
         /// 게임 내 가챠 카운트를 지정된 값만큼 증가시킴

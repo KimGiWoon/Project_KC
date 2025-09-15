@@ -12,12 +12,14 @@ namespace SDW
         [SerializeField] private Button _confirmButton;
         [SerializeField] private GameObject _contents;
         private List<Button> _iconChangeButtons = new List<Button>();
+        private Dictionary<int, Sprite> _spriteIndex = new Dictionary<int, Sprite>();
+        private ScrollRect _scrollRect;
+        private int _selectedIconIndex;
 
         public Action<UIName> OnUICloseRequested;
         public Action OnApplyIconClicked;
         public Action<Sprite> OnIconSelected;
-
-        private ScrollRect _scrollRect;
+        public Action<int> OnIconSelectedIndex;
 
         /// <summary>
         /// UI 요소가 활성화 준비를 마치고 초기화 작업을 수행하는 메서드
@@ -32,6 +34,13 @@ namespace SDW
             _scrollRect.verticalNormalizedPosition = 1f;
 
             _iconChangeButtons = _contents.GetComponentsInChildren<Button>(true).ToList();
+
+            foreach (var icon in _iconChangeButtons)
+            {
+                var buttonId = icon.GetComponent<ButtonId>();
+                var sprite = icon.GetComponent<Image>().sprite;
+                _spriteIndex[buttonId.Id] = sprite;
+            }
         }
 
         /// <summary>
@@ -53,7 +62,8 @@ namespace SDW
                 icon.onClick.AddListener(() =>
                 {
                     var sprite = icon.GetComponent<Image>().sprite;
-                    IconSelected(sprite);
+                    var buttonId = icon.GetComponent<ButtonId>();
+                    IconSelected(sprite, buttonId.Id);
                 });
             }
         }
@@ -70,7 +80,8 @@ namespace SDW
                 icon.onClick.RemoveListener(() =>
                 {
                     var sprite = icon.GetComponent<Image>().sprite;
-                    IconSelected(sprite);
+                    var buttonId = icon.GetComponent<ButtonId>();
+                    IconSelected(sprite, buttonId.Id);
                 });
             }
         }
@@ -79,7 +90,11 @@ namespace SDW
         /// IconChangeButtonClicked 핸들러 메서드 호출로 사용자가 선택한 Icon의 Sprite를 전달
         /// </summary>
         /// <param name="sprite">전달할 sprite</param>
-        private void IconSelected(Sprite sprite) => OnIconSelected?.Invoke(sprite);
+        private void IconSelected(Sprite sprite, int buttonId)
+        {
+            OnIconSelected?.Invoke(sprite);
+            _selectedIconIndex = buttonId;
+        }
 
         /// <summary>
         /// ConfirmButtonClicked 핸들러 메서드 호출로 사용자가 확인 버튼을 클릭했을 때 현재 선택된 Icon으로 Apply
@@ -87,7 +102,10 @@ namespace SDW
         private void ConfirmButtonClicked()
         {
             OnApplyIconClicked?.Invoke();
+            OnIconSelectedIndex?.Invoke(_selectedIconIndex);
             OnUICloseRequested?.Invoke(UIName.ChangeIconUI);
         }
+
+        public Sprite GetIcon(int iconNumber) => _spriteIndex[iconNumber];
     }
 }

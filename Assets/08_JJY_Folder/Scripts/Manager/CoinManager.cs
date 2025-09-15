@@ -1,12 +1,20 @@
 using System;
 using System.Collections.Generic;
+using SDW;
 using UnityEngine;
 
 namespace JJY
 {
-    // TODO : GameManager 연결
     public class CoinManager : MonoBehaviour
     {
+        public int yeopjeon { get; private set; } // 전투에서 획득, 소모하는 재화. 서버에 저장할 필요 없음.
+        public int totalYeopjeon { get; private set; } // 이번 전투에서 얻은 총 재화량
+        public int starCandy { get; private set; } // 인게임 재화, GameManager의 변수명 변경해야함. (Fire base)
+
+        public int shiningStarCandy { get; private set; } // 인게임 유료 재화, 변수명 변경해야함. (Fire base)
+        public int point { get; private set; }
+        private FirebaseManager _firebase;
+
         // public static CoinManager Instance { get; private set; }
         private void Awake()
         {
@@ -17,11 +25,16 @@ namespace JJY
             yeopjeon = 999999;
         }
 
-        public int yeopjeon { get; private set; } // 전투에서 획득, 소모하는 재화. 서버에 저장할 필요 없음.
-        public int totalYeopjeon { get; private set; } // 이번 전투에서 얻은 총 재화량
-        public int starCandy { get; private set; } // 인게임 재화, GameManager의 변수명 변경해야함. (Fire base)
+        private void Start()
+        {
+            _firebase = GameManager.Instance.Firebase;
+            _firebase.OnCoinDataLoaded += LoadCoinData;
+        }
+        private void OnDestroy()
+        {
+            _firebase.OnCoinDataLoaded -= LoadCoinData;
+        }
 
-        public int shiningStarCandy { get; private set; } // 인게임 유료 재화, 변수명 변경해야함. (Fire base)
         // 아웃게임 아이템
         private Dictionary<string, int> items = new Dictionary<string, int>();
         private string _beek = "Beek's Recipe Book";
@@ -107,22 +120,22 @@ namespace JJY
             totalYeopjeon = 0;
         }
 
+        public void LoadCoinData(Dictionary<string, object> coinData)
+        {
+            starCandy = Convert.ToInt32(coinData["starCandy"]);
+            shiningStarCandy = Convert.ToInt32(coinData["shiningStarCandy"]);
+            point = Convert.ToInt32(coinData["point"]);
+        }
+
         /// <summary>
         /// StarCandy 재화 증가
         /// </summary>
-        public void AddStarCandy(int value)
+        public void SetStarCandy(int value)
         {
-            starCandy += value;
+            starCandy = value;
+            _firebase.SetStarCandy(starCandy);
         }
-        /// <summary>
-        /// StarCandy 재화 소모
-        /// </summary>
-        public void SubtractStarCandy(int value)
-        {
-            if (starCandy < value) return;
 
-            starCandy -= value;
-        }
         /// <summary>
         /// ShiningStarCandy 재화 증가
         /// </summary>
@@ -138,6 +151,19 @@ namespace JJY
             if (shiningStarCandy < value) return;
 
             shiningStarCandy -= value;
+        }
+
+        public void AddPoint(int value)
+        {
+            point += value;
+        }
+
+        public bool SubtractPoint(int value)
+        {
+            if (point < value) return false;
+
+            point += value;
+            return true;
         }
 
 #if UNITY_EDITOR
