@@ -91,22 +91,7 @@ namespace SDW
             LoadCharacterSkill();
             LoadCharacterSO();
 
-            // StartCoroutine(DelayedInit());
             _isDownloaded = true;
-        }
-
-        private IEnumerator DelayedInit()
-        {
-            yield return new WaitForSeconds(0.5f);
-
-            //todo DB에서 Load가 된 이후에 추가하기
-            //# 기본 캐릭터 추가
-            // GameManager.Instance.Reward.ProcessCharacter(_characterEnNameData[CharacterEnName.SIL]);
-            // GameManager.Instance.Reward.ProcessCharacter(_characterEnNameData[CharacterEnName.BW]);
-            // GameManager.Instance.Reward.ProcessCharacter(_characterEnNameData[CharacterEnName.HSR]);
-            // _selectedTeam.Add(_characterEnNameData[CharacterEnName.SIL]);
-            // _selectedTeam.Add(_characterEnNameData[CharacterEnName.BW]);
-            // _selectedTeam.Add(_characterEnNameData[CharacterEnName.HSR]);
         }
 
         private void LoadOwnedCharacter(Dictionary<string, object> charData)

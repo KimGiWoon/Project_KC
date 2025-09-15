@@ -30,6 +30,7 @@ namespace JJY
             _firebase = GameManager.Instance.Firebase;
             _firebase.OnCoinDataLoaded += LoadCoinData;
         }
+
         private void OnDestroy()
         {
             _firebase.OnCoinDataLoaded -= LoadCoinData;
@@ -113,12 +114,19 @@ namespace JJY
             yeopjeon -= value;
         }
 
+        /// <summary>
+        /// 엽전 재화를 초기화
+        /// </summary>
         public void ClearYeopjeon()
         {
             yeopjeon = 0;
             totalYeopjeon = 0;
         }
 
+        /// <summary>
+        /// Firebase에서 코인 데이터를 로드하는 함수
+        /// </summary>
+        /// <param name="coinData">로드된 코인 데이터를 담은 Dictionary</param>
         public void LoadCoinData(Dictionary<string, object> coinData)
         {
             starCandy = Convert.ToInt32(coinData["starCandy"]);
@@ -152,11 +160,20 @@ namespace JJY
             shiningStarCandy -= value;
         }
 
+        /// <summary>
+        /// 경험치 또는 특정 재화 포인트를 지정된 값만큼 증가시킴
+        /// </summary>
+        /// <param name="value">증가할 포인트 값</param>
         public void AddPoint(int value)
         {
             point += value;
         }
 
+        /// <summary>
+        /// 경험치 또는 특정 재화의 양에서 지정된 값을 감소시킴
+        /// </summary>
+        /// <param name="value">감소시킬 재화의 양</param>
+        /// <returns>감소량이 가능하여 성공적으로 감소했을 경우 true, 그렇지 않으면 false</returns>
         public bool SubtractPoint(int value)
         {
             if (point < value) return false;
