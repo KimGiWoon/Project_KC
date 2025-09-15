@@ -35,16 +35,26 @@ public class MonsterController : UnitBaseData
     private float _saveAttackValue;
     private Coroutine _bossBreakRoutine;
     public BattleManager Battle;
+    private Animator _monAnimatior;
 
     // 체력 절반 이벤트
     public event Action OnHalfHp;
     public event Action OnRelicMonsterDeath;
+
+    // 몬스터 애니메이션
+    public readonly int Idle_Hash = Animator.StringToHash("Idle");
+    public readonly int Walk_Hash = Animator.StringToHash("Walk");
+    public readonly int Attack_Hash = Animator.StringToHash("Attack");
+    public readonly int Death_Hash = Animator.StringToHash("Death");
+    public readonly int Skill1_Hash = Animator.StringToHash("Skill1");
+    public readonly int Skill2_Hash = Animator.StringToHash("Skill2");
 
     protected override void Awake()
     {
         base.Awake();
 
         _monster = GetComponent<MonsterController>();
+        _monAnimatior = GetComponentInChildren<Animator>();
     }
 
     protected override void Update()
@@ -130,12 +140,17 @@ public class MonsterController : UnitBaseData
         {
             // 보스는 움직이지 않습니다.
             _moveDir = Vector3.zero;
+
+            _monAnimatior.Play(Idle_Hash);
         }
         else
         {
             // 탐색 대상이 없으면 
             if (_researchTarget == null)
             {
+                // 이동 애니메이션
+                _monAnimatior.Play(Walk_Hash);
+
                 // 왼쪽으로 이동
                 transform.Translate(_moveDir * _monsterState._monMoveSpeed * _gameSpeed * Time.deltaTime);
             }
@@ -153,6 +168,9 @@ public class MonsterController : UnitBaseData
                 // 공격 대상과의 거리가 공격 사거리 안에 들어올 때까지 접근
                 if (moveDistance > moveSpareDistance)
                 {
+                    // 이동 애니메이션
+                    _monAnimatior.Play(Walk_Hash);
+
                     // 탐색 대상으로 이동
                     transform.position = Vector3.MoveTowards(transform.position, _researchTarget.transform.position,
                         _monsterState._monMoveSpeed * _gameSpeed * Time.deltaTime);
@@ -198,6 +216,9 @@ public class MonsterController : UnitBaseData
                 // 캐릭터가 살아있으면 공격
                 if (_attackTarget != null && _attackTarget._isAlive)
                 {
+                    // 공격 애니메이션
+                    _monAnimatior.Play(Attack_Hash);
+
                     // 몬스터의 데미지로 캐릭터에 주기
                     _attackTarget.TakeDamage(_monsterState._monAttack, _monsterState._monAccuracy);
 
@@ -254,6 +275,9 @@ public class MonsterController : UnitBaseData
                 Debug.Log("액티브 스킬 1");
 
                 _isUseSkill = true;
+
+                // 스킬1 애니메이션
+                _monAnimatior.Play(Skill1_Hash);
                 // 액티브 스킬1 사용
                 _monsterState._monActiveSkill_1.UseSkill(_monster, _monsterState._monActiveSkill_1, _attackTarget);
 
@@ -271,6 +295,9 @@ public class MonsterController : UnitBaseData
                 Debug.Log("액티브 스킬 2 사용");
 
                 _isUseSkill = true;
+
+                // 스킬1 애니메이션
+                _monAnimatior.Play(Skill2_Hash);
                 // 액티브 스킬2 사용
                 _monsterState._monActiveSkill_2.UseSkill(_monster, _monsterState._monActiveSkill_2, _attackTarget);
 
@@ -320,6 +347,7 @@ public class MonsterController : UnitBaseData
         // 체력이 0이 됨
         if (_monsterState._monCurrentHP <= 0)
         {
+            _monAnimatior.Play(Death_Hash);
             // 유닛의 죽음
             Death();
         }
