@@ -29,9 +29,19 @@ namespace CJH
 
         private static int gambleCount = 0;
 
+        [Header("유물 선택 UI")]
+        public GameObject relicSelectionPanel;      // 유물 선택 화면 전체 패널
+        public Transform relicChoiceContainer;      // 유물 선택 버튼들이 생성될 부모 Transform
+        public GameObject relicChoiceButtonPrefab;  // 유물 선택 버튼의 프리팹
+
         public void Initialize(EncounterTable data)
         {
             _eventManager = FindObjectOfType<EventManager>();
+
+            if (relicSelectionPanel != null)
+            {
+                relicSelectionPanel.SetActive(false);
+            }
 
             if (eventTitleText != null)
             {
@@ -97,6 +107,8 @@ namespace CJH
         {
             ChoiceResultType resultType = ChoiceResultType.None; // 기본값
             int resultValue = (choiceIndex < data.ChoiceResultValues.Count) ? data.ChoiceResultValues[choiceIndex] : 0;
+
+
 
             if(data.Type == EncounterType.Gamb)
             {
@@ -177,21 +189,36 @@ namespace CJH
                     Debug.Log("전투");
                     break;
                 case ChoiceResultType.LoseYeopjeon:
-                    Debug.Log("엽전 잃음");
+                    GameManager.Instance.Coin.SubtractYeopjeon(resultValue); // resultValue 변수 사용
+                    Debug.Log($"{resultValue} 엽전 잃음");
                     break;
                 case ChoiceResultType.LoseRelic:
-                    Debug.Log("유물 잃음");
+                    // GameManager를 통해 InGameItemManager의 새 함수를 호출합니다.
+                    RelicDatas lostRelic = GameManager.Instance.InGameItem.RemoveRandomRelic();
+
+                    // 어떤 유물을 잃었는지 확인하거나, 잃을 유물이 없었는지 확인할 수 있습니다.
+                    if (lostRelic != null)
+                    {
+                        Debug.Log($"잃어버린 유물: {lostRelic.relicEnName}");
+                    }
+                    else
+                    {
+                        // 잃을 유물이 없었을 경우
+                        Debug.Log("잃을 유물이 없어서 아무 일도 일어나지 않았습니다.");
+                    }
                     break;
-                case ChoiceResultType.None:
-                    Debug.Log(" 이벤트 지나감 ");
-                    break;
+
+                //case ChoiceResultType.None:
+                //  Debug.Log(" 이벤트 지나감 ");
+                //  break;
             }
 
             // 결과가 있으면 결과창 보여주고 없으면 이벤트 종료
             if (choiceIndex < data.EncounterExitText.Count && !string.IsNullOrEmpty(data.EncounterExitText[choiceIndex]))
             {
                 resultPanel.SetActive(true);
-                resultText.text = data.EncounterExitText[choiceIndex];
+                string processedText = data.EncounterExitText[choiceIndex].Replace("\\n", "\n");
+                resultText.text = processedText;
 
                 if (eventTitleText != null) eventTitleText.gameObject.SetActive(false);
                 eventImage.gameObject.SetActive(false);

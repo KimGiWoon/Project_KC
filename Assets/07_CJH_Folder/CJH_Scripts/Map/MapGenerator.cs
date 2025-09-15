@@ -110,21 +110,21 @@ public class MapGenerator : MonoBehaviour
 
     private void AssignNodeTypesToPaths(Node start, Node end)
     {
-        // --- 1. 일반 규칙을 적용합니다. ---
+        //1. 일반 규칙을 적용합니다.
 
-        // 시작 노드 바로 다음 층은 모두 'Battle'로 설정
+        // 시작 노드 바로 다음 층은 모두 Battle로 설정
         foreach (var node in _map[start.point.x + 1].Where(n => n.nodeType == NodeType.Event))
         {
             node.nodeType = NodeType.Battle;
         }
 
-        // 2번 인덱스 층(3번째 층)은 'Battle'과 'Event'를 50% 확률로 설정
+        // 2층은 Battle과 Event를 50% 확률로 설정
         foreach (var node in _map[2].Where(n => n.nodeType == NodeType.Event))
         {
             node.nodeType = Random.value > 0.5f ? NodeType.Battle : NodeType.Event;
         }
 
-        // 3번 인덱스 층(4번째 층)은 이전 노드 타입에 따라 'Battle' 또는 'Event'로 설정
+        // 3층은 이전 노드 타입에 따라 Battle 또는 Event로 설정
         foreach (var childNode in _map[3].Where(n => n.nodeType != NodeType.NotAssigned && n.nodeType != NodeType.Start && n.nodeType != NodeType.Boss))
         {
             if (childNode.previousNodes.Any())
@@ -133,35 +133,35 @@ public class MapGenerator : MonoBehaviour
             }
         }
 
-        // --- 2. 모든 'Event' 노드에 감정 타입을 할당합니다. ---
+        // 2. 모든 Event 노드에 타입을 할당합니다.
 
         var allEventNodes = _map.SelectMany(floor => floor).Where(node => node.nodeType == NodeType.Event);
         foreach (var eventNode in allEventNodes)
         {
-            // 일단 모든 이벤트 노드에 랜덤 감정을 할당합니다.
+            // 일단 모든 이벤트 노드에 랜덤 타입을 할당합니다.
             var sentimentTypes = new List<EventTypeKC>
             { EventTypeKC.Positive, EventTypeKC.Negative, EventTypeKC.Neutral, EventTypeKC.Subtlety };
             eventNode.EventTypeKC = sentimentTypes[Random.Range(0, sentimentTypes.Count)];
         }
 
-        // --- 3. [가장 중요] MapNodeIdentifier의 설정값을 읽어와서 덮어씁니다. ---
+        // NodeIdentifier의 설정값을 읽어와서 덮어씁니다.
 
         var nodeIdentifiers = mapTemplatePrefab.GetComponentsInChildren<MapNodeIdentifier>(true);
         foreach (var identifier in nodeIdentifiers)
         {
-            // "긍정 이벤트로 고정"이 체크된 Identifier를 찾습니다.
+            // 긍정 이벤트로 고정이 체크된 Identifier를 찾습니다.
             if (identifier.forcePositiveEvent)
             {
                 // 해당 Identifier에 연결된 실제 노드 데이터를 가져옵니다.
                 var node = _map[identifier.floorIndex][identifier.nodeIndexInFloor];
 
-                // 타입과 감정을 'Positive' 이벤트로 강제 설정합니다.
+                // 타입을 Positive 이벤트로 강제 설정합니다.
                 node.nodeType = NodeType.Event;
                 node.EventTypeKC = EventTypeKC.Positive;
             }
         }
 
-        // --- 4. 최종적으로 모든 'Event' 노드에 EncounterID를 할당합니다. ---
+        // 최종적으로 모든 Event 노드에 EncounterID를 할당합니다.
 
         var finalEventNodes = _map.SelectMany(floor => floor).Where(node => node.nodeType == NodeType.Event);
         foreach (var eventNode in finalEventNodes)
@@ -188,7 +188,7 @@ public class MapGenerator : MonoBehaviour
             case EventTypeKC.Negative:
                 return EncounterSentiment.Bad;
             case EventTypeKC.Neutral:
-                return EncounterSentiment.Fixed;
+                return EncounterSentiment.Neutral;
             case EventTypeKC.Subtlety:
                 return EncounterSentiment.Subtlety;
             default:
