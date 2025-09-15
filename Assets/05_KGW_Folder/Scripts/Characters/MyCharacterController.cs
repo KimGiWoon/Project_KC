@@ -41,6 +41,7 @@ public class MyCharacterController : UnitBaseData
     // 캐릭터 애니메이션
     public readonly int Idle_Hash = Animator.StringToHash("Idle");
     public readonly int Attack_Hash = Animator.StringToHash("Attack");
+    public readonly int Critical_Hash = Animator.StringToHash("Critical");
 
     protected override void Awake()
     {
@@ -90,7 +91,7 @@ public class MyCharacterController : UnitBaseData
         LevelUpStatUpdate();
         // 캐릭터 돌파 스텟 적용
         UpgradeStatUpdate();
-        // 캐릭터의 저장된 체력 불러오기
+        // 캐릭터의 저장된 데이터 불러오기
         CharacterSaveDataLoad();
 
         // 체력, 마나 게이지 현재값 초기화
@@ -296,16 +297,16 @@ public class MyCharacterController : UnitBaseData
         _characterState._chaArmor *= upgradeData.ChaArmor;
     }
 
-    // 저장된 캐릭터의 체력 불러오기
+    // 저장된 캐릭터의 데이터 불러오기
     private void CharacterSaveDataLoad()
     {
-        // 전체 부활하면 저장된 체력 불러오지 않음 
-        if (!_battleManager._canResurrection) return;
-
         var characterSaveData = GameManager.Instance.CharacterBattleDataSave._chaHpSave;
 
         if (characterSaveData.ContainsKey(_characterState._chaEnName))
         {
+            // 전체 부활하면 저장된 체력 불러오지 않음 
+            if (!_battleManager._canResurrection) return;
+
             // 저장된 체력 불러오기
             _characterState._chaCurrentHP = characterSaveData[_characterState._chaEnName];
         }
@@ -478,11 +479,7 @@ public class MyCharacterController : UnitBaseData
         
         if(critical != 1f)
         {
-            _isCritical = true;
-        }
-        else
-        {
-            _isCritical = false;
+            _chaAnimatior.Play(Critical_Hash);
         }
 
         // 데미지 계산
@@ -526,6 +523,7 @@ public class MyCharacterController : UnitBaseData
         // 마나 초기화
         _characterState._chaCurrentMP = 0f;
         _isUseSkill = false;
+
         // 마나 변화에 대한 이벤트 호출
         OnMpChange?.Invoke(Mathf.Clamp01(_characterState._chaCurrentMP / _characterState._chaMaxMP));
 

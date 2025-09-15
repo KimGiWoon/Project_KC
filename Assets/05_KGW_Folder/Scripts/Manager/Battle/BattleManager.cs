@@ -79,6 +79,8 @@ public class BattleManager : MonoBehaviour
 
     private GameManager _gameManager;
     private CharacterDataManager _charData;
+    //# InGame Stage
+    private int _stage = 1;
 
     private void Awake()
     {
@@ -392,21 +394,26 @@ public class BattleManager : MonoBehaviour
     // 캐릭터의 체력 저장
     public void CharacterStatSave()
     {
-        foreach(var cha in _characters)
+        foreach (var cha in _characters)
         {
             // 캐릭터가 죽었으면
             if (!cha._isAlive)
             {
                 // 체력의 30%만 저장
-                GameManager.Instance.CharacterBattleDataSave._chaHpSave[cha._characterState._chaEnName] = cha._characterState._chaMaxHP * 0.3f;
+                GameManager.Instance.CharacterBattleDataSave._chaHpSave[cha._characterState._chaEnName] =
+                    cha._characterState._chaMaxHP * 0.3f;
                 Debug.Log($"{cha._characterState._chaEnName}의 전체 체력의 30%인 {cha._characterState._chaCurrentHP}저장");
             }
             else
             {
                 // 캐릭터의 현재 남은 체력 저장
-                GameManager.Instance.CharacterBattleDataSave._chaHpSave[cha._characterState._chaEnName] = cha._characterState._chaCurrentHP;
+                GameManager.Instance.CharacterBattleDataSave._chaHpSave[cha._characterState._chaEnName] =
+                    cha._characterState._chaCurrentHP;
                 Debug.Log($"{cha._characterState._chaEnName}의 현재 남은 체력 {cha._characterState._chaCurrentHP}저장");
             }
+
+            GameManager.Instance.CharacterBattleDataSave._chaLevel[cha._characterState._chaEnName] = cha._characterState._chaLevel;
+            GameManager.Instance.CharacterBattleDataSave._chaUpgrade[cha._characterState._chaEnName] = cha._characterState._chaUpgrade;
         }
     }
 
