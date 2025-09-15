@@ -34,20 +34,36 @@ public class InGameItemManager : MonoBehaviour
     }
 
     // CJH 코드 추가
-    public void RemoveItem(RelicDatas relicToRemove)
-    {
-        // 인벤토리에서 제거할 유물을 찾습니다.
-        InventoryItem itemToRemove = relicInventory.FirstOrDefault(r => r.relic == relicToRemove);
 
-        // 유물이 인벤토리에 있으면 제거합니다.
-        if (itemToRemove != null)
+    /// <summary>
+    /// 인벤토리에서 무작위 유물 하나를 제거합니다.
+    /// </summary>
+    /// <returns>성공적으로 제거된 유물 데이터를 반환합니다. 잃을 유물이 없으면 null을 반환합니다.</returns>
+    public RelicDatas RemoveRandomRelic()
+    {
+        // 인벤토리에 유물이 있는지 먼저 확인합니다.
+        if (_relicInventory.Count == 0)
         {
-            relicInventory.Remove(itemToRemove);
-            OnItemChanged?.Invoke(); // 아이템 변경 이벤트를 호출하여 UI를 업데이트합니다.
+            Debug.Log("제거할 유물이 인벤토리에 없습니다.");
+            return null; // 잃을 유물이 없으면 null을 반환합니다.
         }
+
+        // 0부터 현재 유물 개수 -1 사이의 무작위 숫자를 선택합니다.
+        int randomIndex = UnityEngine.Random.Range(0, _relicInventory.Count);
+        InventoryItem itemToRemove = _relicInventory[randomIndex];
+
+        // 무작위로 선택된 유물을 인벤토리에서 제거합니다.
+        _relicInventory.RemoveAt(randomIndex);
+        Debug.Log($"[InGameItemManager] 유물 '{itemToRemove.relic.relicName}'을(를) 잃었습니다.");
+
+        // 아이템이 변경되었음을 알려 UI 등을 업데이트합니다.
+        OnItemChanged?.Invoke();
+
+        //. 어떤 유물을 잃었는지 알려주기 위해 해당 유물 데이터를 반환합니다.
+        return itemToRemove.relic;
     }
 
-    public bool HasRelic(RelicDatas relic)
+public bool HasRelic(RelicDatas relic)
     {
         if (relic == null) return false;
         return _relicInventory.Any(item => item.relic == relic);

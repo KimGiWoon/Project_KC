@@ -5,7 +5,6 @@ namespace SDW
         Good,
         Neutral,
         Bad,
-        Fixed,
         Subtlety,
         None
     }

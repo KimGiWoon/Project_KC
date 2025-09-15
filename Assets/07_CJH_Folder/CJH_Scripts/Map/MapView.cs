@@ -193,7 +193,6 @@ namespace CJH
             foreach (var targetNode in nextMapNodes)
             {
                 var arrowBtn = Instantiate(nodeButtonPrefab, bottomPanelContainer);
-                // arrowBtn.transform.localScale = Vector3.one;
 
                 // 화살표 방향 계산
                 var from = nodeObjects[currentNode.point].transform.position;
