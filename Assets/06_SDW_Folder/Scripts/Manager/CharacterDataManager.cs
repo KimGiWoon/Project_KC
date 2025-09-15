@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -42,24 +43,38 @@ namespace SDW
         [SerializeField] private List<CharacterDataSO> _characterLists; //캐릭터 리스트
         public List<CharacterDataSO> CharacterLists => _characterLists;
 
+        private Dictionary<int, CharacterDataSO> _characterIdData = new Dictionary<int, CharacterDataSO>();
+        public Dictionary<int, CharacterDataSO> CharacterIdData => _characterIdData;
+
         private Dictionary<CharacterEnName, CharacterDataSO> _characterEnNameData =
             new Dictionary<CharacterEnName, CharacterDataSO>();
         public Dictionary<CharacterEnName, CharacterDataSO> CharacterEnNameData => _characterEnNameData;
 
-        private Dictionary<string, bool> _ownedCharacters = new Dictionary<string, bool>();
-        public Dictionary<string, bool> OwnedCharacters => _ownedCharacters;
+        private Dictionary<CharacterEnName, bool> _ownedCharacters = new Dictionary<CharacterEnName, bool>();
+        public IReadOnlyDictionary<CharacterEnName, bool> OwnedCharacters => _ownedCharacters;
 
         private HashSet<CharacterDataSO> _allOwnedCharacters = new HashSet<CharacterDataSO>();
         public HashSet<CharacterDataSO> AllOwnedCharacters => _allOwnedCharacters;
 
+        public Dictionary<CharacterEnName, int> _beadsInventory = new Dictionary<CharacterEnName, int>();
+        public IReadOnlyDictionary<CharacterEnName, int> BeadsInventory => _beadsInventory;
+
         private List<CharacterDataSO> _selectedTeam = new List<CharacterDataSO>();
-        public List<CharacterDataSO> SelectedTeam => _selectedTeam;
+        public IReadOnlyList<CharacterDataSO> SelectedTeam => _selectedTeam;
         private GameManager _gameManager;
+        private FirebaseManager _firebase;
         private bool _isDownloaded;
 
         private void Start()
         {
             _gameManager = GameManager.Instance;
+            _firebase = GameManager.Instance.Firebase;
+            _firebase.OnCharacterDataLoaded += LoadOwnedCharacter;
+        }
+
+        private void OnDestroy()
+        {
+            _firebase.OnCharacterDataLoaded -= LoadOwnedCharacter;
         }
 
         /// <summary>
@@ -76,7 +91,7 @@ namespace SDW
             LoadCharacterSkill();
             LoadCharacterSO();
 
-            StartCoroutine(DelayedInit());
+            // StartCoroutine(DelayedInit());
             _isDownloaded = true;
         }
 
@@ -86,12 +101,34 @@ namespace SDW
 
             //todo DB에서 Load가 된 이후에 추가하기
             //# 기본 캐릭터 추가
-            GameManager.Instance.Reward.ProcessCharacter(_characterEnNameData[CharacterEnName.SIL]);
-            GameManager.Instance.Reward.ProcessCharacter(_characterEnNameData[CharacterEnName.BW]);
-            GameManager.Instance.Reward.ProcessCharacter(_characterEnNameData[CharacterEnName.HSR]);
-            _selectedTeam.Add(_characterEnNameData[CharacterEnName.SIL]);
-            _selectedTeam.Add(_characterEnNameData[CharacterEnName.BW]);
-            _selectedTeam.Add(_characterEnNameData[CharacterEnName.HSR]);
+            // GameManager.Instance.Reward.ProcessCharacter(_characterEnNameData[CharacterEnName.SIL]);
+            // GameManager.Instance.Reward.ProcessCharacter(_characterEnNameData[CharacterEnName.BW]);
+            // GameManager.Instance.Reward.ProcessCharacter(_characterEnNameData[CharacterEnName.HSR]);
+            // _selectedTeam.Add(_characterEnNameData[CharacterEnName.SIL]);
+            // _selectedTeam.Add(_characterEnNameData[CharacterEnName.BW]);
+            // _selectedTeam.Add(_characterEnNameData[CharacterEnName.HSR]);
+        }
+
+        private void LoadOwnedCharacter(Dictionary<string, object> charData)
+        {
+            foreach (string key in charData.Keys)
+            {
+                var character = charData[key] as Dictionary<string, object>;
+
+                //# 보유 시 추가
+                if (Convert.ToBoolean(character["owned"]))
+                {
+                    GameManager.Instance.Reward.AddFirstCharacter(
+                        _characterIdData[int.Parse(key)],
+                        Convert.ToInt32(character["count"])
+                    );
+                }
+
+                if (Convert.ToBoolean(character["selected"]))
+                {
+                    _selectedTeam.Add(_characterIdData[int.Parse(key)]);
+                }
+            }
         }
 
         /// <summary>
@@ -170,8 +207,58 @@ namespace SDW
         {
             foreach (var character in _characterLists)
             {
+                _characterIdData[character._chaBaseData.ChaID] = character;
                 _characterEnNameData[character._chaBaseData.ChaEnName] = character;
             }
         }
+
+        public void SetBead(CharacterEnName key, int value)
+        {
+            _beadsInventory[key] = value;
+            _firebase.SetBead(_characterEnNameData[key]._chaBaseData.ChaID.ToString(), value);
+        }
+
+        public void SetOwnedCharacter(CharacterEnName key, bool value)
+        {
+            if (_ownedCharacters.ContainsKey(key)) return;
+
+            _ownedCharacters[key] = value;
+            _firebase.SetOwnedCharacter(_characterEnNameData[key]._chaBaseData.ChaID.ToString(), value);
+        }
+
+        public void SetSelectedTeam(List<CharacterDataSO> selectedTeam, bool updateToFirebase)
+        {
+            foreach (var selectedTeamMember in selectedTeam)
+            {
+                _selectedTeam.Add(selectedTeamMember);
+            }
+
+            var selectedTeamDic = new Dictionary<string, bool>();
+
+            foreach (var selectedTeamMember in selectedTeam)
+            {
+                selectedTeamDic[selectedTeamMember._chaBaseData.ChaID.ToString()] = true;
+            }
+
+            if (!updateToFirebase) return;
+            _firebase.SetSelectedTeam(selectedTeamDic);
+        }
+
+        public void AddSelectedTeamMember(CharacterDataSO selectedTeamMember)
+        {
+            _selectedTeam.Add(selectedTeamMember);
+        }
+
+        public void RemoveSelectedTeamMember(CharacterDataSO unselectedTeamMember)
+        {
+            _selectedTeam.Remove(unselectedTeamMember);
+        }
+
+        public void ClearSelectedTeam()
+        {
+            _selectedTeam.Clear();
+        }
+
+        //todo 추후 캐릭터 레벨, 경험치 연동되어야 함
     }
 }

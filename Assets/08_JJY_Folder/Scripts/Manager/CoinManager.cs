@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using SDW;
 using UnityEngine;
 
 namespace JJY
@@ -12,6 +13,7 @@ namespace JJY
 
         public int shiningStarCandy { get; private set; } // 인게임 유료 재화, 변수명 변경해야함. (Fire base)
         public int point { get; private set; }
+        private FirebaseManager _firebase;
 
         // public static CoinManager Instance { get; private set; }
         private void Awake()
@@ -21,7 +23,16 @@ namespace JJY
             items.Add(fineDining, 0);
             items.Add(masterChef, 0);
             yeopjeon = 999999;
-            starCandy = 999999;
+        }
+
+        private void Start()
+        {
+            _firebase = GameManager.Instance.Firebase;
+            _firebase.OnCoinDataLoaded += LoadCoinData;
+        }
+        private void OnDestroy()
+        {
+            _firebase.OnCoinDataLoaded -= LoadCoinData;
         }
 
         // 아웃게임 아이템
@@ -108,22 +119,22 @@ namespace JJY
             totalYeopjeon = 0;
         }
 
+        public void LoadCoinData(Dictionary<string, object> coinData)
+        {
+            starCandy = Convert.ToInt32(coinData["starCandy"]);
+            shiningStarCandy = Convert.ToInt32(coinData["shiningStarCandy"]);
+            point = Convert.ToInt32(coinData["point"]);
+        }
+
         /// <summary>
         /// StarCandy 재화 증가
         /// </summary>
-        public void AddStarCandy(int value)
+        public void SetStarCandy(int value)
         {
-            starCandy += value;
+            starCandy = value;
+            _firebase.SetStarCandy(starCandy);
         }
-        /// <summary>
-        /// StarCandy 재화 소모
-        /// </summary>
-        public void SubtractStarCandy(int value)
-        {
-            if (starCandy < value) return;
 
-            starCandy -= value;
-        }
         /// <summary>
         /// ShiningStarCandy 재화 증가
         /// </summary>

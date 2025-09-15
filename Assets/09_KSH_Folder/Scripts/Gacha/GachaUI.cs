@@ -66,7 +66,7 @@ namespace KSH
                 Debug.Log($"스타캔디트루 {manager.isStarCandy[data._chaBaseData.ChaName]}");
                 SetBead(bead);
             }
-            _data.OwnedCharacters[data._chaBaseData.ChaName] = true;
+            // _data.OwnedCharacters[data._chaBaseData.ChaName] = true;
             // }
         }
 

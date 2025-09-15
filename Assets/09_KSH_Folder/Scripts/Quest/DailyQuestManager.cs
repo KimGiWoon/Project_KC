@@ -123,8 +123,8 @@ public class DailyQuestManager : MonoBehaviour
     {
         if (!reward)
         {
-            GameManager.Instance.SetRainbowStarCandy(GameManager.Instance.RainbowStarCandy + rewardAmount);
-            OnStarCandyChange?.Invoke(GameManager.Instance.RainbowStarCandy);
+            GameManager.Instance.Coin.SetStarCandy(GameManager.Instance.Coin.starCandy + rewardAmount);
+            OnStarCandyChange?.Invoke(GameManager.Instance.Coin.starCandy);
             reward = true;
             _canReward = false;
         }
