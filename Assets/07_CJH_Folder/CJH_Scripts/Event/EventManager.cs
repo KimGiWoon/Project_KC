@@ -60,19 +60,5 @@ namespace CJH
             currentEventInstance = null;
         }
 
-        // 유물 획득
-        public void GetRelic(RelicDatas relic)
-        {
-            _relicDropManager.GetRelic(relic);
-            _relicInventoryUI.gameObject.SetActive(true); // 인벤토리 UI 활성화
-        }
-
-        // 유물 잃기
-        public void LoseRelic(RelicDatas relic)
-        {
-            GameManager.Instance.InGameItem.RemoveItem(relic);
-            Debug.Log($"{relic.relicName} 잃음");
-            _relicInventoryUI.gameObject.SetActive(true); // 인벤토리 UI 활성화
-        }
     }
 }
