@@ -3,8 +3,6 @@ using UnityEngine.UI;
 using TMPro;
 using System.Collections.Generic;
 using SDW;
-using JJY;
-using System;
 
 namespace CJH
 {
@@ -15,38 +13,43 @@ namespace CJH
         public Image eventImage;
         public TextMeshProUGUI encounterText;
         public Transform buttonContainer;
-
         public GameObject resultPanel;
         public TextMeshProUGUI resultText;
-
         public GameObject choiceButtonPrefab;
-
         private EventManager _eventManager;
 
-
-
-        [Serializable] public class EncounterSpriteMapping
+        [System.Serializable]
+        public class EncounterSpriteMapping
         {
-            public EncounterType typeEnum;
+            public EncounterSentiment Sentiment;
             public Sprite sprite;
         }
+
         public List<EncounterSpriteMapping> encounterSprites;
 
-
+        private static int gambleCount = 0;
 
         public void Initialize(EncounterTable data)
         {
-            Debug.LogWarning(">>>>> 이 로그를 실행하는 오브젝트: " + this.gameObject.name, this.gameObject);
-            Debug.LogWarning($"--- EventStart 데이터 수신 ---");
-            Debug.Log($"ID: {data.EncounterID}, 타입: {data.Type}");
-            Debug.Log($"내용: '{data.EncounterText}'");
-            Debug.Log($"선택지 개수: {data.ChoiceCount}");
-            Debug.LogWarning($"--------------------------");
             _eventManager = FindObjectOfType<EventManager>();
 
-            SetTitleByType(data.Type);
+            if (eventTitleText != null)
+            {
+                switch (data.Sentiment)
+                {
+                    case EncounterSentiment.Good:
+                        eventTitleText.text = "긍정적 사건 발생!";
+                        break;
+                    case EncounterSentiment.Bad:
+                        eventTitleText.text = "부정적 사건 발생!";
+                        break;
+                    default:
+                        eventTitleText.text = "사건 발생!";
+                        break;
+                }
+            }
 
-            var mapping = encounterSprites.Find(m => m.typeEnum == data.Type);
+            var mapping = encounterSprites.Find(m => m.Sentiment == data.Sentiment);
             if (mapping != null && eventImage != null)
             {
                 eventImage.sprite = mapping.sprite;
@@ -57,10 +60,13 @@ namespace CJH
                 eventImage.gameObject.SetActive(false);
             }
 
-            encounterText.text = data.EncounterText;
+            encounterText.text = data.EncounterText.Replace("\\n", " ");
+
 
             foreach (Transform child in buttonContainer)
+            {
                 Destroy(child.gameObject);
+            }
 
             for (int i = 0; i < data.ChoiceCount; i++)
             {
@@ -69,7 +75,16 @@ namespace CJH
 
                 var buttonText = buttonObj.GetComponentInChildren<TextMeshProUGUI>();
                 if (buttonText != null && choiceIndex < data.ChoiceTexts.Count)
-                    buttonText.text = string.IsNullOrEmpty(data.ChoiceTexts[choiceIndex]) ? "확인" : data.ChoiceTexts[choiceIndex];
+                {
+                    if (string.IsNullOrEmpty(data.ChoiceTexts[choiceIndex]) || data.ChoiceTexts[choiceIndex].ToLower() == "null")
+                    {
+                        buttonText.text = "확인";
+                    }
+                    else
+                    {
+                        buttonText.text = data.ChoiceTexts[choiceIndex];
+                    }
+                }
 
                 var button = buttonObj.GetComponent<Button>();
                 button.onClick.AddListener(() => OnChoiceSelected(data, choiceIndex));
@@ -80,17 +95,99 @@ namespace CJH
 
         private void OnChoiceSelected(EncounterTable data, int choiceIndex)
         {
-            foreach (var btn in buttonContainer.GetComponentsInChildren<Button>())
-                btn.interactable = false;
+            ChoiceResultType resultType = ChoiceResultType.None; // 기본값
+            int resultValue = (choiceIndex < data.ChoiceResultValues.Count) ? data.ChoiceResultValues[choiceIndex] : 0;
 
-            if (EventBranches.Map.ContainsKey((data.EncounterID, choiceIndex)))
+            if(data.Type == EncounterType.Gamb)
             {
-                Debug.Log($"[Branch Detected] ID: {data.EncounterID}, Choice: {choiceIndex}");
-                var branch = EventBranches.Map[(data.EncounterID, choiceIndex)];
-                Initialize(branch);
-                return;
+                if(choiceIndex == 0)
+                {
+                    gambleCount = 0;
+                }
+
+                if(choiceIndex == 1)
+                {
+                    _eventManager.EndEncounter();
+                    return;
+                }
+
+                gambleCount++;
+
+                if(gambleCount == 2)
+                {
+                    //todo 겜블 3번째 때 동작 확인 후 작성
+                }
             }
 
+            switch (data.Type)
+            {
+                case EncounterType.MoneySpend:
+                    if (choiceIndex == 0)
+                    {
+                        resultType = ChoiceResultType.LoseYeopjeon; // 첫 번째 선택은 무조건 전투
+                    }
+                    else
+                    {
+                        resultType = ChoiceResultType.None; // 두 번째 선택은 무조건 아무것도 안 함
+                    }
+                    break;
+
+                case EncounterType.RelicSpent:
+                    if (choiceIndex == 0)
+                    {
+                        resultType = ChoiceResultType.LoseRelic; // 첫 번째 선택은 아이템 잃기
+                    }
+                    else
+                    {
+                        resultType = ChoiceResultType.None; // 두 번째 선택은 아무것도 안 함
+                    }
+                    break;
+
+                case EncounterType.FightSel:
+                    if (choiceIndex == 0)
+                    {
+                        resultType = ChoiceResultType.Combat; // 첫 번째 선택은 무조건 전투
+                    }
+                    else
+                    {
+                        resultType = ChoiceResultType.None; // 두 번째 선택은 무조건 아무것도 안 함
+                    }
+                    break;
+
+                case EncounterType.MoneyFight:
+                    if (choiceIndex == 0)
+                    {
+                        resultType = ChoiceResultType.LoseYeopjeon; // 첫 번째 선택은 돈 잃기
+                    }
+                    else
+                    {
+                        resultType = ChoiceResultType.Combat; // 두 번째 선택은 전투
+                    }
+                    break;
+
+
+                default:
+                    resultType = ChoiceResultType.None;
+                    break;
+            }
+            //todo 이벤트 버튼 분기 시 동작 연결 필요
+            switch (resultType)
+            {
+                case ChoiceResultType.Combat:
+                    Debug.Log("전투");
+                    break;
+                case ChoiceResultType.LoseYeopjeon:
+                    Debug.Log("엽전 잃음");
+                    break;
+                case ChoiceResultType.LoseRelic:
+                    Debug.Log("유물 잃음");
+                    break;
+                case ChoiceResultType.None:
+                    Debug.Log(" 이벤트 지나감 ");
+                    break;
+            }
+
+            // 결과가 있으면 결과창 보여주고 없으면 이벤트 종료
             if (choiceIndex < data.EncounterExitText.Count && !string.IsNullOrEmpty(data.EncounterExitText[choiceIndex]))
             {
                 resultPanel.SetActive(true);
@@ -105,108 +202,10 @@ namespace CJH
             {
                 _eventManager.EndEncounter();
             }
-        }
 
-        //코드 기반 분기 이벤트용
-        public void Initialize(EventBranchData branch)
-        {
-            _eventManager = FindObjectOfType<EventManager>();
-
-            SetTitleByType(branch.Type ?? EncounterType.None);
-            eventImage.gameObject.SetActive(false); // 분기 이벤트는 이미지 없음
-
-            encounterText.text = branch.Text;
-
-            foreach (Transform child in buttonContainer)
-                Destroy(child.gameObject);
-
-            for (int i = 0; i < branch.Choices.Count; i++)
-            {
-                var buttonObj = Instantiate(choiceButtonPrefab, buttonContainer);
-                int choiceIndex = i;
-
-                var buttonText = buttonObj.GetComponentInChildren<TextMeshProUGUI>();
-                if (buttonText != null)
-
-                    buttonText.text = branch.Choices[choiceIndex];
-                var button = buttonObj.GetComponent<Button>();
-                button.onClick.AddListener(() => OnBranchChoiceSelected(branch, choiceIndex));
-            }
-
-            resultPanel.SetActive(false);
-        }
-
-        private void OnBranchChoiceSelected(EventBranchData branch, int index)
-        {
             foreach (var btn in buttonContainer.GetComponentsInChildren<Button>())
+            {
                 btn.interactable = false;
-
-            if (branch.Rewards != null && index < branch.Rewards.Count)
-                ApplyRewards(branch.Rewards[index]);
-
-            resultPanel.SetActive(true);
-            resultText.text = branch.Results[index];
-
-            if (eventTitleText != null) eventTitleText.gameObject.SetActive(false);
-            eventImage.gameObject.SetActive(false);
-            encounterText.gameObject.SetActive(false);
-            buttonContainer.gameObject.SetActive(false);
-        }
-
-        private void SetTitleByType(EncounterType type)
-        {
-            Debug.Log($"SetTitleByType called with type: {type}");
-
-            if (eventTitleText == null) return;
-
-            switch (type)
-            {
-                case EncounterType.Money:
-                case EncounterType.Relic:
-                case EncounterType.RelicSel:
-                case EncounterType.Luck:
-                    eventTitleText.text = "긍정적 사건 발생!";
-                    break;
-
-                case EncounterType.MoneyFight:
-                case EncounterType.BadRelic:
-                case EncounterType.RelicDel:
-                    eventTitleText.text = "부정적 사건 발생!";
-                    break;
-
-                default:
-                    eventTitleText.text = "사건 발생!";
-                    break;
-            }
-        }
-
-        private void ApplyRewards(List<BranchReward> rewards)
-        {
-            var coinManager = FindObjectOfType<CoinManager>();
-            //todo 렐릭 연동 코드에 맞게 수정
-            //var relicManager = FindObjectOfType<RelicManager>();
-
-            foreach (var reward in rewards)
-            {
-                switch (reward.Type)
-                {
-                    case BranchReward.RewardType.Coin:
-                        if (coinManager != null)
-                            coinManager.AddYeopjeon(reward.Amount);
-                        else
-                            Debug.LogError("CoinManager 인스턴스를 찾을 수 없습니다");
-                        break;
-
-                   //case BranchReward.RewardType.BuffRelic:
-                   //    if (relicManager != null)
-                   //        relicManager.GiveRandomRelic(true);
-                   //    break;
-                   //
-                   //case BranchReward.RewardType.DebuffRelic:
-                   //    if (relicManager != null)
-                   //        relicManager.GiveRandomRelic(false);
-                   //    break;
-                }
             }
         }
     }
