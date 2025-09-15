@@ -133,6 +133,56 @@ namespace CJH
 
             switch (data.Type)
             {
+
+                case EncounterType.Money:
+                    if (choiceIndex == 0)
+                    {
+                        resultType = ChoiceResultType.GainYeopjeon; // 첫 번째 선택은 돈 얻기
+                    }
+                    else
+                    {
+                        resultType = ChoiceResultType.None;
+                    }
+                    break;
+
+                case EncounterType.Relic:
+                    if (choiceIndex == 0)
+                    {
+                        resultType = ChoiceResultType.GainYeopjeon; // 첫 번째 선택은 돈 얻기
+                    }
+                    else
+                    {
+                        resultType = ChoiceResultType.None;
+                    }
+                    break;
+
+                case EncounterType.RelicSel:
+                    if (choiceIndex == 0)
+                    {
+                        resultType = ChoiceResultType.GainRelic; // 첫 번째 유물
+                    }
+                    if (choiceIndex == 1)
+                    {
+                        resultType = ChoiceResultType.GainRelic; // 두 번째 유물
+                    }
+                    else
+                    {
+                        resultType = ChoiceResultType.GainRelic; // 세 번째 유물
+                    }
+                    break;
+
+                case EncounterType.Luck:
+                    if (choiceIndex == 0)
+                    {
+                        //todo 유물 두 개 선택 작성
+                        resultType = ChoiceResultType.Continue; // 확인 후 유물
+                    }
+                    else
+                    {
+                        resultType = ChoiceResultType.None;
+                    }
+                    break;
+
                 case EncounterType.MoneySpend:
                     if (choiceIndex == 0)
                     {
@@ -177,6 +227,27 @@ namespace CJH
                     }
                     break;
 
+                case EncounterType.BadRelic:
+                    if (choiceIndex == 0)
+                    {
+                        resultType = ChoiceResultType.GainBadRelic; // 첫 번째 선택은 디버프 유물 얻기
+                    }
+                    else
+                    {
+                        resultType = ChoiceResultType.None; // 두 번째 선택은 무조건 아무것도 안 함
+                    }
+                    break;
+
+                case EncounterType.RelicDel:
+                    if (choiceIndex == 0)
+                    {
+                        resultType = ChoiceResultType.LoseRelic; // 첫 번째 선택은 유물 잃기
+                    }
+                    else
+                    {
+                        resultType = ChoiceResultType.None; // 두 번째 선택은 무조건 아무것도 안 함
+                    }
+                    break;
 
                 default:
                     resultType = ChoiceResultType.None;
