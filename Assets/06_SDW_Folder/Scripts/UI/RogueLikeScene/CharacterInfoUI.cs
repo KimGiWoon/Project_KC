@@ -1,7 +1,7 @@
 using System;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
 
 namespace SDW
 {
@@ -52,21 +52,25 @@ namespace SDW
             _closeButton.onClick.RemoveListener(CloseButtonClicked);
         }
 
-        //todo UIManager에서 SetCharacterInfo를 호출하면서 data 전달이 필요함
-        //todo CharacterDataSO는 임시로 넣은거라 변경하시면 됩니다.
         public void SetCharacterInfo(CharacterDataSO data)
         {
+            // 키가 존재하지 않으면 추가 (초기 세팅)
+            if (!GameManager.Instance.CharacterBattleDataSave._chaLevel.ContainsKey(data._chaBaseData.ChaEnName))
+            {
+                GameManager.Instance.CharacterBattleDataSave._chaUpgrade.Add(data._chaBaseData.ChaEnName, data._chaUpgradeLevel);
+                GameManager.Instance.CharacterBattleDataSave._chaLevel.Add(data._chaBaseData.ChaEnName, data._chaLv);
+            }
+
+            var levelData = GameManager.Instance.CharacterData.ChaLevelUpStatData[GameManager.Instance.CharacterBattleDataSave._chaLevel[data._chaBaseData.ChaEnName]];
+
             _characterImage.sprite = data._characterSprite;
             _characterNameText.text = data._chaBaseData.ChaName;
-            _startValueText.text = data._chaUpgradeLevel.ToString();
+            _startValueText.text = GameManager.Instance.CharacterBattleDataSave._chaUpgrade[data._chaBaseData.ChaEnName].ToString();
             _classNameText.text = data._chaBaseData.ChaRole.ToString();
-            _classLevelText.text = "Lv. " + data._chaLv;
-            //todo Level에 따른 HP로 변경되어야 함
-            _hpText.text = data._chaBaseData.ChaHP.ToString();
-            //todo Level에 따른 공격력으로 변경되어야 함
-            _attackText.text = data._chaBaseData.ChaAttack.ToString();
-            //todo Level에 따른 방어력으로 변경되어야 함
-            _deffenceText.text = data._chaBaseData.ChaArmor.ToString();
+            _classLevelText.text = "Lv. " + GameManager.Instance.CharacterBattleDataSave._chaLevel[data._chaBaseData.ChaEnName];
+            _hpText.text = (data._chaBaseData.ChaHP * levelData.ChaHPIncrease).ToString();
+            _attackText.text = (data._chaBaseData.ChaAttack * levelData.ChaAttackIncrease).ToString();
+            _deffenceText.text = (data._chaBaseData.ChaArmor * levelData.ChaArmorIncrease).ToString();
 
             var characterBaseData = data._chaBaseData;
 
