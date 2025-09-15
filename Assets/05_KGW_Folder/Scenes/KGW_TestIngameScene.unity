@@ -8249,6 +8249,11 @@ MonoBehaviour:
   Name: 12
   _panelContainer: {fileID: 1656012864}
   _confirmButton: {fileID: 1000320544}
+  content: {fileID: 0}
+  relicPrefab: {fileID: 0}
+  RelicWindow: {fileID: 0}
+  ignoreText: {fileID: 0}
+  relicDetailUI: {fileID: 0}
 --- !u!1 &1034202427
 GameObject:
   m_ObjectHideFlags: 0
@@ -14973,10 +14978,8 @@ MonoBehaviour:
   - {fileID: 8183469870045919501}
   - {fileID: 137982319}
   - {fileID: 1438434206}
-  _clearStageUI: {fileID: 1017131646}
-  _noneRemoveADUI: {fileID: 1723177980}
-  _RemoveADUI: {fileID: 1475308772}
   _popupUI: {fileID: 0}
+  _bottomUI: {fileID: 0}
   _optionButton: {fileID: 407859351}
   _fastButtonBG: {fileID: 290704716}
   _fastButtonX2: {fileID: 2008777457}

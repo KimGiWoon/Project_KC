@@ -14,7 +14,6 @@ public abstract class UnitBaseData : MonoBehaviour
     public bool _isAttack; // 유닛의 공격 여부
     public bool _isHalfHpSkill; // 유닛의 체력 절반 여부
     public bool _isStern; // 유닛의 그로기 상태확인
-    public bool _isCritical; // 유닛의 크리티컬 확인
     public bool _isUseSkill; // 유닛의 스킬사용 확인
     public float _attackCoolTimer; // 공격 쿨타임
     public Vector3 _moveDir; // 유닛의 이동 방향
@@ -67,7 +66,7 @@ public abstract class UnitBaseData : MonoBehaviour
         if (gameObject?.layer != LayerMask.NameToLayer("Boss"))
         {
             // 크리티컬이나 스킬 사용 시 넉백
-            if (_isCritical || _isUseSkill)
+            if (_isUseSkill)
             {
                 // 넉백 코루틴 null 체크
                 if (_knockbackRoutine != null)
