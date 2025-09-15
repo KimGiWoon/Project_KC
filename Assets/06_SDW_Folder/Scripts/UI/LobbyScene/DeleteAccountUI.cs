@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -12,6 +13,8 @@ namespace SDW
 
         public Action<UIName> OnCloseButtonClicked;
         public Action OnDeleteAcceptButtonClicked;
+
+        private Coroutine _coroutine;
 
         /// <summary>
         /// UI 요소가 활성화 준비를 마치고 초기화 작업을 수행하는 메서드
@@ -37,6 +40,8 @@ namespace SDW
         {
             _cancelButton.onClick.RemoveListener(DeleteCancelButtonClicked);
             _acceptButton.onClick.RemoveListener(DeleteAcceptButtonClicked);
+
+            if (_coroutine != null) StopCoroutine(_coroutine);
         }
 
         /// <summary>
@@ -52,6 +57,13 @@ namespace SDW
             _acceptButton.interactable = false;
             OnDeleteAcceptButtonClicked?.Invoke();
             OnCloseButtonClicked?.Invoke(UIName.DeleteAccountUI);
+        }
+
+        private IEnumerator ActiveDeleteButton()
+        {
+            yield return new WaitForSeconds(3f);
+            _acceptButton.interactable = false;
+            _coroutine = null;
         }
     }
 }
