@@ -66,7 +66,6 @@ namespace SDW
                     _auth = FirebaseAuth.DefaultInstance;
                     _db = FirebaseDatabase.DefaultInstance.RootReference;
 
-                    //todo signinUI가 open되기 전에 invoke 되기에 반응이 없음
                     if (PlayerPrefs.GetInt("SignedUp", 0) == 0)
                         OnSignInSetButtonType?.Invoke(ButtonType.SignUpButton);
                     else if (_auth.CurrentUser != null)
@@ -283,9 +282,11 @@ namespace SDW
             var etcData = new Dictionary<string, object>
             {
                 { "score", 0 },
+                { "totalScore", 0 },
                 { "questUpdate", DateTime.UtcNow.AddHours(9).ToString("yyyy-MM-dd HH:mm:ss") },
                 { "buyAdRemover", false },
-                { "gachaCount", 0 }
+                { "gachaCount", 0 },
+                { "chapter", 1 }
             };
 
             var userData = new Dictionary<string, object>
@@ -484,9 +485,11 @@ namespace SDW
             var etcData = new Dictionary<string, object>
             {
                 { "score", 0 },
+                { "totalScore", 0 },
                 { "questUpdate", DateTime.UtcNow.AddHours(9).ToString("yyyy-MM-dd HH:mm:ss") },
                 { "buyAdRemover", false },
-                { "gachaCount", 0 }
+                { "gachaCount", 0 },
+                { "chapter", 1 }
             };
 
             var userData = new Dictionary<string, object>
@@ -534,141 +537,6 @@ namespace SDW
         private void OnSignInComplete()
         {
             GameManager.Instance.Scene.LoadSceneAsync(SceneName.SDW_LobbyScene);
-        }
-
-        /// <summary>
-        /// 사용자의 닉네임을 Firebase 데이터베이스에 업데이트
-        /// </summary>
-        /// <param name="nickname">업데이트할 사용자의 닉네임 문자열</param>
-        public void SetNickname(string nickname)
-        {
-            _userData.Nickname = nickname;
-
-            var updateData = new Dictionary<string, object>
-            {
-                { "profile/nickname", nickname }
-            };
-
-            _db.Child("users").Child(_auth.CurrentUser.UserId).UpdateChildrenAsync(updateData).ContinueWithOnMainThread(task =>
-            {
-                if (task.IsFaulted)
-                {
-                    Debug.LogWarning($"닉네임 저장 실패: {task.Exception.Message}");
-                    return;
-                }
-
-
-                var activeScene = (SceneName)Enum.Parse(typeof(SceneName), GameManager.Instance.Scene.GetActiveScene());
-
-                switch (activeScene)
-                {
-                    case SceneName.SDW_SignInScene:
-                        _ui.ClosePanel(UIName.SetNicknameUI);
-                        OnSignInComplete();
-                        break;
-                    case SceneName.SDW_LobbyScene:
-                        RequestUserInfo();
-                        break;
-                }
-            });
-        }
-
-        public void SetIconNumber(int iconNumber)
-        {
-            _userData.IconNumber = iconNumber;
-
-            var updateData = new Dictionary<string, object>
-            {
-                { "profile/icon", iconNumber }
-            };
-
-            _db.Child("users").Child(_auth.CurrentUser.UserId).UpdateChildrenAsync(updateData).ContinueWithOnMainThread(task =>
-            {
-                if (task.IsFaulted)
-                {
-                    Debug.LogWarning($"닉네임 저장 실패: {task.Exception.Message}");
-                }
-            });
-        }
-
-        //todo Userdata도 업데이트를 해야 함 - 필수는 아님, CharacterDataManager는 게임 실행 시에만 로드되기 때문
-        //@ 변경에 대한 반영을 할지는 고민
-        public void SetStarCandy(int starCandy)
-        {
-            var updateData = new Dictionary<string, object>
-            {
-                { "coinData/starCandy", starCandy }
-            };
-
-            _db.Child("users").Child(_auth.CurrentUser.UserId).UpdateChildrenAsync(updateData).ContinueWithOnMainThread(task =>
-            {
-                if (task.IsFaulted)
-                {
-                    Debug.LogWarning($"닉네임 저장 실패: {task.Exception.Message}");
-                }
-            });
-        }
-
-        public void SetBead(string key, int value)
-        {
-            var updateData = new Dictionary<string, object>
-            {
-                { $"characters/{key}/count", value }
-            };
-
-            _db.Child("users").Child(_auth.CurrentUser.UserId).UpdateChildrenAsync(updateData).ContinueWithOnMainThread(task =>
-            {
-                if (task.IsFaulted)
-                {
-                    Debug.LogWarning($"닉네임 저장 실패: {task.Exception.Message}");
-                }
-            });
-        }
-
-        public void SetOwnedCharacter(string key, bool value)
-        {
-            var updateData = new Dictionary<string, object>
-            {
-                { $"characters/{key}/owned", value }
-            };
-
-            _db.Child("users").Child(_auth.CurrentUser.UserId).UpdateChildrenAsync(updateData).ContinueWithOnMainThread(task =>
-            {
-                if (task.IsFaulted)
-                {
-                    Debug.LogWarning($"닉네임 저장 실패: {task.Exception.Message}");
-                }
-            });
-        }
-
-        public void SetSelectedTeam(Dictionary<string, bool> selectedTeam)
-        {
-            var updateData = new Dictionary<string, object>();
-            var selectedKeyList = new List<string>();
-
-            foreach (var selectedCharacter in selectedTeam)
-            {
-                selectedKeyList.Add(selectedCharacter.Key);
-                var loadedCharacter = _loadedCharacters[selectedCharacter.Key] as Dictionary<string, object>;
-                if (Convert.ToBoolean(loadedCharacter["selected"])) continue;
-
-                updateData.Add($"characters/{selectedCharacter.Key}/selected", selectedCharacter.Value);
-            }
-
-            foreach (var character in _loadedCharacters)
-            {
-                if (selectedKeyList.Contains(character.Key)) continue;
-
-                updateData.Add($"characters/{character.Key}/selected", false);
-            }
-
-            _db.Child("users").Child(_auth.CurrentUser.UserId).UpdateChildrenAsync(updateData).ContinueWithOnMainThread(task =>
-            {
-                if (task.IsFaulted)
-                {
-                    Debug.LogWarning($"닉네임 저장 실패: {task.Exception.Message}");
-                }
-            });
         }
 
         #endregion
@@ -757,6 +625,286 @@ namespace SDW
                 _auth.CurrentUser.UserId,
                 _userData.IconNumber
             ));
+        }
+
+        #endregion
+
+        #region Update Data
+
+        /// <summary>
+        /// 사용자의 닉네임을 Firebase 데이터베이스에 업데이트
+        /// </summary>
+        /// <param name="nickname">업데이트할 사용자의 닉네임 문자열</param>
+        public void SetNickname(string nickname)
+        {
+            _userData.Nickname = nickname;
+
+            var updateData = new Dictionary<string, object>
+            {
+                { "profile/nickname", nickname }
+            };
+
+            _db.Child("users").Child(_auth.CurrentUser.UserId).UpdateChildrenAsync(updateData).ContinueWithOnMainThread(task =>
+            {
+                if (task.IsFaulted)
+                {
+                    Debug.LogWarning($"닉네임 저장 실패: {task.Exception.Message}");
+                    return;
+                }
+
+
+                var activeScene = (SceneName)Enum.Parse(typeof(SceneName), GameManager.Instance.Scene.GetActiveScene());
+
+                switch (activeScene)
+                {
+                    case SceneName.SDW_SignInScene:
+                        _ui.ClosePanel(UIName.SetNicknameUI);
+                        OnSignInComplete();
+                        break;
+                    case SceneName.SDW_LobbyScene:
+                        RequestUserInfo();
+                        break;
+                }
+            });
+        }
+
+        /// <summary>
+        /// 사용자의 아이콘 번호를 설정하고 Firebase 데이터베이스에 저장
+        /// </summary>
+        /// <param name="iconNumber">설정할 아이콘 번호</param>
+        public void SetIconNumber(int iconNumber)
+        {
+            _userData.IconNumber = iconNumber;
+
+            var updateData = new Dictionary<string, object>
+            {
+                { "profile/icon", iconNumber }
+            };
+
+            _db.Child("users").Child(_auth.CurrentUser.UserId).UpdateChildrenAsync(updateData).ContinueWithOnMainThread(task =>
+            {
+                if (task.IsFaulted)
+                {
+                    Debug.LogWarning($"Icon 저장 실패: {task.Exception.Message}");
+                }
+            });
+        }
+
+        /// <summary>
+        /// 지정된 별사탕(별 캐시) 값을 Firebase 데이터베이스에 업데이트
+        /// </summary>
+        /// <param name="starCandy">업데이트할 별사탕의 값</param>
+        public void SetStarCandy(int starCandy)
+        {
+            var updateData = new Dictionary<string, object>
+            {
+                { "coinData/starCandy", starCandy }
+            };
+
+            _db.Child("users").Child(_auth.CurrentUser.UserId).UpdateChildrenAsync(updateData).ContinueWithOnMainThread(task =>
+            {
+                if (task.IsFaulted)
+                {
+                    Debug.LogWarning($"StarCandy 저장 실패: {task.Exception.Message}");
+                }
+            });
+        }
+
+        /// <summary>
+        /// 사용자의 빛나는 사탕 개수를 Firebase 데이터베이스에 업데이트
+        /// </summary>
+        /// <param name="shiningStarCandy">업데이트할 빛나는 사탕 개수</param>
+        public void SetShiningStarCandy(int shiningStarCandy)
+        {
+            var updateData = new Dictionary<string, object>
+            {
+                { "coinData/shiningStarCandy", shiningStarCandy }
+            };
+
+            _db.Child("users").Child(_auth.CurrentUser.UserId).UpdateChildrenAsync(updateData).ContinueWithOnMainThread(task =>
+            {
+                if (task.IsFaulted)
+                {
+                    Debug.LogWarning($"ShiningStarCandy 저장 실패: {task.Exception.Message}");
+                }
+            });
+        }
+
+        /// <summary>
+        /// 특정 캐릭터의 비드(장식 아이템) 수량을 Firebase 데이터베이스에 업데이트
+        /// </summary>
+        /// <param name="key">업데이트할 캐릭터의 고유 키</param>
+        /// <param name="value">비드 수량</param>
+        public void SetBead(string key, int value)
+        {
+            var updateData = new Dictionary<string, object>
+            {
+                { $"characters/{key}/count", value }
+            };
+
+            _db.Child("users").Child(_auth.CurrentUser.UserId).UpdateChildrenAsync(updateData).ContinueWithOnMainThread(task =>
+            {
+                if (task.IsFaulted)
+                {
+                    Debug.LogWarning($"Bead 저장 실패: {task.Exception.Message}");
+                }
+            });
+        }
+
+        /// <summary>
+        /// 캐릭터의 소유 상태를 Firebase 데이터베이스에 업데이트
+        /// </summary>
+        /// <param name="key">업데이트할 캐릭터의 고유 키</param>
+        /// <param name="value">캐릭터 소유 여부</param>
+        public void SetOwnedCharacter(string key, bool value)
+        {
+            var updateData = new Dictionary<string, object>
+            {
+                { $"characters/{key}/owned", value }
+            };
+
+            _db.Child("users").Child(_auth.CurrentUser.UserId).UpdateChildrenAsync(updateData).ContinueWithOnMainThread(task =>
+            {
+                if (task.IsFaulted)
+                {
+                    Debug.LogWarning($"OwneCharacter 저장 실패: {task.Exception.Message}");
+                }
+            });
+        }
+
+        /// <summary>
+        /// 설정된 팀을 Firebase 데이터베이스에 업데이트
+        /// </summary>
+        /// <param name="selectedTeam">팀 구성원별 선택 상태를 담은 딕셔너리</param>
+        public void SetSelectedTeam(Dictionary<string, bool> selectedTeam)
+        {
+            var updateData = new Dictionary<string, object>();
+            var selectedKeyList = new List<string>();
+
+            foreach (var selectedCharacter in selectedTeam)
+            {
+                selectedKeyList.Add(selectedCharacter.Key);
+                var loadedCharacter = _loadedCharacters[selectedCharacter.Key] as Dictionary<string, object>;
+                if (Convert.ToBoolean(loadedCharacter["selected"])) continue;
+
+                updateData.Add($"characters/{selectedCharacter.Key}/selected", selectedCharacter.Value);
+            }
+
+            foreach (var character in _loadedCharacters)
+            {
+                if (selectedKeyList.Contains(character.Key)) continue;
+
+                updateData.Add($"characters/{character.Key}/selected", false);
+            }
+
+            _db.Child("users").Child(_auth.CurrentUser.UserId).UpdateChildrenAsync(updateData).ContinueWithOnMainThread(task =>
+            {
+                if (task.IsFaulted)
+                {
+                    Debug.LogWarning($"SelectedTeam 저장 실패: {task.Exception.Message}");
+                }
+            });
+        }
+
+        /// <summary>
+        /// 게임 내 점수와 총 점수를 Firebase 데이터베이스에 업데이트
+        /// </summary>
+        /// <param name="score">개별 플레이어의 점수</param>
+        /// <param name="totalScore">전체 총 점수</param>
+        public void SetScores(int score, int totalScore)
+        {
+            var updateData = new Dictionary<string, object>
+            {
+                { "etcData/score", score },
+                { "etcData/totalScore", totalScore }
+            };
+
+            _db.Child("users").Child(_auth.CurrentUser.UserId).UpdateChildrenAsync(updateData).ContinueWithOnMainThread(task =>
+            {
+                if (task.IsFaulted)
+                {
+                    Debug.LogWarning($"Score/TotalScore 저장 실패: {task.Exception.Message}");
+                }
+            });
+        }
+
+        /// <summary>
+        /// 사용자의 퀘스트 업데이트 정보를 Firebase 데이터베이스에 설정
+        /// </summary>
+        public void SetQuestUpdate()
+        {
+            var updateData = new Dictionary<string, object>
+            {
+                { "etcData/questUpdate", DateTime.UtcNow.AddHours(9).ToString("yyyy-MM-dd HH:mm:ss") }
+            };
+
+            _db.Child("users").Child(_auth.CurrentUser.UserId).UpdateChildrenAsync(updateData).ContinueWithOnMainThread(task =>
+            {
+                if (task.IsFaulted)
+                {
+                    Debug.LogWarning($"Score/TotalScore 저장 실패: {task.Exception.Message}");
+                }
+            });
+        }
+
+        /// <summary>
+        /// 사용자 인터페이스를 통해 광고 제거 기능의 상태를 토글
+        /// </summary>
+        /// <param name="value">광고 제거 기능의 활성화 상태</param>
+        public void SetBuyAdRemover(bool value)
+        {
+            var updateData = new Dictionary<string, object>
+            {
+                { "etcData/buyAdRemover", false }
+            };
+
+            _db.Child("users").Child(_auth.CurrentUser.UserId).UpdateChildrenAsync(updateData).ContinueWithOnMainThread(task =>
+            {
+                if (task.IsFaulted)
+                {
+                    Debug.LogWarning($"BuyAdRemover 저장 실패: {task.Exception.Message}");
+                }
+            });
+        }
+
+        /// <summary>
+        /// 지정된 가챠 횟수를 Firebase 데이터베이스에 업데이트
+        /// </summary>
+        /// <param name="gachaCount">업데이트할 가챠 횟수</param>
+        public void SetGachaCount(int gachaCount)
+        {
+            var updateData = new Dictionary<string, object>
+            {
+                { "etcData/gachaCount", gachaCount }
+            };
+
+            _db.Child("users").Child(_auth.CurrentUser.UserId).UpdateChildrenAsync(updateData).ContinueWithOnMainThread(task =>
+            {
+                if (task.IsFaulted)
+                {
+                    Debug.LogWarning($"GachaCount 저장 실패: {task.Exception.Message}");
+                }
+            });
+        }
+
+        /// <summary>
+        /// 지정된 Chapter을 Firebase 데이터베이스에 업데이트
+        /// </summary>
+        /// <param name="chapter">업데이트할 Chapter 번호</param>
+        public void SetChapter(int chapter)
+        {
+            var updateData = new Dictionary<string, object>
+            {
+                { "etcData/chapter", chapter }
+            };
+
+            _db.Child("users").Child(_auth.CurrentUser.UserId).UpdateChildrenAsync(updateData).ContinueWithOnMainThread(task =>
+            {
+                if (task.IsFaulted)
+                {
+                    Debug.LogWarning($"Chpater 저장 실패: {task.Exception.Message}");
+                }
+            });
         }
 
         #endregion
