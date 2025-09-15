@@ -69,9 +69,9 @@ namespace JJY
         {
             yield return new WaitForSeconds(1f);
 
-#if UNITY_EDITOR
-            TestAddYeopjeon();
-#endif
+// #if UNITY_EDITOR
+//             TestAddYeopjeon();
+// #endif
             InitIngredientIndexMap();
             InitIngredients();
             InitStoreSlots();
@@ -103,12 +103,14 @@ namespace JJY
             }
             allIngredients = tmp.ToArray();
         }
-#if UNITY_EDITOR
-        private void TestAddYeopjeon()
-        {
-            _coin.AddYeopjeon(500);
-        }
-#endif
+
+// #if UNITY_EDITOR
+//         private void TestAddYeopjeon()
+//         {
+//             _coin.AddYeopjeon(500);
+//         }
+// #endif
+
         private void InitStoreSlots()
         {
             slotDatas.Clear();

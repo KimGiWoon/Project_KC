@@ -202,6 +202,11 @@ namespace SDW
                 _uiStack.Pop();
         }
 
+        public void DeactiveDeleteButton()
+        {
+            _deleteAccountButton.interactable = false;
+        }
+
         #endregion
     }
 }

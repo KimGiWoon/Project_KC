@@ -49,6 +49,7 @@ namespace SDW
         /// </summary>
         private void DeleteAcceptButtonClicked()
         {
+            _acceptButton.interactable = false;
             OnDeleteAcceptButtonClicked?.Invoke();
             OnCloseButtonClicked?.Invoke(UIName.DeleteAccountUI);
         }
