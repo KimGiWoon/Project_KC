@@ -7,4 +7,5 @@ public enum ChoiceResultType
     LoseRelic,  // 유물 상실
     GainYeopjeon,   // 엽전 획득
     LoseYeopjeon,   // 엽전 상실
+    GainBadRelic, // 디버프 유물 휙득
 }
