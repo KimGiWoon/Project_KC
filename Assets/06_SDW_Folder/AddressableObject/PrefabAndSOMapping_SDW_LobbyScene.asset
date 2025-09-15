@@ -13,6 +13,12 @@ MonoBehaviour:
   m_Name: PrefabAndSOMapping_SDW_LobbyScene
   m_EditorClassIdentifier: 
   prefabEntries:
+  - PathHash: 5198830157726298727
+    AddressKey: b2f16cda616270d4da394dbf5a0b6bfd
+    fieldName: _selectSlotPrefab
+    index: -1
+    AssetPath: Assets/05_KGW_Folder/Prefabs/CharacterSlot/SelectCharacter.prefab
+    PathPreview: CharacterSelectManager
   - PathHash: 14938729717848126768
     AddressKey: e2d9fb0ff2abe3a4caac52a1c5bcc451
     fieldName: _prefab
@@ -133,12 +139,6 @@ MonoBehaviour:
     index: -1
     AssetPath: Assets/05_KGW_Folder/Prefabs/00_Characters/YHY.prefab
     PathPreview: TestGameManager/CSVDataContainer/CharacterData
-  - PathHash: 5198830157726298727
-    AddressKey: b2f16cda616270d4da394dbf5a0b6bfd
-    fieldName: _selectSlotPrefab
-    index: -1
-    AssetPath: Assets/05_KGW_Folder/Prefabs/CharacterSlot/SelectCharacter.prefab
-    PathPreview: CharacterSelectManager
   soEntries:
   - PathHash: 14938729717848126768
     AddressKey: 0977072b4d0ff2c4bb1c250d908f0ba6

@@ -79,8 +79,6 @@ public class BattleManager : MonoBehaviour
 
     private GameManager _gameManager;
     private CharacterDataManager _charData;
-    //# InGame Stage
-    private int _stage = 1;
 
     private void Awake()
     {
@@ -412,8 +410,10 @@ public class BattleManager : MonoBehaviour
                 Debug.Log($"{cha._characterState._chaEnName}의 현재 남은 체력 {cha._characterState._chaCurrentHP}저장");
             }
 
-            GameManager.Instance.CharacterBattleDataSave._chaLevel[cha._characterState._chaEnName] = cha._characterState._chaLevel;
-            GameManager.Instance.CharacterBattleDataSave._chaUpgrade[cha._characterState._chaEnName] = cha._characterState._chaUpgrade;
+            GameManager.Instance.CharacterBattleDataSave._chaLevel[cha._characterState._chaEnName] =
+                cha._characterState._chaLevel;
+            GameManager.Instance.CharacterBattleDataSave._chaUpgrade[cha._characterState._chaEnName] =
+                cha._characterState._chaUpgrade;
         }
     }
 

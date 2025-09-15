@@ -101,8 +101,12 @@ namespace SDW
         private int _chapter = 1;
         public int Chapter => _chapter;
 
+        //# InGame Stage
+        private int _stage = 1;
+        public int Stage => _stage;
+
         private int _score;
-        public int Score;
+        public int Score => _score;
 
         private int _totalScore;
         public int TotalScore => _totalScore;
