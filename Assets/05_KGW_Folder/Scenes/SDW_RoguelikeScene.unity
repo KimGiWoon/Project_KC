@@ -10495,7 +10495,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8396d6d9104f3194f8f82df8cb285e94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _dontDestroyOnLoad: 1
   relics: []
   _clearStageUI: {fileID: 0}
   _battle: {fileID: 0}
@@ -28454,7 +28453,7 @@ MonoBehaviour:
   _characterImage: {fileID: 283057222}
   _characterNameText: {fileID: 278123148}
   _startValueText: {fileID: 285333645}
-  _classNameText: {fileID: 278123148}
+  _classNameText: {fileID: 1194624540}
   _classLevelText: {fileID: 677665192}
   _hpText: {fileID: 1909625065}
   _attackText: {fileID: 10318146}
@@ -34412,6 +34411,7 @@ MonoBehaviour:
   - {fileID: 781920297}
   - {fileID: 803890260}
   _popupUI: {fileID: 1377780608}
+  _bottomUI: {fileID: 0}
   _optionButton: {fileID: 261156101}
   _fastButtonBG: {fileID: 47658981}
   _fastButtonX2: {fileID: 1275451080}
