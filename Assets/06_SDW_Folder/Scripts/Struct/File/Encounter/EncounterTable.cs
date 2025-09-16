@@ -4,8 +4,6 @@ using UnityEngine;
 
 namespace SDW
 {
-
-
     [Serializable]
     public struct EncounterTable
     {
@@ -29,8 +27,8 @@ namespace SDW
         public int ResultChoiceCount;
         public List<string> EncounterExitText;
 
-        public List<ChoiceResultType> ChoiceResults;
-        public List<int> ChoiceResultValues;
+        // public List<ChoiceResultType> ChoiceResults;
+        // public List<int> ChoiceResultValues;
 
         public EncounterTable(string[] fields)
         {
@@ -38,13 +36,12 @@ namespace SDW
             ChoiceTexts = new List<string>();
             EncounterExitText = new List<string>();
 
-            ChoiceResults = new List<ChoiceResultType>();
-            ChoiceResultValues = new List<int>();
+            // ChoiceResults = new List<ChoiceResultType>();
+            // ChoiceResultValues = new List<int>();
 
 
             try
             {
-
                 int.TryParse(fields[0], out EncounterID);
                 Enum.TryParse<EncounterSentiment>(fields[1], true, out Sentiment);
                 int.TryParse(fields[2], out EncounterStage);
@@ -89,33 +86,33 @@ namespace SDW
                 {
                     EncounterExitText.AddRange(fields[15].Split('`'));
                 }
-                if (fields.Length > 16 && !string.IsNullOrEmpty(fields[16]))
-                {
-                    string[] results = fields[16].Split('`');
-                    foreach (var res in results)
-                    {
-                        if (Enum.TryParse<ChoiceResultType>(res, true, out var resultType))
-                        {
-                            ChoiceResults.Add(resultType);
-                        }
-                    }
-                }
-                if (fields.Length > 17 && !string.IsNullOrEmpty(fields[17]))
-                {
-                    string[] values = fields[17].Split('`');
-                    foreach (var val in values)
-                    {
-                        if (int.TryParse(val, out var resultValue))
-                        {
-                            ChoiceResultValues.Add(resultValue);
-                        }
-                    }
-                }
-                // ChoiceResultValues의 개수가 ChoiceResults보다 적으면, 부족한 만큼 0으로 채워줍니다.
-                while (ChoiceResultValues.Count < ChoiceResults.Count)
-                {
-                    ChoiceResultValues.Add(0); // 기본값 0을 추가
-                }
+                // if (fields.Length > 16 && !string.IsNullOrEmpty(fields[16]))
+                // {
+                //     string[] results = fields[16].Split('`');
+                //     foreach (string res in results)
+                //     {
+                //         if (Enum.TryParse<ChoiceResultType>(res, true, out var resultType))
+                //         {
+                //             ChoiceResults.Add(resultType);
+                //         }
+                //     }
+                // }
+                // if (fields.Length > 17 && !string.IsNullOrEmpty(fields[17]))
+                // {
+                //     string[] values = fields[17].Split('`');
+                //     foreach (var val in values)
+                //     {
+                //         if (int.TryParse(val, out var resultValue))
+                //         {
+                //             ChoiceResultValues.Add(resultValue);
+                //         }
+                //     }
+                // }
+                // // ChoiceResultValues의 개수가 ChoiceResults보다 적으면, 부족한 만큼 0으로 채워줍니다.
+                // while (ChoiceResultValues.Count < ChoiceResults.Count)
+                // {
+                //     ChoiceResultValues.Add(0); // 기본값 0을 추가
+                // }
             }
             catch (Exception e)
             {

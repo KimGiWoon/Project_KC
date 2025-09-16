@@ -179,6 +179,14 @@ namespace SDW
                     if (task.IsFaulted)
                     {
                         Debug.LogWarning($"가입 실패 : {task.Exception.Message}");
+
+                        //# 이미 있는 계정일 경우, 로그인 진행
+                        if (task.Exception.Message.Contains("The email address is already in use by another account"))
+                        {
+                            PlayerPrefs.SetInt("SignedUp", 1);
+                            PlayerPrefs.Save();
+                            SignIn(email, password);
+                        }
                         return;
                     }
 
@@ -281,12 +289,15 @@ namespace SDW
 
             var etcData = new Dictionary<string, object>
             {
+                { "stageExp", 0 },
                 { "score", 0 },
                 { "totalScore", 0 },
                 { "questUpdate", DateTime.UtcNow.AddHours(9).ToString("yyyy-MM-dd HH:mm:ss") },
                 { "buyAdRemover", false },
                 { "gachaCount", 0 },
-                { "chapter", 1 }
+                { "chapter", 1 },
+                { "stamina", 120 },
+                { "lastStaminaUpdate", DateTime.UtcNow.AddHours(9).ToString("yyyy-MM-dd HH:mm:ss") }
             };
 
             var userData = new Dictionary<string, object>
@@ -484,12 +495,15 @@ namespace SDW
 
             var etcData = new Dictionary<string, object>
             {
+                { "stageExp", 0 },
                 { "score", 0 },
                 { "totalScore", 0 },
                 { "questUpdate", DateTime.UtcNow.AddHours(9).ToString("yyyy-MM-dd HH:mm:ss") },
                 { "buyAdRemover", false },
                 { "gachaCount", 0 },
-                { "chapter", 1 }
+                { "chapter", 1 },
+                { "stamina", 120 },
+                { "lastStaminaUpdate", DateTime.UtcNow.AddHours(9).ToString("yyyy-MM-dd HH:mm:ss") }
             };
 
             var userData = new Dictionary<string, object>
@@ -902,7 +916,24 @@ namespace SDW
             {
                 if (task.IsFaulted)
                 {
-                    Debug.LogWarning($"Chpater 저장 실패: {task.Exception.Message}");
+                    Debug.LogWarning($"Chapter 저장 실패: {task.Exception.Message}");
+                }
+            });
+        }
+
+        public void SetStamina(int stamina)
+        {
+            var updateData = new Dictionary<string, object>
+            {
+                { "etcData/stamina", stamina },
+                { "etcData/lastStaminaUpdate", DateTime.UtcNow.AddHours(9).ToString("yyyy-MM-dd HH:mm:ss") }
+            };
+
+            _db.Child("users").Child(_auth.CurrentUser.UserId).UpdateChildrenAsync(updateData).ContinueWithOnMainThread(task =>
+            {
+                if (task.IsFaulted)
+                {
+                    Debug.LogWarning($"Chapter 저장 실패: {task.Exception.Message}");
                 }
             });
         }
