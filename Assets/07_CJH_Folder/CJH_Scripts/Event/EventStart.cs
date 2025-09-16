@@ -32,12 +32,11 @@ namespace CJH
         private static int gambleCount = 0;
 
         [Header("유물 선택 UI")]
-        public GameObject relicSelectionPanel;      // 유물 선택 화면 전체 패널
+        public GameObject relicSelectionPanel; // 유물 선택 화면 전체 패널
         [SerializeField] private GameObject relicChoiceButtonPrefab;
         [SerializeField] private Transform relicChoiceContainer;
 
         public GameObject closeButton;
-
 
         public void Initialize(EncounterTable data)
         {
@@ -111,19 +110,19 @@ namespace CJH
         private void OnChoiceSelected(EncounterTable data, int choiceIndex)
         {
             var resultType = ChoiceResultType.None;
-            int resultValue = (choiceIndex < data.ChoiceResultValues.Count) ? data.ChoiceResultValues[choiceIndex] : 0;
+            // int resultValue = (choiceIndex < data.ChoiceResultValues.Count) ? data.ChoiceResultValues[choiceIndex] : 0;
             int resultMoney = data.ResultMoney;
             //todo 추후 잃거나 얻는 유물의 수가 1개 초과가 되면 수정 필요
             int resultRelicCount = data.ResultNumber;
 
             if (data.Type == EncounterType.Gamb)
             {
-                if(choiceIndex == 0)
+                if (choiceIndex == 0)
                 {
                     gambleCount = 0;
                 }
 
-                if(choiceIndex == 1)
+                if (choiceIndex == 1)
                 {
                     _eventManager.EndEncounter();
                     return;
@@ -131,7 +130,7 @@ namespace CJH
 
                 gambleCount++;
 
-                if(gambleCount == 2)
+                if (gambleCount == 2)
                 {
                     //todo 겜블 3번째 때 동작 확인 후 작성
                 }
@@ -139,7 +138,6 @@ namespace CJH
 
             switch (data.Type)
             {
-
                 case EncounterType.Money:
                     if (choiceIndex == 0)
                     {
@@ -273,7 +271,7 @@ namespace CJH
 
                 case ChoiceResultType.BuyRelic:
                     // EventManager로부터 전체 유물 목록을 받아와서 인자로 전달합니다.
-                    RelicDatas boughtRelic = GameManager.Instance.InGameItem.AddRandomRelic(_eventManager.allRelicsDatabase);
+                    var boughtRelic = GameManager.Instance.InGameItem.AddRandomRelic(_eventManager.allRelicsDatabase);
 
                     GameManager.Instance.Coin.SubtractYeopjeon(resultMoney);
                     Debug.Log($"{resultMoney} 엽전으로 유물을 구매했습니다.");
@@ -285,7 +283,7 @@ namespace CJH
                     break;
 
                 case ChoiceResultType.GainRelic:
-                    RelicDatas gainedRelic = GameManager.Instance.InGameItem.AddRandomRelic(_eventManager.allRelicsDatabase);
+                    var gainedRelic = GameManager.Instance.InGameItem.AddRandomRelic(_eventManager.allRelicsDatabase);
 
                     Debug.Log("유물을 획득했습니다.");
 
@@ -296,7 +294,7 @@ namespace CJH
                     break;
 
                 case ChoiceResultType.LoseRelic:
-                    RelicDatas lostRelic = GameManager.Instance.InGameItem.RemoveRandomRelic();
+                    var lostRelic = GameManager.Instance.InGameItem.RemoveRandomRelic();
                     GameManager.Instance.Coin.AddYeopjeon(resultMoney); // resultValue 변수 사용
                     Debug.Log($"{resultMoney} 엽전 얻음");
 
@@ -326,7 +324,7 @@ namespace CJH
                     {
                         // 획득 가능한 목록 중에서 무작위로 하나를 선택합니다.
                         int randomIndex = Random.Range(0, availableDebuffRelics.Count);
-                        RelicDatas debuffRelicToAdd = availableDebuffRelics[randomIndex];
+                        var debuffRelicToAdd = availableDebuffRelics[randomIndex];
 
                         // 선택된 디버프 유물을 인벤토리에 추가합니다.
                         GameManager.Instance.InGameItem.AddItem(debuffRelicToAdd);
@@ -342,7 +340,7 @@ namespace CJH
                 case ChoiceResultType.Combat:
                     Debug.Log("전투 선택됨 - PartyUI 호출");
 
-                    PartyUI partyUI = FindObjectOfType<PartyUI>();
+                    var partyUI = FindObjectOfType<PartyUI>();
                     if (partyUI != null)
                     {
                         resultPanel.SetActive(false);
@@ -359,8 +357,8 @@ namespace CJH
                     break;
 
                 case ChoiceResultType.None:
-                  Debug.Log(" 이벤트 지나감 ");
-                  break;
+                    Debug.Log(" 이벤트 지나감 ");
+                    break;
             }
 
             // 결과가 있으면 결과창 보여주고 없으면 이벤트 종료
@@ -390,7 +388,6 @@ namespace CJH
         /// 플레이어에게 N개의 유물 선택지를 보여줍니다.
         /// </summary>
         /// <param name="numberOfChoices">보여줄 선택지의 개수</param>
-
         private void ShowRelicSelection(int numberOfChoices)
         {
             relicSelectionPanel.SetActive(true);
@@ -430,7 +427,7 @@ namespace CJH
             {
                 var relicData = relicsToOffer[i];
 
-                GameObject newButtonObj = Instantiate(relicChoiceButtonPrefab, relicChoiceContainer);
+                var newButtonObj = Instantiate(relicChoiceButtonPrefab, relicChoiceContainer);
                 newButtonObj.SetActive(true);
 
                 var buttonText = newButtonObj.GetComponentInChildren<TextMeshProUGUI>();
@@ -442,7 +439,7 @@ namespace CJH
                 var button = newButtonObj.GetComponent<Button>();
                 if (button != null)
                 {
-                    RelicDatas capturedRelic = relicData; // 클로저 문제 방지
+                    var capturedRelic = relicData; // 클로저 문제 방지
                     button.onClick.AddListener(() => OnRelicChosen(capturedRelic));
                 }
 
