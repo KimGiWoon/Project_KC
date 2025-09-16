@@ -11,6 +11,7 @@ namespace SDW
         [SerializeField] private TMP_InputField _nicknameInputField;
         [SerializeField] private TextMeshProUGUI _errorText;
         [SerializeField] private Button _confirmButton;
+        [SerializeField] private TMP_FontAsset _font;
         private string _currentNickname;
 
         public Action<string> OnConfirmButtonClicked;
@@ -30,6 +31,7 @@ namespace SDW
         private void OnEnable()
         {
             _confirmButton.onClick.AddListener(ConfirmButtonClicked);
+            _nicknameInputField.onValueChanged.AddListener(OnValueChanged);
         }
 
         /// <summary>
@@ -38,6 +40,19 @@ namespace SDW
         private void OnDisable()
         {
             _confirmButton.onClick.RemoveListener(ConfirmButtonClicked);
+            _nicknameInputField.onValueChanged.RemoveListener(OnValueChanged);
+        }
+
+        private void OnValueChanged(string nickname)
+        {
+            string filtered = "";
+
+            foreach (char c in nickname)
+            {
+                if (_font.HasCharacter(c)) filtered += c;
+            }
+
+            if (filtered != nickname) _nicknameInputField.text = filtered;
         }
 
         /// <summary>
