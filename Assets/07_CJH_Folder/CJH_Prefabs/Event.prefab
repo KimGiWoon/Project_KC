@@ -105,7 +105,6 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 5219946605492380491}
   - {fileID: 1068380109905187248}
   - {fileID: 4699177956114183315}
   m_Father: {fileID: 0}
@@ -216,11 +215,11 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 2048342410622496183}
+  m_Father: {fileID: 4583295455533406335}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -2.7731, y: -9.7062}
+  m_AnchoredPosition: {x: -2.7730408, y: -9.706207}
   m_SizeDelta: {x: 1313.0249, y: 2792.928}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &89923004365006291
@@ -841,6 +840,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 5219946605492380491}
   - {fileID: 8578834295602913832}
   m_Father: {fileID: 1068380109905187248}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1327,6 +1327,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f11f2321074faf548a8c02b0db8fd19c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  eventPanel: {fileID: 4451146234562320023}
   eventTitleText: {fileID: 8912082759333595978}
   eventImage: {fileID: 4044289102148293197}
   encounterText: {fileID: 8660342476399265567}

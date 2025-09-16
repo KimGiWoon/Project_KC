@@ -11,6 +11,7 @@ namespace CJH
     public class EventStart : MonoBehaviour
     {
         [Header("프리팹 내부 UI 연결")]
+        public GameObject eventPanel;
         public TextMeshProUGUI eventTitleText;
         public Image eventImage;
         public TextMeshProUGUI encounterText;
@@ -343,6 +344,7 @@ namespace CJH
                     var partyUI = FindObjectOfType<PartyUI>();
                     if (partyUI != null)
                     {
+                        eventPanel.SetActive(false);
                         resultPanel.SetActive(false);
                         partyUI.PrepareForBattleEvent(BattleEventType.Elite);
                     }
