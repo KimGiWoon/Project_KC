@@ -38,6 +38,7 @@ namespace CJH
 
         public GameObject closeButton;
 
+
         public void Initialize(EncounterTable data)
         {
             _eventManager = FindObjectOfType<EventManager>();
@@ -109,12 +110,13 @@ namespace CJH
 
         private void OnChoiceSelected(EncounterTable data, int choiceIndex)
         {
-            ChoiceResultType resultType = ChoiceResultType.None; // 기본값
+            var resultType = ChoiceResultType.None;
             int resultValue = (choiceIndex < data.ChoiceResultValues.Count) ? data.ChoiceResultValues[choiceIndex] : 0;
+            int resultMoney = data.ResultMoney;
+            //todo 추후 잃거나 얻는 유물의 수가 1개 초과가 되면 수정 필요
+            int resultRelicCount = data.ResultNumber;
 
-
-
-            if(data.Type == EncounterType.Gamb)
+            if (data.Type == EncounterType.Gamb)
             {
                 if(choiceIndex == 0)
                 {
@@ -260,21 +262,21 @@ namespace CJH
             switch (resultType)
             {
                 case ChoiceResultType.GainYeopjeon:
-                    GameManager.Instance.Coin.AddYeopjeon(resultValue); // resultValue 변수 사용
-                    Debug.Log($"{resultValue} 엽전 얻음");
+                    GameManager.Instance.Coin.AddYeopjeon(resultMoney); // resultValue 변수 사용
+                    Debug.Log($"{resultMoney} 엽전 얻음");
                     break;
 
                 case ChoiceResultType.LoseYeopjeon:
-                    GameManager.Instance.Coin.SubtractYeopjeon(resultValue); // resultValue 변수 사용
-                    Debug.Log($"{resultValue} 엽전 잃음");
+                    GameManager.Instance.Coin.SubtractYeopjeon(resultMoney); // resultValue 변수 사용
+                    Debug.Log($"{resultMoney} 엽전 잃음");
                     break;
 
                 case ChoiceResultType.BuyRelic:
                     // EventManager로부터 전체 유물 목록을 받아와서 인자로 전달합니다.
                     RelicDatas boughtRelic = GameManager.Instance.InGameItem.AddRandomRelic(_eventManager.allRelicsDatabase);
 
-                    GameManager.Instance.Coin.SubtractYeopjeon(resultValue);
-                    Debug.Log($"{resultValue} 엽전으로 유물을 구매했습니다.");
+                    GameManager.Instance.Coin.SubtractYeopjeon(resultMoney);
+                    Debug.Log($"{resultMoney} 엽전으로 유물을 구매했습니다.");
 
                     if (boughtRelic != null)
                     {
@@ -295,8 +297,8 @@ namespace CJH
 
                 case ChoiceResultType.LoseRelic:
                     RelicDatas lostRelic = GameManager.Instance.InGameItem.RemoveRandomRelic();
-                    GameManager.Instance.Coin.AddYeopjeon(resultValue); // resultValue 변수 사용
-                    Debug.Log($"{resultValue} 엽전 얻음");
+                    GameManager.Instance.Coin.AddYeopjeon(resultMoney); // resultValue 변수 사용
+                    Debug.Log($"{resultMoney} 엽전 얻음");
 
                     // 어떤 유물을 잃었는지 확인하거나, 잃을 유물이 없었는지 확인할 수 있습니다.
                     if (lostRelic != null)
@@ -338,19 +340,23 @@ namespace CJH
                     break;
 
                 case ChoiceResultType.Combat:
-                    MapView.Instance.OnCharacterMoved?.Invoke(true);
-                    MapView.Instance.OnEventTypeChanged?.Invoke(BattleEventType.Elite);
-                    Debug.Log("전투");
+                    Debug.Log("전투 선택됨 - PartyUI 호출");
+
+                    PartyUI partyUI = FindObjectOfType<PartyUI>();
+                    if (partyUI != null)
+                    {
+                        resultPanel.SetActive(false);
+                        partyUI.PrepareForBattleEvent(BattleEventType.Elite);
+                    }
                     break;
 
                 case ChoiceResultType.Continue:
                     int numberOfChoices = Random.Range(2, 4);
                     ShowRelicSelection(numberOfChoices);
-                    GameManager.Instance.Coin.AddYeopjeon(resultValue); // resultValue 변수 사용
-                    Debug.Log($"{resultValue} 엽전 얻음");
+                    GameManager.Instance.Coin.AddYeopjeon(resultMoney); // resultValue 변수 사용
+                    Debug.Log($"{resultMoney} 엽전 얻음");
                     Debug.Log("유물 선택지");
                     break;
-
 
                 case ChoiceResultType.None:
                   Debug.Log(" 이벤트 지나감 ");

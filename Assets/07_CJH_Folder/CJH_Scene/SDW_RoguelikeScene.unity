@@ -10467,6 +10467,7 @@ MonoBehaviour:
   _relicInventoryUI: {fileID: 0}
   _eventPrefab: {fileID: 350895305189937838, guid: 3a424c3db3dc04c4caa3f7390bab28db, type: 3}
   _stageGlobalCanvas: {fileID: 204053769}
+  allRelicsDatabase: []
 --- !u!1 &530949258
 GameObject:
   m_ObjectHideFlags: 0
@@ -10678,7 +10679,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1375832582116618208, guid: deebb08dc143a3b4ab9c2e1a7ac24287, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7729042647577635469, guid: deebb08dc143a3b4ab9c2e1a7ac24287, type: 3}
       propertyPath: m_LocalPosition.x
@@ -31393,6 +31394,7 @@ MonoBehaviour:
   - {fileID: 1310320960}
   - {fileID: 1259133390}
   - {fileID: 1272144704}
+  _storeButton: {fileID: 0}
   _resetButton: {fileID: 1607464652}
   _buyButton: {fileID: 204480630}
   _mainPanelRect: {fileID: 507581696}
@@ -36582,7 +36584,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6277260461048291607, guid: d217fedec1d951f44af4d3abdc966b96, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
