@@ -45,6 +45,7 @@ namespace JJY
         public string fineDining => _fineDining;
         public string masterChef => _masterChef;
         public Action OnItemsChanged;
+        public Action<int> OnYeopjeonChanged;
 
         /// <summary>
         /// 경험치 재화의 수량을 받아오는 함수.
@@ -103,6 +104,7 @@ namespace JJY
         {
             yeopjeon += value;
             totalYeopjeon += value;
+            OnYeopjeonChanged?.Invoke(yeopjeon);
         }
         /// <summary>
         /// yeopjeon 재화 소모
@@ -112,7 +114,7 @@ namespace JJY
             // if (yeopjeon < value) return;
 
             yeopjeon -= value;
-            if (yeopjeon < 0) yeopjeon = 0;
+            OnYeopjeonChanged?.Invoke(yeopjeon);
         }
 
         /// <summary>
@@ -122,6 +124,7 @@ namespace JJY
         {
             yeopjeon = 0;
             totalYeopjeon = 0;
+            OnYeopjeonChanged?.Invoke(yeopjeon);
         }
 
         /// <summary>

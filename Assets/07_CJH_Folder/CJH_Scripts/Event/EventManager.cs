@@ -9,6 +9,8 @@ namespace CJH
         [SerializeField] private DataManager _dataManager;
         [SerializeField] private RelicDropManager _relicDropManager;
         [SerializeField] private RelicInventoryUI _relicInventoryUI;
+        [SerializeField] public GameObject _eventPrefab;
+        [SerializeField] public Canvas _stageGlobalCanvas;
         private GameObject currentEventInstance;
 
         // MapView가 사건 ID를 직접 전달하도록 변경
@@ -27,17 +29,11 @@ namespace CJH
 
             if (encounterData.EncounterID != 0) // 유효한 데이터인지 확인
             {
-                var prefab = Resources.Load<GameObject>("Event");
-                if (prefab == null)
-                {
-                    Debug.LogError("'Event.prefab'을 'Assets/Resources' 폴더에서 찾을 수 없습니다!");
-                    return;
-                }
 
-                var mainCanvas = FindObjectOfType<Canvas>();
-                if (mainCanvas != null)
+
+                if (_stageGlobalCanvas != null)
                 {
-                    currentEventInstance = Instantiate(prefab, mainCanvas.transform);
+                    currentEventInstance = Instantiate(_eventPrefab, _stageGlobalCanvas.transform);
                     Debug.Log($"[EventManager] 새 이벤트 인스턴스를 생성했습니다. ID: {currentEventInstance.GetInstanceID()}");
                     var eventStart = currentEventInstance.GetComponentInChildren<EventStart>();
                     if (eventStart != null)
