@@ -54,11 +54,14 @@ public class BattleManager : MonoBehaviour
     public BattleUI _battleUI;
     //private List<CharacterDataSO> _selectCharacters;
     private Coroutine _armorRoutine;
+    public BattleEventType _battleType;
+    private int _stageNum;
     public int _monsterCount;
     public int _characterCount;
     public bool _isClear;
     public bool _isGameOver;
     public bool _isTimeOver;
+    public bool _isGiveUp;
     public bool _canResurrection;
     public int _timer;
     public float _monsterTotalMaxHp;
@@ -97,6 +100,15 @@ public class BattleManager : MonoBehaviour
 
     private void OnDisable()
     {
+        if (_isGiveUp)
+        {
+            Debug.Log("체력 리셋");
+            foreach (var cha in _characters)
+            {
+                GameManager.Instance.CharacterBattleDataSave._chaHpSave[cha._characterState._chaEnName] = cha._characterState._chaMaxHP;
+            }
+        }
+
         RoguelikeManager.Instance.OnBattleStart -= BattleStart;
         RoguelikeManager.Instance.OnBattleEnd -= BattleEnd;
     }
@@ -122,10 +134,13 @@ public class BattleManager : MonoBehaviour
 
         //_isLocalBoss = ;
         //todo BossFinal과 Boss는 구분되어야 함 - 아래 코드는 Test 코드
-        _isLastBoss = RoguelikeManager.Instance.MonsterType == BattleEventType.Boss;
+        //_isLastBoss = RoguelikeManager.Instance.MonsterType == BattleEventType.Boss;
         // _monsterList = monsterData[stageName].NormalMonsters;
         // _eliteList = monsterData[stageName].EliteMonsters;
         // _bossList = monsterData[stageName].BossMonsters;
+
+        _battleType = RoguelikeManager.Instance.MonsterType;
+        _stageNum = GameManager.Instance.Stage;
 
         StartCoroutine(Spwan());
         _isSpawned = true;
@@ -138,7 +153,7 @@ public class BattleManager : MonoBehaviour
 
         CharacterSpawn();
 
-        if (_isLastBoss || _isLocalBoss)
+        if (_battleType == BattleEventType.Boss || _battleType == BattleEventType.BossFinal)
         {
             BossSpawn();
         }
@@ -214,10 +229,13 @@ public class BattleManager : MonoBehaviour
     // 몬스터 스폰
     private void MonsterSpawn()
     {
-        for (int i = 0; i < _monsterList.Count; i++)
+        // 몬스터 타입 확인
+        List<MonsterDataSO> monlist = _battleType == BattleEventType.Normal ? _monsterList : _eliteList;
+
+        for (int i = 0; i < monlist.Count; i++)
         {
             // 생성을 위한 몬스터의 정보 확인
-            var monsterData = _monsterList[i];
+            var monsterData = monlist[i];
 
             // 몬스터 스폰위치 설정
             var spawnPoint = _monsterSpawnPoint[i];
@@ -360,6 +378,8 @@ public class BattleManager : MonoBehaviour
             _isClear = true;
             _isGameOver = true;
 
+            // 전투 클리어 시 점수 저장
+            BattleClearScoreSave(_stageNum, _battleType);
             // 캐릭터의 체력 저장
             CharacterStatSave();
 
@@ -375,6 +395,9 @@ public class BattleManager : MonoBehaviour
             Debug.Log("클리어 실패!");
             _isClear = false;
             _isGameOver = true;
+
+            // 캐릭터의 체력 저장
+            CharacterStatSave();
 
             foreach (var boss in _bossMonster)
             {
@@ -398,7 +421,7 @@ public class BattleManager : MonoBehaviour
     }
 
     // 캐릭터의 체력 저장
-    public void CharacterStatSave()
+    private void CharacterStatSave()
     {
         foreach (var cha in _characters)
         {
@@ -422,6 +445,34 @@ public class BattleManager : MonoBehaviour
                 cha._characterState._chaLevel;
             GameManager.Instance.CharacterBattleDataSave._chaUpgrade[cha._characterState._chaEnName] =
                 cha._characterState._chaUpgrade;
+        }
+    }
+
+    // 전투 클리어 점수 저장
+    private void BattleClearScoreSave(int stageNum, BattleEventType battleType)
+    {
+        int battleClearScore = GameManager.Instance.BattleMonster.BattleStageRewardDataTable[$"{stageNum}-{battleType}"];
+
+        switch(battleType)
+        {
+            // 노말 전투 사건
+            case BattleEventType.Normal:
+                GameManager.Instance.AddScore(battleClearScore);
+                break;
+            // 엘리트 전투 사건
+            case BattleEventType.Elite:
+                GameManager.Instance.AddScore(battleClearScore);
+                break;
+            // 지역보스 전투 사건
+            case BattleEventType.Boss:
+                GameManager.Instance.AddScore(battleClearScore);
+                break;
+            // 최종보스 전투 사건 
+            case BattleEventType.BossFinal:
+                GameManager.Instance.AddScore(battleClearScore);
+                break;
+            default:
+                break;
         }
     }
 
