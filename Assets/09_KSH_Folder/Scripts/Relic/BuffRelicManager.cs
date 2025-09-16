@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using SDW;
@@ -30,6 +31,18 @@ public class BuffRelicManager : MonoBehaviour
         }
 
         CacheBaseState();
+    }
+
+    private void Start()
+    {
+        RoguelikeManager.Instance.OnBattleStart += BattleStart;
+        RoguelikeManager.Instance.OnBattleEnd += BattleEnd;
+    }
+
+    private void OnDisable()
+    {
+        RoguelikeManager.Instance.OnBattleStart -= BattleStart;
+        RoguelikeManager.Instance.OnBattleEnd -= BattleEnd;
     }
 
     // private void Awake()
@@ -204,6 +217,7 @@ public class BuffRelicManager : MonoBehaviour
 
     public void ApplyRelicEffect(RelicDatas relic) //기본 스탯 적용
     {
+        Debug.Log($"[DEBUG] relic 적용 시작: {relic.relicName}, Target={relic.relicTarget}, Role={relic.relicRole}, Passive={relic.relicIsPassive}, Type={relic.relicType}");
         currentRelic = relic;
 
         switch (relic.relicTarget)
@@ -227,11 +241,9 @@ public class BuffRelicManager : MonoBehaviour
                     }
                     else if (relic.relicType == RelicType.RelicNumber)
                     {
-                        foreach (var p in battleManager._characters)
-                        {
-                            GameManager.Instance.InGameItem.OnItemChanged -= OnRelicNumberHandler;
-                            GameManager.Instance.InGameItem.OnItemChanged += OnRelicNumberHandler;
-                        }
+                        GameManager.Instance.InGameItem.OnItemChanged -= OnRelicNumberHandler;
+                        GameManager.Instance.InGameItem.OnItemChanged += OnRelicNumberHandler;
+                        Debug.Log("OnRelicNumberHandler");
                     }
                 }
                 //스킬을 쓸 때 스탯이 올라가는 유물
@@ -328,8 +340,8 @@ public class BuffRelicManager : MonoBehaviour
     private void OnRelicAttackStack() => AttackSpeedStack(currentRelic);
     private void MonsterDieBuff() => ApplyStatToCharacter(currentRelic);
     private void BattleChaCountCheck() => BattleCharacterCheck(currentRelic);
-    private void BufRelicCheck() => RelicCountCheck(currentRelic, RelicGrade.Buf);
-    private void DebuffRelicCheck() => RelicCountCheck(currentRelic, RelicGrade.Debuff);
+    private void BufRelicCheck() => RelicCountCheck(RelicGrade.Buf);
+    private void DebuffRelicCheck() => RelicCountCheck(RelicGrade.Debuff);
 
     private void Heal(MyCharacterController p, RelicDatas relic) //회복 기능
     {
@@ -421,33 +433,46 @@ public class BuffRelicManager : MonoBehaviour
         }
     }
 
-    private void RelicCountCheck(RelicDatas relic, RelicGrade grade)
+    private void RelicCountCheck(RelicGrade grade)
     {
         ResetAll();
 
-        int buffRelicCount = GameManager.Instance.InGameItem.relicInventory
-            .Count(r => r.relic.relicGrade == grade);
+        var buffRelicCount = GameManager.Instance.InGameItem.relicInventory
+            .Where(r => r.relic.relicGrade == grade)
+            .Select(r => r.relic)
+            .ToList();
 
         foreach (var p in battleManager._characters)
         {
-            if (relic.chaAtkSpeed != 0)
-                p._characterState._chaAtkSpeed +=
-                    AddRelicCountStat(baseStates[p]._chaAtkSpeed, relic.chaAtkSpeed, buffRelicCount);
-            if (relic.chaAttack != 0)
-                p._characterState._chaAttack += AddRelicCountStat(baseStates[p]._chaAttack, relic.chaAttack, buffRelicCount);
-            if (relic.chaAvoid != 0)
-                p._characterState._chaAvoid += AddRelicCountStat(baseStates[p]._chaAvoid, relic.chaAvoid, buffRelicCount);
-            if (relic.chaCritDmg != 0)
-                p._characterState._chaCritDmg += AddRelicCountStat(baseStates[p]._chaCritDmg, relic.chaCritDmg, buffRelicCount);
-            if (relic.chaAccuracy != 0)
-                p._characterState._chaAccuracy +=
-                    AddRelicCountStat(baseStates[p]._chaAccuracy, relic.chaAccuracy, buffRelicCount);
-            if (relic.chaArmor != 0)
-                p._characterState._chaArmor += relic.chaArmor;
-            if (relic.chaHP != 0)
-                p._characterState._chaMaxHP += AddRelicCountStat(baseStates[p]._chaMaxHP, relic.chaHP, buffRelicCount);
-            if (relic.chaMPRecovery != 0)
-                p._characterState._chaMPRecovery *= 1f + buffRelicCount * (relic.chaMPRecovery / 100f);
+            foreach (var buffRelic in buffRelicCount)
+            {
+                if (buffRelic.chaAtkSpeed != 0)
+                    p._characterState._chaAtkSpeed += AddRelicCountStat(baseStates[p]._chaAtkSpeed, buffRelic.chaAtkSpeed, buffRelicCount.Count);
+
+                if (buffRelic.chaAttack != 0)
+                {
+                    p._characterState._chaAttack += AddRelicCountStat(baseStates[p]._chaAttack, buffRelic.chaAttack, buffRelicCount.Count);
+                    Debug.Log($"[DEBUG] 캐릭터 {p._characterState._chaEnName} | {buffRelic.relicName}: 공격력 +{buffRelic.chaAttack}% → 최종 {p._characterState._chaAttack}");
+                }
+
+                if (buffRelic.chaAvoid != 0)
+                    p._characterState._chaAvoid += AddRelicCountStat(baseStates[p]._chaAvoid, buffRelic.chaAvoid, buffRelicCount.Count);
+
+                if (buffRelic.chaCritDmg != 0)
+                    p._characterState._chaCritDmg += AddRelicCountStat(baseStates[p]._chaCritDmg, buffRelic.chaCritDmg, buffRelicCount.Count);
+
+                if (buffRelic.chaAccuracy != 0)
+                    p._characterState._chaAccuracy += AddRelicCountStat(baseStates[p]._chaAccuracy, buffRelic.chaAccuracy, buffRelicCount.Count);
+
+                if (buffRelic.chaArmor != 0)
+                    p._characterState._chaArmor += buffRelic.chaArmor;
+
+                if (buffRelic.chaHP != 0)
+                    p._characterState._chaMaxHP += AddRelicCountStat(baseStates[p]._chaMaxHP, buffRelic.chaHP, buffRelicCount.Count);
+
+                if (buffRelic.chaMPRecovery != 0)
+                    p._characterState._chaMPRecovery *= 1f + buffRelicCount.Count * (buffRelic.chaMPRecovery / 100f);
+            }
         }
     }
 

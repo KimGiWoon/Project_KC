@@ -17,6 +17,7 @@ namespace SDW
         [SerializeField] private List<TextMeshProUGUI> _ingredientPriceText;
 
         [Header("Button Components")]
+        [SerializeField] private Button _storeButton;
         [SerializeField] private Button _resetButton;
         [SerializeField] private Button _buyButton;
         [SerializeField] private RectTransform _mainPanelRect;
@@ -43,6 +44,7 @@ namespace SDW
 
         private void OnEnable()
         {
+            _storeButton.onClick.AddListener(StoreButtonClicked);
             _resetButton.onClick.AddListener(ResetButtonClicked);
             _buyButton.onClick.AddListener(BuyButtonClicked);
 
@@ -135,7 +137,11 @@ namespace SDW
         }
 
         #region Button Methods
-
+        private void StoreButtonClicked()
+        {
+            _ingredientStoreManager.SyncSlotPrices();
+            ResetIngredientColor();
+        }
         private void ResetButtonClicked()
         {
             _ingredientStoreManager.RefreshStore();
