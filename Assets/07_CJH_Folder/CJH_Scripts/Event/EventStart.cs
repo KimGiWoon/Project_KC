@@ -3,6 +3,8 @@ using UnityEngine.UI;
 using TMPro;
 using System.Collections.Generic;
 using SDW;
+using KSH;
+using System.Linq;
 
 namespace CJH
 {
@@ -148,7 +150,7 @@ namespace CJH
                 case EncounterType.Relic:
                     if (choiceIndex == 0)
                     {
-                        resultType = ChoiceResultType.GainYeopjeon; // 첫 번째 선택은 돈 얻기
+                        resultType = ChoiceResultType.GainRelic; // 첫 번째 선택은 돈 얻기
                     }
                     else
                     {
@@ -174,7 +176,6 @@ namespace CJH
                 case EncounterType.Luck:
                     if (choiceIndex == 0)
                     {
-                        //todo 유물 두 개 선택 작성
                         resultType = ChoiceResultType.Continue; // 확인 후 유물
                     }
                     else
@@ -186,7 +187,7 @@ namespace CJH
                 case EncounterType.MoneySpend:
                     if (choiceIndex == 0)
                     {
-                        resultType = ChoiceResultType.LoseYeopjeon; // 첫 번째 선택은 무조건 전투
+                        resultType = ChoiceResultType.BuyRelic; // 첫 번째 선택은 무조건 전투
                     }
                     else
                     {
@@ -256,16 +257,44 @@ namespace CJH
             //todo 이벤트 버튼 분기 시 동작 연결 필요
             switch (resultType)
             {
-                case ChoiceResultType.Combat:
-                    Debug.Log("전투");
+                case ChoiceResultType.GainYeopjeon:
+                    GameManager.Instance.Coin.AddYeopjeon(resultValue); // resultValue 변수 사용
+                    Debug.Log($"{resultValue} 엽전 얻음");
                     break;
+
                 case ChoiceResultType.LoseYeopjeon:
                     GameManager.Instance.Coin.SubtractYeopjeon(resultValue); // resultValue 변수 사용
                     Debug.Log($"{resultValue} 엽전 잃음");
                     break;
+
+                case ChoiceResultType.BuyRelic:
+                    // EventManager로부터 전체 유물 목록을 받아와서 인자로 전달합니다.
+                    RelicDatas boughtRelic = GameManager.Instance.InGameItem.AddRandomRelic(_eventManager.allRelicsDatabase);
+
+                    GameManager.Instance.Coin.SubtractYeopjeon(resultValue);
+                    Debug.Log($"{resultValue} 엽전으로 유물을 구매했습니다.");
+
+                    if (boughtRelic != null)
+                    {
+                        Debug.Log($"구매한 유물: {boughtRelic.relicName}");
+                    }
+                    break;
+
+                case ChoiceResultType.GainRelic:
+                    RelicDatas gainedRelic = GameManager.Instance.InGameItem.AddRandomRelic(_eventManager.allRelicsDatabase);
+
+                    Debug.Log("유물을 획득했습니다.");
+
+                    if (gainedRelic != null)
+                    {
+                        Debug.Log($"획득한 유물: {gainedRelic.relicName}");
+                    }
+                    break;
+
                 case ChoiceResultType.LoseRelic:
-                    // GameManager를 통해 InGameItemManager의 새 함수를 호출합니다.
                     RelicDatas lostRelic = GameManager.Instance.InGameItem.RemoveRandomRelic();
+                    GameManager.Instance.Coin.AddYeopjeon(resultValue); // resultValue 변수 사용
+                    Debug.Log($"{resultValue} 엽전 얻음");
 
                     // 어떤 유물을 잃었는지 확인하거나, 잃을 유물이 없었는지 확인할 수 있습니다.
                     if (lostRelic != null)
@@ -279,9 +308,62 @@ namespace CJH
                     }
                     break;
 
-                //case ChoiceResultType.None:
-                //  Debug.Log(" 이벤트 지나감 ");
-                //  break;
+                case ChoiceResultType.GainBadRelic:
+                    // EventManager가 가지고 있는 전체 유물 목록을 가져옵니다.
+                    var allRelics = _eventManager.allRelicsDatabase;
+
+                    // 디버프 유물이고, 아직 플레이어가 가지고 있지 않은 유물만 골라냅니다.
+                    var availableDebuffRelics = allRelics
+                        .Where(relic => relic.relicGrade == RelicGrade.Debuff && !GameManager.Instance.InGameItem.HasRelic(relic))
+                        .ToList();
+
+                    //획득 가능한 디버프 유물이 있는지 확인합니다.
+                    if (availableDebuffRelics.Count > 0)
+                    {
+                        // 획득 가능한 목록 중에서 무작위로 하나를 선택합니다.
+                        int randomIndex = Random.Range(0, availableDebuffRelics.Count);
+                        RelicDatas debuffRelicToAdd = availableDebuffRelics[randomIndex];
+
+                        // 선택된 디버프 유물을 인벤토리에 추가합니다.
+                        GameManager.Instance.InGameItem.AddItem(debuffRelicToAdd);
+
+                        Debug.Log($"디버프 유물 '{debuffRelicToAdd.relicName}'을(를) 강제로 획득했습니다.");
+                    }
+                    else
+                    {
+                        Debug.Log("획득할 수 있는 디버프 유물이 더 이상 없습니다. 아무 일도 일어나지 않습니다.");
+                    }
+                    break;
+
+                case ChoiceResultType.Combat:
+                    MapView.Instance.UpdateMapState();
+                    Debug.Log("전투");
+                    break;
+
+                case ChoiceResultType.Continue:
+                    //todo 유물 선택지 연결
+                    if (choiceIndex == 0)
+                    {
+                        resultType = ChoiceResultType.GainRelic; // 첫 번째 선택은 유물 얻기
+                    }
+
+                    if (choiceIndex == 1)
+                    {
+                        resultType = ChoiceResultType.GainRelic; // 첫 번째 선택은 유물 얻기
+                    }
+
+                    else
+                    {
+                        resultType = ChoiceResultType.GainRelic; // 세 번째 유물
+                    }
+
+                    Debug.Log("유물 선택지");
+                    break;
+
+
+                case ChoiceResultType.None:
+                  Debug.Log(" 이벤트 지나감 ");
+                  break;
             }
 
             // 결과가 있으면 결과창 보여주고 없으면 이벤트 종료

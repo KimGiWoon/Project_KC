@@ -3,6 +3,7 @@ using JJY;
 using UnityEngine;
 using System;
 using SDW;
+using System.Linq;
 
 public class InGameItemManager : MonoBehaviour
 {
@@ -63,6 +64,51 @@ public class InGameItemManager : MonoBehaviour
         //. 어떤 유물을 잃었는지 알려주기 위해 해당 유물 데이터를 반환합니다.
         return itemToRemove.relic;
     }
+
+    // CJH 코드 추가
+
+    /// <summary>
+    /// 제공된 전체 유물 목록 중에서, 현재 가지고 있지 않은 유물 하나를 무작위로 인벤토리에 추가합니다.
+    /// </summary>
+    /// <param name="allRelicsDatabase">게임에 존재하는 모든 유물의 목록입니다.</param>
+    /// <returns>성공적으로 추가된 유물 데이터를 반환합니다. 추가할 유물이 없으면 null을 반환합니다.</returns>
+    public RelicDatas AddRandomRelic(List<RelicDatas> allRelicsDatabase)
+    {
+        // 획득 가능한 유물 목록을 찾습니다.
+        var acquirableRelics = allRelicsDatabase.Where(target => !HasRelic(target)).ToList();
+
+        // 획득 가능한 유물이 더 이상 없는 경우
+        if (acquirableRelics.Count == 0)
+        {
+            Debug.Log("획득할 수 있는 새로운 유물이 없습니다.");
+            return null;
+        }
+
+        // 획득 가능한 유물 목록 내에서 무작위 인덱스를 선택합니다.
+        int randomIndex = UnityEngine.Random.Range(0, acquirableRelics.Count);
+        RelicDatas relicToAdd = acquirableRelics[randomIndex];
+
+        // 기존의 AddItem 함수를 사용해 인벤토리에 추가합니다.
+        AddItem(relicToAdd);
+
+        Debug.Log($"[InGameItemManager] 유물 '{relicToAdd.relicName}'을(를) 획득했습니다!");
+
+        // 어떤 유물을 얻었는지 알려주기 위해 해당 유물 데이터를 반환합니다.
+        return relicToAdd;
+    }
+
+    // CJH 코드 추가
+
+    /// <summary>
+    /// 특정 '유물 데이터'를 인벤토리에서 이미 소유하고 있는지 확인합니다.
+    /// </summary>
+    public bool HasRelic(RelicDatas relicData)
+    {
+        if (relicData == null) return false;
+        // _relicInventory 안에 relicData와 동일한 유물이 있는지 확인
+        return _relicInventory.Any(item => item.relic == relicData);
+    }
+
 
     public bool HasRelic(RelicTarget target)
     {

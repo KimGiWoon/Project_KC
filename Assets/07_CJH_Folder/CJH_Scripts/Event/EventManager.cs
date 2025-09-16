@@ -1,6 +1,8 @@
 using UnityEngine;
 using SDW;
 using KSH;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace CJH
 {
@@ -12,6 +14,14 @@ namespace CJH
         [SerializeField] public GameObject _eventPrefab;
         [SerializeField] public Canvas _stageGlobalCanvas;
         private GameObject currentEventInstance;
+
+        public List<RelicDatas> allRelicsDatabase;
+
+        void Awake()
+        {
+            allRelicsDatabase = Resources.LoadAll<RelicDatas>("Relics").ToList();
+        }
+
 
         // MapView가 사건 ID를 직접 전달하도록 변경
         public void StartEncounter(int encounterID)
