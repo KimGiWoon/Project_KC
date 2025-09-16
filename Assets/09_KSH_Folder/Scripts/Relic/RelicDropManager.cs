@@ -49,6 +49,15 @@ namespace KSH
             _gameManager = GameManager.Instance;
         }
 
+        private void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.R))
+            {
+                Debug.Log("R");
+                GetRelicName("보온 보관병");
+            }
+        }
+
         private void OnEnable()
         {
             _battle.OnGameResult += GameCleared;
