@@ -180,15 +180,10 @@ public class MyCharacterController : UnitBaseData
                 float attackDamage = _characterState._chaAttack;
                 float passiveDamage;
 
-                // 공격 애니메이션
-                _chaAnimatior.Play(Attack_Hash);
-
                 // 사용하려는 패시브와 캐릭터가 사용하는 패시브가 같은지 확인
                 if (_characterData._chaPassiveSkill._chaSkillEnName == CharacterSkillEnName.AimForTheWound)
                 {
-                    passiveDamage =
-                        _characterData._chaPassiveSkill.UsePassiveSkill(_character, _characterData._chaPassiveSkill,
-                            attackDamage);
+                    passiveDamage = _characterData._chaPassiveSkill.UsePassiveSkill(_character, _characterData._chaPassiveSkill, attackDamage);
                 }
                 else // 패시브 없으면 원래 공격력
                 {
@@ -205,6 +200,9 @@ public class MyCharacterController : UnitBaseData
                 // 몬스터가 살아있으면 공격
                 if (_attackTarget != null && _attackTarget._isAlive)
                 {
+                    // 공격 애니메이션
+                    _chaAnimatior.Play(Attack_Hash);
+
                     // 캐릭터의 데미지로 몬스터에 주기
                     _attackTarget.TakeDamage(passiveDamage, _characterState._chaAccuracy);
 
