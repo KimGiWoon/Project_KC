@@ -12796,6 +12796,7 @@ MonoBehaviour:
   refreshCost: 5
   ingredientDatabase: {fileID: 11400000, guid: ddb682d1b45fc6648b273d2d988f0189, type: 2}
   selectedSlotIndex: -1
+  hasDiscountRelic: 0
   _shoppingUI: {fileID: 1524937423}
 --- !u!1 &672205251
 GameObject:
@@ -31393,6 +31394,7 @@ MonoBehaviour:
   - {fileID: 1310320960}
   - {fileID: 1259133390}
   - {fileID: 1272144704}
+  _storeButton: {fileID: 1518380863}
   _resetButton: {fileID: 1607464652}
   _buyButton: {fileID: 204480630}
   _mainPanelRect: {fileID: 507581696}
