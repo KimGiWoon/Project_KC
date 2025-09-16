@@ -2,7 +2,8 @@ using System.Collections.Generic;
 using JJY;
 using UnityEngine;
 using System;
-using System.Linq;
+using SDW;
+
 public class InGameItemManager : MonoBehaviour
 {
     // 여기에는 노드 - 전투 씬에 사용 될 아이템들을 보관한다.
@@ -63,10 +64,15 @@ public class InGameItemManager : MonoBehaviour
         return itemToRemove.relic;
     }
 
-public bool HasRelic(RelicDatas relic)
+    public bool HasRelic(RelicTarget target)
     {
-        if (relic == null) return false;
-        return _relicInventory.Any(item => item.relic == relic);
+        if (_relicInventory == null) return false;
+        foreach (var inv in _relicInventory)
+        {
+            if (inv?.relic == null) continue;
+            if (inv.relic.relicTarget == target) return true;
+        }
+        return false;
     }
 
     public void SubtractFood(InventoryItem food)
