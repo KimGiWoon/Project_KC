@@ -135,6 +135,17 @@ namespace SDW
 
         private void SetEventType(BattleEventType type) => _eventType = type;
 
+
+        // CJH 추가 코드
+        public void PrepareForBattleEvent(BattleEventType type)
+        {
+            SetEventType(type); // 내부 private 함수 호출
+            Open();             // UI 열기
+            _battleBackgroundObject.SetActive(true);
+            _enterStageButton.interactable = true;
+            _moveButton.interactable = false;
+        }
+
         private void BattleEnd()
         {
             _battleBackgroundObject.SetActive(false);

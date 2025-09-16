@@ -285,6 +285,7 @@ namespace CJH
                 _eventManager.StartEncounter(encounterId);
         }
 
+
         private void ClearMap()
         {
             if (currentMapInstance != null)
