@@ -96,6 +96,14 @@ namespace KSH
                 GameManager.Instance.InGameItem.AddItem(relic);
             }
         }
+        
+        public void GetRelicName(string relicName)
+        {
+            RelicDatas relic = relics.Find(r => r.relicName == relicName);
+            
+            if(relic!=null)
+                GetRelic(relic);
+        }
 
         private void GameCleared(bool isCleared)
         {

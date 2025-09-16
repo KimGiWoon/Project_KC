@@ -111,7 +111,7 @@ namespace JJY
         /// </summary>
         public void SubtractYeopjeon(int value)
         {
-            if (yeopjeon < value) return;
+            // if (yeopjeon < value) return;
 
             yeopjeon -= value;
             OnYeopjeonChanged?.Invoke(yeopjeon);

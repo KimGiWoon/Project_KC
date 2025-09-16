@@ -2,7 +2,9 @@ using System.Collections.Generic;
 using JJY;
 using UnityEngine;
 using System;
+using SDW;
 using System.Linq;
+
 public class InGameItemManager : MonoBehaviour
 {
     // 여기에는 노드 - 전투 씬에 사용 될 아이템들을 보관한다.
@@ -63,6 +65,8 @@ public class InGameItemManager : MonoBehaviour
         return itemToRemove.relic;
     }
 
+    // CJH 코드 추가
+
     /// <summary>
     /// 제공된 전체 유물 목록 중에서, 현재 가지고 있지 않은 유물 하나를 무작위로 인벤토리에 추가합니다.
     /// </summary>
@@ -71,7 +75,7 @@ public class InGameItemManager : MonoBehaviour
     public RelicDatas AddRandomRelic(List<RelicDatas> allRelicsDatabase)
     {
         // 획득 가능한 유물 목록을 찾습니다.
-        var acquirableRelics = allRelicsDatabase.Where(relic => !HasRelic(relic)).ToList();
+        var acquirableRelics = allRelicsDatabase.Where(target => !HasRelic(target)).ToList();
 
         // 획득 가능한 유물이 더 이상 없는 경우
         if (acquirableRelics.Count == 0)
@@ -93,11 +97,28 @@ public class InGameItemManager : MonoBehaviour
         return relicToAdd;
     }
 
+    // CJH 코드 추가
 
-    public bool HasRelic(RelicDatas relic)
+    /// <summary>
+    /// 특정 '유물 데이터'를 인벤토리에서 이미 소유하고 있는지 확인합니다.
+    /// </summary>
+    public bool HasRelic(RelicDatas relicData)
     {
-        if (relic == null) return false;
-        return _relicInventory.Any(item => item.relic == relic);
+        if (relicData == null) return false;
+        // _relicInventory 안에 relicData와 동일한 유물이 있는지 확인
+        return _relicInventory.Any(item => item.relic == relicData);
+    }
+
+
+    public bool HasRelic(RelicTarget target)
+    {
+        if (_relicInventory == null) return false;
+        foreach (var inv in _relicInventory)
+        {
+            if (inv?.relic == null) continue;
+            if (inv.relic.relicTarget == target) return true;
+        }
+        return false;
     }
 
     public void SubtractFood(InventoryItem food)
