@@ -73,12 +73,13 @@ public class BattleManager : MonoBehaviour
 
     // 전체 체력 변화 이벤트
     public event Action<float, float> OnTotalHpChange;
-    private bool _isSpawned;
 
+    public Action OnCharacterSpawned;
     public event Action OnCharacterDeath;
 
     private GameManager _gameManager;
     private CharacterDataManager _charData;
+    private bool _isSpawned;
 
     private void Awake()
     {
@@ -91,7 +92,7 @@ public class BattleManager : MonoBehaviour
         _charData = GameManager.Instance.CharacterData;
         RoguelikeManager.Instance.OnBattleStart += BattleStart;
         RoguelikeManager.Instance.OnBattleEnd += BattleEnd;
-        BuffRelicManager.Instance.BattleStart();
+        // BuffRelicManager.Instance.CharacterSpawned();
     }
 
     private void OnDisable()
@@ -201,6 +202,13 @@ public class BattleManager : MonoBehaviour
         _characterCount = _characters.Count;
 
         _armorRoutine = StartCoroutine(ApplyArmorPassiveCoroutine());
+        StartCoroutine(DelayedInvoke());
+    }
+
+    private IEnumerator DelayedInvoke()
+    {
+        yield return new WaitForSeconds(0.1f);
+        OnCharacterSpawned?.Invoke();
     }
 
     // 몬스터 스폰

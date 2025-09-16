@@ -396,7 +396,7 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\uC720\uBB3C '\u3147\u3147\u3147\u3147' \uC18C\uBA78"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8acbccae5d4b2714a882ddd964298e8f, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 5dd6572df0e4d6d4eaa6c52aac7e268e, type: 2}
   m_sharedMaterial: {fileID: 611606621339663996, guid: fbbed192b81c5c84cb15fdc41a7cffb3, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -607,8 +607,8 @@ MonoBehaviour:
     \uC788\uC5B4\uC11C \uD655\uC778\uD574\uBCF4\uB2C8 \uC5C4\uCCAD\uB09C \uC591\uC758
     \uC5FD\uC804 \uAC12\uC9C4 \uBB3C\uAC74\uB4E4\uC774 \uB4E4\uC5B4 \uC788\uC5C8\uC2B5\uB2C8\uB2E4!"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8acbccae5d4b2714a882ddd964298e8f, type: 2}
-  m_sharedMaterial: {fileID: 6970735755909448474, guid: 8acbccae5d4b2714a882ddd964298e8f, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 5dd6572df0e4d6d4eaa6c52aac7e268e, type: 2}
+  m_sharedMaterial: {fileID: -3282955075904543957, guid: 5dd6572df0e4d6d4eaa6c52aac7e268e, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1214,6 +1214,9 @@ MonoBehaviour:
     sprite: {fileID: 21300000, guid: 0a68b915059898f4ca92f2b9b92b1e70, type: 3}
   - Sentiment: 1
     sprite: {fileID: 21300000, guid: 401eaf354071eaa44a69a6fa2e7d9e0d, type: 3}
+  relicSelectionPanel: {fileID: 0}
+  relicChoiceContainer: {fileID: 0}
+  relicChoiceButtonPrefab: {fileID: 0}
 --- !u!1 &7440256196015356102
 GameObject:
   m_ObjectHideFlags: 0
@@ -1318,7 +1321,7 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\uB2EB\uAE30"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8acbccae5d4b2714a882ddd964298e8f, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 5dd6572df0e4d6d4eaa6c52aac7e268e, type: 2}
   m_sharedMaterial: {fileID: 611606621339663996, guid: fbbed192b81c5c84cb15fdc41a7cffb3, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
