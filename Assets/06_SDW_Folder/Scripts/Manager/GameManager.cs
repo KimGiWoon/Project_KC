@@ -111,6 +111,9 @@ namespace SDW
         private int _totalScore;
         public int TotalScore => _totalScore;
 
+        private int _stamina;
+        public int Stamina => _stamina;
+
         /// <summary>
         /// Singleton 설정 및 각 Component 연결
         /// </summary>
@@ -261,10 +264,12 @@ namespace SDW
             //todo _score가 0이 아닐 경우, Roguelike Scene에 접속 시 바로 정산을 해야 함
             _score = Convert.ToInt32(etcData["socre"]);
             _totalScore = Convert.ToInt32(etcData["totalScore"]);
-            //todo quest update 시간을 가져와서 5시에 daily reset 테스트 해야 함
+            //todo quest update 시간을 가져와서 5시에 daily reset 테스트해야 함
             _buyAdRemover = Convert.ToBoolean(etcData["buyAddRemover"]);
             _gachaCount = Convert.ToInt32(etcData["gachaCount"]);
             _chapter = Convert.ToInt32(etcData["chapter"]);
+            _stamina = Convert.ToInt32(etcData["stamina"]);
+            //todo stamina 시간을 가져와서 시간 차이만큼 회복을 시켜야 함
         }
     }
 }

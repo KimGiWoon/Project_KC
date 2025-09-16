@@ -35,13 +35,13 @@ public class BuffRelicManager : MonoBehaviour
 
     private void Start()
     {
-        RoguelikeManager.Instance.OnBattleStart += BattleStart;
+        battleManager.OnCharacterSpawned += CharacterSpawned;
         RoguelikeManager.Instance.OnBattleEnd += BattleEnd;
     }
 
     private void OnDisable()
     {
-        RoguelikeManager.Instance.OnBattleStart -= BattleStart;
+        battleManager.OnCharacterSpawned -= CharacterSpawned;
         RoguelikeManager.Instance.OnBattleEnd -= BattleEnd;
     }
 
@@ -51,7 +51,7 @@ public class BuffRelicManager : MonoBehaviour
     //     CacheBaseState();
     // }
 
-    public void BattleStart()
+    public void CharacterSpawned()
     {
         CacheBaseState();
         ResetAll();
@@ -217,7 +217,8 @@ public class BuffRelicManager : MonoBehaviour
 
     public void ApplyRelicEffect(RelicDatas relic) //기본 스탯 적용
     {
-        Debug.Log($"[DEBUG] relic 적용 시작: {relic.relicName}, Target={relic.relicTarget}, Role={relic.relicRole}, Passive={relic.relicIsPassive}, Type={relic.relicType}");
+        Debug.Log(
+            $"[DEBUG] relic 적용 시작: {relic.relicName}, Target={relic.relicTarget}, Role={relic.relicRole}, Passive={relic.relicIsPassive}, Type={relic.relicType}");
         currentRelic = relic;
 
         switch (relic.relicTarget)
@@ -447,28 +448,35 @@ public class BuffRelicManager : MonoBehaviour
             foreach (var buffRelic in buffRelicCount)
             {
                 if (buffRelic.chaAtkSpeed != 0)
-                    p._characterState._chaAtkSpeed += AddRelicCountStat(baseStates[p]._chaAtkSpeed, buffRelic.chaAtkSpeed, buffRelicCount.Count);
+                    p._characterState._chaAtkSpeed +=
+                        AddRelicCountStat(baseStates[p]._chaAtkSpeed, buffRelic.chaAtkSpeed, buffRelicCount.Count);
 
                 if (buffRelic.chaAttack != 0)
                 {
-                    p._characterState._chaAttack += AddRelicCountStat(baseStates[p]._chaAttack, buffRelic.chaAttack, buffRelicCount.Count);
-                    Debug.Log($"[DEBUG] 캐릭터 {p._characterState._chaEnName} | {buffRelic.relicName}: 공격력 +{buffRelic.chaAttack}% → 최종 {p._characterState._chaAttack}");
+                    p._characterState._chaAttack +=
+                        AddRelicCountStat(baseStates[p]._chaAttack, buffRelic.chaAttack, buffRelicCount.Count);
+                    Debug.Log(
+                        $"[DEBUG] 캐릭터 {p._characterState._chaEnName} | {buffRelic.relicName}: 공격력 +{buffRelic.chaAttack}% → 최종 {p._characterState._chaAttack}");
                 }
 
                 if (buffRelic.chaAvoid != 0)
-                    p._characterState._chaAvoid += AddRelicCountStat(baseStates[p]._chaAvoid, buffRelic.chaAvoid, buffRelicCount.Count);
+                    p._characterState._chaAvoid +=
+                        AddRelicCountStat(baseStates[p]._chaAvoid, buffRelic.chaAvoid, buffRelicCount.Count);
 
                 if (buffRelic.chaCritDmg != 0)
-                    p._characterState._chaCritDmg += AddRelicCountStat(baseStates[p]._chaCritDmg, buffRelic.chaCritDmg, buffRelicCount.Count);
+                    p._characterState._chaCritDmg +=
+                        AddRelicCountStat(baseStates[p]._chaCritDmg, buffRelic.chaCritDmg, buffRelicCount.Count);
 
                 if (buffRelic.chaAccuracy != 0)
-                    p._characterState._chaAccuracy += AddRelicCountStat(baseStates[p]._chaAccuracy, buffRelic.chaAccuracy, buffRelicCount.Count);
+                    p._characterState._chaAccuracy +=
+                        AddRelicCountStat(baseStates[p]._chaAccuracy, buffRelic.chaAccuracy, buffRelicCount.Count);
 
                 if (buffRelic.chaArmor != 0)
                     p._characterState._chaArmor += buffRelic.chaArmor;
 
                 if (buffRelic.chaHP != 0)
-                    p._characterState._chaMaxHP += AddRelicCountStat(baseStates[p]._chaMaxHP, buffRelic.chaHP, buffRelicCount.Count);
+                    p._characterState._chaMaxHP +=
+                        AddRelicCountStat(baseStates[p]._chaMaxHP, buffRelic.chaHP, buffRelicCount.Count);
 
                 if (buffRelic.chaMPRecovery != 0)
                     p._characterState._chaMPRecovery *= 1f + buffRelicCount.Count * (buffRelic.chaMPRecovery / 100f);
