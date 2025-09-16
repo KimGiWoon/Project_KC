@@ -186,7 +186,7 @@ namespace CJH
                 case EncounterType.MoneySpend:
                     if (choiceIndex == 0)
                     {
-                        resultType = ChoiceResultType.LoseYeopjeon; // 첫 번째 선택은 무조건 전투
+                        resultType = ChoiceResultType.BuyRelic; // 첫 번째 선택은 무조건 전투
                     }
                     else
                     {
@@ -266,15 +266,31 @@ namespace CJH
                     Debug.Log($"{resultValue} 엽전 잃음");
                     break;
 
-                    //todo 렐릭 연결
-                case ChoiceResultType.GainRelic:
-                    //GameManager.Instance.InGameItem.AddItem(relic, resultValue); // resultValue 변수 사용
-                    Debug.Log($"{resultValue} 유물 얻음");
+                case ChoiceResultType.BuyRelic:
+                    // EventManager로부터 전체 유물 목록을 받아와서 인자로 전달합니다.
+                    RelicDatas boughtRelic = GameManager.Instance.InGameItem.AddRandomRelic(_eventManager.allRelicsDatabase);
+
+                    GameManager.Instance.Coin.SubtractYeopjeon(resultValue);
+                    Debug.Log($"{resultValue} 엽전으로 유물을 구매했습니다.");
+
+                    if (boughtRelic != null)
+                    {
+                        Debug.Log($"구매한 유물: {boughtRelic.relicName}");
+                    }
                     break;
 
+                case ChoiceResultType.GainRelic:
+                    RelicDatas gainedRelic = GameManager.Instance.InGameItem.AddRandomRelic(_eventManager.allRelicsDatabase);
+
+                    Debug.Log("유물을 획득했습니다.");
+
+                    if (gainedRelic != null)
+                    {
+                        Debug.Log($"획득한 유물: {gainedRelic.relicName}");
+                    }
+                    break;
 
                 case ChoiceResultType.LoseRelic:
-                    // GameManager를 통해 InGameItemManager의 새 함수를 호출합니다.
                     RelicDatas lostRelic = GameManager.Instance.InGameItem.RemoveRandomRelic();
                     GameManager.Instance.Coin.AddYeopjeon(resultValue); // resultValue 변수 사용
                     Debug.Log($"{resultValue} 엽전 얻음");
@@ -303,6 +319,20 @@ namespace CJH
 
                 case ChoiceResultType.Continue:
                     //todo 유물 선택지 연결
+                    if (choiceIndex == 0)
+                    {
+                        resultType = ChoiceResultType.GainRelic; // 첫 번째 선택은 유물 얻기
+                    }
+
+                    if (choiceIndex == 1)
+                    {
+                        resultType = ChoiceResultType.GainRelic; // 첫 번째 선택은 유물 얻기
+                    }
+
+                    else
+                    {
+                        resultType = ChoiceResultType.GainRelic; // 세 번째 유물
+                    }
 
                     Debug.Log("유물 선택지");
                     break;
