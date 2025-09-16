@@ -246,6 +246,7 @@ namespace CJH
                         {
                             // 위치 동기화
                             cameraScrollLinker.CameraPositon();
+                            cameraScrollLinker.SetManualScroll(true);
                         });
                 }
             }

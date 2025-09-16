@@ -3054,7 +3054,6 @@ Transform:
   - {fileID: 745439747}
   - {fileID: 671630986}
   - {fileID: 1910981046}
-  - {fileID: 1556862827}
   - {fileID: 44007067}
   - {fileID: 530157129}
   - {fileID: 1814611995}
@@ -10330,6 +10329,8 @@ MonoBehaviour:
   _dataManager: {fileID: 44007068}
   _relicDropManager: {fileID: 0}
   _relicInventoryUI: {fileID: 0}
+  _eventPrefab: {fileID: 0}
+  _stageGlobalCanvas: {fileID: 0}
 --- !u!1 &530949258
 GameObject:
   m_ObjectHideFlags: 0
@@ -10541,7 +10542,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1375832582116618208, guid: deebb08dc143a3b4ab9c2e1a7ac24287, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7729042647577635469, guid: deebb08dc143a3b4ab9c2e1a7ac24287, type: 3}
       propertyPath: m_LocalPosition.x
@@ -17849,7 +17850,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8396d6d9104f3194f8f82df8cb285e94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _dontDestroyOnLoad: 0
   relics:
   - {fileID: 11400000, guid: f534310e4322287408dc9aebfbf8d787, type: 2}
   - {fileID: 11400000, guid: 544c142de1bbba54b8312bc9b9ef4e84, type: 2}
@@ -31605,51 +31605,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1554467930}
   m_CullTransparentMesh: 1
---- !u!1 &1556862825
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1556862827}
-  - component: {fileID: 1556862826}
-  m_Layer: 0
-  m_Name: EncounterStageManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1556862826
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1556862825}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 55c3da74ace285f4ea5e5068c2c34510, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  currentStage: 1
---- !u!4 &1556862827
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1556862825}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 725.4916, y: 1157.1702, z: -1.1779244}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 178163700}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1557837077
 GameObject:
   m_ObjectHideFlags: 0
@@ -36490,7 +36445,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6277260461048291607, guid: d217fedec1d951f44af4d3abdc966b96, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

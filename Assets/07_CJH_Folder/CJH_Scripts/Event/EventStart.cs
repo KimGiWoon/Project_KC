@@ -3,6 +3,7 @@ using UnityEngine.UI;
 using TMPro;
 using System.Collections.Generic;
 using SDW;
+using KSH;
 
 namespace CJH
 {
@@ -148,7 +149,7 @@ namespace CJH
                 case EncounterType.Relic:
                     if (choiceIndex == 0)
                     {
-                        resultType = ChoiceResultType.GainYeopjeon; // 첫 번째 선택은 돈 얻기
+                        resultType = ChoiceResultType.GainRelic; // 첫 번째 선택은 돈 얻기
                     }
                     else
                     {
@@ -174,7 +175,6 @@ namespace CJH
                 case EncounterType.Luck:
                     if (choiceIndex == 0)
                     {
-                        //todo 유물 두 개 선택 작성
                         resultType = ChoiceResultType.Continue; // 확인 후 유물
                     }
                     else
@@ -256,16 +256,28 @@ namespace CJH
             //todo 이벤트 버튼 분기 시 동작 연결 필요
             switch (resultType)
             {
-                case ChoiceResultType.Combat:
-                    Debug.Log("전투");
+                case ChoiceResultType.GainYeopjeon:
+                    GameManager.Instance.Coin.AddYeopjeon(resultValue); // resultValue 변수 사용
+                    Debug.Log($"{resultValue} 엽전 얻음");
                     break;
+
                 case ChoiceResultType.LoseYeopjeon:
                     GameManager.Instance.Coin.SubtractYeopjeon(resultValue); // resultValue 변수 사용
                     Debug.Log($"{resultValue} 엽전 잃음");
                     break;
+
+                    //todo 렐릭 연결
+                case ChoiceResultType.GainRelic:
+                    //GameManager.Instance.InGameItem.AddItem(relic, resultValue); // resultValue 변수 사용
+                    Debug.Log($"{resultValue} 유물 얻음");
+                    break;
+
+
                 case ChoiceResultType.LoseRelic:
                     // GameManager를 통해 InGameItemManager의 새 함수를 호출합니다.
                     RelicDatas lostRelic = GameManager.Instance.InGameItem.RemoveRandomRelic();
+                    GameManager.Instance.Coin.AddYeopjeon(resultValue); // resultValue 변수 사용
+                    Debug.Log($"{resultValue} 엽전 얻음");
 
                     // 어떤 유물을 잃었는지 확인하거나, 잃을 유물이 없었는지 확인할 수 있습니다.
                     if (lostRelic != null)
@@ -279,9 +291,26 @@ namespace CJH
                     }
                     break;
 
-                //case ChoiceResultType.None:
-                //  Debug.Log(" 이벤트 지나감 ");
-                //  break;
+                    //todo 디버프 유물 연결
+                case ChoiceResultType.GainBadRelic:
+                    Debug.Log($"{resultValue} 디버프 유물 얻음");
+                    break;
+
+                case ChoiceResultType.Combat:
+                    MapView.Instance.UpdateMapState();
+                    Debug.Log("전투");
+                    break;
+
+                case ChoiceResultType.Continue:
+                    //todo 유물 선택지 연결
+
+                    Debug.Log("유물 선택지");
+                    break;
+
+
+                case ChoiceResultType.None:
+                  Debug.Log(" 이벤트 지나감 ");
+                  break;
             }
 
             // 결과가 있으면 결과창 보여주고 없으면 이벤트 종료
