@@ -183,10 +183,10 @@ namespace SDW
         public void SetStageBoss(bool isBoss) => _lastBoss = isBoss;
 
         /// <summary>
-        /// 게임 점수를 설정
+        /// 게임 점수를 저장
         /// </summary>
-        /// <param name="score">설정할 점수 값</param>
-        public void SetScore(int score) => _score = score;
+        /// <param name="score">저장할 점수 값</param>
+        public void AddScore(int score) => _score += score;
 
         /// <summary>
         /// 게임 내 점수를 초기화

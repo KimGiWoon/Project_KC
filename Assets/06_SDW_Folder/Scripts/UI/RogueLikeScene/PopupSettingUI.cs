@@ -17,13 +17,21 @@ namespace SDW
         [SerializeField] private Button _saveButton;
         [SerializeField] private GameObject _backgroundObject;
         private TweenAnimation _tweenAnimation;
+        private BattleManager _battleManager;
 
         public Action<UIName> OnUICloseRequested;
+        public Action OnGiveUp;
 
         private void Awake()
         {
             _panelContainer.SetActive(false);
             _tweenAnimation = GetComponent<TweenAnimation>();
+        }
+
+        protected override void Start()
+        {
+            base.Start();
+            _battleManager = FindObjectOfType<BattleManager>();
         }
 
         private void OnEnable()
@@ -60,6 +68,10 @@ namespace SDW
 
         private void GiveUpButtonClicked()
         {
+            Debug.Log($"정산된 스코어 : {GameManager.Instance.Score}");
+            // 캐릭터의 체력 갱신
+            _battleManager._isGiveUp = true;
+
             _masterVolumeSlider.Cancel();
             _backgroundVolumeSlider.Cancel();
             _effectVolumeSlider.Cancel();

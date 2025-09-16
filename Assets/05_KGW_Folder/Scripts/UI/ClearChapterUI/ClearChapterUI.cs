@@ -28,6 +28,8 @@ public class ClearChapterUI : BaseUI
     {
         // 버튼 등록
         _confirmButton.onClick.AddListener(LobbyButtonClick);
+
+        _expText.text = GameManager.Instance.Score.ToString();
     }
 
     private void OnDisable()
