@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -32,6 +33,8 @@ namespace SDW
 
         private RectTransform _userInfoPanelRect;
         private Stack<UIName> _uiStack = new Stack<UIName>();
+
+        private Coroutine _coroutine;
 
         //# Test
         public ImageSpriteMappingSO _mappingSo;
@@ -73,6 +76,8 @@ namespace SDW
             //# Change Nickname
             _editUserNameButton.onClick.RemoveListener(EditUserNameButtonClicked);
             _changeIconButton.onClick.RemoveListener(ChangeIconButtonClicked);
+
+            if (_coroutine != null) StopCoroutine(_coroutine);
         }
 
         public override void Open()
@@ -200,6 +205,19 @@ namespace SDW
             var ui = _uiStack.Peek();
             if (ui == uiName)
                 _uiStack.Pop();
+        }
+
+        public void DeactiveDeleteButton()
+        {
+            _deleteAccountButton.interactable = false;
+            _coroutine = StartCoroutine(ActiveDeleteButton());
+        }
+
+        private IEnumerator ActiveDeleteButton()
+        {
+            yield return new WaitForSeconds(3f);
+            _deleteAccountButton.interactable = false;
+            _coroutine = null;
         }
 
         #endregion

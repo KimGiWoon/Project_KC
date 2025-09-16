@@ -216,7 +216,10 @@ namespace SDW
         private void ConnectDeleteAccountUI(UIName uiName)
         {
             var deleteAccountUI = _uiDic[uiName] as DeleteAccountUI;
+            var userInfoUI = _uiDic[UIName.UserInfoUI] as UserInfoUI;
+
             deleteAccountUI.OnDeleteAcceptButtonClicked += _firebase.DeleteAccount;
+            deleteAccountUI.OnDeleteAcceptButtonClicked += userInfoUI.DeactiveDeleteButton;
             deleteAccountUI.OnCloseButtonClicked += ClosePanel;
         }
 
