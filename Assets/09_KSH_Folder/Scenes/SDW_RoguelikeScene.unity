@@ -13765,7 +13765,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
   m_AnchoredPosition: {x: 0, y: 70}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 160}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!114 &764602512
 MonoBehaviour:
@@ -17727,7 +17727,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8396d6d9104f3194f8f82df8cb285e94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _dontDestroyOnLoad: 0
   relics:
   - {fileID: 11400000, guid: f534310e4322287408dc9aebfbf8d787, type: 2}
   - {fileID: 11400000, guid: 544c142de1bbba54b8312bc9b9ef4e84, type: 2}
@@ -29640,7 +29639,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1463338336
 RectTransform:
   m_ObjectHideFlags: 0
@@ -29704,31 +29703,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1463338338}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1158871945}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 1
-        m_CallState: 2
-      - m_Target: {fileID: 1463338335}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &1463338338
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -31756,7 +31731,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 55c3da74ace285f4ea5e5068c2c34510, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentStage: 1
 --- !u!4 &1556862827
 Transform:
   m_ObjectHideFlags: 0
@@ -33730,6 +33704,7 @@ MonoBehaviour:
   - {fileID: 781920297}
   - {fileID: 803890260}
   _popupUI: {fileID: 1377780608}
+  _bottomUI: {fileID: 1279386462}
   _optionButton: {fileID: 261156101}
   _fastButtonBG: {fileID: 47658981}
   _fastButtonX2: {fileID: 1275451080}
