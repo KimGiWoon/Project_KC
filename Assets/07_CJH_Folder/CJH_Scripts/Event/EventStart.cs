@@ -4,6 +4,7 @@ using TMPro;
 using System.Collections.Generic;
 using SDW;
 using KSH;
+using System.Linq;
 
 namespace CJH
 {
@@ -307,9 +308,31 @@ namespace CJH
                     }
                     break;
 
-                    //todo 디버프 유물 연결
                 case ChoiceResultType.GainBadRelic:
-                    Debug.Log($"{resultValue} 디버프 유물 얻음");
+                    // EventManager가 가지고 있는 전체 유물 목록을 가져옵니다.
+                    var allRelics = _eventManager.allRelicsDatabase;
+
+                    // 디버프 유물이고, 아직 플레이어가 가지고 있지 않은 유물만 골라냅니다.
+                    var availableDebuffRelics = allRelics
+                        .Where(relic => relic.relicGrade == RelicGrade.Debuff && !GameManager.Instance.InGameItem.HasRelic(relic))
+                        .ToList();
+
+                    //획득 가능한 디버프 유물이 있는지 확인합니다.
+                    if (availableDebuffRelics.Count > 0)
+                    {
+                        // 획득 가능한 목록 중에서 무작위로 하나를 선택합니다.
+                        int randomIndex = Random.Range(0, availableDebuffRelics.Count);
+                        RelicDatas debuffRelicToAdd = availableDebuffRelics[randomIndex];
+
+                        // 선택된 디버프 유물을 인벤토리에 추가합니다.
+                        GameManager.Instance.InGameItem.AddItem(debuffRelicToAdd);
+
+                        Debug.Log($"디버프 유물 '{debuffRelicToAdd.relicName}'을(를) 강제로 획득했습니다.");
+                    }
+                    else
+                    {
+                        Debug.Log("획득할 수 있는 디버프 유물이 더 이상 없습니다. 아무 일도 일어나지 않습니다.");
+                    }
                     break;
 
                 case ChoiceResultType.Combat:
