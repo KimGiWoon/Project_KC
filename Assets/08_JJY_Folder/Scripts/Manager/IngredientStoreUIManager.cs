@@ -2,9 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using SDW;
-using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace JJY
 {
@@ -46,6 +44,8 @@ namespace JJY
         public int selectedSlotIndex = -1;
         private Ingredient[] allIngredients;
         private bool logAction = true;
+        // On/Off하며 테스트
+        [SerializeField] private bool hasDiscountRelic;
         [SerializeField] private ShoppingUI _shoppingUI;
 
         private void Awake()
@@ -69,9 +69,9 @@ namespace JJY
         {
             yield return new WaitForSeconds(1f);
 
-// #if UNITY_EDITOR
-//             TestAddYeopjeon();
-// #endif
+            // #if UNITY_EDITOR
+            //             TestAddYeopjeon();
+            // #endif
             InitIngredientIndexMap();
             InitIngredients();
             InitStoreSlots();
@@ -104,13 +104,18 @@ namespace JJY
             allIngredients = tmp.ToArray();
         }
 
-// #if UNITY_EDITOR
-//         private void TestAddYeopjeon()
-//         {
-//             _coin.AddYeopjeon(500);
-//         }
-// #endif
+        // #if UNITY_EDITOR
+        //         private void TestAddYeopjeon()
+        //         {
+        //             _coin.AddYeopjeon(500);
+        //         }
+        // #endif
 
+        private void HasDiscountRelic()
+        {
+            hasDiscountRelic = false;
+            hasDiscountRelic = GameManager.Instance.InGameItem.HasRelic(RelicTarget.Shop);
+        }
         private void InitStoreSlots()
         {
             slotDatas.Clear();
@@ -119,6 +124,7 @@ namespace JJY
                 slotDatas.Add(new SlotData { ingredient = Ingredient.None, price = 0, sold = false });
             }
 
+            HasDiscountRelic();
             for (int i = 0; i < slotDatas.Count; i++)
             {
                 // 랜덤 선택(중복 허용)
@@ -128,9 +134,9 @@ namespace JJY
                 if (ingredientMap != null) ingredientMap.TryGetValue(chosen, out data);
 
                 slotDatas[i].ingredient = data.ingredient;
-                // RelicType relicType;
-                // int price = GameManager.Instance.InGameItem.relicInventory.유물 == null ? data.cost : data.cost * 유물 할인율;
-                // slotDatas[i].price = price;
+                // 할인율 변경 시 이곳에서도 변경해야함.
+                if (hasDiscountRelic) slotDatas[i].price = Mathf.RoundToInt(data.cost * 0.7f);
+                else slotDatas[i].price = data.cost;
                 slotDatas[i].price = data.cost;
                 slotDatas[i].sold = false;
             }
@@ -153,6 +159,7 @@ namespace JJY
             }
             _coin.SubtractYeopjeon(5);
 
+            HasDiscountRelic();
             for (int i = 0; i < slotDatas.Count; i++)
             {
                 // 랜덤 선택(중복 허용)
@@ -162,8 +169,9 @@ namespace JJY
                 if (ingredientMap != null) ingredientMap.TryGetValue(chosen, out data);
 
                 slotDatas[i].ingredient = data.ingredient;
-                // int price = GameManager.Instance.InGameItem.HasRelic()? data.cost : data.cost * 유물 할인율;
-                // slotDatas[i].price = price;
+                // 할인율 변경 시 이곳에서도 변경해야함.
+                if (hasDiscountRelic) slotDatas[i].price = Mathf.RoundToInt(data.cost * 0.7f);
+                else slotDatas[i].price = data.cost;
                 slotDatas[i].price = data.cost;
                 slotDatas[i].sold = false;
             }
