@@ -161,22 +161,55 @@ public class MapGenerator : MonoBehaviour
             }
         }
 
-        // 최종적으로 모든 Event 노드에 EncounterID를 할당합니다.
-
         var finalEventNodes = _map.SelectMany(floor => floor).Where(node => node.nodeType == NodeType.Event);
         foreach (var eventNode in finalEventNodes)
         {
-            var sentiment = ConvertEventTypeToSentiment(eventNode.EventTypeKC);
-            int currentStage = eventNode.point.x;
-            if (_dataManager != null)
+            // 이전에 결정된 노드에 따라 GroupID를 할당합니다.
+            switch (eventNode.EventTypeKC)
             {
-                eventNode.EncounterID = _dataManager.GetRandomEncounterID(sentiment, currentStage);
-            }
-            else
-            {
-                Debug.LogError("DataManager.Instance가 없습니다! Script Execution Order를 확인해주세요.");
+                case EventTypeKC.Positive:
+                    // 1부터 4까지의 숫자 중 하나를 무작위로 할당
+                    eventNode.GroupID = Random.Range(1, 5);
+                    break;
+
+                case EventTypeKC.Negative:
+                    // 5부터 7까지의 숫자 중 하나를 무작위로 할당
+                    eventNode.GroupID = Random.Range(5, 9);
+                    break;
+
+                case EventTypeKC.Neutral:
+                    // 8부터 11까지의 숫자 중 하나를 무작위로 할당
+                    eventNode.GroupID = Random.Range(9, 12);
+                    break;
+
+                case EventTypeKC.Subtlety:
+                    // 1부터 11까지 모든 그룹 중 하나를 무작위로 할당
+                    eventNode.GroupID = Random.Range(1, 12);
+                    break;
+
+                default:
+                    // 기본값은 중립 그룹 범위 내에서 할당
+                    eventNode.GroupID = Random.Range(8, 12);
+                    break;
             }
         }
+
+        // // 최종적으로 모든 Event 노드에 EncounterID를 할당합니다.
+        //
+        // var finalEventNodes = _map.SelectMany(floor => floor).Where(node => node.nodeType == NodeType.Event);
+        // foreach (var eventNode in finalEventNodes)
+        // {
+        //     var sentiment = ConvertEventTypeToSentiment(eventNode.EventTypeKC);
+        //     int currentStage = eventNode.point.x;
+        //     if (_dataManager != null)
+        //     {
+        //         eventNode.GroupID  = _dataManager.GetRandomEncounterID(sentiment, currentStage);
+        //     }
+        //     else
+        //     {
+        //         Debug.LogError("DataManager.Instance가 없습니다! Script Execution Order를 확인해주세요.");
+        //     }
+        // }
     }
 
     private EncounterSentiment ConvertEventTypeToSentiment(EventTypeKC eventType)

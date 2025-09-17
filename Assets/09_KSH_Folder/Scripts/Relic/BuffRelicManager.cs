@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using SDW;
@@ -217,8 +216,6 @@ public class BuffRelicManager : MonoBehaviour
 
     public void ApplyRelicEffect(RelicDatas relic) //기본 스탯 적용
     {
-        Debug.Log(
-            $"[DEBUG] relic 적용 시작: {relic.relicName}, Target={relic.relicTarget}, Role={relic.relicRole}, Passive={relic.relicIsPassive}, Type={relic.relicType}");
         currentRelic = relic;
 
         switch (relic.relicTarget)
@@ -242,8 +239,8 @@ public class BuffRelicManager : MonoBehaviour
                     }
                     else if (relic.relicType == RelicType.RelicNumber)
                     {
-                        GameManager.Instance.InGameItem.OnItemChanged -= OnRelicNumberHandler;
-                        GameManager.Instance.InGameItem.OnItemChanged += OnRelicNumberHandler;
+                        RelicCountCheck(RelicKind.Buf);
+                        RelicCountCheck(RelicKind.Debuff);
                         Debug.Log("OnRelicNumberHandler");
                     }
                 }
@@ -282,8 +279,19 @@ public class BuffRelicManager : MonoBehaviour
                     else if (relic.relicType == RelicType.ChaNumber)
                     {
                         BattleCharacterCheck(relic);
-                        battleManager.OnCharacterDeath -= OnChaNumberHandler;
-                        battleManager.OnCharacterDeath += OnChaNumberHandler;
+                        battleManager.OnCharacterDeath -= BattleCharacterCheck;
+                        battleManager.OnCharacterDeath += BattleCharacterCheck;
+                        battleManager.OnCharacterDeath -= CharacterNumberCheck;
+                        battleManager.OnCharacterDeath += CharacterNumberCheck;
+                        Debug.Log("이벤트 구독");
+                    }
+                    else if (relic.relicType == RelicType.None)
+                    {
+                        foreach (var p in battleManager._characters)
+                        {
+                            p._characterState._isBarrier = Random.Range(0, 100) < 2; //2% 확률로 True
+                            Debug.Log($"회피 {p._characterState._isBarrier}");
+                        }
                     }
                 }
                 else if (relic.relicType == RelicType.ChaRole && relic.relicIsPassive)
@@ -323,26 +331,12 @@ public class BuffRelicManager : MonoBehaviour
                 break;
         }
     }
-
-    private void OnChaNumberHandler()
-    {
-        CharacterNumberCheck();
-        BattleChaCountCheck();
-    }
-
-    private void OnRelicNumberHandler()
-    {
-        BufRelicCheck();
-        DebuffRelicCheck();
-    }
-
-    private void OnRelicAttackHeal() => CharacterHeal(currentRelic);
-    private void OnRelicEffectStat() => ApplyStatToCharacter(currentRelic);
-    private void OnRelicAttackStack() => AttackSpeedStack(currentRelic);
-    private void MonsterDieBuff() => ApplyStatToCharacter(currentRelic);
-    private void BattleChaCountCheck() => BattleCharacterCheck(currentRelic);
-    private void BufRelicCheck() => RelicCountCheck(RelicGrade.Buf);
-    private void DebuffRelicCheck() => RelicCountCheck(RelicGrade.Debuff);
+    
+    public void OnRelicAttackHeal() => CharacterHeal(currentRelic);
+    public void OnRelicEffectStat() => ApplyStatToCharacter(currentRelic);
+    public void OnRelicAttackStack() => AttackSpeedStack(currentRelic);
+    public void MonsterDieBuff() => ApplyStatToCharacter(currentRelic);
+    public void BattleCharacterCheck() => BattleCharacterCheck(currentRelic);
 
     private void Heal(MyCharacterController p, RelicDatas relic) //회복 기능
     {
@@ -410,11 +404,11 @@ public class BuffRelicManager : MonoBehaviour
             }
         }
     }
-
+    
     private void BattleCharacterCheck(RelicDatas relic)
     {
         if (relic.chaAvoid == 0) return;
-
+        Debug.Log("BattleCharacterCheck");
         int aliveCount = battleManager._characterCount; //살아있는 캐릭터 수
 
         foreach (var p in battleManager._characters)
@@ -424,25 +418,26 @@ public class BuffRelicManager : MonoBehaviour
 
             if (p._isAlive)
             {
-                float avoid = baseStates[p]._chaAvoid;
-                float addAvoid = avoid * (aliveCount * (relic.chaAvoid * 0.01f));
-                p._characterState._chaAvoid = avoid + addAvoid;
+                float addAvoid = baseStates[p]._chaAvoid * (aliveCount * (relic.chaAvoid * 0.01f));
+                float totalAvoid = baseStates[p]._chaAvoid + addAvoid;
+                p._characterState._chaAvoid = totalAvoid;
 
                 Debug.Log(
-                    $"캐릭터 이름 {p._characterState._chaEnName},{relic.chaAvoid}: 회피율 +{aliveCount * (relic.chaAvoid / 100f)}% → 최종 {p._characterState._chaAvoid}");
+                    $"캐릭터 이름 {p._characterState._chaEnName},{relic.chaAvoid}: 회피율 +{aliveCount * relic.chaAvoid}% → 최종 {p._characterState._chaAvoid}");
             }
         }
     }
 
-    private void RelicCountCheck(RelicGrade grade)
+    public void RelicCountCheck(RelicKind kind)
     {
-        ResetAll();
+        Debug.Log($"[RelicCountCheck] 호출됨 | kind={kind}");
+        Debug.Log($"[RelicCountCheck] 현재 relicInventory 개수: {GameManager.Instance.InGameItem.relicInventory.Count}");
 
         var buffRelicCount = GameManager.Instance.InGameItem.relicInventory
-            .Where(r => r.relic.relicGrade == grade)
+            .Where(r => r.relic.relicKind == kind)
             .Select(r => r.relic)
             .ToList();
-
+        Debug.Log($"[RelicCountCheck] {kind} 필터 후 개수: {buffRelicCount.Count}");
         foreach (var p in battleManager._characters)
         {
             foreach (var buffRelic in buffRelicCount)
@@ -456,7 +451,7 @@ public class BuffRelicManager : MonoBehaviour
                     p._characterState._chaAttack +=
                         AddRelicCountStat(baseStates[p]._chaAttack, buffRelic.chaAttack, buffRelicCount.Count);
                     Debug.Log(
-                        $"[DEBUG] 캐릭터 {p._characterState._chaEnName} | {buffRelic.relicName}: 공격력 +{buffRelic.chaAttack}% → 최종 {p._characterState._chaAttack}");
+                        $"[DEBUG] 캐릭터 {p._characterState._chaEnName} | {buffRelic.relicName}: 공격력 +{buffRelic.chaAttack * buffRelicCount.Count}% → 최종 {p._characterState._chaAttack}");
                 }
 
                 if (buffRelic.chaAvoid != 0)

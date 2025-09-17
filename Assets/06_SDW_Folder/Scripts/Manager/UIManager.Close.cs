@@ -119,11 +119,10 @@ namespace SDW
         {
             var signUI = _uiDic[uiName] as SignInUI;
 
-            // if (_firebase != null)
-            // {
-            //     signUI.OnSignInButtonClicked -= _firebase.SignInWithGoogle;
-            //     _firebase.OnSignInSetButtonType -= signUI.SetButtonImage;
-            // }
+            if (_firebase != null)
+            {
+                signUI.OnSignInButtonClicked -= _firebase.SignInWithGoogle;
+            }
         }
 
         /// <summary>
@@ -145,6 +144,7 @@ namespace SDW
         private void DisconnectDownloadUI(UIName uiName)
         {
             var downloadUI = _uiDic[uiName] as DownloadUI;
+            OpenPanel(UIName.SignInUI);
             downloadUI.OnUIOpenRequested -= OpenPanel;
             downloadUI.OnUICloseRequested -= ClosePanel;
         }

@@ -21,7 +21,7 @@ namespace CJH
             _gameManager = GameManager.Instance;
 
             //# Test 코드
-            _gameManager.SetCompleteDownload(true);
+            // _gameManager.SetCompleteDownload(true);
         }
 
         private void Update()

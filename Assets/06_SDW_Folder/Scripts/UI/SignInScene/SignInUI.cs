@@ -6,12 +6,15 @@ namespace SDW
 {
     public class SignInUI : BaseUI
     {
-        private Button _signInButton;
+        // private Button _signInButton;
 
         [Header("Button Sprites")]
-        [SerializeField] private Sprite _signUpSprite;
-        [SerializeField] private Sprite _signInSprite;
-        [SerializeField] private Sprite _continueWithGoogleSprite;
+        // [SerializeField] private Sprite _signUpSprite;
+        // [SerializeField] private Sprite _signInSprite;
+        // [SerializeField] private Sprite _continueWithGoogleSprite;
+        [SerializeField] private Button _signUpButton;
+        [SerializeField] private Button _signInButton;
+        [SerializeField] private Button _continueWithGoogleButton;
         private Image _signInImage;
 
         public Action OnSignInButtonClicked;
@@ -22,7 +25,7 @@ namespace SDW
         private void Awake()
         {
             _panelContainer.SetActive(false);
-            _signInButton = _panelContainer.GetComponentInChildren<Button>(true);
+            // _signInButton = _panelContainer.GetComponentInChildren<Button>(true);
             _signInImage = _signInButton.GetComponent<Image>();
         }
 
@@ -31,7 +34,9 @@ namespace SDW
         /// </summary>
         private void OnEnable()
         {
+            _signUpButton.onClick.AddListener(SignInButtonClicked);
             _signInButton.onClick.AddListener(SignInButtonClicked);
+            _continueWithGoogleButton.onClick.AddListener(SignInButtonClicked);
         }
 
         /// <summary>
@@ -39,7 +44,15 @@ namespace SDW
         /// </summary>
         private void OnDisable()
         {
+            _signUpButton.onClick.RemoveListener(SignInButtonClicked);
             _signInButton.onClick.RemoveListener(SignInButtonClicked);
+            _continueWithGoogleButton.onClick.RemoveListener(SignInButtonClicked);
+        }
+
+        public override void Open()
+        {
+            base.Open();
+            SetButtonImage(GameManager.Instance.Firebase.ButtonType);
         }
 
         /// <summary>
@@ -48,7 +61,9 @@ namespace SDW
         private void SignInButtonClicked()
         {
             OnSignInButtonClicked?.Invoke();
+            _signUpButton.interactable = false;
             _signInButton.interactable = false;
+            _continueWithGoogleButton.interactable = false;
         }
 
         /// <summary>
@@ -60,15 +75,25 @@ namespace SDW
             switch (buttonType)
             {
                 case ButtonType.SignUpButton:
-                    _signInImage.sprite = _signUpSprite;
+                    // _signInImage.sprite = _signUpSprite;
+                    _signUpButton.gameObject.SetActive(true);
+                    _signInButton.gameObject.SetActive(false);
+                    _continueWithGoogleButton.gameObject.SetActive(false);
                     break;
                 case ButtonType.SignInButton:
-                    _signInImage.sprite = _signInSprite;
+                    // _signInImage.sprite = _signInSprite;
+                    _signInButton.gameObject.SetActive(true);
+                    _signUpButton.gameObject.SetActive(false);
+                    _continueWithGoogleButton.gameObject.SetActive(false);
                     break;
                 case ButtonType.ContinueButton:
-                    _signInImage.sprite = _continueWithGoogleSprite;
+                    // _signInImage.sprite = _continueWithGoogleSprite;
+                    _continueWithGoogleButton.gameObject.SetActive(true);
+                    _signUpButton.gameObject.SetActive(false);
+                    _signInButton.gameObject.SetActive(false);
                     break;
             }
+            Canvas.ForceUpdateCanvases();
         }
     }
 }
