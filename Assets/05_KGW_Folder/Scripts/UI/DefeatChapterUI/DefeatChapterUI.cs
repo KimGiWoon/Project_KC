@@ -23,6 +23,8 @@ public class DefeatChapterUI : BaseUI
         _growthPointText = _panelContainer.GetComponentInChildren<TMP_Text>();
         _confirmButton = _panelContainer.GetComponentInChildren<Button>();
         _confirmButton.onClick.AddListener(LobbyButtonClick);
+
+        _expText.text = GameManager.Instance.Score.ToString();
     }
 
     // 로비 이동 버튼 클릭
