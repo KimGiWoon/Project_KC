@@ -73,6 +73,10 @@ namespace SDW
         private CharacterBattleDataSaveManager _characterBattleDataSave;
         public CharacterBattleDataSaveManager CharacterBattleDataSave => _characterBattleDataSave;
 
+        //# Monster Spawn List
+        private MonsterListManager _monsterList;
+        public MonsterListManager MonsterList => _monsterList;
+
         //todo 추후 유료 관련 Manager로 이동해야 함
         [SerializeField] private bool _buyAdRemover;
         public bool BuyAdRemover => _buyAdRemover;
@@ -148,8 +152,9 @@ namespace SDW
             _coin = GetComponentInChildren<CoinManager>();
             _inGameItem = GetComponentInChildren<InGameItemManager>();
 
-            //# Character Stat Save
+            //# Character Stat Save & Monster List
             _characterBattleDataSave = GetComponentInChildren<CharacterBattleDataSaveManager>();
+            _monsterList = GetComponentInChildren<MonsterListManager>();
         }
 
         /// <summary>

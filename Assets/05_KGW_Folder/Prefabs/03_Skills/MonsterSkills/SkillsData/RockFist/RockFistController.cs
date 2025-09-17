@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SavageSlashController : MonoBehaviour
+public class RockFistController : MonoBehaviour
 {
     private float _skillDamage;
     private float _skillAttackHit;
@@ -24,7 +24,7 @@ public class SavageSlashController : MonoBehaviour
         AllCharacterSavageSlash();
     }
 
-    // 전체 캐릭터에게 난도질 사용
+    // 전체 캐릭터에게 바위주먹 사용
     public void AllCharacterSavageSlash()
     {
         foreach (var cha in _character._battleManager._characters)
