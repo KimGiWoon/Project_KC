@@ -22,9 +22,8 @@ namespace CJH
             allRelicsDatabase = Resources.LoadAll<RelicDatas>("Relics").ToList();
         }
 
-
         // MapView가 사건 ID를 직접 전달하도록 변경
-        public void StartEncounter(int encounterID)
+        public void StartEncounter(int eventGroupID)
         {
             if (currentEventInstance != null)
             {
@@ -33,14 +32,24 @@ namespace CJH
                 currentEventInstance = null;
             }
 
-            // DataManager에서 ID로 정확한 사건 데이터를 가져옵니다.
-            var encounterData = _dataManager.GetEncounterByID(encounterID);
+
+            // GroupID로 해당 그룹의 모든 이벤트 리스트를 가져옵니다.
+            var encountersInGroup = _dataManager.GetEncountersByGroupID(eventGroupID);
+
+            // 그룹에 이벤트가 없으면 오류를 출력하고 종료합니다.
+            if (encountersInGroup == null || encountersInGroup.Count == 0)
+            {
+                Debug.LogError($"[EventManager] EventGroupID '{eventGroupID}'에 해당하는 이벤트를 찾을 수 없습니다.");
+                return;
+            }
+
+            // 리스트에서 랜덤하게 하나의 이벤트를 선택합니다.
+            int randomIndex = Random.Range(0, encountersInGroup.Count);
+            var encounterData = encountersInGroup[randomIndex];
 
 
             if (encounterData.EncounterID != 0) // 유효한 데이터인지 확인
             {
-
-
                 if (_stageGlobalCanvas != null)
                 {
                     currentEventInstance = Instantiate(_eventPrefab, _stageGlobalCanvas.transform);
@@ -48,19 +57,16 @@ namespace CJH
                     var eventStart = currentEventInstance.GetComponentInChildren<EventStart>();
                     if (eventStart != null)
                     {
-                        Debug.Log("[EventManager] 이벤트 시작 - ID: " + encounterID);
-                        eventStart.Initialize(encounterData);
+                        // 이제 선택된 랜덤 이벤트의 ID가 로그에 찍힙니다.
+                        Debug.Log($"[EventManager] 이벤트 시작 - Group: {eventGroupID}, Selected ID: {encounterData.EncounterID}");
+                        eventStart.Initialize(encounterData, this);
                     }
                 }
             }
         }
 
-        //todo 1번만 뜨는 애들 -> 창이 뜰 때 돈/유물
-        //todo 2
-
         public void EndEncounter()
         {
-            //todo End인지, 선택지인지
             Debug.LogWarning($"[EventManager] 현재 이벤트 인스턴스를 파괴하고 참조를 null로 설정합니다. ID: {currentEventInstance.GetInstanceID()}");
             Destroy(currentEventInstance);
             currentEventInstance = null;

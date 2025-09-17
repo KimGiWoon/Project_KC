@@ -39,9 +39,9 @@ namespace CJH
 
         public GameObject closeButton;
 
-        public void Initialize(EncounterTable data)
+        public void Initialize(EncounterTable data, EventManager eventManager)
         {
-            _eventManager = FindObjectOfType<EventManager>();
+            _eventManager = eventManager;
 
             if (relicSelectionPanel != null)
             {
