@@ -21,13 +21,19 @@ public class DefeatChapterUI : BaseUI
         _panelContainer.SetActive(false); // 패널 비활성화
         _confirmButton = _panelContainer.GetComponentInChildren<Button>();
         _confirmButton.onClick.AddListener(LobbyButtonClick);
+    }
 
+    public override void Open()
+    {
         _expText.text = GameManager.Instance.Score.ToString();
+        base.Open();
     }
 
     // 로비 이동 버튼 클릭
     private void LobbyButtonClick()
     {
+        //todo 경험치 레시피로 변환
+        GameManager.Instance.ClearScore();
         GameManager.Instance.Scene.LoadSceneAsync(SceneName.SDW_LobbyScene);
         OnUICloseRequested?.Invoke(UIName.DefeatChapterUI);
     }
