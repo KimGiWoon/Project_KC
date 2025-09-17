@@ -1,3 +1,4 @@
+using System.Collections;
 using SDW;
 using UnityEngine;
 using TMPro;
@@ -21,9 +22,6 @@ public class QuestUI : MonoBehaviour
     private void OnEnable()
     {
         nameText = GetComponentInChildren<TextMeshProUGUI>(true);
-        var checkImages = GetComponentsInChildren<Image>(true);
-        _checkImage = checkImages[2];
-        _checkImage.gameObject.SetActive(false);
 
         if (GameManager.Instance.Time != null)
             GameManager.Instance.Time.OnDailyReset += InitUI;
@@ -41,6 +39,10 @@ public class QuestUI : MonoBehaviour
 
     public void InitUI()
     {
+        var checkImages = GetComponentsInChildren<Image>(true);
+        _checkImage = checkImages[2];
+        _checkImage.gameObject.SetActive(false);
+
         if (dailyQuest == null) return;
 
         if (nameText != null)

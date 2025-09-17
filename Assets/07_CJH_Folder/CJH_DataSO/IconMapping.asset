@@ -1,0 +1,48 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a205840c64b197c4b801df208fd4908e, type: 3}
+  m_Name: IconMapping
+  m_EditorClassIdentifier: 
+  eventGroups:
+  - groupName: Money
+    groupID: 1
+    encounterIDs: 891300008a1300008b1300008c1300008d1300008e130000
+  - groupName: Relic
+    groupID: 2
+    encounterIDs: 8f13000090130000911300009213000093130000941300009513000096130000971300009a1300009b1300009c1300009d1300009e130000
+  - groupName: RelicSel
+    groupID: 3
+    encounterIDs: 98130000
+  - groupName: Lcuk
+    groupID: 4
+    encounterIDs: 991300009f130000a0130000
+  - groupName: MoneySpend
+    groupID: 5
+    encounterIDs: 711700007217000073170000
+  - groupName: RelicSpent
+    groupID: 6
+    encounterIDs: 74170000751700007617000077170000
+  - groupName: FightSel
+    groupID: 7
+    encounterIDs: 78170000791700007a1700007b1700007c1700007d170000
+  - groupName: Gamb
+    groupID: 8
+    encounterIDs: 7e1700007f17000080170000
+  - groupName: MoneyFight
+    groupID: 9
+    encounterIDs: 591b0000
+  - groupName: BadRelic
+    groupID: 10
+    encounterIDs: 5a1b00005b1b00005c1b00005d1b00005e1b00005f1b0000601b0000611b0000621b0000651b0000
+  - groupName: RelicDel
+    groupID: 11
+    encounterIDs: 631b0000641b0000

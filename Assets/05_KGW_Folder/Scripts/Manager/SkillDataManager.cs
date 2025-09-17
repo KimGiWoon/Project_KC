@@ -28,9 +28,9 @@ public class SkillDataManager : MonoBehaviour
 
     private void Update()
     {
-        //if (!_gameManager.CompleteDownload || !_gameManager.ImageSpriteConnected || !_gameManager.PrefabAndSoConnected ||
-        //    _isDownloaded) return;
-        if (_isDownloaded) return;
+        if (!_gameManager.CompleteDownload || !_gameManager.ImageSpriteConnected || !_gameManager.PrefabAndSoConnected ||
+            _isDownloaded) return;
+        // if (_isDownloaded) return;
 
         // 딕셔너리에 스킬 저장
         foreach (var skill in _characterAllSkills)

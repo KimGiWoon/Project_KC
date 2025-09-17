@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using Firebase;
 using Firebase.Auth;
@@ -21,21 +22,35 @@ namespace SDW
         private DatabaseReference _db;
         public DatabaseReference DB => _db;
 
-        public Action<ButtonType> OnSignInSetButtonType;
         public Action<UserInfo> OnSendUserInfo;
-        public Action<Dictionary<string, object>> OnCoinDataLoaded;
-        public Action<Dictionary<string, object>> OnCharacterDataLoaded;
-        public Action<Dictionary<string, object>> OnDailyQuestedDataLoaded;
-        public Action<Dictionary<string, object>> OnEtcDataLoaded;
 
         [SerializeField] private FirebaseDataSO _cliendData;
         private string _googleClientId;
         private GoogleSignInConfiguration _googleConfig;
 
-        private UserData _userData;
         private UIManager _ui;
         private CharacterDataManager _character;
-        private Dictionary<string, object> _loadedCharacters;
+
+        private UserData _userData;
+        public UserData UserData => _userData;
+
+        private Dictionary<string, object> _coinData;
+        public IReadOnlyDictionary<string, object> CoinData => _coinData;
+
+        private Dictionary<string, object> _characters;
+        public IReadOnlyDictionary<string, object> Characters => _characters;
+
+        private Dictionary<string, object> _dailyQuest;
+        public IReadOnlyDictionary<string, object> DailyQuest => _dailyQuest;
+
+        private Dictionary<string, object> _etcData;
+        public IReadOnlyDictionary<string, object> EtcData => _etcData;
+
+        private bool _isLoaded;
+        public bool IsLoaded => _isLoaded;
+
+        private ButtonType _buttonType;
+        public ButtonType ButtonType => _buttonType;
 
         #region Firebase Intialize Methods
 
@@ -66,12 +81,7 @@ namespace SDW
                     _auth = FirebaseAuth.DefaultInstance;
                     _db = FirebaseDatabase.DefaultInstance.RootReference;
 
-                    if (PlayerPrefs.GetInt("SignedUp", 0) == 0)
-                        OnSignInSetButtonType?.Invoke(ButtonType.SignUpButton);
-                    else if (_auth.CurrentUser != null)
-                        OnSignInSetButtonType?.Invoke(ButtonType.ContinueButton);
-                    else
-                        OnSignInSetButtonType?.Invoke(ButtonType.SignInButton);
+                    UpdateButtonIcon();
 
                     InitializeGoogleSignIn();
                 }
@@ -83,6 +93,15 @@ namespace SDW
                     _db = null;
                 }
             });
+        }
+        private void UpdateButtonIcon()
+        {
+            if (PlayerPrefs.GetInt("SignedUp", 0) == 0)
+                _buttonType = ButtonType.SignUpButton;
+            else if (_auth.CurrentUser != null)
+                _buttonType = ButtonType.ContinueButton;
+            else
+                _buttonType = ButtonType.SignInButton;
         }
 
         #endregion
@@ -417,16 +436,12 @@ namespace SDW
                     else Debug.LogWarning("사용자 데이터를 Dictionary로 변환할 수 없습니다");
                 }
 
-                _loadedCharacters = userData["characters"] as Dictionary<string, object>;
 
-                if (userData.ContainsKey("coinData"))
-                    OnCoinDataLoaded?.Invoke(userData["coinData"] as Dictionary<string, object>);
-                if (userData.ContainsKey("characters"))
-                    OnCharacterDataLoaded?.Invoke(userData["characters"] as Dictionary<string, object>);
-                if (userData.ContainsKey("dailyQuest"))
-                    OnDailyQuestedDataLoaded?.Invoke(userData["dailyQuest"] as Dictionary<string, object>);
-                if (userData.ContainsKey("etcData"))
-                    OnEtcDataLoaded?.Invoke(userData["etcData"] as Dictionary<string, object>);
+                _coinData = userData["coinData"] as Dictionary<string, object>;
+                _characters = userData["characters"] as Dictionary<string, object>;
+                _dailyQuest = userData["dailyQuests"] as Dictionary<string, object>;
+                _etcData = userData["etcData"] as Dictionary<string, object>;
+                _isLoaded = true;
             }
         }
 
@@ -454,6 +469,7 @@ namespace SDW
                 { "starCandy", 9999999 }, //# 유료 -> 뽑기 재화
                 { "shiningStarCandy", 9999999 } //# 유료 재화
             };
+            _coinData = coinData;
 
             var characters = new Dictionary<string, object>();
 
@@ -482,6 +498,7 @@ namespace SDW
                 }
 
                 characters[character._chaBaseData.ChaID.ToString()] = characterData;
+                _characters = characters;
             }
 
             Debug.Log($"Number of characters : {characters.Count}");
@@ -492,6 +509,8 @@ namespace SDW
             {
                 dailyQuests[quest.ToString()] = false;
             }
+
+            _dailyQuest = dailyQuests;
 
             var etcData = new Dictionary<string, object>
             {
@@ -505,6 +524,7 @@ namespace SDW
                 { "stamina", 120 },
                 { "lastStaminaUpdate", DateTime.UtcNow.AddHours(9).ToString("yyyy-MM-dd HH:mm:ss") }
             };
+            _etcData = etcData;
 
             var userData = new Dictionary<string, object>
             {
@@ -521,6 +541,8 @@ namespace SDW
                 profileData.ContainsKey("nickname") ? profileData["nickname"].ToString() : "",
                 profileData.ContainsKey("icon") ? Convert.ToInt32(profileData["icon"]) : 0
             );
+
+            _isLoaded = true;
 
             _db.Child("users").Child(user.UserId).SetValueAsync(userData).ContinueWithOnMainThread(task =>
             {
@@ -575,6 +597,8 @@ namespace SDW
             _ui.ClosePanel(UIName.MainLobbyUI);
             _ui.ClosePanel(UIName.UserInfoUI);
 
+
+            UpdateButtonIcon();
             GameManager.Instance.Scene.LoadSceneAsync(SceneName.SDW_SignInScene);
         }
 
@@ -619,6 +643,8 @@ namespace SDW
                     _ui.ClosePanel(UIName.MainLobbyUI);
                     _ui.ClosePanel(UIName.UserInfoUI);
 
+                    UpdateButtonIcon();
+                    // InitializeFirebaseDependencies();
                     GameManager.Instance.Scene.LoadSceneAsync(SceneName.SDW_SignInScene);
                 });
             });
@@ -640,6 +666,13 @@ namespace SDW
                 _userData.IconNumber
             ));
         }
+
+        public UserInfo GetUserInfo() => new UserInfo(
+            _userData.Nickname,
+            _userData.Email,
+            _auth.CurrentUser.UserId,
+            _userData.IconNumber
+        );
 
         #endregion
 
@@ -798,13 +831,13 @@ namespace SDW
             foreach (var selectedCharacter in selectedTeam)
             {
                 selectedKeyList.Add(selectedCharacter.Key);
-                var loadedCharacter = _loadedCharacters[selectedCharacter.Key] as Dictionary<string, object>;
+                var loadedCharacter = _characters[selectedCharacter.Key] as Dictionary<string, object>;
                 if (Convert.ToBoolean(loadedCharacter["selected"])) continue;
 
                 updateData.Add($"characters/{selectedCharacter.Key}/selected", selectedCharacter.Value);
             }
 
-            foreach (var character in _loadedCharacters)
+            foreach (var character in _characters)
             {
                 if (selectedKeyList.Contains(character.Key)) continue;
 

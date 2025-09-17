@@ -43,6 +43,12 @@ namespace SDW
             _nicknameInputField.onValueChanged.RemoveListener(OnValueChanged);
         }
 
+        public override void Open()
+        {
+            GameManager.Instance.Firebase.RequestUserInfo();
+            base.Open();
+        }
+
         private void OnValueChanged(string nickname)
         {
             string filtered = "";

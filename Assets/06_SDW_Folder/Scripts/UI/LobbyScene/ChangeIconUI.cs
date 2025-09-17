@@ -12,7 +12,7 @@ namespace SDW
         [SerializeField] private Button _confirmButton;
         [SerializeField] private GameObject _contents;
         private List<Button> _iconChangeButtons = new List<Button>();
-        private Dictionary<int, Sprite> _spriteIndex = new Dictionary<int, Sprite>();
+        private Dictionary<int, Image> _imageIndex = new Dictionary<int, Image>();
         private ScrollRect _scrollRect;
         private int _selectedIconIndex;
 
@@ -38,8 +38,7 @@ namespace SDW
             foreach (var icon in _iconChangeButtons)
             {
                 var buttonId = icon.GetComponent<ButtonId>();
-                var sprite = icon.GetComponent<Image>().sprite;
-                _spriteIndex[buttonId.Id] = sprite;
+                _imageIndex[buttonId.Id] = icon.GetComponent<Image>();
             }
         }
 
@@ -106,6 +105,6 @@ namespace SDW
             OnUICloseRequested?.Invoke(UIName.ChangeIconUI);
         }
 
-        public Sprite GetIcon(int iconNumber) => _spriteIndex[iconNumber];
+        public Sprite GetIcon(int iconNumber) => _imageIndex[iconNumber].sprite;
     }
 }

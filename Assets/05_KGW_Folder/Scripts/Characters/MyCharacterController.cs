@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using KGW;
 using SDW;
 using UnityEngine;
 
@@ -92,7 +93,7 @@ public class MyCharacterController : UnitBaseData
         // 캐릭터 돌파 스텟 적용
         UpgradeStatUpdate();
         // 캐릭터의 저장된 데이터 불러오기
-        CharacterSaveDataLoad();
+       CharacterSaveDataLoad();
 
         // 체력, 마나 게이지 현재값 초기화
         OnHpChange?.Invoke(_characterState._chaCurrentHP / _characterState._chaMaxHP);

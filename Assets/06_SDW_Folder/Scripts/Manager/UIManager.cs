@@ -41,8 +41,7 @@ namespace SDW
         {
             yield return new WaitForSeconds(0.5f);
             OpenPanel(UIName.DownloadUI);
-            var downloadUI = _uiDic[UIName.DownloadUI] as DownloadUI;
-            downloadUI.OnCheckUpdate();
+            _firebase?.ConnectToFirebase();
         }
 
         /// <summary>
@@ -62,8 +61,7 @@ namespace SDW
         /// </summary>
         private IEnumerator DelayedLoading()
         {
-            yield return new WaitForSeconds(0.5f);
-            _firebase?.ConnectToFirebase();
+            yield return new WaitForSeconds(1.5f);
             _loadingCanvas.SetActive(false);
         }
 
@@ -135,7 +133,8 @@ namespace SDW
             switch (activeScene)
             {
                 case SceneName.SDW_SignInScene:
-                    _firebase.ConnectToFirebase();
+                    // _firebase.ConnectToFirebase();
+                    OpenPanel(UIName.DownloadUI);
                     break;
                 case SceneName.SDW_LobbyScene:
                     if (targetUI == UIName.None)

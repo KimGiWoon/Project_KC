@@ -19,6 +19,7 @@ namespace SDW
         [SerializeField] private TextMeshProUGUI _yeopjeonText;
         [SerializeField] private TweenAnimation[] _buttonTwwenAnimations;
         [SerializeField] private TweenAnimation _buttonContainerTweenAnimation;
+        [SerializeField] private GameObject _buttuonContainer;
 
         public Action<UIName> OnUIOpenRequested;
         public Action<UIName, bool> OnUICloseRequested;
@@ -34,6 +35,7 @@ namespace SDW
         private void Awake()
         {
             _panelContainer.SetActive(false);
+            _buttuonContainer.SetActive(false);
             _prevUIName = UIName.RouteSelectUI;
         }
 
@@ -62,6 +64,7 @@ namespace SDW
         public override void Open()
         {
             base.Open();
+            _buttuonContainer.SetActive(true);
             StartCoroutine(DelayedOpenAndClose(true));
 
             SetChapterStageText(_gameManager.Chapter, _gameManager.Stage);
@@ -73,6 +76,7 @@ namespace SDW
         public override void Close()
         {
             StartCoroutine(DelayedOpenAndClose(false));
+            _buttuonContainer.SetActive(false);
             base.Close();
 
             _coin.OnYeopjeonChanged -= SetYeopjeonText;

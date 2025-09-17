@@ -13,7 +13,8 @@ namespace JJY
 
         public int shiningStarCandy { get; private set; } // 인게임 유료 재화, 변수명 변경해야함. (Fire base)
         public int point { get; private set; }
-        private FirebaseManager _firebase;
+        private GameManager _gameManager;
+        private bool _isLoaded;
 
         // public static CoinManager Instance { get; private set; }
         private void Awake()
@@ -27,13 +28,17 @@ namespace JJY
 
         private void Start()
         {
-            _firebase = GameManager.Instance.Firebase;
-            _firebase.OnCoinDataLoaded += LoadCoinData;
+            _gameManager = GameManager.Instance;
         }
 
-        private void OnDestroy()
+        private void Update()
         {
-            _firebase.OnCoinDataLoaded -= LoadCoinData;
+            if (!_gameManager.CompleteDownload || !_gameManager.ImageSpriteConnected || !_gameManager.PrefabAndSoConnected ||
+                !_gameManager.Firebase.IsLoaded || _isLoaded) return;
+
+            LoadCoinData(_gameManager.Firebase.CoinData);
+
+            _isLoaded = true;
         }
 
         // 아웃게임 아이템
@@ -131,7 +136,7 @@ namespace JJY
         /// Firebase에서 코인 데이터를 로드하는 함수
         /// </summary>
         /// <param name="coinData">로드된 코인 데이터를 담은 Dictionary</param>
-        public void LoadCoinData(Dictionary<string, object> coinData)
+        public void LoadCoinData(IReadOnlyDictionary<string, object> coinData)
         {
             starCandy = Convert.ToInt32(coinData["starCandy"]);
             shiningStarCandy = Convert.ToInt32(coinData["shiningStarCandy"]);
@@ -144,7 +149,7 @@ namespace JJY
         public void SetStarCandy(int value)
         {
             starCandy = value;
-            _firebase.SetStarCandy(starCandy);
+            _gameManager.Firebase.SetStarCandy(starCandy);
         }
 
         /// <summary>

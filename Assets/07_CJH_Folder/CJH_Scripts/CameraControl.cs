@@ -69,4 +69,15 @@ public class CameraDragControl : MonoBehaviour
             isDragging = false;
         }
     }
+
+    public void MoveCamera(Vector3 mouseDelta)
+    {
+        // Y축으로만 이동
+        float newY = transform.position.y - mouseDelta.y * dragSpeed;
+
+        // 카메라를 정해진 범위 안에 있도록 위치를 제한
+        float clampedY = Mathf.Clamp(newY, minY, maxY);
+
+        transform.position = new Vector3(transform.position.x, clampedY, transform.position.z);
+    }
 }
