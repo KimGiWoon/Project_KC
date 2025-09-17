@@ -13,18 +13,14 @@ namespace KSH
         [Header("유물 리스트")]
         [SerializeField] private List<RelicDatas> relics;
 
-        //유물 나오는 UI 있어야함
+        [Header("스크립트")]
         [SerializeField] private ClearStageUI _clearStageUI;
         [SerializeField] private BattleManager _battle;
+        
         private GameManager _gameManager;
-        //[SerializeField] private BuffRelicManager buffRelicManager;
-        //public List<InventoryItem> acquiredRelicLists = new List<InventoryItem>();
-
         private WeightedRandom<RelicGrade> relicRarityPicker;
-
         private CharacterState characterState;
-
-        //public System.Action OnRelicSkill;
+        
         private void Awake()
         {
             if (Instance == null)
@@ -36,12 +32,12 @@ namespace KSH
             {
                 Destroy(gameObject);
             }
-            relics = Resources.LoadAll<RelicDatas>("Relics").ToList();
+            relics = Resources.LoadAll<RelicDatas>("Relics").ToList(); //리소스에 있는 유물들 리스트에 넣기
 
             relicRarityPicker = new WeightedRandom<RelicGrade>();
-            //TODO : 확률 정해지면 다시 넣기 (임의로 노말 80 레어 20)
-            relicRarityPicker.Add(RelicGrade.Normal, 1);
-            relicRarityPicker.Add(RelicGrade.Rare, 99);
+            
+            relicRarityPicker.Add(RelicGrade.Normal, 80); //노말 아이템 80
+            relicRarityPicker.Add(RelicGrade.Rare, 20); //레어 아이템 20
         }
 
         private void Start()
@@ -49,12 +45,12 @@ namespace KSH
             _gameManager = GameManager.Instance;
         }
 
-        private void Update()
+        private void Update() //테스트용
         {
             if (Input.GetKeyDown(KeyCode.R))
             {
                 Debug.Log("R");
-                GetRelicName("보온 보관병");
+                GetRelicName("방열 뚜껑");
             }
         }
 
@@ -68,45 +64,45 @@ namespace KSH
             _battle.OnGameResult -= GameCleared;
         }
 
-        public void RarityPick(RelicKind relicKind, int amount)
+        public void RarityPick(RelicKind relicKind, int amount) //등급 뽑기
         {
             RelicGrade relicGrade;
 
-            if (relicKind == RelicKind.Debuff)
-                relicGrade = RelicGrade.Debuff;
+            if (relicKind == RelicKind.Debuff) //만약 유물 종류가 디버프라면
+                relicGrade = RelicGrade.Debuff; //유물 등급을 디버프로 정한다.
             else
-                relicGrade = relicRarityPicker.GetRandom();
+                relicGrade = relicRarityPicker.GetRandom(); //아니라면 버프(노말, 레어) 유물 중 랜덤으로 뽑는다.
 
-            var getRelicList = relics
+            var getRelicList = relics //유물 리스트에서 뽑힌 등급과 같고 유물 인벤토리에 없다면 가져온다.
                 .Where(relic =>
                     relic.relicGrade == relicGrade && !GameManager.Instance.InGameItem.relicInventory.Any(r => r.relic == relic))
                 .ToList();
 
-            for (int i = 0; i < getRelicList.Count; i++)
+            for (int i = 0; i < getRelicList.Count; i++) //가져온 유물들을 순회
             {
-                var relic = getRelicList[i];
-                int index = Random.Range(i, getRelicList.Count);
-                getRelicList[i] = getRelicList[index];
+                var relic = getRelicList[i]; //유물[i]를 relic에 저장
+                int index = Random.Range(i, getRelicList.Count); //i부터 리스트 끝까지 랜덤으로 하나 선택하여 저장
+                getRelicList[i] = getRelicList[index]; //임시로 저장한 것과 자리를 바꿔준다.
                 getRelicList[index] = relic;
             }
 
-            var result = getRelicList.Take(amount).ToList();
+            var result = getRelicList.Take(amount).ToList(); //리스트에서 amount 갯수만큼 가져온다.
 
             _clearStageUI.ShowRelic(result, relicGrade);
         }
 
-        public void GetRelic(RelicDatas relic)
+        public void GetRelic(RelicDatas relic) //유물을 인벤토리에 넣는 기능
         {
-            //리스트에 같은 유물이 있는지 Bool값
+            //리스트에 같은 유물이 있는지 Bool값을 따진다.
             bool alreadyAcquired = GameManager.Instance.InGameItem.relicInventory.Any(r => r.relic == relic);
 
             if (!alreadyAcquired) //만약 없다면
             {
-                GameManager.Instance.InGameItem.AddItem(relic);
+                GameManager.Instance.InGameItem.AddItem(relic); //인벤토리에 유물 아이템을 추가한다.
             }
         }
         
-        public void GetRelicName(string relicName)
+        public void GetRelicName(string relicName) //테스트용
         {
             RelicDatas relic = relics.Find(r => r.relicName == relicName);
             
@@ -114,7 +110,7 @@ namespace KSH
                 GetRelic(relic);
         }
 
-        private void GameCleared(bool isCleared)
+        private void GameCleared(bool isCleared) //게임이 클리어되었을 때 유물 뽑는 기능
         {
             if (!isCleared) return;
             RarityPick(RelicKind.Buf, 3);
