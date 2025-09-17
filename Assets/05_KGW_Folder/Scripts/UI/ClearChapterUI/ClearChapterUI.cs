@@ -22,14 +22,14 @@ public class ClearChapterUI : BaseUI
         _expText = _panelContainer.GetComponentInChildren<TMP_Text>();
         _growthPointText = _panelContainer.GetComponentInChildren<TMP_Text>();
         _confirmButton = _panelContainer.GetComponentInChildren<Button>();
+
+        _expText.text = GameManager.Instance.Score.ToString();
     }
 
     private void OnEnable()
     {
         // 버튼 등록
         _confirmButton.onClick.AddListener(LobbyButtonClick);
-
-        _expText.text = GameManager.Instance.Score.ToString();
     }
 
     private void OnDisable()
