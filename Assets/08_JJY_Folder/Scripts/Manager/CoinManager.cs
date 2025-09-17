@@ -20,10 +20,10 @@ namespace JJY
 
         // 아웃게임 아이템
         private Dictionary<string, int> items = new Dictionary<string, int>();
-        private string _baek = "Beek's Recipe Book";
+        private string _beek = "Beek's Recipe Book";
         private string _fineDining = "Fine Dining Recipe Book";
         private string _masterChef = "Master Chef Recipe Book";
-        public string Baek => _baek;
+        public string Beek => _beek;
         public string fineDining => _fineDining;
         public string masterChef => _masterChef;
         public Action OnItemsChanged;
@@ -141,7 +141,7 @@ namespace JJY
             starCandy = Convert.ToInt32(coinData["starCandy"]);
             shiningStarCandy = Convert.ToInt32(coinData["shiningStarCandy"]);
             point = Convert.ToInt32(coinData["point"]);
-            items[_baek] = Convert.ToInt32(coinData["baekRecipeBook"]);
+            items[_beek] = Convert.ToInt32(coinData["baekRecipeBook"]);
             items[_fineDining] = Convert.ToInt32(coinData["fineDiningRecipeBook"]);
             items[_masterChef] = Convert.ToInt32(coinData["masterChefRecipeBook"]);
         }
@@ -204,7 +204,7 @@ namespace JJY
         {
             items[masterChef]++;
             items[fineDining]++;
-            items[Baek]++;
+            items[Beek]++;
             OnItemsChanged?.Invoke();
         }
 #endif
