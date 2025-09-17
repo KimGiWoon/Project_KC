@@ -23,7 +23,7 @@ namespace JJY
         private string _beek = "Beek's Recipe Book";
         private string _fineDining = "Fine Dining Recipe Book";
         private string _masterChef = "Master Chef Recipe Book";
-        public string Beek => _beek;
+        public string beek => _beek;
         public string fineDining => _fineDining;
         public string masterChef => _masterChef;
         public Action OnItemsChanged;
@@ -204,7 +204,7 @@ namespace JJY
         {
             items[masterChef]++;
             items[fineDining]++;
-            items[Beek]++;
+            items[beek]++;
             OnItemsChanged?.Invoke();
         }
 #endif
