@@ -98,6 +98,7 @@ namespace SDW
                 case UIName.NonRemoveADUI: DisconnectNonRemoveADUI(uiName); break;
                 case UIName.RemoveADUI: DisconnectRemoveADUI(uiName); break;
                 case UIName.DefeatChapterUI: DisconnectDefeatChapterUI(uiName); break;
+                case UIName.RoguelikeClosingUI: DisconnectRoguelikeClosingUI(uiName); break;
             }
         }
 
@@ -465,6 +466,7 @@ namespace SDW
         private void DisconnectClearChapterUI(UIName uiName)
         {
             var clearChapterUI = _uiDic[uiName] as ClearChapterUI;
+            clearChapterUI.OnUIOpenRequested -= OpenPanel;
             clearChapterUI.OnUICloseRequested -= ClosePanel;
         }
 
@@ -507,7 +509,14 @@ namespace SDW
         private void DisconnectDefeatChapterUI(UIName uiName)
         {
             var defeatChapterUI = _uiDic[uiName] as DefeatChapterUI;
+            defeatChapterUI.OnUIOpenRequested -= OpenPanel;
             defeatChapterUI.OnUICloseRequested -= ClosePanel;
+        }
+
+        private void DisconnectRoguelikeClosingUI(UIName uiName)
+        {
+            var roguelikeClosingUI = _uiDic[uiName] as RoguelikeClosingUI;
+            roguelikeClosingUI.OnUICloseRequested += ClosePanel;
         }
 
         #endregion

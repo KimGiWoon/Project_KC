@@ -12,17 +12,26 @@ namespace JJY
         public int starCandy { get; private set; } // 인게임 재화, GameManager의 변수명 변경해야함. (Fire base)
 
         public int shiningStarCandy { get; private set; } // 인게임 유료 재화, 변수명 변경해야함. (Fire base)
+
         public int point { get; private set; }
+
         private GameManager _gameManager;
         private bool _isLoaded;
+
+        // 아웃게임 아이템
+        private Dictionary<string, int> items = new Dictionary<string, int>();
+        private string _baek = "Beek's Recipe Book";
+        private string _fineDining = "Fine Dining Recipe Book";
+        private string _masterChef = "Master Chef Recipe Book";
+        public string Baek => _baek;
+        public string fineDining => _fineDining;
+        public string masterChef => _masterChef;
+        public Action OnItemsChanged;
+        public Action<int> OnYeopjeonChanged;
 
         // public static CoinManager Instance { get; private set; }
         private void Awake()
         {
-            // TODO : Firebase와 연동
-            items.Add(beek, 0);
-            items.Add(fineDining, 0);
-            items.Add(masterChef, 0);
             yeopjeon = 999999;
         }
 
@@ -40,17 +49,6 @@ namespace JJY
 
             _isLoaded = true;
         }
-
-        // 아웃게임 아이템
-        private Dictionary<string, int> items = new Dictionary<string, int>();
-        private string _beek = "Beek's Recipe Book";
-        private string _fineDining = "Fine Dining Recipe Book";
-        private string _masterChef = "Master Chef Recipe Book";
-        public string beek => _beek;
-        public string fineDining => _fineDining;
-        public string masterChef => _masterChef;
-        public Action OnItemsChanged;
-        public Action<int> OnYeopjeonChanged;
 
         /// <summary>
         /// 경험치 재화의 수량을 받아오는 함수.
@@ -72,6 +70,7 @@ namespace JJY
         /// </summary>
         public void AddRecipeItem(string itemName, int value)
         {
+            //todo firebas와 연동
             if (items.ContainsKey(itemName))
             {
                 items[itemName] += value;
@@ -84,6 +83,7 @@ namespace JJY
         /// </summary>
         public void SubtractRecipeItem(string itemName, int value)
         {
+            //todo firebas와 연동
             if (items.ContainsKey(itemName))
             {
                 if (items[itemName] >= value)
@@ -141,6 +141,9 @@ namespace JJY
             starCandy = Convert.ToInt32(coinData["starCandy"]);
             shiningStarCandy = Convert.ToInt32(coinData["shiningStarCandy"]);
             point = Convert.ToInt32(coinData["point"]);
+            items[_baek] = Convert.ToInt32(coinData["baekRecipeBook"]);
+            items[_fineDining] = Convert.ToInt32(coinData["fineDiningRecipeBook"]);
+            items[_masterChef] = Convert.ToInt32(coinData["masterChefRecipeBook"]);
         }
 
         /// <summary>
@@ -176,6 +179,7 @@ namespace JJY
         public void AddPoint(int value)
         {
             point += value;
+            //todo firebase에 저장
         }
 
         /// <summary>
@@ -187,8 +191,9 @@ namespace JJY
         {
             if (point < value) return false;
 
-            point += value;
+            point -= value;
             return true;
+            //todo firebase에 저장
         }
 
 #if UNITY_EDITOR
@@ -199,7 +204,7 @@ namespace JJY
         {
             items[masterChef]++;
             items[fineDining]++;
-            items[beek]++;
+            items[Baek]++;
             OnItemsChanged?.Invoke();
         }
 #endif
