@@ -18,8 +18,6 @@ namespace CJH
         private MapConfig _mapConfig;
         private SpriteRenderer _spriteRenderer;
 
-        // 한 번 결정된 이벤트 스프라이트를 저장할 변수
-        private Sprite chosenEventSprite;
 
         public void Setup(Node dataNode, MapConfig config)
         {
@@ -29,7 +27,6 @@ namespace CJH
 
             isRevealed = false;
             isSelectable = false;
-            chosenEventSprite = null; // 맵을 새로 만들 때마다 초기화
 
             if (nodeData.nodeType == NodeType.Start || nodeData.nodeType == NodeType.Battle || nodeData.nodeType == NodeType.Boss)
             {
@@ -61,7 +58,7 @@ namespace CJH
             if (!isRevealed)
             {
                 ApplySprite(NodeType.Mystery);
-                _spriteRenderer.color = selectableColor;
+                _spriteRenderer.color = nonSelectableColor; // 선택 불가능한 색으로 표시
                 return;
             }
 
@@ -78,38 +75,33 @@ namespace CJH
         private void ApplySprite(NodeType type)
         {
             if (_mapConfig == null || _mapConfig.NodeTemplates == null) return;
-            NodeTemplate template = _mapConfig.NodeTemplates.FirstOrDefault(t => t.nodeType == type);
-            if (template == null) return;
 
             // 이벤트 타입일 경우의 로직 변경
             if (type == NodeType.Event)
             {
-                // 아직 결정된 스프라이트가 없다면, 지금 랜덤으로 하나를 뽑아서 저장합니다.
-                if (chosenEventSprite == null)
-                {
-                    List<Sprite> targetList = null;
-                    switch (nodeData.EventTypeKC)
-                    {
-                        case EventTypeKC.Positive: targetList = template.positiveEventSprites; break;
-                        case EventTypeKC.Negative: targetList = template.negativeEventSprites; break;
-                        case EventTypeKC.Neutral: targetList = template.neutralEventSprites; break;
-                        case EventTypeKC.Subtlety: targetList = template.subtletyEventSprites; break;
-                    }
-                    if (targetList != null && targetList.Count > 0)
-                    {
-                        chosenEventSprite = targetList[Random.Range(0, targetList.Count)];
-                    }
-                }
+                // 1. 현재 노드의 GroupID를 가져옵니다.
+                int groupID = nodeData.GroupID;
 
-                // 이미 결정된 스프라이트가 있다면, 그것을 계속 사용합니다.
-                if (chosenEventSprite != null)
+                // 2. MapConfig에 만들어둔 함수를 이용해 GroupID에 맞는 아이콘을 찾습니다.
+                Sprite icon = _mapConfig.GetIconForEventGroup(groupID);
+
+                // 3. 찾은 아이콘을 적용합니다.
+                if (icon != null)
                 {
-                    _spriteRenderer.sprite = chosenEventSprite;
+                    _spriteRenderer.sprite = icon;
+                }
+                else
+                {
+                    // 혹시라도 해당하는 아이콘이 없으면 기본 이벤트 아이콘을 표시합니다.
+                    NodeTemplate template = _mapConfig.NodeTemplates.FirstOrDefault(t => t.nodeType == type);
+                    if (template != null) _spriteRenderer.sprite = template.sprite;
                 }
             }
-            else // 이벤트가 아닌 다른 모든 노드 타입의 경우
+            // 이벤트가 아닌 다른 모든 노드 타입의 경우
+            else
             {
-                if (template.sprite != null)
+                NodeTemplate template = _mapConfig.NodeTemplates.FirstOrDefault(t => t.nodeType == type);
+                if (template != null && template.sprite != null)
                 {
                     _spriteRenderer.sprite = template.sprite;
                 }
@@ -123,36 +115,16 @@ namespace CJH
 
         public Sprite GetSpriteForNodeType()
         {
-            if (_mapConfig == null || _mapConfig.NodeTemplates == null) return null;
+            if (_mapConfig == null) return null;
 
-            // 자신의 노드 타입에 맞는 템플릿 탐색
-            NodeTemplate template = _mapConfig.NodeTemplates.FirstOrDefault(t => t.nodeType == this.nodeData.nodeType);
-            if (template == null) return null;
-
-            // 이벤트 타입인 경우, 특별 로직을 처리
             if (this.nodeData.nodeType == NodeType.Event)
             {
-                // 아직 어떤 이벤트 스프라이트로 될지 결정되지 않았다면 강제로 결정
-                if (chosenEventSprite == null)
-                {
-                    List<Sprite> spriteList = null;
-                    switch (nodeData.EventTypeKC)
-                    {
-                        case EventTypeKC.Positive: spriteList = template.positiveEventSprites; break;
-                        case EventTypeKC.Negative: spriteList = template.negativeEventSprites; break;
-                        case EventTypeKC.Neutral: spriteList = template.neutralEventSprites; break;
-                    }
-                    if (spriteList != null && spriteList.Count > 0)
-                    {
-                        // 랜덤으로 하나를 골라 저장해두고, 다음부터는 계속 이 스프라이트를 사용
-                        chosenEventSprite = spriteList[Random.Range(0, spriteList.Count)];
-                    }
-                }
-                return chosenEventSprite;
+                return _mapConfig.GetIconForEventGroup(this.nodeData.GroupID);
             }
-            else // 이벤트가 아닌 다른 모든 타입의 경우, 템플릿의 기본 스프라이트를 반환
+            else
             {
-                return template.sprite;
+                NodeTemplate template = _mapConfig.NodeTemplates.FirstOrDefault(t => t.nodeType == this.nodeData.nodeType);
+                return template?.sprite;
             }
         }
     }
