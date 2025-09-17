@@ -13,14 +13,13 @@ public class ClearChapterUI : BaseUI
     [SerializeField] private TMP_Text _growthPointText; // 성장 포인트 텍스트
     private Button _confirmButton; // 로비 이동 버튼
 
+    public Action<UIName> OnUIOpenRequested;
     public Action<UIName> OnUICloseRequested;
 
     // 컴포넌트의 할당
     private void Awake()
     {
         _panelContainer.SetActive(false); // 패널 비활성화
-        // _expText = _panelContainer.GetComponentInChildren<TMP_Text>();
-        // _growthPointText = _panelContainer.GetComponentInChildren<TMP_Text>();
         _confirmButton = _panelContainer.GetComponentInChildren<Button>();
     }
 
@@ -44,9 +43,7 @@ public class ClearChapterUI : BaseUI
     // 로비 이동 버튼 클릭
     private void LobbyButtonClick()
     {
-        //todo 경험치 레시피로 변환
-        GameManager.Instance.ClearScore();
-        GameManager.Instance.Scene.LoadSceneAsync(SceneName.SDW_LobbyScene);
+        OnUIOpenRequested?.Invoke(UIName.RoguelikeClosingUI);
         OnUICloseRequested?.Invoke(UIName.ClearChapterUI);
     }
 }

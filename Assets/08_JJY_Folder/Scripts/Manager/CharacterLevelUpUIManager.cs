@@ -78,7 +78,7 @@ namespace JJY
         /// </summary>
         private void InitEXPTable()
         {
-            itemExpTable[_coin.beek] = 300;
+            itemExpTable[_coin.Baek] = 300;
             itemExpTable[_coin.fineDining] = 500;
             itemExpTable[_coin.masterChef] = 1000;
         }
@@ -88,7 +88,7 @@ namespace JJY
         /// </summary>
         private void InitItemCountText()
         {
-            beeksCount = _coin.GetRecipeItemCount(_coin.beek);
+            beeksCount = _coin.GetRecipeItemCount(_coin.Baek);
             fineDinigCount = _coin.GetRecipeItemCount(_coin.fineDining);
             masterChefCount = _coin.GetRecipeItemCount(_coin.masterChef);
 
@@ -122,7 +122,7 @@ namespace JJY
         }
         private void OnClickBeeks()
         {
-            selectedItem = _coin.beek;
+            selectedItem = _coin.Baek;
             selectedItemMaxCount = beeksCount;
             InitItemBar();
         }
@@ -211,7 +211,7 @@ namespace JJY
             _coin.SubtractRecipeItem(selectedItem, selectedItemUseCount);
 
             int gainedExp;
-            if (selectedItem == _coin.beek) gainedExp = itemExpTable[_coin.beek] * selectedItemUseCount;
+            if (selectedItem == _coin.Baek) gainedExp = itemExpTable[_coin.Baek] * selectedItemUseCount;
             else if (selectedItem == _coin.fineDining) gainedExp = itemExpTable[_coin.fineDining] * selectedItemUseCount;
             else if (selectedItem == _coin.masterChef) gainedExp = itemExpTable[_coin.masterChef] * selectedItemUseCount;
             else gainedExp = 0;

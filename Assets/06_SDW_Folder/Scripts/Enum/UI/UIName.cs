@@ -47,6 +47,7 @@
         ShoppingUI,
         InventoryUI,
         CookingUI,
-        FoodDescriptionUI
+        FoodDescriptionUI,
+        RoguelikeClosingUI
     }
 }
