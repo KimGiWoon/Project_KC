@@ -9,8 +9,8 @@ public class ClearChapterUI : BaseUI
 {
     [Header("Battle Manager Reference")]
     // private BattleManager _battleManager;
-    private TMP_Text _expText; // 겅험치 텍스트
-    private TMP_Text _growthPointText; // 성장 포인트 텍스트
+    [SerializeField] private TMP_Text _expText; // 겅험치 텍스트
+    [SerializeField] private TMP_Text _growthPointText; // 성장 포인트 텍스트
     private Button _confirmButton; // 로비 이동 버튼
 
     public Action<UIName> OnUICloseRequested;
@@ -19,8 +19,8 @@ public class ClearChapterUI : BaseUI
     private void Awake()
     {
         _panelContainer.SetActive(false); // 패널 비활성화
-        _expText = _panelContainer.GetComponentInChildren<TMP_Text>();
-        _growthPointText = _panelContainer.GetComponentInChildren<TMP_Text>();
+        // _expText = _panelContainer.GetComponentInChildren<TMP_Text>();
+        // _growthPointText = _panelContainer.GetComponentInChildren<TMP_Text>();
         _confirmButton = _panelContainer.GetComponentInChildren<Button>();
 
         _expText.text = GameManager.Instance.Score.ToString();

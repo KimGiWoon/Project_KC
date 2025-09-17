@@ -31,6 +31,7 @@ public class DailyQuestManager : MonoBehaviour
 
     private void OnDisable()
     {
+        if (_gameManager == null) return;
         if (_gameManager.Time != null)
         {
             _gameManager.Time.OnDailyReset -= InitQuest;

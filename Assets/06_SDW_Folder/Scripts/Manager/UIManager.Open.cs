@@ -22,9 +22,6 @@ namespace SDW
 
             _prevOpenedUI = uiName;
 
-            Debug.Log($"Open UI name : {uiName}");
-            _uiDic[uiName].Open();
-
 
             var sceneName = (SceneName)Enum.Parse(typeof(SceneName), GameManager.Instance.Scene.GetActiveScene());
 
@@ -38,6 +35,9 @@ namespace SDW
 
             if (_prevOpenedUI == _prevClosedUI)
                 _prevClosedUI = UIName.None;
+
+            Debug.Log($"Open UI name : {uiName}");
+            _uiDic[uiName].Open();
         }
 
         /// <summary>
@@ -121,6 +121,12 @@ namespace SDW
         /// <param name="uiName">연결할 SignInUI 패널의 이름</param>
         private void ConnectSignInUI(UIName uiName)
         {
+            var signUI = _uiDic[uiName] as SignInUI;
+
+            if (_firebase != null)
+            {
+                signUI.OnSignInButtonClicked += _firebase.SignInWithGoogle;
+            }
         }
 
         /// <summary>
@@ -146,17 +152,7 @@ namespace SDW
             var downloadUI = _uiDic[uiName] as DownloadUI;
             downloadUI.OnUIOpenRequested += OpenPanel;
             downloadUI.OnUICloseRequested += ClosePanel;
-
-            var signUI = _uiDic[UIName.SignInUI] as SignInUI;
-
-            if (_firebase != null)
-            {
-                signUI.OnSignInButtonClicked -= _firebase.SignInWithGoogle;
-                _firebase.OnSignInSetButtonType -= signUI.SetButtonImage;
-
-                signUI.OnSignInButtonClicked += _firebase.SignInWithGoogle;
-                _firebase.OnSignInSetButtonType += signUI.SetButtonImage;
-            }
+            downloadUI.OnCheckUpdate();
         }
 
         #endregion
@@ -184,7 +180,6 @@ namespace SDW
             if (_firebase != null)
             {
                 _firebase.OnSendUserInfo += mainLobbyUI.UpdateUserInfo;
-                _firebase.RequestUserInfo();
             }
         }
 
@@ -205,7 +200,6 @@ namespace SDW
             {
                 _firebase.OnSendUserInfo += userInfoUI.UpdateUserInfo;
                 userInfoUI.OnSignOutButtonClicked += _firebase.SignOut;
-                _firebase.RequestUserInfo();
             }
         }
 
@@ -238,7 +232,6 @@ namespace SDW
             if (_firebase != null)
             {
                 _firebase.OnSendUserInfo += editUsernameUI.UpdateUserInfo;
-                _firebase.RequestUserInfo();
             }
         }
 

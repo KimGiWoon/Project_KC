@@ -128,10 +128,10 @@ namespace SDW
                 _downloadSlider.value = 1f;
                 GameManager.Instance.SetCompleteDownload(true);
                 GameManagerEvents.RaiseDownloadCompleted();
-                yield return new WaitForSeconds(1f);
-
+                yield return new WaitForSeconds(0.9f);
                 //# 다운로드 완료 시 다음 UI로
-                OnUIOpenRequested?.Invoke(UIName.SignInUI);
+                // OnUIOpenRequested?.Invoke(UIName.SignInUI);
+                // yield return null;
                 OnUICloseRequested?.Invoke(UIName.DownloadUI);
             }
         }
@@ -255,10 +255,7 @@ namespace SDW
 
             GameManager.Instance.SetCompleteDownload(true);
             GameManagerEvents.RaiseDownloadCompleted();
-            yield return new WaitForSeconds(1f);
-
-            //# 다운로드 완료 시 다음 UI로
-            OnUIOpenRequested?.Invoke(UIName.SignInUI);
+            yield return new WaitForSeconds(0.9f);
             OnUICloseRequested?.Invoke(UIName.DownloadUI);
         }
 

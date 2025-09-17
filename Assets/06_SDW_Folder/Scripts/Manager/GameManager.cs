@@ -114,6 +114,18 @@ namespace SDW
         private int _stamina;
         public int Stamina => _stamina;
 
+        private bool _isLoaded;
+
+        // public static void CreateInstance()
+        // {
+        //     if (_instance == null)
+        //     {
+        //         var gameManagerPrefab = Resources.Load<GameManager>("GameManager");
+        //         _instance = Instantiate(gameManagerPrefab);
+        //         DontDestroyOnLoad(_instance);
+        //     }
+        // }
+
         /// <summary>
         /// Singleton 설정 및 각 Component 연결
         /// </summary>
@@ -125,8 +137,11 @@ namespace SDW
                 DontDestroyOnLoad(this);
             }
             else
+            {
+                if (gameObject == null) return;
                 Destroy(gameObject);
-
+                return;
+            }
             _firebase = GetComponentInChildren<FirebaseManager>();
             _ui = GetComponentInChildren<UIManager>();
             _scene = GetComponentInChildren<MySceneManager>();
@@ -157,13 +172,20 @@ namespace SDW
         /// </summary>
         private void Start()
         {
-            _firebase.OnEtcDataLoaded += SetEtcData;
 #if PLATFORM_ANDROID
             Application.targetFrameRate = 60;
 #else
             QualitySettings.vSyncCount = 1;
 #endif
             FixPortrait();
+        }
+
+        private void Update()
+        {
+            if (!_firebase.IsLoaded || _isLoaded) return;
+
+            SetEtcData(_firebase.EtcData);
+            _isLoaded = true;
         }
 
         /// <summary>
@@ -259,13 +281,13 @@ namespace SDW
         /// <param name="connected">프리팹과 SO 리소스 연결 상태 여부</param>
         public void SetPrefabAndSoConnected(bool connected) => _prefabAndSoConnected = connected;
 
-        private void SetEtcData(Dictionary<string, object> etcData)
+        private void SetEtcData(IReadOnlyDictionary<string, object> etcData)
         {
             //todo _score가 0이 아닐 경우, Roguelike Scene에 접속 시 바로 정산을 해야 함
-            _score = Convert.ToInt32(etcData["socre"]);
+            _score = Convert.ToInt32(etcData["score"]);
             _totalScore = Convert.ToInt32(etcData["totalScore"]);
             //todo quest update 시간을 가져와서 5시에 daily reset 테스트해야 함
-            _buyAdRemover = Convert.ToBoolean(etcData["buyAddRemover"]);
+            _buyAdRemover = Convert.ToBoolean(etcData["buyAdRemover"]);
             _gachaCount = Convert.ToInt32(etcData["gachaCount"]);
             _chapter = Convert.ToInt32(etcData["chapter"]);
             _stamina = Convert.ToInt32(etcData["stamina"]);

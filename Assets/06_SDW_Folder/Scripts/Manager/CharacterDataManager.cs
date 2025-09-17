@@ -69,12 +69,6 @@ namespace SDW
         {
             _gameManager = GameManager.Instance;
             _firebase = GameManager.Instance.Firebase;
-            _firebase.OnCharacterDataLoaded += LoadOwnedCharacter;
-        }
-
-        private void OnDestroy()
-        {
-            _firebase.OnCharacterDataLoaded -= LoadOwnedCharacter;
         }
 
         /// <summary>
@@ -83,18 +77,19 @@ namespace SDW
         private void Update()
         {
             if (!_gameManager.CompleteDownload || !_gameManager.ImageSpriteConnected || !_gameManager.PrefabAndSoConnected ||
-                _isDownloaded) return;
+                _isDownloaded || !_gameManager.Firebase.IsLoaded) return;
+
             LoadCharacterBase();
             LoadCharacterType();
             LoadCharacterUpgrade();
             LoadCharacterLevelUpStat();
             LoadCharacterSkill();
             LoadCharacterSO();
-
+            LoadOwnedCharacter(_firebase.Characters);
             _isDownloaded = true;
         }
 
-        private void LoadOwnedCharacter(Dictionary<string, object> charData)
+        private void LoadOwnedCharacter(IReadOnlyDictionary<string, object> charData)
         {
             foreach (string key in charData.Keys)
             {

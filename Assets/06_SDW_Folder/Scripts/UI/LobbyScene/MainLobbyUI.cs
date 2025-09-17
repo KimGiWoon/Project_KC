@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -21,6 +22,10 @@ namespace SDW
         public Action<UIName> OnUIOpenRequested;
         public Action<UIName> OnUICloseRequested;
         public Action<int> OnIconRequested;
+        private GameManager _gameManager;
+        private bool _isLoaded;
+        private Coroutine _iconCoroutine;
+        private int _iconNumber;
 
         /// <summary>
         /// UI 컴포넌트 활성화 설정 및 이벤트 리스너 할당을 수행
@@ -28,6 +33,7 @@ namespace SDW
         private void Awake()
         {
             _panelContainer.SetActive(false);
+            _gameManager = GameManager.Instance;
         }
 
         /// <summary>
@@ -40,8 +46,6 @@ namespace SDW
             _dailyQuestButton.onClick.AddListener(DailyQuestButtonClicked);
             _gachaButton.onClick.AddListener(GachaButtonClicked);
 
-            UpdateRainbowStar(GameManager.Instance.Coin.starCandy);
-            UpdateShiningStarCandy(GameManager.Instance.Coin.shiningStarCandy);
             GameManager.Instance.Reward.OnStarCandyChange += UpdateRainbowStar;
             GameManager.Instance.DailyQuest.OnStarCandyChange += UpdateRainbowStar;
         }
@@ -57,6 +61,29 @@ namespace SDW
             _gachaButton.onClick.RemoveListener(GachaButtonClicked);
             GameManager.Instance.Reward.OnStarCandyChange -= UpdateRainbowStar;
             GameManager.Instance.DailyQuest.OnStarCandyChange -= UpdateRainbowStar;
+        }
+
+        public override void Open()
+        {
+            base.Open();
+            StartCoroutine(UpdateCoroutine());
+        }
+
+        private IEnumerator UpdateCoroutine()
+        {
+            while (!_gameManager.CompleteDownload || !_gameManager.ImageSpriteConnected || !_gameManager.PrefabAndSoConnected ||
+                   !_gameManager.Firebase.IsLoaded || _isLoaded)
+            {
+                yield return null;
+            }
+
+            yield return new WaitForSeconds(0.1f);
+
+            UpdateUserInfo(_gameManager.Firebase.GetUserInfo());
+            UpdateRainbowStar(GameManager.Instance.Coin.starCandy);
+            UpdateShiningStarCandy(GameManager.Instance.Coin.shiningStarCandy);
+
+            _isLoaded = true;
         }
 
         #region Button Methods
@@ -96,14 +123,45 @@ namespace SDW
         public void UpdateUserInfo(UserInfo user)
         {
             _nicknameText.text = user.Nickname;
-            OnIconRequested?.Invoke(user.IconNumber);
+            _iconNumber = user.IconNumber;
+            OnIconRequested?.Invoke(_iconNumber);
+            // StartCoroutine(DelayedInvoke(user.IconNumber));
         }
+
+        // private IEnumerator DelayedInvoke(int iconNumber)
+        // {
+        //     yield return new WaitForEndOfFrame();
+        //
+        //     while (!_gameManager.CompleteDownload || !_gameManager.ImageSpriteConnected || !_gameManager.PrefabAndSoConnected)
+        //     {
+        //         yield return new WaitForSeconds(0.1f);
+        //     }
+        //     OnIconRequested?.Invoke(iconNumber);
+        // }
 
         /// <summary>
         /// Icon을 설정하기 위한 메서드
         /// </summary>
         /// <param name="sprite">설정할 Icon</param>
-        public void SetIcon(Sprite sprite) => _userIcon.sprite = sprite;
+        public void SetIcon(Sprite sprite)
+        {
+            if (sprite == null && _iconCoroutine == null)
+                _iconCoroutine = StartCoroutine(UpdateIcon());
+            else if (_iconCoroutine != null)
+                StopCoroutine(_iconCoroutine);
+
+            _userIcon.sprite = sprite;
+            Canvas.ForceUpdateCanvases();
+        }
+
+        private IEnumerator UpdateIcon()
+        {
+            while (true)
+            {
+                yield return new WaitForSeconds(0.1f);
+                OnIconRequested?.Invoke(_iconNumber);
+            }
+        }
 
         #endregion
 
