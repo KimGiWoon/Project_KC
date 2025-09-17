@@ -10,39 +10,39 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a5539c5b86c1dd94eb1cf013975553ba, type: 3}
-  m_Name: GiantCentipede_Data
+  m_Name: RockGolem_Data
   m_EditorClassIdentifier: 
-  MonId: 21006
-  MonName: "\uAC70\uB300 \uC9C0\uB124"
-  MonEnName: 5
-  MonType: 0
+  MonId: 21203
+  MonName: "\uBC14\uC704 \uACE8\uB818"
+  MonEnName: 8
+  MonType: 1
   MonSummon: 0
   MonAtkRange: 1
   MonMoveSpeed: 1.2
-  MonSkill: 
+  MonSkill: f3550000
   MonSummonID: 
-  MonTag: "#\uADFC\uAC70\uB9AC #\uB514\uBC84\uD504"
+  MonTag: "#\uADFC\uAC70\uB9AC"
   MonDescription:
-  - "\uC2B5\uD558\uACE0 \uC5B4\uB450\uC6B4 \uACF3\uC5D0\uC11C \uC624\uB79C \uC2DC\uAC04
-    \uB3D9\uC548 \uC0B4\uC544\uB0A8\uC73C\uBA70 \uAC70\uB300\uD574\uC9C4 \uC9C0\uB124"
-  - "\uC5B4\uB5A4 \uB098\uB77C\uC5D0\uC11C\uB294 \uC9C0\uB124\uB85C \uC220\uC744
-    \uB2F4\uAD88 \uBA39\uB294\uB2E4\uACE0\uB3C4 \uD55C\uB2E4.\r"
+  - "\uC2E0\uBE44\uD55C \uD798\uC774 \uAE43\uB4E0 \uB3CC\uB4E4\uC774 \uBB49\uCCD0\uC838
+    \uC704\uD5D8\uD55C \uB2A5\uB825\uC744 \uAC00\uC9C0\uAC8C \uB418\uC5C8\uB2E4."
+  - "\uAC15\uB825\uD55C \uC8FC\uBA39\uC5D0 \uB9DE\uC73C\uBA74 \uB9E4\uC6B0 \uC544\uD50C
+    \uAC83 \uAC19\uB2E4.\r"
   MonLv: 1
   MonBreak: 0
   MonBreakGage: -1
-  MonHP: 12000
+  MonHP: 150000
   MonHPIncrase: 0.1
   MonAtkSpeed: 0.7
-  MonAttack: 10
+  MonAttack: 50
   MonAttackIncrease: 0.1
   MonArmor: 20
   MonArmorIncrease: 0.1
   MonAccuracy: 100
-  MonAvoid: 0
+  MonAvoid: 10
   MonAvoidIncrease: 2
   MonReg: 0
-  _prefab: {fileID: 3833880438077353650, guid: 2c67638e5cd93494e8179499b6082772, type: 3}
+  _prefab: {fileID: 3833880438077353650, guid: cce991b5de24d8745b4f4af476a67ffc, type: 3}
   _useSkillTime: 0
-  _monActiveSkill_1: {fileID: 0}
+  _monActiveSkill_1: {fileID: 11400000, guid: b8c5be980b3f81b4eafacf33868bef16, type: 2}
   _monActiveSkill_2: {fileID: 0}
   _recallSkills: {fileID: 0}

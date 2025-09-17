@@ -1,4 +1,4 @@
-﻿namespace SDW
+namespace SDW
 {
     public enum MonsterEnName
     {
@@ -7,10 +7,10 @@
         HerbSlime,
         MountainBoar,
         GhostBat,
-        GiantCentipede,
+        DustBall,
         ShadowScarecrow,
         CorruptedFlower,
-        DemonMentis,
+        RockGolem,
         IronBull,
         GiantBear,
         BladeMonkey

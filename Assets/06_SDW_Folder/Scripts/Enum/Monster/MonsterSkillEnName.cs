@@ -1,10 +1,10 @@
-﻿namespace SDW
+namespace SDW
 {
     public enum MonsterSkillEnName
     {
         EerieDarkness,
         DangerousPollen,
-        SavageSlash,
+        RockFist,
         SavageRush,
         Stomp,
         Swing,
