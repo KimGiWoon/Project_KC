@@ -48,9 +48,18 @@ namespace SDW
                 return;
             }
 #endif
+
             LoadFromAddressables();
             _bound = true;
+            // StartCoroutine(DelayedLoad());
         }
+
+        // private IEnumerator DelayedLoad()
+        // {
+        //     yield return new WaitForSeconds(0.5f);
+        //     LoadFromAddressables();
+        //     _bound = true;
+        // }
 
 #if UNITY_EDITOR
         private void ApplyEditorPreview()
@@ -108,25 +117,25 @@ namespace SDW
                         if (img) img.sprite = handle.Result;
 
                         //# 같은 GO에 붙은 MB들의 Sprite 필드만 로컬로 할당(전역 순회 X)
-                        var monos = go.GetComponents<MonoBehaviour>();
-                        foreach (var mb in monos)
-                        {
-                            if (!mb) continue;
-                            var fields = mb.GetType().GetFields(
-                                System.Reflection.BindingFlags.Public |
-                                System.Reflection.BindingFlags.NonPublic |
-                                System.Reflection.BindingFlags.Instance);
-
-                            // foreach (var f in fields)
-                            // {
-                            //     if (f.FieldType == typeof(Sprite))
-                            //     {
-                            //         f.SetValue(mb, handle.Result);
-                            //         Debug.Log(
-                            //             $"Found Sprite field: {mb.GetType().Name}.{f.Name} = {((Sprite)f.GetValue(mb))?.name}");
-                            //     }
-                            // }
-                        }
+                        // var monos = go.GetComponents<MonoBehaviour>();
+                        // foreach (var mb in monos)
+                        // {
+                        //     if (!mb) continue;
+                        //     var fields = mb.GetType().GetFields(
+                        //         System.Reflection.BindingFlags.Public |
+                        //         System.Reflection.BindingFlags.NonPublic |
+                        //         System.Reflection.BindingFlags.Instance);
+                        //
+                        //     foreach (var f in fields)
+                        //     {
+                        //         if (f.FieldType == typeof(Sprite))
+                        //         {
+                        //             f.SetValue(mb, handle.Result);
+                        //             Debug.Log(
+                        //                 $"Found Sprite field: {mb.GetType().Name}.{f.Name} = {((Sprite)f.GetValue(mb))?.name}");
+                        //         }
+                        //     }
+                        // }
                     }
                     else
                     {
@@ -135,7 +144,13 @@ namespace SDW
                 };
             }
 
+            // StartCoroutine(DelayedConnect());
             GameManager.Instance.SetImageSpriteConnected(true);
+        }
+
+        private IEnumerator DelayedConnect()
+        {
+            yield return null;
         }
 
         // private void OnDestroy()

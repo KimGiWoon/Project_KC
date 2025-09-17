@@ -25,6 +25,8 @@ namespace SDW
         [SerializeField] private Button _signOutButton;
         [SerializeField] private Button _editUserNameButton;
         [SerializeField] private Button _changeIconButton;
+        private GameManager _gameManager;
+        private bool _isLoaded;
 
         public Action<UIName> OnUICloseRequested;
         public Action<UIName> OnUIOpenButtonClicked;
@@ -48,6 +50,7 @@ namespace SDW
             _panelContainer.SetActive(false);
             _backgroundPanel.SetActive(false);
             _medalPanel.SetActive(false);
+            _gameManager = GameManager.Instance;
         }
 
         /// <summary>
@@ -82,6 +85,7 @@ namespace SDW
 
         public override void Open()
         {
+            GameManager.Instance.Firebase.RequestUserInfo();
             base.Open();
             _backgroundPanel.SetActive(true);
             _medalPanel.SetActive(true);
