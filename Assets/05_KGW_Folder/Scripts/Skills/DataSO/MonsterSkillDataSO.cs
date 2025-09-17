@@ -38,7 +38,7 @@ public class MonsterSkillDataSO : ScriptableObject
             case MonsterSkillEnName.DangerousPollen:    // 위험한 꽃가루
                 skill.UseDangerousPollen(caster);
                 break;
-            case MonsterSkillEnName.SavageSlash:    // 난도질
+            case MonsterSkillEnName.RockFist:    // 난도질
                 skill.UseSavageSlash(caster,target);
                 break;
             case MonsterSkillEnName.Stomp:  // 발구르기
@@ -113,7 +113,7 @@ public class MonsterSkillDataSO : ScriptableObject
     {
         Debug.Log($"{caster._monsterState._monEnName} : 난도질 액티브 발동");
         GameObject savageSlash = Instantiate(_monSkillPrefab, caster.transform.position, caster.transform.rotation);
-        SavageSlashController skillCon = savageSlash.GetComponent<SavageSlashController>();
+        RockFistController skillCon = savageSlash.GetComponent<RockFistController>();
 
         skillCon.Init(caster, target, _monSkillHit, _monSkillValue, _monSkillTick);
     }

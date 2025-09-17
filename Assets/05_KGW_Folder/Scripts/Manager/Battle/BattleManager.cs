@@ -1,8 +1,10 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using JJY;
 using SDW;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class BattleManager : MonoBehaviour
@@ -22,13 +24,6 @@ public class BattleManager : MonoBehaviour
     [Header("Boss Spawn Point Setting")]
     [SerializeField]
     private Transform _bossSpawnPoint;
-
-    [Header("Monster List Setting")]
-    [SerializeField] public List<MonsterDataSO> _monsterList;
-    [SerializeField] public List<MonsterDataSO> _eliteList;
-
-    [Header("Boss List Setting")]
-    [SerializeField] public List<MonsterDataSO> _bossList;
 
     [Header("Battle Type Setting")]
     [SerializeField] public bool _isLocalBoss;
@@ -55,6 +50,7 @@ public class BattleManager : MonoBehaviour
     private int _chapterNum;
     public int _monsterCount;
     public int _characterCount;
+    public int _battleClearScore;
     public bool _isClear;
     public bool _isGameOver;
     public bool _isTimeOver;
@@ -143,7 +139,7 @@ public class BattleManager : MonoBehaviour
 
         if (_battleType == BattleEventType.Boss || _battleType == BattleEventType.BossFinal)
         {
-            BossSpawn();
+            BossSpawn(_chapterNum, _stageNum, _battleType);
         }
         else
         {
@@ -216,54 +212,60 @@ public class BattleManager : MonoBehaviour
     // 몬스터 스폰
     private void MonsterSpawn(int chapterNum, int stageNum, BattleEventType battleType)
     {
-        // TODO : 데이터 데이블 접근하여 수정 계획
-        //// 저장된 데이터에 접근하기 위한 키
-        //string dataKey = $"{chapterNum}-{stageNum}-{battleType}";
+        // 저장된 데이터에 접근하기 위한 키
+        string dataKey = $"{chapterNum}-{stageNum}-{battleType}";
 
-        //// 저장된 데이터 유/무 확인
-        //if (!GameManager.Instance.BattleMonster.BattleStageDataTable.ContainsKey(dataKey))
-        //{
-        //    Debug.Log("키에 대한 데이터가 없음");
-        //    return;
-        //}
-
-        //// 전투 데이터 가져오기
-        //List<BattleStageDataFileData> battleData = GameManager.Instance.BattleMonster.BattleStageDataTable[dataKey];
-
-        //foreach(var data in battleData)
-        //{
-        //    if(data.Monsters != null)
-        //    {
-        //        var monData = Mon
-        //    }
-        //}
-
-        List<MonsterDataSO> monlist = _battleType == BattleEventType.Normal ? _monsterList : _monsterList;
-
-        for (int i = 0; i < monlist.Count; i++)
+        // 저장된 데이터 유/무 확인
+        if (!GameManager.Instance.BattleMonster.BattleStageDataTable.ContainsKey(dataKey))
         {
-            // 생성을 위한 몬스터의 정보 확인
-            var monsterData = monlist[i];
-
-            // 몬스터 스폰위치 설정
-            var spawnPoint = _monsterSpawnPoint[i];
-
-            // 몬스터 생성
-            var monster = Instantiate(monsterData._prefab, spawnPoint.position, spawnPoint.rotation);
-
-            var monterOIL = monster.GetComponentInChildren<SpriteRenderer>();
-
-            // 마직막 캐릭터를 맨 앞으로 보여주기
-            monterOIL.sortingOrder = 10 + i;
-            // 생성된 캐릭터 저장
-            var createMonster = monster.GetComponent<MonsterController>();
-            createMonster.Battle = this;
-            _monsters.Add(createMonster);
-
-            // 통합 제력 저장
-            _monsterTotalMaxHp += monsterData.MonHP;
+            Debug.Log("키에 대한 데이터가 없음");
+            return;
         }
 
+        // 전투 데이터 가져오기
+        List<BattleStageDataFileData> battleDataList = GameManager.Instance.BattleMonster.BattleStageDataTable[dataKey];
+
+        // 몬스터 데이터 50% 선택
+        int randomData = UnityEngine.Random.Range(0, battleDataList.Count);
+        BattleStageDataFileData selectData = battleDataList[randomData];
+
+        int spawnIndex = 0;
+
+        // 선택된 몬스터 데이터로 소환
+        foreach (var monData in selectData.Monsters)
+        {
+            var mon = GameManager.Instance.MonsterList.GetMonster(monData.MonsterID);
+
+            if (mon == null)
+            {
+                Debug.Log("몬스터 데이터가 없습니다.");
+                continue;
+            }
+
+            for (int i = 0; i < monData.MonsterNum; i++)
+            {
+                // 몬스터 스폰위치 설정
+                var spawnPoint = _monsterSpawnPoint[spawnIndex];
+
+                // 몬스터 생성
+                var monster = Instantiate(mon._prefab, spawnPoint.position, spawnPoint.rotation);
+
+                var monterOIL = monster.GetComponentInChildren<SpriteRenderer>();
+
+                // 마직막 캐릭터를 맨 앞으로 보여주기
+                monterOIL.sortingOrder = 10 + i;
+                // 생성된 캐릭터 저장
+                var createMonster = monster.GetComponent<MonsterController>();
+                createMonster.Battle = this;
+                _monsters.Add(createMonster);
+
+                // 통합 제력 저장
+                _monsterTotalMaxHp += mon.MonHP;
+
+                spawnIndex++;
+            }
+        }
+        
         _monsterTotalCurrentHp = _monsterTotalMaxHp;
         // 생성된 몬스터 수 저장
         _monsterCount = _monsters.Count;
@@ -273,35 +275,55 @@ public class BattleManager : MonoBehaviour
     }
 
     // 보스 스폰
-    private void BossSpawn()
+    private void BossSpawn(int chapterNum, int stageNum, BattleEventType battleType)
     {
-        for (int i = 0; i < _bossList.Count; i++)
+        // 저장된 데이터에 접근하기 위한 키
+        string dataKey = $"{chapterNum}-{stageNum}-{battleType}";
+
+        // 저장된 데이터 유/무 확인
+        if (!GameManager.Instance.BattleMonster.BattleStageDataTable.ContainsKey(dataKey))
         {
-            // 보스의 정보 확인
-            var bossData = _bossList[i];
-
-            //todo dataSO에서 isLastBoss인지 체크하기 위한 필드 추가해야 함
-            //if (_isLastBoss && !monsterData._isLastBoss) continue;
-
-            //todo Stage의 Boss(last든 local이든 일치하는 놈을 소환해야 함)
-            //if (_stageMonsterName != bossData._monsterName) continue;
-
-            // 보스의 스폰위치 설정
-            var spawnPoint = _bossSpawnPoint;
-
-            // 보스 생성
-            var bossMonster = Instantiate(bossData._prefab, spawnPoint.position, spawnPoint.rotation);
-
-            // 성생된 보스 저장
-            var createBossMonster = bossMonster.GetComponent<MonsterController>();
-            _bossMonster.Add(createBossMonster);
-
-            // 통합 제력 저장
-            _monsterTotalMaxHp += bossData.MonHP;
-
-            //# 한 마리만 소환되는 경우
-            break;
+            Debug.Log("키에 대한 데이터가 없음");
+            return;
         }
+
+        // 전투 데이터 가져오기
+        List<BattleStageDataFileData> battleData = GameManager.Instance.BattleMonster.BattleStageDataTable[dataKey];
+
+        foreach (var monData in battleData)
+        {
+            if (monData.Monsters == null || monData.Monsters.Count == 0) continue;
+
+            foreach (var data in monData.Monsters)
+            {
+                var mon = GameManager.Instance.MonsterList.GetMonster(data.MonsterID);
+
+                for (int i = 0; i < data.MonsterNum; i++)
+                {
+                    //todo dataSO에서 isLastBoss인지 체크하기 위한 필드 추가해야 함
+                    //if (_isLastBoss && !monsterData._isLastBoss) continue;
+
+                    //todo Stage의 Boss(last든 local이든 일치하는 놈을 소환해야 함)
+                    //if (_stageMonsterName != bossData._monsterName) continue;
+
+                    // 보스의 스폰위치 설정
+                    var spawnPoint = _bossSpawnPoint;
+
+                    // 보스 생성
+                    var bossMonster = Instantiate(mon._prefab, spawnPoint.position, spawnPoint.rotation);
+
+                    // 성생된 보스 저장
+                    var createBossMonster = bossMonster.GetComponent<MonsterController>();
+                    _bossMonster.Add(createBossMonster);
+
+                    // 통합 제력 저장
+                    _monsterTotalMaxHp += mon.MonHP;
+
+                    //# 한 마리만 소환되는 경우
+                    break;
+                }
+            }
+        } 
 
         _monsterTotalCurrentHp = _monsterTotalMaxHp;
         // 생성된 몬스터 수 저장
@@ -459,25 +481,25 @@ public class BattleManager : MonoBehaviour
     // 전투 클리어 점수 저장
     private void BattleClearScoreSave(int stageNum, BattleEventType battleType)
     {
-        int battleClearScore = GameManager.Instance.BattleMonster.BattleStageRewardDataTable[$"{stageNum}-{battleType}"];
+        _battleClearScore = GameManager.Instance.BattleMonster.BattleStageRewardDataTable[$"{stageNum}-{battleType}"];
 
         switch(battleType)
         {
             // 노말 전투 사건
             case BattleEventType.Normal:
-                GameManager.Instance.AddScore(battleClearScore);
+                GameManager.Instance.AddScore(_battleClearScore);
                 break;
             // 엘리트 전투 사건
             case BattleEventType.Elite:
-                GameManager.Instance.AddScore(battleClearScore);
+                GameManager.Instance.AddScore(_battleClearScore);
                 break;
             // 지역보스 전투 사건
             case BattleEventType.Boss:
-                GameManager.Instance.AddScore(battleClearScore);
+                GameManager.Instance.AddScore(_battleClearScore);
                 break;
             // 최종보스 전투 사건 
             case BattleEventType.BossFinal:
-                GameManager.Instance.AddScore(battleClearScore);
+                GameManager.Instance.AddScore(_battleClearScore);
                 break;
             default:
                 break;

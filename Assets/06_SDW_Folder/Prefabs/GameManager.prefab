@@ -417,6 +417,7 @@ Transform:
   - {fileID: 8638853181126040875}
   - {fileID: 2933568809079590644}
   - {fileID: 8677729567340216137}
+  - {fileID: 510666683234312379}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &9131652370225136988
@@ -746,6 +747,62 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e0ba0ec97a8f44abb19355e502ce7aac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &7598439225316914724
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 510666683234312379}
+  - component: {fileID: 9038038052477984678}
+  m_Layer: 0
+  m_Name: MonsterListManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &510666683234312379
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7598439225316914724}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1838285111673133106}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &9038038052477984678
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7598439225316914724}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dfe7d677b4c91e246b1aafbcb65eb4bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _monsterList:
+  - {fileID: 11400000, guid: e40e68bac195a3d4ca495c39b3c68f55, type: 2}
+  - {fileID: 11400000, guid: 95ef2ec546f973445945d30c5c742475, type: 2}
+  - {fileID: 11400000, guid: f58de9da01c7cd546bf0df8cb92fc7dd, type: 2}
+  - {fileID: 11400000, guid: 65a39456c468c6347adc384c2b88dfa5, type: 2}
+  - {fileID: 11400000, guid: 172e666203a33ab4a95e61d51371094e, type: 2}
+  - {fileID: 11400000, guid: 58233c8c5718ebc4b924574eeb4c7604, type: 2}
+  - {fileID: 11400000, guid: 9b8fb775cf24f6f418de4a7c7830d16b, type: 2}
+  - {fileID: 11400000, guid: 7eabde573251d6f4cb4b90c6f8538c47, type: 2}
+  - {fileID: 11400000, guid: 3d41deabb4800f5488cef33fafe3ed88, type: 2}
+  - {fileID: 11400000, guid: 436d8ae2a98747d47971bec028c6cfe8, type: 2}
+  - {fileID: 11400000, guid: 1cd739ad058f0134fba2ef921c118332, type: 2}
 --- !u!1 &8459241127101447270
 GameObject:
   m_ObjectHideFlags: 0
