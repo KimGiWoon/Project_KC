@@ -1,11 +1,12 @@
 using UnityEngine;
-using System.Collections.Generic;
 using System.Linq;
 using SDW;
+using System.Collections.Generic;
 
 public class DataManager : MonoBehaviour
 {
     private EncounterDataManager _encounterData;
+    public EventGroupData eventGroupData;
 
     private void Start()
     {
@@ -19,6 +20,27 @@ public class DataManager : MonoBehaviour
             return data;
         }
         return default;
+    }
+
+    public List<EncounterTable> GetEncountersByGroupID(int groupID)
+    {
+        // 1. ScriptableObject에서 ID 목록을 가져옵니다.
+        List<int> idsInGroup = eventGroupData.GetEncounterIDsByGroupID(groupID);
+
+        List<EncounterTable> encounters = new List<EncounterTable>();
+
+        // 2. 가져온 ID로 실제 이벤트 데이터를 하나씩 조회합니다.
+        foreach (int id in idsInGroup)
+        {
+            var encounter = GetEncounterByID(id);
+            if (encounter.EncounterID != 0)
+            {
+                encounters.Add(encounter);
+            }
+        }
+
+        // 3. 완성된 리스트를 반환합니다.
+        return encounters;
     }
 
     public int GetRandomEncounterID(EncounterSentiment sentiment, int stage)

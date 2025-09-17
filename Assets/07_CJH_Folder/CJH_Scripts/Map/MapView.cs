@@ -131,7 +131,7 @@ namespace CJH
             lineArrows.Clear();
 
             // 현재 노드로 플레이어 캐릭터 이동
-            UpdatePlayerPosition(currentNode.nodeType, currentNode.EncounterID);
+            UpdatePlayerPosition(currentNode.nodeType, currentNode.GroupID);
 
             foreach (var mapNode in nodeObjects.Values)
             {

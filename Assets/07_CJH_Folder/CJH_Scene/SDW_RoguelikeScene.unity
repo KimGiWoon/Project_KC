@@ -1740,7 +1740,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 255, y: -112.80005}
+  m_AnchoredPosition: {x: 255, y: -112.799805}
   m_SizeDelta: {x: 448.655, y: 121.829834}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &130206601
@@ -17264,7 +17264,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0, y: -112.80005}
+  m_AnchoredPosition: {x: 0, y: -112.799805}
   m_SizeDelta: {x: 448.655, y: 121.829834}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &909784861
@@ -21008,7 +21008,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 499883419036032184, guid: fa761daa402395443998ecabe6307359, type: 3}
       propertyPath: _eliteList.Array.size
-      value: 0
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 499883419036032184, guid: fa761daa402395443998ecabe6307359, type: 3}
       propertyPath: _BossList.Array.data[0]
@@ -21022,6 +21022,18 @@ PrefabInstance:
       propertyPath: _monsterList.Array.size
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 499883419036032184, guid: fa761daa402395443998ecabe6307359, type: 3}
+      propertyPath: _eliteList.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 58233c8c5718ebc4b924574eeb4c7604, type: 2}
+    - target: {fileID: 499883419036032184, guid: fa761daa402395443998ecabe6307359, type: 3}
+      propertyPath: _eliteList.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 65a39456c468c6347adc384c2b88dfa5, type: 2}
+    - target: {fileID: 499883419036032184, guid: fa761daa402395443998ecabe6307359, type: 3}
+      propertyPath: _eliteList.Array.data[2]
+      value: 
+      objectReference: {fileID: 11400000, guid: 95ef2ec546f973445945d30c5c742475, type: 2}
     - target: {fileID: 499883419036032184, guid: fa761daa402395443998ecabe6307359, type: 3}
       propertyPath: _characterList.Array.size
       value: 3
@@ -23755,6 +23767,7 @@ GameObject:
   - component: {fileID: 1220877845}
   - component: {fileID: 1220877847}
   - component: {fileID: 1220877846}
+  - component: {fileID: 1220877848}
   m_Layer: 5
   m_Name: BattleBackgroundImage
   m_TagString: Untagged
@@ -23819,6 +23832,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1220877844}
   m_CullTransparentMesh: 1
+--- !u!114 &1220877848
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1220877844}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 196bc7f78ef61f045a22eab06d21dd12, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cameraControl: {fileID: 1968751404}
 --- !u!1 &1226506959
 GameObject:
   m_ObjectHideFlags: 0
