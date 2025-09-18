@@ -55,7 +55,7 @@ public class BattleManager : MonoBehaviour
     public bool _isGameOver;
     public bool _isTimeOver;
     public bool _canResurrection;
-    public int _timer;
+    public float _timer;
     public float _monsterTotalMaxHp;
     public float _monsterTotalCurrentHp;
     private bool _isBattleStarted;
@@ -153,7 +153,6 @@ public class BattleManager : MonoBehaviour
         _isClear = false;
         _isGameOver = false;
         _canResurrection = true;
-        _timer = 100;
         _characters.Clear();
         _monsters.Clear();
     }
@@ -223,11 +222,11 @@ public class BattleManager : MonoBehaviour
         }
 
         // 전투 데이터 가져오기
-        List<BattleStageDataFileData> battleDataList = GameManager.Instance.BattleMonster.BattleStageDataTable[dataKey];
+        var battleDataList = GameManager.Instance.BattleMonster.BattleStageDataTable[dataKey];
 
         // 몬스터 데이터 50% 선택
         int randomData = UnityEngine.Random.Range(0, battleDataList.Count);
-        BattleStageDataFileData selectData = battleDataList[randomData];
+        var selectData = battleDataList[randomData];
 
         int spawnIndex = 0;
 
@@ -265,7 +264,7 @@ public class BattleManager : MonoBehaviour
                 spawnIndex++;
             }
         }
-        
+
         _monsterTotalCurrentHp = _monsterTotalMaxHp;
         // 생성된 몬스터 수 저장
         _monsterCount = _monsters.Count;
@@ -288,7 +287,7 @@ public class BattleManager : MonoBehaviour
         }
 
         // 전투 데이터 가져오기
-        List<BattleStageDataFileData> battleData = GameManager.Instance.BattleMonster.BattleStageDataTable[dataKey];
+        var battleData = GameManager.Instance.BattleMonster.BattleStageDataTable[dataKey];
 
         foreach (var monData in battleData)
         {
@@ -298,32 +297,19 @@ public class BattleManager : MonoBehaviour
             {
                 var mon = GameManager.Instance.MonsterList.GetMonster(data.MonsterID);
 
-                for (int i = 0; i < data.MonsterNum; i++)
-                {
-                    //todo dataSO에서 isLastBoss인지 체크하기 위한 필드 추가해야 함
-                    //if (_isLastBoss && !monsterData._isLastBoss) continue;
+                var spawnPoint = _bossSpawnPoint;
 
-                    //todo Stage의 Boss(last든 local이든 일치하는 놈을 소환해야 함)
-                    //if (_stageMonsterName != bossData._monsterName) continue;
+                // 보스 생성
+                var bossMonster = Instantiate(mon._prefab, spawnPoint.position, spawnPoint.rotation);
 
-                    // 보스의 스폰위치 설정
-                    var spawnPoint = _bossSpawnPoint;
+                // 성생된 보스 저장
+                var createBossMonster = bossMonster.GetComponent<MonsterController>();
+                _bossMonster.Add(createBossMonster);
 
-                    // 보스 생성
-                    var bossMonster = Instantiate(mon._prefab, spawnPoint.position, spawnPoint.rotation);
-
-                    // 성생된 보스 저장
-                    var createBossMonster = bossMonster.GetComponent<MonsterController>();
-                    _bossMonster.Add(createBossMonster);
-
-                    // 통합 제력 저장
-                    _monsterTotalMaxHp += mon.MonHP;
-
-                    //# 한 마리만 소환되는 경우
-                    break;
-                }
+                // 통합 제력 저장
+                _monsterTotalMaxHp += mon.MonHP;
             }
-        } 
+        }
 
         _monsterTotalCurrentHp = _monsterTotalMaxHp;
         // 생성된 몬스터 수 저장
@@ -410,6 +396,8 @@ public class BattleManager : MonoBehaviour
 
             // 전투 클리어 시 점수 저장
             BattleClearScoreSave(_stageNum, _battleType);
+            _gameManager.AddStageCount();
+
             // 캐릭터의 체력 저장
             CharacterStatSave();
 
@@ -483,7 +471,7 @@ public class BattleManager : MonoBehaviour
     {
         _battleClearScore = GameManager.Instance.BattleMonster.BattleStageRewardDataTable[$"{stageNum}-{battleType}"];
 
-        switch(battleType)
+        switch (battleType)
         {
             // 노말 전투 사건
             case BattleEventType.Normal:

@@ -327,6 +327,8 @@ namespace SDW
 
             stageGlobalUI.ButtonContainerMoveBack();
             stageGlobalUI.PushPrevUI();
+
+            popupSettingUI.OnUIOpenRequested -= OpenPanel;
             popupSettingUI.OnUICloseRequested -= ClosePanel;
         }
 

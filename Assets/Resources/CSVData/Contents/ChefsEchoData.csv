@@ -1,0 +1,27 @@
+﻿노드 ID	노드 등급	노드 명	노드 명(영문)	노드 설명	노드 필요 재화	노드 활성 조건	노드 영향 변수	노드 능력 수치(+)	노드 능력 수치(*)
+nodeID	nodeGrade	nodeName	nodeNameEn	nodeDescription	nodeCurrency	nodeActiveCondition	nodeAbility	nodeAbilityValuePlus	nodeAbilityValueMult
+int	string	string	string	string	int	int	string	float	float
+80001	Contents	셰프의 초대	ChefsINvitation	캐릭터 뽑기 콘텐츠 [셰프의 초대] 가 해금된다.	-1	80101	None	-1	-1
+80002	Contents	바쁜 주방	BusyKitchen	배속 기능을 사용할 수 있다.	-1	80102	None	-1	-1
+80003	Contents	레시피 회수 작전	RecipeOperation	캐릭터 육성 던전 [미식 수련장(가제)] 이 해금된다.	-1	80103	None	-1	-1
+80004	Contents	먹을랭	RankingBattle	유저 경쟁 콘텐츠 [먹을랭] 이 해금된다.	-1	80104	None	-1	-1
+80101	Main	재빠른 손놀림	SwiftHands	공격 속도가 <nodeAbilityValueMult - 100>% 상승한다.	5	80204	chaAtkSpeed	0	1.2
+80102	Main	굳은살	HardenedSkin	방어력이 <nodeAbilityValuePlus> 상승한다.	15	80208	chaArmor	20	1
+80103	Main	무거운 중식도	HeavyCleaver	치명타 데미지가 <nodeAbilityValuePlus>% 상승한다.	20	80212	chaCritDmg	0	1.2
+80104	Main	맑은 정신	ClearMind	MP를 <nodeAbilityValueMult - 100>% 보유한 채로 전투를 시작한다.	60	80216	chaMP	0	0.1
+80201	Sub	식칼 연마 I	KnifeSharpening I	공격력이 <nodeAbilityValueMult - 100>% 상승한다.	1	-1	chaAttack	0	1.05
+80202	Sub	가벼운 발걸음 I	SwiftFeet I	회피율이 <nodeAbilityValuePlus>% 상승한다.	2	80201	chaAvoid	2	1
+80203	Sub	영양 간식 I	NutritiousSnack I	마나 회복 속도가 <nodeAbilityValueMult - 100>% 상승한다.	3	80202	chaMPRecovery	0	1.05
+80204	Sub	예리한 눈썰미 I	SharpEyes I	치명타 확률이 <nodeAbilityValuePlus>% 상승한다.	4	80203	chaCrit	3	1
+80205	Sub	식칼 연마 II	KnifeSharpening II	공격력이 <nodeAbilityValueMult - 100>% 상승한다.	10	80101	chaAttack	0	1.05
+80206	Sub	가벼운 발걸음 II	SwiftFeet II	회피율이 <nodeAbilityValuePlus>% 상승한다.	10	80205	chaAvoid	2	1
+80207	Sub	영양 간식 II	NutritiousSnack II	마나 회복 속도가 <nodeAbilityValueMult - 100>% 상승한다.	10	80206	chaMPRecovery	0	1.05
+80208	Sub	예리한 눈썰미 II	SharpEyes II	치명타 확률이 <nodeAbilityValuePlus>% 상승한다.	10	80207	chaCrit	3	1
+80209	Sub	식칼 연마 III	KnifeSharpening III	공격력이 <nodeAbilityValueMult - 100>% 상승한다.	15	80102	chaAttack	0	1.05
+80210	Sub	가벼운 발걸음 III	SwiftFeet III	회피율이 <nodeAbilityValuePlus>% 상승한다.	15	80209	chaAvoid	2	1
+80211	Sub	영양 간식 III	NutritiousSnack III	마나 회복 속도가 <nodeAbilityValueMult - 100>% 상승한다.	15	80210	chaMPRecovery	0	1.05
+80212	Sub	예리한 눈썰미 III	SharpEyes III	치명타 확률이 <nodeAbilityValuePlus>% 상승한다.	15	80211	chaCrit	3	1
+80213	Sub	식칼 연마 IV	KnifeSharpening IV	공격력이 <nodeAbilityValueMult - 100>% 상승한다.	30	80103	chaAttack	0	1.05
+80214	Sub	가벼운 발걸음 IV	SwiftFeet IV	회피율이 <nodeAbilityValuePlus>% 상승한다.	30	80213	chaAvoid	2	1
+80215	Sub	영양 간식 IV	NutritiousSnack IV	마나 회복 속도가 <nodeAbilityValueMult - 100>% 상승한다.	30	80214	chaMPRecovery	0	1.05
+80216	Sub	예리한 눈썰미 IV	SharpEyes IV	치명타 확률이 <nodeAbilityValuePlus>% 상승한다.	30	80215	chaCrit	3	1

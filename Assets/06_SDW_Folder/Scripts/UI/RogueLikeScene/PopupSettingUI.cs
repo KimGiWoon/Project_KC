@@ -19,6 +19,7 @@ namespace SDW
         private TweenAnimation _tweenAnimation;
         private BattleManager _battleManager;
 
+        public Action<UIName> OnUIOpenRequested;
         public Action<UIName> OnUICloseRequested;
         public Action OnGiveUp;
 
@@ -83,7 +84,8 @@ namespace SDW
             _effectVolumeSlider.Cancel();
 
             //todo 추후 Popup - 진짜 포기할지, 정산창도 띄워야 함
-            GameManager.Instance.Scene.LoadSceneAsync(SceneName.SDW_LobbyScene);
+            // GameManager.Instance.Scene.LoadSceneAsync(SceneName.SDW_LobbyScene);
+            OnUIOpenRequested?.Invoke(UIName.RoguelikeClosingUI);
             OnUICloseRequested?.Invoke(UIName.PopupSettingUI);
         }
 

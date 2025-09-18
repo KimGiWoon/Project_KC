@@ -9,30 +9,88 @@ public class InGameItemManager : MonoBehaviour
 {
     // 여기에는 노드 - 전투 씬에 사용 될 아이템들을 보관한다.
     private List<InventoryItem> _foodInventory = new List<InventoryItem>();
-    public List<InventoryItem> foodInventory
-    {
-        get => _foodInventory;
-        private set => _foodInventory = value;
-    }
+    public List<InventoryItem> foodInventory { get => _foodInventory; private set => _foodInventory = value; }
     private List<InventoryItem> _relicInventory = new List<InventoryItem>();
-    public List<InventoryItem> relicInventory
-    {
-        get => _relicInventory;
-        private set => _relicInventory = value;
-    }
+    public List<InventoryItem> relicInventory { get => _relicInventory; private set => _relicInventory = value; }
+
+    private int _cookCount = 0;
+    public int CookCount => _cookCount;
+
+    private int _relicCount = 0;
+    public int RelicCount => _relicCount;
+
+    private Dictionary<RelicGrade, int> _relicGradeCount = new Dictionary<RelicGrade, int>();
+    public Dictionary<RelicGrade, int> RelicGradeCount => _relicGradeCount;
 
     public event Action OnItemChanged;
+
+    private GameManager _gameManager;
+    private FirebaseManager _firebase;
+    private bool _isLoaded;
+
+    private void Start()
+    {
+        _gameManager = GameManager.Instance;
+        _firebase = _gameManager.Firebase;
+    }
+
+    private void Update()
+    {
+        if (!_gameManager.CompleteDownload || !_gameManager.ImageSpriteConnected || !_gameManager.PrefabAndSoConnected ||
+            !_gameManager.Firebase.IsLoaded || _isLoaded) return;
+
+        LoadItemData(_gameManager.Firebase.EtcData);
+
+        _isLoaded = true;
+    }
+
+    private void LoadItemData(IReadOnlyDictionary<string, object> etcData)
+    {
+        _cookCount = Convert.ToInt32(etcData["cookCount"]);
+        _relicCount = Convert.ToInt32(etcData["relicCount"]);
+
+        foreach (string grade in Enum.GetNames(typeof(RelicGrade)))
+        {
+            var relicGrade = (RelicGrade)Enum.Parse(typeof(RelicGrade), grade);
+
+            if (relicGrade == RelicGrade.None) continue;
+
+            _relicGradeCount[relicGrade] = Convert.ToInt32(etcData["relic" + grade]);
+        }
+    }
 
     public void AddItem(RecipeData dish)
     {
         var item = new InventoryItem(dish);
         _foodInventory.Add(item);
+
+        _cookCount++;
+        _firebase.SetCookCount(_cookCount);
     }
+
     public void AddItem(RelicDatas relic)
     {
         var item = new InventoryItem(relic);
         _relicInventory.Add(item);
         OnItemChanged?.Invoke();
+        _relicCount++;
+
+        _relicGradeCount[relic.relicGrade]++;
+        _firebase.SetRelicCount(_relicCount, _relicGradeCount);
+    }
+
+    public void ClearItemCounts()
+    {
+        _cookCount = 0;
+        _relicCount = 0;
+
+        foreach (var key in _relicGradeCount.Keys.ToList())
+        {
+            _relicGradeCount[key] = 0;
+        }
+
+        _firebase.SetCookCount(_cookCount);
+        _firebase.SetRelicCount(_relicCount, _relicGradeCount);
     }
 
     // CJH 코드 추가
@@ -52,7 +110,7 @@ public class InGameItemManager : MonoBehaviour
 
         // 0부터 현재 유물 개수 -1 사이의 무작위 숫자를 선택합니다.
         int randomIndex = UnityEngine.Random.Range(0, _relicInventory.Count);
-        InventoryItem itemToRemove = _relicInventory[randomIndex];
+        var itemToRemove = _relicInventory[randomIndex];
 
         // 무작위로 선택된 유물을 인벤토리에서 제거합니다.
         _relicInventory.RemoveAt(randomIndex);
@@ -86,7 +144,7 @@ public class InGameItemManager : MonoBehaviour
 
         // 획득 가능한 유물 목록 내에서 무작위 인덱스를 선택합니다.
         int randomIndex = UnityEngine.Random.Range(0, acquirableRelics.Count);
-        RelicDatas relicToAdd = acquirableRelics[randomIndex];
+        var relicToAdd = acquirableRelics[randomIndex];
 
         // 기존의 AddItem 함수를 사용해 인벤토리에 추가합니다.
         AddItem(relicToAdd);
@@ -108,7 +166,6 @@ public class InGameItemManager : MonoBehaviour
         // _relicInventory 안에 relicData와 동일한 유물이 있는지 확인
         return _relicInventory.Any(item => item.relic == relicData);
     }
-
 
     public bool HasRelic(RelicTarget target)
     {
