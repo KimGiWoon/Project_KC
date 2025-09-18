@@ -26,7 +26,6 @@ public class TeamFormationManager : MonoBehaviour
     private CharacterDataManager _charData;
     private List<CharacterDataSO> _selectedTeam = new List<CharacterDataSO>();
     private GameManager _gameManager;
-    private bool _isDownloaded;
 
     private void Awake()
     {
@@ -42,15 +41,22 @@ public class TeamFormationManager : MonoBehaviour
     {
         _gameManager = GameManager.Instance;
         _charData = _gameManager.CharacterData;
+        StartCoroutine(LoadCoroutine());
     }
 
-    private void Update()
+    private IEnumerator LoadCoroutine()
     {
-        if (!_gameManager.CompleteDownload || !_gameManager.ImageSpriteConnected || !_gameManager.PrefabAndSoConnected ||
-            _isDownloaded) return;
+        while (true)
+        {
+            yield return null;
+
+            if (!_gameManager.CompleteDownload || !_gameManager.ImageSpriteConnected ||
+                !_gameManager.PrefabAndSoConnected) continue;
+
+            break;
+        }
 
         InitPartUI();
-        _isDownloaded = true;
     }
 
     public void InitPartUI()
@@ -59,7 +65,7 @@ public class TeamFormationManager : MonoBehaviour
         {
             finalTeamSlots[i].characterImage.sprite = _charData.SelectedTeam[i]._characterSprite;
             finalTeamSlots[i].characterButton.interactable = false;
-            finalTeamSlots[i].levelText.text = "Lv." + _charData.SelectedTeam[i]._chaLv.ToString();
+            finalTeamSlots[i].levelText.text = _charData.SelectedTeam[i]._chaLv.ToString();
             finalTeamSlots[i].characterData = _charData.SelectedTeam[i];
             finalTeamSlots[i].gameObject.SetActive(true);
             _selectedTeam.Add(_charData.SelectedTeam[i]);
@@ -150,7 +156,6 @@ public class TeamFormationManager : MonoBehaviour
         }
     }
 
-
     public void SelectCharacter(CharacterDataSO character)
     {
         _lastSelectedCharacter = character;
@@ -198,7 +203,7 @@ public class TeamFormationManager : MonoBehaviour
         {
             finalTeamSlots[i].characterImage.sprite = _prevFinalTeamSlots[i].Sprite;
             finalTeamSlots[i].characterButton.interactable = false;
-            finalTeamSlots[i].levelText.text = "Lv. " + _prevFinalTeamSlots[i].LevelText;
+            finalTeamSlots[i].levelText.text = _prevFinalTeamSlots[i].LevelText;
             finalTeamSlots[i].characterData = _prevFinalTeamSlots[i].Data;
             finalTeamSlots[i].gameObject.SetActive(true);
 

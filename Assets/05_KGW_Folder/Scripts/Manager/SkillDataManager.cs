@@ -15,7 +15,6 @@ public class SkillDataManager : MonoBehaviour
     private Dictionary<int, CharacterSkillDataSO> _chaSkillDic = new Dictionary<int, CharacterSkillDataSO>();
     private Dictionary<int, MonsterSkillDataSO> _monSkillDic = new Dictionary<int, MonsterSkillDataSO>();
     private GameManager _gameManager;
-    private bool _isDownloaded;
 
     // protected override void Awake()
     // {
@@ -24,13 +23,20 @@ public class SkillDataManager : MonoBehaviour
     private void Awake()
     {
         _gameManager = GameManager.Instance;
+        StartCoroutine(LoadCoroutine());
     }
 
-    private void Update()
+    private IEnumerator LoadCoroutine()
     {
-        if (!_gameManager.CompleteDownload || !_gameManager.ImageSpriteConnected || !_gameManager.PrefabAndSoConnected ||
-            _isDownloaded) return;
-        // if (_isDownloaded) return;
+        while (true)
+        {
+            yield return null;
+
+            if (!_gameManager.CompleteDownload || !_gameManager.ImageSpriteConnected ||
+                !_gameManager.PrefabAndSoConnected) continue;
+
+            break;
+        }
 
         // 딕셔너리에 스킬 저장
         foreach (var skill in _characterAllSkills)
@@ -41,7 +47,6 @@ public class SkillDataManager : MonoBehaviour
         {
             _monSkillDic[skill._monSkillID] = skill;
         }
-        _isDownloaded = true;
     }
 
     // 캐릭터 스킬 가져오기

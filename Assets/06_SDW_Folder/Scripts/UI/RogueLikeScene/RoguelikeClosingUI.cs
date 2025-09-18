@@ -238,7 +238,10 @@ namespace SDW
             int fineDining = totalScore / 5000;
             totalScore %= 5000;
             int baek = totalScore / 1000;
-            int point = ((_totalResultScore - 200) / 500 + 1) * 10;
+            int point = 0;
+
+            if (_totalResultScore >= 200)
+                point = ((_totalResultScore - 200) / 500 + 1) * 10;
 
             _baekRecipeBookText.text = baek.ToString();
             _fineDiningRecipeBookText.text = fineDining.ToString();
