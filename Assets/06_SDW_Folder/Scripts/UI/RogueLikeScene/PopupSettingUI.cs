@@ -69,15 +69,8 @@ namespace SDW
 
         private void GiveUpButtonClicked()
         {
-            Debug.Log($"정산된 스코어 : {GameManager.Instance.Score}");
             // 캐릭터의 체력 갱신
-
-            //foreach (var cha in _battleManager._characters)
-            //{
-            //    GameManager.Instance.CharacterBattleDataSave._chaHpSave[cha._characterState._chaEnName] = cha._characterState._chaMaxHP;
-            //    Debug.Log($"{cha._characterState._chaEnName}의 체력이 {cha._characterState._chaMaxHP}로 저장이 되었습니다.");
-            //}
-            //_battleManager._characters.Clear();
+            _battleManager.GiveUpCharacterRenewal();
 
             _masterVolumeSlider.Cancel();
             _backgroundVolumeSlider.Cancel();
