@@ -22,7 +22,6 @@ public class BuffRelicManager : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject);
         }
         else
         {
@@ -331,7 +330,7 @@ public class BuffRelicManager : MonoBehaviour
                 break;
         }
     }
-    
+
     public void OnRelicAttackHeal() => CharacterHeal(currentRelic);
     public void OnRelicEffectStat() => ApplyStatToCharacter(currentRelic);
     public void OnRelicAttackStack() => AttackSpeedStack(currentRelic);
@@ -404,7 +403,7 @@ public class BuffRelicManager : MonoBehaviour
             }
         }
     }
-    
+
     private void BattleCharacterCheck(RelicDatas relic)
     {
         if (relic.chaAvoid == 0) return;

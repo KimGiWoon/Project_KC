@@ -16,6 +16,7 @@ namespace JJY
         public int point { get; private set; }
 
         private GameManager _gameManager;
+        private FirebaseManager _firebase;
         private bool _isLoaded;
 
         // 아웃게임 아이템
@@ -38,6 +39,7 @@ namespace JJY
         private void Start()
         {
             _gameManager = GameManager.Instance;
+            _firebase = _gameManager.Firebase;
         }
 
         private void Update()
@@ -70,20 +72,24 @@ namespace JJY
         /// </summary>
         public void AddRecipeItem(string itemName, int value)
         {
-            //todo firebas와 연동
+            //todo firebase와 연동
             if (items.ContainsKey(itemName))
             {
                 items[itemName] += value;
                 OnItemsChanged?.Invoke();
             }
-            else Debug.LogError($"{itemName} : 아이템 이름 오류");
+            else
+            {
+                Debug.LogError($"{itemName} : 아이템 이름 오류");
+                return;
+            }
         }
         /// <summary>
         /// 경험치 재화 소모
         /// </summary>
         public void SubtractRecipeItem(string itemName, int value)
         {
-            //todo firebas와 연동
+            //todo firebase와 연동
             if (items.ContainsKey(itemName))
             {
                 if (items[itemName] >= value)
@@ -110,7 +116,9 @@ namespace JJY
             yeopjeon += value;
             totalYeopjeon += value;
             OnYeopjeonChanged?.Invoke(yeopjeon);
+            _firebase.SetTotalYeopjeon(totalYeopjeon);
         }
+
         /// <summary>
         /// yeopjeon 재화 소모
         /// </summary>
@@ -130,6 +138,7 @@ namespace JJY
             yeopjeon = 0;
             totalYeopjeon = 0;
             OnYeopjeonChanged?.Invoke(yeopjeon);
+            _firebase.SetTotalYeopjeon(totalYeopjeon);
         }
 
         /// <summary>
@@ -144,6 +153,7 @@ namespace JJY
             items[_beek] = Convert.ToInt32(coinData["baekRecipeBook"]);
             items[_fineDining] = Convert.ToInt32(coinData["fineDiningRecipeBook"]);
             items[_masterChef] = Convert.ToInt32(coinData["masterChefRecipeBook"]);
+            totalYeopjeon = Convert.ToInt32(coinData["totalYeopjeon"]);
         }
 
         /// <summary>

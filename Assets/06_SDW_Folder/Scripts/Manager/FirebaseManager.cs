@@ -265,7 +265,8 @@ namespace SDW
                 { "point", 9999999 }, //# 영구 성장 포인트
                 //todo 추후 0으로 설정
                 { "starCandy", 9999999 }, //# 유료 -> 뽑기 재화
-                { "shiningStarCandy", 9999999 } //# 유료 재화
+                { "shiningStarCandy", 9999999 }, //# 유료 재화
+                { "totalYeopjeon", 0 } //# 총 획득 엽전 재화, 정산 시 사용
             };
 
             var characters = new Dictionary<string, object>();
@@ -308,7 +309,6 @@ namespace SDW
 
             var etcData = new Dictionary<string, object>
             {
-                { "stageExp", 0 },
                 { "score", 0 },
                 { "totalScore", 0 },
                 { "questUpdate", DateTime.UtcNow.AddHours(9).ToString("yyyy-MM-dd HH:mm:ss") },
@@ -316,8 +316,17 @@ namespace SDW
                 { "gachaCount", 0 },
                 { "chapter", 1 },
                 { "stamina", 120 },
-                { "lastStaminaUpdate", DateTime.UtcNow.AddHours(9).ToString("yyyy-MM-dd HH:mm:ss") }
+                { "lastStaminaUpdate", DateTime.UtcNow.AddHours(9).ToString("yyyy-MM-dd HH:mm:ss") },
+                { "battleCount", 0 },
+                { "relicCount", 0 },
+                { "cookCount", 0 },
+                { "stageCount", 0 }
             };
+
+            foreach (string grade in Enum.GetNames(typeof(RelicGrade)))
+            {
+                etcData.Add($"relic{grade}", 0);
+            }
 
             var userData = new Dictionary<string, object>
             {
@@ -388,9 +397,11 @@ namespace SDW
         {
             string userId = user.UserId;
 
+            _db.KeepSynced(false);
             FirebaseDatabase.DefaultInstance.GoOffline();
             FirebaseDatabase.DefaultInstance.GoOnline();
-
+            FirebaseDatabase.DefaultInstance.GoOffline();
+            FirebaseDatabase.DefaultInstance.GoOnline();
             _db.Child("users").Child(userId).GetValueAsync().ContinueWithOnMainThread(task =>
             {
                 if (task.IsFaulted)
@@ -467,7 +478,8 @@ namespace SDW
                 //todo 추후 0으로 설정
                 { "point", 9999999 }, //# 영구 성장 포인트
                 { "starCandy", 9999999 }, //# 유료 -> 뽑기 재화
-                { "shiningStarCandy", 9999999 } //# 유료 재화
+                { "shiningStarCandy", 9999999 }, //# 유료 재화
+                { "totalYeopjeon", 0 } //# 총 획득 엽전 재화, 정산 시 사용
             };
             _coinData = coinData;
 
@@ -514,7 +526,6 @@ namespace SDW
 
             var etcData = new Dictionary<string, object>
             {
-                { "stageExp", 0 },
                 { "score", 0 },
                 { "totalScore", 0 },
                 { "questUpdate", DateTime.UtcNow.AddHours(9).ToString("yyyy-MM-dd HH:mm:ss") },
@@ -522,7 +533,11 @@ namespace SDW
                 { "gachaCount", 0 },
                 { "chapter", 1 },
                 { "stamina", 120 },
-                { "lastStaminaUpdate", DateTime.UtcNow.AddHours(9).ToString("yyyy-MM-dd HH:mm:ss") }
+                { "lastStaminaUpdate", DateTime.UtcNow.AddHours(9).ToString("yyyy-MM-dd HH:mm:ss") },
+                { "battleCount", 0 },
+                { "relicCount", 0 },
+                { "cookCount", 0 },
+                { "stageCount", 0 }
             };
             _etcData = etcData;
 
@@ -534,6 +549,11 @@ namespace SDW
                 { "dailyQuests", dailyQuests },
                 { "etcData", etcData }
             };
+
+            foreach (string grade in Enum.GetNames(typeof(RelicGrade)))
+            {
+                etcData.Add($"relic{grade}", 0);
+            }
 
             _userData = new UserData(
                 profileData.ContainsKey("email") ? profileData["email"].ToString() : "",
@@ -777,6 +797,22 @@ namespace SDW
             });
         }
 
+        public void SetTotalYeopjeon(int yeopjeon)
+        {
+            var updateData = new Dictionary<string, object>
+            {
+                { "coinData/totalYeopjeon", yeopjeon }
+            };
+
+            _db.Child("users").Child(_auth.CurrentUser.UserId).UpdateChildrenAsync(updateData).ContinueWithOnMainThread(task =>
+            {
+                if (task.IsFaulted)
+                {
+                    Debug.LogWarning($"ShiningStarCandy 저장 실패: {task.Exception.Message}");
+                }
+            });
+        }
+
         /// <summary>
         /// 특정 캐릭터의 비드(장식 아이템) 수량을 Firebase 데이터베이스에 업데이트
         /// </summary>
@@ -854,15 +890,33 @@ namespace SDW
         }
 
         /// <summary>
-        /// 게임 내 점수와 총 점수를 Firebase 데이터베이스에 업데이트
+        /// 게임 내 점수를 Firebase 데이터베이스에 업데이트
         /// </summary>
         /// <param name="score">개별 플레이어의 점수</param>
-        /// <param name="totalScore">전체 총 점수</param>
-        public void SetScores(int score, int totalScore)
+        public void SetScores(int score)
         {
             var updateData = new Dictionary<string, object>
             {
-                { "etcData/score", score },
+                { "etcData/score", score }
+            };
+
+            _db.Child("users").Child(_auth.CurrentUser.UserId).UpdateChildrenAsync(updateData).ContinueWithOnMainThread(task =>
+            {
+                if (task.IsFaulted)
+                {
+                    Debug.LogWarning($"Score/score 저장 실패: {task.Exception.Message}");
+                }
+            });
+        }
+
+        /// <summary>
+        /// 게임 내 총 점수(경쟁)를 Firebase 데이터베이스에 업데이트
+        /// </summary>
+        /// <param name="totalScore">전체 총 점수</param>
+        public void SetTotalScores(int totalScore)
+        {
+            var updateData = new Dictionary<string, object>
+            {
                 { "etcData/totalScore", totalScore }
             };
 
@@ -966,7 +1020,76 @@ namespace SDW
             {
                 if (task.IsFaulted)
                 {
-                    Debug.LogWarning($"Chapter 저장 실패: {task.Exception.Message}");
+                    Debug.LogWarning($"stamina 저장 실패: {task.Exception.Message}");
+                }
+            });
+        }
+
+        public void SetBattleCount(int battleCount)
+        {
+            var updateData = new Dictionary<string, object>
+            {
+                { "etcData/battleCount", battleCount }
+            };
+
+            _db.Child("users").Child(_auth.CurrentUser.UserId).UpdateChildrenAsync(updateData).ContinueWithOnMainThread(task =>
+            {
+                if (task.IsFaulted)
+                {
+                    Debug.LogWarning($"battleCount 저장 실패: {task.Exception.Message}");
+                }
+            });
+        }
+
+        public void SetRelicCount(int relicCount, Dictionary<RelicGrade, int> relicGradeCount)
+        {
+            var updateData = new Dictionary<string, object>
+            {
+                { "etcData/relicCount", relicCount }
+            };
+
+            foreach (var grade in relicGradeCount)
+            {
+                updateData.Add($"etcData/relic{grade.Key}", grade.Value);
+            }
+
+            _db.Child("users").Child(_auth.CurrentUser.UserId).UpdateChildrenAsync(updateData).ContinueWithOnMainThread(task =>
+            {
+                if (task.IsFaulted)
+                {
+                    Debug.LogWarning($"relicCount 저장 실패: {task.Exception.Message}");
+                }
+            });
+        }
+
+        public void SetCookCount(int cookCount)
+        {
+            var updateData = new Dictionary<string, object>
+            {
+                { "etcData/cookCount", cookCount }
+            };
+
+            _db.Child("users").Child(_auth.CurrentUser.UserId).UpdateChildrenAsync(updateData).ContinueWithOnMainThread(task =>
+            {
+                if (task.IsFaulted)
+                {
+                    Debug.LogWarning($"cookCount 저장 실패: {task.Exception.Message}");
+                }
+            });
+        }
+
+        public void SetStageCount(int stageCount)
+        {
+            var updateData = new Dictionary<string, object>
+            {
+                { "etcData/stageCount", stageCount }
+            };
+
+            _db.Child("users").Child(_auth.CurrentUser.UserId).UpdateChildrenAsync(updateData).ContinueWithOnMainThread(task =>
+            {
+                if (task.IsFaulted)
+                {
+                    Debug.LogWarning($"stageCount 저장 실패: {task.Exception.Message}");
                 }
             });
         }
