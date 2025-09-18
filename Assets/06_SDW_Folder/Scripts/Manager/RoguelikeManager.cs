@@ -63,7 +63,7 @@ namespace SDW
             OnBattleEnd -= BattleEnd;
         }
 
-        private void BattleStart()
+        public void BattleStart()
         {
             _cameraDrag.enabled = false;
             _cameraScrollLinker.enabled = false;
