@@ -35,6 +35,7 @@ public class BattleManager : MonoBehaviour
 
     [Header("BuffManager")]
     [SerializeField] private BuffManager buffManager;
+    public BuffManager Buff => buffManager;
     [Header("RelicInventoryUI")]
     [SerializeField] private RelicInventoryUI _relicInventoryUI;
 
@@ -506,7 +507,8 @@ public class BattleManager : MonoBehaviour
     {
         foreach (var cha in _characterStats)
         {
-            GameManager.Instance.CharacterBattleDataSave._chaHpSave[cha._characterState._chaEnName] = cha._characterState._chaMaxHP;
+            GameManager.Instance.CharacterBattleDataSave._chaHpSave[cha._characterState._chaEnName] =
+                cha._characterState._chaMaxHP;
             Debug.Log($"{cha._characterState._chaEnName}의 체력이 {cha._characterState._chaMaxHP}로 저장이 되었습니다.");
         }
 
