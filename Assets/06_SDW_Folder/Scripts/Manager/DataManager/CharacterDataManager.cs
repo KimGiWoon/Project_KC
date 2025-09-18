@@ -221,18 +221,24 @@ namespace SDW
 
         public void SetSelectedTeam(List<CharacterDataSO> selectedTeam, bool updateToFirebase)
         {
+            // 기존 팀 정보를 먼저 비웁니다.
+            _selectedTeam.Clear();
+
+            // 전달받은 새 팀 정보로 리스트를 채웁니다.
             foreach (var selectedTeamMember in selectedTeam)
             {
                 _selectedTeam.Add(selectedTeamMember);
             }
 
-            //CJH 코드 추가
-
-            // 만약 전달받은 팀 목록이 유효하고, 멤버가 한 명 이상 있다면
+            // 새 팀의 첫 번째 멤버로 맵 캐릭터를 설정합니다. (이벤트 호출 포함)
             if (selectedTeam != null && selectedTeam.Count > 0)
             {
-                // 첫 번째 멤버를 맵 플레이어 캐릭터로 설정합니다.
                 SetMapPlayerCharacter(selectedTeam[0]);
+            }
+            else
+            {
+                // 만약 팀이 비어있다면 null로 설정하거나 기본 캐릭터로 설정할 수 있습니다.
+                SetMapPlayerCharacter(null);
             }
 
             var selectedTeamDic = new Dictionary<string, bool>();
