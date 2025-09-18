@@ -37,7 +37,6 @@ namespace CJH
         public Image backgroundImage; // 화면에 꽉 채운 UI Image 컴포넌트
         public Sprite[] stageBackgrounds; // 스테이지별 배경 이미지 배열
 
-
         private GameObject currentMapInstance;
         private MapData currentMap;
         private Dictionary<Vector2Int, MapNode> nodeObjects;
@@ -71,12 +70,14 @@ namespace CJH
         {
             RoguelikeManager.Instance.OnBattleStart += BattleStart;
             RoguelikeManager.Instance.OnBattleEnd += BattleEnd;
+            GameManager.Instance.CharacterData.OnFirstCharacterChanged += UpdateCharacter;
         }
 
         private void OnDisable()
         {
             RoguelikeManager.Instance.OnBattleStart -= BattleStart;
             RoguelikeManager.Instance.OnBattleEnd -= BattleEnd;
+            GameManager.Instance.CharacterData.OnFirstCharacterChanged -= UpdateCharacter;
         }
 
         public void CreateMapView(MapData map)
@@ -89,7 +90,7 @@ namespace CJH
             // 플레이어 캐릭터 생성 (씬에 없으면 새로 생성)
             if (playerVisualController == null && playerCharacterPrefab != null)
             {
-                GameObject playerGO = Instantiate(playerCharacterPrefab, transform);
+                var playerGO = Instantiate(playerCharacterPrefab, transform);
                 playerVisualController = playerGO.GetComponent<MapPlayerVisualController>();
 
                 // 생성 직후 컨트롤러 초기화
@@ -119,6 +120,11 @@ namespace CJH
             UpdateStageBackground();
         }
 
+        private void UpdateCharacter()
+        {
+            playerVisualController.Initialize();
+        }
+
         /// <summary>
         /// 현재 스테이지에 맞는 배경 이미지로 교체하는 함수
         /// </summary>
@@ -131,7 +137,8 @@ namespace CJH
             int backgroundIndex = currentStage - 1;
 
             // 유효한 인덱스인지 확인하고 배경을 교체합니다.
-            if (backgroundImage != null && stageBackgrounds != null && backgroundIndex >= 0 && backgroundIndex < stageBackgrounds.Length)
+            if (backgroundImage != null && stageBackgrounds != null && backgroundIndex >= 0 &&
+                backgroundIndex < stageBackgrounds.Length)
             {
                 backgroundImage.sprite = stageBackgrounds[backgroundIndex];
             }
@@ -244,7 +251,8 @@ namespace CJH
         // 플레이어 캐릭터를 현재 노드 위치로 이동시키는 함수
         private void UpdatePlayerPosition(NodeType currentNodeType, int encounterId)
         {
-            if (playerVisualController == null || currentMap.CurrentNode == null || !playerVisualController.gameObject.activeInHierarchy) return;
+            if (playerVisualController == null || currentMap.CurrentNode == null ||
+                !playerVisualController.gameObject.activeInHierarchy) return;
 
             if (nodeObjects.TryGetValue(currentMap.CurrentNode.point, out var currentNodeObject))
             {
@@ -255,7 +263,8 @@ namespace CJH
                 playerVisualController.transform
                     .DOMove(currentNodeObject.transform.position, playerMoveDuration)
                     .SetEase(playerMoveEase)
-                    .OnComplete(() => {
+                    .OnComplete(() =>
+                    {
                         // 이동이 끝나면 앞모습으로 변경 
                         playerVisualController.SetIdle();
                     });
@@ -318,7 +327,6 @@ namespace CJH
             if (!isBattle)
                 _eventManager.StartEncounter(encounterId);
         }
-
 
         private void ClearMap()
         {

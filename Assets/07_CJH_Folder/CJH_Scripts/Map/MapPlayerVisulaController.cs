@@ -11,7 +11,7 @@ public class MapPlayerVisualController : MonoBehaviour
         spriteRenderer = GetComponent<SpriteRenderer>();
         if (spriteRenderer == null)
         {
-            Debug.LogError("플레이어 프리팹에 SpriteRenderer가 없습니다!", this.gameObject);
+            Debug.LogError("플레이어 프리팹에 SpriteRenderer가 없습니다!", gameObject);
         }
     }
 
@@ -20,12 +20,14 @@ public class MapPlayerVisualController : MonoBehaviour
     /// </summary>
     public void Initialize()
     {
-        characterData = GameManager.Instance.MapPlayerCharacter;
+        characterData = GameManager.Instance.CharacterData.MapPlayerCharacter;
         if (characterData == null)
         {
             gameObject.SetActive(false);
             return;
         }
+
+        gameObject.SetActive(true);
         SetIdle();
     }
 

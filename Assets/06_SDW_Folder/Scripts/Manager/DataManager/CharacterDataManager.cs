@@ -65,6 +65,11 @@ namespace SDW
         private FirebaseManager _firebase;
         private bool _isDownloaded;
 
+        public Action OnFirstCharacterChanged;
+
+        //CJH 코드 추가
+        public CharacterDataSO MapPlayerCharacter { get; private set; }
+
         private void Start()
         {
             _gameManager = GameManager.Instance;
@@ -91,6 +96,7 @@ namespace SDW
 
         private void LoadOwnedCharacter(IReadOnlyDictionary<string, object> charData)
         {
+            bool isFirstCharacter = true;
             foreach (string key in charData.Keys)
             {
                 var character = charData[key] as Dictionary<string, object>;
@@ -107,8 +113,15 @@ namespace SDW
                 if (Convert.ToBoolean(character["selected"]))
                 {
                     _selectedTeam.Add(_characterIdData[int.Parse(key)]);
+
+                    if (isFirstCharacter)
+                    {
+                        SetMapPlayerCharacter(_characterIdData[int.Parse(key)]);
+                        isFirstCharacter = false;
+                    }
                 }
             }
+            // 첫 번째 멤버를 맵 플레이어 캐릭터로 설정합니다.
         }
 
         /// <summary>
@@ -219,7 +232,7 @@ namespace SDW
             if (selectedTeam != null && selectedTeam.Count > 0)
             {
                 // 첫 번째 멤버를 맵 플레이어 캐릭터로 설정합니다.
-                GameManager.Instance.SetMapPlayerCharacter(selectedTeam[0]);
+                SetMapPlayerCharacter(selectedTeam[0]);
             }
 
             var selectedTeamDic = new Dictionary<string, bool>();
@@ -246,6 +259,18 @@ namespace SDW
         public void ClearSelectedTeam()
         {
             _selectedTeam.Clear();
+        }
+        //CJH 코드 추가
+
+        /// <summary>
+        /// 맵에 표시될 플레이어 캐릭터 정보를 설정합니다.
+        /// 이 함수는 주로 팀 편성이 확정될 때 호출됩니다.
+        /// </summary>
+        /// <param name="characterData">선택된 팀의 첫 번째 캐릭터 데이터</param>
+        private void SetMapPlayerCharacter(CharacterDataSO characterData)
+        {
+            MapPlayerCharacter = characterData;
+            OnFirstCharacterChanged?.Invoke();
         }
 
         //todo 추후 캐릭터 레벨, 경험치 연동되어야 함
