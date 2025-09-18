@@ -149,16 +149,7 @@ public class TeamFormationManager : MonoBehaviour
             }
         }
     }
-    private void ClearFinalTeamPanel(List<FinalTeamSlot> slots)
-    {
-        // 리스트가 비어있으면 아무것도 하지 않음
-        if (slots == null || slots.Count == 0) return;
 
-        for (int i = 0; i < slots.Count; i++)
-        {
-            slots[i].DisplayEmpty();
-        }
-    }
 
     public void SelectCharacter(CharacterDataSO character)
     {
@@ -177,14 +168,6 @@ public class TeamFormationManager : MonoBehaviour
         }
         UpdateAllVisuals();
     }
-    // public void DeselectCharacter(CharacterDataSO character)
-    // {
-    //     if (_charData.SelectedTeam.Contains(character))
-    //     {
-    //         _charData.RemoveSelectedTeamMember(character);
-    //         UpdateAllVisuals();
-    //     }
-    // }
 
     public bool OnConfirm()
     {

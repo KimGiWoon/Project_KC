@@ -22,6 +22,10 @@ public class CharacterDataSO : ScriptableObject
     public int _chaLv; // 캐릭터 레벨
     public int _chaUpgradeLevel; // 돌파 레벨
 
+    [Header("맵 캐릭터 비주얼")]
+    public Sprite frontViewSprite; // 맵에서 멈춰있을 때 보일 앞모습
+    public Sprite backViewSprite;  // 맵에서 이동할 때 보일 뒷모습
+
     [Header("Character Skill")]
     public CharacterSkillDataSO _chaPassiveSkill; // 캐릭터 패시브 스킬
     public CharacterSkillDataSO _chaActiveSkill; // 캐릭터 액티브 스킬

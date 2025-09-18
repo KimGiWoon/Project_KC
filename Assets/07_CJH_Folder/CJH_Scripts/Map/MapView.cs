@@ -33,6 +33,11 @@ namespace CJH
         public Transform bottomPanelContainer;
         public GameObject nodeButtonPrefab;
 
+        [Header("배경 이미지 설정")]
+        public Image backgroundImage; // 화면에 꽉 채운 UI Image 컴포넌트
+        public Sprite[] stageBackgrounds; // 스테이지별 배경 이미지 배열
+
+
         private GameObject currentMapInstance;
         private MapData currentMap;
         private Dictionary<Vector2Int, MapNode> nodeObjects;
@@ -40,7 +45,7 @@ namespace CJH
         [SerializeField] private EventManager _eventManager;
 
         // 생성된 플레이어 캐릭터를 담을 변수
-        private GameObject playerCharacterInstance;
+        private MapPlayerVisualController playerVisualController;
 
         private Transform cameraTransform;
 
@@ -82,9 +87,13 @@ namespace CJH
             mapTemplatePrefab.SetActive(true);
 
             // 플레이어 캐릭터 생성 (씬에 없으면 새로 생성)
-            if (playerCharacterInstance == null && playerCharacterPrefab != null)
+            if (playerVisualController == null && playerCharacterPrefab != null)
             {
-                playerCharacterInstance = Instantiate(playerCharacterPrefab, transform);
+                GameObject playerGO = Instantiate(playerCharacterPrefab, transform);
+                playerVisualController = playerGO.GetComponent<MapPlayerVisualController>();
+
+                // 생성 직후 컨트롤러 초기화
+                playerVisualController.Initialize();
             }
 
             foreach (var placeholder in mapTemplatePrefab.GetComponentsInChildren<MapNodeIdentifier>())
@@ -107,6 +116,25 @@ namespace CJH
             }
 
             UpdateMapState();
+            UpdateStageBackground();
+        }
+
+        /// <summary>
+        /// 현재 스테이지에 맞는 배경 이미지로 교체하는 함수
+        /// </summary>
+        private void UpdateStageBackground()
+        {
+            // GameManager에서 현재 스테이지 번호를 가져옵니다.
+            int currentStage = GameManager.Instance.Stage;
+
+            // 스테이지 번호는 1부터 시작하지만, 배열 인덱스는 0부터 시작하므로 1을 빼줍니다.
+            int backgroundIndex = currentStage - 1;
+
+            // 유효한 인덱스인지 확인하고 배경을 교체합니다.
+            if (backgroundImage != null && stageBackgrounds != null && backgroundIndex >= 0 && backgroundIndex < stageBackgrounds.Length)
+            {
+                backgroundImage.sprite = stageBackgrounds[backgroundIndex];
+            }
         }
 
         public void SelectNode(MapNode selectedNode)
@@ -216,15 +244,21 @@ namespace CJH
         // 플레이어 캐릭터를 현재 노드 위치로 이동시키는 함수
         private void UpdatePlayerPosition(NodeType currentNodeType, int encounterId)
         {
-            if (playerCharacterInstance == null || currentMap.CurrentNode == null) return;
-            // 현재 노드의 게임 오브젝트를 찾습니다.
+            if (playerVisualController == null || currentMap.CurrentNode == null || !playerVisualController.gameObject.activeInHierarchy) return;
+
             if (nodeObjects.TryGetValue(currentMap.CurrentNode.point, out var currentNodeObject))
             {
-                // DoTween을 사용해 부드럽게 이동
-                playerCharacterInstance.transform.DOKill();
-                playerCharacterInstance.transform
+                // 이동 시작 직전에 뒷모습으로 변경 
+                playerVisualController.SetMoving();
+
+                playerVisualController.transform.DOKill();
+                playerVisualController.transform
                     .DOMove(currentNodeObject.transform.position, playerMoveDuration)
-                    .SetEase(playerMoveEase);
+                    .SetEase(playerMoveEase)
+                    .OnComplete(() => {
+                        // 이동이 끝나면 앞모습으로 변경 
+                        playerVisualController.SetIdle();
+                    });
 
                 StartCoroutine(CharacterMovedNotify(playerMoveDuration, currentNodeType, encounterId));
 
@@ -304,7 +338,7 @@ namespace CJH
         private void BattleStart()
         {
             mapTemplatePrefab.SetActive(false);
-            playerCharacterInstance.SetActive(false);
+            playerVisualController.gameObject.SetActive(false);
             foreach (var arrow in lineArrows)
             {
                 arrow.SetActive(false);
@@ -314,7 +348,7 @@ namespace CJH
         private void BattleEnd()
         {
             mapTemplatePrefab.SetActive(true);
-            playerCharacterInstance.SetActive(true);
+            playerVisualController.gameObject.SetActive(true);
             foreach (var arrow in lineArrows)
             {
                 arrow.SetActive(true);

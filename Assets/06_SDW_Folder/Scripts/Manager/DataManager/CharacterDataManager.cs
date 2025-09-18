@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -211,6 +211,15 @@ namespace SDW
             foreach (var selectedTeamMember in selectedTeam)
             {
                 _selectedTeam.Add(selectedTeamMember);
+            }
+
+            //CJH 코드 추가
+
+            // 만약 전달받은 팀 목록이 유효하고, 멤버가 한 명 이상 있다면
+            if (selectedTeam != null && selectedTeam.Count > 0)
+            {
+                // 첫 번째 멤버를 맵 플레이어 캐릭터로 설정합니다.
+                GameManager.Instance.SetMapPlayerCharacter(selectedTeam[0]);
             }
 
             var selectedTeamDic = new Dictionary<string, bool>();
