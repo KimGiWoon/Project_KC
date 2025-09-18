@@ -45,7 +45,7 @@ namespace CJH
         [SerializeField] private EventManager _eventManager;
 
         // 생성된 플레이어 캐릭터를 담을 변수
-        private GameObject playerCharacterInstance;
+        private MapPlayerVisualController playerVisualController;
 
         private Transform cameraTransform;
 
@@ -87,9 +87,13 @@ namespace CJH
             mapTemplatePrefab.SetActive(true);
 
             // 플레이어 캐릭터 생성 (씬에 없으면 새로 생성)
-            if (playerCharacterInstance == null && playerCharacterPrefab != null)
+            if (playerVisualController == null && playerCharacterPrefab != null)
             {
-                playerCharacterInstance = Instantiate(playerCharacterPrefab, transform);
+                GameObject playerGO = Instantiate(playerCharacterPrefab, transform);
+                playerVisualController = playerGO.GetComponent<MapPlayerVisualController>();
+
+                // 생성 직후 컨트롤러 초기화
+                playerVisualController.Initialize();
             }
 
             foreach (var placeholder in mapTemplatePrefab.GetComponentsInChildren<MapNodeIdentifier>())
@@ -240,15 +244,21 @@ namespace CJH
         // 플레이어 캐릭터를 현재 노드 위치로 이동시키는 함수
         private void UpdatePlayerPosition(NodeType currentNodeType, int encounterId)
         {
-            if (playerCharacterInstance == null || currentMap.CurrentNode == null) return;
-            // 현재 노드의 게임 오브젝트를 찾습니다.
+            if (playerVisualController == null || currentMap.CurrentNode == null || !playerVisualController.gameObject.activeInHierarchy) return;
+
             if (nodeObjects.TryGetValue(currentMap.CurrentNode.point, out var currentNodeObject))
             {
-                // DoTween을 사용해 부드럽게 이동
-                playerCharacterInstance.transform.DOKill();
-                playerCharacterInstance.transform
+                // 이동 시작 직전에 뒷모습으로 변경 
+                playerVisualController.SetMoving();
+
+                playerVisualController.transform.DOKill();
+                playerVisualController.transform
                     .DOMove(currentNodeObject.transform.position, playerMoveDuration)
-                    .SetEase(playerMoveEase);
+                    .SetEase(playerMoveEase)
+                    .OnComplete(() => {
+                        // 이동이 끝나면 앞모습으로 변경 
+                        playerVisualController.SetIdle();
+                    });
 
                 StartCoroutine(CharacterMovedNotify(playerMoveDuration, currentNodeType, encounterId));
 
@@ -328,7 +338,7 @@ namespace CJH
         private void BattleStart()
         {
             mapTemplatePrefab.SetActive(false);
-            playerCharacterInstance.SetActive(false);
+            playerVisualController.gameObject.SetActive(false);
             foreach (var arrow in lineArrows)
             {
                 arrow.SetActive(false);
@@ -338,7 +348,7 @@ namespace CJH
         private void BattleEnd()
         {
             mapTemplatePrefab.SetActive(true);
-            playerCharacterInstance.SetActive(true);
+            playerVisualController.gameObject.SetActive(true);
             foreach (var arrow in lineArrows)
             {
                 arrow.SetActive(true);
