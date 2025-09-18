@@ -3,7 +3,7 @@ namespace SDW
     public enum MonsterEnName
     {
         FieldMouse,
-        MistLocustSwarm,
+        MistGoblinFire,
         HerbSlime,
         MountainBoar,
         GhostBat,

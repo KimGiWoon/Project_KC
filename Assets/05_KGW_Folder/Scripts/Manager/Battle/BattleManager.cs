@@ -43,6 +43,9 @@ public class BattleManager : MonoBehaviour
     public List<MonsterController> _monsters = new List<MonsterController>();
     public List<MonsterController> _bossMonster = new List<MonsterController>();
 
+    // 생성된 캐릭터 스텟 관리용 보관
+    public List<MyCharacterController> _characterStats = new List<MyCharacterController>();
+
     public BattleUI _battleUI;
     private Coroutine _armorRoutine;
     public BattleEventType _battleType;
@@ -189,6 +192,7 @@ public class BattleManager : MonoBehaviour
             // 생성된 캐릭터 저장
             var createCharacter = character.GetComponent<MyCharacterController>();
             _characters.Add(createCharacter);
+            _characterStats.Add(createCharacter);
 
             // 캐릭터 데이터 전달
             _battleUI._infoSlot[i].GetCharacterData(characterData);
@@ -492,6 +496,18 @@ public class BattleManager : MonoBehaviour
             default:
                 break;
         }
+    }
+
+    // 중도 포기 시 캐릭터 체력 갱신
+    public void GiveUpCharacterRenewal()
+    {
+        foreach (var cha in _characterStats)
+        {
+            GameManager.Instance.CharacterBattleDataSave._chaHpSave[cha._characterState._chaEnName] = cha._characterState._chaMaxHP;
+            Debug.Log($"{cha._characterState._chaEnName}의 체력이 {cha._characterState._chaMaxHP}로 저장이 되었습니다.");
+        }
+
+        _characterStats.Clear();
     }
 
     private void BattleEnd()
