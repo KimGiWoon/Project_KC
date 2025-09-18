@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using SDW;
 using UnityEngine;
@@ -17,7 +18,6 @@ namespace JJY
 
         private GameManager _gameManager;
         private FirebaseManager _firebase;
-        private bool _isLoaded;
 
         // 아웃게임 아이템
         private Dictionary<string, int> items = new Dictionary<string, int>();
@@ -40,16 +40,22 @@ namespace JJY
         {
             _gameManager = GameManager.Instance;
             _firebase = _gameManager.Firebase;
+
+            StartCoroutine(LoadCoroutine());
         }
 
-        private void Update()
+        private IEnumerator LoadCoroutine()
         {
-            if (!_gameManager.CompleteDownload || !_gameManager.ImageSpriteConnected || !_gameManager.PrefabAndSoConnected ||
-                !_gameManager.Firebase.IsLoaded || _isLoaded) return;
+            while (true)
+            {
+                yield return null;
+                if (!_gameManager.CompleteDownload || !_gameManager.ImageSpriteConnected || !_gameManager.PrefabAndSoConnected ||
+                    !_gameManager.Firebase.IsLoaded) continue;
+
+                break;
+            }
 
             LoadCoinData(_gameManager.Firebase.CoinData);
-
-            _isLoaded = true;
         }
 
         /// <summary>
