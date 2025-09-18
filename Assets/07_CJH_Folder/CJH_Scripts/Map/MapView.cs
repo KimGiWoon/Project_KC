@@ -33,6 +33,11 @@ namespace CJH
         public Transform bottomPanelContainer;
         public GameObject nodeButtonPrefab;
 
+        [Header("배경 이미지 설정")]
+        public Image backgroundImage; // 화면에 꽉 채운 UI Image 컴포넌트
+        public Sprite[] stageBackgrounds; // 스테이지별 배경 이미지 배열
+
+
         private GameObject currentMapInstance;
         private MapData currentMap;
         private Dictionary<Vector2Int, MapNode> nodeObjects;
@@ -107,6 +112,25 @@ namespace CJH
             }
 
             UpdateMapState();
+            UpdateStageBackground();
+        }
+
+        /// <summary>
+        /// 현재 스테이지에 맞는 배경 이미지로 교체하는 함수
+        /// </summary>
+        private void UpdateStageBackground()
+        {
+            // GameManager에서 현재 스테이지 번호를 가져옵니다.
+            int currentStage = GameManager.Instance.Stage;
+
+            // 스테이지 번호는 1부터 시작하지만, 배열 인덱스는 0부터 시작하므로 1을 빼줍니다.
+            int backgroundIndex = currentStage - 1;
+
+            // 유효한 인덱스인지 확인하고 배경을 교체합니다.
+            if (backgroundImage != null && stageBackgrounds != null && backgroundIndex >= 0 && backgroundIndex < stageBackgrounds.Length)
+            {
+                backgroundImage.sprite = stageBackgrounds[backgroundIndex];
+            }
         }
 
         public void SelectNode(MapNode selectedNode)
