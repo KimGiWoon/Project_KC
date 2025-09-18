@@ -195,7 +195,7 @@ public class BattleManager : MonoBehaviour
             _characterStats.Add(createCharacter);
 
             // 생성된 캐릭터 스폰 위치 저장
-            createCharacter._spawnedPoint = Points[i];
+            createCharacter._spawnedPoint = _characterResurrectionPoint[i];
 
             // 캐릭터 데이터 전달
             _battleUI._infoSlot[i].GetCharacterData(characterData);

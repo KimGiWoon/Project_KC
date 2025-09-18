@@ -95,7 +95,7 @@ public class MyCharacterController : UnitBaseData
         // 캐릭터 돌파 스텟 적용
         UpgradeStatUpdate();
         // 캐릭터의 저장된 데이터 불러오기
-       CharacterSaveDataLoad();
+        CharacterSaveDataLoad();
 
         // 체력, 마나 게이지 현재값 초기화
         OnHpChange?.Invoke(_characterState._chaCurrentHP / _characterState._chaMaxHP);
@@ -477,8 +477,8 @@ public class MyCharacterController : UnitBaseData
     {
         // 치명타 계산
         float critical = UnityEngine.Random.value < _characterState._chaCrit * 0.01f ? _characterState._chaCritDmg * 0.01f : 1f;
-        
-        if(critical != 1f)
+
+        if (critical != 1f)
         {
             _chaAnimatior.Play(Critical_Hash);
         }
@@ -594,6 +594,7 @@ public class MyCharacterController : UnitBaseData
     public void Revive(float value)
     {
         _isAlive = true;
+        _battleManager._characterCount++;
         // TODO : gameObject의 위치 맨 왼쪽으로 변경.
         gameObject.transform.position = _spawnedPoint.position;
         gameObject.SetActive(true);
