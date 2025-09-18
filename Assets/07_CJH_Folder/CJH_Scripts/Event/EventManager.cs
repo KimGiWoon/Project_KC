@@ -17,6 +17,8 @@ namespace CJH
 
         public List<RelicDatas> allRelicsDatabase;
 
+        public EncounterTable CurrentEncounterData { get; private set; }
+
         void Awake()
         {
             allRelicsDatabase = Resources.LoadAll<RelicDatas>("Relics").ToList();
@@ -47,11 +49,13 @@ namespace CJH
             int randomIndex = Random.Range(0, encountersInGroup.Count);
             var encounterData = encountersInGroup[randomIndex];
 
+            this.CurrentEncounterData = encounterData;
 
             if (encounterData.EncounterID != 0) // 유효한 데이터인지 확인
             {
                 if (_stageGlobalCanvas != null)
                 {
+
                     currentEventInstance = Instantiate(_eventPrefab, _stageGlobalCanvas.transform);
                     Debug.Log($"[EventManager] 새 이벤트 인스턴스를 생성했습니다. ID: {currentEventInstance.GetInstanceID()}");
                     var eventStart = currentEventInstance.GetComponentInChildren<EventStart>();
@@ -62,6 +66,39 @@ namespace CJH
                         eventStart.Initialize(encounterData, this);
                     }
                 }
+            }
+        }
+
+        /// <summary>
+        /// 특정 EncounterID를 직접 지정하여 이벤트를 시작하는 함수입니다.
+        /// </summary>
+        public void StartEncounterByID(int encounterID)
+        {
+            if (currentEventInstance != null)
+            {
+                Destroy(currentEventInstance);
+                currentEventInstance = null;
+            }
+
+            var encounterData = _dataManager.GetEncounterByID(encounterID);
+
+            if (encounterData.EncounterID != 0)
+            {
+                this.CurrentEncounterData = encounterData; // 현재 데이터 저장
+
+                if (_stageGlobalCanvas != null)
+                {
+                    currentEventInstance = Instantiate(_eventPrefab, _stageGlobalCanvas.transform);
+                    var eventStart = currentEventInstance.GetComponentInChildren<EventStart>();
+                    if (eventStart != null)
+                    {
+                        eventStart.Initialize(encounterData, this);
+                    }
+                }
+            }
+            else
+            {
+                Debug.LogError($"[EventManager] StartEncounterByID Error: ID '{encounterID}'에 해당하는 이벤트를 찾을 수 없습니다.");
             }
         }
 
