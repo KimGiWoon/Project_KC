@@ -57,8 +57,9 @@ public class MonsterController : UnitBaseData
         _monAnimatior = GetComponentInChildren<Animator>();
     }
 
-    private void Start()
+    protected override void Start()
     {
+        base.Start();
         if (_monsterData.MonType == MonsterType.Boss)
             _battleManager.Buff.OnUseGroggyItem += ApplyGroggy;
     }
