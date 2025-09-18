@@ -153,19 +153,18 @@ public class TeamFormationManager : MonoBehaviour
 
     public void SelectCharacter(CharacterDataSO character)
     {
-        //# 선택/비선택 구분
         _lastSelectedCharacter = character;
-        if (_charData.SelectedTeam.Contains(character))
+        if (_selectedTeam.Contains(character))
         {
-            _charData.RemoveSelectedTeamMember(character);
             _selectedTeam.Remove(character);
         }
-        else if (_charData.SelectedTeam.Count >= 3) return;
+        else if (_selectedTeam.Count >= 3) return;
         else
         {
-            _charData.AddSelectedTeamMember(character);
             _selectedTeam.Add(character);
         }
+
+        _charData.SetSelectedTeam(_selectedTeam, false);
         UpdateAllVisuals();
     }
 
