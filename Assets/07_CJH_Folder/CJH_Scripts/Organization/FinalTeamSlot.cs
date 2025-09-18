@@ -25,7 +25,7 @@ public class FinalTeamSlot : MonoBehaviour
 
         characterInfoGroup.SetActive(true);
         characterImage.sprite = data._characterSprite;
-        levelText.text = "Lv." + data._chaLv;
+        levelText.text = data._chaLv.ToString();
         characterButton.interactable = true;
     }
 
