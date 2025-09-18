@@ -111,29 +111,61 @@ namespace CJH
         private void OnChoiceSelected(EncounterTable data, int choiceIndex)
         {
             var resultType = ChoiceResultType.None;
-            // int resultValue = (choiceIndex < data.ChoiceResultValues.Count) ? data.ChoiceResultValues[choiceIndex] : 0;
             int resultMoney = data.ResultMoney;
             //todo 추후 잃거나 얻는 유물의 수가 1개 초과가 되면 수정 필요
             int resultRelicCount = data.ResultNumber;
 
+
             if (data.Type == EncounterType.Gamb)
             {
-                if (choiceIndex == 0)
-                {
-                    gambleCount = 0;
-                }
-
+                // 선택지 1: 갬블을 포기하고 떠난다.
                 if (choiceIndex == 1)
                 {
                     _eventManager.EndEncounter();
                     return;
                 }
 
-                gambleCount++;
-
-                if (gambleCount == 2)
+                // 선택지 0: 갬블을 진행한다.
+                if (choiceIndex == 0)
                 {
-                    //todo 겜블 3번째 때 동작 확인 후 작성
+                    // 1. 공통 처리: 비용 지불 및 횟수 증가
+                    int betMoney = 500;
+                    GameManager.Instance.Coin.SubtractYeopjeon(betMoney);
+                    gambleCount++;
+
+                    // 2. 랜덤으로 승패 결정
+                    bool isWin = Random.value >= 0.5f;
+
+                    // 3. 3회차 도달 시 처리
+                    if (gambleCount >= 3)
+                    {
+                        if (isWin)
+                        {
+                            GameManager.Instance.Coin.AddYeopjeon(1000); // 마지막 판 승리 보상
+                        }
+
+                        // 공통된 강제 종료 텍스트를 보여주고 인카운터 완전 종료
+                        _eventManager.EndEncounter();
+                    }
+                    else // 4. 1~2회차 진행 시 처리
+                    {
+                        int nextEncounterID;
+
+                        if (isWin)
+                        {
+                            // [승리]
+                            GameManager.Instance.Coin.AddYeopjeon(1000);
+                            nextEncounterID = 6015; // 승리 인카운터 ID
+                        }
+                        else
+                        {
+                            // [패배]
+                            nextEncounterID = 6016; // 패배 인카운터 ID
+                        }
+
+                        // 결정된 다음 인카운터 ID를 가지고 이벤트를 새로 시작합니다.
+                        _eventManager.StartEncounterByID(nextEncounterID);
+                    }
                 }
             }
 
@@ -385,6 +417,7 @@ namespace CJH
                 btn.interactable = false;
             }
         }
+    
 
         /// <summary>
         /// 플레이어에게 N개의 유물 선택지를 보여줍니다.
