@@ -10,6 +10,8 @@ public class MyCharacterController : UnitBaseData
     [Header("Character Data Setting")]
     [SerializeField]
     private CharacterDataSO _characterData; // 캐릭터 데이터
+    // 스폰된 위치 저장
+    [SerializeField] public Transform _spawnedPoint;
 
     [Header("Attack Unit List & Controller")]
     [SerializeField]
@@ -592,6 +594,9 @@ public class MyCharacterController : UnitBaseData
     public void Revive(float value)
     {
         _isAlive = true;
+        // TODO : gameObject의 위치 맨 왼쪽으로 변경.
+        gameObject.transform.position = _spawnedPoint.position;
+        gameObject.SetActive(true);
         _characterState._chaCurrentHP = value;
         OnHpChange?.Invoke(Mathf.Clamp01(_characterState._chaCurrentHP / _characterState._chaMaxHP));
     }
