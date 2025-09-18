@@ -24,27 +24,32 @@ namespace JJY
             sourceId = e.sourceId;
         }
     }
+
     // TODO : GameManager에 연결하기.
     // 전투에만 포함되는 매니저. 전투끝나고 노드씬으로 이동 시 사라짐.
     public class BuffManager : MonoBehaviour
     {
-        [SerializeField] BattleManager btManager;
+        [SerializeField] private BattleManager btManager;
 
-        List<MyCharacterController> downed = new List<MyCharacterController>();
+        private List<MyCharacterController> downed = new List<MyCharacterController>();
 
         [Header("UI")]
-        [SerializeField] Transform foodContent;
-        [SerializeField] GameObject foodBtnPrefab;
+        [SerializeField]
+        private Transform foodContent;
+        [SerializeField] private GameObject foodBtnPrefab;
 
         [Header("Debug")]
-        [SerializeField] bool logActions = true;
+        [SerializeField]
+        private bool logActions = true;
         // [SerializeField] List<InventoryItem> testInventory = new List<InventoryItem>();
         // 활성 버프 리스트
-        List<ActiveBuff> activeBuffs = new List<ActiveBuff>();
+        private List<ActiveBuff> activeBuffs = new List<ActiveBuff>();
+
+        public Action<float> OnUseGroggyItem;
 
 //         void Start()
 //         {
-            
+
 // // #if UNITY_EDITOR
 // //             for (int i = 0; i < testInventory.Count; i++)
 // //             {
@@ -57,7 +62,7 @@ namespace JJY
 //             InitFoodIcon();
 //         }
 
-        void Update()
+        private void Update()
         {
             if (activeBuffs.Count == 0) return;
 
@@ -67,16 +72,16 @@ namespace JJY
                 dt *= 2f;
             }
             for (int i = activeBuffs.Count - 1; i >= 0; i--)
+            {
+                activeBuffs[i].remaining -= dt;
+                if (activeBuffs[i].remaining <= 0f)
                 {
-                    activeBuffs[i].remaining -= dt;
-                    if (activeBuffs[i].remaining <= 0f)
-                    {
-                        // 만료 시 원상복구
-                        if (logActions) Debug.Log($"[BuffManager] 스탯 복구됨 : {activeBuffs[i].effect.type}");
-                        RemoveBuffEffect(activeBuffs[i]);
-                        activeBuffs.RemoveAt(i);
-                    }
+                    // 만료 시 원상복구
+                    if (logActions) Debug.Log($"[BuffManager] 스탯 복구됨 : {activeBuffs[i].effect.type}");
+                    RemoveBuffEffect(activeBuffs[i]);
+                    activeBuffs.RemoveAt(i);
                 }
+            }
         }
 
         public void InitFoodIcon()
@@ -90,14 +95,14 @@ namespace JJY
             // var list = testFoodInventory;
             for (int i = 0; i < list.Count; i++)
             {
-                InventoryItem food = list[i];
+                var food = list[i];
                 if (food == null) continue;
 
-                GameObject go = Instantiate(foodBtnPrefab, foodContent);
+                var go = Instantiate(foodBtnPrefab, foodContent);
                 go.name = $"FoodBtn_{i}_{food.recipe.recipeName}";
 
-                Button btn = go.GetComponent<Button>();
-                Image img = go.GetComponent<Image>();
+                var btn = go.GetComponent<Button>();
+                var img = go.GetComponent<Image>();
 
                 if (img != null && food.recipe.image != null)
                 {
@@ -105,8 +110,8 @@ namespace JJY
                     img.enabled = true;
                 }
                 // 안전한 캡처: 로컬 변수에 담아서 리스너 바인딩
-                InventoryItem itemLocal = food;
-                GameObject instanceLocal = go;
+                var itemLocal = food;
+                var instanceLocal = go;
 
                 if (btn != null)
                 {
@@ -116,7 +121,7 @@ namespace JJY
             }
         }
         // 버튼 클릭 시 호출: recipeLocal을 testFoodInventory에서 제거하고 효과 적용
-        void OnFoodButtonClicked(InventoryItem itemLocal, GameObject instanceLocal)
+        private void OnFoodButtonClicked(InventoryItem itemLocal, GameObject instanceLocal)
         {
             if (itemLocal == null)
             {
@@ -178,7 +183,7 @@ namespace JJY
 
         #region 즉시 적용 함수들 (Instant effects)
 
-        void ApplyInstantHealAll(FoodEffectData e)
+        private void ApplyInstantHealAll(FoodEffectData e)
         {
             if (logActions) Debug.Log($"[BuffManager] HP HEAL! : {e.value}");
 
@@ -200,7 +205,7 @@ namespace JJY
             if (logActions) Debug.Log("HP HEAL! TODO : UI 이벤트 함수 연결.");
         }
 
-        void ApplyRestoreManaPercentAll(FoodEffectData e)
+        private void ApplyRestoreManaPercentAll(FoodEffectData e)
         {
             if (logActions) Debug.Log($"[BuffManager] MANA HEAL! : {e.value}");
 
@@ -223,7 +228,7 @@ namespace JJY
             if (logActions) Debug.Log("MANA HEAL! TODO : UI 이벤트 함수 연결.");
         }
 
-        void TryReviveRandomAlly(FoodEffectData e)
+        private void TryReviveRandomAlly(FoodEffectData e)
         {
             downed.Clear();
             foreach (var p in btManager._characters)
@@ -248,7 +253,9 @@ namespace JJY
                 // chosen._characterState._chaCurrentHP = chosen._characterState._chaMaxHP * e.value;
                 chosen.Revive(chosen._characterState._chaMaxHP * e.value);
 
-                if (logActions) Debug.Log($"[BuffManager] REVIVE! name : {chosen.name}의 ({e.value * 100}%)만큼 HP 재설정 : {chosen._characterState._chaCurrentHP}, 스폰 포인트 지정해야함.");
+                if (logActions)
+                    Debug.Log(
+                        $"[BuffManager] REVIVE! name : {chosen.name}의 ({e.value * 100}%)만큼 HP 재설정 : {chosen._characterState._chaCurrentHP}, 스폰 포인트 지정해야함.");
                 if (logActions) Debug.Log("REVIVE! TODO : UI 이벤트 함수 연결, 리스폰 기능 협의 필요");
             }
             else
@@ -257,7 +264,7 @@ namespace JJY
             }
         }
 
-        void ApplyAccumulateBossGroggy(FoodEffectData e)
+        private void ApplyAccumulateBossGroggy(FoodEffectData e)
         {
             if (logActions) Debug.Log($"[BuffManager] ACCUMULATE BOSS GROGGY! : {e.value}");
 
@@ -271,10 +278,11 @@ namespace JJY
             //     }
             //     if (logActions) Debug.Log("TODO : UI 이벤트 연결");
             // }
+            OnUseGroggyItem?.Invoke(e.value);
         }
 
         // Barrier 생성 (모든 아군)
-        void ApplyCreateBarrierForAll(FoodEffectData e)
+        private void ApplyCreateBarrierForAll(FoodEffectData e)
         {
             if (logActions) Debug.Log($"[BuffManager] CREATE BARRIER! : {e.applyBarrier}");
             foreach (var p in btManager._characters)
@@ -283,7 +291,7 @@ namespace JJY
             }
         }
 
-        void ApplyGroggyBonus(FoodEffectData e)
+        private void ApplyGroggyBonus(FoodEffectData e)
         {
             if (logActions) Debug.Log($"[BuffManager] GROGGY BONUS! : {e.value}");
 
@@ -303,10 +311,11 @@ namespace JJY
         #endregion
 
         #region 지속형 / 전역형 효과 처리 (등록 / 갱신 / 만료)
-        void ApplyOrRefreshBuff(FoodEffectData e)
+
+        private void ApplyOrRefreshBuff(FoodEffectData e)
         {
             // 갱신 정책: 동일 타입 + 동일 sourceId 가 있으면 remaining 갱신 (refresh)
-            ActiveBuff existing = activeBuffs.Find(b => b.effect.type == e.type && b.sourceId == e.sourceId);
+            var existing = activeBuffs.Find(b => b.effect.type == e.type && b.sourceId == e.sourceId);
 
             if (existing != null && existing.effect != null)
             {
@@ -320,14 +329,14 @@ namespace JJY
             }
 
             // 신규 등록
-            ActiveBuff buff = new ActiveBuff(e);
+            var buff = new ActiveBuff(e);
             buff.sourceId = e.sourceId;
             ApplyBuffEffect(buff);
             activeBuffs.Add(buff);
             if (logActions) Debug.Log($"[BuffManager] 버프 추가됨: {e.type}");
         }
 
-        void ApplyBuffEffect(ActiveBuff buff)
+        private void ApplyBuffEffect(ActiveBuff buff)
         {
             var e = buff.effect;
             if (logActions) Debug.Log($"[BuffManager] 버프 시작! {e.type}");
@@ -377,7 +386,7 @@ namespace JJY
             }
         }
 
-        void RemoveBuffEffect(ActiveBuff buff)
+        private void RemoveBuffEffect(ActiveBuff buff)
         {
             var e = buff.effect;
             if (logActions) Debug.Log($"[BuffManager] 버프 삭제됨 : {e.type} ");
@@ -387,7 +396,7 @@ namespace JJY
                 foreach (var kv in buff.appliedBuffAmounts)
                 {
                     var p = kv.Key;
-                    var amount = kv.Value;
+                    float amount = kv.Value;
 
                     if (p == null) continue;
 
@@ -409,7 +418,7 @@ namespace JJY
                 foreach (var kv in buff.appliedDebuffAmounts)
                 {
                     var m = kv.Key;
-                    var amount = kv.Value;
+                    float amount = kv.Value;
 
                     if (m == null) continue;
 
@@ -427,5 +436,6 @@ namespace JJY
             }
         }
     }
+
     #endregion
 }

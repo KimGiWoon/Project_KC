@@ -57,6 +57,18 @@ public class MonsterController : UnitBaseData
         _monAnimatior = GetComponentInChildren<Animator>();
     }
 
+    private void Start()
+    {
+        if (_monsterData.MonType == MonsterType.Boss)
+            _battleManager.Buff.OnUseGroggyItem += ApplyGroggy;
+    }
+
+    private void OnDisable()
+    {
+        if (_monsterData.MonType == MonsterType.Boss)
+            _battleManager.Buff.OnUseGroggyItem -= ApplyGroggy;
+    }
+
     protected override void Update()
     {
         if (_battleManager._isGameOver || _battleUI._isOnMenu || _isStern) return;
@@ -306,7 +318,6 @@ public class MonsterController : UnitBaseData
             }
             _isUseSkill = false;
         }
-
     }
 
     // 보스 몬스터 소환 스킬사용 (적을 감지 하면 사용)
@@ -391,7 +402,7 @@ public class MonsterController : UnitBaseData
         }
 
         // 보스전이면 생성된 몬스터는 통합체력에 영향을 주면 안됨
-        if (_battleManager._battleType == BattleEventType.Boss|| _battleManager._battleType == BattleEventType.BossFinal) return;
+        if (_battleManager._battleType == BattleEventType.Boss || _battleManager._battleType == BattleEventType.BossFinal) return;
 
         // 실제 줄어든 체력
         float decreaseHp = MathF.Max(0f, saveCurHp - _monsterState._monCurrentHP);
@@ -415,7 +426,8 @@ public class MonsterController : UnitBaseData
         else
         {
             // 보스전에서는 몬스터는 사망보고 하지 않음
-            if (_battleManager._battleType == BattleEventType.Boss || _battleManager._battleType == BattleEventType.BossFinal) return;
+            if (_battleManager._battleType == BattleEventType.Boss ||
+                _battleManager._battleType == BattleEventType.BossFinal) return;
 
             // 매니저에 사망 보고
             _battleManager.MonsterDeathCheck();
@@ -502,7 +514,7 @@ public class MonsterController : UnitBaseData
     // 보스 몬스터 그로기 확인
     private void BossBreakCheck()
     {
-        if (_breakCount == _monsterState._monbreakGage)
+        if (_breakCount >= _monsterState._monbreakGage)
         {
             _isStern = true;
             // 보스 그로기 타임
@@ -522,6 +534,12 @@ public class MonsterController : UnitBaseData
         // 그로기 초기화
         _isStern = false;
         _breakCount = 0f;
+    }
+
+    private void ApplyGroggy(float value)
+    {
+        _breakCount *= 1 + value;
+        BossBreakCheck();
     }
 
     #region 캐릭터의 패시브 스킬 효과
