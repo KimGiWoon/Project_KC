@@ -118,6 +118,9 @@ namespace SDW
         private int _stamina;
         public int Stamina => _stamina;
 
+        private int _clearCount;
+        public int ClearCount => _clearCount;
+
         private bool _isLoaded;
 
         // public static void CreateInstance()
@@ -216,12 +219,20 @@ namespace SDW
         /// 게임 점수를 저장
         /// </summary>
         /// <param name="score">저장할 점수 값</param>
-        public void AddScore(int score) => _score += score;
+        public void AddScore(int score)
+        {
+            _score += score;
+            _firebase.SetScores(_score);
+        }
 
         /// <summary>
         /// 게임 내 점수를 초기화
         /// </summary>
-        public void ClearScore() => _score = 0;
+        public void ClearScore()
+        {
+            _score = 0;
+            _firebase.SetScores(_score);
+        }
 
         /// <summary>
         /// 누적 점수를 총 점수에 더하고 Firebase에 업데이트
@@ -230,7 +241,7 @@ namespace SDW
         public void AddTotalScore(int totalScore)
         {
             _totalScore += totalScore;
-            _firebase.SetScores(_score, _totalScore);
+            _firebase.SetTotalScores(_totalScore);
         }
 
         /// <summary>
@@ -297,6 +308,19 @@ namespace SDW
             _chapter = Convert.ToInt32(etcData["chapter"]);
             _stamina = Convert.ToInt32(etcData["stamina"]);
             //todo stamina 시간을 가져와서 시간 차이만큼 회복을 시켜야 함
+            _clearCount = Convert.ToInt32(etcData["stageCount"]);
+        }
+
+        public void AddStageCount()
+        {
+            _clearCount++;
+            _firebase.SetStageCount(_clearCount);
+        }
+
+        public void ClearStageCount()
+        {
+            _clearCount = 0;
+            _firebase.SetStageCount(_clearCount);
         }
     }
 }

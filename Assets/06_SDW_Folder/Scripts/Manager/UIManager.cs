@@ -144,11 +144,21 @@ namespace SDW
                     break;
                 case SceneName.SDW_RoguelikeScene:
                     if (targetUI == UIName.None)
-                        OpenPanel(UIName.StageGlobalUI);
+                    {
+                        if (_gameManager.Score == 0) OpenPanel(UIName.StageGlobalUI);
+                        // else OpenPanel(UIName.RoguelikeClosingUI);
+                        else StartCoroutine(DelayedOpen(UIName.RoguelikeClosingUI));
+                    }
                     else
                         OpenPanel(targetUI);
                     break;
             }
+        }
+
+        private IEnumerator DelayedOpen(UIName uiName)
+        {
+            yield return new WaitForSeconds(1.5f);
+            OpenPanel(uiName);
         }
 
         #endregion

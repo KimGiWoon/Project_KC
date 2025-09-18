@@ -15,6 +15,10 @@ namespace SDW
         [SerializeField] private Image _resultPopupPanel;
         [SerializeField] private TextMeshProUGUI _clearText;
         [SerializeField] private Image _cutLineImage;
+        [SerializeField] private GameObject _battleResultObj;
+        [SerializeField] private GameObject _relicResultObj;
+        [SerializeField] private GameObject _cookcingResultObj;
+        [SerializeField] private GameObject _yeopjeonResultObj;
 
         [Header("Interval Time")]
         [SerializeField] private float _resultInterval;
@@ -58,6 +62,7 @@ namespace SDW
             _clearTextAlpha = _clearText.color.a;
             _cutLineAlpha = _cutLineImage.color.a;
             ClearAlpha();
+            InactiveUI();
         }
 
         private void OnEnable()
@@ -73,6 +78,7 @@ namespace SDW
         public override void Open()
         {
             StartCoroutine(FadeIn());
+            base.Open();
         }
 
         private IEnumerator FadeIn()
@@ -108,13 +114,14 @@ namespace SDW
                 yield return null;
             }
 
-            //todo 각각의 성과를 표시해야 함
+            var resultIntervalTime = new WaitForSeconds(_resultInterval);
+            yield return resultIntervalTime;
             SetBattleScore();
-            yield return new WaitForSeconds(_resultInterval);
+            yield return resultIntervalTime;
             SetRelicScore();
-            yield return new WaitForSeconds(_resultInterval);
+            yield return resultIntervalTime;
             SetCookScore();
-            yield return new WaitForSeconds(_resultInterval);
+            yield return resultIntervalTime;
             SetYeopjeonScore();
             yield return new WaitForSeconds(_totalResultInterval);
             SetTotalScore();
@@ -144,38 +151,83 @@ namespace SDW
             );
         }
 
+        private void InactiveUI()
+        {
+            _battleResultObj.SetActive(false);
+            _relicResultObj.SetActive(false);
+            _cookcingResultObj.SetActive(false);
+            _yeopjeonResultObj.SetActive(false);
+        }
+
         //todo 각 항목별 수를 반영해야 함
         private void SetBattleScore()
         {
+            _numberOfBattleText.text = _gameManager.ClearCount.ToString();
             _battleScoreText.text = _gameManager.Score.ToString();
             _totalResultScore += _gameManager.Score;
-            // _numberOfBattleText.text = ;
+            _battleResultObj.SetActive(true);
         }
 
         private void SetRelicScore()
         {
-            _relicScoreText.text = _gameManager.Score.ToString();
-            _totalResultScore += _gameManager.Score;
-            // _numberOfRelicText.text = ;
+            int relicCount = _gameManager.InGameItem.RelicCount;
+            _numberOfRelicText.text = relicCount.ToString();
+
+            var relicGradeCount = _gameManager.InGameItem.RelicGradeCount;
+            int relicScore = 0;
+
+            foreach (var gradeCount in relicGradeCount)
+            {
+                switch (gradeCount.Key)
+                {
+                    case RelicGrade.Normal:
+                        relicScore += gradeCount.Value * 70;
+                        break;
+                    case RelicGrade.Rare:
+                        relicScore += gradeCount.Value * 120;
+                        break;
+                    case RelicGrade.Debuff:
+                        relicScore += gradeCount.Value * 30;
+                        break;
+                }
+            }
+
+            _relicScoreText.text = relicScore.ToString();
+            _totalResultScore += relicScore;
+            _relicResultObj.SetActive(true);
         }
 
         private void SetCookScore()
         {
-            _cookScoreText.text = _gameManager.Score.ToString();
-            _totalResultScore += _gameManager.Score;
-            // _numberOfCookText.text = ;
+            int cookCount = _gameManager.InGameItem.CookCount;
+            _numberOfCookText.text = cookCount.ToString();
+
+            int cookScore = cookCount * 30;
+
+            _cookScoreText.text = cookScore.ToString();
+            _totalResultScore += cookScore;
+            _cookcingResultObj.SetActive(true);
         }
 
         private void SetYeopjeonScore()
         {
-            _yeopjeonScoreText.text = _gameManager.Score.ToString();
-            _totalResultScore += _gameManager.Score;
-            // _numberOfYeopjeonText.text = ;
+            int yeopjeonScore = _gameManager.Coin.totalYeopjeon;
+
+            //# 총 획득한 엽전
+            _numberOfYeopjeonText.text = yeopjeonScore.ToString();
+
+            yeopjeonScore = _gameManager.Coin.totalYeopjeon / 100;
+            yeopjeonScore *= 10;
+
+            //# 엽전에 의한 점수
+            _yeopjeonScoreText.text = yeopjeonScore.ToString();
+            _totalResultScore += yeopjeonScore;
+            _yeopjeonResultObj.SetActive(true);
         }
 
         private void SetTotalScore()
         {
-            _totalScoreText.text = _gameManager.Score.ToString();
+            _totalScoreText.text = _totalResultScore.ToString();
         }
 
         private void SetRecipeAndPoint()
@@ -185,21 +237,26 @@ namespace SDW
 
             int masterChef = _totalResultScore / 20000;
             int fineDining = totalScore / 5000;
-            totalScore = totalScore % 5000;
-            int baek = totalScore % 1000 / 1000;
-            int point = (int)(_totalResultScore / _pointPercentage);
+            totalScore %= 5000;
+            int baek = totalScore / 1000;
+            int point = (int)(_totalResultScore * _pointPercentage);
 
             _baekRecipeBookText.text = baek.ToString();
             _fineDiningRecipeBookText.text = fineDining.ToString();
             _masterChefRecipeBookText.text = masterChef.ToString();
-            _pointText.text = point.ToString() + " pts";
+            _pointText.text = point + " pts";
 
             _gameManager.Coin.AddRecipeItem(_gameManager.Coin.beek, baek);
             _gameManager.Coin.AddRecipeItem(_gameManager.Coin.fineDining, fineDining);
             _gameManager.Coin.AddRecipeItem(_gameManager.Coin.masterChef, masterChef);
             _gameManager.Coin.AddPoint(point);
 
-            GameManager.Instance.ClearScore();
+            _gameManager.InGameItem.ClearItemCounts();
+            _gameManager.ClearScore();
+            _gameManager.ClearStageCount();
+
+            //todo 테스트 이후 주석 제거
+            // _gameManager.Coin.ClearYeopjeon();
             _scorePanelButton.interactable = true;
         }
 

@@ -223,11 +223,11 @@ public class BattleManager : MonoBehaviour
         }
 
         // 전투 데이터 가져오기
-        List<BattleStageDataFileData> battleDataList = GameManager.Instance.BattleMonster.BattleStageDataTable[dataKey];
+        var battleDataList = GameManager.Instance.BattleMonster.BattleStageDataTable[dataKey];
 
         // 몬스터 데이터 50% 선택
         int randomData = UnityEngine.Random.Range(0, battleDataList.Count);
-        BattleStageDataFileData selectData = battleDataList[randomData];
+        var selectData = battleDataList[randomData];
 
         int spawnIndex = 0;
 
@@ -265,7 +265,7 @@ public class BattleManager : MonoBehaviour
                 spawnIndex++;
             }
         }
-        
+
         _monsterTotalCurrentHp = _monsterTotalMaxHp;
         // 생성된 몬스터 수 저장
         _monsterCount = _monsters.Count;
@@ -288,7 +288,7 @@ public class BattleManager : MonoBehaviour
         }
 
         // 전투 데이터 가져오기
-        List<BattleStageDataFileData> battleData = GameManager.Instance.BattleMonster.BattleStageDataTable[dataKey];
+        var battleData = GameManager.Instance.BattleMonster.BattleStageDataTable[dataKey];
 
         foreach (var monData in battleData)
         {
@@ -323,7 +323,7 @@ public class BattleManager : MonoBehaviour
                     break;
                 }
             }
-        } 
+        }
 
         _monsterTotalCurrentHp = _monsterTotalMaxHp;
         // 생성된 몬스터 수 저장
@@ -410,6 +410,8 @@ public class BattleManager : MonoBehaviour
 
             // 전투 클리어 시 점수 저장
             BattleClearScoreSave(_stageNum, _battleType);
+            _gameManager.AddStageCount();
+
             // 캐릭터의 체력 저장
             CharacterStatSave();
 
@@ -483,7 +485,7 @@ public class BattleManager : MonoBehaviour
     {
         _battleClearScore = GameManager.Instance.BattleMonster.BattleStageRewardDataTable[$"{stageNum}-{battleType}"];
 
-        switch(battleType)
+        switch (battleType)
         {
             // 노말 전투 사건
             case BattleEventType.Normal:

@@ -334,6 +334,7 @@ namespace SDW
             var stageGlobalUI = _uiDic[UIName.StageGlobalUI] as StageGlobalUI;
 
             stageGlobalUI.ButtonContainerMoveAway();
+            popupSettingUI.OnUIOpenRequested += OpenPanel;
             popupSettingUI.OnUICloseRequested += ClosePanel;
         }
 
