@@ -1,0 +1,30 @@
+﻿namespace SDW
+{
+    public enum NodeEnName
+    {
+        ChefsINvitation,
+        BusyKitchen,
+        RecipeOperation,
+        RankingBattle,
+        SwiftHands,
+        HardenedSkin,
+        HeavyCleaver,
+        ClearMind,
+        KnifeSharpeningI,
+        SwiftFeetI,
+        NutritiousSnackI,
+        SharpEyesI,
+        KnifeSharpeningII,
+        SwiftFeetII,
+        NutritiousSnackII,
+        SharpEyesII,
+        KnifeSharpeningIII,
+        SwiftFeetIII,
+        NutritiousSnackIII,
+        SharpEyesIII,
+        KnifeSharpeningIV,
+        SwiftFeetIV,
+        NutritiousSnackIV,
+        SharpEyesIV
+    }
+}
