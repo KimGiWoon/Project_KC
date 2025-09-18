@@ -253,17 +253,17 @@ namespace SDW
             _gameManager.Coin.AddRecipeItem(_gameManager.Coin.masterChef, masterChef);
             _gameManager.Coin.AddPoint(point);
 
+            _scorePanelButton.interactable = true;
+        }
+
+        private void ScorePanelButtonClicked()
+        {
             _gameManager.InGameItem.ClearItemCounts();
             _gameManager.ClearScore();
             _gameManager.ClearStageCount();
 
             //todo 테스트 이후 주석 제거
             // _gameManager.Coin.ClearYeopjeon();
-            _scorePanelButton.interactable = true;
-        }
-
-        private void ScorePanelButtonClicked()
-        {
             OnUICloseRequested?.Invoke(UIName.RoguelikeClosingUI);
             GameManager.Instance.Scene.LoadSceneAsync(SceneName.SDW_LobbyScene);
         }
