@@ -123,9 +123,6 @@ namespace SDW
 
         private bool _isLoaded;
 
-        //CJH 코드 추가
-        public CharacterDataSO MapPlayerCharacter { get; private set; }
-
         // public static void CreateInstance()
         // {
         //     if (_instance == null)
@@ -324,19 +321,6 @@ namespace SDW
         {
             _clearCount = 0;
             _firebase.SetStageCount(_clearCount);
-        }
-
-
-        //CJH 코드 추가
-
-        /// <summary>
-        /// 맵에 표시될 플레이어 캐릭터 정보를 설정합니다.
-        /// 이 함수는 주로 팀 편성이 확정될 때 호출됩니다.
-        /// </summary>
-        /// <param name="characterData">선택된 팀의 첫 번째 캐릭터 데이터</param>
-        public void SetMapPlayerCharacter(CharacterDataSO characterData)
-        {
-            MapPlayerCharacter = characterData;
         }
     }
 }
