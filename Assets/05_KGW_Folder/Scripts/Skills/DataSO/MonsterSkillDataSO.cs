@@ -38,7 +38,7 @@ public class MonsterSkillDataSO : ScriptableObject
             case MonsterSkillEnName.DangerousPollen:    // 위험한 꽃가루
                 skill.UseDangerousPollen(caster);
                 break;
-            case MonsterSkillEnName.RockFist:    // 난도질
+            case MonsterSkillEnName.RockFist:    // 바위 주먹
                 skill.UseSavageSlash(caster,target);
                 break;
             case MonsterSkillEnName.Stomp:  // 발구르기

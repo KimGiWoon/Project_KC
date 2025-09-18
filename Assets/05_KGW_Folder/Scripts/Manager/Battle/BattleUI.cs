@@ -98,7 +98,8 @@ public class BattleUI : BaseUI
 
     private void BattleStart()
     {
-        _time = _battleManager._timer;
+        _time = GameManager.Instance.BattleMonster.BattleStageTypeRuleTimeDataTable[RoguelikeManager.Instance.MonsterType];
+        _battleManager._timer = _time;
         _count = 3f;
         _battleManager.Wall.gameObject.SetActive(false);
 
