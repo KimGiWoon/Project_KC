@@ -503,7 +503,7 @@ public class BattleManager : MonoBehaviour
     }
 
     // 중도 포기 시 캐릭터 체력 갱신
-    public void GiveUpCharacterRenewal()
+    public void ClearCharacterHp()
     {
         foreach (var cha in _characterStats)
         {

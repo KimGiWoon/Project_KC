@@ -49,6 +49,7 @@ namespace SDW
         private float _cutLineAlpha;
         private int _totalResultScore;
         private GameManager _gameManager;
+        private BattleManager _battleManager;
 
         public Action<UIName> OnUICloseRequested;
 
@@ -62,6 +63,12 @@ namespace SDW
             _cutLineAlpha = _cutLineImage.color.a;
             ClearAlpha();
             InactiveUI();
+        }
+
+        protected override void Start()
+        {
+            base.Start();
+            _battleManager = FindObjectOfType<BattleManager>();
         }
 
         private void OnEnable()
@@ -261,6 +268,7 @@ namespace SDW
             _gameManager.InGameItem.ClearItemCounts();
             _gameManager.ClearScore();
             _gameManager.ClearStageCount();
+            _battleManager.ClearCharacterHp();
 
             //todo 테스트 이후 주석 제거
             // _gameManager.Coin.ClearYeopjeon();
