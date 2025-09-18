@@ -1,9 +1,11 @@
 using System;
 using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
+using CJH;
 using KSH;
 using TMPro;
+using Unity.VisualScripting.FullSerializer;
+using UnityEngine;
+using UnityEngine.UI;
 
 // 스테이지를 클리어하여 보상을 선택하는 UI
 namespace SDW
@@ -43,6 +45,14 @@ namespace SDW
         {
             base.Open();
             _confirmButton.interactable = false;
+
+            // 보스 클리어 시
+            if(RoguelikeManager.Instance.MonsterType == BattleEventType.Boss || RoguelikeManager.Instance.MonsterType == BattleEventType.BossFinal)
+            {
+                Debug.Log("보스 클리어");
+                // 다음 스테이지 이동
+                NextStage();
+            }
         }
 
         private void ConfirmButtonClicked()
@@ -80,6 +90,29 @@ namespace SDW
                 relic.SetData(relics[i], OnClickRelic, relicDetailUI);
             }
             currentRelicUI = null;
+        }
+
+        // 다음 스테이지 이동
+        public void NextStage()
+        {
+            if (RoguelikeManager.Instance.MonsterType == BattleEventType.Boss)
+            {
+                // 스테이지 클리어
+                GameManager.Instance._isStageClear = true;
+                // 스테이지 증가
+                GameManager.Instance.StageIncrease();
+
+                Debug.Log($"보스 클리어 후 {GameManager.Instance.Stage} 스테이지로 이동");
+
+                var generator = FindObjectOfType<MapGenerator>();
+                var config = MapView.Instance.mapConfig;
+
+                if (generator != null && config != null)
+                {
+                    var newMapData = generator.GenerateMap(config);
+                    MapView.Instance.CreateMapView(newMapData);
+                }
+            }
         }
 
         private void OnClickRelic(RelicUI relicUI)

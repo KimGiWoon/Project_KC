@@ -118,6 +118,26 @@ namespace CJH
 
             UpdateMapState();
             UpdateStageBackground();
+            
+            // 스테이지 클리어 후 다음 스테이지로 이동 전 초기화
+            if (GameManager.Instance._isStageClear)
+            {
+                // 플레이어 위치 초기화
+                if (currentMap.StartNode != null && nodeObjects.TryGetValue(currentMap.StartNode.point, out var startNodeObj))
+                {
+                    // 플레이어 위치를 시작 노드로 강제 이동
+                    playerVisualController.transform.position = startNodeObj.transform.position;
+
+                    // 맵 초기화
+                    currentMap.Path.Clear();
+                    currentMap.Path.Add(currentMap.StartNode);
+
+                    // 카메라 위치 초기화
+                    RoguelikeManager.Instance.BattleStart();
+
+                    GameManager.Instance._isStageClear = false;
+                }
+            }
         }
 
         private void UpdateCharacter()

@@ -122,6 +122,7 @@ namespace SDW
         public int ClearCount => _clearCount;
 
         private bool _isLoaded;
+        public bool _isStageClear;
 
         // public static void CreateInstance()
         // {
@@ -321,6 +322,12 @@ namespace SDW
         {
             _clearCount = 0;
             _firebase.SetStageCount(_clearCount);
+        }
+
+        // 스테이지 증가
+        public void StageIncrease()
+        {
+            _stage++;
         }
     }
 }
