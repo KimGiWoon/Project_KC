@@ -43,7 +43,6 @@ namespace SDW
         [SerializeField] private TextMeshProUGUI _fineDiningRecipeBookText;
         [SerializeField] private TextMeshProUGUI _masterChefRecipeBookText;
         [SerializeField] private TextMeshProUGUI _pointText;
-        [SerializeField] private float _pointPercentage = 0.05f;
 
         private float _resultPopupPanelAlpha;
         private float _clearTextAlpha;
@@ -239,7 +238,7 @@ namespace SDW
             int fineDining = totalScore / 5000;
             totalScore %= 5000;
             int baek = totalScore / 1000;
-            int point = (int)(_totalResultScore * _pointPercentage);
+            int point = ((_totalResultScore - 200) / 500 + 1) * 10;
 
             _baekRecipeBookText.text = baek.ToString();
             _fineDiningRecipeBookText.text = fineDining.ToString();

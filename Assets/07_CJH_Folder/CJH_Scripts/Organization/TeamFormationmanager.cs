@@ -59,7 +59,7 @@ public class TeamFormationManager : MonoBehaviour
         {
             finalTeamSlots[i].characterImage.sprite = _charData.SelectedTeam[i]._characterSprite;
             finalTeamSlots[i].characterButton.interactable = false;
-            finalTeamSlots[i].levelText.text = _charData.SelectedTeam[i]._chaLv.ToString();
+            finalTeamSlots[i].levelText.text = "Lv." + _charData.SelectedTeam[i]._chaLv.ToString();
             finalTeamSlots[i].characterData = _charData.SelectedTeam[i];
             finalTeamSlots[i].gameObject.SetActive(true);
             _selectedTeam.Add(_charData.SelectedTeam[i]);
@@ -216,7 +216,7 @@ public class TeamFormationManager : MonoBehaviour
         {
             finalTeamSlots[i].characterImage.sprite = _prevFinalTeamSlots[i].Sprite;
             finalTeamSlots[i].characterButton.interactable = false;
-            finalTeamSlots[i].levelText.text = _prevFinalTeamSlots[i].LevelText;
+            finalTeamSlots[i].levelText.text = "Lv. " + _prevFinalTeamSlots[i].LevelText;
             finalTeamSlots[i].characterData = _prevFinalTeamSlots[i].Data;
             finalTeamSlots[i].gameObject.SetActive(true);
 
