@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Row:
     EncounterID: 6004
-    Type: 1
+    Sentiment: 0
     EncounterStage: 1
     ResultType: 1
     EncounterText: "\uB2F9\uC2E0\uC740 \uC8FC\uBCC0\uC744 \uB450\uB9AC\uBC88 \uAC70\uB9AC\uB358
@@ -24,13 +24,13 @@ MonoBehaviour:
       \uB0A8\uB294 \uC870\uB9AC\uAE30\uAD6C\uAC00 \uC788\uB098\uACE0 \uBB3C\uC5B4\uBCF4\uBA70\\n\uB9CC\uC57D
       \uC788\uC73C\uBA74, \uC790\uC2E0\uC774 \uB300\uAC00\uB97C \uC9C0\uBD88\uD558\uACE0
       \uC0AC\uACA0\uB2E4\uACE0 \uD569\uB2C8\uB2E4. "
-    EnCounterType: 11
+    Type: 1
     ChoiceCount: 2
     ChoiceTexts:
     - "\uC77C\uB2E8 \uC0AC\uACE0 \uBCF4\uC790\\n(\uC5FD\uC804 - 500, \uB79C\uB364
       \uC720\uBB3C 1\uAC1C \uD68D\uB4DD)"
     - "\uC548 \uC0B0\uB2E4"
-    RandomType: 3
+    RandomGrade: 0
     ResultOwned: 0
     CanGetMoney: 1
     StartID: 11001
@@ -41,5 +41,6 @@ MonoBehaviour:
     ResultNumber: 1
     ResultChoiceCount: 1
     EncounterExitText:
-    - "\uC5FD\uC804 - 500\\n\uC544\uB798\uC758 \uC720\uBB3C\uC744 \uD68D\uB4DD\uD569\uB2C8\uB2E4."
+    - "\uC5FD\uC804 - 500\\n\uC544\uB798\uC758 \uC720\uBB3C\uC744 \uD68D\uB4DD\uD569\uB2C8\uB2E4.
+      \\n {relicName}"
     - "\uB2F9\uC2E0\uC740 \uADF8\uB0E5 \uBB34\uC2DC\uD558\uACE0 \uC9C0\uB098\uAC11\uB2C8\uB2E4."
