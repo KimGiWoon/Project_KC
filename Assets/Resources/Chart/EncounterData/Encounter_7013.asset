@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Row:
     EncounterID: 7013
-    Type: 2
+    Sentiment: 0
     EncounterStage: 0
     ResultType: 3
     EncounterText: "\uB2F9\uC2E0\uC740 \uC5B4\uB450\uC6B4 \uC232\uC744 \uC9C0\uB098\uAC11\uB2C8\uB2E4.
@@ -23,10 +23,10 @@ MonoBehaviour:
       \uB4ED\uB2C8\uB2E4.\\n\uC774\uD6C4, \uC232\uC744 \uB098\uAC00\uACE0 \uAC00\uBC29\uC744
       \uD655\uC778\uD574\uBCF4\uB2C8, \uC5C6\uB358 \uBB3C\uAC74\uC774 \uB4E4\uC5B4
       \uC788\uC2B5\uB2C8\uB2E4..."
-    EnCounterType: 1
+    Type: 2
     ChoiceCount: 1
     ChoiceTexts: []
-    RandomType: 5
+    RandomGrade: 0
     ResultOwned: 0
     CanGetMoney: 0
     StartID: 11033
@@ -37,4 +37,5 @@ MonoBehaviour:
     ResultNumber: 1
     ResultChoiceCount: 1
     EncounterExitText:
-    - "\uC544\uB798\uC758 \uC720\uBB3C\uC744 \uD68D\uB4DD\uD569\uB2C8\uB2E4..."
+    - "\uC544\uB798\uC758 \uC720\uBB3C\uC744 \uD68D\uB4DD\uD569\uB2C8\uB2E4... \\n
+      {relicName}"
