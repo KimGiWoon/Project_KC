@@ -104,7 +104,7 @@ namespace SDW
                 // 스테이지 클리어
                 GameManager.Instance._isStageClear = true;
                 // 스테이지 증가
-                GameManager.Instance.StageIncrease();
+                GameManager.Instance.AddStageCount();
 
                 Debug.Log($"보스 클리어 후 {GameManager.Instance.Stage} 스테이지로 이동");
 

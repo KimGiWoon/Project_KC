@@ -11,7 +11,6 @@ namespace SDW
     {
         [Header("UI Components")]
         [SerializeField] private TextMeshProUGUI _pointText;
-        [SerializeField] private Button _initializeButton;
         [SerializeField] private Button _backButton;
         [SerializeField] private GameObject _contents;
         private List<GrowthNodeUI> _growthNodes = new List<GrowthNodeUI>();
@@ -27,14 +26,12 @@ namespace SDW
 
         private void OnEnable()
         {
-            _initializeButton.onClick.AddListener(InitializeButtonClicked);
             _backButton.onClick.AddListener(BackButtonClicked);
             GameManager.Instance.Coin.OnPointChanged += SetTotalPoint;
         }
 
         private void OnDisable()
         {
-            _initializeButton.onClick.RemoveListener(InitializeButtonClicked);
             _backButton.onClick.RemoveListener(BackButtonClicked);
             GameManager.Instance.Coin.OnPointChanged -= SetTotalPoint;
 
@@ -66,11 +63,6 @@ namespace SDW
             button.onClick.AddListener(() =>
                 OpenNodeDescription(growthNode)
             );
-        }
-
-        private void InitializeButtonClicked()
-        {
-            OnUIOpenRequested?.Invoke(UIName.NodeInitializeUI, null);
         }
 
         private void BackButtonClicked()
