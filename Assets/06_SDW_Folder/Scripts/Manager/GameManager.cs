@@ -124,6 +124,12 @@ namespace SDW
         private bool _isLoaded;
         public bool _isStageClear;
 
+        private List<int> _growthUnlockNodes = new List<int>();
+        public IReadOnlyList<int> GrowthUnlockNodes => _growthUnlockNodes;
+
+        private List<int> _growthCompleteNodes = new List<int>();
+        public IReadOnlyList<int> GrowthCompleteNodes => _growthCompleteNodes;
+
         // public static void CreateInstance()
         // {
         //     if (_instance == null)
@@ -328,6 +334,16 @@ namespace SDW
         public void StageIncrease()
         {
             _stage++;
+        }
+
+        public void AddGrowthUnlockNode(int id)
+        {
+            _growthUnlockNodes.Add(id);
+        }
+
+        public void AddGrowthCompleteNode(int id)
+        {
+            _growthCompleteNodes.Add(id);
         }
     }
 }

@@ -29,6 +29,7 @@ namespace JJY
         public string masterChef => _masterChef;
         public Action OnItemsChanged;
         public Action<int> OnYeopjeonChanged;
+        public Action OnPointChanged;
 
         // public static CoinManager Instance { get; private set; }
         private void Awake()
@@ -208,6 +209,7 @@ namespace JJY
             if (point < value) return false;
 
             point -= value;
+            OnPointChanged?.Invoke();
             return true;
             //todo firebase에 저장
         }

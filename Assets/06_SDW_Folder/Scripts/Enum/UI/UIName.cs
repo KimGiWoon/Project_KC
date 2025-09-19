@@ -48,6 +48,11 @@
         InventoryUI,
         CookingUI,
         FoodDescriptionUI,
-        RoguelikeClosingUI
+        RoguelikeClosingUI,
+
+        //# PermanentGrowth
+        PermanentGrowthUI,
+        NodeDescriptionUI,
+        NodeInitializeUI
     }
 }

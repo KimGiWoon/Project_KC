@@ -75,6 +75,10 @@ namespace SDW
                 //@ Gacha UI
                 case UIName.GachaMainUI: ConnectGachaMainUI(uiName); break;
                 case UIName.GachaResultUI: ConnectGachaResultUI(uiName); break;
+                //@ PermanentGrowth UI
+                case UIName.PermanentGrowthUI: ConnectPermanentGrowthUI(uiName); break;
+                case UIName.NodeDescriptionUI: ConnectNodeDescriptionUI(uiName); break;
+                case UIName.NodeInitializeUI: ConnectNodeInitializeUI(uiName); break;
             }
         }
 
@@ -311,6 +315,34 @@ namespace SDW
             var gachaResultUI = _uiDic[uiName] as GachaResultUI;
             gachaResultUI.OnUIOpenRequested += OpenPanel;
             gachaResultUI.OnUICloseRequested += ClosePanel;
+        }
+
+        private void ConnectPermanentGrowthUI(UIName uiName)
+        {
+            var permanentUI = _uiDic[uiName] as PermanentGrowthUI;
+            var nodeDescriptionUI = _uiDic[UIName.NodeDescriptionUI] as NodeDescriptionUI;
+
+            permanentUI.OnUIOpenRequested += (uiName, growthNode) =>
+            {
+                if (growthNode != null) nodeDescriptionUI.SetDescription(growthNode);
+                OpenPanel(uiName);
+            };
+            permanentUI.OnUICloseRequested += ClosePanel;
+        }
+
+        private void ConnectNodeDescriptionUI(UIName uiName)
+        {
+            var nodeDescriptionUI = _uiDic[uiName] as NodeDescriptionUI;
+
+            nodeDescriptionUI.OnUICloseRequested += ClosePanel;
+        }
+
+        private void ConnectNodeInitializeUI(UIName uiName)
+        {
+            var nodeInitializeUI = _uiDic[uiName] as NodeInitializeUI;
+
+            //todo 추후 Description 관련 처리 필요함. PermanentGrowthUI에서 전달해야 함
+            nodeInitializeUI.OnUICloseRequested += ClosePanel;
         }
 
         #endregion
