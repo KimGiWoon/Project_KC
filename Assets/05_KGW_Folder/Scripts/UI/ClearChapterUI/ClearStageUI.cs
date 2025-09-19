@@ -14,6 +14,7 @@ namespace SDW
     {
         [Header("UI Components")]
         [SerializeField] private Button _confirmButton; // 랜덤 인카운터로 이동 버튼
+        [SerializeField] private TextMeshProUGUI _yeopjeonText;
         [SerializeField] private Transform content;
         [SerializeField] private RelicUI relicPrefab;
         [SerializeField] public GameObject RelicWindow;
@@ -43,11 +44,13 @@ namespace SDW
 
         public override void Open()
         {
+            _yeopjeonText.text = "100 엽전을 획득하였습니다.";
             base.Open();
             _confirmButton.interactable = false;
 
             // 보스 클리어 시
-            if(RoguelikeManager.Instance.MonsterType == BattleEventType.Boss || RoguelikeManager.Instance.MonsterType == BattleEventType.BossFinal)
+            if (RoguelikeManager.Instance.MonsterType == BattleEventType.Boss ||
+                RoguelikeManager.Instance.MonsterType == BattleEventType.BossFinal)
             {
                 Debug.Log("보스 클리어");
                 // 다음 스테이지 이동
@@ -58,6 +61,7 @@ namespace SDW
         private void ConfirmButtonClicked()
         {
             GetRelic();
+            GameManager.Instance.Coin.AddYeopjeon(100);
             RoguelikeManager.Instance.OnBattleEnd?.Invoke();
             OnUICloseRequested?.Invoke(UIName.ClearStageUI);
         }

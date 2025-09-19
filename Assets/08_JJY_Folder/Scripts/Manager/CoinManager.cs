@@ -169,7 +169,7 @@ namespace JJY
         public void SetStarCandy(int value)
         {
             starCandy = value;
-            _gameManager.Firebase.SetStarCandy(starCandy);
+            _firebase.SetStarCandy(starCandy);
         }
 
         /// <summary>
@@ -178,6 +178,7 @@ namespace JJY
         public void AddShiningStarCandy(int value)
         {
             shiningStarCandy += value;
+            _firebase.SetShiningStarCandy(shiningStarCandy);
         }
         /// <summary>
         /// ShiningStarCandy 재화 소모
@@ -187,6 +188,7 @@ namespace JJY
             if (shiningStarCandy < value) return;
 
             shiningStarCandy -= value;
+            _firebase.SetShiningStarCandy(shiningStarCandy);
         }
 
         /// <summary>
@@ -196,7 +198,8 @@ namespace JJY
         public void AddPoint(int value)
         {
             point += value;
-            //todo firebase에 저장
+            OnPointChanged?.Invoke();
+            _firebase.SetPoint(value);
         }
 
         /// <summary>
@@ -204,14 +207,11 @@ namespace JJY
         /// </summary>
         /// <param name="value">감소시킬 재화의 양</param>
         /// <returns>감소량이 가능하여 성공적으로 감소했을 경우 true, 그렇지 않으면 false</returns>
-        public bool SubtractPoint(int value)
+        public void SubtractPoint(int value)
         {
-            if (point < value) return false;
-
             point -= value;
             OnPointChanged?.Invoke();
-            return true;
-            //todo firebase에 저장
+            _firebase.SetPoint(value);
         }
 
 #if UNITY_EDITOR
