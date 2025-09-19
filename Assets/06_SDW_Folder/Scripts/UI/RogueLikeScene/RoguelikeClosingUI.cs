@@ -255,9 +255,9 @@ namespace SDW
             _masterChefRecipeBookText.text = masterChef.ToString();
             _pointText.text = point + " pts";
 
-            _gameManager.Coin.AddRecipeItem(_gameManager.Coin.beek, baek);
-            _gameManager.Coin.AddRecipeItem(_gameManager.Coin.fineDining, fineDining);
-            _gameManager.Coin.AddRecipeItem(_gameManager.Coin.masterChef, masterChef);
+            if (baek != 0) _gameManager.Coin.AddRecipeItem(_gameManager.Coin.beek, baek);
+            if (fineDining != 0) _gameManager.Coin.AddRecipeItem(_gameManager.Coin.fineDining, fineDining);
+            if (masterChef != 0) _gameManager.Coin.AddRecipeItem(_gameManager.Coin.masterChef, masterChef);
             _gameManager.Coin.AddPoint(point);
 
             _scorePanelButton.interactable = true;

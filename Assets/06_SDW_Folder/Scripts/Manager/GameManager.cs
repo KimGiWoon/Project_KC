@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using JJY;
 using UnityEngine;
 using KSH;
@@ -200,6 +201,7 @@ namespace SDW
             if (!_firebase.IsLoaded || _isLoaded) return;
 
             SetEtcData(_firebase.EtcData);
+            SetGrowthData(_firebase.GrowthData);
             _isLoaded = true;
         }
 
@@ -318,6 +320,29 @@ namespace SDW
             _clearCount = Convert.ToInt32(etcData["stageCount"]);
         }
 
+        private void SetGrowthData(IReadOnlyDictionary<string, object> growthData)
+        {
+            // { "growthData/unlockNodes", unlockNodes },
+            // { "growthData/completeNodes", completeNodes }
+            if (growthData == null) return;
+
+            if (growthData.ContainsKey("unlockNodes"))
+            {
+                var unlockNodes = growthData["unlockNodes"] as List<object>;
+                var unlockNodesData = unlockNodes?.Select(o => Convert.ToInt32(o)).ToList();
+
+                _growthUnlockNodes = unlockNodesData;
+            }
+
+            if (growthData.ContainsKey("completeNodes"))
+            {
+                var completeNodes = growthData["completeNodes"] as List<object>;
+                var completeNodesData = completeNodes?.Select(o => Convert.ToInt32(o)).ToList();
+
+                _growthCompleteNodes = completeNodesData;
+            }
+        }
+
         public void AddStageCount()
         {
             _clearCount++;
@@ -330,20 +355,16 @@ namespace SDW
             _firebase.SetStageCount(_clearCount);
         }
 
-        // 스테이지 증가
-        public void StageIncrease()
-        {
-            _stage++;
-        }
-
         public void AddGrowthUnlockNode(int id)
         {
             _growthUnlockNodes.Add(id);
+            _firebase.SetGrowthUnlockData(GrowthUnlockNodes);
         }
 
         public void AddGrowthCompleteNode(int id)
         {
             _growthCompleteNodes.Add(id);
+            _firebase.SetGrowthCompleteData(GrowthCompleteNodes);
         }
     }
 }

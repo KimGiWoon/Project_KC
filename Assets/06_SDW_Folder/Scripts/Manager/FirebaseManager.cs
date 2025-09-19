@@ -46,6 +46,9 @@ namespace SDW
         private Dictionary<string, object> _etcData;
         public IReadOnlyDictionary<string, object> EtcData => _etcData;
 
+        private Dictionary<string, object> _growthData;
+        public IReadOnlyDictionary<string, object> GrowthData => _growthData;
+
         private bool _isLoaded;
         public bool IsLoaded => _isLoaded;
 
@@ -259,10 +262,10 @@ namespace SDW
 
             var coinData = new Dictionary<string, object>
             {
-                { "baekRecipeBook", 0 }, //# 1000 경험치 재화
+                { "beeksRecipeBook", 0 }, //# 1000 경험치 재화
                 { "fineDiningRecipeBook", 0 }, //# 5000 경험치 재화
                 { "masterChefRecipeBook", 0 }, //# 20000 경험치 재화
-                { "point", 9999999 }, //# 영구 성장 포인트
+                { "point", 10 }, //# 영구 성장 포인트
                 //todo 추후 0으로 설정
                 { "starCandy", 9999999 }, //# 유료 -> 뽑기 재화
                 { "shiningStarCandy", 9999999 }, //# 유료 재화
@@ -452,6 +455,7 @@ namespace SDW
                 _characters = userData["characters"] as Dictionary<string, object>;
                 _dailyQuest = userData["dailyQuests"] as Dictionary<string, object>;
                 _etcData = userData["etcData"] as Dictionary<string, object>;
+                _growthData = userData["growthData"] as Dictionary<string, object>;
                 _isLoaded = true;
             }
         }
@@ -472,7 +476,7 @@ namespace SDW
 
             var coinData = new Dictionary<string, object>
             {
-                { "baekRecipeBook", 0 }, //# 1000 경험치 재화
+                { "beeksRecipeBook", 0 }, //# 1000 경험치 재화
                 { "fineDiningRecipeBook", 0 }, //# 5000 경험치 재화
                 { "masterChefRecipeBook", 0 }, //# 20000 경험치 재화
                 //todo 추후 0으로 설정
@@ -1099,6 +1103,38 @@ namespace SDW
             var updateData = new Dictionary<string, object>
             {
                 { "etcData/stageCount", stageCount }
+            };
+
+            _db.Child("users").Child(_auth.CurrentUser.UserId).UpdateChildrenAsync(updateData).ContinueWithOnMainThread(task =>
+            {
+                if (task.IsFaulted)
+                {
+                    Debug.LogWarning($"stageCount 저장 실패: {task.Exception.Message}");
+                }
+            });
+        }
+
+        public void SetGrowthUnlockData(IReadOnlyList<int> unlockNodes)
+        {
+            var updateData = new Dictionary<string, object>
+            {
+                { "growthData/unlockNodes", unlockNodes }
+            };
+
+            _db.Child("users").Child(_auth.CurrentUser.UserId).UpdateChildrenAsync(updateData).ContinueWithOnMainThread(task =>
+            {
+                if (task.IsFaulted)
+                {
+                    Debug.LogWarning($"stageCount 저장 실패: {task.Exception.Message}");
+                }
+            });
+        }
+
+        public void SetGrowthCompleteData(IReadOnlyList<int> completeNodes)
+        {
+            var updateData = new Dictionary<string, object>
+            {
+                { "growthData/completeNodes", completeNodes }
             };
 
             _db.Child("users").Child(_auth.CurrentUser.UserId).UpdateChildrenAsync(updateData).ContinueWithOnMainThread(task =>
