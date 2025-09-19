@@ -79,8 +79,8 @@ public class NonRemoveADUI : BaseUI
     // 캐릭터 부활
     private void CharacterResurrection()
     {
-        // 타임오버로 게임 종료면 게임 시간 초기화
-        if (_battleManager._isTimeOver)
+        // 게임 종료면 게임 시간 초기화
+        if (_battleManager._isGameOver)
         {
             _battleManager._battleUI._time = _battleManager._timer;
         }

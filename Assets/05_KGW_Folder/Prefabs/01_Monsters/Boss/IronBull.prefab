@@ -124,7 +124,7 @@ Animator:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1569528133710734311}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: 51ccf031616594d4abaefa753d96f409, type: 2}
   m_CullingMode: 0
@@ -335,6 +335,7 @@ MonoBehaviour:
   _isDetect: 0
   _isFirst: 0
   _isApplyPassive: 0
+  _isUseSkill2: 0
   Battle: {fileID: 0}
 --- !u!114 &8367841818794511618
 MonoBehaviour:

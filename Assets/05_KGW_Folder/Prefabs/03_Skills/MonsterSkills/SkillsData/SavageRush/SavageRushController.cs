@@ -32,8 +32,16 @@ public class SavageRushController : MonoBehaviour
             RushCoroutineStop();
         }
 
-        _rushRoutine = StartCoroutine(RushCoroutine());
+        //_rushRoutine = StartCoroutine(RushCoroutine());
 
+        // 2초의 대기 시간 후 돌진 사용
+        Invoke(nameof(StartRush), 2f);
+    }
+
+    // 돌진 시작
+    private void StartRush()
+    {
+        _rushRoutine = StartCoroutine(RushCoroutine());
     }
 
     private IEnumerator RushCoroutine()
@@ -41,14 +49,16 @@ public class SavageRushController : MonoBehaviour
         Vector3 startPos = _position;
         Vector3 endPos;
         Vector3 rushDir = Vector3.right;
-        float rushTime = 1f;
+        float rushTime = 0.5f;
         float timer = 0f;
         float returnDuration = 0.5f;
+
+        //yield return new WaitForSeconds(2f);
 
         // 앞으로 돌진
         while (timer < rushTime)
         {
-            _monster.transform.position += rushDir * _monster._monsterState._monMoveSpeed * 5f * Time.deltaTime;
+            _monster.transform.position += rushDir * _monster._monsterState._monMoveSpeed * 10f * Time.deltaTime;
             timer += Time.deltaTime;
 
             yield return null;
