@@ -58,8 +58,8 @@ Transform:
   m_GameObject: {fileID: 1569528133710734311}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: -0.095, y: 0.228, z: 0}
+  m_LocalScale: {x: 0.09, y: 0.09, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7920221253077946429}
@@ -105,8 +105,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 14
-  m_Sprite: {fileID: 21300000, guid: 0ccc508108fa6ed4fa11b4a467d7f609, type: 3}
-  m_Color: {r: 0.9607843, g: 0, b: 0.1254271, a: 1}
+  m_Sprite: {fileID: 21300000, guid: 7885f33bc909a584997d581ffcf0b20b, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -124,9 +124,9 @@ Animator:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1569528133710734311}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 1908f663780afd54dbb68f6cd01a9b1f, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -296,6 +296,7 @@ MonoBehaviour:
   _isAttack: 0
   _isHalfHpSkill: 0
   _isStern: 0
+  _isUseSkill: 0
   _attackCoolTimer: 0
   _moveDir: {x: 0, y: 0, z: 0}
   _gameSpeed: 0
@@ -334,6 +335,8 @@ MonoBehaviour:
   _isDetect: 0
   _isFirst: 0
   _isApplyPassive: 0
+  _isUseSkill2: 0
+  Battle: {fileID: 0}
 --- !u!114 &8367841818794511618
 MonoBehaviour:
   m_ObjectHideFlags: 0
