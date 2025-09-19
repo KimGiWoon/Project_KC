@@ -1,5 +1,4 @@
 using System;
-using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using SDW;
@@ -8,9 +7,6 @@ using SDW;
 public class DefeatChapterUI : BaseUI
 {
     [Header("Battle Manager Reference")]
-    // private BattleManager _battleManager;
-    [SerializeField] private TMP_Text _expText; // 겅험치 텍스트
-    [SerializeField] private TMP_Text _growthPointText; // 성장 포인트 텍스트
     private Button _confirmButton; // 로비 이동 버튼
 
     public Action<UIName> OnUIOpenRequested;
@@ -22,12 +18,6 @@ public class DefeatChapterUI : BaseUI
         _panelContainer.SetActive(false); // 패널 비활성화
         _confirmButton = _panelContainer.GetComponentInChildren<Button>();
         _confirmButton.onClick.AddListener(LobbyButtonClick);
-    }
-
-    public override void Open()
-    {
-        _expText.text = GameManager.Instance.Score.ToString();
-        base.Open();
     }
 
     // 로비 이동 버튼 클릭

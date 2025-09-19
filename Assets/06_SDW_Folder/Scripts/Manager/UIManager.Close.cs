@@ -71,6 +71,10 @@ namespace SDW
                 //@ Gacha UI
                 case UIName.GachaMainUI: DisconnectGachaMainUI(uiName); break;
                 case UIName.GachaResultUI: DisconnectGachaResultUI(uiName); break;
+                //@ PermanentGrowth UI
+                case UIName.PermanentGrowthUI: DisconnectPermanentGrowthUI(uiName); break;
+                case UIName.NodeDescriptionUI: DisconnectNodeDescriptionUI(uiName); break;
+                case UIName.NodeInitializeUI: DisconnectNodeInitializeUI(uiName); break;
             }
         }
 
@@ -303,6 +307,33 @@ namespace SDW
             var gachaResultUI = _uiDic[uiName] as GachaResultUI;
             gachaResultUI.OnUIOpenRequested -= OpenPanel;
             gachaResultUI.OnUICloseRequested -= ClosePanel;
+        }
+
+        private void DisconnectPermanentGrowthUI(UIName uiName)
+        {
+            var permanentUI = _uiDic[uiName] as PermanentGrowthUI;
+            var nodeDescriptionUI = _uiDic[UIName.NodeDescriptionUI] as NodeDescriptionUI;
+
+            permanentUI.OnUIOpenRequested -= (uiName, growthNode) =>
+            {
+                if (growthNode != null) nodeDescriptionUI.SetDescription(growthNode);
+                OpenPanel(uiName);
+            };
+            permanentUI.OnUICloseRequested -= ClosePanel;
+        }
+
+        private void DisconnectNodeDescriptionUI(UIName uiName)
+        {
+            var nodeDescriptionUI = _uiDic[uiName] as NodeDescriptionUI;
+
+            nodeDescriptionUI.OnUICloseRequested -= ClosePanel;
+        }
+
+        private void DisconnectNodeInitializeUI(UIName uiName)
+        {
+            var nodeInitializeUI = _uiDic[uiName] as NodeInitializeUI;
+
+            nodeInitializeUI.OnUICloseRequested -= ClosePanel;
         }
 
         #endregion

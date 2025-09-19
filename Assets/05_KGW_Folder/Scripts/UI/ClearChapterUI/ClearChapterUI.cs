@@ -8,11 +8,8 @@ using SDW;
 public class ClearChapterUI : BaseUI
 {
     [Header("Battle Manager Reference")]
-    // private BattleManager _battleManager;
-    [SerializeField] private TMP_Text _expText; // 겅험치 텍스트
-    [SerializeField] private TMP_Text _growthPointText; // 성장 포인트 텍스트
+    [SerializeField] private TextMeshProUGUI _yeopjeonText;
     private Button _confirmButton; // 로비 이동 버튼
-
     public Action<UIName> OnUIOpenRequested;
     public Action<UIName> OnUICloseRequested;
 
@@ -36,13 +33,14 @@ public class ClearChapterUI : BaseUI
 
     public override void Open()
     {
-        _expText.text = GameManager.Instance.Score.ToString();
+        _yeopjeonText.text = "100 엽전을 획득하였습니다.";
         base.Open();
     }
 
     // 로비 이동 버튼 클릭
     private void LobbyButtonClick()
     {
+        GameManager.Instance.Coin.AddYeopjeon(100);
         OnUIOpenRequested?.Invoke(UIName.RoguelikeClosingUI);
         OnUICloseRequested?.Invoke(UIName.ClearChapterUI);
     }

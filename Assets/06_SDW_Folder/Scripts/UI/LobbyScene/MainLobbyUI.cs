@@ -13,6 +13,8 @@ namespace SDW
         [SerializeField] private Button _userInfoButton;
         [SerializeField] private Button _dailyQuestButton;
         [SerializeField] private Button _gachaButton;
+        //todo 나중에 이동될 수 있음
+        [SerializeField] private Button _growthButton;
 
         [SerializeField] private Image _userIcon;
         [SerializeField] private TextMeshProUGUI _nicknameText;
@@ -45,6 +47,7 @@ namespace SDW
             _userInfoButton.onClick.AddListener(UserInfoButtonClicked);
             _dailyQuestButton.onClick.AddListener(DailyQuestButtonClicked);
             _gachaButton.onClick.AddListener(GachaButtonClicked);
+            _growthButton.onClick.AddListener(GrowthButtonClicked);
 
             GameManager.Instance.Reward.OnStarCandyChange += UpdateRainbowStar;
             GameManager.Instance.DailyQuest.OnStarCandyChange += UpdateRainbowStar;
@@ -59,6 +62,8 @@ namespace SDW
             _userInfoButton.onClick.RemoveListener(UserInfoButtonClicked);
             _dailyQuestButton.onClick.RemoveListener(DailyQuestButtonClicked);
             _gachaButton.onClick.RemoveListener(GachaButtonClicked);
+            _growthButton.onClick.RemoveListener(GrowthButtonClicked);
+
             GameManager.Instance.Reward.OnStarCandyChange -= UpdateRainbowStar;
             GameManager.Instance.DailyQuest.OnStarCandyChange -= UpdateRainbowStar;
         }
@@ -111,6 +116,12 @@ namespace SDW
         /// GachaButtonClicked 핸들러 메서드 호출로 사용자가 Gacha 버튼을 눌렀을 때 GachaMainUI를 활성화
         /// </summary>
         private void GachaButtonClicked() => OnUIOpenRequested?.Invoke(UIName.GachaMainUI);
+
+        private void GrowthButtonClicked()
+        {
+            OnUIOpenRequested?.Invoke(UIName.PermanentGrowthUI);
+            OnUICloseRequested?.Invoke(UIName.MainLobbyUI);
+        }
 
         #endregion
 
