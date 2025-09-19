@@ -59,6 +59,12 @@ namespace SDW
         public Dictionary<CharacterEnName, int> _beadsInventory = new Dictionary<CharacterEnName, int>();
         public IReadOnlyDictionary<CharacterEnName, int> BeadsInventory => _beadsInventory;
 
+        private Dictionary<CharacterEnName, int> _charEnNameExp = new Dictionary<CharacterEnName, int>();
+        public Dictionary<CharacterEnName, int> CharEnNameExp => _charEnNameExp;
+
+        private Dictionary<CharacterEnName, int> _charEnNameLevel = new Dictionary<CharacterEnName, int>();
+        public Dictionary<CharacterEnName, int> CharEnNameLevel => _charEnNameLevel;
+
         private List<CharacterDataSO> _selectedTeam = new List<CharacterDataSO>();
         public IReadOnlyList<CharacterDataSO> SelectedTeam => _selectedTeam;
         private GameManager _gameManager;
@@ -120,6 +126,9 @@ namespace SDW
                         isFirstCharacter = false;
                     }
                 }
+
+                _charEnNameExp[_characterIdData[int.Parse(key)]._chaBaseData.ChaEnName] = Convert.ToInt32(character["exp"]);
+                _charEnNameLevel[_characterIdData[int.Parse(key)]._chaBaseData.ChaEnName] = Convert.ToInt32(character["level"]);
             }
             // 첫 번째 멤버를 맵 플레이어 캐릭터로 설정합니다.
         }
