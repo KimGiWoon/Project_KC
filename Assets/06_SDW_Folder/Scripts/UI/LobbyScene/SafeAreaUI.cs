@@ -33,7 +33,7 @@ public class SafeAreaUI : MonoBehaviour
     /// </summary>
     private void Update()
     {
-        if (_safeArea != Screen.safeArea) ApplySafeArea();
+        // if (_safeArea != Screen.safeArea) ApplySafeArea();
     }
 
     /// <summary>

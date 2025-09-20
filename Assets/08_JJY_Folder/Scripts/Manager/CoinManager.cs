@@ -84,6 +84,7 @@ namespace JJY
             {
                 items[itemName] += value;
                 OnItemsChanged?.Invoke();
+                _firebase.SetRecipeItem(itemName, items[itemName]);
             }
             else
             {
@@ -103,6 +104,7 @@ namespace JJY
                 {
                     items[itemName] -= value;
                     OnItemsChanged?.Invoke();
+                    _firebase.SetRecipeItem(itemName, items[itemName]);
                 }
                 else
                 {
@@ -121,7 +123,8 @@ namespace JJY
         public void AddYeopjeon(int value)
         {
             yeopjeon += value;
-            totalYeopjeon += value;
+
+            if (value >= 0) totalYeopjeon += value;
             OnYeopjeonChanged?.Invoke(yeopjeon);
             _firebase.SetTotalYeopjeon(totalYeopjeon);
         }

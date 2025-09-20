@@ -260,18 +260,18 @@ namespace SDW
             if (masterChef != 0) _gameManager.Coin.AddRecipeItem(_gameManager.Coin.masterChef, masterChef);
             _gameManager.Coin.AddPoint(point);
 
+            _gameManager.InGameItem.ClearItemCounts();
+            _gameManager.ClearScore();
+            _gameManager.ClearStageCount();
+            _battleManager.ClearCharacterHp();
+            //todo QA가 아닌 버전에서는 엽전도 Clear 해야 함
+            // _gameManager.Coin.ClearYeopjeon();
+
             _scorePanelButton.interactable = true;
         }
 
         private void ScorePanelButtonClicked()
         {
-            _gameManager.InGameItem.ClearItemCounts();
-            _gameManager.ClearScore();
-            _gameManager.ClearStageCount();
-            _battleManager.ClearCharacterHp();
-
-            //todo 테스트 이후 주석 제거
-            // _gameManager.Coin.ClearYeopjeon();
             OnUICloseRequested?.Invoke(UIName.RoguelikeClosingUI);
             GameManager.Instance.Scene.LoadSceneAsync(SceneName.SDW_LobbyScene);
         }

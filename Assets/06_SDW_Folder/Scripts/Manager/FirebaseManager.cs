@@ -833,6 +833,22 @@ namespace SDW
             });
         }
 
+        public void SetRecipeItem(string key, int value)
+        {
+            var updateData = new Dictionary<string, object>
+            {
+                { $"coinData/{key}", value }
+            };
+
+            _db.Child("users").Child(_auth.CurrentUser.UserId).UpdateChildrenAsync(updateData).ContinueWithOnMainThread(task =>
+            {
+                if (task.IsFaulted)
+                {
+                    Debug.LogWarning($"ShiningStarCandy 저장 실패: {task.Exception.Message}");
+                }
+            });
+        }
+
         /// <summary>
         /// 특정 캐릭터의 비드(장식 아이템) 수량을 Firebase 데이터베이스에 업데이트
         /// </summary>
