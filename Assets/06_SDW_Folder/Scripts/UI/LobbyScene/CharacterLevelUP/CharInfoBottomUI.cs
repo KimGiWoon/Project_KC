@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -50,6 +49,7 @@ namespace SDW
         private IEnumerator DelayedClose()
         {
             yield return new WaitForSeconds(_tweenAnimation.tweenTime);
+
             base.Close();
         }
 
@@ -65,6 +65,8 @@ namespace SDW
 
         public void AddCharacter(LevelUpCharButton levelUpCharButton)
         {
+            levelUpCharButton.transform.SetParent(_contents.transform);
+
             _charButtonList.Add(levelUpCharButton);
 
             var button = levelUpCharButton.GetComponent<Button>();

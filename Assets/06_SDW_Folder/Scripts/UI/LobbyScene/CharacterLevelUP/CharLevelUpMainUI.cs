@@ -1,6 +1,5 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -26,6 +25,7 @@ namespace SDW
         public Action<UIName> OnUICloseRequested;
         public Action<UIName, UIName> OnSubUIOpenRequested;
         public Action<UIName, UIName> OnSubUICloseRequested;
+        public Action OnCharLevelUpMainUIOpened;
 
         private CharacterDataManager _charDataManager;
 
@@ -48,6 +48,7 @@ namespace SDW
 
         public override void Open()
         {
+            OnCharLevelUpMainUIOpened?.Invoke();
             base.Open();
             OnSubUIOpenRequested?.Invoke(UIName.CharInfoStatsUI, UIName.CharInfoBottomUI);
             _tweenAnimation.moveAway();
@@ -83,9 +84,17 @@ namespace SDW
 
         private void SetCurrentLevel(int level) => _charCurrentLevelText.text = level.ToString();
 
-        private void SetLevelUp(int increasedLevel) => _charLevelUpText.text = "+" + increasedLevel;
+        private void SetLevelUp(int increasedLevel)
+        {
+            if (increasedLevel == 0) _charLevelUpText.text = "";
+            _charLevelUpText.text = "+" + increasedLevel;
+        }
 
-        private void SetPlusExp(int increasedExp) => _charPlusExpText.text = "+" + increasedExp;
+        private void SetPlusExp(int increasedExp)
+        {
+            if (increasedExp == 0) _charPlusExpText.text = "";
+            _charPlusExpText.text = "+" + increasedExp;
+        }
 
         private void SetCurrentExp(int currentExp, int maxExp)
         {
