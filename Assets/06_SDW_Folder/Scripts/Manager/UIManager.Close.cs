@@ -75,6 +75,11 @@ namespace SDW
                 case UIName.PermanentGrowthUI: DisconnectPermanentGrowthUI(uiName); break;
                 case UIName.NodeDescriptionUI: DisconnectNodeDescriptionUI(uiName); break;
                 case UIName.NodeInitializeUI: DisconnectNodeInitializeUI(uiName); break;
+                //@ LevelUP UI
+                case UIName.CharLevelUpMainUI: DisconnectCharLevelUpMainUI(uiName); break;
+                case UIName.CharInfoStatsUI: DisconnectCharInfoStatsUI(uiName); break;
+                case UIName.CharInfoBottomUI: DisconnectCharInfoBottomUI(uiName); break;
+                case UIName.LevelUpUI: DisconnectLevelUpUI(uiName); break;
             }
         }
 
@@ -334,6 +339,67 @@ namespace SDW
             var nodeInitializeUI = _uiDic[uiName] as NodeInitializeUI;
 
             nodeInitializeUI.OnUICloseRequested -= ClosePanel;
+        }
+        private void DisconnectCharLevelUpMainUI(UIName uiName)
+        {
+            var charLevelUpMainUI = _uiDic[uiName] as CharLevelUpMainUI;
+            var charInfoStatsUI = _uiDic[UIName.CharInfoStatsUI] as CharInfoStatsUI;
+            var charInfoBottomUI = _uiDic[UIName.CharInfoBottomUI] as CharInfoBottomUI;
+
+            charLevelUpMainUI.OnUIOpenRequested -= OpenPanel;
+            charLevelUpMainUI.OnUICloseRequested -= ClosePanel;
+
+            charLevelUpMainUI.OnSubUIOpenRequested -= (firstUI, secondUI) =>
+            {
+                charInfoStatsUI.fromMain = true;
+                charInfoBottomUI.fromMain = true;
+                OpenPanel(firstUI);
+                OpenPanel(secondUI);
+            };
+
+            charLevelUpMainUI.OnSubUICloseRequested -= (firstUI, secondUI) =>
+            {
+                charInfoStatsUI.fromMain = true;
+                charInfoBottomUI.fromMain = true;
+                ClosePanel(firstUI);
+                ClosePanel(secondUI);
+            };
+        }
+
+        private void DisconnectCharInfoStatsUI(UIName uiName)
+        {
+            var charInfoStatsUI = _uiDic[uiName] as CharInfoStatsUI;
+            var charLevelUpMainUI = _uiDic[UIName.CharLevelUpMainUI] as CharLevelUpMainUI;
+            var charInfoBottomUI = _uiDic[UIName.CharInfoBottomUI] as CharInfoBottomUI;
+
+            charInfoStatsUI.OnUIOpenRequested -= (uiName) =>
+            {
+                charLevelUpMainUI.CharacterMoveAway();
+                charInfoBottomUI.BottomMoveAway();
+                OpenPanel(uiName);
+            };
+            charInfoStatsUI.OnUICloseRequested -= ClosePanel;
+        }
+
+        private void DisconnectCharInfoBottomUI(UIName uiName)
+        {
+            // throw new NotImplementedException();
+        }
+
+        private void DisconnectLevelUpUI(UIName uiName)
+        {
+            var levelUpUI = _uiDic[uiName] as LevelUpUI;
+            var charLevelUpMainUI = _uiDic[UIName.CharLevelUpMainUI] as CharLevelUpMainUI;
+            var charInfoBottomUI = _uiDic[UIName.CharInfoBottomUI] as CharInfoBottomUI;
+
+            levelUpUI.OnUIOpenRequested -= (uiName) =>
+            {
+                charLevelUpMainUI.CharacterMoveBack();
+                charInfoBottomUI.BottomMoveBack();
+                OpenPanel(uiName);
+            };
+
+            levelUpUI.OnUICloseRequested -= ClosePanel;
         }
 
         #endregion

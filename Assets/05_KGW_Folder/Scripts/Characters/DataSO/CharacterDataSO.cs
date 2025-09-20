@@ -18,13 +18,14 @@ public class CharacterDataSO : ScriptableObject
     // 캐릭터 세팅
     [Header("Character Setting")]
     public Sprite _characterSprite; // 캐릭터 아이콘
+    public Sprite _characterCircleSprite; // 원형 아이콘
     public GameObject _prefab; // 캐릭터 프리팹
     public int _chaLv; // 캐릭터 레벨
     public int _chaUpgradeLevel; // 돌파 레벨
 
     [Header("맵 캐릭터 비주얼")]
     public Sprite frontViewSprite; // 맵에서 멈춰있을 때 보일 앞모습
-    public Sprite backViewSprite;  // 맵에서 이동할 때 보일 뒷모습
+    public Sprite backViewSprite; // 맵에서 이동할 때 보일 뒷모습
 
     [Header("Character Skill")]
     public CharacterSkillDataSO _chaPassiveSkill; // 캐릭터 패시브 스킬

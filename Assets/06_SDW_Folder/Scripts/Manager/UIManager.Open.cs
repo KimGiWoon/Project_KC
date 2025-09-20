@@ -79,6 +79,11 @@ namespace SDW
                 case UIName.PermanentGrowthUI: ConnectPermanentGrowthUI(uiName); break;
                 case UIName.NodeDescriptionUI: ConnectNodeDescriptionUI(uiName); break;
                 case UIName.NodeInitializeUI: ConnectNodeInitializeUI(uiName); break;
+                //@ LevelUP UI
+                case UIName.CharLevelUpMainUI: ConnectCharLevelUpMainUI(uiName); break;
+                case UIName.CharInfoStatsUI: ConnectCharInfoStatsUI(uiName); break;
+                case UIName.CharInfoBottomUI: ConnectCharInfoBottomUI(uiName); break;
+                case UIName.LevelUpUI: ConnectLevelUpUI(uiName); break;
             }
         }
 
@@ -341,8 +346,71 @@ namespace SDW
         {
             var nodeInitializeUI = _uiDic[uiName] as NodeInitializeUI;
 
-            //todo 추후 Description 관련 처리 필요함. PermanentGrowthUI에서 전달해야 함
             nodeInitializeUI.OnUICloseRequested += ClosePanel;
+        }
+
+        private void ConnectCharLevelUpMainUI(UIName uiName)
+        {
+            var charLevelUpMainUI = _uiDic[uiName] as CharLevelUpMainUI;
+            var charInfoStatsUI = _uiDic[UIName.CharInfoStatsUI] as CharInfoStatsUI;
+            var charInfoBottomUI = _uiDic[UIName.CharInfoBottomUI] as CharInfoBottomUI;
+
+            charLevelUpMainUI.OnUIOpenRequested += OpenPanel;
+            charLevelUpMainUI.OnUICloseRequested += ClosePanel;
+
+            charLevelUpMainUI.OnSubUIOpenRequested += (firstUI, secondUI) =>
+            {
+                charInfoStatsUI.fromMain = true;
+                charInfoBottomUI.fromMain = true;
+                OpenPanel(firstUI);
+                OpenPanel(secondUI);
+            };
+
+            charLevelUpMainUI.OnSubUICloseRequested += (firstUI, secondUI) =>
+            {
+                charInfoStatsUI.fromMain = true;
+                charInfoBottomUI.fromMain = true;
+                ClosePanel(firstUI);
+                ClosePanel(secondUI);
+            };
+        }
+
+        private void ConnectCharInfoStatsUI(UIName uiName)
+        {
+            var charInfoStatsUI = _uiDic[uiName] as CharInfoStatsUI;
+            var charLevelUpMainUI = _uiDic[UIName.CharLevelUpMainUI] as CharLevelUpMainUI;
+            var charInfoBottomUI = _uiDic[UIName.CharInfoBottomUI] as CharInfoBottomUI;
+
+            charInfoStatsUI.OnUIOpenRequested += (uiName) =>
+            {
+                charLevelUpMainUI.CharacterMoveAway();
+                charInfoBottomUI.BottomMoveAway();
+                OpenPanel(uiName);
+            };
+            charInfoStatsUI.OnUICloseRequested += ClosePanel;
+        }
+
+        private void ConnectCharInfoBottomUI(UIName uiName)
+        {
+            // var charInfoBottomUI = _uiDic[uiName] as CharInfoBottomUI;
+
+            //todo Open Close는 필요없을 것 같은데..?
+        }
+
+        private void ConnectLevelUpUI(UIName uiName)
+        {
+            var levelUpUI = _uiDic[uiName] as LevelUpUI;
+            var charLevelUpMainUI = _uiDic[UIName.CharLevelUpMainUI] as CharLevelUpMainUI;
+            var charInfoBottomUI = _uiDic[UIName.CharInfoBottomUI] as CharInfoBottomUI;
+
+            levelUpUI.OnUIOpenRequested += (uiName) =>
+            {
+                charLevelUpMainUI.CharacterMoveBack();
+                charInfoBottomUI.BottomMoveBack();
+                OpenPanel(uiName);
+            };
+
+            levelUpUI.OnUICloseRequested += ClosePanel;
         }
 
         #endregion
