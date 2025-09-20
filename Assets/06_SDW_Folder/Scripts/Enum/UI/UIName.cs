@@ -53,6 +53,12 @@
         //# PermanentGrowth
         PermanentGrowthUI,
         NodeDescriptionUI,
-        NodeInitializeUI
+        NodeInitializeUI,
+
+        //# LevelUP
+        CharLevelUpMainUI,
+        CharInfoStatsUI,
+        CharInfoBottomUI,
+        LevelUpUI
     }
 }

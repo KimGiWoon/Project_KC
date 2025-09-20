@@ -15,6 +15,7 @@ namespace SDW
         [SerializeField] private Button _gachaButton;
         //todo 나중에 이동될 수 있음
         [SerializeField] private Button _growthButton;
+        [SerializeField] private Button _levelUpButton;
 
         [SerializeField] private Image _userIcon;
         [SerializeField] private TextMeshProUGUI _nicknameText;
@@ -48,6 +49,7 @@ namespace SDW
             _dailyQuestButton.onClick.AddListener(DailyQuestButtonClicked);
             _gachaButton.onClick.AddListener(GachaButtonClicked);
             _growthButton.onClick.AddListener(GrowthButtonClicked);
+            _levelUpButton.onClick.AddListener(LevelUpButtonClicked);
 
             GameManager.Instance.Reward.OnStarCandyChange += UpdateRainbowStar;
             GameManager.Instance.DailyQuest.OnStarCandyChange += UpdateRainbowStar;
@@ -63,6 +65,7 @@ namespace SDW
             _dailyQuestButton.onClick.RemoveListener(DailyQuestButtonClicked);
             _gachaButton.onClick.RemoveListener(GachaButtonClicked);
             _growthButton.onClick.RemoveListener(GrowthButtonClicked);
+            _levelUpButton.onClick.RemoveListener(LevelUpButtonClicked);
 
             GameManager.Instance.Reward.OnStarCandyChange -= UpdateRainbowStar;
             GameManager.Instance.DailyQuest.OnStarCandyChange -= UpdateRainbowStar;
@@ -120,6 +123,12 @@ namespace SDW
         private void GrowthButtonClicked()
         {
             OnUIOpenRequested?.Invoke(UIName.PermanentGrowthUI);
+            OnUICloseRequested?.Invoke(UIName.MainLobbyUI);
+        }
+
+        private void LevelUpButtonClicked()
+        {
+            OnUIOpenRequested?.Invoke(UIName.CharLevelUpMainUI);
             OnUICloseRequested?.Invoke(UIName.MainLobbyUI);
         }
 

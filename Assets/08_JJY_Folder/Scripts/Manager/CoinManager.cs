@@ -21,6 +21,7 @@ namespace JJY
 
         // 아웃게임 아이템
         private Dictionary<string, int> items = new Dictionary<string, int>();
+        public IReadOnlyDictionary<string, int> Items => items;
         private string _beek = "beeksRecipeBook";
         private string _fineDining = "fineDiningRecipeBook";
         private string _masterChef = "masterChefRecipeBook";
