@@ -78,6 +78,17 @@ namespace SDW
         private MonsterListManager _monsterList;
         public MonsterListManager MonsterList => _monsterList;
 
+        //# Audio Manager
+        private AudioManager _audio;
+        public AudioManager Audio => _audio;
+
+        private AudioSourcePool _audioPool;
+        public AudioSourcePool AudioPool => _audioPool;
+
+        //# Video Manager
+        private VideoManager _video;
+        public VideoManager Video => _video;
+
         //todo 추후 유료 관련 Manager로 이동해야 함
         [SerializeField] private bool _buyAdRemover;
         public bool BuyAdRemover => _buyAdRemover;
@@ -181,6 +192,10 @@ namespace SDW
             //# Character Stat Save & Monster List
             _characterBattleDataSave = GetComponentInChildren<CharacterBattleDataSaveManager>();
             _monsterList = GetComponentInChildren<MonsterListManager>();
+
+            //# Audio & Video
+            _audio = GetComponentInChildren<AudioManager>();
+            _video = GetComponentInChildren<VideoManager>();
         }
 
         /// <summary>

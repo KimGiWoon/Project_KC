@@ -194,8 +194,12 @@ namespace SDW
             var userInfoUI = _uiDic[uiName] as UserInfoUI;
             var mainLobbyUI = _uiDic[UIName.MainLobbyUI] as MainLobbyUI;
 
-            userInfoUI.OnUICloseRequested -= ClosePanel;
             userInfoUI.OnUIOpenButtonClicked -= OpenPanel;
+            userInfoUI.OnUICloseRequested -= (uiName) =>
+            {
+                mainLobbyUI.ResetMainText();
+                ClosePanel(uiName);
+            };
             userInfoUI.OnIconChanged -= mainLobbyUI.SetIcon;
 
             if (_firebase != null)
@@ -258,28 +262,6 @@ namespace SDW
             }
         }
 
-        // /// <summary>
-        // /// KGW_StageUI 연결해제 및 이벤트 핸들러 연결해제 설정
-        // /// </summary>
-        // /// <param name="uiName">연결해제할 KGW_StageUI 패널의 이름</param>
-        // private void DisconnectKGW_StageUI(UIName uiName)
-        // {
-        //     var kgwStageUI = _uiDic[uiName] as KGW_StageSelectUI;
-        //     kgwStageUI.OnUIOpenRequested -= OpenPanel;
-        //     kgwStageUI.OnUICloseRequested -= ClosePanel;
-        // }
-        //
-        // /// <summary>
-        // /// KGW_CharacterSelectUI 연결해제 및 이벤트 핸들러 연결해제 설정
-        // /// </summary>
-        // /// <param name="uiName">연결해제할 KGW_CharacterSelectUI 패널의 이름</param>
-        // private void DisconnectKGW_CharacterSelectUI(UIName uiName)
-        // {
-        //     var kgwCharacterSelectUI = _uiDic[uiName] as KGW_CharacterSelectUI;
-        //     kgwCharacterSelectUI.OnUIOpenRequested -= OpenPanel;
-        //     kgwCharacterSelectUI.OnUICloseRequested -= ClosePanel;
-        // }
-
         /// <summary>
         /// DailyQuestUI 연결해제 및 이벤트 핸들러 연결해제 설정
         /// </summary>
@@ -287,9 +269,14 @@ namespace SDW
         private void DisconnectDailyQuestUI(UIName uiName)
         {
             var dailyQuestUI = _uiDic[uiName] as DailyQuestUI;
+            var mainLobbyUI = _uiDic[UIName.MainLobbyUI] as MainLobbyUI;
             // GameManager.Instance.DailyQuest.InitQuest();
             dailyQuestUI.OnRewardButtonClicked -= GameManager.Instance.DailyQuest.Reward;
-            dailyQuestUI.OnUICloseRequested -= ClosePanel;
+            dailyQuestUI.OnUICloseRequested -= (uiName) =>
+            {
+                mainLobbyUI.ResetMainText();
+                ClosePanel(uiName);
+            };
         }
 
         /// <summary>
@@ -299,8 +286,14 @@ namespace SDW
         private void DisconnectGachaMainUI(UIName uiName)
         {
             var gachaMainUI = _uiDic[uiName] as GachaMainUI;
+            var mainLobbyUI = _uiDic[UIName.MainLobbyUI] as MainLobbyUI;
+
             gachaMainUI.OnUIOpenRequested -= OpenPanel;
-            gachaMainUI.OnUICloseRequested -= ClosePanel;
+            gachaMainUI.OnUICloseRequested -= (uiName) =>
+            {
+                mainLobbyUI.ResetMainText();
+                ClosePanel(uiName);
+            };
         }
 
         /// <summary>
@@ -345,9 +338,15 @@ namespace SDW
             var charLevelUpMainUI = _uiDic[uiName] as CharLevelUpMainUI;
             var charInfoStatsUI = _uiDic[UIName.CharInfoStatsUI] as CharInfoStatsUI;
             var charInfoBottomUI = _uiDic[UIName.CharInfoBottomUI] as CharInfoBottomUI;
+            var mainLobbyUI = _uiDic[UIName.MainLobbyUI] as MainLobbyUI;
 
             charLevelUpMainUI.OnUIOpenRequested -= OpenPanel;
-            charLevelUpMainUI.OnUICloseRequested -= ClosePanel;
+            charLevelUpMainUI.OnUICloseRequested -= (uiName) =>
+            {
+                mainLobbyUI.SetButtonsInteractable(false);
+                mainLobbyUI.MainLobbyMoveBack();
+                ClosePanel(uiName);
+            };
 
             charLevelUpMainUI.OnSubUIOpenRequested -= (firstUI, secondUI) =>
             {
@@ -371,13 +370,16 @@ namespace SDW
             var charInfoStatsUI = _uiDic[uiName] as CharInfoStatsUI;
             var charLevelUpMainUI = _uiDic[UIName.CharLevelUpMainUI] as CharLevelUpMainUI;
             var charInfoBottomUI = _uiDic[UIName.CharInfoBottomUI] as CharInfoBottomUI;
+            var mainLobbyUI = _uiDic[UIName.MainLobbyUI] as MainLobbyUI;
 
             charInfoStatsUI.OnUIOpenRequested -= (uiName) =>
             {
+                mainLobbyUI.ButtonsMoveAway();
                 charLevelUpMainUI.CharacterMoveAway();
                 charInfoBottomUI.BottomMoveAway();
                 OpenPanel(uiName);
             };
+
             charInfoStatsUI.OnUICloseRequested -= ClosePanel;
         }
 
@@ -391,6 +393,7 @@ namespace SDW
             var levelUpUI = _uiDic[uiName] as LevelUpUI;
             var charLevelUpMainUI = _uiDic[UIName.CharLevelUpMainUI] as CharLevelUpMainUI;
             var charInfoBottomUI = _uiDic[UIName.CharInfoBottomUI] as CharInfoBottomUI;
+            var mainLobbyUI = _uiDic[UIName.MainLobbyUI] as MainLobbyUI;
 
             levelUpUI.OnUIOpenRequested -= (uiName) =>
             {
@@ -399,7 +402,11 @@ namespace SDW
                 OpenPanel(uiName);
             };
 
-            levelUpUI.OnUICloseRequested -= ClosePanel;
+            levelUpUI.OnUICloseRequested -= (uiName) =>
+            {
+                mainLobbyUI.ButtonsMoveBack();
+                ClosePanel(uiName);
+            };
         }
 
         #endregion

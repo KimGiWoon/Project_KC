@@ -56,12 +56,13 @@ namespace SDW
 
         public override void Close()
         {
-            _tweenAnimation.moveBack();
             StartCoroutine(DelayedClose());
         }
 
         private IEnumerator DelayedClose()
         {
+            // yield return new WaitForSeconds(1f);
+            _tweenAnimation.moveBack();
             yield return new WaitForSeconds(_tweenAnimation.tweenTime);
             OnSubUICloseRequested?.Invoke(UIName.CharInfoStatsUI, UIName.CharInfoBottomUI);
             CharacterMoveBack();
