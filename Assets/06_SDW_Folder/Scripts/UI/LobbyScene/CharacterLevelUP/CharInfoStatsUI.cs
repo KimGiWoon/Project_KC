@@ -143,18 +143,20 @@ namespace SDW
 
         private void CharInfoButtonClicked()
         {
-            if (_isExpanded)
-            {
-                _expandTweenAnimation.ToggleShrink();
-                _isExpanded = false;
-                _charInfoButtonText.text = "자세히보기";
-            }
+            if (_isExpanded) SetShrink();
             else
             {
                 _expandTweenAnimation.ToggleExpand();
                 _isExpanded = true;
                 _charInfoButtonText.text = "간단하게";
             }
+        }
+
+        public void SetShrink()
+        {
+            _expandTweenAnimation.ToggleShrink();
+            _isExpanded = false;
+            _charInfoButtonText.text = "자세히보기";
         }
 
         private void LevelUpButtonClicked()
