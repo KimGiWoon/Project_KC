@@ -11,6 +11,8 @@ namespace SDW
 {
     public class GlobalSettingUI : BaseUI
     {
+        [SerializeField] private GameObject _backgroundPanelObject;
+        private TweenAlpha_Image _backgroundPanel;
         [Header("Top Component")]
         [SerializeField] private TextMeshProUGUI _userNameText;
         [SerializeField] private TextMeshProUGUI _uidText;
@@ -47,6 +49,8 @@ namespace SDW
         private void Awake()
         {
             _panelContainer.SetActive(false);
+            _backgroundPanel = _backgroundPanelObject.GetComponent<TweenAlpha_Image>();
+            _backgroundPanelObject.SetActive(false);
             _rectTransform = _panelContainer.GetComponent<RectTransform>();
         }
 
@@ -72,37 +76,8 @@ namespace SDW
                 base.Start();
                 _audio = GameManager.Instance.Audio;
                 InitializeSettings();
-                SetupInitialVolumeState();
                 CheckSceneName();
             }
-        }
-
-        private void InitializeSettings()
-        {
-            foreach (var slider in _volumeSlider)
-            {
-                slider.onValueChanged.AddListener((value) =>
-                {
-                    var buttonId = slider.GetComponent<ButtonId>();
-                    slider.minValue = 0f;
-                    slider.maxValue = 100f;
-                    slider.wholeNumbers = true;
-                    VolumeSliderChanged(buttonId.Id, value);
-                });
-            }
-            foreach (var muteButton in _muteButtonList)
-            {
-                muteButton.onClick.AddListener(() =>
-                {
-                    var buttonId = muteButton.GetComponent<ButtonId>();
-                    MuteButtonClicked(buttonId.Id);
-                });
-            }
-
-            _deleteAccountButton.onClick.AddListener(DeleteAccountButtonClicked);
-            _signOutButton.onClick.AddListener(SignOutButtonClicked);
-            _giveUpButton.onClick.AddListener(GiveUpButtonClicked);
-            _saveButton.onClick.AddListener(SaveButtonClicked);
         }
 
         private void OnDisable()
@@ -158,14 +133,16 @@ namespace SDW
 
         public override void Open()
         {
+            _backgroundPanelObject.SetActive(true);
+            SetupInitialVolumeState();
             CheckSceneName();
-            BackupOriginalVolumeState();
             _tweenAnimation.moveAway();
             base.Open();
         }
 
         public override void Close()
         {
+            _backgroundPanel.FadeOut();
             StartCoroutine(DelayedClose());
         }
 
@@ -176,6 +153,45 @@ namespace SDW
             _originalVolumeList.Clear();
             _originalMuteList.Clear();
             base.Close();
+        }
+
+        private void InitializeSettings()
+        {
+            foreach (var slider in _volumeSlider)
+            {
+                slider.onValueChanged.AddListener((value) =>
+                {
+                    var buttonId = slider.GetComponent<ButtonId>();
+                    slider.minValue = 0f;
+                    slider.maxValue = 100f;
+                    slider.wholeNumbers = true;
+                    VolumeSliderChanged(buttonId.Id, value);
+                });
+            }
+            foreach (var muteButton in _muteButtonList)
+            {
+                muteButton.onClick.AddListener(() =>
+                {
+                    var buttonId = muteButton.GetComponent<ButtonId>();
+                    MuteButtonClicked(buttonId.Id);
+                });
+            }
+
+            _deleteAccountButton.onClick.AddListener(DeleteAccountButtonClicked);
+            _signOutButton.onClick.AddListener(SignOutButtonClicked);
+            _giveUpButton.onClick.AddListener(GiveUpButtonClicked);
+            _saveButton.onClick.AddListener(SaveButtonClicked);
+        }
+
+        private void SetupInitialVolumeState()
+        {
+            for (int i = 0; i < _volumeSlider.Count; i++)
+            {
+                _volumeSlider[i].value = _audio.VolumeList[i];
+                _muteObjectList[i].SetActive(_audio.VolumeMuteList[i]);
+                _originalVolumeList.Add(_volumeSlider[i].value);
+                _originalMuteList.Add(_muteObjectList[i].activeSelf);
+            }
         }
 
         #region Update User Info
@@ -252,6 +268,7 @@ namespace SDW
         /// </summary>
         private void DeleteAccountButtonClicked()
         {
+            CancelToChange();
             OnUIOpenRequested?.Invoke(UIName.DeleteAccountUI);
         }
 
@@ -260,12 +277,14 @@ namespace SDW
         /// </summary>
         private void SignOutButtonClicked()
         {
+            CancelToChange();
             OnSignOutButtonClicked?.Invoke();
             OnUICloseRequested?.Invoke(UIName.GlobalSettingUI);
         }
 
         private void GiveUpButtonClicked()
         {
+            CancelToChange();
             OnUIOpenRequested?.Invoke(UIName.RoguelikeClosingUI);
             OnUICloseRequested?.Invoke(UIName.GlobalSettingUI);
         }
@@ -297,23 +316,5 @@ namespace SDW
         }
 
         #endregion
-
-        private void SetupInitialVolumeState()
-        {
-            for (int i = 0; i < _volumeSlider.Count; i++)
-            {
-                _volumeSlider[i].value = _audio.VolumeList[i];
-                _muteObjectList[i].SetActive(_audio.VolumeMuteList[i]);
-            }
-        }
-
-        private void BackupOriginalVolumeState()
-        {
-            for (int i = 0; i < _volumeSlider.Count; i++)
-            {
-                _originalVolumeList.Add(_volumeSlider[i].value);
-                _originalMuteList.Add(_muteObjectList[i].activeSelf);
-            }
-        }
     }
 }
