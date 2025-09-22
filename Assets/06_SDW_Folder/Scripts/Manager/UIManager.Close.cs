@@ -219,7 +219,7 @@ namespace SDW
             var userInfoUI = _uiDic[UIName.UserInfoUI] as UserInfoUI;
 
             deleteAccountUI.OnDeleteAcceptButtonClicked -= _firebase.DeleteAccount;
-            deleteAccountUI.OnDeleteAcceptButtonClicked -= userInfoUI.DeactiveDeleteButton;
+            // deleteAccountUI.OnDeleteAcceptButtonClicked -= userInfoUI.DeactiveDeleteButton;
             deleteAccountUI.OnCloseButtonClicked -= ClosePanel;
         }
 

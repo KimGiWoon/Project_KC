@@ -19,12 +19,17 @@ namespace SDW
         [SerializeField] private GameObject _backgroundPanel;
         [SerializeField] private GameObject _userInfoPanel;
         [SerializeField] private GameObject _medalPanel;
+        [SerializeField] private RectTransform _changeIconPanelRect;
+        [SerializeField] private RectTransform _editUserNamePanelRect;
 
-        [Header("Buttons")]
-        [SerializeField] private Button _deleteAccountButton;
-        [SerializeField] private Button _signOutButton;
+        [Header("Other Container")]
         [SerializeField] private Button _editUserNameButton;
         [SerializeField] private Button _changeIconButton;
+
+        [Header("Animations")]
+        [SerializeField] private TweenAnimation _containerTweenAnimation;
+        [SerializeField] private TweenAnimation _panelTweenAnimation;
+
         private GameManager _gameManager;
         private bool _isLoaded;
 
@@ -37,9 +42,6 @@ namespace SDW
         private Stack<UIName> _uiStack = new Stack<UIName>();
 
         private Coroutine _coroutine;
-
-        //# Test
-        public ImageSpriteMappingSO _mappingSo;
 
         /// <summary>
         /// UI 컴포넌트 활성화 설정 및 이벤트 리스너 할당을 수행
@@ -59,8 +61,8 @@ namespace SDW
         private void OnEnable()
         {
             //# Sign Out & Delete Buttons
-            _deleteAccountButton.onClick.AddListener(DeleteAccountButtonClicked);
-            _signOutButton.onClick.AddListener(SignOutButtonClicked);
+            // _deleteAccountButton.onClick.AddListener(DeleteAccountButtonClicked);
+            // _signOutButton.onClick.AddListener(SignOutButtonClicked);
 
             //# Change Nickname
             _editUserNameButton.onClick.AddListener(EditUserNameButtonClicked);
@@ -73,8 +75,8 @@ namespace SDW
         private void OnDisable()
         {
             //# Sign Out & Delete Buttons
-            _deleteAccountButton.onClick.RemoveListener(DeleteAccountButtonClicked);
-            _signOutButton.onClick.RemoveListener(SignOutButtonClicked);
+            // _deleteAccountButton.onClick.RemoveListener(DeleteAccountButtonClicked);
+            // _signOutButton.onClick.RemoveListener(SignOutButtonClicked);
 
             //# Change Nickname
             _editUserNameButton.onClick.RemoveListener(EditUserNameButtonClicked);
@@ -86,6 +88,7 @@ namespace SDW
         public override void Open()
         {
             GameManager.Instance.Firebase.RequestUserInfo();
+            _containerTweenAnimation.moveAway();
             base.Open();
             _backgroundPanel.SetActive(true);
             _medalPanel.SetActive(true);
@@ -94,6 +97,13 @@ namespace SDW
 
         public override void Close()
         {
+            StartCoroutine(DelayedClose());
+        }
+
+        private IEnumerator DelayedClose()
+        {
+            _containerTweenAnimation.moveBack();
+            yield return new WaitForSeconds(_containerTweenAnimation.tweenTime);
             base.Close();
             _backgroundPanel.SetActive(false);
             _medalPanel.SetActive(false);
@@ -113,16 +123,18 @@ namespace SDW
                 var touchPos = Input.GetTouch(0).position;
 
                 //# 패널 안에 터치가 있는지 확인
-                if (!RectTransformUtility.RectangleContainsScreenPoint(_userInfoPanelRect, touchPos))
-                {
-                    if (_uiStack.Count == 0) return;
+                if (RectTransformUtility.RectangleContainsScreenPoint(_userInfoPanelRect, touchPos)) return;
+                if (RectTransformUtility.RectangleContainsScreenPoint(_changeIconPanelRect, touchPos)) return;
+                if (RectTransformUtility.RectangleContainsScreenPoint(_editUserNamePanelRect, touchPos)) return;
 
-                    var uiName = _uiStack.Pop();
+                if (_uiStack.Count == 0) return;
 
-                    if (uiName == UIName.ChangeIconUI) SetIconCanceled();
+                var uiName = _uiStack.Pop();
 
-                    OnUICloseRequested?.Invoke(uiName);
-                }
+                if (uiName == UIName.ChangeIconUI) SetIconCanceled();
+
+                _panelTweenAnimation.moveBack();
+                OnUICloseRequested?.Invoke(uiName);
             }
         }
 
@@ -142,22 +154,28 @@ namespace SDW
 
         #region Buttons Methods
 
-        /// <summary>
-        /// Delete Account 버튼 클릭 이벤트 핸들러
-        /// </summary>
-        private void DeleteAccountButtonClicked()
-        {
-            _uiStack.Push(UIName.DeleteAccountUI);
-            OnUIOpenButtonClicked?.Invoke(UIName.DeleteAccountUI);
-        }
-
-        /// <summary>
-        /// 호출된 경우 사용자 정보 UI에서로그아웃 기능을 실행하는 이벤트 핸들러 메소드
-        /// </summary>
-        private void SignOutButtonClicked() => OnSignOutButtonClicked?.Invoke();
+        // /// <summary>
+        // /// Delete Account 버튼 클릭 이벤트 핸들러
+        // /// </summary>
+        // private void DeleteAccountButtonClicked()
+        // {
+        //     _uiStack.Push(UIName.DeleteAccountUI);
+        //     OnUIOpenButtonClicked?.Invoke(UIName.DeleteAccountUI);
+        // }
+        //
+        // /// <summary>
+        // /// 호출된 경우 사용자 정보 UI에서로그아웃 기능을 실행하는 이벤트 핸들러 메소드
+        // /// </summary>
+        // private void SignOutButtonClicked() => OnSignOutButtonClicked?.Invoke();
 
         private void EditUserNameButtonClicked()
         {
+            if (_uiStack.Peek() == UIName.ChangeIconUI)
+            {
+                var uiName = _uiStack.Pop();
+                OnUICloseRequested?.Invoke(UIName.ChangeIconUI);
+            }
+            _panelTweenAnimation.moveAway();
             _uiStack.Push(UIName.EditUsernameUI);
             OnUIOpenButtonClicked?.Invoke(UIName.EditUsernameUI);
         }
@@ -167,6 +185,12 @@ namespace SDW
         /// </summary>
         private void ChangeIconButtonClicked()
         {
+            if (_uiStack.Peek() == UIName.EditUsernameUI)
+            {
+                var uiName = _uiStack.Pop();
+                OnUICloseRequested?.Invoke(UIName.EditUsernameUI);
+            }
+            _panelTweenAnimation.moveAway();
             _uiStack.Push(UIName.ChangeIconUI);
             OnUIOpenButtonClicked?.Invoke(UIName.ChangeIconUI);
         }
@@ -211,18 +235,18 @@ namespace SDW
                 _uiStack.Pop();
         }
 
-        public void DeactiveDeleteButton()
-        {
-            _deleteAccountButton.interactable = false;
-            _coroutine = StartCoroutine(ActiveDeleteButton());
-        }
-
-        private IEnumerator ActiveDeleteButton()
-        {
-            yield return new WaitForSeconds(3f);
-            _deleteAccountButton.interactable = false;
-            _coroutine = null;
-        }
+        // public void DeactiveDeleteButton()
+        // {
+        //     _deleteAccountButton.interactable = false;
+        //     _coroutine = StartCoroutine(ActiveDeleteButton());
+        // }
+        //
+        // private IEnumerator ActiveDeleteButton()
+        // {
+        //     yield return new WaitForSeconds(3f);
+        //     _deleteAccountButton.interactable = false;
+        //     _coroutine = null;
+        // }
 
         #endregion
     }
