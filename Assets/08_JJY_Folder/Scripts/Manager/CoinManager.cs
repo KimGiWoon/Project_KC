@@ -21,6 +21,7 @@ namespace JJY
 
         // 아웃게임 아이템
         private Dictionary<string, int> items = new Dictionary<string, int>();
+        public IReadOnlyDictionary<string, int> Items => items;
         private string _beek = "beeksRecipeBook";
         private string _fineDining = "fineDiningRecipeBook";
         private string _masterChef = "masterChefRecipeBook";
@@ -84,6 +85,7 @@ namespace JJY
             {
                 items[itemName] += value;
                 OnItemsChanged?.Invoke();
+                _firebase.SetRecipeItem(itemName, items[itemName]);
             }
             else
             {
@@ -103,6 +105,7 @@ namespace JJY
                 {
                     items[itemName] -= value;
                     OnItemsChanged?.Invoke();
+                    _firebase.SetRecipeItem(itemName, items[itemName]);
                 }
                 else
                 {
@@ -121,7 +124,8 @@ namespace JJY
         public void AddYeopjeon(int value)
         {
             yeopjeon += value;
-            totalYeopjeon += value;
+
+            if (value >= 0) totalYeopjeon += value;
             OnYeopjeonChanged?.Invoke(yeopjeon);
             _firebase.SetTotalYeopjeon(totalYeopjeon);
         }

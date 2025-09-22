@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -16,6 +17,7 @@ namespace SDW
         private UIName _targetUI;
 
         private WaitForSeconds _waitForSeconds = new WaitForSeconds(0.05f);
+        public Action OnSceneChanged;
 
         /// <summary>
         /// Scene Loading UI 요소에 대한 컴포넌트 연결
@@ -182,6 +184,7 @@ namespace SDW
         {
             yield return new WaitForSeconds(0.1f);
 
+            OnSceneChanged?.Invoke();
             _sceneLoadUI.CompleteSceneLoading(_targetUI);
 
             _isLoading = false;

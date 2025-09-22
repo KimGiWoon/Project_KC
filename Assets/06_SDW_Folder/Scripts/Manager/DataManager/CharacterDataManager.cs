@@ -9,46 +9,46 @@ namespace SDW
     {
         //# ID(int) - CharacterBaseDataFileData
         private Dictionary<int, CharacterBaseDataFileData> _chaIdData = new Dictionary<int, CharacterBaseDataFileData>();
-        public Dictionary<int, CharacterBaseDataFileData> ChaIdData => _chaIdData;
+        public IReadOnlyDictionary<int, CharacterBaseDataFileData> ChaIdData => _chaIdData;
 
         //# CharacterEnName(enum) - CharacterBaseDataFileData
         private Dictionary<CharacterEnName, CharacterBaseDataFileData> _chaEnNameData =
             new Dictionary<CharacterEnName, CharacterBaseDataFileData>();
-        public Dictionary<CharacterEnName, CharacterBaseDataFileData> ChaEnNameData => _chaEnNameData;
+        public IReadOnlyDictionary<CharacterEnName, CharacterBaseDataFileData> ChaEnNameData => _chaEnNameData;
 
         //# CharacterRole(enum) - CharacterTypeFileData
         private Dictionary<CharacterRole, CharacterTypeFileData> _chaTypeData =
             new Dictionary<CharacterRole, CharacterTypeFileData>();
-        public Dictionary<CharacterRole, CharacterTypeFileData> ChaTypeData => _chaTypeData;
+        public IReadOnlyDictionary<CharacterRole, CharacterTypeFileData> ChaTypeData => _chaTypeData;
 
         //# CharacterUpgrade(int) - CharacterUpgradeData
         private Dictionary<int, CharacterUpgradeFileData> _chaBeadsData = new Dictionary<int, CharacterUpgradeFileData>();
-        public Dictionary<int, CharacterUpgradeFileData> ChaBeadsData => _chaBeadsData;
+        public IReadOnlyDictionary<int, CharacterUpgradeFileData> ChaBeadsData => _chaBeadsData;
 
         //# CharacterLevel(int) - CharacterLevelUpStatData
         private Dictionary<int, CharacterLevelUpStatFileData> _chaLevelUpStatData =
             new Dictionary<int, CharacterLevelUpStatFileData>();
-        public Dictionary<int, CharacterLevelUpStatFileData> ChaLevelUpStatData => _chaLevelUpStatData;
+        public IReadOnlyDictionary<int, CharacterLevelUpStatFileData> ChaLevelUpStatData => _chaLevelUpStatData;
 
         //# SkillID(int) - CharacterSkillFileData
         private Dictionary<int, CharacterSkillFileData> _chaIdSkillData = new Dictionary<int, CharacterSkillFileData>();
-        public Dictionary<int, CharacterSkillFileData> ChaIdSkillData => _chaIdSkillData;
+        public IReadOnlyDictionary<int, CharacterSkillFileData> ChaIdSkillData => _chaIdSkillData;
 
         //# SkillEnName(enum) - CharacterSkillFileData
         private Dictionary<CharacterSkillEnName, CharacterSkillFileData> _chaEnNameSkillData =
             new Dictionary<CharacterSkillEnName, CharacterSkillFileData>();
-        public Dictionary<CharacterSkillEnName, CharacterSkillFileData> ChaEnNameSkillData => _chaEnNameSkillData;
+        public IReadOnlyDictionary<CharacterSkillEnName, CharacterSkillFileData> ChaEnNameSkillData => _chaEnNameSkillData;
 
         //# Character List
         [SerializeField] private List<CharacterDataSO> _characterLists; //캐릭터 리스트
         public List<CharacterDataSO> CharacterLists => _characterLists;
 
         private Dictionary<int, CharacterDataSO> _characterIdData = new Dictionary<int, CharacterDataSO>();
-        public Dictionary<int, CharacterDataSO> CharacterIdData => _characterIdData;
+        public IReadOnlyDictionary<int, CharacterDataSO> CharacterIdData => _characterIdData;
 
         private Dictionary<CharacterEnName, CharacterDataSO> _characterEnNameData =
             new Dictionary<CharacterEnName, CharacterDataSO>();
-        public Dictionary<CharacterEnName, CharacterDataSO> CharacterEnNameData => _characterEnNameData;
+        public IReadOnlyDictionary<CharacterEnName, CharacterDataSO> CharacterEnNameData => _characterEnNameData;
 
         private Dictionary<CharacterEnName, bool> _ownedCharacters = new Dictionary<CharacterEnName, bool>();
         public IReadOnlyDictionary<CharacterEnName, bool> OwnedCharacters => _ownedCharacters;
@@ -56,17 +56,18 @@ namespace SDW
         private HashSet<CharacterDataSO> _allOwnedCharacters = new HashSet<CharacterDataSO>();
         public HashSet<CharacterDataSO> AllOwnedCharacters => _allOwnedCharacters;
 
-        public Dictionary<CharacterEnName, int> _beadsInventory = new Dictionary<CharacterEnName, int>();
+        private Dictionary<CharacterEnName, int> _beadsInventory = new Dictionary<CharacterEnName, int>();
         public IReadOnlyDictionary<CharacterEnName, int> BeadsInventory => _beadsInventory;
 
         private Dictionary<CharacterEnName, int> _charEnNameExp = new Dictionary<CharacterEnName, int>();
-        public Dictionary<CharacterEnName, int> CharEnNameExp => _charEnNameExp;
+        public IReadOnlyDictionary<CharacterEnName, int> CharEnNameExp => _charEnNameExp;
 
         private Dictionary<CharacterEnName, int> _charEnNameLevel = new Dictionary<CharacterEnName, int>();
-        public Dictionary<CharacterEnName, int> CharEnNameLevel => _charEnNameLevel;
+        public IReadOnlyDictionary<CharacterEnName, int> CharEnNameLevel => _charEnNameLevel;
 
         private List<CharacterDataSO> _selectedTeam = new List<CharacterDataSO>();
         public IReadOnlyList<CharacterDataSO> SelectedTeam => _selectedTeam;
+
         private GameManager _gameManager;
         private FirebaseManager _firebase;
         private bool _isDownloaded;
@@ -131,6 +132,22 @@ namespace SDW
                 _charEnNameLevel[_characterIdData[int.Parse(key)]._chaBaseData.ChaEnName] = Convert.ToInt32(character["level"]);
             }
             // 첫 번째 멤버를 맵 플레이어 캐릭터로 설정합니다.
+        }
+
+        private void SetCharLevel(CharacterEnName name, int level)
+        {
+            if (_charEnNameLevel[name] == level) return;
+
+            _charEnNameLevel[name] = level;
+            //todo firebase 연동
+        }
+
+        private void SeCharExp(CharacterEnName name, int exp)
+        {
+            if (_charEnNameExp[name] == exp) return;
+
+            _charEnNameExp[name] = exp;
+            //todo firebase 연동
         }
 
         /// <summary>

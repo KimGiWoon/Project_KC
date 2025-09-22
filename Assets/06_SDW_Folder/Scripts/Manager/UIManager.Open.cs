@@ -79,6 +79,11 @@ namespace SDW
                 case UIName.PermanentGrowthUI: ConnectPermanentGrowthUI(uiName); break;
                 case UIName.NodeDescriptionUI: ConnectNodeDescriptionUI(uiName); break;
                 case UIName.NodeInitializeUI: ConnectNodeInitializeUI(uiName); break;
+                //@ LevelUP UI
+                case UIName.CharLevelUpMainUI: ConnectCharLevelUpMainUI(uiName); break;
+                case UIName.CharInfoStatsUI: ConnectCharInfoStatsUI(uiName); break;
+                case UIName.CharInfoBottomUI: ConnectCharInfoBottomUI(uiName); break;
+                case UIName.LevelUpUI: ConnectLevelUpUI(uiName); break;
             }
         }
 
@@ -197,8 +202,12 @@ namespace SDW
             var userInfoUI = _uiDic[uiName] as UserInfoUI;
             var mainLobbyUI = _uiDic[UIName.MainLobbyUI] as MainLobbyUI;
 
-            userInfoUI.OnUICloseRequested += ClosePanel;
             userInfoUI.OnUIOpenButtonClicked += OpenPanel;
+            userInfoUI.OnUICloseRequested += (uiName) =>
+            {
+                mainLobbyUI.ResetMainText();
+                ClosePanel(uiName);
+            };
             userInfoUI.OnIconChanged += mainLobbyUI.SetIcon;
 
             if (_firebase != null)
@@ -218,7 +227,7 @@ namespace SDW
             var userInfoUI = _uiDic[UIName.UserInfoUI] as UserInfoUI;
 
             deleteAccountUI.OnDeleteAcceptButtonClicked += _firebase.DeleteAccount;
-            deleteAccountUI.OnDeleteAcceptButtonClicked += userInfoUI.DeactiveDeleteButton;
+            // deleteAccountUI.OnDeleteAcceptButtonClicked += userInfoUI.DeactiveDeleteButton;
             deleteAccountUI.OnCloseButtonClicked += ClosePanel;
         }
 
@@ -261,28 +270,6 @@ namespace SDW
             }
         }
 
-        // /// <summary>
-        // /// KGW_StageUI 연결 및 이벤트 핸들러 설정
-        // /// </summary>
-        // /// <param name="uiName">연결할 KGW_StageUI 패널의 이름</param>
-        // private void ConnectKGW_StageUI(UIName uiName)
-        // {
-        //     var kgwStageUI = _uiDic[uiName] as KGW_StageSelectUI;
-        //     kgwStageUI.OnUIOpenRequested += OpenPanel;
-        //     kgwStageUI.OnUICloseRequested += ClosePanel;
-        // }
-        //
-        // /// <summary>
-        // /// KGW_CharacterSelectUI 연결 및 이벤트 핸들러 설정
-        // /// </summary>
-        // /// <param name="uiName">연결할 KGW_CharacterSelectUI 패널의 이름</param>
-        // private void ConnectKGW_CharacterSelectUI(UIName uiName)
-        // {
-        //     var kgwCharacterSelectUI = _uiDic[uiName] as KGW_CharacterSelectUI;
-        //     kgwCharacterSelectUI.OnUIOpenRequested += OpenPanel;
-        //     kgwCharacterSelectUI.OnUICloseRequested += ClosePanel;
-        // }
-
         /// <summary>
         /// DailyQuestUI 연결 및 이벤트 핸들러 설정
         /// </summary>
@@ -290,8 +277,14 @@ namespace SDW
         private void ConnectDailyQuestUI(UIName uiName)
         {
             var dailyQuestUI = _uiDic[uiName] as DailyQuestUI;
+            var mainLobbyUI = _uiDic[UIName.MainLobbyUI] as MainLobbyUI;
+
             dailyQuestUI.OnRewardButtonClicked += GameManager.Instance.DailyQuest.Reward;
-            dailyQuestUI.OnUICloseRequested += ClosePanel;
+            dailyQuestUI.OnUICloseRequested += (uiName) =>
+            {
+                mainLobbyUI.ResetMainText();
+                ClosePanel(uiName);
+            };
             GameManager.Instance.DailyQuest.AddQuestUI(dailyQuestUI);
         }
 
@@ -302,8 +295,14 @@ namespace SDW
         private void ConnectGachaMainUI(UIName uiName)
         {
             var gachaMainUI = _uiDic[uiName] as GachaMainUI;
+            var mainLobbyUI = _uiDic[UIName.MainLobbyUI] as MainLobbyUI;
+
             gachaMainUI.OnUIOpenRequested += OpenPanel;
-            gachaMainUI.OnUICloseRequested += ClosePanel;
+            gachaMainUI.OnUICloseRequested += (uiName) =>
+            {
+                mainLobbyUI.ResetMainText();
+                ClosePanel(uiName);
+            };
         }
 
         /// <summary>
@@ -341,8 +340,85 @@ namespace SDW
         {
             var nodeInitializeUI = _uiDic[uiName] as NodeInitializeUI;
 
-            //todo 추후 Description 관련 처리 필요함. PermanentGrowthUI에서 전달해야 함
             nodeInitializeUI.OnUICloseRequested += ClosePanel;
+        }
+
+        private void ConnectCharLevelUpMainUI(UIName uiName)
+        {
+            var charLevelUpMainUI = _uiDic[uiName] as CharLevelUpMainUI;
+            var charInfoStatsUI = _uiDic[UIName.CharInfoStatsUI] as CharInfoStatsUI;
+            var charInfoBottomUI = _uiDic[UIName.CharInfoBottomUI] as CharInfoBottomUI;
+            var mainLobbyUI = _uiDic[UIName.MainLobbyUI] as MainLobbyUI;
+
+            charLevelUpMainUI.OnUIOpenRequested += OpenPanel;
+            charLevelUpMainUI.OnUICloseRequested += (uiName) =>
+            {
+                charInfoStatsUI.SetShrink();
+                mainLobbyUI.SetButtonsInteractable(false);
+                mainLobbyUI.MainLobbyMoveBack();
+                ClosePanel(uiName);
+            };
+
+            charLevelUpMainUI.OnSubUIOpenRequested += (firstUI, secondUI) =>
+            {
+                charInfoStatsUI.fromMain = true;
+                charInfoBottomUI.fromMain = true;
+                OpenPanel(firstUI);
+                OpenPanel(secondUI);
+            };
+
+            charLevelUpMainUI.OnSubUICloseRequested += (firstUI, secondUI) =>
+            {
+                charInfoStatsUI.fromMain = true;
+                charInfoBottomUI.fromMain = true;
+                ClosePanel(firstUI);
+                ClosePanel(secondUI);
+            };
+        }
+
+        private void ConnectCharInfoStatsUI(UIName uiName)
+        {
+            var charInfoStatsUI = _uiDic[uiName] as CharInfoStatsUI;
+            var charLevelUpMainUI = _uiDic[UIName.CharLevelUpMainUI] as CharLevelUpMainUI;
+            var charInfoBottomUI = _uiDic[UIName.CharInfoBottomUI] as CharInfoBottomUI;
+            var mainLobbyUI = _uiDic[UIName.MainLobbyUI] as MainLobbyUI;
+
+            charInfoStatsUI.OnUIOpenRequested += (uiName) =>
+            {
+                mainLobbyUI.ButtonsMoveAway();
+                charLevelUpMainUI.CharacterMoveAway();
+                charInfoBottomUI.BottomMoveAway();
+                OpenPanel(uiName);
+            };
+            charInfoStatsUI.OnUICloseRequested += ClosePanel;
+        }
+
+        private void ConnectCharInfoBottomUI(UIName uiName)
+        {
+            // var charInfoBottomUI = _uiDic[uiName] as CharInfoBottomUI;
+
+            //todo Open Close는 필요없을 것 같은데..?
+        }
+
+        private void ConnectLevelUpUI(UIName uiName)
+        {
+            var levelUpUI = _uiDic[uiName] as LevelUpUI;
+            var charLevelUpMainUI = _uiDic[UIName.CharLevelUpMainUI] as CharLevelUpMainUI;
+            var charInfoBottomUI = _uiDic[UIName.CharInfoBottomUI] as CharInfoBottomUI;
+            var mainLobbyUI = _uiDic[UIName.MainLobbyUI] as MainLobbyUI;
+
+            levelUpUI.OnUIOpenRequested += (uiName) =>
+            {
+                charLevelUpMainUI.CharacterMoveBack();
+                charInfoBottomUI.BottomMoveBack();
+                OpenPanel(uiName);
+            };
+
+            levelUpUI.OnUICloseRequested += (uiName) =>
+            {
+                mainLobbyUI.ButtonsMoveBack();
+                ClosePanel(uiName);
+            };
         }
 
         #endregion

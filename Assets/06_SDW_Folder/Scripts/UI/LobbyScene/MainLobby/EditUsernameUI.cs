@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -9,9 +10,14 @@ namespace SDW
     {
         [Header("UI Components")]
         [SerializeField] private TMP_InputField _nicknameInputField;
-        [SerializeField] private TextMeshProUGUI _errorText;
+        [SerializeField] private GameObject _errorMessagePopup;
+        [SerializeField] private TextMeshProUGUI _erroMessageText;
         [SerializeField] private Button _confirmButton;
+        [SerializeField] private Button _cancelButton;
         [SerializeField] private TMP_FontAsset _font;
+
+        [Header("Animation")]
+        [SerializeField] private TweenAnimation _tweenAnimation;
         private string _currentNickname;
 
         public Action<string> OnConfirmButtonClicked;
@@ -31,6 +37,7 @@ namespace SDW
         private void OnEnable()
         {
             _confirmButton.onClick.AddListener(ConfirmButtonClicked);
+            _cancelButton.onClick.AddListener(CancelButtonClicked);
             _nicknameInputField.onValueChanged.AddListener(OnValueChanged);
         }
 
@@ -40,13 +47,27 @@ namespace SDW
         private void OnDisable()
         {
             _confirmButton.onClick.RemoveListener(ConfirmButtonClicked);
+            _cancelButton.onClick.RemoveListener(CancelButtonClicked);
             _nicknameInputField.onValueChanged.RemoveListener(OnValueChanged);
         }
 
         public override void Open()
         {
+            _tweenAnimation.moveAway();
             GameManager.Instance.Firebase.RequestUserInfo();
             base.Open();
+        }
+
+        public override void Close()
+        {
+            StartCoroutine(DelayedClose());
+        }
+
+        private IEnumerator DelayedClose()
+        {
+            _tweenAnimation.moveBack();
+            yield return new WaitForSeconds(_tweenAnimation.tweenTime);
+            base.Close();
         }
 
         private void OnValueChanged(string nickname)
@@ -70,22 +91,29 @@ namespace SDW
 
             if (string.IsNullOrEmpty(nickname))
             {
-                _errorText.text = "닉네임을 입력해주세요";
+                _erroMessageText.text = "닉네임을 입력해주세요";
                 _nicknameInputField.text = "";
+                _errorMessagePopup.SetActive(true);
                 return;
             }
 
             if (_currentNickname.Equals(nickname))
             {
-                _errorText.text = "기존 닉네임과 동일합니다.";
+                _erroMessageText.text = "기존 닉네임과 동일합니다.";
                 _nicknameInputField.text = "";
+                _errorMessagePopup.SetActive(true);
                 return;
             }
 
             OnConfirmButtonClicked?.Invoke(nickname);
             OnCloseRequested?.Invoke(UIName.EditUsernameUI);
-            _errorText.text = "";
+            _erroMessageText.text = "";
             _nicknameInputField.text = "";
+        }
+
+        private void CancelButtonClicked()
+        {
+            OnCloseRequested?.Invoke(UIName.EditUsernameUI);
         }
 
         /// <summary>
