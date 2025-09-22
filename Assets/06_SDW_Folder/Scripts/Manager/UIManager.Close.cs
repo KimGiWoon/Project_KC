@@ -20,15 +20,21 @@ namespace SDW
             _uiDic[uiName].Close();
 
             _prevClosedUI = uiName;
-
-            var sceneName = (SceneName)Enum.Parse(typeof(SceneName), GameManager.Instance.Scene.GetActiveScene());
-
-            switch (sceneName)
+            if (uiName == UIName.GlobalSettingUI)
             {
-                case SceneName.SDW_SignInScene: CloseSignInScene(uiName); break;
-                case SceneName.KSH_Gacha:
-                case SceneName.SDW_LobbyScene: CloseLobbyScene(uiName); break;
-                case SceneName.SDW_RoguelikeScene: CloseRoguelikeScene(uiName); break;
+                DisconnectGlobalSettingUI(uiName);
+            }
+            else
+            {
+                var sceneName = (SceneName)Enum.Parse(typeof(SceneName), GameManager.Instance.Scene.GetActiveScene());
+
+                switch (sceneName)
+                {
+                    case SceneName.SDW_SignInScene: CloseSignInScene(uiName); break;
+                    case SceneName.KSH_Gacha:
+                    case SceneName.SDW_LobbyScene: CloseLobbyScene(uiName); break;
+                    case SceneName.SDW_RoguelikeScene: CloseRoguelikeScene(uiName); break;
+                }
             }
 
 
@@ -159,6 +165,30 @@ namespace SDW
             downloadUI.OnUICloseRequested -= ClosePanel;
         }
 
+        private void DisconnectGlobalSettingUI(UIName uiName)
+        {
+            var globalSettingUI = _uiDic[uiName] as GlobalSettingUI;
+
+            globalSettingUI.OnUIOpenRequested -= OpenPanel;
+            globalSettingUI.OnUICloseRequested -= ClosePanel;
+
+
+            var sceneName = (SceneName)Enum.Parse(typeof(SceneName), GameManager.Instance.Scene.GetActiveScene());
+
+            if (sceneName == SceneName.SDW_RoguelikeScene)
+            {
+                var stageGlobalUI = _uiDic[UIName.StageGlobalUI] as StageGlobalUI;
+                stageGlobalUI.ButtonContainerMoveBack();
+                stageGlobalUI.PushPrevUI();
+            }
+
+            if (_firebase != null)
+            {
+                _firebase.OnSendUserInfo -= globalSettingUI.UpdateUserInfo;
+                globalSettingUI.OnSignOutButtonClicked -= _firebase.SignOut;
+            }
+        }
+
         #endregion
 
         #region Lobby Scene UI Disconnect Methods
@@ -194,7 +224,7 @@ namespace SDW
             var userInfoUI = _uiDic[uiName] as UserInfoUI;
             var mainLobbyUI = _uiDic[UIName.MainLobbyUI] as MainLobbyUI;
 
-            userInfoUI.OnUIOpenButtonClicked -= OpenPanel;
+            userInfoUI.OnUIOpenButtonRequested -= OpenPanel;
             userInfoUI.OnUICloseRequested -= (uiName) =>
             {
                 mainLobbyUI.ResetMainText();
@@ -203,10 +233,7 @@ namespace SDW
             userInfoUI.OnIconChanged -= mainLobbyUI.SetIcon;
 
             if (_firebase != null)
-            {
                 _firebase.OnSendUserInfo -= userInfoUI.UpdateUserInfo;
-                userInfoUI.OnSignOutButtonClicked -= _firebase.SignOut;
-            }
         }
 
         /// <summary>
@@ -216,10 +243,10 @@ namespace SDW
         private void DisconnectDeleteAccountUI(UIName uiName)
         {
             var deleteAccountUI = _uiDic[uiName] as DeleteAccountUI;
-            var userInfoUI = _uiDic[UIName.UserInfoUI] as UserInfoUI;
+            var globalSettingUI = _uiDic[UIName.GlobalSettingUI] as GlobalSettingUI;
 
             deleteAccountUI.OnDeleteAcceptButtonClicked -= _firebase.DeleteAccount;
-            // deleteAccountUI.OnDeleteAcceptButtonClicked -= userInfoUI.DeactiveDeleteButton;
+            deleteAccountUI.OnDeleteAcceptButtonClicked -= globalSettingUI.DeactiveDeleteButton;
             deleteAccountUI.OnCloseButtonClicked -= ClosePanel;
         }
 
@@ -427,10 +454,6 @@ namespace SDW
         private void DisconnectPopupSettingUI(UIName uiName)
         {
             var popupSettingUI = _uiDic[uiName] as PopupSettingUI;
-            var stageGlobalUI = _uiDic[UIName.StageGlobalUI] as StageGlobalUI;
-
-            stageGlobalUI.ButtonContainerMoveBack();
-            stageGlobalUI.PushPrevUI();
 
             popupSettingUI.OnUIOpenRequested -= OpenPanel;
             popupSettingUI.OnUICloseRequested -= ClosePanel;

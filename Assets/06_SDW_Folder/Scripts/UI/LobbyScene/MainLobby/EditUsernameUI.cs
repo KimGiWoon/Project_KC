@@ -113,6 +113,7 @@ namespace SDW
 
         private void CancelButtonClicked()
         {
+            _nicknameInputField.text = "";
             OnCloseRequested?.Invoke(UIName.EditUsernameUI);
         }
 

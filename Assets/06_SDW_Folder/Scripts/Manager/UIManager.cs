@@ -10,6 +10,7 @@ namespace SDW
     public partial class UIManager : MonoBehaviour, ISceneLoadable
     {
         private Dictionary<UIName, BaseUI> _uiDic = new Dictionary<UIName, BaseUI>();
+        public IReadOnlyDictionary<UIName, BaseUI> UiDic = new Dictionary<UIName, BaseUI>();
 
         private FirebaseManager _firebase;
 

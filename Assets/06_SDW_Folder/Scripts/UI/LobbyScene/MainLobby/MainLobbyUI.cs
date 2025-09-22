@@ -78,6 +78,7 @@ namespace SDW
         /// </summary>
         private void OnEnable()
         {
+            _optionButton.onClick.AddListener(OptionButtonClicked);
             _gameStartButton.onClick.AddListener(GameStartButtonClicked);
             _userInfoButton.onClick.AddListener(UserInfoButtonClicked);
             _dailyQuestButton.onClick.AddListener(DailyQuestButtonClicked);
@@ -100,6 +101,7 @@ namespace SDW
         /// </summary>
         private void OnDisable()
         {
+            _optionButton.onClick.RemoveListener(OptionButtonClicked);
             _gameStartButton.onClick.RemoveListener(GameStartButtonClicked);
             _userInfoButton.onClick.RemoveListener(UserInfoButtonClicked);
             _dailyQuestButton.onClick.RemoveListener(DailyQuestButtonClicked);
@@ -156,6 +158,11 @@ namespace SDW
         }
 
         #region Button Methods
+
+        private void OptionButtonClicked()
+        {
+            OnUIOpenRequested?.Invoke(UIName.GlobalSettingUI);
+        }
 
         //todo 아래 버튼들 중 Popup창인 것들은 stack 기반 관리 고려?
         /// <summary>
