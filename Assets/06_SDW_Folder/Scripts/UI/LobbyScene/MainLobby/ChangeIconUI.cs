@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -11,6 +12,10 @@ namespace SDW
         [Header("UI Components")]
         [SerializeField] private Button _confirmButton;
         [SerializeField] private GameObject _contents;
+
+        [Header("Animation")]
+        [SerializeField] private TweenAnimation _tweenAnimation;
+
         private List<Button> _iconChangeButtons = new List<Button>();
         private Dictionary<int, Image> _imageIndex = new Dictionary<int, Image>();
         private ScrollRect _scrollRect;
@@ -83,6 +88,24 @@ namespace SDW
                     IconSelected(sprite, buttonId.Id);
                 });
             }
+        }
+
+        public override void Open()
+        {
+            _tweenAnimation.moveAway();
+            base.Open();
+        }
+
+        public override void Close()
+        {
+            StartCoroutine(DelayedClose());
+        }
+
+        private IEnumerator DelayedClose()
+        {
+            _tweenAnimation.moveBack();
+            yield return new WaitForSeconds(_tweenAnimation.tweenTime);
+            base.Close();
         }
 
         /// <summary>
