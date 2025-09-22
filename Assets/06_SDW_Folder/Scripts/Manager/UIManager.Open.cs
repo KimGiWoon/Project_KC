@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using KSH;
-using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace SDW
 {
@@ -22,16 +18,23 @@ namespace SDW
 
             _prevOpenedUI = uiName;
 
-
-            var sceneName = (SceneName)Enum.Parse(typeof(SceneName), GameManager.Instance.Scene.GetActiveScene());
-
-            switch (sceneName)
+            if (uiName == UIName.GlobalSettingUI)
             {
-                case SceneName.SDW_SignInScene: OpenSignInScene(uiName); break;
-                case SceneName.KSH_Gacha:
-                case SceneName.SDW_LobbyScene: OpenLobbyScene(uiName); break;
-                case SceneName.SDW_RoguelikeScene: OpenRoguelikeScene(uiName); break;
+                ConnectGlobalSettingUI(uiName);
             }
+            else
+            {
+                var sceneName = (SceneName)Enum.Parse(typeof(SceneName), GameManager.Instance.Scene.GetActiveScene());
+
+                switch (sceneName)
+                {
+                    case SceneName.SDW_SignInScene: OpenSignInScene(uiName); break;
+                    case SceneName.KSH_Gacha:
+                    case SceneName.SDW_LobbyScene: OpenLobbyScene(uiName); break;
+                    case SceneName.SDW_RoguelikeScene: OpenRoguelikeScene(uiName); break;
+                }
+            }
+
 
             if (_prevOpenedUI == _prevClosedUI)
                 _prevClosedUI = UIName.None;
@@ -165,6 +168,27 @@ namespace SDW
             downloadUI.OnCheckUpdate();
         }
 
+        private void ConnectGlobalSettingUI(UIName uiName)
+        {
+            var globalSettingUI = _uiDic[uiName] as GlobalSettingUI;
+            globalSettingUI.OnUIOpenRequested += OpenPanel;
+            globalSettingUI.OnUICloseRequested += ClosePanel;
+
+            var sceneName = (SceneName)Enum.Parse(typeof(SceneName), GameManager.Instance.Scene.GetActiveScene());
+
+            if (sceneName == SceneName.SDW_RoguelikeScene)
+            {
+                var stageGlobalUI = _uiDic[UIName.StageGlobalUI] as StageGlobalUI;
+                stageGlobalUI.ButtonContainerMoveAway();
+            }
+
+            if (_firebase != null)
+            {
+                _firebase.OnSendUserInfo += globalSettingUI.UpdateUserInfo;
+                globalSettingUI.OnSignOutButtonClicked += _firebase.SignOut;
+            }
+        }
+
         #endregion
 
         #region Lobby Scene UI Connect Methods
@@ -202,7 +226,7 @@ namespace SDW
             var userInfoUI = _uiDic[uiName] as UserInfoUI;
             var mainLobbyUI = _uiDic[UIName.MainLobbyUI] as MainLobbyUI;
 
-            userInfoUI.OnUIOpenButtonClicked += OpenPanel;
+            userInfoUI.OnUIOpenButtonRequested += OpenPanel;
             userInfoUI.OnUICloseRequested += (uiName) =>
             {
                 mainLobbyUI.ResetMainText();
@@ -211,10 +235,7 @@ namespace SDW
             userInfoUI.OnIconChanged += mainLobbyUI.SetIcon;
 
             if (_firebase != null)
-            {
                 _firebase.OnSendUserInfo += userInfoUI.UpdateUserInfo;
-                userInfoUI.OnSignOutButtonClicked += _firebase.SignOut;
-            }
         }
 
         /// <summary>
@@ -224,10 +245,10 @@ namespace SDW
         private void ConnectDeleteAccountUI(UIName uiName)
         {
             var deleteAccountUI = _uiDic[uiName] as DeleteAccountUI;
-            var userInfoUI = _uiDic[UIName.UserInfoUI] as UserInfoUI;
+            var globalSettingUI = _uiDic[UIName.GlobalSettingUI] as GlobalSettingUI;
 
             deleteAccountUI.OnDeleteAcceptButtonClicked += _firebase.DeleteAccount;
-            // deleteAccountUI.OnDeleteAcceptButtonClicked += userInfoUI.DeactiveDeleteButton;
+            deleteAccountUI.OnDeleteAcceptButtonClicked += globalSettingUI.DeactiveDeleteButton;
             deleteAccountUI.OnCloseButtonClicked += ClosePanel;
         }
 
@@ -240,8 +261,11 @@ namespace SDW
             var editUsernameUI = _uiDic[uiName] as EditUsernameUI;
             var userInfoUI = _uiDic[UIName.UserInfoUI] as UserInfoUI;
             editUsernameUI.OnConfirmButtonClicked += _firebase.SetNickname;
-            editUsernameUI.OnConfirmButtonClicked += (value) => userInfoUI.PopUI(uiName);
-            editUsernameUI.OnCloseRequested += ClosePanel;
+            editUsernameUI.OnCloseRequested += (uiName) =>
+            {
+                userInfoUI.PopUI(uiName);
+                ClosePanel(uiName);
+            };
 
             if (_firebase != null)
             {
@@ -439,9 +463,6 @@ namespace SDW
         private void ConnectPopupSettingUI(UIName uiName)
         {
             var popupSettingUI = _uiDic[uiName] as PopupSettingUI;
-            var stageGlobalUI = _uiDic[UIName.StageGlobalUI] as StageGlobalUI;
-
-            stageGlobalUI.ButtonContainerMoveAway();
             popupSettingUI.OnUIOpenRequested += OpenPanel;
             popupSettingUI.OnUICloseRequested += ClosePanel;
         }

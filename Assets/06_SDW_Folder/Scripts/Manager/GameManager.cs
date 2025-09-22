@@ -135,6 +135,8 @@ namespace SDW
 
         private bool _isLoaded;
         public bool _isStageClear;
+        
+        public bool _canFaster = false;
 
         private List<int> _growthUnlockNodes = new List<int>();
         public IReadOnlyList<int> GrowthUnlockNodes => _growthUnlockNodes;

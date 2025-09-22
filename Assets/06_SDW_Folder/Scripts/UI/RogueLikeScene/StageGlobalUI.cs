@@ -128,14 +128,14 @@ namespace SDW
 
         private void SettingButtonClicked()
         {
-            var tempUI = _uiStack.Peek();
             if (_uiStack.Count > 0)
             {
+                var tempUI = _uiStack.Peek();
                 tempUI = _uiStack.Pop();
                 if (tempUI != UIName.PopupSettingUI)
                     OnUICloseRequested?.Invoke(tempUI, false);
             }
-            OnUIOpenRequested?.Invoke(UIName.PopupSettingUI);
+            OnUIOpenRequested?.Invoke(UIName.GlobalSettingUI);
         }
 
         private void ShopButtonClicked()

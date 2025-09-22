@@ -8,9 +8,15 @@ namespace SDW
     public class AudioManager : MonoBehaviour
     {
         [SerializeField] private AudioClipSO _audioClip;
+        [SerializeField] private AudioMixerGroup _masterMixer;
         [SerializeField] private AudioMixerGroup _bgmMixer;
         [SerializeField] private AudioMixerGroup _sfxMixer;
         private AudioSource _bgmAudioSource;
+        private List<AudioSource> _sfxAudioSourceList = new List<AudioSource>();
+
+        private bool _isMasterVolumeMuted;
+        private bool _isBGMVolumeMuted;
+        private bool _isSFXVolumeMuted;
 
         //# SfxClipName - SfxEntry
         private Dictionary<AudioClipName, AudioEntry> _audioClipNameEntry = new Dictionary<AudioClipName, AudioEntry>();
@@ -22,11 +28,73 @@ namespace SDW
 
         private GameManager _gameManager;
 
+        private List<int> _volumeList = new List<int>();
+        public IReadOnlyList<int> VolumeList => _volumeList;
+
+        private List<bool> _volumeMuteList = new List<bool>();
+        public IReadOnlyList<bool> VolumeMuteList => _volumeMuteList;
+
+        private void Awake()
+        {
+            SetDefaultVolume();
+        }
+
         private void Start()
         {
             _gameManager = GameManager.Instance;
-
             StartCoroutine(LoadCoroutine());
+        }
+
+        private void SetDefaultVolume()
+        {
+            if (!PlayerPrefs.HasKey("MasterVolume"))
+            {
+                PlayerPrefs.SetInt("MasterVolume", 100);
+                PlayerPrefs.Save();
+            }
+
+            if (!PlayerPrefs.HasKey("MasterVolumeMute"))
+            {
+                PlayerPrefs.SetInt("MasterVolumeMute", 0);
+                PlayerPrefs.Save();
+            }
+
+            if (!PlayerPrefs.HasKey("BGMVolume"))
+            {
+                PlayerPrefs.SetInt("BGMVolume", 100);
+                PlayerPrefs.Save();
+            }
+
+            if (!PlayerPrefs.HasKey("BGMVolumeMute"))
+            {
+                PlayerPrefs.SetInt("BGMVolumeMute", 0);
+                PlayerPrefs.Save();
+            }
+
+            if (!PlayerPrefs.HasKey("SFXVolume"))
+            {
+                PlayerPrefs.SetInt("SFXVolume", 100);
+                PlayerPrefs.Save();
+            }
+
+            if (!PlayerPrefs.HasKey("SFXVolumeMute"))
+            {
+                PlayerPrefs.SetInt("SFXVolumeMute", 0);
+                PlayerPrefs.Save();
+            }
+
+            _volumeList.Add(PlayerPrefs.GetInt("MasterVolume"));
+            _volumeList.Add(PlayerPrefs.GetInt("BGMVolume"));
+            _volumeList.Add(PlayerPrefs.GetInt("SFXVolume"));
+
+            _isMasterVolumeMuted = PlayerPrefs.GetInt("MasterVolumeMute") == 1;
+            _volumeMuteList.Add(_isMasterVolumeMuted);
+
+            _isBGMVolumeMuted = PlayerPrefs.GetInt("BGMVolumeMute") == 1;
+            _volumeMuteList.Add(_isBGMVolumeMuted);
+
+            _isSFXVolumeMuted = PlayerPrefs.GetInt("SFXVolumeMute") == 1;
+            _volumeMuteList.Add(_isSFXVolumeMuted);
         }
 
         // private void Start() => PlayBGM(AudioClipName.TitleBackground);
@@ -81,6 +149,7 @@ namespace SDW
         {
             if (_audioClipNameEntry.TryGetValue(clipName, out var entry))
             {
+                _bgmAudioSource.mute = _isBGMVolumeMuted || _isMasterVolumeMuted;
                 _bgmAudioSource.clip = entry.Clip;
                 _bgmAudioSource.Play();
             }
@@ -106,6 +175,8 @@ namespace SDW
                     audioController.AudioSource.maxDistance = 30f; // 현재 설정과 맞춤
                 }
 
+                _sfxAudioSourceList.Add(audioController.AudioSource);
+                audioController.AudioSource.mute = _isSFXVolumeMuted || _isMasterVolumeMuted;
                 audioController.AudioSource.outputAudioMixerGroup = _sfxMixer;
                 audioController.PlayAudio(entry.Clip, position, volume, pitch);
             }
@@ -120,6 +191,58 @@ namespace SDW
         public void StopBGM()
         {
             _bgmAudioSource.Stop();
+        }
+
+        public void SetVolume(VolumeType volumeType, float volume)
+        {
+            //# 0-100 범위를 -80 to 0 dB로 변환
+            float dbValue = volume > 0 ? Mathf.Log10(volume / 100f) * 20f : -80f;
+
+            switch (volumeType)
+            {
+                case VolumeType.MasterVolume:
+                    _masterMixer.audioMixer.SetFloat("MasterVolume", dbValue);
+                    break;
+                case VolumeType.BGMVolume:
+                    _bgmMixer.audioMixer.SetFloat("BGMVolume", dbValue);
+                    break;
+                case VolumeType.SFXVolume:
+                    _sfxMixer.audioMixer.SetFloat("SFXVolume", dbValue);
+                    break;
+            }
+        }
+
+        public void SetMute(VolumeType volumeType, bool isMute)
+        {
+            if (volumeType == VolumeType.MasterVolume)
+            {
+                _isMasterVolumeMuted = isMute;
+                BGMMute(isMute);
+                SFXMute(isMute);
+            }
+            else if (volumeType == VolumeType.BGMVolume)
+            {
+                _isBGMVolumeMuted = isMute;
+                BGMMute(isMute);
+            }
+            else if (volumeType == VolumeType.SFXVolume)
+            {
+                _isSFXVolumeMuted = isMute;
+                SFXMute(isMute);
+            }
+        }
+
+        private void BGMMute(bool isMute)
+        {
+            _bgmAudioSource.mute = isMute;
+        }
+
+        private void SFXMute(bool isMute)
+        {
+            foreach (var audio in _sfxAudioSourceList)
+            {
+                audio.mute = isMute;
+            }
         }
     }
 }

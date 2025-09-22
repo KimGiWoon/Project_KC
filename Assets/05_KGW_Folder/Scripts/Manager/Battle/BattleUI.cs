@@ -103,7 +103,7 @@ public class BattleUI : BaseUI
         _count = 3f;
         _battleManager.Wall.gameObject.SetActive(false);
 
-        if (CharacterSelectManager.Instance._isFastGame)
+        if (CharacterSelectManager.Instance._isFastGame && GameManager.Instance._canFaster)
         {
             _fastButtonBG.gameObject.SetActive(true);
         }

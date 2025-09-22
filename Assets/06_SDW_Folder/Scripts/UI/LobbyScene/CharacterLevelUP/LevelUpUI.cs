@@ -52,7 +52,6 @@ namespace SDW
             _panelContainer.SetActive(false);
             _gaugeSlider.gameObject.SetActive(false);
             _levelUpButton.gameObject.SetActive(false);
-            _coin = GameManager.Instance.Coin;
 
             _beekRecipeImage = _beekRecipeBook.GetComponent<Image>();
             _beekRecipeUnselectedSprite = _beekRecipeImage.sprite;
@@ -62,6 +61,12 @@ namespace SDW
 
             _masterChefRecipeImage = _masterChefRecipeBook.GetComponent<Image>();
             _masterChefRecipeUnselectedSprite = _masterChefRecipeImage.sprite;
+        }
+
+        protected override void Start()
+        {
+            base.Start();
+            _coin = GameManager.Instance.Coin;
         }
 
         private void OnEnable()

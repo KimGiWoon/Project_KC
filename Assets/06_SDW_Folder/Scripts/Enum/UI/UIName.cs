@@ -59,6 +59,7 @@
         CharLevelUpMainUI,
         CharInfoStatsUI,
         CharInfoBottomUI,
-        LevelUpUI
+        LevelUpUI,
+        GlobalSettingUI
     }
 }
