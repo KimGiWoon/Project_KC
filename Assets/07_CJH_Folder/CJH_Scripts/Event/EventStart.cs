@@ -428,14 +428,15 @@ namespace CJH
                         specificRelicName = debuffRelicToAdd.relicName;
                         Debug.Log($"디버프 유물 '{debuffRelicToAdd.relicName}'을(를) 강제로 획득했습니다.");
                     }
-                    else
-                    {
-                        Debug.Log("획득할 수 있는 디버프 유물이 더 이상 없습니다. 아무 일도 일어나지 않습니다.");
-                    }
                     break;
 
                 case ChoiceResultType.Combat:
-                    Debug.Log("전투 선택됨 - PartyUI 호출");
+
+                    // 전투의 보상이 엽전인지 bool 값으로 결정합니다.
+                    bool isYeopjeonReward = data.ResultMoney > 0;
+
+                    // EventManager에 다음 전투의 보상 정보를 저장합니다.
+                    _eventManager.SetCombatReward(isYeopjeonReward, data.ResultMoney);
 
                     var partyUI = FindObjectOfType<PartyUI>();
                     if (partyUI != null)
@@ -468,8 +469,8 @@ namespace CJH
                         }
                     }
 
-            //획득한 유물 이름 리스트를 하나의 문자열로 합칩니다.
-            if (gainedRelicNames.Count > 0)
+                    //획득한 유물 이름 리스트를 하나의 문자열로 합칩니다.
+             if (gainedRelicNames.Count > 0)
             {
                 // 이전에 작업한 specificRelicName 변수를 재활용하여 결과창에 표시합니다.
                 specificRelicName = string.Join(", ", gainedRelicNames.Select(name => $"'{name}'"));

@@ -18,15 +18,28 @@ namespace CJH
         public List<RelicDatas> allRelicsDatabase;
 
         public EncounterTable CurrentEncounterData { get; private set; }
+        // 전투 보상 정보를 저장할 프로퍼티
+        public bool IsCombatRewardYeopjeon { get; private set; }
+        public int CombatRewardAmount { get; private set; }
 
         void Awake()
         {
             allRelicsDatabase = Resources.LoadAll<RelicDatas>("Relics").ToList();
         }
 
+        // EventStart에서 전투 시작 전 보상 정보를 설정하기 위한 메서드
+        public void SetCombatReward(bool isYeopjeon, int amount)
+        {
+            IsCombatRewardYeopjeon = isYeopjeon;
+        }
+
         // MapView가 사건 ID를 직접 전달하도록 변경
         public void StartEncounter(int eventGroupID)
         {
+            // 새로운 인카운터가 시작될 때 보상 정보 초기화
+            IsCombatRewardYeopjeon = false;
+            CombatRewardAmount = 0;
+
             if (currentEventInstance != null)
             {
                 Debug.LogWarning($"[EventManager] 이전 이벤트 인스턴스가 남아있어 파괴합니다. ID: {currentEventInstance.GetInstanceID()}");
