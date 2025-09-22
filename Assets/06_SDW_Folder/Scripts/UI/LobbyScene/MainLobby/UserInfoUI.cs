@@ -34,14 +34,11 @@ namespace SDW
         private bool _isLoaded;
 
         public Action<UIName> OnUICloseRequested;
-        public Action<UIName> OnUIOpenButtonClicked;
-        public Action OnSignOutButtonClicked;
+        public Action<UIName> OnUIOpenButtonRequested;
         public Action<Sprite> OnIconChanged;
 
         private RectTransform _userInfoPanelRect;
         private Stack<UIName> _uiStack = new Stack<UIName>();
-
-        private Coroutine _coroutine;
 
         /// <summary>
         /// UI 컴포넌트 활성화 설정 및 이벤트 리스너 할당을 수행
@@ -60,10 +57,6 @@ namespace SDW
         /// </summary>
         private void OnEnable()
         {
-            //# Sign Out & Delete Buttons
-            // _deleteAccountButton.onClick.AddListener(DeleteAccountButtonClicked);
-            // _signOutButton.onClick.AddListener(SignOutButtonClicked);
-
             //# Change Nickname
             _editUserNameButton.onClick.AddListener(EditUserNameButtonClicked);
             _changeIconButton.onClick.AddListener(ChangeIconButtonClicked);
@@ -74,15 +67,9 @@ namespace SDW
         /// </summary>
         private void OnDisable()
         {
-            //# Sign Out & Delete Buttons
-            // _deleteAccountButton.onClick.RemoveListener(DeleteAccountButtonClicked);
-            // _signOutButton.onClick.RemoveListener(SignOutButtonClicked);
-
             //# Change Nickname
             _editUserNameButton.onClick.RemoveListener(EditUserNameButtonClicked);
             _changeIconButton.onClick.RemoveListener(ChangeIconButtonClicked);
-
-            if (_coroutine != null) StopCoroutine(_coroutine);
         }
 
         public override void Open()
@@ -154,20 +141,6 @@ namespace SDW
 
         #region Buttons Methods
 
-        // /// <summary>
-        // /// Delete Account 버튼 클릭 이벤트 핸들러
-        // /// </summary>
-        // private void DeleteAccountButtonClicked()
-        // {
-        //     _uiStack.Push(UIName.DeleteAccountUI);
-        //     OnUIOpenButtonClicked?.Invoke(UIName.DeleteAccountUI);
-        // }
-        //
-        // /// <summary>
-        // /// 호출된 경우 사용자 정보 UI에서로그아웃 기능을 실행하는 이벤트 핸들러 메소드
-        // /// </summary>
-        // private void SignOutButtonClicked() => OnSignOutButtonClicked?.Invoke();
-
         private void EditUserNameButtonClicked()
         {
             if (_uiStack.Peek() == UIName.ChangeIconUI)
@@ -177,7 +150,7 @@ namespace SDW
             }
             _panelTweenAnimation.moveAway();
             _uiStack.Push(UIName.EditUsernameUI);
-            OnUIOpenButtonClicked?.Invoke(UIName.EditUsernameUI);
+            OnUIOpenButtonRequested?.Invoke(UIName.EditUsernameUI);
         }
 
         /// <summary>
@@ -192,7 +165,7 @@ namespace SDW
             }
             _panelTweenAnimation.moveAway();
             _uiStack.Push(UIName.ChangeIconUI);
-            OnUIOpenButtonClicked?.Invoke(UIName.ChangeIconUI);
+            OnUIOpenButtonRequested?.Invoke(UIName.ChangeIconUI);
         }
 
         /// <summary>
@@ -233,20 +206,8 @@ namespace SDW
             var ui = _uiStack.Peek();
             if (ui == uiName)
                 _uiStack.Pop();
+            _panelTweenAnimation.moveBack();
         }
-
-        // public void DeactiveDeleteButton()
-        // {
-        //     _deleteAccountButton.interactable = false;
-        //     _coroutine = StartCoroutine(ActiveDeleteButton());
-        // }
-        //
-        // private IEnumerator ActiveDeleteButton()
-        // {
-        //     yield return new WaitForSeconds(3f);
-        //     _deleteAccountButton.interactable = false;
-        //     _coroutine = null;
-        // }
 
         #endregion
     }
