@@ -37,6 +37,9 @@ public class CharacterDataSO : ScriptableObject
     public int Beads;
     public Sprite GachaBackground;
 
+    [Header("Character Role Type Icon")]
+    public Sprite roleIcon;
+
     // 파싱 데이터를 매핑
     public virtual void DataApply(CharacterBaseDataFileData characterData, CharacterTypeFileData typeData)
     {
