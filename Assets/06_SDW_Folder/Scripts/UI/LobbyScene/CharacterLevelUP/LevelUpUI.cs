@@ -74,7 +74,7 @@ namespace SDW
             _beekRecipeBook.onClick.AddListener(() => { RecipeButtonClicked(_coin.beek); });
             _fineDiningRecipeBook.onClick.AddListener(() => { RecipeButtonClicked(_coin.fineDining); });
             _masterChefRecipeBook.onClick.AddListener(() => { RecipeButtonClicked(_coin.masterChef); });
-            _levelUpButton.onClick.AddListener(LevelUpButtonClicked);
+            // _levelUpButton.onClick.AddListener(LevelUpButtonClicked);
             _backButton.onClick.AddListener(BackButtonClicked);
             _gaugeSlider.onValueChanged.AddListener(SliderValueChanged);
         }
@@ -84,7 +84,7 @@ namespace SDW
             _beekRecipeBook.onClick.RemoveListener(() => { RecipeButtonClicked(_coin.beek); });
             _fineDiningRecipeBook.onClick.RemoveListener(() => { RecipeButtonClicked(_coin.fineDining); });
             _masterChefRecipeBook.onClick.RemoveListener(() => { RecipeButtonClicked(_coin.masterChef); });
-            _levelUpButton.onClick.RemoveListener(LevelUpButtonClicked);
+            // _levelUpButton.onClick.RemoveListener(LevelUpButtonClicked);
             _backButton.onClick.RemoveListener(BackButtonClicked);
             _gaugeSlider.onValueChanged.RemoveListener(SliderValueChanged);
         }
