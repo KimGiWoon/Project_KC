@@ -48,14 +48,14 @@ namespace SDW
 
             bool isOwned = GameManager.Instance.CharacterData.OwnedCharacters.ContainsKey(ChaEnName);
             // _darkImageObj.SetActive(!isOwned);
-            Debug.Log($"{ChaEnName} : {isOwned}");
+            // Debug.Log($"{ChaEnName} : {isOwned}");
             if (!isOwned)
             {
                 _chaUpgradeText.text = "";
                 return;
             }
 
-            Debug.Log($"{ChaEnName} : {GameManager.Instance.CharacterData.BeadsInventory[ChaEnName]}");
+            // Debug.Log($"{ChaEnName} : {GameManager.Instance.CharacterData.BeadsInventory[ChaEnName]}");
             _chaUpgradeText.text = GameManager.Instance.CharacterData.BeadsInventory[ChaEnName] > 0 ? "+" + GameManager.Instance.CharacterData.BeadsInventory[ChaEnName] : "";
 
             // _chaUpgradeText.text = data.Beads > 0 ? "+" + data.Beads : "";

@@ -258,35 +258,35 @@ namespace JJY
 
             _classLevelText.text = curlevel.ToString();
 
-            if (!GameManager.Instance.Firebase.Characters.TryGetValue(data._chaBaseData.ChaID.ToString(), out object raw))
-            {
-                Debug.LogError($"캐릭터 키 없음: {data._chaBaseData.ChaEnName}");
-                return;
-            }
+            // if (!GameManager.Instance.Firebase.Characters.TryGetValue(data._chaBaseData.ChaID.ToString(), out object raw))
+            // {
+            //     Debug.LogError($"캐릭터 키 없음: {data._chaBaseData.ChaEnName}");
+            //     return;
+            // }
 
-            if (raw == null)
-            {
-                Debug.LogError("raw 가 null 입니다.");
-                return;
-            }
+            // if (raw == null)
+            // {
+            //     Debug.LogError("raw 가 null 입니다.");
+            //     return;
+            // }
 
-            if (raw is not IReadOnlyDictionary<string, object> dict)
-            {
-                Debug.LogError($"raw 타입 불일치: {raw.GetType()}");
-                return;
-            }
+            // if (raw is not IReadOnlyDictionary<string, object> dict)
+            // {
+            //     Debug.LogError($"raw 타입 불일치: {raw.GetType()}");
+            //     return;
+            // }
 
-            if (!dict.TryGetValue("exp", out object expObj))
-            {
-                Debug.LogError($"exp 키 없음: {data._chaBaseData.ChaEnName}");
-                return;
-            }
+            // if (!dict.TryGetValue("exp", out object expObj))
+            // {
+            //     Debug.LogError($"exp 키 없음: {data._chaBaseData.ChaEnName}");
+            //     return;
+            // }
 
             // int exp = Convert.ToInt32(expObj);
             // Debug.Log($"exp={exp}");
-            // GameManager.Instance.Firebase.Characters.TryGetValue(data._chaBaseData.ChaEnName.ToString(), out object raw);
-            // var dict = raw as IReadOnlyDictionary<string, object>;
-            // dict.TryGetValue("exp", out object expObj);
+            GameManager.Instance.Firebase.Characters.TryGetValue(data._chaBaseData.ChaID.ToString(), out object raw);
+            var dict = raw as IReadOnlyDictionary<string, object>;
+            dict.TryGetValue("exp", out object expObj);
             _currentEXP.text = expObj.ToString() + " / " + levelData.ChaLevelPoint.ToString();
 
             if (!_characterImage.gameObject.activeSelf) _characterImage.gameObject.SetActive(true);
@@ -460,6 +460,8 @@ namespace JJY
             remainingExp = gainedExp;
             int levelUpCount = 0;
 
+            if (previewLevel >= 30) return;
+
             while (remainingExp > 0)
             {
                 if (!GameManager.Instance.CharacterData.ChaLevelUpStatData.TryGetValue(previewLevel, out var levelData))
@@ -514,8 +516,6 @@ namespace JJY
             int exp = previewExp;
             // SaveLevelToFirebase(selectedCharacterData._chaBaseData.ChaID, level);
             // SaveExpToFirebase(selectedCharacterData._chaBaseData.ChaID, exp);
-            GameManager.Instance.CharacterData.SetCharLevel(selectedCharacterData._chaBaseData.ChaEnName, level);
-            GameManager.Instance.CharacterData.SetCharExp(selectedCharacterData._chaBaseData.ChaEnName, exp);
 
             int gainedExp;
             if (selectedItem == _coin.beek) gainedExp = itemExpTable[_coin.beek] * selectedItemUseCount;
@@ -530,12 +530,15 @@ namespace JJY
             addedExpText.gameObject.SetActive(false);
             addedLevelText.gameObject.SetActive(false);
 
-            if (dialogCoroutine != null)
-            {
-                StopCoroutine(dialogCoroutine);
-                dialogCoroutine = null;
-            }
+            // if (dialogCoroutine != null)
+            // {
+            //     StopCoroutine(dialogCoroutine);
+            //     dialogCoroutine = null;
+            // }
             // dialogCoroutine = StartCoroutine(DialogPanelFadeOut());
+
+            GameManager.Instance.CharacterData.SetCharLevel(selectedCharacterData._chaBaseData.ChaEnName, level);
+            GameManager.Instance.CharacterData.SetCharExp(selectedCharacterData._chaBaseData.ChaEnName, exp);
         }
         /// <summary>
         /// 경험치 증가 + 레벨업 처리
@@ -633,34 +636,11 @@ namespace JJY
         #region Firebase
         private int GetExpFromFirebase(int chaID)
         {
-            if (GameManager.Instance == null || GameManager.Instance.Firebase == null) return 0;
-            string key = chaID.ToString();
-
-            if (!GameManager.Instance.Firebase.Characters.TryGetValue(key, out object raw)) return 0;
-            if (raw == null) return 0;
-
-            var dict = raw as IDictionary<string, object>;
-
-            if (dict != null && dict.TryGetValue("exp", out object expObj))
-            {
-                if (expObj is int i) return i;
-                if (expObj is float f) return Mathf.RoundToInt(f);
-                if (int.TryParse(expObj.ToString(), out int parsed)) return parsed;
-            }
-
-            return 0;
-        }
-        private void SaveExpToFirebase(int key, int newExp)
-        {
-            // TODO : Firebase에 경험치 변화량 저장
-            string id = key.ToString();
-            GameManager.Instance.Firebase.SetExp(id, newExp);
-        }
-        private void SaveLevelToFirebase(int key, int newLevel)
-        {
-            // TODO : Firebase에 경험치 변화량 저장
-            string id = key.ToString();
-            GameManager.Instance.Firebase.SetLevel(id, newLevel);
+            GameManager.Instance.Firebase.Characters.TryGetValue(chaID.ToString(), out object raw);
+            var dict = raw as IReadOnlyDictionary<string, object>;
+            dict.TryGetValue("exp", out object expObj);
+            int exp = Convert.ToInt32(expObj);
+            return exp;
         }
         #endregion
     }
