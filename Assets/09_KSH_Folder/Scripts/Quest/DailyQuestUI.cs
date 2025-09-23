@@ -95,11 +95,11 @@ public class DailyQuestUI : BaseUI
     private void RewardButtonClicked() => OnRewardButtonClicked?.Invoke(_rewardAmount);
 
     private void BackButtonClicked() => OnUICloseRequested?.Invoke(UIName.DailyQuestUI);
-    private void Q1buttonClicked() => GameManager.Instance.DailyQuest.CompleteQuest(QuestType.ChallengeDungeon, 1);
-    private void Q2buttonClicked() => GameManager.Instance.DailyQuest.CompleteQuest(QuestType.UseFood, 3);
-    private void Q3buttonClicked() => GameManager.Instance.DailyQuest.CompleteQuest(QuestType.GetArtifact, 5);
-    private void Q4buttonClicked() => GameManager.Instance.DailyQuest.CompleteQuest(QuestType.UseStamina, 100);
-    private void Q5buttonClicked() => GameManager.Instance.DailyQuest.CompleteQuest(QuestType.ChargeStamina, 1);
-    private void Q6buttonClicked() => GameManager.Instance.DailyQuest.CompleteQuest(QuestType.LevelUp, 1);
-    private void Q7buttonClicked() => GameManager.Instance.DailyQuest.CompleteQuest(QuestType.SkillLevelUp, 1);
+    private void Q1buttonClicked() => GameManager.Instance.DailyQuest.CompleteQuest(QuestType.GameLogin, 1);
+    private void Q2buttonClicked() => GameManager.Instance.DailyQuest.CompleteQuest(QuestType.RoguelikeClear, 1);
+    private void Q3buttonClicked() => GameManager.Instance.DailyQuest.CompleteQuest(QuestType.Revive, 1);
+    private void Q4buttonClicked() => GameManager.Instance.DailyQuest.CompleteQuest(QuestType.UseFood, 3);
+    private void Q5buttonClicked() => GameManager.Instance.DailyQuest.CompleteQuest(QuestType.GetArtifact, 5);
+    private void Q6buttonClicked() => GameManager.Instance.DailyQuest.CompleteQuest(QuestType.CharacterLevelUp, 1);
+    private void Q7buttonClicked() => GameManager.Instance.DailyQuest.CompleteQuest(QuestType.Gacha, 1);
 }
