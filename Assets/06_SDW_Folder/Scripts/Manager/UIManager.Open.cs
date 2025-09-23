@@ -89,6 +89,7 @@ namespace SDW
                 case UIName.LevelUpUI: ConnectLevelUpUI(uiName); break;
                 //@ Stage Select UI
                 case UIName.StageSelectUI: ConnectStageSelectUI(uiName); break;
+                case UIName.MainLobbyBottomUI: ConnectMainLobbyBottomUI(uiName); break;
             }
         }
 
@@ -204,6 +205,8 @@ namespace SDW
             var mainLobbyUI = _uiDic[uiName] as MainLobbyUI;
             var changeIconUI = _uiDic[UIName.ChangeIconUI] as ChangeIconUI;
             var userInfoUI = _uiDic[UIName.UserInfoUI] as UserInfoUI;
+            var globalSettingUI = _uiDic[UIName.GlobalSettingUI] as GlobalSettingUI;
+
             mainLobbyUI.OnUIOpenRequested += OpenPanel;
             mainLobbyUI.OnUICloseRequested += ClosePanel;
             mainLobbyUI.OnIconRequested += (index) =>
@@ -212,6 +215,8 @@ namespace SDW
                 mainLobbyUI.SetIcon(sprite);
                 userInfoUI.SetIcon(sprite);
             };
+
+            globalSettingUI.OnUICloseRequested += (uiName) => { mainLobbyUI.ResetMainText(); };
 
             if (_firebase != null)
             {
@@ -375,12 +380,13 @@ namespace SDW
             var charInfoStatsUI = _uiDic[UIName.CharInfoStatsUI] as CharInfoStatsUI;
             var charInfoBottomUI = _uiDic[UIName.CharInfoBottomUI] as CharInfoBottomUI;
             var mainLobbyUI = _uiDic[UIName.MainLobbyUI] as MainLobbyUI;
+            var mainLobbyBottomUI = _uiDic[UIName.MainLobbyBottomUI] as MainLobbyBottomUI;
 
             charLevelUpMainUI.OnUIOpenRequested += OpenPanel;
             charLevelUpMainUI.OnUICloseRequested += (uiName) =>
             {
                 charInfoStatsUI.SetShrink();
-                mainLobbyUI.SetButtonsInteractable(false);
+                mainLobbyBottomUI.SetButtonsInteractable(false);
                 mainLobbyUI.MainLobbyMoveBack();
                 ClosePanel(uiName);
             };
@@ -407,11 +413,11 @@ namespace SDW
             var charInfoStatsUI = _uiDic[uiName] as CharInfoStatsUI;
             var charLevelUpMainUI = _uiDic[UIName.CharLevelUpMainUI] as CharLevelUpMainUI;
             var charInfoBottomUI = _uiDic[UIName.CharInfoBottomUI] as CharInfoBottomUI;
-            var mainLobbyUI = _uiDic[UIName.MainLobbyUI] as MainLobbyUI;
+            var mainLobbyBottomUI = _uiDic[UIName.MainLobbyBottomUI] as MainLobbyBottomUI;
 
             charInfoStatsUI.OnUIOpenRequested += (uiName) =>
             {
-                mainLobbyUI.ButtonsMoveAway();
+                mainLobbyBottomUI.ButtonsMoveAway();
                 charLevelUpMainUI.CharacterMoveAway();
                 charInfoBottomUI.BottomMoveAway();
                 OpenPanel(uiName);
@@ -431,7 +437,7 @@ namespace SDW
             var levelUpUI = _uiDic[uiName] as LevelUpUI;
             var charLevelUpMainUI = _uiDic[UIName.CharLevelUpMainUI] as CharLevelUpMainUI;
             var charInfoBottomUI = _uiDic[UIName.CharInfoBottomUI] as CharInfoBottomUI;
-            var mainLobbyUI = _uiDic[UIName.MainLobbyUI] as MainLobbyUI;
+            var mainLobbyBottomUI = _uiDic[UIName.MainLobbyBottomUI] as MainLobbyBottomUI;
 
             levelUpUI.OnUIOpenRequested += (uiName) =>
             {
@@ -442,7 +448,7 @@ namespace SDW
 
             levelUpUI.OnUICloseRequested += (uiName) =>
             {
-                mainLobbyUI.ButtonsMoveBack();
+                mainLobbyBottomUI.ButtonsMoveBack();
                 ClosePanel(uiName);
             };
         }
@@ -452,6 +458,22 @@ namespace SDW
             var stageSelectUI = _uiDic[uiName] as StageSelectUI;
             stageSelectUI.OnUIOpenRequested += OpenPanel;
             stageSelectUI.OnUICloseRequested += ClosePanel;
+        }
+
+        private void ConnectMainLobbyBottomUI(UIName uiName)
+        {
+            var bottomUI = _uiDic[uiName] as MainLobbyBottomUI;
+            var mainLobbyUI = _uiDic[UIName.MainLobbyUI] as MainLobbyUI;
+
+            mainLobbyUI.OnButtonInteractableChanged += bottomUI.SetButtonsInteractable;
+            bottomUI.OnUIOpenRequested += (uiName, value) =>
+            {
+                if (value.Equals("미식가")) mainLobbyUI.SetPrevText(value);
+                if (value != null) mainLobbyUI.SetMainText(value);
+                OpenPanel(uiName);
+            };
+
+            bottomUI.OnUICloseRequested += ClosePanel;
         }
 
         #endregion
