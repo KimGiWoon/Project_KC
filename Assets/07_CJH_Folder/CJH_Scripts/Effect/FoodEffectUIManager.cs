@@ -178,14 +178,3 @@ public class FoodEffectUIManager : MonoBehaviour
         }
     }
 }
-
-/// <summary>
-/// 캐릭터별 UI 부모 Transform을 담는 간단한 데이터 클래스
-/// </summary>
-public class CharacterUIParents : MonoBehaviour
-{
-    public Transform buffParent;      // 우상단
-    public Transform debuffParent;    // 좌상단
-    public Transform instantParent;   // 하단
-    public Transform barrierParent;   // 좌측
-}

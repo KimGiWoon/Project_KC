@@ -17,8 +17,8 @@ namespace SDW
         [SerializeField] private Button _cookButton;
         [SerializeField] private TextMeshProUGUI _stageText;
         [SerializeField] private TextMeshProUGUI _yeopjeonText;
-        [SerializeField] private TweenAnimation[] _buttonTwwenAnimations;
-        [SerializeField] private TweenAnimation _buttonContainerTweenAnimation;
+        [SerializeField] public TweenAnimation[] _buttonTwwenAnimations;
+        [SerializeField] public TweenAnimation _buttonContainerTweenAnimation;
         [SerializeField] private GameObject _buttuonContainer;
 
         public Action<UIName> OnUIOpenRequested;
