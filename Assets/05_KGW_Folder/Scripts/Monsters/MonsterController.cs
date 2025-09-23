@@ -27,7 +27,6 @@ public class MonsterController : UnitBaseData
     public bool _isDetect;
     public bool _isFirst;
     public bool _isApplyPassive;
-    public bool _isUseSkill2;
     private float _skill1Timer;
     private float _skill2Timer;
     private float _breakCount;
@@ -76,7 +75,6 @@ public class MonsterController : UnitBaseData
     {
         if (_battleManager._isGameOver || _battleUI._isOnMenu || _isStern) return;
         base.Update();
-
 
         UseSkill();
     }
@@ -161,11 +159,11 @@ public class MonsterController : UnitBaseData
             // 탐색 대상이 없으면 
             if (_researchTarget == null)
             {
-                // 이동 애니메이션
-                _monAnimatior.Play(Walk_Hash);
-
                 // 왼쪽으로 이동
                 transform.Translate(_moveDir * _monsterState._monMoveSpeed * _gameSpeed * Time.deltaTime);
+
+                // 이동 애니메이션
+                _monAnimatior.Play(Walk_Hash);
             }
             else // 탐색 대상이 있으면
             {
@@ -181,12 +179,12 @@ public class MonsterController : UnitBaseData
                 // 공격 대상과의 거리가 공격 사거리 안에 들어올 때까지 접근
                 if (moveDistance > moveSpareDistance)
                 {
-                    // 이동 애니메이션
-                    _monAnimatior.Play(Walk_Hash);
-
                     // 탐색 대상으로 이동
                     transform.position = Vector3.MoveTowards(transform.position, _researchTarget.transform.position,
                         _monsterState._monMoveSpeed * _gameSpeed * Time.deltaTime);
+
+                    // 이동 애니메이션
+                    _monAnimatior.Play(Walk_Hash);
                 }
             }
         }
@@ -226,12 +224,12 @@ public class MonsterController : UnitBaseData
             // 공격 대상의 거리가 몬스터의 공격 사거리에 들어오면 타겟 공격
             if (attackDistance <= attackSpareDistance && _attackCoolTimer <= 0f)
             {
+                // 공격 애니메이션
+                _monAnimatior.Play(Attack_Hash);
+
                 // 캐릭터가 살아있으면 공격
                 if (_attackTarget != null && _attackTarget._isAlive)
                 {
-                    // 공격 애니메이션
-                    _monAnimatior.Play(Attack_Hash);
-
                     // 몬스터의 데미지로 캐릭터에 주기
                     _attackTarget.TakeDamage(_monsterState._monAttack, _monsterState._monAccuracy);
 
@@ -283,52 +281,33 @@ public class MonsterController : UnitBaseData
         if (_monsterState._monActiveSkill_1)
         {
             // 액티브 스킬1의 쿨타임 시간
-            if (_monsterState._monActiveSkill_1._monSkillCd <= _skill1Timer)
+            if (_monsterState._monActiveSkill_1._monSkillCd <= _skill1Timer && !_isUseSkill && !_isUseSkill2)
             {
-                // 액티브 스킬2가 사용되면 스킬1은 사용 금지
-                if (_isUseSkill2)
-                {
-                    _skill1Timer = 0f;
-                    return;
-                }
                 _isUseSkill = true;
                 // 스킬1 애니메이션
                 _monAnimatior.Play(Skill1_Hash);
 
+                Invoke(nameof(ResetAnimation), 0.8f);
+
                 // 액티브 스킬1 사용
                 _monsterState._monActiveSkill_1.UseSkill(_monster, _monsterState._monActiveSkill_1, _attackTarget);
-
-                if (_isUseSkill)
-                {
-                    Invoke(nameof(ResetAnimation), 0.9f);
-                }
-
-                // 타이머 초기화
-                _skill1Timer = 0f;
             }
         }
         // 액티브 스킬2을 보유하고 있는지 확인
         if (_monsterState._monActiveSkill_2)
         {
             // 액티브 스킬2의 쿨타임 시간
-            if (_monsterState._monActiveSkill_2._monSkillCd <= _skill2Timer)
+            if (_monsterState._monActiveSkill_2._monSkillCd <= _skill2Timer && !_isUseSkill2)
             {
-                _isUseSkill = true;
                 _isUseSkill2 = true;
 
                 // 스킬2 애니메이션
                 _monAnimatior.Play(Skill2_Hash);
 
+                Invoke(nameof(ResetAnimation), 2.8f);
+
                 // 액티브 스킬2 사용
                 _monsterState._monActiveSkill_2.UseSkill(_monster, _monsterState._monActiveSkill_2, _attackTarget);
-
-                if (_isUseSkill)
-                {
-                    Invoke(nameof(ResetAnimation), 2.9f);
-                }
-
-                // 타이머 초기화
-                _skill2Timer = 0f;
             }
         }
     }
@@ -336,10 +315,18 @@ public class MonsterController : UnitBaseData
     // 리셋 애니메이션
     private void ResetAnimation()
     {
-        if (_isUseSkill2) _isUseSkill2 = false;
-        _isUseSkill = false;
-
-        _monAnimatior.Play(Idle_Hash);
+        if (_isUseSkill2) 
+        {
+            // 타이머 초기화
+            _skill2Timer = 0f;
+            _isUseSkill2 = false;
+        }
+        if (_isUseSkill)
+        {
+            // 타이머 초기화
+            _skill1Timer = 0f;
+            _isUseSkill = false;
+        }
     }
 
     // 보스 몬스터 소환 스킬사용 (적을 감지 하면 사용)
@@ -394,9 +381,14 @@ public class MonsterController : UnitBaseData
         else // 보스이면 통합 체력 변화
         {
             // 그로기 수치 상승
-            _breakCount++;
-            // 보스 그로기 확인
-            BossBreakCheck();
+            if (!_isStern)
+            {
+                _breakCount++;
+                // 그로기 수치 UI
+                _battleManager.ReportBreakGauge(_breakCount, _monsterState._monbreakGage);
+                // 보스 그로기 확인
+                BossBreakCheck();
+            }
 
             // 실제 줄어든 체력
             float decreaseBossHp = MathF.Max(0f, saveCurHp - _monsterState._monCurrentHP);
@@ -539,7 +531,11 @@ public class MonsterController : UnitBaseData
         if (_breakCount >= _monsterState._monbreakGage)
         {
             _isStern = true;
-            _monAnimatior.Play(Break_Hash);
+
+            _breakCount = 0;
+            // 그로기 수치 UI
+            _battleManager.ReportBreakGauge(_breakCount, _monsterState._monbreakGage);
+
             // 보스 그로기 타임
             _bossBreakRoutine = StartCoroutine(BossBreakCoroutine());
         }
@@ -548,6 +544,7 @@ public class MonsterController : UnitBaseData
     // 보스 그로기 코루틴
     private IEnumerator BossBreakCoroutine()
     {
+        _monAnimatior.Play(Break_Hash);
         Debug.Log("보스가 그로기 상태 입니다.");
 
         yield return new WaitForSeconds(5f);
@@ -557,12 +554,16 @@ public class MonsterController : UnitBaseData
         // 그로기 초기화
         _monAnimatior.Play(Idle_Hash);
         _isStern = false;
-        _breakCount = 0f;
+
     }
 
     private void ApplyGroggy(float value)
     {
-        _breakCount *= 1 + value;
+        _breakCount += _monsterState._monbreakGage * value;
+
+        // 그로기 수치 UI
+        _battleManager.ReportBreakGauge(_breakCount, _monsterState._monbreakGage);
+
         BossBreakCheck();
     }
 

@@ -20,7 +20,7 @@ public class RoarController : MonoBehaviour
         _monster = caster;
         _character = target;
 
-        AllCharacterRoarAttack();
+        Invoke(nameof(AllCharacterRoarAttack), 2f);
     }
 
     // 전체 포효 캐릭터 공격
@@ -49,7 +49,6 @@ public class RoarController : MonoBehaviour
             CharacterReductionReset();
         }
     }
-
 
     // 지속시간 후 감소된 피해감소율 원복
     public void CharacterReductionReset()
