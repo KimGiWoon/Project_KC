@@ -60,6 +60,7 @@
         CharInfoStatsUI,
         CharInfoBottomUI,
         LevelUpUI,
-        GlobalSettingUI
+        GlobalSettingUI,
+        StageSelectUI
     }
 }

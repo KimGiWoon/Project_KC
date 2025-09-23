@@ -87,6 +87,8 @@ namespace SDW
                 case UIName.CharInfoStatsUI: ConnectCharInfoStatsUI(uiName); break;
                 case UIName.CharInfoBottomUI: ConnectCharInfoBottomUI(uiName); break;
                 case UIName.LevelUpUI: ConnectLevelUpUI(uiName); break;
+                //@ Stage Select UI
+                case UIName.StageSelectUI: ConnectStageSelectUI(uiName); break;
             }
         }
 
@@ -443,6 +445,13 @@ namespace SDW
                 mainLobbyUI.ButtonsMoveBack();
                 ClosePanel(uiName);
             };
+        }
+
+        private void ConnectStageSelectUI(UIName uiName)
+        {
+            var stageSelectUI = _uiDic[uiName] as StageSelectUI;
+            stageSelectUI.OnUIOpenRequested += OpenPanel;
+            stageSelectUI.OnUICloseRequested += ClosePanel;
         }
 
         #endregion
