@@ -39,11 +39,11 @@ namespace SDW
             // _glowImageObj.SetActive(isRare);
             if (isRare)
             {
-                _glowImage.color = rareColor;
+                _circleImage.color = rareColor;
             }
             else
             {
-                _glowImage.color = normalColor;
+                _circleImage.color = normalColor;
             }
 
             bool isOwned = GameManager.Instance.CharacterData.OwnedCharacters.ContainsKey(ChaEnName);

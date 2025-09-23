@@ -280,16 +280,19 @@ namespace JJY
                 return;
             }
 
-            int exp = Convert.ToInt32(expObj);
+            // int exp = Convert.ToInt32(expObj);
             // Debug.Log($"exp={exp}");
             // GameManager.Instance.Firebase.Characters.TryGetValue(data._chaBaseData.ChaEnName.ToString(), out object raw);
             // var dict = raw as IReadOnlyDictionary<string, object>;
             // dict.TryGetValue("exp", out object expObj);
             _currentEXP.text = expObj.ToString() + " / " + levelData.ChaLevelPoint.ToString();
 
-            // _characterImage.sprite = 캐릭터 전신 이미지
+            if (!_characterImage.gameObject.activeSelf) _characterImage.gameObject.SetActive(true);
+            _characterImage.sprite = data.largeDeformationSprite;
+
             _characterNameText.text = data._chaBaseData.ChaName;
             // 캐릭터 타입 아이콘
+            if (!_characterTypeImage.gameObject.activeSelf) _characterTypeImage.gameObject.SetActive(true);
             _characterTypeImage.sprite = data.roleIcon;
 
             int beadCount = GameManager.Instance.CharacterData.BeadsInventory[data._chaBaseData.ChaEnName];
