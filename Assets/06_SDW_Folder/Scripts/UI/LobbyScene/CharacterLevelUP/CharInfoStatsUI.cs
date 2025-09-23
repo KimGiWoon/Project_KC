@@ -95,11 +95,11 @@ namespace SDW
             base.Close();
         }
 
-        public void SetCharacterInfo(CharacterDataSO data)
-        {
-            SetLeftComponents(data);
-            SetRightComponents(data);
-        }
+        // public void SetCharacterInfo(CharacterDataSO data)
+        // {
+        //     SetLeftComponents(data);
+        //     SetRightComponents(data);
+        // }
 
         private void SetLeftComponents(CharacterDataSO data)
         {
