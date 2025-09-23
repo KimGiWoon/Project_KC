@@ -43,11 +43,11 @@ namespace CJH
 
         void Awake()
         {
-            ButtonColors.Add(EncounterType.MoneySpend, new List<string> { "#88ADFF", "#FF8888" });
-            ButtonColors.Add(EncounterType.RelicSpent, new List<string> { "#88ADFF", "#FF8888" });
-            ButtonColors.Add(EncounterType.FightSel, new List<string> { "#88ADFF", "#FF8888" });
-            ButtonColors.Add(EncounterType.MoneyFight, new List<string> { "#88ADFF", "#FF8888" });
-            ButtonColors.Add(EncounterType.Gamb, new List<string> { "#88ADFF", "#FF8888" });
+            ButtonColors.Add(EncounterType.MoneySpend, new List<string> { "#8FDDFF", "#FF8F8F" });
+            ButtonColors.Add(EncounterType.RelicSpent, new List<string> { "#8FDDFF", "#FF8F8F" });
+            ButtonColors.Add(EncounterType.FightSel, new List<string> { "#8FDDFF", "#FF8F8F" });
+            ButtonColors.Add(EncounterType.MoneyFight, new List<string> { "#8FDDFF", "#FF8F8F" });
+            ButtonColors.Add(EncounterType.Gamb, new List<string> { "#8FDDFF", "#FF8F8F" });
 
 
         }
@@ -67,13 +67,13 @@ namespace CJH
                 switch (data.Sentiment)
                 {
                     case EncounterSentiment.Good:
-                        eventTitleText.text = "긍정적 사건 발생!";
+                        eventTitleText.text = "극상의 맛";
                         break;
                     case EncounterSentiment.Bad:
-                        eventTitleText.text = "부정적 사건 발생!";
+                        eventTitleText.text = "절망의 맛";
                         break;
                     default:
-                        eventTitleText.text = "사건 발생!";
+                        eventTitleText.text = "미묘한 맛";
                         break;
                 }
             }
@@ -470,39 +470,53 @@ namespace CJH
                     }
 
                     //획득한 유물 이름 리스트를 하나의 문자열로 합칩니다.
-             if (gainedRelicNames.Count > 0)
-            {
-                // 이전에 작업한 specificRelicName 변수를 재활용하여 결과창에 표시합니다.
-                specificRelicName = string.Join(", ", gainedRelicNames.Select(name => $"'{name}'"));
-            }
-    
-            GameManager.Instance.Coin.AddYeopjeon(resultMoney);
-            Debug.Log($"{resultMoney} 엽전 얻음");
-            break;
+                    if (gainedRelicNames.Count > 0)
+                    {
+                        // 이전에 작업한 specificRelicName 변수를 재활용하여 결과창에 표시합니다.
+                        specificRelicName = string.Join(", ", gainedRelicNames.Select(name => $"'{name}'"));
+                    }
+
+                    GameManager.Instance.Coin.AddYeopjeon(resultMoney);
+                    Debug.Log($"{resultMoney} 엽전 얻음");
+                    break;
 
                 case ChoiceResultType.None:
                     Debug.Log(" 이벤트 지나감 ");
                     break;
             }
 
-    //case ChoiceResultType.Continue:
-    //
-    //        int numberOfChoices = Random.Range(2, 4);
-    //
-    //        ShowRelicSelection(numberOfChoices);
-    //
-    //        GameManager.Instance.Coin.AddYeopjeon(resultMoney); // resultValue 변수 사용
-    //
-    //        Debug.Log($"{resultMoney} 엽전 얻음");
-    //
-    //        Debug.Log("유물 선택지");
-    //
-    //        break;
+            //case ChoiceResultType.Continue:
+            //
+            //        int numberOfChoices = Random.Range(2, 4);
+            //
+            //        ShowRelicSelection(numberOfChoices);
+            //
+            //        GameManager.Instance.Coin.AddYeopjeon(resultMoney); // resultValue 변수 사용
+            //
+            //        Debug.Log($"{resultMoney} 엽전 얻음");
+            //
+            //        Debug.Log("유물 선택지");
+            //
+            //        break;
 
             // 결과가 있으면 결과창 보여주고 없으면 이벤트 종료
             if (choiceIndex < data.EncounterExitText.Count && !string.IsNullOrEmpty(data.EncounterExitText[choiceIndex]))
             {
                 resultPanel.SetActive(true);
+
+                // 긍정적 사건일 경우 텍스트 색상 변경
+                if (data.Sentiment == EncounterSentiment.Good)
+                {
+                    if (ColorUtility.TryParseHtmlString("#8FDDFF", out Color goodColor))
+                    {
+                        resultText.color = goodColor;
+                    }
+                }
+                else
+                {
+                    // 긍정적이지 않은 다른 이벤트에 대비해 기본 색상(흰색)으로 설정
+                    resultText.color = Color.white;
+                }
 
                 string processedText = data.EncounterExitText[choiceIndex].Replace("\\n", "\n");
 
@@ -517,17 +531,7 @@ namespace CJH
                 encounterText.gameObject.SetActive(false);
                 buttonContainer.gameObject.SetActive(false);
             }
-            else
-            {
-                _eventManager.EndEncounter();
-            }
-
-            foreach (var btn in buttonContainer.GetComponentsInChildren<Button>())
-            {
-                btn.interactable = false;
-            }
         }
-    
 
         /// <summary>
         /// 플레이어에게 N개의 유물 선택지를 보여줍니다.

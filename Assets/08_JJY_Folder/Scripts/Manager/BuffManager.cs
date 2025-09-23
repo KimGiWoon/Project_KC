@@ -71,7 +71,7 @@ namespace JJY
             {
                 dt *= 2f;
             }
-            for (int i = activeBuffs.Count - 1; i >= 0; i--)
+                for (int i = activeBuffs.Count - 1; i >= 0; i--)
             {
                 activeBuffs[i].remaining -= dt;
                 if (activeBuffs[i].remaining <= 0f)
@@ -201,6 +201,15 @@ namespace JJY
                 p.HPHeal(p._characterState._chaMaxHP * e.value);
 
                 if (logActions) Debug.Log($"[BuffManager] {p.name} HP : {p._characterState._chaCurrentHP}");
+
+                //CJH 코드 추가
+                var uiParents = p.GetComponent<CharacterUIParents>();
+                if (uiParents != null)
+                {
+                    FoodEffectUIManager.Instance.ApplyEffect(p.gameObject, uiParents, e);
+                }
+
+
             }
             if (logActions) Debug.Log("HP HEAL! TODO : UI 이벤트 함수 연결.");
         }
