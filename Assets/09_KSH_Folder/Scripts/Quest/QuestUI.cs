@@ -8,10 +8,11 @@ using UnityEngine.UI;
 public class QuestUI : MonoBehaviour
 {
     [Header("퀘스트 이름 텍스트")]
-    private TextMeshProUGUI nameText;
+    [SerializeField] private TextMeshProUGUI nameText;
+    [SerializeField] private TextMeshProUGUI valueText;
 
     [Header("체크 이미지")]
-    private Image _checkImage;
+    [SerializeField] private Image _checkImage;
 
     [HideInInspector] public DailyQuest dailyQuest;
 
@@ -21,8 +22,6 @@ public class QuestUI : MonoBehaviour
 
     private void OnEnable()
     {
-        nameText = GetComponentInChildren<TextMeshProUGUI>(true);
-
         if (GameManager.Instance.Time != null)
             GameManager.Instance.Time.OnDailyReset += InitUI;
 
@@ -39,8 +38,6 @@ public class QuestUI : MonoBehaviour
 
     public void InitUI()
     {
-        var checkImages = GetComponentsInChildren<Image>(true);
-        _checkImage = checkImages[2];
         _checkImage.gameObject.SetActive(false);
 
         if (dailyQuest == null) return;

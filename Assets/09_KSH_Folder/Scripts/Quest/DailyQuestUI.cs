@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using KSH;
 using UnityEngine;
 using SDW;
@@ -13,17 +14,13 @@ public class DailyQuestUI : BaseUI
 
     [Header("UI Components")]
     [SerializeField] private Button _rewardButton;
-    [SerializeField] private Button _backButton;
+    [SerializeField] private GameObject _redmardk;
     [SerializeField] private RectTransform _popupRect;
+    [SerializeField] private GameObject _backgroundPanelObject;
+    private TweenAlpha_Image _backgroundPanel;
 
-    [Header("Test Buttons")]
-    [SerializeField] private Button _q1button;
-    [SerializeField] private Button _q2button;
-    [SerializeField] private Button _q3button;
-    [SerializeField] private Button _q4button;
-    [SerializeField] private Button _q5button;
-    [SerializeField] private Button _q6button;
-    [SerializeField] private Button _q7button;
+    [Header("Animation")]
+    [SerializeField] private TweenAnimation _tweenAnimation;
 
     public Action<int> OnRewardButtonClicked;
     public Action<UIName> OnUICloseRequested;
@@ -31,37 +28,19 @@ public class DailyQuestUI : BaseUI
     private void Awake()
     {
         _panelContainer.SetActive(false);
+        _backgroundPanel = _backgroundPanelObject.GetComponent<TweenAlpha_Image>();
+        _backgroundPanelObject.SetActive(false);
         _rewardButton.interactable = false;
     }
 
     private void OnEnable()
     {
         _rewardButton.onClick.AddListener(RewardButtonClicked);
-        _backButton.onClick.AddListener(BackButtonClicked);
-
-        //# Test Code
-        _q1button.onClick.AddListener(Q1buttonClicked);
-        _q2button.onClick.AddListener(Q2buttonClicked);
-        _q3button.onClick.AddListener(Q3buttonClicked);
-        _q4button.onClick.AddListener(Q4buttonClicked);
-        _q5button.onClick.AddListener(Q5buttonClicked);
-        _q6button.onClick.AddListener(Q6buttonClicked);
-        _q7button.onClick.AddListener(Q7buttonClicked);
     }
 
     private void OnDisable()
     {
         _rewardButton.onClick.RemoveListener(RewardButtonClicked);
-        _backButton.onClick.RemoveListener(BackButtonClicked);
-
-        //# Test Code
-        _q1button.onClick.RemoveListener(Q1buttonClicked);
-        _q2button.onClick.RemoveListener(Q2buttonClicked);
-        _q3button.onClick.RemoveListener(Q3buttonClicked);
-        _q4button.onClick.RemoveListener(Q4buttonClicked);
-        _q5button.onClick.RemoveListener(Q5buttonClicked);
-        _q6button.onClick.RemoveListener(Q6buttonClicked);
-        _q7button.onClick.RemoveListener(Q7buttonClicked);
     }
 
     private void Update()
@@ -92,14 +71,26 @@ public class DailyQuestUI : BaseUI
             _rewardButton.interactable = true;
     }
 
-    private void RewardButtonClicked() => OnRewardButtonClicked?.Invoke(_rewardAmount);
+    public override void Open()
+    {
+        _backgroundPanelObject.SetActive(true);
+        _tweenAnimation.moveAway();
+        base.Open();
+    }
 
-    private void BackButtonClicked() => OnUICloseRequested?.Invoke(UIName.DailyQuestUI);
-    private void Q1buttonClicked() => GameManager.Instance.DailyQuest.CompleteQuest(QuestType.GameLogin, 1);
-    private void Q2buttonClicked() => GameManager.Instance.DailyQuest.CompleteQuest(QuestType.RoguelikeClear, 1);
-    private void Q3buttonClicked() => GameManager.Instance.DailyQuest.CompleteQuest(QuestType.Revive, 1);
-    private void Q4buttonClicked() => GameManager.Instance.DailyQuest.CompleteQuest(QuestType.UseFood, 3);
-    private void Q5buttonClicked() => GameManager.Instance.DailyQuest.CompleteQuest(QuestType.GetArtifact, 5);
-    private void Q6buttonClicked() => GameManager.Instance.DailyQuest.CompleteQuest(QuestType.CharacterLevelUp, 1);
-    private void Q7buttonClicked() => GameManager.Instance.DailyQuest.CompleteQuest(QuestType.Gacha, 1);
+    public override void Close()
+    {
+        _backgroundPanel.FadeOut();
+        StartCoroutine(DelayedClose());
+    }
+
+    private IEnumerator DelayedClose()
+    {
+        _tweenAnimation.moveBack();
+        yield return new WaitForSeconds(_tweenAnimation.tweenTime);
+        base.Close();
+        _backgroundPanelObject.SetActive(false);
+    }
+
+    private void RewardButtonClicked() => OnRewardButtonClicked?.Invoke(_rewardAmount);
 }
