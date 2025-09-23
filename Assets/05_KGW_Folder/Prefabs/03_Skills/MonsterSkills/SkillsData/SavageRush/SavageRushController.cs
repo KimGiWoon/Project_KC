@@ -10,7 +10,7 @@ public class SavageRushController : MonoBehaviour
     private MyCharacterController _character;
     private MonsterController _monster;
     private Vector3 _position;
-    Coroutine _rushRoutine;
+    private Coroutine _rushRoutine;
 
     public void Init(MonsterController caster, MyCharacterController target, float damageValue)
     {
@@ -53,7 +53,11 @@ public class SavageRushController : MonoBehaviour
         float timer = 0f;
         float returnDuration = 0.5f;
 
-        //yield return new WaitForSeconds(2f);
+        // 그로기 상태에서는 돌진 금지
+        if (_monster._isStern)
+        {
+            yield break;
+        }
 
         // 앞으로 돌진
         while (timer < rushTime)
@@ -69,7 +73,6 @@ public class SavageRushController : MonoBehaviour
 
         // 공격 대상의 캐릭터 공격
         _character.TakeDamage(_skillDamage, _monster._monsterState._monAccuracy);
-        Debug.Log($"{_character._characterState._chaEnName}에게 {_skillDamage}의 데미지를 주었습니다.");
 
         // 돌진 전 위치로 돌아오기
         while (timer < returnDuration)

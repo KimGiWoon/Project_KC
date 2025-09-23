@@ -25,6 +25,7 @@ public class BattleUI : BaseUI
     [SerializeField] private TMP_Text _stageInfo;
     [SerializeField] private TMP_Text _totalHpText;
     [SerializeField] private Slider _totalMonsterHp;
+    [SerializeField] private Slider _bossBreakGauge;
 
     public WaitForSeconds _playTime;
     public float _count;
@@ -58,6 +59,7 @@ public class BattleUI : BaseUI
         _battleManager.OnGameResult += GamePlayResultCheck;
         // 몬스터 통합 체력 변화 이벤트 구독
         _battleManager.OnTotalHpChange += MonsterTotalHpChange;
+        _battleManager.OnBreakGaugeChange += BossBreakGauge;
         RoguelikeManager.Instance.OnBattleStart += BattleStart;
         RoguelikeManager.Instance.OnBattleEnd += BattleEnd;
     }
@@ -68,6 +70,7 @@ public class BattleUI : BaseUI
         _battleManager.OnGameResult -= GamePlayResultCheck;
         // 몬스터 통합 체력 변화 이벤트 구독
         _battleManager.OnTotalHpChange -= MonsterTotalHpChange;
+        _battleManager.OnBreakGaugeChange -= BossBreakGauge;
         RoguelikeManager.Instance.OnBattleStart -= BattleStart;
         RoguelikeManager.Instance.OnBattleEnd -= BattleEnd;
     }
@@ -161,6 +164,15 @@ public class BattleUI : BaseUI
         _totalHpText.text = totalCurrentHp.ToString("F0");
 
         _totalMonsterHp.value = totalCurrentHp / totalMaxHp;
+    }
+
+    // 보스 그로기 게이지 변화
+    public void BossBreakGauge(float currentGauge, float maxGauge)
+    {
+        _bossBreakGauge.minValue = 0f;
+        _bossBreakGauge.maxValue = 1f;
+
+        _bossBreakGauge.value = currentGauge / maxGauge;
     }
 
     // 타이머 배속 변경
