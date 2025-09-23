@@ -13,6 +13,12 @@ MonoBehaviour:
   m_Name: PrefabAndSOMapping_SDW_LobbyScene
   m_EditorClassIdentifier: 
   prefabEntries:
+  - PathHash: 5198830157726298727
+    AddressKey: b2f16cda616270d4da394dbf5a0b6bfd
+    fieldName: _selectSlotPrefab
+    index: -1
+    AssetPath: Assets/05_KGW_Folder/Prefabs/CharacterSlot/SelectCharacter.prefab
+    PathPreview: CharacterSelectManager
   - PathHash: 14938729717848126768
     AddressKey: e2d9fb0ff2abe3a4caac52a1c5bcc451
     fieldName: _prefab
@@ -133,13 +139,37 @@ MonoBehaviour:
     index: -1
     AssetPath: Assets/05_KGW_Folder/Prefabs/00_Characters/YHY.prefab
     PathPreview: TestGameManager/CSVDataContainer/CharacterData
-  - PathHash: 5198830157726298727
-    AddressKey: b2f16cda616270d4da394dbf5a0b6bfd
-    fieldName: _selectSlotPrefab
-    index: -1
-    AssetPath: Assets/05_KGW_Folder/Prefabs/CharacterSlot/SelectCharacter.prefab
-    PathPreview: CharacterSelectManager
   soEntries:
+  - PathHash: 8583154407218596130
+    AddressKey: 3187b59c549b7884e935f513a641ecad
+    fieldName: dailyQuests
+    index: 0
+    AssetPath: Assets/09_KSH_Folder/ScriptableObject/DailyQuests/ChallengeDungeon.asset
+    PathPreview: TestGameManager/QuestManager
+  - PathHash: 8583154407218596130
+    AddressKey: 64eb3dee0b6864d41b34002f1d2722e2
+    fieldName: dailyQuests
+    index: 1
+    AssetPath: Assets/09_KSH_Folder/ScriptableObject/DailyQuests/UseFood.asset
+    PathPreview: TestGameManager/QuestManager
+  - PathHash: 8583154407218596130
+    AddressKey: 0886ee9ff4efbab4ab197c78819beb7f
+    fieldName: dailyQuests
+    index: 2
+    AssetPath: Assets/09_KSH_Folder/ScriptableObject/DailyQuests/GetArtifact.asset
+    PathPreview: TestGameManager/QuestManager
+  - PathHash: 8583154407218596130
+    AddressKey: 9b0206f3d9ca7bf42b3ed0217b7ab8ed
+    fieldName: dailyQuests
+    index: 5
+    AssetPath: Assets/09_KSH_Folder/ScriptableObject/DailyQuests/LevelUp.asset
+    PathPreview: TestGameManager/QuestManager
+  - PathHash: 8583154407218596130
+    AddressKey: 9916a806d30a06c48a483207599aa6c1
+    fieldName: dailyQuests
+    index: 6
+    AssetPath: Assets/09_KSH_Folder/ScriptableObject/DailyQuests/Gacha.asset
+    PathPreview: TestGameManager/QuestManager
   - PathHash: 14938729717848126768
     AddressKey: 0977072b4d0ff2c4bb1c250d908f0ba6
     fieldName: _characterLists
@@ -440,48 +470,6 @@ MonoBehaviour:
     index: -1
     AssetPath: Assets/05_KGW_Folder/Prefabs/03_Skills/CharacterSkills/SkillsSOData/Vanguard_Data.asset
     PathPreview: TestGameManager/CSVDataContainer/CharacterData
-  - PathHash: 8583154407218596130
-    AddressKey: 3187b59c549b7884e935f513a641ecad
-    fieldName: dailyQuests
-    index: 0
-    AssetPath: Assets/09_KSH_Folder/ScriptableObject/DailyQuests/ChallengeDungeon.asset
-    PathPreview: TestGameManager/QuestManager
-  - PathHash: 8583154407218596130
-    AddressKey: 64eb3dee0b6864d41b34002f1d2722e2
-    fieldName: dailyQuests
-    index: 1
-    AssetPath: Assets/09_KSH_Folder/ScriptableObject/DailyQuests/UseFood.asset
-    PathPreview: TestGameManager/QuestManager
-  - PathHash: 8583154407218596130
-    AddressKey: 0886ee9ff4efbab4ab197c78819beb7f
-    fieldName: dailyQuests
-    index: 2
-    AssetPath: Assets/09_KSH_Folder/ScriptableObject/DailyQuests/GetArtifact.asset
-    PathPreview: TestGameManager/QuestManager
-  - PathHash: 8583154407218596130
-    AddressKey: 1924e75ff074f014497c44dd006f3c97
-    fieldName: dailyQuests
-    index: 3
-    AssetPath: Assets/09_KSH_Folder/ScriptableObject/DailyQuests/UseStemina.asset
-    PathPreview: TestGameManager/QuestManager
-  - PathHash: 8583154407218596130
-    AddressKey: 409e853d965fab74aab4361d7c33cccd
-    fieldName: dailyQuests
-    index: 4
-    AssetPath: Assets/09_KSH_Folder/ScriptableObject/DailyQuests/ChargeStemina.asset
-    PathPreview: TestGameManager/QuestManager
-  - PathHash: 8583154407218596130
-    AddressKey: 9b0206f3d9ca7bf42b3ed0217b7ab8ed
-    fieldName: dailyQuests
-    index: 5
-    AssetPath: Assets/09_KSH_Folder/ScriptableObject/DailyQuests/LevelUp.asset
-    PathPreview: TestGameManager/QuestManager
-  - PathHash: 8583154407218596130
-    AddressKey: 9916a806d30a06c48a483207599aa6c1
-    fieldName: dailyQuests
-    index: 6
-    AssetPath: Assets/09_KSH_Folder/ScriptableObject/DailyQuests/SkillLevelUp.asset
-    PathPreview: TestGameManager/QuestManager
   - PathHash: 3825699745166513093
     AddressKey: ec0364da73ca6d14eab646f1faa0d041
     fieldName: _growthsDatas

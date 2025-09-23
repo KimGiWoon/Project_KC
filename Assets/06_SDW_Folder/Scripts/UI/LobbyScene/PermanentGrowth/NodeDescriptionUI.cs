@@ -14,6 +14,7 @@ namespace SDW
         [SerializeField] private TextMeshProUGUI _pointText;
         [SerializeField] private Button _activateButton;
         [SerializeField] private TextMeshProUGUI _activateInfoText;
+        [SerializeField] private GameObject _backgroundPanelObject;
 
         [SerializeField] private string _inactivate = "선행 흔적 활성화 필요";
         [SerializeField] private string _activateComplete = "활성 완료";
@@ -30,6 +31,7 @@ namespace SDW
         {
             _panelContainer.SetActive(false);
             _warningPopup.SetActive(false);
+            _backgroundPanelObject.SetActive(false);
         }
 
         private void OnEnable()
@@ -40,6 +42,18 @@ namespace SDW
         private void OnDisable()
         {
             _activateButton.onClick.RemoveListener(ActivateButtonClicked);
+        }
+
+        public override void Open()
+        {
+            _backgroundPanelObject.SetActive(true);
+            base.Open();
+        }
+
+        public override void Close()
+        {
+            _backgroundPanelObject.SetActive(false);
+            base.Close();
         }
 
         //# 안드로이드 터치 감지

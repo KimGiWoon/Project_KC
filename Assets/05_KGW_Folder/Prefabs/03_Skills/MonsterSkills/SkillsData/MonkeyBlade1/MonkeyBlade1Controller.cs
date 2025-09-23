@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using TMPro.EditorUtilities;
 using UnityEngine;
 
 public class MonkeyBlade1Controller : MonoBehaviour
@@ -43,7 +42,7 @@ public class MonkeyBlade1Controller : MonoBehaviour
 
     private IEnumerator BladeCoroutine()
     {
-        Vector3 bladeDir = Vector3.left;
+        var bladeDir = Vector3.left;
         float bladeTime = 1f;
         float timer = 0f;
 

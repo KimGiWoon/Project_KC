@@ -27,7 +27,7 @@ namespace SDW
         [SerializeField] private Button _lobbyButton;
         [SerializeField] private Button _collectionButton;
         [SerializeField] private Button _gachaButton;
-        [SerializeField] private Button _gameStartButton;
+        [SerializeField] private Button _stageSelectButton;
         //todo Game Start 눌렀을 때 뜨는 팝업 창으로 이동해야 함
         // [SerializeField] private Button _growthButton;
 
@@ -66,11 +66,6 @@ namespace SDW
             _collectionButton.interactable = false;
             _cashStarButton.interactable = false;
             _rainbowStarButton.interactable = false;
-
-            //todo 추후 선택지도 DB에 저장하면 Load해서 설정, 초기 HSR로 설정
-            _curerntChaImage.sprite = _memoryImageList[0].sprite;
-            _videoPlayer.clip = _gameManager.Video.VideoDictionary[VideoClipName.VideoHSR].Video;
-            _gameManager.Audio.PlayBGM(AudioClipName.MemoryHSR);
         }
 
         /// <summary>
@@ -79,11 +74,10 @@ namespace SDW
         private void OnEnable()
         {
             _optionButton.onClick.AddListener(OptionButtonClicked);
-            _gameStartButton.onClick.AddListener(GameStartButtonClicked);
+            _stageSelectButton.onClick.AddListener(StageSelectButtonClicked);
             _userInfoButton.onClick.AddListener(UserInfoButtonClicked);
             _dailyQuestButton.onClick.AddListener(DailyQuestButtonClicked);
             _gachaButton.onClick.AddListener(GachaButtonClicked);
-            // _growthButton.onClick.AddListener(GrowthButtonClicked);
             _levelUpButton.onClick.AddListener(LevelUpButtonClicked);
 
             foreach (var memoryButton in _memoryButtonList)
@@ -102,11 +96,10 @@ namespace SDW
         private void OnDisable()
         {
             _optionButton.onClick.RemoveListener(OptionButtonClicked);
-            _gameStartButton.onClick.RemoveListener(GameStartButtonClicked);
+            _stageSelectButton.onClick.RemoveListener(StageSelectButtonClicked);
             _userInfoButton.onClick.RemoveListener(UserInfoButtonClicked);
             _dailyQuestButton.onClick.RemoveListener(DailyQuestButtonClicked);
             _gachaButton.onClick.RemoveListener(GachaButtonClicked);
-            // _growthButton.onClick.RemoveListener(GrowthButtonClicked);
             _levelUpButton.onClick.RemoveListener(LevelUpButtonClicked);
 
             foreach (var memoryButton in _memoryButtonList)
@@ -117,6 +110,29 @@ namespace SDW
 
             GameManager.Instance.Reward.OnStarCandyChange -= UpdateRainbowStar;
             GameManager.Instance.DailyQuest.OnStarCandyChange -= UpdateRainbowStar;
+        }
+
+        protected override void Start()
+        {
+            base.Start();
+            StartCoroutine(LoadCoroutine());
+        }
+
+        private IEnumerator LoadCoroutine()
+        {
+            while (true)
+            {
+                yield return null;
+                if (!_gameManager.CompleteDownload || !_gameManager.ImageSpriteConnected || !_gameManager.PrefabAndSoConnected ||
+                    !_gameManager.Firebase.IsLoaded) continue;
+
+                break;
+            }
+
+            //todo 추후 선택지도 DB에 저장하면 Load해서 설정, 초기 HSR로 설정
+            _curerntChaImage.sprite = _memoryImageList[0].sprite;
+            _videoPlayer.clip = _gameManager.Video.VideoDictionary[VideoClipName.VideoHSR].Video;
+            _gameManager.Audio.PlayBGM(AudioClipName.MemoryHSR);
         }
 
         public override void Open()
@@ -168,12 +184,10 @@ namespace SDW
         /// <summary>
         /// GameStartButtonClicked 핸들러 메서드 호출로 사용자가 GameStart 버튼을 클릭했을 때 StageUI를 활성화
         /// </summary>
-        private void GameStartButtonClicked()
+        private void StageSelectButtonClicked()
         {
             _menuTitle.text = "스테이지 선택";
-            //todo popup 창으로 변경
-            GameManager.Instance.Scene.LoadSceneAsync(SceneName.SDW_RoguelikeScene);
-            OnUICloseRequested?.Invoke(UIName.MainLobbyUI);
+            OnUIOpenRequested?.Invoke(UIName.StageSelectUI);
         }
 
         /// <summary>
@@ -201,13 +215,6 @@ namespace SDW
         {
             _menuTitle.text = "미식가 초대";
             OnUIOpenRequested?.Invoke(UIName.GachaMainUI);
-        }
-
-        private void GrowthButtonClicked()
-        {
-            //todo MainLobby Close를 안하는 것도 고려
-            OnUIOpenRequested?.Invoke(UIName.PermanentGrowthUI);
-            OnUICloseRequested?.Invoke(UIName.MainLobbyUI);
         }
 
         private void LevelUpButtonClicked()
@@ -317,7 +324,7 @@ namespace SDW
 
         public void SetButtonsInteractable(bool value)
         {
-            _gameStartButton.interactable = value;
+            _stageSelectButton.interactable = value;
             _levelUpButton.interactable = value;
             _dailyQuestButton.interactable = value;
             _lobbyButton.interactable = value;

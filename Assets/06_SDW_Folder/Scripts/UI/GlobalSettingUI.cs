@@ -134,6 +134,7 @@ namespace SDW
         public override void Open()
         {
             _backgroundPanelObject.SetActive(true);
+            _gameManager.Firebase.RequestUserInfo();
             SetupInitialVolumeState();
             CheckSceneName();
             _tweenAnimation.moveAway();

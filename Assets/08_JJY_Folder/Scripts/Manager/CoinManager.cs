@@ -34,7 +34,6 @@ namespace JJY
         public Action<int> OnYeopjeonChanged;
         public Action OnPointChanged;
 
-
         // public static CoinManager Instance { get; private set; }
         private void Awake()
         {
@@ -45,8 +44,6 @@ namespace JJY
         {
             _gameManager = GameManager.Instance;
             _firebase = _gameManager.Firebase;
-
-            // StartCoroutine(LoadCoroutine());
         }
 
         private void Update()
@@ -58,20 +55,6 @@ namespace JJY
 
 
             _isDownloaded = true;
-        }
-
-        private IEnumerator LoadCoroutine()
-        {
-            while (true)
-            {
-                yield return null;
-                if (!_gameManager.CompleteDownload || !_gameManager.ImageSpriteConnected || !_gameManager.PrefabAndSoConnected ||
-                    !_gameManager.Firebase.IsLoaded) continue;
-
-                break;
-            }
-
-            LoadCoinData(_gameManager.Firebase.CoinData);
         }
 
         /// <summary>
