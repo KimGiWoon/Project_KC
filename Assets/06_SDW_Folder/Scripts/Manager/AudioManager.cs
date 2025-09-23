@@ -34,11 +34,6 @@ namespace SDW
         private List<bool> _volumeMuteList = new List<bool>();
         public IReadOnlyList<bool> VolumeMuteList => _volumeMuteList;
 
-        private void Awake()
-        {
-            SetDefaultVolume();
-        }
-
         private void Start()
         {
             _gameManager = GameManager.Instance;
@@ -83,18 +78,29 @@ namespace SDW
                 PlayerPrefs.Save();
             }
 
-            _volumeList.Add(PlayerPrefs.GetInt("MasterVolume"));
-            _volumeList.Add(PlayerPrefs.GetInt("BGMVolume"));
-            _volumeList.Add(PlayerPrefs.GetInt("SFXVolume"));
+            int masterVolume = PlayerPrefs.GetInt("MasterVolume");
+            _volumeList.Add(masterVolume);
+            SetVolume(VolumeType.MasterVolume, masterVolume);
+
+            int bgmVolume = PlayerPrefs.GetInt("BGMVolume");
+            _volumeList.Add(bgmVolume);
+            SetVolume(VolumeType.BGMVolume, bgmVolume);
+
+            int sfxVolume = PlayerPrefs.GetInt("SFXVolume");
+            _volumeList.Add(sfxVolume);
+            SetVolume(VolumeType.SFXVolume, sfxVolume);
 
             _isMasterVolumeMuted = PlayerPrefs.GetInt("MasterVolumeMute") == 1;
             _volumeMuteList.Add(_isMasterVolumeMuted);
+            SetMute(VolumeType.MasterVolume, _isMasterVolumeMuted);
 
             _isBGMVolumeMuted = PlayerPrefs.GetInt("BGMVolumeMute") == 1;
             _volumeMuteList.Add(_isBGMVolumeMuted);
+            SetMute(VolumeType.BGMVolume, _isBGMVolumeMuted);
 
             _isSFXVolumeMuted = PlayerPrefs.GetInt("SFXVolumeMute") == 1;
             _volumeMuteList.Add(_isSFXVolumeMuted);
+            SetMute(VolumeType.SFXVolume, _isSFXVolumeMuted);
         }
 
         // private void Start() => PlayBGM(AudioClipName.TitleBackground);
@@ -112,6 +118,7 @@ namespace SDW
 
             InitializeAudioClip();
             InitBGMAudioSource();
+            SetDefaultVolume();
         }
 
         private void InitializeAudioClip()
@@ -202,12 +209,15 @@ namespace SDW
             {
                 case VolumeType.MasterVolume:
                     _masterMixer.audioMixer.SetFloat("MasterVolume", dbValue);
+                    _volumeList[0] = (int)volume;
                     break;
                 case VolumeType.BGMVolume:
                     _bgmMixer.audioMixer.SetFloat("BGMVolume", dbValue);
+                    _volumeList[1] = (int)volume;
                     break;
                 case VolumeType.SFXVolume:
                     _sfxMixer.audioMixer.SetFloat("SFXVolume", dbValue);
+                    _volumeList[2] = (int)volume;
                     break;
             }
         }
@@ -219,16 +229,19 @@ namespace SDW
                 _isMasterVolumeMuted = isMute;
                 BGMMute(isMute);
                 SFXMute(isMute);
+                _volumeMuteList[0] = isMute;
             }
             else if (volumeType == VolumeType.BGMVolume)
             {
                 _isBGMVolumeMuted = isMute;
                 BGMMute(isMute);
+                _volumeMuteList[1] = isMute;
             }
             else if (volumeType == VolumeType.SFXVolume)
             {
                 _isSFXVolumeMuted = isMute;
                 SFXMute(isMute);
+                _volumeMuteList[2] = isMute;
             }
         }
 

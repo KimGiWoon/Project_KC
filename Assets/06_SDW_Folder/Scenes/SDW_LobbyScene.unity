@@ -63420,7 +63420,7 @@ MonoBehaviour:
   _uidInfoText: {fileID: 1842339871}
   _nicknameInfoText: {fileID: 321379952}
   _userIcon: {fileID: 1341153520}
-  _backgroundPanel: {fileID: 486624509}
+  _backgroundPanelObject: {fileID: 486624509}
   _userInfoPanel: {fileID: 2012339289}
   _medalPanel: {fileID: 180859279}
   _changeIconPanelRect: {fileID: 448755177}
@@ -67110,6 +67110,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 6fe5941f547735648a0c0be1a983bc1c, type: 2}
   nodeContent: {fileID: 1557921782}
   _permanentGrowthUI: {fileID: 881952769}
+  _charData: {fileID: 0}
 --- !u!4 &1917224561
 Transform:
   m_ObjectHideFlags: 0
