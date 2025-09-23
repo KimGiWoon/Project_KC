@@ -20,8 +20,6 @@ namespace SDW
         [HideInInspector] public bool IsSelected;
         [HideInInspector] public CharacterEnName ChaEnName;
 
-        private CharacterDataManager _characterDataManager;
-
         // private void Awake()
         // {
         //     _glowImage.gameObject.SetActive(false);
@@ -41,18 +39,21 @@ namespace SDW
             // _glowImageObj.SetActive(isRare);
             if (isRare)
             {
-                _glowImage.color = rareColor;
+                _circleImage.color = rareColor;
             }
             else
             {
-                _glowImage.color = normalColor;
+                _circleImage.color = normalColor;
             }
 
-            // bool isOwned = _characterDataManager.OwnedCharacters.ContainsKey(ChaEnName);
+            bool isOwned = GameManager.Instance.CharacterData.OwnedCharacters.ContainsKey(ChaEnName);
             // _darkImageObj.SetActive(!isOwned);
 
-            Debug.Log(_characterDataManager.BeadsInventory[ChaEnName]);
-            _chaUpgradeText.text = "+" + _characterDataManager.BeadsInventory[ChaEnName];
+            if (!isOwned) return;
+
+            Debug.Log(GameManager.Instance.CharacterData.BeadsInventory[ChaEnName]);
+            _chaUpgradeText.text = "+" + GameManager.Instance.CharacterData.BeadsInventory[ChaEnName];
+
             // _chaUpgradeText.text = data.Beads > 0 ? "+" + data.Beads : "";
 
             // if (IsSelected) _circleImageObj.SetActive(true);

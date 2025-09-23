@@ -119,7 +119,7 @@ namespace JJY
         private void Update()
         {
             if (!_gameManager.CompleteDownload || !_gameManager.ImageSpriteConnected || !_gameManager.PrefabAndSoConnected ||
-                !_gameManager.Firebase.IsLoaded || !_gameManager.CharacterData.IsDownloaded || _isLoaded) return;
+                !_gameManager.Firebase.IsLoaded || !_gameManager.CharacterData.IsDownloaded || !_coin.IsDownloaded || _isLoaded) return;
 
             _coin.OnItemsChanged += InitItemCountText;
             InitEXPTable();
@@ -189,10 +189,6 @@ namespace JJY
                 var init = characterButtonPrefab.GetComponent<LevelUpCharButton>();
 
                 // TODO : 첫번째 프리팹은 텍스트 설정이 되지 않음.
-                Debug.Log(character._chaBaseData.ChaEnName);
-                Debug.Log(GameManager.Instance.CharacterData.BeadsInventory);
-                Debug.Log(GameManager.Instance.CharacterData.BeadsInventory[character._chaBaseData.ChaEnName]);
-                init.SetLevelUpChar(character);
                 // var image = go.GetComponent<Image>();
                 // var beadsCount = go.GetComponentInChildren<TextMeshProUGUI>();
 
@@ -212,8 +208,15 @@ namespace JJY
                     button.interactable = false;
                 }
                 characterList.Add(go);
+
+                // Debug.Log(character._chaBaseData.ChaEnName);
+                // Debug.Log(GameManager.Instance.CharacterData.BeadsInventory);
+                // Debug.Log(GameManager.Instance.CharacterData.BeadsInventory[character._chaBaseData.ChaEnName]);
+                init.SetLevelUpChar(character);
+                yield return null;
             }
             SetContent(characterList);
+            yield return null;
         }
         private void SetContent(List<GameObject> characterList)
         {
@@ -277,16 +280,19 @@ namespace JJY
                 return;
             }
 
-            int exp = Convert.ToInt32(expObj);
-            Debug.Log($"exp={exp}");
+            // int exp = Convert.ToInt32(expObj);
+            // Debug.Log($"exp={exp}");
             // GameManager.Instance.Firebase.Characters.TryGetValue(data._chaBaseData.ChaEnName.ToString(), out object raw);
             // var dict = raw as IReadOnlyDictionary<string, object>;
             // dict.TryGetValue("exp", out object expObj);
             _currentEXP.text = expObj.ToString() + " / " + levelData.ChaLevelPoint.ToString();
 
-            // _characterImage.sprite = 캐릭터 전신 이미지
+            if (!_characterImage.gameObject.activeSelf) _characterImage.gameObject.SetActive(true);
+            _characterImage.sprite = data.largeDeformationSprite;
+
             _characterNameText.text = data._chaBaseData.ChaName;
             // 캐릭터 타입 아이콘
+            if (!_characterTypeImage.gameObject.activeSelf) _characterTypeImage.gameObject.SetActive(true);
             _characterTypeImage.sprite = data.roleIcon;
 
             int beadCount = GameManager.Instance.CharacterData.BeadsInventory[data._chaBaseData.ChaEnName];
@@ -531,8 +537,7 @@ namespace JJY
             while (gainedExp > 0)
             {
                 var levelData = GameManager.Instance.CharacterData.ChaLevelUpStatData[curLevel];
-                //
-                Debug.Log(levelData);
+
                 int maxExp = levelData.ChaLevelPoint;
 
                 // curExp += 10;
@@ -549,15 +554,12 @@ namespace JJY
                     curExp = 0;
                     curLevel++;
                     // TODO : Firebase 레벨업
-                    // GameManager.Instance.CharacterData.CharEnNameLevel[chaKey.ChaEnName] = curLevel;
-                    // SaveExpToFirebase(chaKey, curExp);
+                    SaveLevelToFirebase(chaKey.ChaID, curLevel);
                 }
 
                 var newLevelData = GameManager.Instance.CharacterData.ChaLevelUpStatData[curLevel];
-                //
-                Debug.Log(levelData);
+
                 expBar.fillAmount = (float)curExp / newLevelData.ChaLevelPoint;
-                Debug.Log(expBar.fillAmount);
 
                 _classLevelText.text = $"{curLevel}";
                 _currentEXP.text = $"{curExp} / {newLevelData.ChaLevelPoint}";
@@ -569,7 +571,9 @@ namespace JJY
             masterChefBtn.interactable = true;
             // if (!backBtn.interactable) backBtn.interactable = true;
 
-            SaveExpToFirebase(chaKey, curExp);
+
+            // TODO Firebase에 경험치 저장
+            SaveExpToFirebase(chaKey.ChaID, curExp);
         }
 
         // private IEnumerator DialogPanelFadeOut()
@@ -625,10 +629,17 @@ namespace JJY
 
             return 0;
         }
-        private void SaveExpToFirebase(CharacterBaseDataFileData chaKey, int newExp)
+        private void SaveExpToFirebase(int key, int newExp)
         {
             // TODO : Firebase에 경험치 변화량 저장
-            // GameManager.Instance.Firebase.UpdateCharacterExp(chaKey, newExp);
+            string id = key.ToString();
+            GameManager.Instance.Firebase.SetExp(id, newExp);
+        }
+        private void SaveLevelToFirebase(int key, int newLevel)
+        {
+            // TODO : Firebase에 경험치 변화량 저장
+            string id = key.ToString();
+            GameManager.Instance.Firebase.SetLevel(id, newLevel);
         }
         #endregion
     }

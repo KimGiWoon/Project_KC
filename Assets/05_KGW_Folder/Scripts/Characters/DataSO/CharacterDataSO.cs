@@ -40,6 +40,9 @@ public class CharacterDataSO : ScriptableObject
     [Header("Character Role Type Icon")]
     public Sprite roleIcon;
 
+    [Header("Character Large Deformation Image")]
+    public Sprite largeDeformationSprite;
+
     // 파싱 데이터를 매핑
     public virtual void DataApply(CharacterBaseDataFileData characterData, CharacterTypeFileData typeData)
     {
