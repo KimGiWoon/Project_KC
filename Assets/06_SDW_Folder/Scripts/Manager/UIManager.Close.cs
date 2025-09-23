@@ -202,12 +202,12 @@ namespace SDW
         private void DisconnectMainLobbyUI(UIName uiName)
         {
             var mainLobbyUI = _uiDic[uiName] as MainLobbyUI;
-            var changeIconUI = _uiDic[UIName.ChangeIconUI] as ChangeIconUI;
-            var userInfoUI = _uiDic[UIName.UserInfoUI] as UserInfoUI;
             mainLobbyUI.OnUIOpenRequested -= OpenPanel;
             mainLobbyUI.OnUICloseRequested -= ClosePanel;
             mainLobbyUI.OnIconRequested -= (index) =>
             {
+                var changeIconUI = _uiDic[UIName.ChangeIconUI] as ChangeIconUI;
+                var userInfoUI = _uiDic[UIName.UserInfoUI] as UserInfoUI;
                 var sprite = changeIconUI.GetIcon(index);
                 mainLobbyUI.SetIcon(sprite);
                 userInfoUI.SetIcon(sprite);
