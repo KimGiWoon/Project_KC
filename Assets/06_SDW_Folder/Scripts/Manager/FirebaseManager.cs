@@ -850,6 +850,48 @@ namespace SDW
         }
 
         /// <summary>
+        /// 특정 캐릭터의 경험치를 Firebase 데이터베이스에 업데이트
+        /// </summary>
+        /// <param name="key">업데이트할 캐릭터의 고유 키</param>
+        /// <param name="value">경험치</param>
+        public void SetExp(string key, int value)
+        {
+            var updateData = new Dictionary<string, object>
+            {
+                { $"characters/{key}/exp", value }
+            };
+
+            _db.Child("users").Child(_auth.CurrentUser.UserId).UpdateChildrenAsync(updateData).ContinueWithOnMainThread(task =>
+            {
+                if (task.IsFaulted)
+                {
+                    Debug.LogWarning($"Exp 저장 실패: {task.Exception.Message}");
+                }
+            });
+        }
+
+        /// <summary>
+        /// 특정 캐릭터의 Level을 Firebase 데이터베이스에 업데이트
+        /// </summary>
+        /// <param name="key">업데이트할 캐릭터의 고유 키</param>
+        /// <param name="value">Level</param>
+        public void SetLevel(string key, int value)
+        {
+            var updateData = new Dictionary<string, object>
+            {
+                { $"characters/{key}/level", value }
+            };
+
+            _db.Child("users").Child(_auth.CurrentUser.UserId).UpdateChildrenAsync(updateData).ContinueWithOnMainThread(task =>
+            {
+                if (task.IsFaulted)
+                {
+                    Debug.LogWarning($"Level 저장 실패: {task.Exception.Message}");
+                }
+            });
+        }
+
+        /// <summary>
         /// 특정 캐릭터의 비드(장식 아이템) 수량을 Firebase 데이터베이스에 업데이트
         /// </summary>
         /// <param name="key">업데이트할 캐릭터의 고유 키</param>

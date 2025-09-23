@@ -71,6 +71,7 @@ namespace SDW
         private GameManager _gameManager;
         private FirebaseManager _firebase;
         private bool _isDownloaded;
+        public bool IsDownloaded => _isDownloaded;
 
         public Action OnFirstCharacterChanged;
 
@@ -139,7 +140,8 @@ namespace SDW
             if (_charEnNameLevel[name] == level) return;
 
             _charEnNameLevel[name] = level;
-            //todo firebase 연동
+
+            _firebase.SetLevel(_characterEnNameData[name]._chaBaseData.ChaID.ToString(), level);
         }
 
         private void SeCharExp(CharacterEnName name, int exp)
@@ -147,7 +149,7 @@ namespace SDW
             if (_charEnNameExp[name] == exp) return;
 
             _charEnNameExp[name] = exp;
-            //todo firebase 연동
+            _firebase.SetExp(_characterEnNameData[name]._chaBaseData.ChaID.ToString(), exp);
         }
 
         /// <summary>

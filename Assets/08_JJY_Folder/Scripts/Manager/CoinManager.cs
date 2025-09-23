@@ -18,6 +18,8 @@ namespace JJY
 
         private GameManager _gameManager;
         private FirebaseManager _firebase;
+        private bool _isDownloaded;
+        public bool IsDownloaded => _isDownloaded;
 
         // 아웃게임 아이템
         private Dictionary<string, int> items = new Dictionary<string, int>();
@@ -32,6 +34,7 @@ namespace JJY
         public Action<int> OnYeopjeonChanged;
         public Action OnPointChanged;
 
+
         // public static CoinManager Instance { get; private set; }
         private void Awake()
         {
@@ -43,7 +46,18 @@ namespace JJY
             _gameManager = GameManager.Instance;
             _firebase = _gameManager.Firebase;
 
-            StartCoroutine(LoadCoroutine());
+            // StartCoroutine(LoadCoroutine());
+        }
+
+        private void Update()
+        {
+            if (!_gameManager.CompleteDownload || !_gameManager.ImageSpriteConnected || !_gameManager.PrefabAndSoConnected ||
+                _isDownloaded || !_gameManager.Firebase.IsLoaded) return;
+
+            LoadCoinData(_gameManager.Firebase.CoinData);
+
+
+            _isDownloaded = true;
         }
 
         private IEnumerator LoadCoroutine()

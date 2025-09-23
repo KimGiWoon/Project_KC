@@ -306,6 +306,11 @@ namespace SDW
         }
 
         /// <summary>
+        /// 다음 스테이지로 이동하기 위해 스테이지 증가
+        /// </summary>
+        public void NextStage() => _stage++;
+
+        /// <summary>
         /// 다운로드 완료 상태를 설정
         /// </summary>
         /// <param name="complete">다운로드 완료 여부를 나타내는 bool 값</param>

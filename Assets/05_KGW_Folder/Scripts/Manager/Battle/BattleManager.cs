@@ -72,6 +72,7 @@ public class BattleManager : MonoBehaviour
 
     // 전체 체력 변화 이벤트
     public event Action<float, float> OnTotalHpChange;
+    public event Action<float, float> OnBreakGaugeChange;
 
     public Action OnCharacterSpawned;
     public event Action OnCharacterDeath;
@@ -359,6 +360,12 @@ public class BattleManager : MonoBehaviour
 
         // 통합 체력 변화
         OnTotalHpChange?.Invoke(_monsterTotalCurrentHp, _monsterTotalMaxHp);
+    }
+
+    // 보스몬스터의 그로기 게이지 확인
+    public void ReportBreakGauge(float currentGauge, float maxGauge)
+    {
+        OnBreakGaugeChange?.Invoke(currentGauge, maxGauge);
     }
 
     // 스폰위치 섞기 (Fisher Yates Shuffle 알고리즘 사용)

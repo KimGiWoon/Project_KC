@@ -10,46 +10,60 @@ namespace SDW
     {
         [Header("UI Components")]
         [SerializeField] private Image _chaIconImage;
-        [SerializeField] private GameObject _glowImageObj; //# 레어면 활성화
-        [SerializeField] private GameObject _darkImageObj; //# 없으면 dark?
+        [SerializeField] private Image _glowImage; //# 레어면 활성화 // 이거 뭐임 몰라
+        // [SerializeField] private GameObject _darkImageObj; //# 없으면 dark?
         [SerializeField] private TextMeshProUGUI _chaUpgradeText;
-        [SerializeField] private GameObject _circleImageObj; //# 선택 시 활성화?
+        [SerializeField] private Image _circleImage; //# 선택 시 활성화? 이것이 레어나 노말일 때 색 바뀜.
+        [SerializeField] private Color normalColor;
+        [SerializeField] private Color rareColor;
 
         [HideInInspector] public bool IsSelected;
         [HideInInspector] public CharacterEnName ChaEnName;
 
         private CharacterDataManager _characterDataManager;
 
-        private void Awake()
-        {
-            _glowImageObj.SetActive(false);
-            _darkImageObj.SetActive(false);
-            _circleImageObj.SetActive(false);
-            _chaUpgradeText.text = "";
-        }
+        // private void Awake()
+        // {
+        //     _glowImage.gameObject.SetActive(false);
+        //     // _darkImageObj.SetActive(false);
+        //     _circleImage.gameObject.SetActive(false);
+        //     _chaUpgradeText.text = "";
+        // }
 
         public void SetLevelUpChar(CharacterDataSO data)
         {
             _chaIconImage.sprite = data._characterCircleSprite;
+            _glowImage.gameObject.SetActive(true);
+            _circleImage.gameObject.SetActive(true);
 
             ChaEnName = data._chaBaseData.ChaEnName;
             bool isRare = data._chaBaseData.ChaGrade == CharacterGrade.Rare ? true : false;
-            _glowImageObj.SetActive(isRare);
+            // _glowImageObj.SetActive(isRare);
+            if (isRare)
+            {
+                _glowImage.color = rareColor;
+            }
+            else
+            {
+                _glowImage.color = normalColor;
+            }
 
-            bool isOwned = _characterDataManager.OwnedCharacters.ContainsKey(ChaEnName);
-            _darkImageObj.SetActive(!isOwned);
+            // bool isOwned = _characterDataManager.OwnedCharacters.ContainsKey(ChaEnName);
+            // _darkImageObj.SetActive(!isOwned);
 
+            Debug.Log(_characterDataManager.BeadsInventory[ChaEnName]);
             _chaUpgradeText.text = "+" + _characterDataManager.BeadsInventory[ChaEnName];
+            // _chaUpgradeText.text = data.Beads > 0 ? "+" + data.Beads : "";
 
-            if (IsSelected) _circleImageObj.SetActive(true);
-            else _circleImageObj.SetActive(false);
+            // if (IsSelected) _circleImageObj.SetActive(true);
+            // else _circleImageObj.SetActive(false);
         }
 
-        public void SetSelected(bool value)
-        {
-            IsSelected = value;
-            if (IsSelected) _circleImageObj.SetActive(true);
-            else _circleImageObj.SetActive(false);
-        }
+        // public void SetSelected(bool value)
+        // {
+        //     IsSelected = value;
+        //     if (IsSelected) _circleImageObj.SetActive(true);
+        //     else _circleImageObj.SetActive(false);
+        // }
     }
 }

@@ -75,13 +75,13 @@ namespace SDW
 
         private void OnCharButtonClicked(CharacterEnName enName)
         {
-            foreach (var charButton in _charButtonList)
-            {
-                if (charButton.ChaEnName == enName) charButton.SetSelected(true);
-                else charButton.SetSelected(false);
-            }
+            // foreach (var charButton in _charButtonList)
+            // {
+            //     if (charButton.ChaEnName == enName) charButton.SetSelected(true);
+            //     else charButton.SetSelected(false);
+            // }
 
-            OnChaButtonClicked?.Invoke(enName);
+            // OnChaButtonClicked?.Invoke(enName);
         }
 
         public void BottomMoveAway()
