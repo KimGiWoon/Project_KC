@@ -19,12 +19,12 @@ namespace KSH
 
     public enum QuestType
     {
-        ChallengeDungeon,
+        GameLogin,
         UseFood,
         GetArtifact,
-        UseStamina,
-        LevelUp,
-        SkillLevelUp,
-        ChargeStamina
+        CharacterLevelUp,
+        RoguelikeClear,
+        Revive,
+        Gacha
     }
 }
