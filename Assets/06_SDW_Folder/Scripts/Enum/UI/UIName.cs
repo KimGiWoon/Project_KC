@@ -61,6 +61,7 @@
         CharInfoBottomUI,
         LevelUpUI,
         GlobalSettingUI,
-        StageSelectUI
+        StageSelectUI,
+        MainLobbyBottomUI
     }
 }

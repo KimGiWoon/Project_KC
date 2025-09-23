@@ -67,6 +67,7 @@ namespace KSH
 
         private void BackButtonClicked()
         {
+            //todo 추후 메인 타이틀 관련 적용이 필요함
             OnUIOpenRequested?.Invoke(UIName.MainLobbyUI);
             OnUICloseRequested?.Invoke(UIName.GachaMainUI);
         }
