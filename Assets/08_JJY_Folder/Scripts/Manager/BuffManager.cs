@@ -232,6 +232,13 @@ namespace JJY
                 p.MPHeal(p._characterState._chaMaxMP * e.value);
 
                 if (logActions) Debug.Log($"{p.name} MP : {p._characterState._chaCurrentMP}");
+
+                //CJH 코드 추가
+                var uiParents = p.GetComponent<CharacterUIParents>();
+                if (uiParents != null)
+                {
+                    FoodEffectUIManager.Instance.ApplyEffect(p.gameObject, uiParents, e);
+                }
             }
 
             if (logActions) Debug.Log("MANA HEAL! TODO : UI 이벤트 함수 연결.");
@@ -261,6 +268,13 @@ namespace JJY
                 // chosen._isAlive = true;
                 // chosen._characterState._chaCurrentHP = chosen._characterState._chaMaxHP * e.value;
                 chosen.Revive(chosen._characterState._chaMaxHP * e.value);
+
+                //CJH 코드 추가
+                var uiParents = chosen.GetComponent<CharacterUIParents>();
+                if (uiParents != null)
+                {
+                    FoodEffectUIManager.Instance.ApplyEffect(chosen.gameObject, uiParents, e);
+                }
 
                 if (logActions)
                     Debug.Log(
@@ -297,6 +311,10 @@ namespace JJY
             foreach (var p in btManager._characters)
             {
                 p.CreateBarrier(e.applyBarrier);
+
+                //CJH 코드 추가
+                var uiParents = p.GetComponent<CharacterUIParents>();
+                if (uiParents != null) FoodEffectUIManager.Instance.ApplyEffect(p.gameObject, uiParents, e);
             }
         }
 

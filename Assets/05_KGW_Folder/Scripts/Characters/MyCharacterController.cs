@@ -59,6 +59,7 @@ public class MyCharacterController : UnitBaseData
         public Transform instant;   // 하단 (회복, 부활 등 즉시효과)
         public Transform barrier;   // 좌측 (보호막)
     }
+    private CharacterUIParents uiParents;
 
     protected override void Awake()
     {
@@ -66,6 +67,8 @@ public class MyCharacterController : UnitBaseData
 
         _character = GetComponent<MyCharacterController>();
         _chaAnimatior = GetComponentInChildren<Animator>();
+
+        uiParents = GetComponent<CharacterUIParents>();
     }
 
     // 캐릭터 생성 초기화
@@ -269,6 +272,9 @@ public class MyCharacterController : UnitBaseData
         if (_characterState._isBarrier)
         {
             _characterState._isBarrier = false;
+
+            FoodEffectUIManager.Instance.NotifyBarrierHit(this.gameObject);
+
             Debug.Log($"{_characterState._chaEnName}의 배리어가 사용되었습니다.");
             return;
         }
@@ -468,6 +474,7 @@ public class MyCharacterController : UnitBaseData
     // 캐릭터 사망
     protected override void Death()
     {
+
         base.Death();
 
         OnSkillModeChange?.Invoke(_isAlive);
@@ -475,6 +482,9 @@ public class MyCharacterController : UnitBaseData
         StopManaRecovery();
         // 매니저에 사망 보고
         _battleManager.CharacterDeathCheck();
+
+        // UI 매니저에 사망했음을 알려 모든 아이콘을 제거
+        FoodEffectUIManager.Instance.OnCharacterDied(this.gameObject);
     }
 
     // 타임오버 시 캐릭터 사망
