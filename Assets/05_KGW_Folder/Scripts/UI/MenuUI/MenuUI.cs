@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using SDW;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -14,8 +15,13 @@ public class MenuUI : BaseUI
     [SerializeField] private Button _confirmButton;
     [SerializeField] private Button _cancelButton;
 
-    private Slider _slider_BGM; // BGM 슬라이더
-    private Slider _slider_SFX; // SFX 슬라이더
+    [Header("Volume Component")]
+    [SerializeField] private List<Slider> _volumeSlider;
+    [SerializeField] private List<Button> _muteButtonList;
+    [SerializeField] private List<GameObject> _muteObjectList;
+    [SerializeField] private List<TextMeshProUGUI> _volumeValueList;
+
+    [Header("Buttons")]
     [SerializeField] private Button _continueButton; // 계속하기 버튼
     [SerializeField] private Button _lobbyButton; // 로비 이동 버튼
 
@@ -26,22 +32,22 @@ public class MenuUI : BaseUI
     public Action<UIName> OnUIOpenRequested;
     public Action<UIName> OnUICloseRequested;
 
+    private List<float> _originalVolumeList = new List<float>();
+    private List<bool> _originalMuteList = new List<bool>();
+
+    private AudioManager _audio;
+
     private void Awake()
     {
         _panelContainer.SetActive(false);
         _panelRect = _panelContainer.GetComponent<RectTransform>();
-        _slider_BGM = _panelContainer.GetComponentInChildren<Slider>();
-        _slider_SFX = _panelContainer.GetComponentInChildren<Slider>();
+        _audio = GameManager.Instance.Audio;
 
         _isOkayContainer.SetActive(false);
     }
 
     private void OnEnable()
     {
-        // 버튼, 슬라이드 등록
-        //_slider_BGM.onValueChanged.AddListener()
-        //_slider_SFX.onValueChanged.AddListener()
-
         _confirmButton.onClick.AddListener(ConfirmButtonClicked);
         _cancelButton.onClick.AddListener(CancelButtonClicked);
         _continueButton.onClick.AddListener(ContinueButtonClick);
@@ -56,11 +62,18 @@ public class MenuUI : BaseUI
         _lobbyButton.onClick.RemoveListener(LobbyButtonClick);
     }
 
-    protected override void Start()
+    public override void Open()
     {
-        base.Start();
-        // 사운드 볼륨 초기화
-        SoundVolumeInit();
+        InitializeSettings();
+        SetupInitialVolumeState();
+        base.Open();
+    }
+
+    public override void Close()
+    {
+        _originalVolumeList.Clear();
+        _originalMuteList.Clear();
+        base.Close();
     }
 
     private void Update()
@@ -81,6 +94,7 @@ public class MenuUI : BaseUI
                     return;
                 }
 
+                CancelToChange();
                 OnUICloseRequested?.Invoke(UIName.MenuUI);
                 _popupBackground.SetActive(false);
                 _battleUI._isOnMenu = false;
@@ -89,10 +103,68 @@ public class MenuUI : BaseUI
     }
 
     // 사운드 볼륨 초기화
-    private void SoundVolumeInit()
+    private void InitializeSettings()
     {
-        //_slider_BGM.value = ;
-        //_slider_SFX.value = ;
+        foreach (var slider in _volumeSlider)
+        {
+            slider.onValueChanged.AddListener((value) =>
+            {
+                var buttonId = slider.GetComponent<ButtonId>();
+                slider.minValue = 0f;
+                slider.maxValue = 100f;
+                slider.wholeNumbers = true;
+                VolumeSliderChanged(buttonId.Id, value);
+            });
+        }
+        foreach (var muteButton in _muteButtonList)
+        {
+            muteButton.onClick.AddListener(() =>
+            {
+                var buttonId = muteButton.GetComponent<ButtonId>();
+                MuteButtonClicked(buttonId.Id);
+            });
+        }
+    }
+    private void SetupInitialVolumeState()
+    {
+        for (int i = 0; i < _volumeSlider.Count; i++)
+        {
+            _volumeSlider[i].value = _audio.VolumeList[i];
+            _muteObjectList[i].SetActive(_audio.VolumeMuteList[i]);
+            _originalVolumeList.Add(_volumeSlider[i].value);
+            _originalMuteList.Add(_muteObjectList[i].activeSelf);
+            _volumeValueList[i].text = _volumeSlider[i].value.ToString();
+        }
+    }
+
+    private void VolumeSliderChanged(int buttonId, float value)
+    {
+        _volumeValueList[buttonId].text = _volumeSlider[buttonId].value.ToString();
+        _audio.SetVolume((VolumeType)buttonId, value);
+    }
+
+    private void CancelToChange()
+    {
+        for (int i = 0; i < _volumeSlider.Count; i++)
+        {
+            _volumeSlider[i].value = _originalVolumeList[i];
+            SetMuteState(_originalMuteList[i], i);
+        }
+    }
+
+    private void SetMuteState(bool state, int buttonId)
+    {
+        _muteObjectList[buttonId].SetActive(state);
+        _audio.SetMute((VolumeType)buttonId, _muteObjectList[buttonId].activeSelf);
+    }
+
+    private void MuteButtonClicked(int buttonId)
+    {
+        bool currentState = _muteObjectList[buttonId].activeSelf;
+        _muteObjectList[buttonId].SetActive(!currentState);
+
+        //# id 0 = Master, id 1 = bgm, id 2 = sfx
+        _audio.SetMute((VolumeType)buttonId, _muteObjectList[buttonId].activeSelf);
     }
 
     // 계속하기 버튼 클릭
