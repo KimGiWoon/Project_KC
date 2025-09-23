@@ -251,18 +251,13 @@ namespace JJY
             var levelData = GameManager.Instance.CharacterData.ChaLevelUpStatData[GameManager.Instance.CharacterData.CharEnNameLevel[data._chaBaseData.ChaEnName]];
             var beadData = GameManager.Instance.CharacterData.ChaBeadsData[GameManager.Instance.CharacterData.BeadsInventory[data._chaBaseData.ChaEnName]];
 
-            // TODO 경험치 게이지 연동
             int curExp = GameManager.Instance.CharacterData.CharEnNameExp[data._chaBaseData.ChaEnName];
             int curlevel = GameManager.Instance.CharacterData.CharEnNameLevel[data._chaBaseData.ChaEnName];
             int curMaxExp = GameManager.Instance.CharacterData.ChaLevelUpStatData[curlevel].ChaLevelPoint;
             expBar.fillAmount = (float)curExp / curMaxExp;
 
-            _classLevelText.text = GameManager.Instance.CharacterData.CharEnNameLevel[data._chaBaseData.ChaEnName].ToString();
-            // CharacterDataManager의 함수 참고하기.
-            // foreach (var key in GameManager.Instance.Firebase.Characters.Keys)
-            // {
-            //     Debug.Log($"Firebase Key: {key}");
-            // }
+            _classLevelText.text = curlevel.ToString();
+
             if (!GameManager.Instance.Firebase.Characters.TryGetValue(data._chaBaseData.ChaID.ToString(), out object raw))
             {
                 Debug.LogError($"캐릭터 키 없음: {data._chaBaseData.ChaEnName}");
@@ -419,6 +414,8 @@ namespace JJY
                 return;
             }
             // if (!useItemPanel.activeSelf) useItemPanel.SetActive(true);
+            useItemBtn.gameObject.SetActive(true);
+            itemBarSlider.gameObject.SetActive(true);
 
             itemBarSlider.wholeNumbers = true;
             itemBarSlider.minValue = 1;
@@ -508,12 +505,17 @@ namespace JJY
             if (selectedItem == null || selectedItemUseCount <= 0) return;
 
             // if (backBtn.interactable) backBtn.interactable = false;
+            // useItemPanel.SetActive(false);
+            useItemBtn.gameObject.SetActive(false);
+            itemBarSlider.gameObject.SetActive(false);
 
             _coin.SubtractRecipeItem(selectedItem, selectedItemUseCount);
             int level = previewLevel;
             int exp = previewExp;
-            SaveLevelToFirebase(selectedCharacterData._chaBaseData.ChaID, level);
-            SaveExpToFirebase(selectedCharacterData._chaBaseData.ChaID, exp);
+            // SaveLevelToFirebase(selectedCharacterData._chaBaseData.ChaID, level);
+            // SaveExpToFirebase(selectedCharacterData._chaBaseData.ChaID, exp);
+            GameManager.Instance.CharacterData.SetCharLevel(selectedCharacterData._chaBaseData.ChaEnName, level);
+            GameManager.Instance.CharacterData.SetCharExp(selectedCharacterData._chaBaseData.ChaEnName, exp);
 
             int gainedExp;
             if (selectedItem == _coin.beek) gainedExp = itemExpTable[_coin.beek] * selectedItemUseCount;
