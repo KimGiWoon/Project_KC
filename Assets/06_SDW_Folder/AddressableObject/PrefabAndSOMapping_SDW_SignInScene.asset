@@ -133,6 +133,12 @@ MonoBehaviour:
     index: -1
     AssetPath: Assets/05_KGW_Folder/Prefabs/00_Characters/YHY.prefab
     PathPreview: GameManager/CSVDataContainer/CharacterData
+  - PathHash: 7084653306044793400
+    AddressKey: 292dcd9d46c1d4448813317db46e6d3b
+    fieldName: _audioSourcePrefab
+    index: -1
+    AssetPath: Assets/06_SDW_Folder/Prefabs/AudioSourcePrefab.prefab
+    PathPreview: GameManager/AudioSourcePool
   - PathHash: 5858093299389418050
     AddressKey: bd99561b9ab62854398e1eeab4ea558e
     fieldName: _prefab
@@ -578,6 +584,18 @@ MonoBehaviour:
     index: -1
     AssetPath: Assets/05_KGW_Folder/Prefabs/03_Skills/CharacterSkills/SkillsSOData/Vanguard_Data.asset
     PathPreview: GameManager/CSVDataContainer/CharacterData
+  - PathHash: 3170264409181721597
+    AddressKey: f1d894912fd912c4fb4529ec6096ee61
+    fieldName: _videoClip
+    index: -1
+    AssetPath: Assets/06_SDW_Folder/ScriptableObject/VideoClipSO.asset
+    PathPreview: GameManager/VideoManager
+  - PathHash: 15853811309187722038
+    AddressKey: 369e5127f0f54c1409cf1e4442ac5ecd
+    fieldName: _audioClip
+    index: -1
+    AssetPath: Assets/06_SDW_Folder/ScriptableObject/AudioClipSO.asset
+    PathPreview: GameManager/AudioManager
   - PathHash: 5858093299389418050
     AddressKey: e40e68bac195a3d4ca495c39b3c68f55
     fieldName: _monsterList
@@ -915,18 +933,6 @@ MonoBehaviour:
     AssetPath: Assets/09_KSH_Folder/ScriptableObject/DailyQuests/GetArtifact.asset
     PathPreview: GameManager/QuestManager
   - PathHash: 14987253976204288962
-    AddressKey: 1924e75ff074f014497c44dd006f3c97
-    fieldName: dailyQuests
-    index: 3
-    AssetPath: Assets/09_KSH_Folder/ScriptableObject/DailyQuests/UseStemina.asset
-    PathPreview: GameManager/QuestManager
-  - PathHash: 14987253976204288962
-    AddressKey: 409e853d965fab74aab4361d7c33cccd
-    fieldName: dailyQuests
-    index: 4
-    AssetPath: Assets/09_KSH_Folder/ScriptableObject/DailyQuests/ChargeStemina.asset
-    PathPreview: GameManager/QuestManager
-  - PathHash: 14987253976204288962
     AddressKey: 9b0206f3d9ca7bf42b3ed0217b7ab8ed
     fieldName: dailyQuests
     index: 5
@@ -936,5 +942,5 @@ MonoBehaviour:
     AddressKey: 9916a806d30a06c48a483207599aa6c1
     fieldName: dailyQuests
     index: 6
-    AssetPath: Assets/09_KSH_Folder/ScriptableObject/DailyQuests/SkillLevelUp.asset
+    AssetPath: Assets/09_KSH_Folder/ScriptableObject/DailyQuests/Gacha.asset
     PathPreview: GameManager/QuestManager
