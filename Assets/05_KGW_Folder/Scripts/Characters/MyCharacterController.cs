@@ -46,6 +46,20 @@ public class MyCharacterController : UnitBaseData
     public readonly int Attack_Hash = Animator.StringToHash("Attack");
     public readonly int Critical_Hash = Animator.StringToHash("Critical");
 
+
+    /// <summary>
+    /// 캐릭터별 UI 부모 Transform을 담는 간단한 데이터 클래스입니다.
+    /// 캐릭터 프리팹의 루트에 추가하고, 자식으로 만든 위치 오브젝트들을 연결합니다.
+    /// </summary>
+    public class CharacterUIParents : MonoBehaviour
+    {
+        [Header("UI 아이콘 생성 위치")]
+        public Transform buff;      // 우상단 (버프)
+        public Transform debuff;    // 좌상단 (디버프)
+        public Transform instant;   // 하단 (회복, 부활 등 즉시효과)
+        public Transform barrier;   // 좌측 (보호막)
+    }
+
     protected override void Awake()
     {
         base.Awake();
