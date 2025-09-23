@@ -3,6 +3,7 @@ using UnityEngine;
 using SDW;
 using System.Collections;
 using System.Linq;
+using JJY;
 
 public class BuffRelicManager : MonoBehaviour
 {
@@ -16,6 +17,7 @@ public class BuffRelicManager : MonoBehaviour
 
     private RelicDatas currentRelic;
     private int attackCount = 0;
+    private int aliveCount = 0;
 
     private void Awake()
     {
@@ -243,7 +245,6 @@ public class BuffRelicManager : MonoBehaviour
                         Debug.Log("OnRelicNumberHandler");
                     }
                 }
-                //스킬을 쓸 때 스탯이 올라가는 유물
                 else if (relic.relicRole == RelicRole.None && !relic.relicIsPassive)
                 {
                     if (relic.relicType == RelicType.ActiveSkill)
@@ -326,11 +327,24 @@ public class BuffRelicManager : MonoBehaviour
                         ApplyStatToMonster(m, relic);
                     }
                 }
-
+                break;
+            
+            case RelicTarget.Currency: //유물 적용 대상이 엽전
+                if (relic.relicRole == RelicRole.None && relic.relicType == RelicType.Clear)
+                {
+                    GameManager.Instance.Coin.OnRelicChanged -= OnYeopjeonBonus;
+                    GameManager.Instance.Coin.OnRelicChanged += OnYeopjeonBonus;
+                }
+                else if (relic.relicType == RelicType.ChaNumber)
+                {
+                    GameManager.Instance.Coin.OnRelicChanged -= CharacterCheckYeopjeon;
+                    GameManager.Instance.Coin.OnRelicChanged += CharacterCheckYeopjeon;
+                }
                 break;
         }
     }
-
+    
+    public void OnYeopjeonBonus() => GameManager.Instance.Coin.BonusYeopjeon(currentRelic.addReward);
     public void OnRelicAttackHeal() => CharacterHeal(currentRelic);
     public void OnRelicEffectStat() => ApplyStatToCharacter(currentRelic);
     public void OnRelicAttackStack() => AttackSpeedStack(currentRelic);
@@ -402,6 +416,24 @@ public class BuffRelicManager : MonoBehaviour
                 }
             }
         }
+    }
+    
+    private void CharacterCheckYeopjeon()
+    {
+        aliveCount = 0;
+        //캐릭터 수 체크해서
+        foreach (var p in battleManager._characters)
+        {
+            if (p._isAlive)
+            {
+                aliveCount++;
+            }
+        }
+        //캐릭터 수 당 10% 증가
+        int baseBonus = GameManager.Instance.Coin._yeopjeonBonus;
+        int aliveBonus = currentRelic.addReward * aliveCount;
+        int lastBonus = baseBonus + aliveBonus;
+        GameManager.Instance.Coin.BonusYeopjeon(lastBonus);
     }
 
     private void BattleCharacterCheck(RelicDatas relic)

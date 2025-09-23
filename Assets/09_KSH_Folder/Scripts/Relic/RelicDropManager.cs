@@ -49,7 +49,7 @@ namespace KSH
             if (Input.GetKeyDown(KeyCode.R))
             {
                 Debug.Log("R");
-                GetRelicName("방열 뚜껑");
+                GetRelicName("행운의 영수증");
             }
         }
 
