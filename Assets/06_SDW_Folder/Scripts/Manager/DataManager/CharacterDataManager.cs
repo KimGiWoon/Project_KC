@@ -71,6 +71,7 @@ namespace SDW
         private GameManager _gameManager;
         private FirebaseManager _firebase;
         private bool _isDownloaded;
+        public bool IsDownloaded => _isDownloaded;
 
         public Action OnFirstCharacterChanged;
 
