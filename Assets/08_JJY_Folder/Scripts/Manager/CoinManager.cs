@@ -30,9 +30,15 @@ namespace JJY
         public string beek => _beek;
         public string fineDining => _fineDining;
         public string masterChef => _masterChef;
+        public int _yeopjeonBonus = 0; //유물로 인한 보너스 엽전 획득량 %
+        public int bonus;
+
         public Action OnItemsChanged;
         public Action<int> OnYeopjeonChanged;
         public Action OnPointChanged;
+        public Action OnRelicChanged;
+        public Action<int> OnYeopjeonBonus;
+
 
         // public static CoinManager Instance { get; private set; }
         private void Awake()
@@ -114,6 +120,15 @@ namespace JJY
             }
             else Debug.LogError($"{itemName},{value} : 아이템 이름 또는 오류");
         }
+        
+        /// <summary>
+        /// yeopjeon 획득량 %
+        /// </summary>
+        public void BonusYeopjeon(int percent)
+        {
+            _yeopjeonBonus = percent;
+        }
+
 
         /// <summary>
         /// yeopjeon 재화 증가
@@ -121,9 +136,16 @@ namespace JJY
         public void AddYeopjeon(int value)
         {
             yeopjeon += value;
+            bonus = Mathf.RoundToInt(value * (1f + (_yeopjeonBonus / 100f)));
+
+            yeopjeon += bonus;
 
             if (value >= 0) totalYeopjeon += value;
+            if (bonus >= 0) totalYeopjeon += bonus;
+            
             OnYeopjeonChanged?.Invoke(yeopjeon);
+            OnYeopjeonBonus?.Invoke(_yeopjeonBonus);
+
             _firebase.SetTotalYeopjeon(totalYeopjeon);
         }
 

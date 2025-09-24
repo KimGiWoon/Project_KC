@@ -35,19 +35,27 @@ namespace SDW
         private void OnEnable()
         {
             _confirmButton.onClick.AddListener(ConfirmButtonClicked);
+            GameManager.Instance.Coin.OnYeopjeonBonus += UpdateYeopjeonText;
         }
 
         private void OnDisable()
         {
             _confirmButton.onClick.RemoveListener(ConfirmButtonClicked);
+            GameManager.Instance.Coin.OnYeopjeonBonus -= UpdateYeopjeonText;
+        }
+
+        private void UpdateYeopjeonText(int yeopjeon)
+        {
+            _yeopjeonText.text = $"{GameManager.Instance.Coin.bonus} 엽전을 획득하였습니다.";
         }
 
         public override void Open()
         {
-            _yeopjeonText.text = "100 엽전을 획득하였습니다.";
             base.Open();
             _confirmButton.interactable = false;
-
+            GameManager.Instance.Coin.OnRelicChanged?.Invoke();
+            GameManager.Instance.Coin.AddYeopjeon(100);
+            UpdateYeopjeonText(GameManager.Instance.Coin.bonus);
             // 보스 클리어 시
             if (RoguelikeManager.Instance.MonsterType == BattleEventType.Boss ||
                 RoguelikeManager.Instance.MonsterType == BattleEventType.BossFinal)
@@ -61,7 +69,6 @@ namespace SDW
         private void ConfirmButtonClicked()
         {
             GetRelic();
-            GameManager.Instance.Coin.AddYeopjeon(100);
             RoguelikeManager.Instance.OnBattleEnd?.Invoke();
             OnUICloseRequested?.Invoke(UIName.ClearStageUI);
         }

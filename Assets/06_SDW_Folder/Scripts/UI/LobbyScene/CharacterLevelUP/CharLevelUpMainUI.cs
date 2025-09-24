@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using JJY;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -28,6 +29,7 @@ namespace SDW
         public Action OnCharLevelUpMainUIOpened;
 
         private CharacterDataManager _charDataManager;
+        [SerializeField] private CharacterLevelUpUIManager characterLevelUpUIManager;
 
         private void Awake()
         {
@@ -39,11 +41,14 @@ namespace SDW
         private void OnEnable()
         {
             _mainLobbyButton.onClick.AddListener(MainLobbyButtonClicked);
+            _mainLobbyButton.onClick.AddListener(characterLevelUpUIManager.InitCharacterList);
         }
 
         private void OnDisable()
         {
             _mainLobbyButton.onClick.RemoveListener(MainLobbyButtonClicked);
+            _mainLobbyButton.onClick.RemoveListener(characterLevelUpUIManager.InitCharacterList);
+
         }
 
         public override void Open()

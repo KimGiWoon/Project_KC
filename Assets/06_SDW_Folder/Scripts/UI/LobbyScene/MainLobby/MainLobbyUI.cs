@@ -13,6 +13,7 @@ namespace SDW
     {
         [Header("Top Components")]
         [SerializeField] private TextMeshProUGUI _menuTitle;
+        private string _prevTitle;
         [SerializeField] private Image _userIcon;
         [SerializeField] private Button _userInfoButton;
         [SerializeField] private TextMeshProUGUI _cashStarText;
@@ -20,14 +21,6 @@ namespace SDW
         [SerializeField] private TextMeshProUGUI _rainbowStarText;
         [SerializeField] private Button _rainbowStarButton;
         [SerializeField] private Button _optionButton;
-
-        [Header("Bottom Button Components")]
-        [SerializeField] private Button _levelUpButton;
-        [SerializeField] private Button _dailyQuestButton;
-        [SerializeField] private Button _lobbyButton;
-        [SerializeField] private Button _collectionButton;
-        [SerializeField] private Button _gachaButton;
-        [SerializeField] private Button _stageSelectButton;
         //todo Game Start 눌렀을 때 뜨는 팝업 창으로 이동해야 함
         // [SerializeField] private Button _growthButton;
 
@@ -37,15 +30,18 @@ namespace SDW
         [SerializeField] private List<Button> _memoryButtonList;
         [SerializeField] private List<Image> _memoryImageList;
 
+        [Header("Center Components")]
+        [SerializeField] private Button _stageSelectButton;
+
         [Header("Animations")]
         [SerializeField] private TweenAnimation _mainLobbyTweenAnimation;
-        [SerializeField] private TweenAnimation _bottomButtonsTweenAnimation;
         [SerializeField] private TweenAlpha _backgroundVideoTweenAnimation;
         [SerializeField] private float delayTime = 1.35f;
 
         public Action<UIName> OnUIOpenRequested;
         public Action<UIName> OnUICloseRequested;
         public Action<int> OnIconRequested;
+        public Action<bool> OnButtonInteractableChanged;
         private GameManager _gameManager;
         private bool _isLoaded;
         private Coroutine _iconCoroutine;
@@ -61,9 +57,6 @@ namespace SDW
             _panelContainer.SetActive(false);
             _gameManager = GameManager.Instance;
             _videoPlayer = GetComponent<VideoPlayer>();
-
-            //todo 추후 연결 후 해제
-            _collectionButton.interactable = false;
             _cashStarButton.interactable = false;
             _rainbowStarButton.interactable = false;
         }
@@ -74,11 +67,8 @@ namespace SDW
         private void OnEnable()
         {
             _optionButton.onClick.AddListener(OptionButtonClicked);
-            _stageSelectButton.onClick.AddListener(StageSelectButtonClicked);
             _userInfoButton.onClick.AddListener(UserInfoButtonClicked);
-            _dailyQuestButton.onClick.AddListener(DailyQuestButtonClicked);
-            _gachaButton.onClick.AddListener(GachaButtonClicked);
-            _levelUpButton.onClick.AddListener(LevelUpButtonClicked);
+            _stageSelectButton.onClick.AddListener(StageSelectButtonClicked);
 
             foreach (var memoryButton in _memoryButtonList)
             {
@@ -96,11 +86,8 @@ namespace SDW
         private void OnDisable()
         {
             _optionButton.onClick.RemoveListener(OptionButtonClicked);
-            _stageSelectButton.onClick.RemoveListener(StageSelectButtonClicked);
             _userInfoButton.onClick.RemoveListener(UserInfoButtonClicked);
-            _dailyQuestButton.onClick.RemoveListener(DailyQuestButtonClicked);
-            _gachaButton.onClick.RemoveListener(GachaButtonClicked);
-            _levelUpButton.onClick.RemoveListener(LevelUpButtonClicked);
+            _stageSelectButton.onClick.RemoveListener(StageSelectButtonClicked);
 
             foreach (var memoryButton in _memoryButtonList)
             {
@@ -137,7 +124,9 @@ namespace SDW
 
         public override void Open()
         {
-            _menuTitle.text = "메인 로비";
+            SetMainText("메인 로비");
+            _prevTitle = _menuTitle.text;
+            OnUIOpenRequested?.Invoke(UIName.MainLobbyBottomUI);
             base.Open();
             StartCoroutine(UpdateCoroutine());
         }
@@ -177,17 +166,8 @@ namespace SDW
 
         private void OptionButtonClicked()
         {
+            SetMainText("환경설정");
             OnUIOpenRequested?.Invoke(UIName.GlobalSettingUI);
-        }
-
-        //todo 아래 버튼들 중 Popup창인 것들은 stack 기반 관리 고려?
-        /// <summary>
-        /// GameStartButtonClicked 핸들러 메서드 호출로 사용자가 GameStart 버튼을 클릭했을 때 StageUI를 활성화
-        /// </summary>
-        private void StageSelectButtonClicked()
-        {
-            _menuTitle.text = "스테이지 선택";
-            OnUIOpenRequested?.Invoke(UIName.StageSelectUI);
         }
 
         /// <summary>
@@ -195,37 +175,9 @@ namespace SDW
         /// </summary>
         private void UserInfoButtonClicked()
         {
-            _menuTitle.text = "내 정보";
+            SetMainText("내 정보");
             OnUIOpenRequested?.Invoke(UIName.UserInfoUI);
         }
-
-        /// <summary>
-        /// DailyQuestButtonClicked 핸들러 메서드 호출로 사용자가 Quest 버튼을 눌렀을 때 DailyQuestUI를 활성화
-        /// </summary>
-        private void DailyQuestButtonClicked()
-        {
-            _menuTitle.text = "일일 퀘스트";
-            OnUIOpenRequested?.Invoke(UIName.DailyQuestUI);
-        }
-
-        /// <summary>
-        /// GachaButtonClicked 핸들러 메서드 호출로 사용자가 Gacha 버튼을 눌렀을 때 GachaMainUI를 활성화
-        /// </summary>
-        private void GachaButtonClicked()
-        {
-            _menuTitle.text = "미식가 초대";
-            OnUIOpenRequested?.Invoke(UIName.GachaMainUI);
-        }
-
-        private void LevelUpButtonClicked()
-        {
-            _menuTitle.text = "미식가";
-            MainLobbyMoveAway();
-
-            OnUIOpenRequested?.Invoke(UIName.CharLevelUpMainUI);
-            OnUICloseRequested?.Invoke(UIName.MainLobbyUI);
-        }
-
         private void MemoryButtonClicked(int index)
         {
             //todo 기본적으로 index로 적용하면 되지만 현재는 4번까지만 나왔으므로
@@ -241,6 +193,15 @@ namespace SDW
                 _videoPlayer.clip = _gameManager.Video.VideoDictionary[(VideoClipName)3].Video;
                 _gameManager.Audio.PlayBGM((AudioClipName)3);
             }
+        }
+
+        /// <summary>
+        /// GameStartButtonClicked 핸들러 메서드 호출로 사용자가 GameStart 버튼을 클릭했을 때 StageUI를 활성화
+        /// </summary>
+        private void StageSelectButtonClicked()
+        {
+            SetMainText("스테이지 선택");
+            OnUIOpenRequested?.Invoke(UIName.StageSelectUI);
         }
 
         #endregion
@@ -297,45 +258,21 @@ namespace SDW
             _cashStarText.text = numOfStars.ToString();
         }
 
-        public void MainLobbyMoveAway()
+        public void SetMainText(string value)
         {
-            SetButtonsInteractable(false);
-
-            DOVirtual.DelayedCall(delayTime, () => { SetButtonsInteractable(true); });
+            _menuTitle.text = value;
         }
+
+        public void SetPrevText(string value) => _prevTitle = value;
 
         public void MainLobbyMoveBack()
         {
             _mainLobbyTweenAnimation.moveBack();
             _backgroundVideoTweenAnimation.FadeIn();
 
-            DOVirtual.DelayedCall(delayTime, () => { SetButtonsInteractable(true); });
+            DOVirtual.DelayedCall(delayTime, () => { OnButtonInteractableChanged?.Invoke(true); });
         }
 
-        public void ButtonsMoveAway()
-        {
-            _bottomButtonsTweenAnimation.moveAway();
-        }
-
-        public void ButtonsMoveBack()
-        {
-            _bottomButtonsTweenAnimation.moveBack();
-        }
-
-        public void SetButtonsInteractable(bool value)
-        {
-            _stageSelectButton.interactable = value;
-            _levelUpButton.interactable = value;
-            _dailyQuestButton.interactable = value;
-            _lobbyButton.interactable = value;
-            //todo 추후 collection 연결 후 해제
-            // _collectionButton.interactable = value;
-            _gachaButton.interactable = value;
-        }
-
-        public void ResetMainText()
-        {
-            _menuTitle.text = "메인 로비";
-        }
+        public void ResetMainText() => SetMainText(_prevTitle);
     }
 }

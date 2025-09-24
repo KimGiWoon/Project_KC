@@ -95,6 +95,10 @@ namespace JJY
         // [Header("Test")]
         // [SerializeField] private List<CharacterDataSO> _testCharacterLists; // 테스트 캐릭터 리스트
 
+        private int previewExp;
+        private int previewLevel;
+        private int remainingExp;
+
         private Dictionary<string, int> itemExpTable = new Dictionary<string, int>();
         private Coroutine dialogCoroutine;
         private CoinManager _coin;
@@ -168,25 +172,31 @@ namespace JJY
         {
             // TODO : 현재 이 게임의 전체 캐릭터를 가져와야 함. 그 다음에 가지고 있지 않은 캐릭터 회색처리.
 
+            yield return null;
+
             // 돌파 카운트 가져오기
             // foreach (var ownedCharacter in AllOwnedCharacters)
             // {
             //     var beadsCount = BeadsInventory[ownedCharacter._chaBaseData.ChaEnName];
             // }
 
-            yield return null;
+            for (int i = _contents.transform.childCount - 1; i >= 0; i--)
+            {
+                Destroy(_contents.transform.GetChild(i).gameObject);
+            }
 
             var characterList = new List<GameObject>();
-
             var list = GameManager.Instance.CharacterData.CharacterLists;
+
             for (int i = 0; i < list.Count; i++)
             {
                 var character = list[i];
                 if (character == null) continue;
+                CharacterDataSO characterLocal = character;
 
                 var go = Instantiate(characterButtonPrefab);
                 var button = go.GetComponent<Button>();
-                var init = characterButtonPrefab.GetComponent<LevelUpCharButton>();
+                var init = go.GetComponent<LevelUpCharButton>();
 
                 // TODO : 첫번째 프리팹은 텍스트 설정이 되지 않음.
                 // var image = go.GetComponent<Image>();
@@ -199,10 +209,11 @@ namespace JJY
                 // }
                 // image.sprite = character._characterSprite;
 
-                button.onClick.AddListener(() => InitCharacterInfo(character));
+                button.onClick.RemoveAllListeners();
+                button.onClick.AddListener(() => InitCharacterInfo(characterLocal));
 
                 bool hasCharacter;
-                GameManager.Instance.CharacterData.OwnedCharacters.TryGetValue(character._chaBaseData.ChaEnName, out hasCharacter);
+                GameManager.Instance.CharacterData.OwnedCharacters.TryGetValue(characterLocal._chaBaseData.ChaEnName, out hasCharacter);
                 if (!hasCharacter)
                 {
                     button.interactable = false;
@@ -212,11 +223,11 @@ namespace JJY
                 // Debug.Log(character._chaBaseData.ChaEnName);
                 // Debug.Log(GameManager.Instance.CharacterData.BeadsInventory);
                 // Debug.Log(GameManager.Instance.CharacterData.BeadsInventory[character._chaBaseData.ChaEnName]);
-                init.SetLevelUpChar(character);
-                yield return null;
+                init.SetLevelUpChar(characterLocal);
+
+                go.name = $"Character_Button_{characterLocal._chaBaseData.ChaEnName}";
             }
             SetContent(characterList);
-            yield return null;
         }
         private void SetContent(List<GameObject> characterList)
         {
@@ -229,13 +240,8 @@ namespace JJY
 
         private void InitCharacterInfo(CharacterDataSO data)
         {
-            // 캐릭터를 선택하면 LevelUp Button 활성화.
-            _characterLevelInfoPanel.gameObject.SetActive(true);
-            levelUpButton.interactable = true;
-            characterStatInfoButton.interactable = true;
-            // 캐릭터 레벨은??
-
             selectedCharacterData = data;
+
             // 키가 존재하지 않으면 추가 (초기 세팅)
             if (!GameManager.Instance.CharacterData.ChaEnNameData.ContainsKey(data._chaBaseData.ChaEnName))
             {
@@ -243,19 +249,15 @@ namespace JJY
             }
 
             var levelData = GameManager.Instance.CharacterData.ChaLevelUpStatData[GameManager.Instance.CharacterData.CharEnNameLevel[data._chaBaseData.ChaEnName]];
+            var beadData = GameManager.Instance.CharacterData.ChaBeadsData[GameManager.Instance.CharacterData.BeadsInventory[data._chaBaseData.ChaEnName]];
 
-            // TODO 경험치 게이지 연동
             int curExp = GameManager.Instance.CharacterData.CharEnNameExp[data._chaBaseData.ChaEnName];
             int curlevel = GameManager.Instance.CharacterData.CharEnNameLevel[data._chaBaseData.ChaEnName];
             int curMaxExp = GameManager.Instance.CharacterData.ChaLevelUpStatData[curlevel].ChaLevelPoint;
             expBar.fillAmount = (float)curExp / curMaxExp;
 
-            _classLevelText.text = GameManager.Instance.CharacterData.CharEnNameLevel[data._chaBaseData.ChaEnName].ToString();
-            // CharacterDataManager의 함수 참고하기.
-            // foreach (var key in GameManager.Instance.Firebase.Characters.Keys)
-            // {
-            //     Debug.Log($"Firebase Key: {key}");
-            // }
+            _classLevelText.text = curlevel.ToString();
+
             if (!GameManager.Instance.Firebase.Characters.TryGetValue(data._chaBaseData.ChaID.ToString(), out object raw))
             {
                 Debug.LogError($"캐릭터 키 없음: {data._chaBaseData.ChaEnName}");
@@ -317,12 +319,20 @@ namespace JJY
             }
 
             _mpText.text = data._chaBaseData.ChaMP.ToString();
-            _hpText.text = (data._chaBaseData.ChaHP * levelData.ChaHPIncrease).ToString();
+            _hpText.text = (data._chaBaseData.ChaHP * levelData.ChaHPIncrease * beadData.ChaHP).ToString("F0");
             _attackSpeedText.text = data._chaBaseData.ChaAtkSpeed.ToString();
-            _attackText.text = (data._chaBaseData.ChaAttack * levelData.ChaAttackIncrease).ToString();
-            _defenceText.text = (data._chaBaseData.ChaArmor * levelData.ChaArmorIncrease).ToString();
+            _attackText.text = (data._chaBaseData.ChaAttack * levelData.ChaAttackIncrease * beadData.ChaAttack).ToString("F0");
+            _defenceText.text = (data._chaBaseData.ChaArmor * levelData.ChaArmorIncrease * beadData.ChaArmor).ToString("F0");
             _criticalChanceText.text = data._chaTypeData.ChaCrit.ToString();
             _criticalDamageText.text = data._chaTypeData.ChaCritDmg.ToString();
+
+            // 캐릭터를 선택하면 LevelUp Button 활성화.
+            // 캐릭터 레벨은??
+            _characterLevelInfoPanel.gameObject.SetActive(true);
+            characterStatInfoButton.interactable = true;
+
+            if (GameManager.Instance.CharacterData.CharEnNameLevel[data._chaBaseData.ChaEnName] >= 30) return;
+            levelUpButton.interactable = true;
         }
 
         private string GetDescription(CharacterSkillDataSO skillData, CharacterBaseDataFileData characterBaseData)
@@ -404,6 +414,8 @@ namespace JJY
                 return;
             }
             // if (!useItemPanel.activeSelf) useItemPanel.SetActive(true);
+            useItemBtn.gameObject.SetActive(true);
+            itemBarSlider.gameObject.SetActive(true);
 
             itemBarSlider.wholeNumbers = true;
             itemBarSlider.minValue = 1;
@@ -443,9 +455,9 @@ namespace JJY
                 curLevel = selectedCharacterData._chaLv;
             }
 
-            int previewExp = curExp;
-            int previewLevel = curLevel;
-            int remainingExp = gainedExp;
+            previewExp = curExp;
+            previewLevel = curLevel;
+            remainingExp = gainedExp;
             int levelUpCount = 0;
 
             while (remainingExp > 0)
@@ -493,8 +505,17 @@ namespace JJY
             if (selectedItem == null || selectedItemUseCount <= 0) return;
 
             // if (backBtn.interactable) backBtn.interactable = false;
+            // useItemPanel.SetActive(false);
+            useItemBtn.gameObject.SetActive(false);
+            itemBarSlider.gameObject.SetActive(false);
 
             _coin.SubtractRecipeItem(selectedItem, selectedItemUseCount);
+            int level = previewLevel;
+            int exp = previewExp;
+            // SaveLevelToFirebase(selectedCharacterData._chaBaseData.ChaID, level);
+            // SaveExpToFirebase(selectedCharacterData._chaBaseData.ChaID, exp);
+            GameManager.Instance.CharacterData.SetCharLevel(selectedCharacterData._chaBaseData.ChaEnName, level);
+            GameManager.Instance.CharacterData.SetCharExp(selectedCharacterData._chaBaseData.ChaEnName, exp);
 
             int gainedExp;
             if (selectedItem == _coin.beek) gainedExp = itemExpTable[_coin.beek] * selectedItemUseCount;
@@ -546,15 +567,15 @@ namespace JJY
                 // int toAdd = Mathf.Min(need, gainedExp);
                 // curExp += toAdd;
                 // gainedExp -= toAdd;
-                curExp += 10;
-                gainedExp -= 10;
+                curExp += 125;
+                gainedExp -= 125;
 
                 if (curExp >= maxExp)
                 {
                     curExp = 0;
                     curLevel++;
                     // TODO : Firebase 레벨업
-                    SaveLevelToFirebase(chaKey.ChaID, curLevel);
+                    // SaveLevelToFirebase(chaKey.ChaID, curLevel);
                 }
 
                 var newLevelData = GameManager.Instance.CharacterData.ChaLevelUpStatData[curLevel];
@@ -573,7 +594,7 @@ namespace JJY
 
 
             // TODO Firebase에 경험치 저장
-            SaveExpToFirebase(chaKey.ChaID, curExp);
+            // SaveExpToFirebase(chaKey.ChaID, curExp);
         }
 
         // private IEnumerator DialogPanelFadeOut()

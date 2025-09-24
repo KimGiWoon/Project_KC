@@ -135,7 +135,7 @@ namespace SDW
             // 첫 번째 멤버를 맵 플레이어 캐릭터로 설정합니다.
         }
 
-        private void SetCharLevel(CharacterEnName name, int level)
+        public void SetCharLevel(CharacterEnName name, int level)
         {
             if (_charEnNameLevel[name] == level) return;
 
@@ -144,7 +144,7 @@ namespace SDW
             _firebase.SetLevel(_characterEnNameData[name]._chaBaseData.ChaID.ToString(), level);
         }
 
-        private void SeCharExp(CharacterEnName name, int exp)
+        public void SetCharExp(CharacterEnName name, int exp)
         {
             if (_charEnNameExp[name] == exp) return;
 
