@@ -26,10 +26,8 @@ namespace SDW
         public Action<UIName> OnUICloseRequested;
         public Action<UIName, UIName> OnSubUIOpenRequested;
         public Action<UIName, UIName> OnSubUICloseRequested;
-        public Action OnCharLevelUpMainUIOpened;
 
         private CharacterDataManager _charDataManager;
-        [SerializeField] private CharacterLevelUpUIManager characterLevelUpUIManager;
 
         private void Awake()
         {
@@ -41,19 +39,15 @@ namespace SDW
         private void OnEnable()
         {
             _mainLobbyButton.onClick.AddListener(MainLobbyButtonClicked);
-            _mainLobbyButton.onClick.AddListener(characterLevelUpUIManager.InitCharacterList);
         }
 
         private void OnDisable()
         {
             _mainLobbyButton.onClick.RemoveListener(MainLobbyButtonClicked);
-            _mainLobbyButton.onClick.RemoveListener(characterLevelUpUIManager.InitCharacterList);
-
         }
 
         public override void Open()
         {
-            OnCharLevelUpMainUIOpened?.Invoke();
             base.Open();
             OnSubUIOpenRequested?.Invoke(UIName.CharInfoStatsUI, UIName.CharInfoBottomUI);
             _tweenAnimation.moveAway();

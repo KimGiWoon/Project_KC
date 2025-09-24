@@ -39,7 +39,6 @@ namespace JJY
         [Header("Dialog Text")]
         // [SerializeField] private Image dialogPanelColor;
         // [SerializeField] private TextMeshProUGUI dialogText; // dialog 표시
-
         [Header("Button")]
         // [SerializeField] private Button backBtn; // TODO : 돌아가기 버튼
         [SerializeField] private Button useItemBtn; // 아이템 사용 버튼
@@ -104,10 +103,13 @@ namespace JJY
         private CoinManager _coin;
         private GameManager _gameManager;
         private bool _isLoaded;
+
+        public bool IsLoaded => _isLoaded;
         // 선택된 캐릭터의 데이터
         private CharacterDataSO selectedCharacterData;
 
         #region 초기화 작업
+
         private void Start()
         {
             _gameManager = GameManager.Instance;
@@ -123,7 +125,8 @@ namespace JJY
         private void Update()
         {
             if (!_gameManager.CompleteDownload || !_gameManager.ImageSpriteConnected || !_gameManager.PrefabAndSoConnected ||
-                !_gameManager.Firebase.IsLoaded || !_gameManager.CharacterData.IsDownloaded || !_coin.IsDownloaded || _isLoaded) return;
+                !_gameManager.Firebase.IsLoaded || !_gameManager.CharacterData.IsDownloaded || !_coin.IsDownloaded ||
+                _isLoaded) return;
 
             _coin.OnItemsChanged += InitItemCountText;
             InitEXPTable();
@@ -192,7 +195,7 @@ namespace JJY
             {
                 var character = list[i];
                 if (character == null) continue;
-                CharacterDataSO characterLocal = character;
+                var characterLocal = character;
 
                 var go = Instantiate(characterButtonPrefab);
                 var button = go.GetComponent<Button>();
@@ -213,7 +216,8 @@ namespace JJY
                 button.onClick.AddListener(() => InitCharacterInfo(characterLocal));
 
                 bool hasCharacter;
-                GameManager.Instance.CharacterData.OwnedCharacters.TryGetValue(characterLocal._chaBaseData.ChaEnName, out hasCharacter);
+                GameManager.Instance.CharacterData.OwnedCharacters.TryGetValue(characterLocal._chaBaseData.ChaEnName,
+                    out hasCharacter);
                 if (!hasCharacter)
                 {
                     button.interactable = false;
@@ -248,8 +252,12 @@ namespace JJY
                 Debug.LogError("키가 존재하지 않음.");
             }
 
-            var levelData = GameManager.Instance.CharacterData.ChaLevelUpStatData[GameManager.Instance.CharacterData.CharEnNameLevel[data._chaBaseData.ChaEnName]];
-            var beadData = GameManager.Instance.CharacterData.ChaBeadsData[GameManager.Instance.CharacterData.BeadsInventory[data._chaBaseData.ChaEnName]];
+            var levelData =
+                GameManager.Instance.CharacterData.ChaLevelUpStatData[
+                    GameManager.Instance.CharacterData.CharEnNameLevel[data._chaBaseData.ChaEnName]];
+            var beadData =
+                GameManager.Instance.CharacterData.ChaBeadsData[
+                    GameManager.Instance.CharacterData.BeadsInventory[data._chaBaseData.ChaEnName]];
 
             int curExp = GameManager.Instance.CharacterData.CharEnNameExp[data._chaBaseData.ChaEnName];
             int curlevel = GameManager.Instance.CharacterData.CharEnNameLevel[data._chaBaseData.ChaEnName];
@@ -428,8 +436,11 @@ namespace JJY
 
             InitItemCountText();
         }
+
         #endregion
+
         #region 아이템 사용
+
         public void ItemSlideUpdate(float value)
         {
             if (selectedItemMaxCount <= 0 || selectedCharacterData == null) return;
@@ -494,7 +505,6 @@ namespace JJY
 
             if (!addedLevelText.gameObject.activeSelf) addedLevelText.gameObject.SetActive(true);
             addedLevelText.text = levelUpCount > 0 ? $"+{levelUpCount}" : "";
-
         }
 
         /// <summary>
@@ -629,8 +639,11 @@ namespace JJY
         //     dialogPanelColor.color = new Color(dialogPanelColor.color.r, dialogPanelColor.color.g, dialogPanelColor.color.b, 0f);
         //     dialogText.color = new Color(dialogText.color.r, dialogText.color.g, dialogText.color.b, 0f);
         // }
+
         #endregion
+
         #region Firebase
+
         private int GetExpFromFirebase(int chaID)
         {
             if (GameManager.Instance == null || GameManager.Instance.Firebase == null) return 0;
@@ -662,6 +675,7 @@ namespace JJY
             string id = key.ToString();
             GameManager.Instance.Firebase.SetLevel(id, newLevel);
         }
+
         #endregion
     }
 }
