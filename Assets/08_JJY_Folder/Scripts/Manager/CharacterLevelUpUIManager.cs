@@ -292,10 +292,11 @@ namespace JJY
 
             // int exp = Convert.ToInt32(expObj);
             // Debug.Log($"exp={exp}");
-            GameManager.Instance.Firebase.Characters.TryGetValue(data._chaBaseData.ChaID.ToString(), out object raw);
-            var dict = raw as IReadOnlyDictionary<string, object>;
-            dict.TryGetValue("exp", out object expObj);
-            _currentEXP.text = expObj.ToString() + " / " + levelData.ChaLevelPoint.ToString();
+
+            // GameManager.Instance.Firebase.Characters.TryGetValue(data._chaBaseData.ChaID.ToString(), out object raw);
+            // var dict = raw as IReadOnlyDictionary<string, object>;
+            // dict.TryGetValue("exp", out object expObj);
+            _currentEXP.text = GameManager.Instance.CharacterData.CharEnNameExp[data._chaBaseData.ChaEnName] + " / " + levelData.ChaLevelPoint.ToString();
 
             if (!_characterImage.gameObject.activeSelf) _characterImage.gameObject.SetActive(true);
             _characterImage.sprite = data.largeDeformationSprite;
@@ -458,7 +459,7 @@ namespace JJY
             addedExpText.text = $"+{gainedExp}";
 
             var chaKey = selectedCharacterData._chaBaseData;
-            int curExp = GetExpFromFirebase(chaKey.ChaID);
+            int curExp = GameManager.Instance.CharacterData.CharEnNameExp[chaKey.ChaEnName];
             int curLevel;
 
             if (!GameManager.Instance.CharacterData.CharEnNameLevel.TryGetValue(chaKey.ChaEnName, out curLevel))
@@ -549,6 +550,7 @@ namespace JJY
 
             GameManager.Instance.CharacterData.SetCharLevel(selectedCharacterData._chaBaseData.ChaEnName, level);
             GameManager.Instance.CharacterData.SetCharExp(selectedCharacterData._chaBaseData.ChaEnName, exp);
+            previewExp = 0;
         }
         /// <summary>
         /// 경험치 증가 + 레벨업 처리
@@ -560,7 +562,7 @@ namespace JJY
             masterChefBtn.interactable = false;
 
             var chaKey = selectedCharacterData._chaBaseData;
-            int curExp = GetExpFromFirebase(chaKey.ChaID);
+            int curExp = GameManager.Instance.CharacterData.CharEnNameExp[chaKey.ChaEnName];
             int curLevel = GameManager.Instance.CharacterData.CharEnNameLevel[chaKey.ChaEnName];
 
             if (!GameManager.Instance.CharacterData.ChaLevelUpStatData.ContainsKey(curLevel))
@@ -580,8 +582,8 @@ namespace JJY
                 // int toAdd = Mathf.Min(need, gainedExp);
                 // curExp += toAdd;
                 // gainedExp -= toAdd;
-                curExp += 125;
-                gainedExp -= 125;
+                curExp += 250;
+                gainedExp -= 250;
 
                 if (curExp >= maxExp)
                 {
@@ -647,15 +649,15 @@ namespace JJY
 
         #region Firebase
 
-        private int GetExpFromFirebase(int chaID)
-        {
-            GameManager.Instance.Firebase.Characters.TryGetValue(chaID.ToString(), out object raw);
-            var dict = raw as IReadOnlyDictionary<string, object>;
-            dict.TryGetValue("exp", out object expObj);
-            int exp = Convert.ToInt32(expObj);
-            return exp;
-        }
+        // private int GetExpFromFirebase(CharacterEnName chaID)
+        // {
+        //     // GameManager.Instance.Firebase.Characters.TryGetValue(chaID.ToString(), out object raw);
+        //     // var dict = raw as IReadOnlyDictionary<string, object>;
+        //     // dict.TryGetValue("exp", out object expObj);
+        //     // int exp = Convert.ToInt32(expObj);
 
+        //     // return GameManager.Instance.CharacterData.CharEnNameExp[chaID];
+        // }
         #endregion
     }
 }
