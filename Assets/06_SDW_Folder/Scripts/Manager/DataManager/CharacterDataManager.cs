@@ -112,6 +112,7 @@ namespace SDW
                 //# 보유 시 추가
                 if (Convert.ToBoolean(character["owned"]))
                 {
+                    _allOwnedCharacters.Add(_characterIdData[int.Parse(key)]);
                     GameManager.Instance.Reward.AddFirstCharacter(
                         _characterIdData[int.Parse(key)],
                         Convert.ToInt32(character["count"])
@@ -244,6 +245,7 @@ namespace SDW
             if (_ownedCharacters.ContainsKey(key)) return;
 
             _ownedCharacters[key] = value;
+            _allOwnedCharacters.Add(_characterEnNameData[key]);
             _firebase.SetOwnedCharacter(_characterEnNameData[key]._chaBaseData.ChaID.ToString(), value);
         }
 

@@ -11,9 +11,9 @@ namespace KSH
     public class GachaMainUI : BaseUI
     {
         [Header("Top Components")]
-        [SerializeField] private TextMeshProUGUI _shiningStartValueText;
+        [SerializeField] private TextMeshProUGUI _shiningStarValueText;
         [SerializeField] private Button _shiningStartButton;
-        [SerializeField] private TextMeshProUGUI _sugarStartValueText;
+        [SerializeField] private TextMeshProUGUI _sugarStarValueText;
         [SerializeField] private Button _sugarStartButton;
 
         [Header("Bottom Components")]
@@ -40,6 +40,7 @@ namespace KSH
         [SerializeField] private CharacterLevelUpUIManager characterLevelUpUIManager;
 
         private RectTransform _rectTransform;
+        private GameManager _gameManager;
 
         private void Awake()
         {
@@ -47,6 +48,7 @@ namespace KSH
             _rectTransform = _panelContainer.GetComponent<RectTransform>();
             _backgroundPanel.gameObject.SetActive(false);
             _possibilityPanel.SetActive(false);
+            _gameManager = GameManager.Instance;
         }
 
         private void OnEnable()
@@ -59,10 +61,12 @@ namespace KSH
 
         private void OnDisable()
         {
-            if (GameManager.Instance != null)
+            if (_gameManager != null)
             {
-                GameManager.Instance.Reward.OnStarCandyChange -= CandyUpdate;
-                GameManager.Instance.Reward.OnShiningStarCandyChange -= ShiningCandyUpdate;
+                _gameManager.Reward.OnStarCandyChange -= CandyUpdate;
+                _gameManager.Reward.OnShiningStarCandyChange -= ShiningCandyUpdate;
+                _gameManager.Coin.OnStarCandyChanged -= CandyUpdate;
+                _gameManager.Coin.OnShiningStarCandyChanged -= ShiningCandyUpdate;
             }
 
             _possibilityButton.onClick.RemoveListener(PossibilityButtonClicked);
@@ -121,19 +125,22 @@ namespace KSH
 
         private void Initialize()
         {
-            GameManager.Instance.Reward.OnStarCandyChange += CandyUpdate;
-            GameManager.Instance.Reward.OnShiningStarCandyChange += ShiningCandyUpdate;
-            CandyUpdate(GameManager.Instance.Coin.starCandy);
+            _gameManager.Reward.OnStarCandyChange += CandyUpdate;
+            _gameManager.Reward.OnShiningStarCandyChange += ShiningCandyUpdate;
+            _gameManager.Coin.OnStarCandyChanged += CandyUpdate;
+            _gameManager.Coin.OnShiningStarCandyChanged += ShiningCandyUpdate;
+            CandyUpdate(_gameManager.Coin.starCandy);
+            ShiningCandyUpdate(_gameManager.Coin.shiningStarCandy);
         }
 
         private void CandyUpdate(int value)
         {
-            _sugarStartValueText.text = value.ToString();
+            _sugarStarValueText.text = value.ToString();
         }
 
         private void ShiningCandyUpdate(int value)
         {
-            _shiningStartValueText.text = value.ToString();
+            _shiningStarValueText.text = value.ToString();
         }
 
         private void PossibilityButtonClicked()
