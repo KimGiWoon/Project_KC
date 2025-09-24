@@ -245,6 +245,7 @@ namespace SDW
             if (_ownedCharacters.ContainsKey(key)) return;
 
             _ownedCharacters[key] = value;
+            _allOwnedCharacters.Add(_characterEnNameData[key]);
             _firebase.SetOwnedCharacter(_characterEnNameData[key]._chaBaseData.ChaID.ToString(), value);
         }
 
