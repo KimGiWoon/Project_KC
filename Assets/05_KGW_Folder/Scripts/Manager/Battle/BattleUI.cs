@@ -107,7 +107,7 @@ public class BattleUI : BaseUI
         _count = 3f;
         _battleManager.Wall.gameObject.SetActive(false);
 
-        if (CharacterSelectManager.Instance._isFastGame && GameManager.Instance._canFaster)
+        if (CharacterSelectManager.Instance._isFastGame)
         {
             _fastButtonBG.gameObject.SetActive(true);
         }
@@ -189,6 +189,9 @@ public class BattleUI : BaseUI
     // X2 속도 버튼 클릭
     private void X2FastButtonClick()
     {
+        if (!GameManager.Instance._canFaster) //해금되어야만 2배속 가능
+            return;
+        
         if (_isFast)
         {
             CharacterSelectManager.Instance._isFastGame = false;

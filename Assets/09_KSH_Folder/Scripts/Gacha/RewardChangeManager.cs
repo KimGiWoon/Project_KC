@@ -68,6 +68,8 @@ namespace KSH
         public event Action<int> OnShiningStarCandyChange;
         public event Action<int> OnStarCandyGained;
         public event Action<int> OnBeadGained;
+        
+        public event Action<CharacterDataSO> OnNewCharacterAdded;
 
         public (int starCandy, int bead, int currentBead) ProcessCharacter(CharacterDataSO character)
         {
@@ -120,6 +122,7 @@ namespace KSH
             else
             {
                 currentBead = AddFirstCharacter(character);
+                OnNewCharacterAdded?.Invoke(character);
             }
             return (gainedStarCandy, gainedBead, currentBead);
         }
