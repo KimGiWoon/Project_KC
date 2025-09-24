@@ -11,10 +11,11 @@ public class GrowthManager : MonoBehaviour
 
     [SerializeField] private PermanentGrowthUI _permanentGrowthUI;
     
-    [SerializeField] private CharacterDataManager _charData;
+    private CharacterDataManager _charData;
 
     //노드 데이터 저장 딕셔너리
     private Dictionary<int, GrowthDatas> growthDataDic = new Dictionary<int, GrowthDatas>();
+    public Dictionary<int, GrowthDatas> GrowthDataDic => growthDataDic;
 
     //노드 UI 저장 딕셔너리
     private Dictionary<int, GameObject> growthUIDic = new Dictionary<int, GameObject>();
@@ -22,10 +23,14 @@ public class GrowthManager : MonoBehaviour
     //해금된 노드 ID 중복없이 리스트에 저장 
     private GameManager _gameManager;
     private bool _isLoaded;
+    private static bool _hasFaster = false;
 
     private void Awake()
     {
         _gameManager = GameManager.Instance;
+        _charData = _gameManager.CharacterData;
+        if(!_hasFaster)
+            GameManager.Instance._canFaster = false;
     }
 
     private void Update()
@@ -39,6 +44,21 @@ public class GrowthManager : MonoBehaviour
             UnlockNode(80201); //처음 노드만 활성화
         UpdateAllNode();
         _isLoaded = true;
+        
+        foreach (var cha in _charData.AllOwnedCharacters)
+        {
+            SetNewCharacter(cha);
+        }
+    }
+
+    private void OnEnable()
+    {
+        GameManager.Instance.Reward.OnNewCharacterAdded += SetNewCharacter;
+    }
+
+    private void OnDisable()
+    {
+        GameManager.Instance.Reward.OnNewCharacterAdded -= SetNewCharacter;
     }
 
     private void LoadGrowthSO() //스크립터블오브젝트 자동으로 딕셔너리에 넣어주는 기능
@@ -55,15 +75,13 @@ public class GrowthManager : MonoBehaviour
 
     private void ConnectUIAndData() //성장 데이터와 UI 연결시켜주는 기능
     {
-        foreach (Transform child in nodeContent)
+        foreach (var growthNodeUI in nodeContent.GetComponentsInChildren<GrowthNodeUI>())
         {
-            var growthNodeUI = child.GetComponent<GrowthNodeUI>();
-            if (growthNodeUI == null) continue;
-
-            if (int.TryParse(child.name, out int nodeID) && growthDataDic.TryGetValue(nodeID, out var growthData))
+            if (int.TryParse(growthNodeUI.name, out int growthNodeID) &&
+                growthDataDic.TryGetValue(growthNodeID, out var growthData))
             {
                 growthNodeUI.Init(growthData);
-                growthUIDic[nodeID] = child.gameObject;
+                growthUIDic[growthNodeID] = growthNodeUI.gameObject;
                 _permanentGrowthUI.AddNode(growthNodeUI);
             }
         }
@@ -142,42 +160,68 @@ public class GrowthManager : MonoBehaviour
         }
     }
 
-    private void ApplyGrowthStat(GrowthDatas growthDatas)
+    public void ApplyGrowthStat(GrowthDatas growthDatas, CharacterDataSO cha) //단일 스탯 적용
     {
-        foreach (var cha in _charData.AllOwnedCharacters) //가지고 있는 모든 캐릭터
+        switch (growthDatas.nodeAbility)
         {
-            switch (growthDatas.nodeAbility)
-            {
-                case NodeAbility.chaAttack:
-                    AddGrowthStat(ref cha._chaBaseData.ChaAttack, growthDatas);
-                    break;
-                case NodeAbility.chaAtkSpeed:
-                    AddGrowthStat(ref cha._chaBaseData.ChaAtkSpeed, growthDatas);
-                    break;
-                case NodeAbility.chaArmor:
-                    AddGrowthStat(ref cha._chaBaseData.ChaArmor, growthDatas);
-                    break;
-                case NodeAbility.chaAvoid:
-                    AddGrowthStat(ref cha._chaTypeData.ChaAvoid, growthDatas);
-                    break;
-                case NodeAbility.chaCrit:
-                    AddGrowthStat(ref cha._chaTypeData.ChaCrit, growthDatas);
-                    break;
-                case NodeAbility.chaCritDmg:
-                    AddGrowthStat(ref cha._chaTypeData.ChaCritDmg, growthDatas);
-                    break;
-                case NodeAbility.chaMPRecovery:
-                    AddGrowthStat(ref cha._chaBaseData.ChaMPRecovery, growthDatas);
-                    break;
-                case NodeAbility.chaMP:
-                    AddGrowthStat(ref cha._chaBaseData.ChaMP, growthDatas);
-                    break;
-                case NodeAbility.None:
-                    if (growthDatas.nodeID == 80002) //배속 기능 활성화
-                    {
+            case NodeAbility.chaAttack:
+                AddGrowthStat(ref cha._chaBaseData.ChaAttack, growthDatas);
+                Debug.Log($"{cha._chaBaseData.ChaName}의 공격력 증가!");
+                break;
+            case NodeAbility.chaAtkSpeed:
+                AddGrowthStat(ref cha._chaBaseData.ChaAtkSpeed, growthDatas);
+                Debug.Log($"{cha._chaBaseData.ChaName}의 공격속도 증가!");
+                break;
+            case NodeAbility.chaArmor:
+                AddGrowthStat(ref cha._chaBaseData.ChaArmor, growthDatas);
+                Debug.Log($"{cha._chaBaseData.ChaName}의 방어력 증가!");
+                break;
+            case NodeAbility.chaAvoid:
+                AddGrowthStat(ref cha._chaTypeData.ChaAvoid, growthDatas);
+                Debug.Log($"{cha._chaBaseData.ChaName}의 회피율 증가!");
+                break;
+            case NodeAbility.chaCrit:
+                AddGrowthStat(ref cha._chaTypeData.ChaCrit, growthDatas);
+                Debug.Log($"{cha._chaBaseData.ChaName}의 치명타 증가!");
+                break;
+            case NodeAbility.chaCritDmg:
+                AddGrowthStat(ref cha._chaTypeData.ChaCritDmg, growthDatas);
+                Debug.Log($"{cha._chaBaseData.ChaName}의 치명타데미지 증가!");
+                break;
+            case NodeAbility.chaMPRecovery:
+                AddGrowthStat(ref cha._chaBaseData.ChaMPRecovery, growthDatas);
+                Debug.Log($"{cha._chaBaseData.ChaName}의 마나회복량 증가!");
+                break;
+            case NodeAbility.chaMP:
+                AddGrowthStat(ref cha._chaBaseData.ChaMP, growthDatas);
+                Debug.Log($"{cha._chaBaseData.ChaName}의 마나 증가!");
+                break;
+            case NodeAbility.None:
+                if (growthDatas.nodeID == 80002) //배속 기능 활성화
+                {
+                    if(!GameManager.Instance._canFaster)
                         GameManager.Instance._canFaster = true;
-                    }
-                    break;
+                    Debug.Log("배속 기능 활성화!");
+                }
+                break;
+            }
+        }
+
+    public void AllApplyGrowth(GrowthDatas growthDatas) //전체 스탯 적용
+    {
+        foreach (var cha in _charData.AllOwnedCharacters)
+        {
+            ApplyGrowthStat(growthDatas, cha);
+        }
+    }
+    
+    private void SetNewCharacter(CharacterDataSO cha) //새로 뽑힌 캐릭터에 기존 스탯 적용
+    {
+        foreach (var nodeID in GameManager.Instance.GrowthCompleteNodes)
+        {
+            if (GrowthDataDic.TryGetValue(nodeID, out var growthDatas))
+            {
+                ApplyGrowthStat(growthDatas, cha);
             }
         }
     }
