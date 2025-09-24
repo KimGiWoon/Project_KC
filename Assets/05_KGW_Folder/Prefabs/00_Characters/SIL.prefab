@@ -170,6 +170,7 @@ MonoBehaviour:
   _isHalfHpSkill: 0
   _isStern: 0
   _isUseSkill: 0
+  _isUseSkill2: 0
   _attackCoolTimer: 0
   _moveDir: {x: 0, y: 0, z: 0}
   _gameSpeed: 0
@@ -211,6 +212,7 @@ MonoBehaviour:
     _chaActiveSkill: {fileID: 11400000, guid: 431d938b1a2067345b62be8d3e323b3d, type: 2}
     _isManaFull: 0
     _isResurrection: 0
+  effectController: {fileID: 0}
 --- !u!70 &3348997761910632104
 CapsuleCollider2D:
   m_ObjectHideFlags: 0

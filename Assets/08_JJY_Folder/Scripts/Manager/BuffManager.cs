@@ -199,6 +199,7 @@ namespace JJY
                 //     p._characterState._chaCurrentHP = p._characterState._chaMaxHP;
                 // }
                 p.HPHeal(p._characterState._chaMaxHP * e.value);
+                p.effectController?.ShowEffect(e.type, 2f);
 
                 if (logActions) Debug.Log($"[BuffManager] {p.name} HP : {p._characterState._chaCurrentHP}");
 
@@ -231,7 +232,16 @@ namespace JJY
                 // }
                 p.MPHeal(p._characterState._chaMaxMP * e.value);
 
+                p.effectController?.ShowEffect(e.type, 2f);
+
                 if (logActions) Debug.Log($"{p.name} MP : {p._characterState._chaCurrentMP}");
+
+                //CJH 코드 추가
+                var uiParents = p.GetComponent<CharacterUIParents>();
+                if (uiParents != null)
+                {
+                    FoodEffectUIManager.Instance.ApplyEffect(p.gameObject, uiParents, e);
+                }
             }
 
             if (logActions) Debug.Log("MANA HEAL! TODO : UI 이벤트 함수 연결.");
@@ -262,6 +272,15 @@ namespace JJY
                 // chosen._characterState._chaCurrentHP = chosen._characterState._chaMaxHP * e.value;
                 chosen.Revive(chosen._characterState._chaMaxHP * e.value);
 
+                chosen.effectController?.ShowEffect(e.type, 2.5f);
+
+                //CJH 코드 추가
+                var uiParents = chosen.GetComponent<CharacterUIParents>();
+                if (uiParents != null)
+                {
+                    FoodEffectUIManager.Instance.ApplyEffect(chosen.gameObject, uiParents, e);
+                }
+
                 if (logActions)
                     Debug.Log(
                         $"[BuffManager] REVIVE! name : {chosen.name}의 ({e.value * 100}%)만큼 HP 재설정 : {chosen._characterState._chaCurrentHP}, 스폰 포인트 지정해야함.");
@@ -288,6 +307,7 @@ namespace JJY
             //     if (logActions) Debug.Log("TODO : UI 이벤트 연결");
             // }
             OnUseGroggyItem?.Invoke(e.value);
+
         }
 
         // Barrier 생성 (모든 아군)
@@ -297,6 +317,12 @@ namespace JJY
             foreach (var p in btManager._characters)
             {
                 p.CreateBarrier(e.applyBarrier);
+
+                p.effectController?.ShowEffect(e.type, 0f);
+
+                //CJH 코드 추가
+                var uiParents = p.GetComponent<CharacterUIParents>();
+                if (uiParents != null) FoodEffectUIManager.Instance.ApplyEffect(p.gameObject, uiParents, e);
             }
         }
 
@@ -370,6 +396,8 @@ namespace JJY
                         float added = e.value;
                         p._characterState._chaArmor += added;
                         buff.appliedBuffAmounts[p] = added;
+
+                        p.effectController?.ShowEffect(e.type, float.PositiveInfinity);
                     }
                     break;
                 case EffectType.EnemyAttackDebuff:
@@ -416,6 +444,7 @@ namespace JJY
                             break;
                         case EffectType.DefenseBuff:
                             p._characterState._chaArmor -= amount;
+                            p.effectController?.HideEffect(e.type);
                             break;
                     }
                 }
