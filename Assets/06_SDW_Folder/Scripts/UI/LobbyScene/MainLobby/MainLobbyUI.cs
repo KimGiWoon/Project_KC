@@ -57,7 +57,7 @@ namespace SDW
             _panelContainer.SetActive(false);
             _gameManager = GameManager.Instance;
             _videoPlayer = GetComponent<VideoPlayer>();
-            _cashStarButton.interactable = false;
+            // _cashStarButton.interactable = false;
             _rainbowStarButton.interactable = false;
         }
 
@@ -66,6 +66,7 @@ namespace SDW
         /// </summary>
         private void OnEnable()
         {
+            _cashStarButton.onClick.AddListener(CashStarButtonClicked);
             _optionButton.onClick.AddListener(OptionButtonClicked);
             _userInfoButton.onClick.AddListener(UserInfoButtonClicked);
             _stageSelectButton.onClick.AddListener(StageSelectButtonClicked);
@@ -76,9 +77,11 @@ namespace SDW
                 memoryButton.onClick.AddListener(() => MemoryButtonClicked(buttonId.Id));
             }
 
-            GameManager.Instance.Reward.OnStarCandyChange += UpdateRainbowStar;
-            GameManager.Instance.Reward.OnShiningStarCandyChange += UpdateShiningStarCandy;
-            GameManager.Instance.DailyQuest.OnStarCandyChange += UpdateRainbowStar;
+            _gameManager.Coin.OnShiningStarCandyChanged += UpdateShiningStarCandy;
+            _gameManager.Coin.OnStarCandyChanged += UpdateRainbowStar;
+            _gameManager.Reward.OnStarCandyChange += UpdateRainbowStar;
+            _gameManager.Reward.OnShiningStarCandyChange += UpdateShiningStarCandy;
+            _gameManager.DailyQuest.OnStarCandyChange += UpdateRainbowStar;
         }
 
         /// <summary>
@@ -86,6 +89,7 @@ namespace SDW
         /// </summary>
         private void OnDisable()
         {
+            _cashStarButton.onClick.RemoveListener(CashStarButtonClicked);
             _optionButton.onClick.RemoveListener(OptionButtonClicked);
             _userInfoButton.onClick.RemoveListener(UserInfoButtonClicked);
             _stageSelectButton.onClick.RemoveListener(StageSelectButtonClicked);
@@ -95,10 +99,12 @@ namespace SDW
                 var buttonId = memoryButton.GetComponent<ButtonId>();
                 memoryButton.onClick.RemoveListener(() => MemoryButtonClicked(buttonId.Id));
             }
+            _gameManager.Coin.OnShiningStarCandyChanged -= UpdateShiningStarCandy;
+            _gameManager.Coin.OnStarCandyChanged -= UpdateRainbowStar;
 
-            GameManager.Instance.Reward.OnStarCandyChange -= UpdateRainbowStar;
-            GameManager.Instance.Reward.OnShiningStarCandyChange -= UpdateShiningStarCandy;
-            GameManager.Instance.DailyQuest.OnStarCandyChange -= UpdateRainbowStar;
+            _gameManager.Reward.OnStarCandyChange -= UpdateRainbowStar;
+            _gameManager.Reward.OnShiningStarCandyChange -= UpdateShiningStarCandy;
+            _gameManager.DailyQuest.OnStarCandyChange -= UpdateRainbowStar;
         }
 
         protected override void Start()
@@ -165,6 +171,12 @@ namespace SDW
         }
 
         #region Button Methods
+
+        private void CashStarButtonClicked()
+        {
+            SetMainText("사탕가게");
+            OnUIOpenRequested?.Invoke(UIName.PaidStoreUI);
+        }
 
         private void OptionButtonClicked()
         {

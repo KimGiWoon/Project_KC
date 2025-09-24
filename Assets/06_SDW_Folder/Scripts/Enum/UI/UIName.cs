@@ -67,6 +67,12 @@
         MainLobbyBottomUI,
         GachaConfirmUI,
         GachaNotEnoughUI,
-        StoryCollectionUI
+        StoryCollectionUI,
+
+        //# Money
+        PaidStoreUI,
+        NoticePaidConfirmUI,
+        NoticePaidCompleteUI,
+        NoticeNotPaidUI
     }
 }

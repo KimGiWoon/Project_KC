@@ -93,6 +93,11 @@ namespace SDW
                 case UIName.MainLobbyBottomUI: DisconnectMainLobbyBottomUI(uiName); break;
                 //@ Story Collection UI
                 case UIName.StoryCollectionUI: DisconnectStoryCollectionUI(uiName); break;
+                //@ Money UI
+                case UIName.PaidStoreUI: DisconnectPaidStoreUI(uiName); break;
+                case UIName.NoticePaidConfirmUI: DisconnectNoticePaidConfirmUI(uiName); break;
+                case UIName.NoticePaidCompleteUI: DisconnectNoticePaidCompleteUI(uiName); break;
+                case UIName.NoticeNotPaidUI: DisconnectNoticeNotPaidUI(uiName); break;
             }
         }
 
@@ -500,6 +505,45 @@ namespace SDW
             var storyCollectionUI = _uiDic[uiName] as StoryCollectionUI;
 
             storyCollectionUI.OnUICloseRequested -= ClosePanel;
+        }
+
+        private void DisconnectPaidStoreUI(UIName uiName)
+        {
+            var paidStoreUI = _uiDic[uiName] as PaidStoreUI;
+            var noticePaidConfirmUI = _uiDic[UIName.NoticePaidConfirmUI] as NoticePaidConfirmUI;
+            var noticePaidCompleteUI = _uiDic[UIName.NoticePaidCompleteUI] as NoticePaidCompleteUI;
+            var mainLobbyUI = _uiDic[UIName.MainLobbyUI] as MainLobbyUI;
+
+            paidStoreUI.OnUIOpenRequested -= OpenPanel;
+            paidStoreUI.OnUICloseRequested -= (uiName) =>
+            {
+                mainLobbyUI.ResetMainText();
+                ClosePanel(uiName);
+            };
+            paidStoreUI.OnItemSelected -= noticePaidConfirmUI.SetItemInfo;
+            paidStoreUI.OnItemSelected -= noticePaidCompleteUI.SetItemInfo;
+        }
+
+        private void DisconnectNoticePaidConfirmUI(UIName uiName)
+        {
+            var noticePaidConfirmUI = _uiDic[uiName] as NoticePaidConfirmUI;
+
+            noticePaidConfirmUI.OnUIOpenRequested += OpenPanel;
+            noticePaidConfirmUI.OnUICloseRequested += ClosePanel;
+        }
+
+        private void DisconnectNoticePaidCompleteUI(UIName uiName)
+        {
+            var noticePaidCompleteUI = _uiDic[uiName] as NoticePaidCompleteUI;
+
+            noticePaidCompleteUI.OnUICloseRequested += ClosePanel;
+        }
+
+        private void DisconnectNoticeNotPaidUI(UIName uiName)
+        {
+            var noticeNotPaidUI = _uiDic[uiName] as NoticeNotPaidUI;
+
+            noticeNotPaidUI.OnUICloseRequested += ClosePanel;
         }
 
         #endregion
