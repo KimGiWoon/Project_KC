@@ -39,7 +39,6 @@ namespace JJY
         public Action OnRelicChanged;
         public Action<int> OnYeopjeonBonus;
 
-
         // public static CoinManager Instance { get; private set; }
         private void Awake()
         {
@@ -120,7 +119,7 @@ namespace JJY
             }
             else Debug.LogError($"{itemName},{value} : 아이템 이름 또는 오류");
         }
-        
+
         /// <summary>
         /// yeopjeon 획득량 %
         /// </summary>
@@ -129,20 +128,19 @@ namespace JJY
             _yeopjeonBonus = percent;
         }
 
-
         /// <summary>
         /// yeopjeon 재화 증가
         /// </summary>
         public void AddYeopjeon(int value)
         {
             yeopjeon += value;
-            bonus = Mathf.RoundToInt(value * (1f + (_yeopjeonBonus / 100f)));
+            bonus = Mathf.RoundToInt(value * (1f + _yeopjeonBonus / 100f));
 
             yeopjeon += bonus;
 
             if (value >= 0) totalYeopjeon += value;
             if (bonus >= 0) totalYeopjeon += bonus;
-            
+
             OnYeopjeonChanged?.Invoke(yeopjeon);
             OnYeopjeonBonus?.Invoke(_yeopjeonBonus);
 
@@ -193,6 +191,12 @@ namespace JJY
         {
             starCandy = value;
             _firebase.SetStarCandy(starCandy);
+        }
+
+        public void SetShiningStarCandy(int value)
+        {
+            shiningStarCandy = value;
+            _firebase.SetShiningStarCandy(shiningStarCandy);
         }
 
         /// <summary>

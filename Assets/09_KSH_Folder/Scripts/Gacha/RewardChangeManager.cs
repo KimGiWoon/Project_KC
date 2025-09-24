@@ -14,10 +14,12 @@ namespace KSH
         private CharacterDataManager _charData;
 
         private int starCandy;
+        private int _shiningStarCandy;
 
         private void Start()
         {
             starCandy = GameManager.Instance.Coin.starCandy;
+            _shiningStarCandy = GameManager.Instance.Coin.shiningStarCandy;
             _charData = GameManager.Instance.CharacterData;
         }
 
@@ -36,6 +38,21 @@ namespace KSH
             }
         }
 
+        public int ShiningStarCandy
+        {
+            get
+            {
+                _shiningStarCandy = GameManager.Instance.Coin.shiningStarCandy;
+                return _shiningStarCandy;
+            }
+            private set
+            {
+                _shiningStarCandy = value;
+                GameManager.Instance.Coin.SetShiningStarCandy(_shiningStarCandy);
+                OnShiningStarCandyChange?.Invoke(_shiningStarCandy);
+            }
+        }
+
         private int beadMax = 6; //구슬 최대 갯수
 
         private int normalReward = 30;
@@ -48,6 +65,7 @@ namespace KSH
         public Dictionary<string, bool> isStarCandy = new Dictionary<string, bool>();
 
         public event Action<int> OnStarCandyChange;
+        public event Action<int> OnShiningStarCandyChange;
         public event Action<int> OnStarCandyGained;
         public event Action<int> OnBeadGained;
 
