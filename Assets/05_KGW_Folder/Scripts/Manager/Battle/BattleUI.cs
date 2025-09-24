@@ -4,6 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using SDW;
+using CJH;
 
 public class BattleUI : BaseUI
 {
@@ -138,7 +139,7 @@ public class BattleUI : BaseUI
         // 게임 클리어
         if (result)
         {
-            if (_battleManager.IsLastBoss) OnUIOpenRequested?.Invoke(UIName.ClearChapterUI);
+            if (_battleManager._battleType == BattleEventType.BossFinal) OnUIOpenRequested?.Invoke(UIName.ClearChapterUI);
             else OnUIOpenRequested?.Invoke(UIName.ClearStageUI);
         }
         else // 게임 실패

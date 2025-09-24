@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using KGW;
 using SDW;
 using UnityEngine;
 
@@ -111,12 +110,12 @@ public class MyCharacterController : UnitBaseData
         _moveDir = Vector3.right;
         _isAlive = true;
 
+        // 캐릭터의 저장된 데이터 불러오기
+        CharacterSaveDataLoad();
         // 캐릭터 레벨 업 스텟 적용
         LevelUpStatUpdate();
         // 캐릭터 돌파 스텟 적용
         UpgradeStatUpdate();
-        // 캐릭터의 저장된 데이터 불러오기
-        CharacterSaveDataLoad();
 
         // 체력, 마나 게이지 현재값 초기화
         OnHpChange?.Invoke(_characterState._chaCurrentHP / _characterState._chaMaxHP);
@@ -325,15 +324,27 @@ public class MyCharacterController : UnitBaseData
     // 저장된 캐릭터의 데이터 불러오기
     private void CharacterSaveDataLoad()
     {
-        var characterSaveData = GameManager.Instance.CharacterBattleDataSave._chaHpSave;
+        var characterHpSaveData = GameManager.Instance.CharacterBattleDataSave._chaHpSave;
+        var characterLevelSaveData = GameManager.Instance.CharacterBattleDataSave._chaLevel;
+        var characterUpgradeSaveData = GameManager.Instance.CharacterBattleDataSave._chaUpgrade;
 
-        if (characterSaveData.ContainsKey(_characterState._chaEnName))
+        if (characterHpSaveData.ContainsKey(_characterState._chaEnName))
         {
             // 전체 부활하면 저장된 체력 불러오지 않음 
             if (!_battleManager._canResurrection) return;
 
-            // 저장된 체력 불러오기
-            _characterState._chaCurrentHP = characterSaveData[_characterState._chaEnName];
+            // 저장된 데이터 불러오기
+            _characterState._chaCurrentHP = characterHpSaveData[_characterState._chaEnName];
+        }
+
+        if (characterLevelSaveData.ContainsKey(_characterState._chaEnName))
+        {
+            _characterState._chaLevel = characterLevelSaveData[_characterState._chaEnName];
+        }
+
+        if (characterLevelSaveData.ContainsKey(_characterState._chaEnName))
+        {
+            _characterState._chaUpgrade = characterUpgradeSaveData[_characterState._chaEnName];
         }
     }
 
