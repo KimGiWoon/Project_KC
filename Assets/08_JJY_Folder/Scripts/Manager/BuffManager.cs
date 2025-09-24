@@ -199,6 +199,7 @@ namespace JJY
                 //     p._characterState._chaCurrentHP = p._characterState._chaMaxHP;
                 // }
                 p.HPHeal(p._characterState._chaMaxHP * e.value);
+                p.effectController?.ShowEffect(e.type, 2f);
 
                 if (logActions) Debug.Log($"[BuffManager] {p.name} HP : {p._characterState._chaCurrentHP}");
 
@@ -230,6 +231,8 @@ namespace JJY
                 //     p._characterState._chaCurrentMP = p._characterState._chaMaxMP;
                 // }
                 p.MPHeal(p._characterState._chaMaxMP * e.value);
+
+                p.effectController?.ShowEffect(e.type, 2f);
 
                 if (logActions) Debug.Log($"{p.name} MP : {p._characterState._chaCurrentMP}");
 
@@ -269,6 +272,8 @@ namespace JJY
                 // chosen._characterState._chaCurrentHP = chosen._characterState._chaMaxHP * e.value;
                 chosen.Revive(chosen._characterState._chaMaxHP * e.value);
 
+                chosen.effectController?.ShowEffect(e.type, 2.5f);
+
                 //CJH 코드 추가
                 var uiParents = chosen.GetComponent<CharacterUIParents>();
                 if (uiParents != null)
@@ -302,6 +307,7 @@ namespace JJY
             //     if (logActions) Debug.Log("TODO : UI 이벤트 연결");
             // }
             OnUseGroggyItem?.Invoke(e.value);
+
         }
 
         // Barrier 생성 (모든 아군)
@@ -311,6 +317,8 @@ namespace JJY
             foreach (var p in btManager._characters)
             {
                 p.CreateBarrier(e.applyBarrier);
+
+                p.effectController?.ShowEffect(e.type, 0f);
 
                 //CJH 코드 추가
                 var uiParents = p.GetComponent<CharacterUIParents>();
@@ -388,6 +396,8 @@ namespace JJY
                         float added = e.value;
                         p._characterState._chaArmor += added;
                         buff.appliedBuffAmounts[p] = added;
+
+                        p.effectController?.ShowEffect(e.type, float.PositiveInfinity);
                     }
                     break;
                 case EffectType.EnemyAttackDebuff:
@@ -434,6 +444,7 @@ namespace JJY
                             break;
                         case EffectType.DefenseBuff:
                             p._characterState._chaArmor -= amount;
+                            p.effectController?.HideEffect(e.type);
                             break;
                     }
                 }

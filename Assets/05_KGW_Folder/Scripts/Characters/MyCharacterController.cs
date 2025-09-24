@@ -61,6 +61,9 @@ public class MyCharacterController : UnitBaseData
     }
     private CharacterUIParents uiParents;
 
+    [HideInInspector]
+    public EffectController effectController;
+
     protected override void Awake()
     {
         base.Awake();
@@ -69,6 +72,7 @@ public class MyCharacterController : UnitBaseData
         _chaAnimatior = GetComponentInChildren<Animator>();
 
         uiParents = GetComponent<CharacterUIParents>();
+        effectController = GetComponentInChildren<EffectController>();
     }
 
     // 캐릭터 생성 초기화
