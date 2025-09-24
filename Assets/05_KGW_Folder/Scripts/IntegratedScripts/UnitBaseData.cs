@@ -42,7 +42,7 @@ public abstract class UnitBaseData : MonoBehaviour
     protected virtual void Update()
     {
         // 게임이 종료되거나 메뉴창이 오픈되거나 그로기 상태이면 움직이지 않는다.
-        if (_battleManager._isGameOver || _battleUI._isOnMenu || _isStern) return;
+        if (_battleManager._isGameOver || _battleUI._isOnMenu || _isStern || !_isAlive) return;
 
         Movement();
         Attack();

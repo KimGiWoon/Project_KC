@@ -57,20 +57,24 @@ namespace SDW
             // 키가 존재하지 않으면 추가 (초기 세팅)
             if (!GameManager.Instance.CharacterBattleDataSave._chaLevel.ContainsKey(data._chaBaseData.ChaEnName))
             {
-                GameManager.Instance.CharacterBattleDataSave._chaUpgrade.Add(data._chaBaseData.ChaEnName, data._chaUpgradeLevel);
                 GameManager.Instance.CharacterBattleDataSave._chaLevel.Add(data._chaBaseData.ChaEnName, data._chaLv);
+            }
+            if (!GameManager.Instance.CharacterBattleDataSave._chaUpgrade.ContainsKey(data._chaBaseData.ChaEnName))
+            {
+                GameManager.Instance.CharacterBattleDataSave._chaUpgrade.Add(data._chaBaseData.ChaEnName, data._chaUpgradeLevel);
             }
 
             var levelData = GameManager.Instance.CharacterData.ChaLevelUpStatData[GameManager.Instance.CharacterBattleDataSave._chaLevel[data._chaBaseData.ChaEnName]];
+            var upgradeData = GameManager.Instance.CharacterData.ChaBeadsData[GameManager.Instance.CharacterBattleDataSave._chaUpgrade[data._chaBaseData.ChaEnName]];
 
             _characterImage.sprite = data._characterSprite;
             _characterNameText.text = data._chaBaseData.ChaName;
             _startValueText.text = GameManager.Instance.CharacterBattleDataSave._chaUpgrade[data._chaBaseData.ChaEnName].ToString();
             _classNameText.text = data._chaBaseData.ChaRole.ToString();
             _classLevelText.text = "Lv. " + GameManager.Instance.CharacterBattleDataSave._chaLevel[data._chaBaseData.ChaEnName];
-            _hpText.text = (data._chaBaseData.ChaHP * levelData.ChaHPIncrease).ToString();
-            _attackText.text = (data._chaBaseData.ChaAttack * levelData.ChaAttackIncrease).ToString();
-            _deffenceText.text = (data._chaBaseData.ChaArmor * levelData.ChaArmorIncrease).ToString();
+            _hpText.text = (data._chaBaseData.ChaHP * levelData.ChaHPIncrease * upgradeData.ChaHP).ToString("F0");
+            _attackText.text = (data._chaBaseData.ChaAttack * levelData.ChaAttackIncrease * upgradeData.ChaAttack).ToString("F0");
+            _deffenceText.text = (data._chaBaseData.ChaArmor * levelData.ChaArmorIncrease * upgradeData.ChaArmor).ToString("F0");
 
             var characterBaseData = data._chaBaseData;
 
