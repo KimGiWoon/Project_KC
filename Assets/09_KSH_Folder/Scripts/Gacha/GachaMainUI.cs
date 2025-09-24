@@ -1,4 +1,6 @@
 using System;
+using System.Collections;
+using JJY;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -8,36 +10,49 @@ namespace KSH
 {
     public class GachaMainUI : BaseUI
     {
-        [Header("CharacterGacha")]
-        [SerializeField] private CharacterGacha gacha;
-        [Header("버튼")]
+        [Header("Top Components")]
+        [SerializeField] private TextMeshProUGUI _shiningStartValueText;
+        [SerializeField] private Button _shiningStartButton;
+        [SerializeField] private TextMeshProUGUI _sugarStartValueText;
+        [SerializeField] private Button _sugarStartButton;
+
+        [Header("Bottom Components")]
+        [SerializeField] private Button _possibilityButton;
         [SerializeField] private Button singleButton; //1회 뽑기 버튼
         [SerializeField] private Button multipleButton; //10회 뽑기 버튼
-        [SerializeField] private Button _backButton;
-        [Header("메인UI")]
-        [SerializeField] private GameObject GatchaUI; //메인 UI
-        [Header("별사탕 UI")]
-        [SerializeField] private TextMeshProUGUI starCandyText;
+        [SerializeField] private Button _possibilityBackButton;
 
-        public int starCandyCount { get; private set; }
+        [Header("Animation")]
+        [SerializeField] private TweenAnimation _tweenAnimation;
+
+        [Header("Panel")]
+        [SerializeField] private GameObject _topGamePanel;
+        [SerializeField] private GameObject _possibilityPanel;
+        [SerializeField] private GameObject _gachaConfirmPanel;
+        [SerializeField] private GameObject _gachaNotEnoughPanel;
+        [SerializeField] private GameObject _backgroundPanelObject;
+        private TweenAlpha_Image _backgroundPanel;
 
         public Action<UIName> OnUIOpenRequested;
         public Action<UIName> OnUICloseRequested;
+        public Action<int, int> OnGachaButtonClicked;
+        [SerializeField] private CharacterLevelUpUIManager characterLevelUpUIManager;
+
+        private RectTransform _rectTransform;
 
         private void Awake()
         {
             _panelContainer.SetActive(false);
-        }
-
-        protected override void Start()
-        {
-            base.Start();
-            gacha = GameManager.Instance.Gacha;
+            _rectTransform = _panelContainer.GetComponent<RectTransform>();
+            _backgroundPanel = _backgroundPanelObject.GetComponent<TweenAlpha_Image>();
+            _backgroundPanelObject.SetActive(false);
+            _possibilityPanel.SetActive(false);
         }
 
         private void OnEnable()
         {
-            _backButton.onClick.AddListener(BackButtonClicked);
+            _possibilityButton.onClick.AddListener(PossibilityButtonClicked);
+            _possibilityBackButton.onClick.AddListener(PossibilityBackButtonClicked);
             singleButton.onClick.AddListener(SingleButtonClicked);
             multipleButton.onClick.AddListener(MultipleButtonClicked);
         }
@@ -45,52 +60,102 @@ namespace KSH
         private void OnDisable()
         {
             if (GameManager.Instance != null)
+            {
                 GameManager.Instance.Reward.OnStarCandyChange -= CandyUpdate;
-            _backButton.onClick.RemoveListener(BackButtonClicked);
+                GameManager.Instance.Reward.OnShiningStarCandyChange -= ShiningCandyUpdate;
+            }
 
+            _possibilityButton.onClick.RemoveListener(PossibilityButtonClicked);
+            _possibilityBackButton.onClick.RemoveListener(PossibilityBackButtonClicked);
             singleButton.onClick.RemoveListener(SingleButtonClicked);
             multipleButton.onClick.RemoveListener(MultipleButtonClicked);
         }
 
+        /// <summary>
+        /// UI 외부 터치 시 UI를 Close
+        /// </summary>
+        public void Update()
+        {
+            if (!_panelContainer.activeSelf) return;
+
+            //# 안드로이드 터치 감지
+            if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began)
+            {
+                var touchPos = Input.GetTouch(0).position;
+
+                //# 패널 안에 터치가 있는지 확인
+                if (!RectTransformUtility.RectangleContainsScreenPoint(_rectTransform, touchPos))
+                {
+                    if (_possibilityPanel.activeSelf) return;
+                    if (_gachaConfirmPanel.activeSelf) return;
+                    if (_gachaNotEnoughPanel.activeSelf) return;
+
+                    OnUICloseRequested?.Invoke(UIName.GachaMainUI);
+                }
+            }
+        }
+
         public override void Open()
         {
+            _tweenAnimation.moveAway();
             base.Open();
+            _backgroundPanelObject.SetActive(true);
             Initialize();
+        }
+
+        public override void Close()
+        {
+            characterLevelUpUIManager.InitCharacterList();
+            _backgroundPanel.FadeOut();
+            StartCoroutine(DelayedClose());
+        }
+
+        private IEnumerator DelayedClose()
+        {
+            _tweenAnimation.moveBack();
+            yield return new WaitForSeconds(_tweenAnimation.tweenTime);
+            base.Close();
         }
 
         private void Initialize()
         {
             GameManager.Instance.Reward.OnStarCandyChange += CandyUpdate;
+            GameManager.Instance.Reward.OnShiningStarCandyChange += ShiningCandyUpdate;
             CandyUpdate(GameManager.Instance.Coin.starCandy);
-            _backButton.onClick.AddListener(BackButtonClicked);
-        }
-
-        private void BackButtonClicked()
-        {
-            //todo 추후 메인 타이틀 관련 적용이 필요함
-            OnUIOpenRequested?.Invoke(UIName.MainLobbyUI);
-            OnUICloseRequested?.Invoke(UIName.GachaMainUI);
         }
 
         private void CandyUpdate(int value)
         {
-            starCandyText.text = value.ToString();
+            _sugarStartValueText.text = value.ToString();
         }
 
+        private void ShiningCandyUpdate(int value)
+        {
+            _shiningStartValueText.text = value.ToString();
+        }
+
+        private void PossibilityButtonClicked()
+        {
+            _possibilityPanel.SetActive(true);
+        }
+
+        private void PossibilityBackButtonClicked()
+        {
+            _possibilityPanel.SetActive(false);
+        }
+
+        //todo 별사탕에 따라서 GachaConfirmUI 또는 GachaNotEnoughUI를 띄워야 함
         private void SingleButtonClicked()
         {
             CandyUpdate(GameManager.Instance.Reward.StarCandy);
             if (GameManager.Instance.Reward.StarCandy >= 150) //별사탕이 150개 이상 가지고 있으면 1회 뽑기
             {
-                GatchaUI.SetActive(false);
-                GameManager.Instance.Reward.AddStarCandy(-150);
-                gacha.SetGachaType(true);
-                OnUIOpenRequested?.Invoke(UIName.GachaResultUI);
-                OnUICloseRequested?.Invoke(UIName.GachaMainUI);
+                OnUIOpenRequested?.Invoke(UIName.GachaConfirmUI);
+                OnGachaButtonClicked?.Invoke(150, 1);
             }
             else
             {
-                Debug.Log("별사탕이 부족합니다.");
+                OnUIOpenRequested?.Invoke(UIName.GachaNotEnoughUI);
             }
         }
 
@@ -99,15 +164,12 @@ namespace KSH
             CandyUpdate(GameManager.Instance.Reward.StarCandy);
             if (GameManager.Instance.Reward.StarCandy >= 1500) //별사탕을 1500개 이상 가지고 있으면 10회 뽑기
             {
-                GatchaUI.SetActive(false);
-                GameManager.Instance.Reward.AddStarCandy(-1500);
-                gacha.SetGachaType(false);
-                OnUIOpenRequested?.Invoke(UIName.GachaResultUI);
-                OnUICloseRequested?.Invoke(UIName.GachaMainUI);
+                OnUIOpenRequested?.Invoke(UIName.GachaConfirmUI);
+                OnGachaButtonClicked?.Invoke(1500, 10);
             }
             else
             {
-                Debug.Log("별사탕이 부족합니다.");
+                OnUIOpenRequested?.Invoke(UIName.GachaNotEnoughUI);
             }
         }
     }

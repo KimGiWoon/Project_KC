@@ -77,6 +77,7 @@ namespace SDW
             }
 
             GameManager.Instance.Reward.OnStarCandyChange += UpdateRainbowStar;
+            GameManager.Instance.Reward.OnShiningStarCandyChange += UpdateShiningStarCandy;
             GameManager.Instance.DailyQuest.OnStarCandyChange += UpdateRainbowStar;
         }
 
@@ -96,6 +97,7 @@ namespace SDW
             }
 
             GameManager.Instance.Reward.OnStarCandyChange -= UpdateRainbowStar;
+            GameManager.Instance.Reward.OnShiningStarCandyChange -= UpdateShiningStarCandy;
             GameManager.Instance.DailyQuest.OnStarCandyChange -= UpdateRainbowStar;
         }
 
