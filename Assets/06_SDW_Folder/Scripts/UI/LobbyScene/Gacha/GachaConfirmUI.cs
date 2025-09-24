@@ -17,7 +17,7 @@ namespace SDW
         [SerializeField] private Button _acceptButton;
         private RectTransform _rectTransform;
 
-        public Action<UIName> OnUIOpenRequested;
+        public Action<UIName, bool> OnUIOpenRequested;
         public Action<UIName> OnUICloseRequested;
         private bool _isSingleGacha;
         private int _sugarStar;
@@ -96,6 +96,8 @@ namespace SDW
             GameManager.Instance.Reward.AddStarCandy(-_sugarStar);
             gacha.SetGachaType(_isSingleGacha);
             //todo 결과창을 띄워야 함
+            OnUIOpenRequested?.Invoke(UIName.GachaResultUI, _isSingleGacha);
+            OnUICloseRequested?.Invoke(UIName.GachaConfirmUI);
         }
     }
 }

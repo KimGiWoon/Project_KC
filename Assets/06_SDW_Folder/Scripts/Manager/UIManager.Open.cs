@@ -344,8 +344,13 @@ namespace SDW
         private void ConnectGachaConfirmUI(UIName uiName)
         {
             var gachaConfirmUI = _uiDic[uiName] as GachaConfirmUI;
+            var gachaResultUI = _uiDic[UIName.GachaResultUI] as GachaResultUI;
 
-            gachaConfirmUI.OnUIOpenRequested += OpenPanel;
+            gachaConfirmUI.OnUIOpenRequested += (uiName, isSingle) =>
+            {
+                gachaResultUI.SetGachaType(isSingle);
+                OpenPanel(uiName);
+            };
             gachaConfirmUI.OnUICloseRequested += ClosePanel;
         }
 
