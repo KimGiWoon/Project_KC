@@ -60,10 +60,13 @@
         CharInfoStatsUI,
         CharInfoBottomUI,
         LevelUpUI,
+
         GlobalSettingUI,
+
         StageSelectUI,
         MainLobbyBottomUI,
         GachaConfirmUI,
-        GachaNotEnoughUI
+        GachaNotEnoughUI,
+        StoryCollectionUI
     }
 }
