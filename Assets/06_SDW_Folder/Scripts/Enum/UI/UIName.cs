@@ -62,6 +62,8 @@
         LevelUpUI,
         GlobalSettingUI,
         StageSelectUI,
-        MainLobbyBottomUI
+        MainLobbyBottomUI,
+        GachaConfirmUI,
+        GachaNotEnoughUI
     }
 }

@@ -83,6 +83,12 @@ namespace SDW
                     _app = FirebaseApp.DefaultInstance;
                     _auth = FirebaseAuth.DefaultInstance;
                     _db = FirebaseDatabase.DefaultInstance.RootReference;
+                    _db.KeepSynced(false);
+
+                    FirebaseDatabase.DefaultInstance.GoOffline();
+                    FirebaseDatabase.DefaultInstance.GoOnline();
+                    FirebaseDatabase.DefaultInstance.GoOffline();
+                    FirebaseDatabase.DefaultInstance.GoOnline();
 
                     UpdateButtonIcon();
 
@@ -400,11 +406,6 @@ namespace SDW
         {
             string userId = user.UserId;
 
-            _db.KeepSynced(false);
-            FirebaseDatabase.DefaultInstance.GoOffline();
-            FirebaseDatabase.DefaultInstance.GoOnline();
-            FirebaseDatabase.DefaultInstance.GoOffline();
-            FirebaseDatabase.DefaultInstance.GoOnline();
             _db.Child("users").Child(userId).GetValueAsync().ContinueWithOnMainThread(task =>
             {
                 if (task.IsFaulted)

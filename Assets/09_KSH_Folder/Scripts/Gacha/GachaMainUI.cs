@@ -10,9 +10,6 @@ namespace KSH
 {
     public class GachaMainUI : BaseUI
     {
-        [Header("CharacterGacha")]
-        [SerializeField] private CharacterGacha gacha;
-
         [Header("Top Components")]
         [SerializeField] private TextMeshProUGUI _shiningStartValueText;
         [SerializeField] private Button _shiningStartButton;
@@ -23,16 +20,22 @@ namespace KSH
         [SerializeField] private Button _possibilityButton;
         [SerializeField] private Button singleButton; //1회 뽑기 버튼
         [SerializeField] private Button multipleButton; //10회 뽑기 버튼
-        [SerializeField] private GameObject _possibilityGameObject;
         [SerializeField] private Button _possibilityBackButton;
 
         [Header("Animation")]
+        [SerializeField] private TweenAnimation _tweenAnimation;
+
+        [Header("Panel")]
+        [SerializeField] private GameObject _topGamePanel;
+        [SerializeField] private GameObject _possibilityPanel;
+        [SerializeField] private GameObject _gachaConfirmPanel;
+        [SerializeField] private GameObject _gachaNotEnoughPanel;
         [SerializeField] private GameObject _backgroundPanelObject;
         private TweenAlpha_Image _backgroundPanel;
-        [SerializeField] private TweenAnimation _tweenAnimation;
 
         public Action<UIName> OnUIOpenRequested;
         public Action<UIName> OnUICloseRequested;
+        public Action<int, int> OnGachaButtonClicked;
         [SerializeField] private CharacterLevelUpUIManager characterLevelUpUIManager;
 
         private RectTransform _rectTransform;
@@ -43,13 +46,7 @@ namespace KSH
             _rectTransform = _panelContainer.GetComponent<RectTransform>();
             _backgroundPanel = _backgroundPanelObject.GetComponent<TweenAlpha_Image>();
             _backgroundPanelObject.SetActive(false);
-            _possibilityGameObject.SetActive(false);
-        }
-
-        protected override void Start()
-        {
-            base.Start();
-            gacha = GameManager.Instance.Gacha;
+            _possibilityPanel.SetActive(false);
         }
 
         private void OnEnable()
@@ -89,7 +86,9 @@ namespace KSH
                 //# 패널 안에 터치가 있는지 확인
                 if (!RectTransformUtility.RectangleContainsScreenPoint(_rectTransform, touchPos))
                 {
-                    if (_possibilityGameObject.activeSelf) return;
+                    if (_possibilityPanel.activeSelf) return;
+                    if (_gachaConfirmPanel.activeSelf) return;
+                    if (_gachaNotEnoughPanel.activeSelf) return;
 
                     OnUICloseRequested?.Invoke(UIName.GachaMainUI);
                 }
@@ -137,12 +136,12 @@ namespace KSH
 
         private void PossibilityButtonClicked()
         {
-            _possibilityGameObject.SetActive(true);
+            _possibilityPanel.SetActive(true);
         }
 
         private void PossibilityBackButtonClicked()
         {
-            _possibilityGameObject.SetActive(false);
+            _possibilityPanel.SetActive(false);
         }
 
         //todo 별사탕에 따라서 GachaConfirmUI 또는 GachaNotEnoughUI를 띄워야 함
@@ -151,14 +150,12 @@ namespace KSH
             CandyUpdate(GameManager.Instance.Reward.StarCandy);
             if (GameManager.Instance.Reward.StarCandy >= 150) //별사탕이 150개 이상 가지고 있으면 1회 뽑기
             {
-                GameManager.Instance.Reward.AddStarCandy(-150);
-                gacha.SetGachaType(true);
-                OnUIOpenRequested?.Invoke(UIName.GachaResultUI);
-                OnUICloseRequested?.Invoke(UIName.GachaMainUI);
+                OnUIOpenRequested?.Invoke(UIName.GachaConfirmUI);
+                OnGachaButtonClicked?.Invoke(150, 1);
             }
             else
             {
-                Debug.Log("별사탕이 부족합니다.");
+                OnUIOpenRequested?.Invoke(UIName.GachaNotEnoughUI);
             }
         }
 
@@ -167,14 +164,12 @@ namespace KSH
             CandyUpdate(GameManager.Instance.Reward.StarCandy);
             if (GameManager.Instance.Reward.StarCandy >= 1500) //별사탕을 1500개 이상 가지고 있으면 10회 뽑기
             {
-                GameManager.Instance.Reward.AddStarCandy(-1500);
-                gacha.SetGachaType(false);
-                OnUIOpenRequested?.Invoke(UIName.GachaResultUI);
-                OnUICloseRequested?.Invoke(UIName.GachaMainUI);
+                OnUIOpenRequested?.Invoke(UIName.GachaConfirmUI);
+                OnGachaButtonClicked?.Invoke(1500, 10);
             }
             else
             {
-                Debug.Log("별사탕이 부족합니다.");
+                OnUIOpenRequested?.Invoke(UIName.GachaNotEnoughUI);
             }
         }
     }
