@@ -41,7 +41,7 @@ namespace CJH
         private MapData currentMap;
         private Dictionary<Vector2Int, MapNode> nodeObjects;
         private List<GameObject> lineArrows = new List<GameObject>();
-        [SerializeField] private EventManager _eventManager;
+        [SerializeField] public EventManager _eventManager;
 
         // 생성된 플레이어 캐릭터를 담을 변수
         private MapPlayerVisualController playerVisualController;
