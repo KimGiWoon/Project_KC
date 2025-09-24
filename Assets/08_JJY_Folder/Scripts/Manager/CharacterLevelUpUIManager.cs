@@ -243,11 +243,11 @@ namespace JJY
             _characterLevelInfoPanel.gameObject.SetActive(true);
             characterStatInfoButton.interactable = true;
 
-            // if (GameManager.Instance.CharacterData.CharEnNameLevel[data._chaBaseData.ChaEnName] >= 30)
-            // {
-            //     levelUpButton.interactable = false;
-            //     return;
-            // }
+            if (GameManager.Instance.CharacterData.CharEnNameLevel[data._chaBaseData.ChaEnName] > 30)
+            {
+                levelUpButton.interactable = false;
+                return;
+            }
             levelUpButton.interactable = true;
         }
 
@@ -414,15 +414,17 @@ namespace JJY
             }
             expBar.fillAmount = Mathf.Clamp01(previewFill);
 
-            if (addedExpText.gameObject.activeSelf && previewLevel > 30) addedExpText.gameObject.SetActive(false);
-            if (!addedLevelText.gameObject.activeSelf &&
-            GameManager.Instance.CharacterData.CharEnNameExp[selectedCharacterData._chaBaseData.ChaEnName] + gainedExp <
-            GameManager.Instance.CharacterData.ChaLevelUpStatData[GameManager.Instance.CharacterData.CharEnNameLevel[selectedCharacterData._chaBaseData.ChaEnName]].ChaLevelPoint
-            )
+            if (!addedLevelText.gameObject.activeSelf)
             {
                 addedLevelText.gameObject.SetActive(true);
             }
-            else addedLevelText.gameObject.SetActive(false);
+            
+            if (addedExpText.gameObject.activeSelf && previewLevel > 30)
+                addedExpText.gameObject.SetActive(false);
+            if (addedLevelText.gameObject.activeSelf && previewLevel > 30 &&
+            GameManager.Instance.CharacterData.CharEnNameExp[selectedCharacterData._chaBaseData.ChaEnName] + gainedExp >
+            GameManager.Instance.CharacterData.ChaLevelUpStatData[GameManager.Instance.CharacterData.CharEnNameLevel[selectedCharacterData._chaBaseData.ChaEnName]].ChaLevelPoint)
+                addedLevelText.gameObject.SetActive(false);
 
             addedLevelText.text = levelUpCount > 0 ? $"+{levelUpCount}" : "";
         }
