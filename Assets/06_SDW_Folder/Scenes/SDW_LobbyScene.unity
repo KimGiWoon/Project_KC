@@ -14949,6 +14949,8 @@ RectTransform:
   m_Children:
   - {fileID: 27846487}
   - {fileID: 1795775746}
+  - {fileID: 491371440}
+  - {fileID: 1291316484}
   m_Father: {fileID: 664398239}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -14989,7 +14991,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: 18
   _panelContainer: {fileID: 27846486}
-  gacha: {fileID: 1638836438}
   _shiningStartValueText: {fileID: 1861318469}
   _shiningStartButton: {fileID: 345405545}
   _sugarStartValueText: {fileID: 530616794}
@@ -14997,10 +14998,13 @@ MonoBehaviour:
   _possibilityButton: {fileID: 2009517982}
   singleButton: {fileID: 1269180279}
   multipleButton: {fileID: 906681792}
-  _possibilityGameObject: {fileID: 1795775745}
   _possibilityBackButton: {fileID: 1603732455}
-  _backgroundPanelObject: {fileID: 486624509}
   _tweenAnimation: {fileID: 444994868}
+  _topGamePanel: {fileID: 1568451702}
+  _possibilityPanel: {fileID: 1795775745}
+  _gachaConfirmPanel: {fileID: 1165112644}
+  _gachaNotEnoughPanel: {fileID: 1285128721}
+  _backgroundPanelObject: {fileID: 486624509}
   characterLevelUpUIManager: {fileID: 1391187711}
 --- !u!1 &446037038
 GameObject:
@@ -16848,11 +16852,11 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1165112645}
-  m_Father: {fileID: 664398239}
+  m_Father: {fileID: 444994867}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 2340, y: -50}
+  m_AnchoredPosition: {x: 0, y: 450}
   m_SizeDelta: {x: 740, y: 440}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!222 &491371442
@@ -16875,6 +16879,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e275d53746ff2c44aa44ba4cf9ed85a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Name: 42
+  _panelContainer: {fileID: 1165112644}
+  gacha: {fileID: 0}
+  _descriptionText: {fileID: 1106536571}
+  _backButton: {fileID: 427730622}
+  _acceptButton: {fileID: 227029570}
 --- !u!1 &492512017
 GameObject:
   m_ObjectHideFlags: 0
@@ -21860,43 +21870,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 605423175}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 444994868}
-        m_TargetAssemblyTypeName: TweenAnimation, Assembly-CSharp
-        m_MethodName: moveBack
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 1291316483}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 1424752217}
-        m_TargetAssemblyTypeName: TweenAnimation, Assembly-CSharp
-        m_MethodName: moveAway
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &605423175
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -24136,8 +24110,6 @@ RectTransform:
   - {fileID: 1845365941}
   - {fileID: 463199065}
   - {fileID: 444994867}
-  - {fileID: 491371440}
-  - {fileID: 1291316484}
   - {fileID: 1050717959}
   m_Father: {fileID: 614094109}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -32887,19 +32859,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 906681793}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 491371439}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 1
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &906681793
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -39120,7 +39080,7 @@ GameObject:
   - component: {fileID: 1106536572}
   - component: {fileID: 1106536571}
   m_Layer: 0
-  m_Name: SugarStarMessageText
+  m_Name: SugarStarDescriptionText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -39165,7 +39125,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\uBCC4\uC0AC\uD0D5 9999\uAC1C\uB97C \uC0AC\uC6A9\uD558\uC5EC 99\uD68C
+  m_text: "\uBCC4\uC0AC\uD0D5 {sugarStar}\uAC1C\uB97C \uC0AC\uC6A9\uD558\uC5EC {count}\uD68C
     \uC601\uC785\uD558\uC2DC\uACA0\uC2B5\uB2C8\uAE4C?"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: fdaa16ae054fd324aae2c5b3993bbfdb, type: 2}
@@ -42720,43 +42680,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1209567645}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 444994868}
-        m_TargetAssemblyTypeName: TweenAnimation, Assembly-CSharp
-        m_MethodName: moveBack
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 1291316483}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 1479796244}
-        m_TargetAssemblyTypeName: TweenAnimation, Assembly-CSharp
-        m_MethodName: moveAway
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &1209567645
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -45933,19 +45857,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1269180280}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 491371439}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 1
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &1269180280
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -46566,7 +46478,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1285128722
 RectTransform:
   m_ObjectHideFlags: 0
@@ -46660,11 +46572,11 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1285128722}
-  m_Father: {fileID: 664398239}
+  m_Father: {fileID: 444994867}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 2340, y: -50}
+  m_AnchoredPosition: {x: 0, y: 450}
   m_SizeDelta: {x: 740, y: 440}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!222 &1291316486
@@ -46687,6 +46599,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 72799800fa06a764d93de52dc0d0ee80, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Name: 43
+  _panelContainer: {fileID: 1285128721}
+  _paidStoreButton: {fileID: 1209567644}
+  _exchangeButton: {fileID: 605423174}
 --- !u!1 &1296187999
 GameObject:
   m_ObjectHideFlags: 0
@@ -56728,19 +56644,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1603732456}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1795775745}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &1603732456
 MonoBehaviour:
   m_ObjectHideFlags: 0
