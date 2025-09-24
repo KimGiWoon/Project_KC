@@ -16,8 +16,7 @@ namespace SDW
         private Sprite _userIconBackUp;
 
         [Header("Panels")]
-        [SerializeField] private GameObject _backgroundPanelObject;
-        private TweenAlpha_Image _backgroundPanel;
+        [SerializeField] private TweenAlpha_Image _backgroundPanel;
         [SerializeField] private GameObject _userInfoPanel;
         [SerializeField] private GameObject _medalPanel;
         [SerializeField] private RectTransform _changeIconPanelRect;
@@ -48,8 +47,7 @@ namespace SDW
         {
             _userInfoPanelRect = _panelContainer.GetComponent<RectTransform>();
             _panelContainer.SetActive(false);
-            _backgroundPanel = _backgroundPanelObject.GetComponent<TweenAlpha_Image>();
-            _backgroundPanelObject.SetActive(false);
+            _backgroundPanel.gameObject.SetActive(false);
             _medalPanel.SetActive(false);
             _gameManager = GameManager.Instance;
         }
@@ -79,7 +77,7 @@ namespace SDW
             GameManager.Instance.Firebase.RequestUserInfo();
             _containerTweenAnimation.moveAway();
             base.Open();
-            _backgroundPanelObject.SetActive(true);
+            _backgroundPanel.gameObject.SetActive(true);
             _medalPanel.SetActive(true);
             _uiStack.Push(UIName.UserInfoUI);
         }
@@ -95,7 +93,6 @@ namespace SDW
             _containerTweenAnimation.moveBack();
             yield return new WaitForSeconds(_containerTweenAnimation.tweenTime);
             base.Close();
-            _backgroundPanelObject.SetActive(false);
             _medalPanel.SetActive(false);
             _uiStack.Clear();
         }

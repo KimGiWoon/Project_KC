@@ -16,8 +16,7 @@ public class DailyQuestUI : BaseUI
     [SerializeField] private Button _rewardButton;
     [SerializeField] private GameObject _redmardk;
     [SerializeField] private RectTransform _popupRect;
-    [SerializeField] private GameObject _backgroundPanelObject;
-    private TweenAlpha_Image _backgroundPanel;
+    [SerializeField] private TweenAlpha_Image _backgroundPanel;
 
     [Header("Animation")]
     [SerializeField] private TweenAnimation _tweenAnimation;
@@ -28,8 +27,7 @@ public class DailyQuestUI : BaseUI
     private void Awake()
     {
         _panelContainer.SetActive(false);
-        _backgroundPanel = _backgroundPanelObject.GetComponent<TweenAlpha_Image>();
-        _backgroundPanelObject.SetActive(false);
+        _backgroundPanel.gameObject.SetActive(false);
         _rewardButton.interactable = false;
     }
 
@@ -73,7 +71,7 @@ public class DailyQuestUI : BaseUI
 
     public override void Open()
     {
-        _backgroundPanelObject.SetActive(true);
+        _backgroundPanel.gameObject.SetActive(true);
         _tweenAnimation.moveAway();
         base.Open();
     }
@@ -89,7 +87,6 @@ public class DailyQuestUI : BaseUI
         _tweenAnimation.moveBack();
         yield return new WaitForSeconds(_tweenAnimation.tweenTime);
         base.Close();
-        _backgroundPanelObject.SetActive(false);
     }
 
     private void RewardButtonClicked() => OnRewardButtonClicked?.Invoke(_rewardAmount);

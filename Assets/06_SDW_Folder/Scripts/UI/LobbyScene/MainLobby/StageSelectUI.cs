@@ -19,8 +19,7 @@ namespace SDW
         [SerializeField] private List<Image> _stageImageList;
         [SerializeField] private List<string> _stageNameList;
         [SerializeField] private GameObject _permanentPanel;
-        [SerializeField] private GameObject _backgroundPanelObject;
-        private TweenAlpha_Image _backgroundPanel;
+        [SerializeField] private TweenAlpha_Image _backgroundPanel;
 
         [Header("Animation")]
         [SerializeField] private TweenAnimation _tweenAnimation;
@@ -39,8 +38,7 @@ namespace SDW
         {
             _panelContainer.SetActive(false);
             _rectTransform = _panelContainer.GetComponent<RectTransform>();
-            _backgroundPanel = _backgroundPanelObject.GetComponent<TweenAlpha_Image>();
-            _backgroundPanelObject.SetActive(false);
+            _backgroundPanel.gameObject.SetActive(false);
         }
 
         private void OnEnable()
@@ -86,7 +84,7 @@ namespace SDW
             _index = 0;
             _tweenAnimation.moveAway();
             base.Open();
-            _backgroundPanelObject.SetActive(true);
+            _backgroundPanel.gameObject.SetActive(true);
         }
 
         public override void Close()

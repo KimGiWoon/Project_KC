@@ -30,8 +30,9 @@ namespace KSH
         [SerializeField] private GameObject _possibilityPanel;
         [SerializeField] private GameObject _gachaConfirmPanel;
         [SerializeField] private GameObject _gachaNotEnoughPanel;
-        [SerializeField] private GameObject _backgroundPanelObject;
-        private TweenAlpha_Image _backgroundPanel;
+        [SerializeField] private TweenAlpha_Image _backgroundPanel;
+        [SerializeField] private GameObject _singlePanel;
+        [SerializeField] private GameObject _tenPanel;
 
         public Action<UIName> OnUIOpenRequested;
         public Action<UIName> OnUICloseRequested;
@@ -44,8 +45,7 @@ namespace KSH
         {
             _panelContainer.SetActive(false);
             _rectTransform = _panelContainer.GetComponent<RectTransform>();
-            _backgroundPanel = _backgroundPanelObject.GetComponent<TweenAlpha_Image>();
-            _backgroundPanelObject.SetActive(false);
+            _backgroundPanel.gameObject.SetActive(false);
             _possibilityPanel.SetActive(false);
         }
 
@@ -89,6 +89,8 @@ namespace KSH
                     if (_possibilityPanel.activeSelf) return;
                     if (_gachaConfirmPanel.activeSelf) return;
                     if (_gachaNotEnoughPanel.activeSelf) return;
+                    if (_singlePanel.activeSelf) return;
+                    if (_tenPanel.activeSelf) return;
 
                     OnUICloseRequested?.Invoke(UIName.GachaMainUI);
                 }
@@ -99,7 +101,7 @@ namespace KSH
         {
             _tweenAnimation.moveAway();
             base.Open();
-            _backgroundPanelObject.SetActive(true);
+            _backgroundPanel.gameObject.SetActive(true);
             Initialize();
         }
 

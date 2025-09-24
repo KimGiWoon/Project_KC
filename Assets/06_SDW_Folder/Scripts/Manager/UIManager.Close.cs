@@ -91,6 +91,8 @@ namespace SDW
                 //@ Stage Select UI
                 case UIName.StageSelectUI: DisconnectStageSelectUI(uiName); break;
                 case UIName.MainLobbyBottomUI: DisconnectMainLobbyBottomUI(uiName); break;
+                //@ Story Collection UI
+                case UIName.StoryCollectionUI: DisconnectStoryCollectionUI(uiName); break;
             }
         }
 
@@ -338,8 +340,13 @@ namespace SDW
         private void DisconnectGachaConfirmUI(UIName uiName)
         {
             var gachaConfirmUI = _uiDic[uiName] as GachaConfirmUI;
+            var gachaResultUI = _uiDic[UIName.GachaResultUI] as GachaResultUI;
 
-            gachaConfirmUI.OnUIOpenRequested -= OpenPanel;
+            gachaConfirmUI.OnUIOpenRequested -= (uiName, isSingle) =>
+            {
+                gachaResultUI.SetGachaType(isSingle);
+                OpenPanel(uiName);
+            };
             gachaConfirmUI.OnUICloseRequested -= ClosePanel;
         }
 
@@ -486,6 +493,13 @@ namespace SDW
             };
 
             bottomUI.OnUICloseRequested -= ClosePanel;
+        }
+
+        private void DisconnectStoryCollectionUI(UIName uiName)
+        {
+            var storyCollectionUI = _uiDic[uiName] as StoryCollectionUI;
+
+            storyCollectionUI.OnUICloseRequested -= ClosePanel;
         }
 
         #endregion
