@@ -77,6 +77,8 @@ namespace SDW
                 case UIName.DailyQuestUI: ConnectDailyQuestUI(uiName); break;
                 //@ Gacha UI
                 case UIName.GachaMainUI: ConnectGachaMainUI(uiName); break;
+                case UIName.GachaConfirmUI: ConnectGachaConfirmUI(uiName); break;
+                case UIName.GachaNotEnoughUI: ConnectNotEnoughUI(uiName); break;
                 case UIName.GachaResultUI: ConnectGachaResultUI(uiName); break;
                 //@ PermanentGrowth UI
                 case UIName.PermanentGrowthUI: ConnectPermanentGrowthUI(uiName); break;
@@ -327,6 +329,9 @@ namespace SDW
         {
             var gachaMainUI = _uiDic[uiName] as GachaMainUI;
             var mainLobbyUI = _uiDic[UIName.MainLobbyUI] as MainLobbyUI;
+            var gachaConfirmUI = _uiDic[UIName.GachaConfirmUI] as GachaConfirmUI;
+
+            gachaMainUI.OnGachaButtonClicked += gachaConfirmUI.SetDescriptionText;
 
             gachaMainUI.OnUIOpenRequested += OpenPanel;
             gachaMainUI.OnUICloseRequested += (uiName) =>
@@ -334,6 +339,22 @@ namespace SDW
                 mainLobbyUI.ResetMainText();
                 ClosePanel(uiName);
             };
+        }
+
+        private void ConnectGachaConfirmUI(UIName uiName)
+        {
+            var gachaConfirmUI = _uiDic[uiName] as GachaConfirmUI;
+
+            gachaConfirmUI.OnUIOpenRequested += OpenPanel;
+            gachaConfirmUI.OnUICloseRequested += ClosePanel;
+        }
+
+        private void ConnectNotEnoughUI(UIName uiName)
+        {
+            var gachaNoEnoughUI = _uiDic[uiName] as GachaNotEnoughUI;
+
+            gachaNoEnoughUI.OnUIOpenRequested += OpenPanel;
+            gachaNoEnoughUI.OnUICloseRequested += ClosePanel;
         }
 
         /// <summary>
