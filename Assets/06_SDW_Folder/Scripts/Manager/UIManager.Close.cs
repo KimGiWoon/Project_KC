@@ -91,6 +91,8 @@ namespace SDW
                 //@ Stage Select UI
                 case UIName.StageSelectUI: DisconnectStageSelectUI(uiName); break;
                 case UIName.MainLobbyBottomUI: DisconnectMainLobbyBottomUI(uiName); break;
+                //@ Story Collection UI
+                case UIName.StoryCollectionUI: DisconnectStoryCollectionUI(uiName); break;
             }
         }
 
@@ -491,6 +493,13 @@ namespace SDW
             };
 
             bottomUI.OnUICloseRequested -= ClosePanel;
+        }
+
+        private void DisconnectStoryCollectionUI(UIName uiName)
+        {
+            var storyCollectionUI = _uiDic[uiName] as StoryCollectionUI;
+
+            storyCollectionUI.OnUICloseRequested -= ClosePanel;
         }
 
         #endregion
