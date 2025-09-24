@@ -4,6 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using SDW;
+using System;
 
 namespace JJY
 {
@@ -84,7 +85,6 @@ namespace JJY
         private CharacterDataSO selectedCharacterData;
         private bool _isLoaded;
         public bool IsLoaded => _isLoaded;
-        
 
         #region 초기화 작업
         private void Start()
@@ -243,7 +243,11 @@ namespace JJY
             _characterLevelInfoPanel.gameObject.SetActive(true);
             characterStatInfoButton.interactable = true;
 
-            if (GameManager.Instance.CharacterData.CharEnNameLevel[data._chaBaseData.ChaEnName] >= 30) return;
+            // if (GameManager.Instance.CharacterData.CharEnNameLevel[data._chaBaseData.ChaEnName] >= 30)
+            // {
+            //     levelUpButton.interactable = false;
+            //     return;
+            // }
             levelUpButton.interactable = true;
         }
 
@@ -361,6 +365,7 @@ namespace JJY
             int gainedExp = perItemExp * selectedItemUseCount;
 
             if (!addedExpText.gameObject.activeSelf) addedExpText.gameObject.SetActive(true);
+
             addedExpText.text = $"+{gainedExp}";
 
             var chaKey = selectedCharacterData._chaBaseData;
@@ -376,8 +381,6 @@ namespace JJY
             previewLevel = curLevel;
             remainingExp = gainedExp;
             int levelUpCount = 0;
-
-            if (previewLevel >= 30) return;
 
             while (remainingExp > 0)
             {
@@ -411,7 +414,16 @@ namespace JJY
             }
             expBar.fillAmount = Mathf.Clamp01(previewFill);
 
-            if (!addedLevelText.gameObject.activeSelf) addedLevelText.gameObject.SetActive(true);
+            if (addedExpText.gameObject.activeSelf && previewLevel > 30) addedExpText.gameObject.SetActive(false);
+            if (!addedLevelText.gameObject.activeSelf &&
+            GameManager.Instance.CharacterData.CharEnNameExp[selectedCharacterData._chaBaseData.ChaEnName] + gainedExp <
+            GameManager.Instance.CharacterData.ChaLevelUpStatData[GameManager.Instance.CharacterData.CharEnNameLevel[selectedCharacterData._chaBaseData.ChaEnName]].ChaLevelPoint
+            )
+            {
+                addedLevelText.gameObject.SetActive(true);
+            }
+            else addedLevelText.gameObject.SetActive(false);
+
             addedLevelText.text = levelUpCount > 0 ? $"+{levelUpCount}" : "";
         }
 
@@ -419,14 +431,12 @@ namespace JJY
         {
             if (selectedItem == null || selectedItemUseCount <= 0) return;
 
-            // if (backBtn.interactable) backBtn.interactable = false;
-            // useItemPanel.SetActive(false);
-            useItemBtn.gameObject.SetActive(false);
-            itemBarSlider.gameObject.SetActive(false);
-
-            _coin.SubtractRecipeItem(selectedItem, selectedItemUseCount);
+            if (previewLevel > 30) previewLevel = 30;
             int level = previewLevel;
             int exp = previewExp;
+
+            useItemBtn.gameObject.SetActive(false);
+            itemBarSlider.gameObject.SetActive(false);
 
             int gainedExp;
             if (selectedItem == _coin.beek) gainedExp = itemExpTable[_coin.beek] * selectedItemUseCount;
@@ -434,7 +444,14 @@ namespace JJY
             else if (selectedItem == _coin.masterChef) gainedExp = itemExpTable[_coin.masterChef] * selectedItemUseCount;
             else gainedExp = 0;
 
-            if (gainedExp <= 0) return;
+            if (gainedExp <= 0 ||
+            GameManager.Instance.CharacterData.CharEnNameLevel[selectedCharacterData._chaBaseData.ChaEnName] == 30 &&
+            GameManager.Instance.CharacterData.CharEnNameExp[selectedCharacterData._chaBaseData.ChaEnName] + gainedExp >
+            GameManager.Instance.CharacterData.ChaLevelUpStatData[GameManager.Instance.CharacterData.CharEnNameLevel[selectedCharacterData._chaBaseData.ChaEnName]].ChaLevelPoint)
+                return;
+
+            _coin.SubtractRecipeItem(selectedItem, selectedItemUseCount);
+
             StartCoroutine(AddExpRoutine(gainedExp));
 
             addedExpText.gameObject.SetActive(false);
@@ -442,6 +459,7 @@ namespace JJY
 
             GameManager.Instance.CharacterData.SetCharLevel(selectedCharacterData._chaBaseData.ChaEnName, level);
             GameManager.Instance.CharacterData.SetCharExp(selectedCharacterData._chaBaseData.ChaEnName, exp);
+            Debug.Log($"{GameManager.Instance.CharacterData.CharEnNameExp[selectedCharacterData._chaBaseData.ChaEnName]}");
             previewExp = 0;
         }
 
@@ -475,6 +493,7 @@ namespace JJY
                     curLevel++;
                 }
 
+                if (curLevel > 30) yield break;
                 var newLevelData = GameManager.Instance.CharacterData.ChaLevelUpStatData[curLevel];
 
                 expBar.fillAmount = (float)curExp / newLevelData.ChaLevelPoint;
