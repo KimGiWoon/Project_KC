@@ -98,6 +98,7 @@ namespace SDW
                 case UIName.NoticePaidConfirmUI: DisconnectNoticePaidConfirmUI(uiName); break;
                 case UIName.NoticePaidCompleteUI: DisconnectNoticePaidCompleteUI(uiName); break;
                 case UIName.NoticeNotPaidUI: DisconnectNoticeNotPaidUI(uiName); break;
+                case UIName.SugarStarExchangeUI: DisconnectSugarStarExchangeUI(uiName); break;
             }
         }
 
@@ -217,7 +218,6 @@ namespace SDW
             var globalSettingUI = _uiDic[UIName.GlobalSettingUI] as GlobalSettingUI;
 
             mainLobbyUI.OnUIOpenRequested -= OpenPanel;
-            mainLobbyUI.OnUICloseRequested -= ClosePanel;
             mainLobbyUI.OnIconRequested -= (index) =>
             {
                 var sprite = changeIconUI.GetIcon(index);
@@ -225,7 +225,7 @@ namespace SDW
                 userInfoUI.SetIcon(sprite);
             };
 
-            globalSettingUI.OnUICloseRequested += (uiName) => { mainLobbyUI.ResetMainText(); };
+            globalSettingUI.OnUICloseRequested -= (uiName) => { mainLobbyUI.ResetMainText(); };
 
             if (_firebase != null)
                 _firebase.OnSendUserInfo -= mainLobbyUI.UpdateUserInfo;
@@ -263,7 +263,11 @@ namespace SDW
 
             deleteAccountUI.OnDeleteAcceptButtonClicked -= _firebase.DeleteAccount;
             deleteAccountUI.OnDeleteAcceptButtonClicked -= globalSettingUI.DeactiveDeleteButton;
-            deleteAccountUI.OnCloseButtonClicked -= ClosePanel;
+            deleteAccountUI.OnCloseButtonClicked -= (firstUI, secondUI) =>
+            {
+                ClosePanel(firstUI);
+                ClosePanel(secondUI);
+            };
         }
 
         /// <summary>
@@ -332,9 +336,13 @@ namespace SDW
             var mainLobbyUI = _uiDic[UIName.MainLobbyUI] as MainLobbyUI;
             var gachaConfirmUI = _uiDic[UIName.GachaConfirmUI] as GachaConfirmUI;
 
-            gachaMainUI.OnGachaButtonClicked += gachaConfirmUI.SetDescriptionText;
-
-            gachaMainUI.OnUIOpenRequested -= OpenPanel;
+            gachaMainUI.OnGachaButtonClicked -= gachaConfirmUI.SetDescriptionText;
+            gachaMainUI.OnUIOpenRequested -= (uiName) =>
+            {
+                if (uiName == UIName.PaidStoreUI) mainLobbyUI.SetMainText("유료상점");
+                else if (uiName == UIName.SugarStarExchangeUI) mainLobbyUI.SetMainText("별사탕 교환");
+                OpenPanel(uiName);
+            };
             gachaMainUI.OnUICloseRequested -= (uiName) =>
             {
                 mainLobbyUI.ResetMainText();
@@ -358,9 +366,19 @@ namespace SDW
         private void DisconnectNotEnoughUI(UIName uiName)
         {
             var gachaNoEnoughUI = _uiDic[uiName] as GachaNotEnoughUI;
+            var mainLobbyUI = _uiDic[UIName.MainLobbyUI] as MainLobbyUI;
 
-            gachaNoEnoughUI.OnUIOpenRequested -= OpenPanel;
-            gachaNoEnoughUI.OnUICloseRequested -= ClosePanel;
+            gachaNoEnoughUI.OnUIOpenRequested -= (uiName) =>
+            {
+                if (uiName == UIName.PaidStoreUI) mainLobbyUI.SetMainText("유료상점");
+                else if (uiName == UIName.SugarStarExchangeUI) mainLobbyUI.SetMainText("별사탕 교환");
+                OpenPanel(uiName);
+            };
+            gachaNoEnoughUI.OnUICloseRequested -= (firstUI, secondUI) =>
+            {
+                ClosePanel(firstUI);
+                if (secondUI != UIName.None) ClosePanel(secondUI);
+            };
         }
 
         /// <summary>
@@ -528,22 +546,29 @@ namespace SDW
         {
             var noticePaidConfirmUI = _uiDic[uiName] as NoticePaidConfirmUI;
 
-            noticePaidConfirmUI.OnUIOpenRequested += OpenPanel;
-            noticePaidConfirmUI.OnUICloseRequested += ClosePanel;
+            noticePaidConfirmUI.OnUIOpenRequested -= OpenPanel;
+            noticePaidConfirmUI.OnUICloseRequested -= ClosePanel;
         }
 
         private void DisconnectNoticePaidCompleteUI(UIName uiName)
         {
             var noticePaidCompleteUI = _uiDic[uiName] as NoticePaidCompleteUI;
 
-            noticePaidCompleteUI.OnUICloseRequested += ClosePanel;
+            noticePaidCompleteUI.OnUICloseRequested -= ClosePanel;
         }
 
         private void DisconnectNoticeNotPaidUI(UIName uiName)
         {
             var noticeNotPaidUI = _uiDic[uiName] as NoticeNotPaidUI;
 
-            noticeNotPaidUI.OnUICloseRequested += ClosePanel;
+            noticeNotPaidUI.OnUICloseRequested -= ClosePanel;
+        }
+
+        private void DisconnectSugarStarExchangeUI(UIName uiName)
+        {
+            var _sugarStarExchangeUI = _uiDic[uiName] as SugarStarExchangeUI;
+
+            _sugarStarExchangeUI.OnUICloseRequested -= ClosePanel;
         }
 
         #endregion
@@ -755,7 +780,7 @@ namespace SDW
         private void DisconnectRoguelikeClosingUI(UIName uiName)
         {
             var roguelikeClosingUI = _uiDic[uiName] as RoguelikeClosingUI;
-            roguelikeClosingUI.OnUICloseRequested += ClosePanel;
+            roguelikeClosingUI.OnUICloseRequested -= ClosePanel;
         }
 
         #endregion

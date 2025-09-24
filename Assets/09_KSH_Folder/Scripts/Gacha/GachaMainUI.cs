@@ -12,9 +12,9 @@ namespace KSH
     {
         [Header("Top Components")]
         [SerializeField] private TextMeshProUGUI _shiningStarValueText;
-        [SerializeField] private Button _shiningStartButton;
+        [SerializeField] private Button _shiningStarButton;
         [SerializeField] private TextMeshProUGUI _sugarStarValueText;
-        [SerializeField] private Button _sugarStartButton;
+        [SerializeField] private Button _sugarStarButton;
 
         [Header("Bottom Components")]
         [SerializeField] private Button _possibilityButton;
@@ -26,7 +26,7 @@ namespace KSH
         [SerializeField] private TweenAnimation _tweenAnimation;
 
         [Header("Panel")]
-        [SerializeField] private GameObject _topGamePanel;
+        [SerializeField] private RectTransform _topGamePanelRectTransform;
         [SerializeField] private GameObject _possibilityPanel;
         [SerializeField] private GameObject _gachaConfirmPanel;
         [SerializeField] private GameObject _gachaNotEnoughPanel;
@@ -53,6 +53,8 @@ namespace KSH
 
         private void OnEnable()
         {
+            _shiningStarButton.onClick.AddListener(ShiningStarButtonClicked);
+            _sugarStarButton.onClick.AddListener(SugarStarButtonClicked);
             _possibilityButton.onClick.AddListener(PossibilityButtonClicked);
             _possibilityBackButton.onClick.AddListener(PossibilityBackButtonClicked);
             singleButton.onClick.AddListener(SingleButtonClicked);
@@ -69,6 +71,8 @@ namespace KSH
                 _gameManager.Coin.OnShiningStarCandyChanged -= ShiningCandyUpdate;
             }
 
+            _shiningStarButton.onClick.RemoveListener(ShiningStarButtonClicked);
+            _sugarStarButton.onClick.RemoveListener(SugarStarButtonClicked);
             _possibilityButton.onClick.RemoveListener(PossibilityButtonClicked);
             _possibilityBackButton.onClick.RemoveListener(PossibilityBackButtonClicked);
             singleButton.onClick.RemoveListener(SingleButtonClicked);
@@ -88,7 +92,8 @@ namespace KSH
                 var touchPos = Input.GetTouch(0).position;
 
                 //# 패널 안에 터치가 있는지 확인
-                if (!RectTransformUtility.RectangleContainsScreenPoint(_rectTransform, touchPos))
+                if (!RectTransformUtility.RectangleContainsScreenPoint(_rectTransform, touchPos) ||
+                    !RectTransformUtility.RectangleContainsScreenPoint(_topGamePanelRectTransform, touchPos))
                 {
                     if (_possibilityPanel.activeSelf) return;
                     if (_gachaConfirmPanel.activeSelf) return;
@@ -141,6 +146,20 @@ namespace KSH
         private void ShiningCandyUpdate(int value)
         {
             _shiningStarValueText.text = value.ToString();
+        }
+
+        private void ShiningStarButtonClicked()
+        {
+            OnUICloseRequested?.Invoke(UIName.GachaNotEnoughUI);
+            OnUICloseRequested?.Invoke(UIName.GachaMainUI);
+            OnUIOpenRequested?.Invoke(UIName.PaidStoreUI);
+        }
+
+        private void SugarStarButtonClicked()
+        {
+            OnUICloseRequested?.Invoke(UIName.GachaNotEnoughUI);
+            OnUICloseRequested?.Invoke(UIName.GachaMainUI);
+            OnUIOpenRequested?.Invoke(UIName.SugarStarExchangeUI);
         }
 
         private void PossibilityButtonClicked()

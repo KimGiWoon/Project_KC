@@ -11,6 +11,7 @@ namespace SDW
     {
         [Header("UI Components")]
         [SerializeField] private Button _okButton;
+        [SerializeField] private TweenAlpha_Image _backgroundPanel;
 
         public Action<UIName> OnUICloseRequested;
 
@@ -27,6 +28,24 @@ namespace SDW
         private void OnDisable()
         {
             _okButton.onClick.AddListener(OkButtonClicked);
+        }
+
+        public override void Open()
+        {
+            _backgroundPanel.gameObject.SetActive(true);
+            base.Open();
+        }
+
+        public override void Close()
+        {
+            _backgroundPanel.FadeOut();
+            StartCoroutine(DelayedClose());
+        }
+
+        private IEnumerator DelayedClose()
+        {
+            yield return new WaitForSeconds(_backgroundPanel.TweenTime);
+            base.Close();
         }
 
         private void OkButtonClicked()

@@ -20,6 +20,7 @@ namespace SDW
         [SerializeField] private GameObject _noticeNotPaid;
 
         private RectTransform _rectTransform;
+        private bool _isProgress;
 
         [Header("Animations")]
         [SerializeField] private TweenAnimation _tweenAnimation;

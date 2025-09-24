@@ -73,6 +73,7 @@
         PaidStoreUI,
         NoticePaidConfirmUI,
         NoticePaidCompleteUI,
-        NoticeNotPaidUI
+        NoticeNotPaidUI,
+        SugarStarExchangeUI
     }
 }
