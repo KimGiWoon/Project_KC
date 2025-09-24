@@ -112,6 +112,7 @@ namespace SDW
                 //# 보유 시 추가
                 if (Convert.ToBoolean(character["owned"]))
                 {
+                    _allOwnedCharacters.Add(_characterIdData[int.Parse(key)]);
                     GameManager.Instance.Reward.AddFirstCharacter(
                         _characterIdData[int.Parse(key)],
                         Convert.ToInt32(character["count"])

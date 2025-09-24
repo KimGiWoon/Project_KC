@@ -94,6 +94,11 @@ namespace SDW
                 case UIName.MainLobbyBottomUI: ConnectMainLobbyBottomUI(uiName); break;
                 //@ Story Collection UI
                 case UIName.StoryCollectionUI: ConnectStoryCollectionUI(uiName); break;
+                //@ Money UI
+                case UIName.PaidStoreUI: ConnectPaidStoreUI(uiName); break;
+                case UIName.NoticePaidConfirmUI: ConnectNoticePaidConfirmUI(uiName); break;
+                case UIName.NoticePaidCompleteUI: ConnectNoticePaidCompleteUI(uiName); break;
+                case UIName.NoticeNotPaidUI: ConnectNoticeNotPaidUI(uiName); break;
             }
         }
 
@@ -511,6 +516,45 @@ namespace SDW
             storyCollectionUI.OnUICloseRequested += ClosePanel;
         }
 
+        private void ConnectPaidStoreUI(UIName uiName)
+        {
+            var paidStoreUI = _uiDic[uiName] as PaidStoreUI;
+            var noticePaidConfirmUI = _uiDic[UIName.NoticePaidConfirmUI] as NoticePaidConfirmUI;
+            var noticePaidCompleteUI = _uiDic[UIName.NoticePaidCompleteUI] as NoticePaidCompleteUI;
+            var mainLobbyUI = _uiDic[UIName.MainLobbyUI] as MainLobbyUI;
+
+            paidStoreUI.OnUIOpenRequested += OpenPanel;
+            paidStoreUI.OnUICloseRequested += (uiName) =>
+            {
+                mainLobbyUI.ResetMainText();
+                ClosePanel(uiName);
+            };
+            paidStoreUI.OnItemSelected += noticePaidConfirmUI.SetItemInfo;
+            paidStoreUI.OnItemSelected += noticePaidCompleteUI.SetItemInfo;
+        }
+
+        private void ConnectNoticePaidConfirmUI(UIName uiName)
+        {
+            var noticePaidConfirmUI = _uiDic[uiName] as NoticePaidConfirmUI;
+
+            noticePaidConfirmUI.OnUIOpenRequested += OpenPanel;
+            noticePaidConfirmUI.OnUICloseRequested += ClosePanel;
+        }
+
+        private void ConnectNoticePaidCompleteUI(UIName uiName)
+        {
+            var noticePaidCompleteUI = _uiDic[uiName] as NoticePaidCompleteUI;
+
+            noticePaidCompleteUI.OnUICloseRequested += ClosePanel;
+        }
+
+        private void ConnectNoticeNotPaidUI(UIName uiName)
+        {
+            var noticeNotPaidUI = _uiDic[uiName] as NoticeNotPaidUI;
+
+            noticeNotPaidUI.OnUICloseRequested += ClosePanel;
+        }
+
         #endregion
 
         #region Stage UI Connect Methods
@@ -678,6 +722,7 @@ namespace SDW
         private void ConnectNonRemoveADUI(UIName uiName)
         {
             var nonRemoveADUI = _uiDic[uiName] as NonRemoveADUI;
+
             nonRemoveADUI.OnUIOpenRequested += OpenPanel;
             nonRemoveADUI.OnUICloseRequested += ClosePanel;
         }

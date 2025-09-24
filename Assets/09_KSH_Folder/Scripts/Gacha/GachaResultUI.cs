@@ -56,6 +56,8 @@ namespace KSH
 
         private void BackButtonClicked()
         {
+            _backButton.interactable = false;
+            _backButton.gameObject.SetActive(false);
             OnUIOpenRequested?.Invoke(UIName.GachaMainUI);
             OnUICloseRequested?.Invoke(UIName.GachaResultUI);
         }
@@ -63,6 +65,8 @@ namespace KSH
         public override void Open()
         {
             base.Open();
+            _backButton.interactable = true;
+            _backButton.gameObject.SetActive(true);
 
             var gachaResult = _gacha.GetGacha();
 
