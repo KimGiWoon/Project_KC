@@ -1,9 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Net;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -46,19 +44,16 @@ namespace SDW
 
         private List<float> _originalVolumeList = new List<float>();
         private List<bool> _originalMuteList = new List<bool>();
+        private static bool _isInitialized;
 
-        private void Awake()
+        protected override void Start()
         {
+            if (_isInitialized || GameManager.Instance.UI.UiDic.ContainsKey(UIName.GlobalSettingUI)) return;
+
             _panelContainer.SetActive(false);
             _backgroundPanel = _backgroundPanelObject.GetComponent<TweenAlpha_Image>();
             _backgroundPanelObject.SetActive(false);
             _rectTransform = _panelContainer.GetComponent<RectTransform>();
-        }
-
-        protected override void Start()
-        {
-            if (GameManager.Instance.UI.UiDic.ContainsKey(UIName.GlobalSettingUI)) return;
-
             _gameManager = GameManager.Instance;
             base.Start();
             StartCoroutine(LoadCoroutine());
@@ -77,6 +72,7 @@ namespace SDW
             _audio = GameManager.Instance.Audio;
             InitializeSettings();
             CheckSceneName();
+            _isInitialized = true;
         }
 
         private void OnDisable()

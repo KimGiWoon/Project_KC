@@ -129,7 +129,7 @@ namespace SDW
                 yield return new WaitForSeconds(0.1f);
                 GameManager.Instance.SetCompleteDownload(true);
                 GameManagerEvents.RaiseDownloadCompleted();
-                yield return new WaitForSeconds(0.9f);
+                yield return new WaitForSeconds(1.5f);
                 //# 다운로드 완료 시 다음 UI로
                 // OnUIOpenRequested?.Invoke(UIName.SignInUI);
                 // yield return null;
@@ -184,7 +184,11 @@ namespace SDW
         /// 다운로드 버튼 클릭 이벤트 핸들러 메서드
         /// 다운로드 요청을 처리하고 파일 패치 코루틴을 시작
         /// </summary>
-        private void DownloadButtonClicked() => StartCoroutine(PatchFiles());
+        private void DownloadButtonClicked()
+        {
+            _downloadButton.interactable = false;
+            StartCoroutine(PatchFiles());
+        }
 
         /// <summary>
         /// 지정된 레이블에 대한 파일 다운로드 및 패치 프로세스를 관리하는 메서드
@@ -257,7 +261,7 @@ namespace SDW
             yield return new WaitForSeconds(0.1f);
             GameManager.Instance.SetCompleteDownload(true);
             GameManagerEvents.RaiseDownloadCompleted();
-            yield return new WaitForSeconds(0.9f);
+            yield return new WaitForSeconds(1.5f);
             OnUICloseRequested?.Invoke(UIName.DownloadUI);
         }
 

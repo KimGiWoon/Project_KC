@@ -415,12 +415,22 @@ namespace SDW
                 }
 
                 var result = task.Result;
+                StartCoroutine(WaitForConnect(user, result));
 
                 _ui.ClosePanel(UIName.SignInUI);
-
-                if (result.Exists) LoadUserData(result);
-                else SaveUserData(user);
             });
+        }
+
+        private IEnumerator WaitForConnect(FirebaseUser user, DataSnapshot result)
+        {
+            while (true)
+            {
+                yield return null;
+                if (GameManager.Instance.CharacterData.IsInitialized) break;
+            }
+
+            if (result.Exists) LoadUserData(result);
+            else SaveUserData(user);
         }
 
         /// <summary>
