@@ -197,6 +197,7 @@ namespace SDW
 
             //# Audio & Video
             _audio = GetComponentInChildren<AudioManager>();
+            _audioPool = GetComponentInChildren<AudioSourcePool>();
             _video = GetComponentInChildren<VideoManager>();
         }
 

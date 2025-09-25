@@ -18,11 +18,12 @@ namespace CJH
         public List<RelicDatas> allRelicsDatabase;
 
         public EncounterTable CurrentEncounterData { get; private set; }
+
         // 전투 보상 정보를 저장할 프로퍼티
         public bool IsCombatRewardYeopjeon { get; private set; }
         public int CombatRewardAmount { get; private set; }
 
-        void Awake()
+        private void Awake()
         {
             allRelicsDatabase = Resources.LoadAll<RelicDatas>("Relics").ToList();
         }
@@ -57,22 +58,22 @@ namespace CJH
 
             // 현재 스테이지에 맞는 이벤트만 필터링합니다.
             var availableEncounters = allEncountersInGroup
-                  .Where(encounter => encounter.EncounterStage == 0 || encounter.EncounterStage == currentStage)
-                  .ToList();
-
+                .Where(encounter => encounter.EncounterStage == 0 || encounter.EncounterStage == currentStage)
+                .ToList();
 
 
             // 리스트에서 랜덤하게 하나의 이벤트를 선택합니다.
             int randomIndex = Random.Range(0, availableEncounters.Count);
-            var encounterData = availableEncounters[randomIndex];
 
-            this.CurrentEncounterData = encounterData;
+            if (availableEncounters.Count == 0) return;
+
+            var encounterData = availableEncounters[randomIndex];
 
             if (encounterData.EncounterID != 0) // 유효한 데이터인지 확인
             {
+                CurrentEncounterData = encounterData;
                 if (_stageGlobalCanvas != null)
                 {
-
                     currentEventInstance = Instantiate(_eventPrefab, _stageGlobalCanvas.transform);
                     Debug.Log($"[EventManager] 새 이벤트 인스턴스를 생성했습니다. ID: {currentEventInstance.GetInstanceID()}");
                     var eventStart = currentEventInstance.GetComponentInChildren<EventStart>();
@@ -101,7 +102,7 @@ namespace CJH
 
             if (encounterData.EncounterID != 0)
             {
-                this.CurrentEncounterData = encounterData; // 현재 데이터 저장
+                CurrentEncounterData = encounterData; // 현재 데이터 저장
 
                 if (_stageGlobalCanvas != null)
                 {
@@ -125,6 +126,5 @@ namespace CJH
             Destroy(currentEventInstance);
             currentEventInstance = null;
         }
-
     }
 }
