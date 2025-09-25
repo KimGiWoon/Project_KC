@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using SDW;
 using UnityEngine;
 
 public class BrutalSlashController : MonoBehaviour
@@ -29,6 +30,9 @@ public class BrutalSlashController : MonoBehaviour
     public void AllCharacterSavageSlash()
     {
         if (!_character._isAlive) return;
+
+        // 난폭한 베기 사운드 플레이
+        GameManager.Instance.Audio.Play2DSFX(AudioClipName.BladeMonkeySkill_1);
 
         // 데미지 코루틴 시작
         _attackRoutine = StartCoroutine(CharacterAttackCoroutine(_character));

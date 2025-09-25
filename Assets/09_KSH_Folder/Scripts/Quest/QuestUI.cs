@@ -13,27 +13,20 @@ public class QuestUI : MonoBehaviour
 
     [Header("체크 이미지")]
     [SerializeField] private Image _checkImage;
+    
+    [SerializeField] private TextMeshProUGUI countText;
 
     [HideInInspector] public DailyQuest dailyQuest;
-
-    private void Awake()
-    {
-    }
 
     private void OnEnable()
     {
         if (GameManager.Instance.Time != null)
             GameManager.Instance.Time.OnDailyReset += InitUI;
-
-        if (GameManager.Instance.DailyQuest != null)
-            GameManager.Instance.DailyQuest.OnQuestComplete += CheckUI;
     }
 
     private void OnDisable()
     {
         GameManager.Instance.Time.OnDailyReset -= InitUI;
-
-        GameManager.Instance.DailyQuest.OnQuestComplete -= CheckUI;
     }
 
     public void InitUI()
@@ -44,12 +37,22 @@ public class QuestUI : MonoBehaviour
 
         if (nameText != null)
             nameText.text = dailyQuest.questName;
-        _checkImage.gameObject.SetActive(dailyQuest.isComplete);
+        
+        if(_checkImage != null)
+            _checkImage.gameObject.SetActive(dailyQuest.isComplete);
+      
+        UpdateCountText(dailyQuest);
     }
 
     public void CheckUI()
     {
         if (_checkImage.gameObject != null && dailyQuest != null)
             _checkImage.gameObject.SetActive(dailyQuest.isComplete);
+    }
+
+    public void UpdateCountText(DailyQuest dailyQuest)
+    {
+        if (countText == null) return;
+        countText.text = $"{dailyQuest.currentProgress}/{dailyQuest.questGoal}";
     }
 }

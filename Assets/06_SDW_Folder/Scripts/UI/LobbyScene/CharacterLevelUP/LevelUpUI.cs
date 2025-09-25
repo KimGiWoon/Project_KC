@@ -23,16 +23,16 @@ namespace SDW
         [SerializeField] private Slider _gaugeSlider;
         [SerializeField] private TextMeshProUGUI _selectedBookCountText;
 
-        [SerializeField] private Sprite _beekRecipeSelectedSprite;
-        [SerializeField] private Sprite _fineDiningRecipeSelectedSprite;
-        [SerializeField] private Sprite _masterChefRecipeSelectedSprite;
-
-        private Image _beekRecipeImage;
-        private Image _fineDiningRecipeImage;
-        private Image _masterChefRecipeImage;
-        private Sprite _beekRecipeUnselectedSprite;
-        private Sprite _fineDiningRecipeUnselectedSprite;
-        private Sprite _masterChefRecipeUnselectedSprite;
+        // [SerializeField] private Sprite _beekRecipeSelectedSprite;
+        // [SerializeField] private Sprite _fineDiningRecipeSelectedSprite;
+        // [SerializeField] private Sprite _masterChefRecipeSelectedSprite;
+        //
+        // private Image _beekRecipeImage;
+        // private Image _fineDiningRecipeImage;
+        // private Image _masterChefRecipeImage;
+        // private Sprite _beekRecipeUnselectedSprite;
+        // private Sprite _fineDiningRecipeUnselectedSprite;
+        // private Sprite _masterChefRecipeUnselectedSprite;
 
         [Header("Bottom Container")]
         [SerializeField] private Button _levelUpButton;
@@ -53,14 +53,14 @@ namespace SDW
             _gaugeSlider.gameObject.SetActive(false);
             _levelUpButton.gameObject.SetActive(false);
 
-            _beekRecipeImage = _beekRecipeBook.GetComponent<Image>();
-            _beekRecipeUnselectedSprite = _beekRecipeImage.sprite;
-
-            _fineDiningRecipeImage = _fineDiningRecipeBook.GetComponent<Image>();
-            _fineDiningRecipeUnselectedSprite = _fineDiningRecipeImage.sprite;
-
-            _masterChefRecipeImage = _masterChefRecipeBook.GetComponent<Image>();
-            _masterChefRecipeUnselectedSprite = _masterChefRecipeImage.sprite;
+            // _beekRecipeImage = _beekRecipeBook.GetComponent<Image>();
+            // _beekRecipeUnselectedSprite = _beekRecipeImage.sprite;
+            //
+            // _fineDiningRecipeImage = _fineDiningRecipeBook.GetComponent<Image>();
+            // _fineDiningRecipeUnselectedSprite = _fineDiningRecipeImage.sprite;
+            //
+            // _masterChefRecipeImage = _masterChefRecipeBook.GetComponent<Image>();
+            // _masterChefRecipeUnselectedSprite = _masterChefRecipeImage.sprite;
         }
 
         protected override void Start()
@@ -140,23 +140,23 @@ namespace SDW
 
             if (recipe.Equals(_coin.beek))
             {
-                _beekRecipeImage.sprite = _beekRecipeSelectedSprite;
-                _fineDiningRecipeImage.sprite = _fineDiningRecipeUnselectedSprite;
-                _masterChefRecipeImage.sprite = _masterChefRecipeUnselectedSprite;
+                // _beekRecipeImage.sprite = _beekRecipeSelectedSprite;
+                // _fineDiningRecipeImage.sprite = _fineDiningRecipeUnselectedSprite;
+                // _masterChefRecipeImage.sprite = _masterChefRecipeUnselectedSprite;
                 _maxCount = _coin.Items[_coin.beek];
             }
             else if (recipe.Equals(_coin.fineDining))
             {
-                _beekRecipeImage.sprite = _beekRecipeUnselectedSprite;
-                _fineDiningRecipeImage.sprite = _fineDiningRecipeSelectedSprite;
-                _masterChefRecipeImage.sprite = _masterChefRecipeUnselectedSprite;
+                // _beekRecipeImage.sprite = _beekRecipeUnselectedSprite;
+                // _fineDiningRecipeImage.sprite = _fineDiningRecipeSelectedSprite;
+                // _masterChefRecipeImage.sprite = _masterChefRecipeUnselectedSprite;
                 _maxCount = _coin.Items[_coin.fineDining];
             }
             else if (recipe.Equals(_coin.masterChef))
             {
-                _beekRecipeImage.sprite = _beekRecipeUnselectedSprite;
-                _fineDiningRecipeImage.sprite = _fineDiningRecipeUnselectedSprite;
-                _masterChefRecipeImage.sprite = _masterChefRecipeSelectedSprite;
+                // _beekRecipeImage.sprite = _beekRecipeUnselectedSprite;
+                // _fineDiningRecipeImage.sprite = _fineDiningRecipeUnselectedSprite;
+                // _masterChefRecipeImage.sprite = _masterChefRecipeSelectedSprite;
                 _maxCount = _coin.Items[_coin.masterChef];
             }
             SetSliderMinMaxValue();

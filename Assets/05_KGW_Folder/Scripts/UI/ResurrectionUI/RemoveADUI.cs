@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using KSH;
 using UnityEngine;
 using SDW;
 using UnityEngine.UI;
@@ -76,6 +77,8 @@ public class RemoveADUI : BaseUI
         _battleManager.CharacterSpawn();
 
         _battleManager._battleUI.StartTimeCoroutine();
+        
+        GameManager.Instance.DailyQuest.CompleteQuest(QuestType.Revive, 1); //퀘스트 부활 1회
     }
 
     // 노 버튼 클릭

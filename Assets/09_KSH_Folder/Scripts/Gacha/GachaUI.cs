@@ -14,22 +14,23 @@ namespace KSH
         [SerializeField] private GameObject starCandy;
         [SerializeField] private TextMeshProUGUI starCandyText;
         [SerializeField] private GameObject bead;
-        [SerializeField] private TextMeshProUGUI beadText;
+        [SerializeField] private Image RareImage;
+        [SerializeField] private Image NormalImage;
         private RewardChangeManager manager;
         private CharacterDataManager _data;
 
         private bool isSet = false;
 
-        private void OnEnable()
-        {
-            manager = GameManager.Instance.Reward;
-            _data = GameManager.Instance.CharacterData;
-            if (manager != null)
-            {
-                manager.OnStarCandyGained += SetStarCandy;
-                manager.OnBeadGained += SetBead;
-            }
-        }
+        // private void OnEnable()
+        // {
+        //     manager = GameManager.Instance.Reward;
+        //     _data = GameManager.Instance.CharacterData;
+        //     if (manager != null)
+        //     {
+        //         manager.OnStarCandyGained += SetStarCandy;
+        //         manager.OnBeadGained += SetBead;
+        //     }
+        // }
 
         private void OnDisable()
         {
@@ -43,10 +44,23 @@ namespace KSH
             int starCandy,
             int bead,
             int currentBead,
-            bool isFirstCharacter
+            bool isFirstCharacter,
+            PullType pullType
         )
         {
-            characterImage.sprite = data.GachaBackground;
+            manager = GameManager.Instance.Reward;
+            _data = GameManager.Instance.CharacterData;
+            if (manager != null)
+            {
+                manager.OnStarCandyGained += SetStarCandy;
+                manager.OnBeadGained += SetBead;
+            }
+
+            if (pullType == PullType.One)
+                characterImage.sprite = data.GachaBackground;
+            else if (pullType == PullType.Ten)
+                characterImage.sprite = data.GachaBackgroundTen;
+
             characterName.text = data._chaBaseData.ChaName;
             characterName.color = GetRarityColor(data._chaBaseData.ChaGrade);
 
@@ -70,17 +84,21 @@ namespace KSH
             // }
         }
 
-        private Color GetRarityColor(CharacterGrade rarity)
+        public Color GetRarityColor(CharacterGrade rarity)
         {
             switch (rarity)
             {
                 case CharacterGrade.Normal:
                     Color commonColor;
                     ColorUtility.TryParseHtmlString("#C4F1FF", out commonColor);
+                    NormalImage.gameObject.SetActive(true);
+                    RareImage.gameObject.SetActive(false);
                     return commonColor;
                 case CharacterGrade.Rare:
                     Color rareColor;
                     ColorUtility.TryParseHtmlString("#FFF6C6", out rareColor);
+                    RareImage.gameObject.SetActive(true);
+                    NormalImage.gameObject.SetActive(false);
                     return rareColor;
                 default:
                     return Color.white;
@@ -91,7 +109,9 @@ namespace KSH
         {
             if (isSet) return;
             starCandy.gameObject.SetActive(true);
-            starCandyText.text = amount.ToString();
+            starCandyText.gameObject.SetActive(true);
+            bead.gameObject.SetActive(false);
+            starCandyText.text = $"+ {amount.ToString()}";
             Debug.Log("별사탕 획득!");
         }
 
@@ -99,7 +119,8 @@ namespace KSH
         {
             if (isSet) return;
             bead.gameObject.SetActive(true);
-            beadText.text = amount.ToString();
+            starCandyText.gameObject.SetActive(false);
+            starCandy.gameObject.SetActive(false);
             Debug.Log("구슬 획득!");
         }
     }

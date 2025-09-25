@@ -16,12 +16,13 @@ namespace KSH
 
         [Header("Single Type Components")]
         [SerializeField] private Image _gachaCharacterImage;
-        [SerializeField] private GameObject _rareImage;
-        [SerializeField] private GameObject _normalImage;
+        [SerializeField] private Image _rareImage;
+        [SerializeField] private Image _normalImage;
         [SerializeField] private TextMeshProUGUI _characterNameText;
         [SerializeField] private TextMeshProUGUI _gachaGainText;
         [SerializeField] private GameObject _sugarStartObject;
         [SerializeField] private GameObject _beadsObject;
+        [SerializeField] private GachaUI singleUI;
 
         [Header("Ten Type Components")]
         [SerializeField] private Transform content;
@@ -83,14 +84,18 @@ namespace KSH
 
         private void ShowSingleGacha(ResultData characterData)
         {
-            //todo 설정 이후
-            // _gachaCharacterImage;
-            // _rareImage;
-            // _normalImage;
-            // _characterNameText;
-            // _gachaGainText;
-            // _sugarStartObject;
-            // _beadsObject;
+            var data = characterData.Result[0];
+
+            bool isFirst = characterData.CurrentBead[0] == 0;
+
+            singleUI.SetData(
+                data,
+                characterData.GainedStarCandy[0],
+                characterData.GainedBead[0],
+                characterData.CurrentBead[0],       
+                isFirst,
+                PullType.One
+                );
 
             _singlePanel.SetActive(true);
         }
@@ -105,8 +110,8 @@ namespace KSH
 
             var spawnedRects = new List<RectTransform>(); //RectTransform 리스트 생성
 
-            float startY = -1000; //애니메이션 시작 위치
-            float spacing = 250; //캐릭터UI 간 간격
+            float startY = -2000; //애니메이션 시작 위치
+            float spacing = 250f; //캐릭터UI 간 간격
 
             for (int i = 0; i < characterDatas.Result.Count; i++) //뽑힌 캐릭터 수 만큼 생성
             {
@@ -120,16 +125,17 @@ namespace KSH
                     characterDatas.GainedBead[i],
                     characterDatas.CurrentBead[i],
                     // _reward.ownedCharacters[characterDatas.Result[i]._chaBaseData.ChaName]
-                    isFirst
+                    isFirst,
+                    PullType.Ten
                 ); //캐릭터 데이터 적용
 
                 var rect = gacha.GetComponent<RectTransform>();
                 spawnedRects.Add(rect); //RectTransform을 만든 리스트에 저장
 
-                if (i == 0) //만약 인덱스가 0이라면
+                if (i == 0)
                     rect.anchoredPosition = new Vector2(x, startY);
                 else
-                    rect.anchoredPosition = new Vector2(x, startY * i);
+                    rect.anchoredPosition = new Vector2(x, startY * (i + 1));
             }
 
             for (int i = 0; i < spawnedRects.Count; i++) //생성된 UI 모두 적용
@@ -138,7 +144,7 @@ namespace KSH
                 var finalPos = new Vector2(x, y - i * spacing); //마지막 위치
 
                 rect.DOAnchorPos(finalPos, 0.5f) //startpos에서 finalPos까지 0.5초간 이동
-                    .SetEase(Ease.OutBack, 0.8f) //튕기는 효과
+                    .SetEase(Ease.OutBack, 0.5f) //튕기는 효과
                     .SetDelay(0.2f * i); //순차적으로 등장
             }
 
