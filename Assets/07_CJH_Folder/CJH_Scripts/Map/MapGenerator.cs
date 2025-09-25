@@ -168,17 +168,25 @@ public class MapGenerator : MonoBehaviour
             switch (eventNode.EventTypeKC)
             {
                 case EventTypeKC.Positive:
-                    // 1부터 4까지의 숫자 중 하나를 무작위로 할당
-                    eventNode.GroupID = Random.Range(1, 5);
+                    // 4는 10% 확률로, 1~3은 90% 확률
+                    float randomValue = Random.value;
+                    if (randomValue <= 0.1f) // 10% 확률
+                    {
+                        eventNode.GroupID = 4;
+                    }
+                    else // 나머지 90% 확률
+                    {
+                        eventNode.GroupID = Random.Range(1, 4); // 1, 2, 3 중 랜덤
+                    }
                     break;
 
                 case EventTypeKC.Negative:
-                    // 5부터 7까지의 숫자 중 하나를 무작위로 할당
+                    // 5부터 8까지의 숫자 중 하나를 무작위로 할당
                     eventNode.GroupID = Random.Range(5, 9);
                     break;
 
                 case EventTypeKC.Neutral:
-                    // 8부터 11까지의 숫자 중 하나를 무작위로 할당
+                    // 9부터 11까지의 숫자 중 하나를 무작위로 할당
                     eventNode.GroupID = Random.Range(9, 12);
                     break;
 
@@ -189,7 +197,7 @@ public class MapGenerator : MonoBehaviour
 
                 default:
                     // 기본값은 중립 그룹 범위 내에서 할당
-                    eventNode.GroupID = Random.Range(8, 12);
+                    eventNode.GroupID = Random.Range(9, 12);
                     break;
             }
         }
