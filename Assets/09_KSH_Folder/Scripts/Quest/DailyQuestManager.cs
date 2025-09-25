@@ -55,6 +55,7 @@ public class DailyQuestManager : MonoBehaviour
             if (dailyQuests[i] == null) break;
             questUIList[i].dailyQuest = dailyQuests[i]; //리스트 i번째 UI에 i번째 퀘스트 데이터 연결
             questUIList[i].InitUI(); //연결한 걸 기반으로 초기화
+            questUIList[i].UpdateCountText(dailyQuests[i]);
         }
     }
 
@@ -83,12 +84,15 @@ public class DailyQuestManager : MonoBehaviour
 
     public void CompleteQuest(QuestType questType, int amount) //퀘스트가 완료되었는지 확인
     {
-        foreach (var quest in dailyQuests)
+        for (int i = 0; i < dailyQuests.Count; i++)
         {
+            var quest = dailyQuests[i];
             if (quest.questType != questType || quest.isComplete) // 이미 완료된 퀘스트는 건너뛰기
                 continue;
 
             quest.currentProgress += amount; //해당 퀘스트의 진행도 추가
+
+            questUIList[i].UpdateCountText(quest); //업데이트 UI
 
             if (quest.currentProgress >= quest.questGoal) //퀘스트 목표가 같거나 높으면
             {
@@ -96,7 +100,7 @@ public class DailyQuestManager : MonoBehaviour
                 quest.isComplete = true; //완료
                 OnQuestComplete?.Invoke();
                 CheckQuests();
-            }
+            }    
         }
     }
 
