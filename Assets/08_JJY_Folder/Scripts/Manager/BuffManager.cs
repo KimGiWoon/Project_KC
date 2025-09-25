@@ -47,6 +47,8 @@ namespace JJY
 
         public Action<float> OnUseGroggyItem;
 
+        public EffectController effectController;
+
 //         void Start()
 //         {
 
