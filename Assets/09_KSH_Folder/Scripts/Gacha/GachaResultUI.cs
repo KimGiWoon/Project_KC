@@ -16,12 +16,13 @@ namespace KSH
 
         [Header("Single Type Components")]
         [SerializeField] private Image _gachaCharacterImage;
-        [SerializeField] private GameObject _rareImage;
-        [SerializeField] private GameObject _normalImage;
+        [SerializeField] private Image _rareImage;
+        [SerializeField] private Image _normalImage;
         [SerializeField] private TextMeshProUGUI _characterNameText;
         [SerializeField] private TextMeshProUGUI _gachaGainText;
         [SerializeField] private GameObject _sugarStartObject;
         [SerializeField] private GameObject _beadsObject;
+        [SerializeField] private GachaUI singleUI;
 
         [Header("Ten Type Components")]
         [SerializeField] private Transform content;
@@ -83,14 +84,18 @@ namespace KSH
 
         private void ShowSingleGacha(ResultData characterData)
         {
-            //todo 설정 이후
-            // _gachaCharacterImage;
-            // _rareImage;
-            // _normalImage;
-            // _characterNameText;
-            // _gachaGainText;
-            // _sugarStartObject;
-            // _beadsObject;
+            var data = characterData.Result[0];
+
+            bool isFirst = characterData.CurrentBead[0] == 0;
+
+            singleUI.SetData(
+                data,
+                characterData.GainedStarCandy[0],
+                characterData.GainedBead[0],
+                characterData.CurrentBead[0],       
+                isFirst,
+                PullType.One
+                );
 
             _singlePanel.SetActive(true);
         }
@@ -120,7 +125,8 @@ namespace KSH
                     characterDatas.GainedBead[i],
                     characterDatas.CurrentBead[i],
                     // _reward.ownedCharacters[characterDatas.Result[i]._chaBaseData.ChaName]
-                    isFirst
+                    isFirst,
+                    PullType.Ten
                 ); //캐릭터 데이터 적용
 
                 var rect = gacha.GetComponent<RectTransform>();

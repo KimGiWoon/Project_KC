@@ -19,10 +19,10 @@ MonoBehaviour:
     ChaGrade: 1
     ChaRole: 4
     ChaMP: 50
-    ChaMPRecovery: 10
+    ChaMPRecovery: 11.025
     ChaHP: 660
-    ChaAtkSpeed: 0.7
-    ChaAttack: 120
+    ChaAtkSpeed: 0.84000003
+    ChaAttack: 132.29999
     ChaArmor: 15
     ChaPassiveSkill: 12005
     ChaActiveSkill: 12205
@@ -33,8 +33,8 @@ MonoBehaviour:
     ChaRole: 1
     ChaAtkIsMelee: 5
     ChaAccuracy: 120
-    ChaAvoid: 20
-    ChaCrit: 40
+    ChaAvoid: 24
+    ChaCrit: 43
     ChaCritDmg: 250
     ChaReg: 20
     ChaMoveSpeed: 0.8
@@ -50,6 +50,7 @@ MonoBehaviour:
   _passiveSkillSprite: {fileID: 21300000, guid: 899431a0e799a014cafcde4635f7a7f3, type: 3}
   _activeSkillSprite: {fileID: 21300000, guid: 6af487ff8ab1eed4cb5a72d62bc2e4f4, type: 3}
   Beads: 0
-  GachaBackground: {fileID: 21300000, guid: 130367da1bf541340908399ee44a9855, type: 3}
+  GachaBackground: {fileID: 21300000, guid: eaf3ca4534d6ea04397665f56100e097, type: 3}
+  GachaBackgroundTen: {fileID: 21300000, guid: 130367da1bf541340908399ee44a9855, type: 3}
   roleIcon: {fileID: 21300000, guid: cf83d10d13a3edb4f9f644e45c7e07b3, type: 3}
   largeDeformationSprite: {fileID: 21300000, guid: 7f927e601e64acc48b381b8e051a322b, type: 3}
