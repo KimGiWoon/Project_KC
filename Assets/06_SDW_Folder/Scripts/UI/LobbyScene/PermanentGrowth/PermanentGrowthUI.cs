@@ -102,7 +102,7 @@ namespace SDW
         public void AddNode(GrowthNodeUI growthNode)
         {
             _growthNodes.Add(growthNode);
-            var button = growthNode.GetComponent<Button>();
+            var button = growthNode.GetComponentInChildren<Button>();
             _growthNodeButtons.Add(button);
 
             button.onClick.AddListener(() =>
