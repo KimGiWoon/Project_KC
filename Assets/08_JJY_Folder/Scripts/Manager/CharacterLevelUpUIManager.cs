@@ -87,14 +87,17 @@ namespace JJY
         private bool _isLoaded;
         public bool IsLoaded => _isLoaded;
 
+#if UNITY_EDITOR
         private void TestAddRecipeBooks()
         {
             GameManager.Instance.Coin.AddRecipeItem("beeksRecipeBook", 5000);
             GameManager.Instance.Coin.AddRecipeItem("fineDiningRecipeBook", 5000);
             GameManager.Instance.Coin.AddRecipeItem("masterChefRecipeBook", 5000);
         }
+#endif
 
         #region 초기화 작업
+
         private void Start()
         {
             _gameManager = GameManager.Instance;
@@ -116,7 +119,9 @@ namespace JJY
             _characterLevelInfoPanel.gameObject.SetActive(false);
 
             // Test
+#if UNITY_EDITOR
             TestAddRecipeBooks();
+#endif
 
             _isLoaded = true;
         }
@@ -214,7 +219,8 @@ namespace JJY
 
             _classLevelText.text = curlevel.ToString();
 
-            _currentEXP.text = GameManager.Instance.CharacterData.CharEnNameExp[data._chaBaseData.ChaEnName] + " / " + levelData.ChaLevelPoint.ToString();
+            _currentEXP.text = GameManager.Instance.CharacterData.CharEnNameExp[data._chaBaseData.ChaEnName] + " / " +
+                               levelData.ChaLevelPoint.ToString();
 
             if (!_characterImage.gameObject.activeSelf) _characterImage.gameObject.SetActive(true);
             _characterImage.sprite = data.largeDeformationSprite;
@@ -361,9 +367,11 @@ namespace JJY
 
             InitItemCountText();
         }
+
         #endregion
 
         #region 아이템 사용
+
         public void ItemSlideUpdate(float value)
         {
             if (selectedItemMaxCount <= 0 || selectedCharacterData == null) return;
@@ -435,8 +443,11 @@ namespace JJY
             if (addedExpText.gameObject.activeSelf && previewLevel > 30)
                 addedExpText.gameObject.SetActive(false);
             if (addedLevelText.gameObject.activeSelf && previewLevel > 30 &&
-            GameManager.Instance.CharacterData.CharEnNameExp[selectedCharacterData._chaBaseData.ChaEnName] + gainedExp >
-            GameManager.Instance.CharacterData.ChaLevelUpStatData[GameManager.Instance.CharacterData.CharEnNameLevel[selectedCharacterData._chaBaseData.ChaEnName]].ChaLevelPoint)
+                GameManager.Instance.CharacterData.CharEnNameExp[selectedCharacterData._chaBaseData.ChaEnName] + gainedExp >
+                GameManager.Instance.CharacterData
+                    .ChaLevelUpStatData[
+                        GameManager.Instance.CharacterData.CharEnNameLevel[selectedCharacterData._chaBaseData.ChaEnName]]
+                    .ChaLevelPoint)
                 addedLevelText.gameObject.SetActive(false);
 
             addedLevelText.text = levelUpCount > 0 ? $"+{levelUpCount}" : "";
@@ -460,9 +471,12 @@ namespace JJY
             else gainedExp = 0;
 
             if (gainedExp <= 0 ||
-            GameManager.Instance.CharacterData.CharEnNameLevel[selectedCharacterData._chaBaseData.ChaEnName] == 30 &&
-            GameManager.Instance.CharacterData.CharEnNameExp[selectedCharacterData._chaBaseData.ChaEnName] + gainedExp >
-            GameManager.Instance.CharacterData.ChaLevelUpStatData[GameManager.Instance.CharacterData.CharEnNameLevel[selectedCharacterData._chaBaseData.ChaEnName]].ChaLevelPoint)
+                GameManager.Instance.CharacterData.CharEnNameLevel[selectedCharacterData._chaBaseData.ChaEnName] == 30 &&
+                GameManager.Instance.CharacterData.CharEnNameExp[selectedCharacterData._chaBaseData.ChaEnName] + gainedExp >
+                GameManager.Instance.CharacterData
+                    .ChaLevelUpStatData[
+                        GameManager.Instance.CharacterData.CharEnNameLevel[selectedCharacterData._chaBaseData.ChaEnName]]
+                    .ChaLevelPoint)
                 return;
 
             _coin.SubtractRecipeItem(selectedItem, selectedItemUseCount);
@@ -530,6 +544,7 @@ namespace JJY
             masterChefBtn.interactable = true;
             InitCharacterInfo(selectedCharacterData);
         }
+
         #endregion
     }
 }
