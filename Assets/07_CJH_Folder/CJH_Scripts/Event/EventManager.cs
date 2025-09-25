@@ -50,18 +50,21 @@ namespace CJH
 
 
             // GroupID로 해당 그룹의 모든 이벤트 리스트를 가져옵니다.
-            var encountersInGroup = _dataManager.GetEncountersByGroupID(eventGroupID);
+            var allEncountersInGroup = _dataManager.GetEncountersByGroupID(eventGroupID);
 
-            // 그룹에 이벤트가 없으면 오류를 출력하고 종료합니다.
-            if (encountersInGroup == null || encountersInGroup.Count == 0)
-            {
-                Debug.LogError($"[EventManager] EventGroupID '{eventGroupID}'에 해당하는 이벤트를 찾을 수 없습니다.");
-                return;
-            }
+            // 현재 스테이지 정보를 가져옵니다.
+            int currentStage = GameManager.Instance.Stage;
+
+            // 현재 스테이지에 맞는 이벤트만 필터링합니다.
+            var availableEncounters = allEncountersInGroup
+                  .Where(encounter => encounter.EncounterStage == 0 || encounter.EncounterStage == currentStage)
+                  .ToList();
+
+
 
             // 리스트에서 랜덤하게 하나의 이벤트를 선택합니다.
-            int randomIndex = Random.Range(0, encountersInGroup.Count);
-            var encounterData = encountersInGroup[randomIndex];
+            int randomIndex = Random.Range(0, availableEncounters.Count);
+            var encounterData = availableEncounters[randomIndex];
 
             this.CurrentEncounterData = encounterData;
 

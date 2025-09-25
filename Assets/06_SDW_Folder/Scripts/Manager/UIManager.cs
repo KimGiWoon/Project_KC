@@ -26,12 +26,14 @@ namespace SDW
         private GameManager _gameManager;
         private bool _isLoaded;
         private bool _uiOnly;
+        private static bool _isInitialized;
 
         /// <summary>
         /// Firebase 연결 및 초기화
         /// </summary>
         private void Start()
         {
+            if (_isInitialized) return;
             _gameManager = GameManager.Instance;
             _firebase = _gameManager.Firebase;
             ConnectLoading();
@@ -43,6 +45,7 @@ namespace SDW
             yield return new WaitForSeconds(0.5f);
             OpenPanel(UIName.DownloadUI);
             _firebase?.ConnectToFirebase();
+            _isInitialized = false;
         }
 
         /// <summary>

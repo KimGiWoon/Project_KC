@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 namespace SDW
 {
@@ -8,11 +9,29 @@ namespace SDW
         [SerializeField] private GameObject _audioSourcePrefab;
 
         public PoolManager<AudioSourceController> Pool;
+        private GameManager _gameManager;
+        private static bool _isInitialized;
 
-        private void Awake()
+        private void Start()
         {
+            if (_isInitialized) return;
+            _gameManager = GameManager.Instance;
+            StartCoroutine(LoadCoroutine());
+        }
+
+        private IEnumerator LoadCoroutine()
+        {
+            while (true)
+            {
+                yield return null;
+                if (!_gameManager.CompleteDownload || !_gameManager.ImageSpriteConnected ||
+                    !_gameManager.PrefabAndSoConnected) continue;
+
+                break;
+            }
             var prefab = _audioSourcePrefab.GetComponent<AudioSourceController>();
             Pool = new PoolManager<AudioSourceController>(prefab, 10, 20, transform);
+            _isInitialized = true;
         }
     }
 }

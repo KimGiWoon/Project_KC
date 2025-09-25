@@ -29,6 +29,7 @@ namespace JJY
         [SerializeField] private Slider itemBarSlider; // 아이템 사용 슬라이더
 
         [Header("Button")]
+        [SerializeField] private Button backButton; // 재화 사용 화면에서 뒤로가기 버튼
         [SerializeField] private Button useItemBtn; // 아이템 사용 버튼
         [SerializeField] private Button beekBtn; // beek 버튼
         [SerializeField] private Button fineDiningBtn; // fineDining 버튼
@@ -86,7 +87,17 @@ namespace JJY
         private bool _isLoaded;
         public bool IsLoaded => _isLoaded;
 
+#if UNITY_EDITOR
+        private void TestAddRecipeBooks()
+        {
+            GameManager.Instance.Coin.AddRecipeItem("beeksRecipeBook", 5000);
+            GameManager.Instance.Coin.AddRecipeItem("fineDiningRecipeBook", 5000);
+            GameManager.Instance.Coin.AddRecipeItem("masterChefRecipeBook", 5000);
+        }
+#endif
+
         #region 초기화 작업
+
         private void Start()
         {
             _gameManager = GameManager.Instance;
@@ -106,6 +117,11 @@ namespace JJY
             InitItemButtonImage();
             InitCharacterList();
             _characterLevelInfoPanel.gameObject.SetActive(false);
+
+            // Test
+#if UNITY_EDITOR
+            TestAddRecipeBooks();
+#endif
 
             _isLoaded = true;
         }
@@ -203,7 +219,8 @@ namespace JJY
 
             _classLevelText.text = curlevel.ToString();
 
-            _currentEXP.text = GameManager.Instance.CharacterData.CharEnNameExp[data._chaBaseData.ChaEnName] + " / " + levelData.ChaLevelPoint.ToString();
+            _currentEXP.text = GameManager.Instance.CharacterData.CharEnNameExp[data._chaBaseData.ChaEnName] + " / " +
+                               levelData.ChaLevelPoint.ToString();
 
             if (!_characterImage.gameObject.activeSelf) _characterImage.gameObject.SetActive(true);
             _characterImage.sprite = data.largeDeformationSprite;
@@ -278,6 +295,7 @@ namespace JJY
             beekBtn.onClick.AddListener(OnClickBeeks);
             fineDiningBtn.onClick.AddListener(OnClickFineDining);
             masterChefBtn.onClick.AddListener(OnClickMasterChef);
+            backButton.onClick.AddListener(BackButtonClicked);
         }
 
         private void OnDisable()
@@ -287,6 +305,7 @@ namespace JJY
             beekBtn.onClick.RemoveListener(OnClickBeeks);
             fineDiningBtn.onClick.RemoveListener(OnClickFineDining);
             masterChefBtn.onClick.RemoveListener(OnClickMasterChef);
+            backButton.onClick.RemoveListener(BackButtonClicked);
         }
 
         private void OnClickBeeks()
@@ -348,9 +367,11 @@ namespace JJY
 
             InitItemCountText();
         }
+
         #endregion
 
         #region 아이템 사용
+
         public void ItemSlideUpdate(float value)
         {
             if (selectedItemMaxCount <= 0 || selectedCharacterData == null) return;
@@ -418,12 +439,15 @@ namespace JJY
             {
                 addedLevelText.gameObject.SetActive(true);
             }
-            
+
             if (addedExpText.gameObject.activeSelf && previewLevel > 30)
                 addedExpText.gameObject.SetActive(false);
             if (addedLevelText.gameObject.activeSelf && previewLevel > 30 &&
-            GameManager.Instance.CharacterData.CharEnNameExp[selectedCharacterData._chaBaseData.ChaEnName] + gainedExp >
-            GameManager.Instance.CharacterData.ChaLevelUpStatData[GameManager.Instance.CharacterData.CharEnNameLevel[selectedCharacterData._chaBaseData.ChaEnName]].ChaLevelPoint)
+                GameManager.Instance.CharacterData.CharEnNameExp[selectedCharacterData._chaBaseData.ChaEnName] + gainedExp >
+                GameManager.Instance.CharacterData
+                    .ChaLevelUpStatData[
+                        GameManager.Instance.CharacterData.CharEnNameLevel[selectedCharacterData._chaBaseData.ChaEnName]]
+                    .ChaLevelPoint)
                 addedLevelText.gameObject.SetActive(false);
 
             addedLevelText.text = levelUpCount > 0 ? $"+{levelUpCount}" : "";
@@ -447,9 +471,12 @@ namespace JJY
             else gainedExp = 0;
 
             if (gainedExp <= 0 ||
-            GameManager.Instance.CharacterData.CharEnNameLevel[selectedCharacterData._chaBaseData.ChaEnName] == 30 &&
-            GameManager.Instance.CharacterData.CharEnNameExp[selectedCharacterData._chaBaseData.ChaEnName] + gainedExp >
-            GameManager.Instance.CharacterData.ChaLevelUpStatData[GameManager.Instance.CharacterData.CharEnNameLevel[selectedCharacterData._chaBaseData.ChaEnName]].ChaLevelPoint)
+                GameManager.Instance.CharacterData.CharEnNameLevel[selectedCharacterData._chaBaseData.ChaEnName] == 30 &&
+                GameManager.Instance.CharacterData.CharEnNameExp[selectedCharacterData._chaBaseData.ChaEnName] + gainedExp >
+                GameManager.Instance.CharacterData
+                    .ChaLevelUpStatData[
+                        GameManager.Instance.CharacterData.CharEnNameLevel[selectedCharacterData._chaBaseData.ChaEnName]]
+                    .ChaLevelPoint)
                 return;
 
             _coin.SubtractRecipeItem(selectedItem, selectedItemUseCount);
@@ -509,6 +536,15 @@ namespace JJY
             fineDiningBtn.interactable = true;
             masterChefBtn.interactable = true;
         }
+        private void BackButtonClicked()
+        {
+            StopAllCoroutines();
+            beekBtn.interactable = true;
+            fineDiningBtn.interactable = true;
+            masterChefBtn.interactable = true;
+            InitCharacterInfo(selectedCharacterData);
+        }
+
         #endregion
     }
 }

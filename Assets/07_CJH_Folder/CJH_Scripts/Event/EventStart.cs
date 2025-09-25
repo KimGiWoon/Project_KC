@@ -504,7 +504,7 @@ namespace CJH
             {
                 resultPanel.SetActive(true);
 
-                // 긍정적 사건일 경우 텍스트 색상 변경
+                // 텍스트 색상 지정
                 if (data.Sentiment == EncounterSentiment.Good)
                 {
                     if (ColorUtility.TryParseHtmlString("#8FDDFF", out Color goodColor))
@@ -514,18 +514,33 @@ namespace CJH
                 }
                 else
                 {
-                    // 긍정적이지 않은 다른 이벤트에 대비해 기본 색상(흰색)으로 설정
                     resultText.color = Color.white;
                 }
 
-                string processedText = data.EncounterExitText[choiceIndex].Replace("\\n", "\n");
+                string baseResultText = data.EncounterExitText[choiceIndex];
 
+                // 유물 관련 텍스트 추가
                 if (!string.IsNullOrEmpty(specificRelicName))
                 {
-                    processedText = processedText.Replace("{relicName}", $"'{specificRelicName}'");
-                }
-                resultText.text = processedText;
+                    string relicLine = "";
 
+                    // 유물 잃었는지 확인
+                    if (resultType == ChoiceResultType.LoseRelic)
+                    {
+                        relicLine = $"잃어버린 유물: <color=#FFD700>{specificRelicName}</color>";
+                    }
+                    else
+                    {
+                        relicLine = $"획득한 유물: <color=#FFD700>{specificRelicName}</color>";
+                    }
+
+                    baseResultText += "\n" + relicLine;
+                }
+
+                // 최종 출력
+                resultText.text = baseResultText;
+
+                // UI 정리
                 if (eventTitleText != null) eventTitleText.gameObject.SetActive(false);
                 eventImage.gameObject.SetActive(false);
                 encounterText.gameObject.SetActive(false);

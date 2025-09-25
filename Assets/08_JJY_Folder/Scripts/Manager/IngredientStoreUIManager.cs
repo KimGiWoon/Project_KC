@@ -45,6 +45,7 @@ namespace JJY
         private Ingredient[] allIngredients;
         private bool logAction = true;
         [SerializeField] private ShoppingUI _shoppingUI;
+        private GameManager _gameManager;
 
         private void Awake()
         {
@@ -58,13 +59,21 @@ namespace JJY
         }
         private void Start()
         {
+            _gameManager = GameManager.Instance;
             StartCoroutine(DelayedInit());
-            _coin = GameManager.Instance.Coin;
+            _coin = _gameManager.Coin;
         }
 
         private IEnumerator DelayedInit()
         {
-            yield return new WaitForSeconds(1f);
+            while (true)
+            {
+                yield return null;
+                if (!_gameManager.CompleteDownload || !_gameManager.ImageSpriteConnected ||
+                    !_gameManager.PrefabAndSoConnected) continue;
+
+                break;
+            }
 
             // #if UNITY_EDITOR
             //             TestAddYeopjeon();
@@ -107,10 +116,7 @@ namespace JJY
         //             _coin.AddYeopjeon(500);
         //         }
         // #endif
-        private float GetShopDiscountMultiplier()
-        {
-            return GameManager.Instance.InGameItem.HasRelic(RelicTarget.Shop) ? 0.7f : 1f;
-        }
+        private float GetShopDiscountMultiplier() => GameManager.Instance.InGameItem.HasRelic(RelicTarget.Shop) ? 0.7f : 1f;
         public void SyncSlotPrices()
         {
             if (slotDatas == null || slotDatas.Count == 0) return;
