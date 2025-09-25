@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using SDW;
 using UnityEngine;
 
 public class WolfSlashController : MonoBehaviour
@@ -27,6 +28,9 @@ public class WolfSlashController : MonoBehaviour
     // 전체 몬스터에게 늑대 베기 사용
     public void AllMonsterWolfSlash()
     {
+        // 늑대 베기 사운드 플레이
+        GameManager.Instance.Audio.Play2DSFX(AudioClipName.SILActiveSkill);
+
         foreach (var mon in _monster._battleManager._monsters)
         {
             if (!mon._isAlive) continue;

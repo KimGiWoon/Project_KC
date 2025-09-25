@@ -54,15 +54,11 @@ namespace SDW
 
         public void SetCharacterInfo(CharacterDataSO data)
         {
-            // 키가 존재하지 않으면 추가 (초기 세팅)
-            if (!GameManager.Instance.CharacterBattleDataSave._chaLevel.ContainsKey(data._chaBaseData.ChaEnName))
-            {
-                GameManager.Instance.CharacterBattleDataSave._chaLevel.Add(data._chaBaseData.ChaEnName, data._chaLv);
-            }
-            if (!GameManager.Instance.CharacterBattleDataSave._chaUpgrade.ContainsKey(data._chaBaseData.ChaEnName))
-            {
-                GameManager.Instance.CharacterBattleDataSave._chaUpgrade.Add(data._chaBaseData.ChaEnName, data._chaUpgradeLevel);
-            }
+            int curlevel = GameManager.Instance.CharacterData.CharEnNameLevel[data._chaBaseData.ChaEnName];
+            int curUpgradeLevel = GameManager.Instance.CharacterData.BeadsInventory[data._chaBaseData.ChaEnName];
+
+            GameManager.Instance.CharacterBattleDataSave._chaLevel[data._chaBaseData.ChaEnName] = curlevel;
+            GameManager.Instance.CharacterBattleDataSave._chaUpgrade[data._chaBaseData.ChaEnName] = curUpgradeLevel;
 
             var levelData = GameManager.Instance.CharacterData.ChaLevelUpStatData[GameManager.Instance.CharacterBattleDataSave._chaLevel[data._chaBaseData.ChaEnName]];
             var upgradeData = GameManager.Instance.CharacterData.ChaBeadsData[GameManager.Instance.CharacterBattleDataSave._chaUpgrade[data._chaBaseData.ChaEnName]];

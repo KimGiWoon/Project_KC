@@ -45,6 +45,8 @@ public class MyCharacterController : UnitBaseData
     public readonly int Attack_Hash = Animator.StringToHash("Attack");
     public readonly int Critical_Hash = Animator.StringToHash("Critical");
 
+    public EffectController effectController;
+
 
     /// <summary>
     /// 캐릭터별 UI 부모 Transform을 담는 간단한 데이터 클래스입니다.
@@ -60,9 +62,6 @@ public class MyCharacterController : UnitBaseData
     }
     private CharacterUIParents uiParents;
 
-    [HideInInspector]
-    public EffectController effectController;
-
     protected override void Awake()
     {
         base.Awake();
@@ -72,6 +71,8 @@ public class MyCharacterController : UnitBaseData
 
         uiParents = GetComponent<CharacterUIParents>();
         effectController = GetComponentInChildren<EffectController>();
+
+        Debug.Log($"{name} 의 EffectController 연결됨? {effectController != null}");
     }
 
     // 캐릭터 생성 초기화

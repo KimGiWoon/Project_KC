@@ -89,7 +89,7 @@ namespace CJH
                 eventImage.gameObject.SetActive(false);
             }
 
-            encounterText.text = data.EncounterText.Replace("\\n", " ");
+            encounterText.text = data.EncounterText.Replace("\\n", "\n");
 
 
             foreach (Transform child in buttonContainer)
@@ -254,18 +254,7 @@ namespace CJH
                     break;
 
                 case EncounterType.RelicSel:
-                    if (choiceIndex == 0)
-                    {
-                        resultType = ChoiceResultType.GainRelic; // 첫 번째 유물
-                    }
-                    if (choiceIndex == 1)
-                    {
-                        resultType = ChoiceResultType.GainRelic; // 두 번째 유물
-                    }
-                    else
-                    {
-                        resultType = ChoiceResultType.GainRelic; // 세 번째 유물
-                    }
+                    ShowRelicSelection(); // 유물 선택창 띄우기
                     break;
 
                 case EncounterType.Luck:
@@ -385,6 +374,7 @@ namespace CJH
                     {
                         specificRelicName = gainedRelic.relicName;
                         Debug.Log($"획득한 유물: {gainedRelic.relicName}");
+                        
                     }
                     break;
 
@@ -473,7 +463,7 @@ namespace CJH
                     if (gainedRelicNames.Count > 0)
                     {
                         // 이전에 작업한 specificRelicName 변수를 재활용하여 결과창에 표시합니다.
-                        specificRelicName = string.Join(", ", gainedRelicNames.Select(name => $"'{name}'"));
+                        specificRelicName = string.Join(", ", gainedRelicNames.Select(name => $"{name}"));
                     }
 
                     GameManager.Instance.Coin.AddYeopjeon(resultMoney);
@@ -552,62 +542,65 @@ namespace CJH
         /// 플레이어에게 N개의 유물 선택지를 보여줍니다.
         /// </summary>
         /// <param name="numberOfChoices">보여줄 선택지의 개수</param>
-        private void ShowRelicSelection(int numberOfChoices)
+        private void ShowRelicSelection()
         {
-            relicSelectionPanel.SetActive(true);
-
-            // 기존 UI 숨기기
-            buttonContainer.gameObject.SetActive(false);
-            encounterText.gameObject.SetActive(false);
-            eventImage.gameObject.SetActive(false);
-            eventTitleText.gameObject.SetActive(false);
-            if (closeButton != null)
-                closeButton.SetActive(false); // 닫기 버튼 직접 OFF
-
-            // 이전에 생성된 버튼이 있다면 제거
-            foreach (Transform child in relicChoiceContainer)
+            // 기존 버튼들 제거
+            foreach (Transform child in buttonContainer)
             {
                 Destroy(child.gameObject);
             }
 
-            // 플레이어가 아직 가지지 않은 유물 목록을 무작위로 섞어 만듭니다.
-            var acquirableRelics = _eventManager.allRelicsDatabase
-                .Where(relic => !GameManager.Instance.InGameItem.HasRelic(relic))
-                .OrderBy(x => Random.value)
+            // 아직 가지고 있지 않은 유물 중 무작위 3개 선택
+            var availableRelics = _eventManager.allRelicsDatabase
+                .Where(r => !GameManager.Instance.InGameItem.HasRelic(r))
+                .OrderBy(r => Random.value)
+                .Take(3)
                 .ToList();
 
-            // 보여줄 개수만큼 유물을 선택합니다.
-            var relicsToOffer = acquirableRelics.Take(numberOfChoices).ToList();
-
-            // 획득 가능한 유물이 없으면 그냥 이벤트를 종료합니다.
-            if (acquirableRelics.Count == 0)
+            if (availableRelics.Count == 0)
             {
-                Debug.Log("제공할 수 있는 새로운 유물이 없어 이벤트가 종료됩니다.");
+                Debug.LogWarning("획득 가능한 유물이 없습니다. 이벤트 종료.");
                 _eventManager.EndEncounter();
                 return;
             }
 
-            for (int i = 0; i < relicsToOffer.Count; i++)
+            for (int i = 0; i < availableRelics.Count; i++)
             {
-                var relicData = relicsToOffer[i];
+                var relicData = availableRelics[i];
 
-                var newButtonObj = Instantiate(relicChoiceButtonPrefab, relicChoiceContainer);
-                newButtonObj.SetActive(true);
+                var buttonObj = Instantiate(choiceButtonPrefab, buttonContainer);
+                buttonObj.SetActive(true);
 
-                var buttonText = newButtonObj.GetComponentInChildren<TextMeshProUGUI>();
+                var buttonText = buttonObj.GetComponentInChildren<TextMeshProUGUI>();
                 if (buttonText != null)
                 {
                     buttonText.text = relicData.relicName;
                 }
 
-                var button = newButtonObj.GetComponent<Button>();
+                var button = buttonObj.GetComponent<Button>();
                 if (button != null)
                 {
-                    var capturedRelic = relicData; // 클로저 문제 방지
-                    button.onClick.AddListener(() => OnRelicChosen(capturedRelic));
+                    var capturedRelic = relicData; // 클로저 방지
+                    button.onClick.AddListener(() =>
+                    {
+                        GameManager.Instance.InGameItem.AddItem(capturedRelic);
+                        Debug.Log($"선택한 유물: {capturedRelic.relicName}");
+
+                        // 결과 텍스트 출력
+                        resultText.text = $"획득한 유물: <color=#FFD700>{capturedRelic.relicName}</color>";
+                        resultText.color = Color.white;
+
+                        // UI 전환
+                        buttonContainer.gameObject.SetActive(false);
+                        encounterText.gameObject.SetActive(false);
+                        eventImage.gameObject.SetActive(false);
+                        eventTitleText.gameObject.SetActive(false);
+                        resultPanel.SetActive(true);
+
+                    });
                 }
 
-                Debug.Log($"[RelicSelection] 생성된 버튼 {i} - 유물: {relicData.relicName}");
+                Debug.Log($"[유물 선택지] {i + 1}번 버튼: {relicData.relicName}");
             }
         }
 

@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using SDW;
 
 public class FinalTeamSlot : MonoBehaviour
 {
@@ -25,7 +26,7 @@ public class FinalTeamSlot : MonoBehaviour
 
         characterInfoGroup.SetActive(true);
         characterImage.sprite = data._characterSprite;
-        levelText.text = data._chaLv.ToString();
+        levelText.text = GameManager.Instance.CharacterData.CharEnNameLevel[data._chaBaseData.ChaEnName].ToString();
         characterButton.interactable = true;
     }
 

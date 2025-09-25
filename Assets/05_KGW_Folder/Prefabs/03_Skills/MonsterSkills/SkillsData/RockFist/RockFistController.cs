@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using SDW;
 using UnityEngine;
 
 public class RockFistController : MonoBehaviour
@@ -27,6 +28,9 @@ public class RockFistController : MonoBehaviour
     // 전체 캐릭터에게 바위주먹 사용
     public void AllCharacterSavageSlash()
     {
+        // 바위 주먹 사운드 플레이
+        GameManager.Instance.Audio.Play2DSFX(AudioClipName.RockGolemSkill);
+
         foreach (var cha in _character._battleManager._characters)
         {
             if (!cha._isAlive) continue;
