@@ -35,17 +35,10 @@ namespace JJY
         [SerializeField] private Button fineDiningBtn; // fineDining 버튼
         [SerializeField] private Button masterChefBtn; // masterChef 버튼
         [SerializeField] private Button levelUpButton; // 레벨업 버튼
+        [SerializeField] private Button beekSelectedBtn; // beek 버튼
+        [SerializeField] private Button fineDiningSelectedBtn; // fineDining 버튼
+        [SerializeField] private Button masterChefSelectedBtn; // masterChef 버튼
         [SerializeField] private Button characterStatInfoButton; // 자세히 보기 버튼
-
-        [Header("Image Assets")]
-        // 버튼 기본 이미지
-        [SerializeField] private Sprite beekimage;
-        [SerializeField] private Sprite fineimage;
-        [SerializeField] private Sprite masterimage;
-        // 버튼 선택 이미지
-        [SerializeField] private Sprite selectedBeekImage;
-        [SerializeField] private Sprite selectedFineImage;
-        [SerializeField] private Sprite selectedMasterImage;
 
         [Header("Level Info")]
         [SerializeField] private TextMeshProUGUI addedExpText; // 아이템을 사용해서 얻는 경험치 수치
@@ -296,6 +289,9 @@ namespace JJY
             fineDiningBtn.onClick.AddListener(OnClickFineDining);
             masterChefBtn.onClick.AddListener(OnClickMasterChef);
             backButton.onClick.AddListener(BackButtonClicked);
+            beekSelectedBtn.onClick.AddListener(OnClickBeeks);
+            fineDiningSelectedBtn.onClick.AddListener(OnClickFineDining);
+            masterChefSelectedBtn.onClick.AddListener(OnClickMasterChef);
         }
 
         private void OnDisable()
@@ -306,12 +302,16 @@ namespace JJY
             fineDiningBtn.onClick.RemoveListener(OnClickFineDining);
             masterChefBtn.onClick.RemoveListener(OnClickMasterChef);
             backButton.onClick.RemoveListener(BackButtonClicked);
+            beekSelectedBtn.onClick.RemoveListener(OnClickBeeks);
+            fineDiningSelectedBtn.onClick.RemoveListener(OnClickFineDining);
+            masterChefSelectedBtn.onClick.RemoveListener(OnClickMasterChef);
         }
 
         private void OnClickBeeks()
         {
             InitItemButtonImage();
-            beekBtn.image.sprite = selectedBeekImage;
+            beekSelectedBtn.gameObject.SetActive(true);
+            beekBtn.gameObject.SetActive(false);
             selectedItem = _coin.beek;
             selectedItemMaxCount = beeksCount;
             InitItemBar();
@@ -321,7 +321,8 @@ namespace JJY
         private void OnClickFineDining()
         {
             InitItemButtonImage();
-            fineDiningBtn.image.sprite = selectedFineImage;
+            fineDiningSelectedBtn.gameObject.SetActive(true);
+            fineDiningBtn.gameObject.SetActive(false);
             selectedItem = _coin.fineDining;
             selectedItemMaxCount = fineDiningCount;
             InitItemBar();
@@ -331,7 +332,8 @@ namespace JJY
         private void OnClickMasterChef()
         {
             InitItemButtonImage();
-            masterChefBtn.image.sprite = selectedMasterImage;
+            masterChefSelectedBtn.gameObject.SetActive(true);
+            masterChefBtn.gameObject.SetActive(false);
             selectedItem = _coin.masterChef;
             selectedItemMaxCount = masterChefCount;
             InitItemBar();
@@ -340,9 +342,12 @@ namespace JJY
 
         private void InitItemButtonImage()
         {
-            beekBtn.image.sprite = beekimage;
-            fineDiningBtn.image.sprite = fineimage;
-            masterChefBtn.image.sprite = masterimage;
+            beekBtn.gameObject.SetActive(true);
+            beekSelectedBtn.gameObject.SetActive(false);
+            fineDiningBtn.gameObject.SetActive(true);
+            fineDiningSelectedBtn.gameObject.SetActive(false);
+            masterChefBtn.gameObject.SetActive(true);
+            masterChefSelectedBtn.gameObject.SetActive(false);
         }
 
         private void InitItemBar()
