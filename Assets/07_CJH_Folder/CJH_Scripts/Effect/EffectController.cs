@@ -75,4 +75,51 @@ public class EffectController : MonoBehaviour
         yield return new WaitForSeconds(duration);
         effectObject.SetActive(false);
     }
+
+    public void PlayBrokenBarrier()
+    {
+        // Armor 비활성화
+        if (effectObjects.TryGetValue(EffectType.CreateBarrierForAll, out GameObject armor))
+        {
+            armor.SetActive(false);
+        }
+
+        // Armor2 켜고 → 1초 유지 → 0.5초 페이드 아웃
+        if (effectObjects.TryGetValue(EffectType.BrokenBarrierForAll, out GameObject broken))
+        {
+            StartCoroutine(BrokenBarrierRoutine(broken));
+        }
+    }
+
+    private IEnumerator BrokenBarrierRoutine(GameObject broken)
+    {
+        broken.SetActive(true);
+
+        // 1초 유지
+        yield return new WaitForSeconds(1f);
+
+        // Renderer 페이드 아웃
+        var renderers = broken.GetComponentsInChildren<SpriteRenderer>();
+        float fadeTime = 0.5f;
+        float elapsed = 0f;
+
+        while (elapsed < fadeTime)
+        {
+            elapsed += Time.deltaTime;
+            float alpha = Mathf.Lerp(1f, 0f, elapsed / fadeTime);
+
+            foreach (var r in renderers)
+            {
+                if (r != null)
+                {
+                    Color c = r.color;
+                    c.a = alpha;
+                    r.color = c;
+                }
+            }
+            yield return null;
+        }
+
+        broken.SetActive(false);
+    }
 }
