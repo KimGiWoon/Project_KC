@@ -92,7 +92,7 @@ namespace KSH
                 var touchPos = Input.GetTouch(0).position;
 
                 //# 패널 안에 터치가 있는지 확인
-                if (!RectTransformUtility.RectangleContainsScreenPoint(_rectTransform, touchPos) ||
+                if (!RectTransformUtility.RectangleContainsScreenPoint(_rectTransform, touchPos) &&
                     !RectTransformUtility.RectangleContainsScreenPoint(_topGamePanelRectTransform, touchPos))
                 {
                     if (_possibilityPanel.activeSelf) return;

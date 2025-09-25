@@ -21,16 +21,16 @@ namespace KSH
 
         private bool isSet = false;
 
-      // private void OnEnable()
-      // {
-      //     manager = GameManager.Instance.Reward;
-      //     _data = GameManager.Instance.CharacterData;
-      //     if (manager != null)
-      //     {
-      //         manager.OnStarCandyGained += SetStarCandy;
-      //         manager.OnBeadGained += SetBead;
-      //     }
-      // }
+        // private void OnEnable()
+        // {
+        //     manager = GameManager.Instance.Reward;
+        //     _data = GameManager.Instance.CharacterData;
+        //     if (manager != null)
+        //     {
+        //         manager.OnStarCandyGained += SetStarCandy;
+        //         manager.OnBeadGained += SetBead;
+        //     }
+        // }
 
         private void OnDisable()
         {
@@ -47,7 +47,7 @@ namespace KSH
             bool isFirstCharacter,
             PullType pullType
         )
-        {   
+        {
             manager = GameManager.Instance.Reward;
             _data = GameManager.Instance.CharacterData;
             if (manager != null)
@@ -55,12 +55,12 @@ namespace KSH
                 manager.OnStarCandyGained += SetStarCandy;
                 manager.OnBeadGained += SetBead;
             }
-            
+
             if (pullType == PullType.One)
                 characterImage.sprite = data.GachaBackground;
             else if (pullType == PullType.Ten)
                 characterImage.sprite = data.GachaBackgroundTen;
-            
+
             characterName.text = data._chaBaseData.ChaName;
             characterName.color = GetRarityColor(data._chaBaseData.ChaGrade);
 
@@ -86,20 +86,19 @@ namespace KSH
 
         public Color GetRarityColor(CharacterGrade rarity)
         {
-            RareImage.enabled = false;
-            NormalImage.enabled = false;
-            
             switch (rarity)
             {
                 case CharacterGrade.Normal:
                     Color commonColor;
                     ColorUtility.TryParseHtmlString("#C4F1FF", out commonColor);
-                    NormalImage.enabled = true;
+                    NormalImage.gameObject.SetActive(true);
+                    RareImage.gameObject.SetActive(false);
                     return commonColor;
                 case CharacterGrade.Rare:
                     Color rareColor;
                     ColorUtility.TryParseHtmlString("#FFF6C6", out rareColor);
-                    RareImage.enabled = true;
+                    RareImage.gameObject.SetActive(true);
+                    NormalImage.gameObject.SetActive(false);
                     return rareColor;
                 default:
                     return Color.white;
@@ -110,6 +109,7 @@ namespace KSH
         {
             if (isSet) return;
             starCandy.gameObject.SetActive(true);
+            bead.gameObject.SetActive(false);
             starCandyText.text = $"+ {amount.ToString()}";
             Debug.Log("별사탕 획득!");
         }
@@ -118,6 +118,7 @@ namespace KSH
         {
             if (isSet) return;
             bead.gameObject.SetActive(true);
+            starCandy.gameObject.SetActive(false);
             Debug.Log("구슬 획득!");
         }
     }
