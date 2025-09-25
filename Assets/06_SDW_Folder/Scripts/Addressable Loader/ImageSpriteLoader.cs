@@ -103,6 +103,7 @@ namespace SDW
             {
                 if (!ScenePathIndex.TryGet(e.PathHash, out var go)) continue;
 
+                if (go == null) continue;
                 var img = go.GetComponent<Image>();
                 if (img) img.sprite = null;
 

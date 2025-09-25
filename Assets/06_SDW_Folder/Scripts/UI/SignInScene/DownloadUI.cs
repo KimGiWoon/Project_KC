@@ -126,6 +126,7 @@ namespace SDW
             {
                 _downloadValueText.text = "100%";
                 _downloadSlider.value = 1f;
+                yield return new WaitForSeconds(0.1f);
                 GameManager.Instance.SetCompleteDownload(true);
                 GameManagerEvents.RaiseDownloadCompleted();
                 yield return new WaitForSeconds(0.9f);
@@ -253,6 +254,7 @@ namespace SDW
                 yield return null;
             }
 
+            yield return new WaitForSeconds(0.1f);
             GameManager.Instance.SetCompleteDownload(true);
             GameManagerEvents.RaiseDownloadCompleted();
             yield return new WaitForSeconds(0.9f);

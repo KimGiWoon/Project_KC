@@ -39,7 +39,6 @@ namespace SDW
         [SerializeField] private float delayTime = 1.35f;
 
         public Action<UIName> OnUIOpenRequested;
-        public Action<UIName> OnUICloseRequested;
         public Action<int> OnIconRequested;
         public Action<bool> OnButtonInteractableChanged;
         private GameManager _gameManager;
@@ -57,8 +56,6 @@ namespace SDW
             _panelContainer.SetActive(false);
             _gameManager = GameManager.Instance;
             _videoPlayer = GetComponent<VideoPlayer>();
-            // _cashStarButton.interactable = false;
-            _rainbowStarButton.interactable = false;
         }
 
         /// <summary>
@@ -67,6 +64,7 @@ namespace SDW
         private void OnEnable()
         {
             _cashStarButton.onClick.AddListener(CashStarButtonClicked);
+            _rainbowStarButton.onClick.AddListener(RainbowStartButtonClicked);
             _optionButton.onClick.AddListener(OptionButtonClicked);
             _userInfoButton.onClick.AddListener(UserInfoButtonClicked);
             _stageSelectButton.onClick.AddListener(StageSelectButtonClicked);
@@ -90,6 +88,7 @@ namespace SDW
         private void OnDisable()
         {
             _cashStarButton.onClick.RemoveListener(CashStarButtonClicked);
+            _rainbowStarButton.onClick.RemoveListener(RainbowStartButtonClicked);
             _optionButton.onClick.RemoveListener(OptionButtonClicked);
             _userInfoButton.onClick.RemoveListener(UserInfoButtonClicked);
             _stageSelectButton.onClick.RemoveListener(StageSelectButtonClicked);
@@ -119,7 +118,7 @@ namespace SDW
             {
                 yield return null;
                 if (!_gameManager.CompleteDownload || !_gameManager.ImageSpriteConnected || !_gameManager.PrefabAndSoConnected ||
-                    !_gameManager.Firebase.IsLoaded) continue;
+                    !_gameManager.Firebase.IsLoaded || !_gameManager.Video.IsLoaded || !_gameManager.Audio.IsLoaded) continue;
 
                 break;
             }
@@ -174,8 +173,14 @@ namespace SDW
 
         private void CashStarButtonClicked()
         {
-            SetMainText("사탕가게");
+            SetMainText("유료상점");
             OnUIOpenRequested?.Invoke(UIName.PaidStoreUI);
+        }
+
+        private void RainbowStartButtonClicked()
+        {
+            SetMainText("별사탕 교환");
+            OnUIOpenRequested?.Invoke(UIName.SugarStarExchangeUI);
         }
 
         private void OptionButtonClicked()

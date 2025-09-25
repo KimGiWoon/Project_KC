@@ -34,10 +34,32 @@ namespace SDW
         private List<bool> _volumeMuteList = new List<bool>();
         public IReadOnlyList<bool> VolumeMuteList => _volumeMuteList;
 
+        private bool _isLoaded;
+        public bool IsLoaded => _isLoaded;
+
         private void Start()
         {
             _gameManager = GameManager.Instance;
             StartCoroutine(LoadCoroutine());
+        }
+
+        // private void Start() => PlayBGM(AudioClipName.TitleBackground);
+
+        private IEnumerator LoadCoroutine()
+        {
+            while (true)
+            {
+                yield return null;
+                if (!_gameManager.CompleteDownload || !_gameManager.ImageSpriteConnected ||
+                    !_gameManager.PrefabAndSoConnected) continue;
+
+                break;
+            }
+
+            InitializeAudioClip();
+            InitBGMAudioSource();
+            SetDefaultVolume();
+            _isLoaded = true;
         }
 
         private void SetDefaultVolume()
@@ -101,24 +123,6 @@ namespace SDW
             _isSFXVolumeMuted = PlayerPrefs.GetInt("SFXVolumeMute") == 1;
             _volumeMuteList.Add(_isSFXVolumeMuted);
             SetMute(VolumeType.SFXVolume, _isSFXVolumeMuted);
-        }
-
-        // private void Start() => PlayBGM(AudioClipName.TitleBackground);
-
-        private IEnumerator LoadCoroutine()
-        {
-            while (true)
-            {
-                yield return null;
-                if (!_gameManager.CompleteDownload || !_gameManager.ImageSpriteConnected ||
-                    !_gameManager.PrefabAndSoConnected) continue;
-
-                break;
-            }
-
-            InitializeAudioClip();
-            InitBGMAudioSource();
-            SetDefaultVolume();
         }
 
         private void InitializeAudioClip()

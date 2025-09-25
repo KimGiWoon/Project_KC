@@ -99,6 +99,7 @@ namespace SDW
                 case UIName.NoticePaidConfirmUI: ConnectNoticePaidConfirmUI(uiName); break;
                 case UIName.NoticePaidCompleteUI: ConnectNoticePaidCompleteUI(uiName); break;
                 case UIName.NoticeNotPaidUI: ConnectNoticeNotPaidUI(uiName); break;
+                case UIName.SugarStarExchangeUI: ConnectSugarStarExchangeUI(uiName); break;
             }
         }
 
@@ -217,7 +218,6 @@ namespace SDW
             var globalSettingUI = _uiDic[UIName.GlobalSettingUI] as GlobalSettingUI;
 
             mainLobbyUI.OnUIOpenRequested += OpenPanel;
-            mainLobbyUI.OnUICloseRequested += ClosePanel;
             mainLobbyUI.OnIconRequested += (index) =>
             {
                 var sprite = changeIconUI.GetIcon(index);
@@ -265,7 +265,11 @@ namespace SDW
 
             deleteAccountUI.OnDeleteAcceptButtonClicked += _firebase.DeleteAccount;
             deleteAccountUI.OnDeleteAcceptButtonClicked += globalSettingUI.DeactiveDeleteButton;
-            deleteAccountUI.OnCloseButtonClicked += ClosePanel;
+            deleteAccountUI.OnCloseButtonClicked += (firstUI, secondUI) =>
+            {
+                ClosePanel(firstUI);
+                ClosePanel(secondUI);
+            };
         }
 
         /// <summary>
@@ -339,8 +343,12 @@ namespace SDW
             var gachaConfirmUI = _uiDic[UIName.GachaConfirmUI] as GachaConfirmUI;
 
             gachaMainUI.OnGachaButtonClicked += gachaConfirmUI.SetDescriptionText;
-
-            gachaMainUI.OnUIOpenRequested += OpenPanel;
+            gachaMainUI.OnUIOpenRequested += (uiName) =>
+            {
+                if (uiName == UIName.PaidStoreUI) mainLobbyUI.SetMainText("유료상점");
+                else if (uiName == UIName.SugarStarExchangeUI) mainLobbyUI.SetMainText("별사탕 교환");
+                OpenPanel(uiName);
+            };
             gachaMainUI.OnUICloseRequested += (uiName) =>
             {
                 mainLobbyUI.ResetMainText();
@@ -364,9 +372,19 @@ namespace SDW
         private void ConnectNotEnoughUI(UIName uiName)
         {
             var gachaNoEnoughUI = _uiDic[uiName] as GachaNotEnoughUI;
+            var mainLobbyUI = _uiDic[UIName.MainLobbyUI] as MainLobbyUI;
 
-            gachaNoEnoughUI.OnUIOpenRequested += OpenPanel;
-            gachaNoEnoughUI.OnUICloseRequested += ClosePanel;
+            gachaNoEnoughUI.OnUIOpenRequested += (uiName) =>
+            {
+                if (uiName == UIName.PaidStoreUI) mainLobbyUI.SetMainText("유료상점");
+                else if (uiName == UIName.SugarStarExchangeUI) mainLobbyUI.SetMainText("별사탕 교환");
+                OpenPanel(uiName);
+            };
+            gachaNoEnoughUI.OnUICloseRequested += (firstUI, secondUI) =>
+            {
+                ClosePanel(firstUI);
+                if (secondUI != UIName.None) ClosePanel(secondUI);
+            };
         }
 
         /// <summary>
@@ -553,6 +571,13 @@ namespace SDW
             var noticeNotPaidUI = _uiDic[uiName] as NoticeNotPaidUI;
 
             noticeNotPaidUI.OnUICloseRequested += ClosePanel;
+        }
+
+        private void ConnectSugarStarExchangeUI(UIName uiName)
+        {
+            var _sugarStarExchangeUI = _uiDic[uiName] as SugarStarExchangeUI;
+
+            _sugarStarExchangeUI.OnUICloseRequested += ClosePanel;
         }
 
         #endregion

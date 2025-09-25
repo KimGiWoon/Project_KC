@@ -197,6 +197,14 @@ namespace JJY
             _firebase.SetStarCandy(starCandy);
         }
 
+        public void AddStarCandy(int value)
+        {
+            //todo invoke로 전체에 알려야 함
+            starCandy += value;
+            OnStarCandyChanged?.Invoke(starCandy);
+            _firebase.SetStarCandy(starCandy);
+        }
+
         public void SetShiningStarCandy(int value)
         {
             //todo invoke로 전체에 알려야 함
