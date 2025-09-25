@@ -52412,7 +52412,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f163707ce708d34479d56d402294c1a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _mappingSo: {fileID: 11400000, guid: 18e01bcfc73a2f0438efee62f11920fc, type: 2}
+  _mappingSo: {fileID: 11400000, guid: adea016b66bd87e4fb11126331692758, type: 2}
 --- !u!114 &1720060141
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -52425,7 +52425,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be2b34b329cf0154c81c3cc384bd432b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _mappingSo: {fileID: 11400000, guid: a8100ed40270bfa429890ed0865f29fe, type: 2}
+  _mappingSo: {fileID: 11400000, guid: 6a50bd57841ea8046a26b44234c1ef55, type: 2}
 --- !u!4 &1720060142
 Transform:
   m_ObjectHideFlags: 0
@@ -63694,7 +63694,7 @@ RectTransform:
   m_Father: {fileID: 7129529350373194877}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 2.5, y: 0}
   m_SizeDelta: {x: 5, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -72124,7 +72124,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 607fca606268e6143a21875140a16885, type: 3}
+  m_Sprite: {fileID: 21300000, guid: df4bb476641d6f14491a1c83460f58af, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -72627,7 +72627,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &8926952048195027195
 RectTransform:
   m_ObjectHideFlags: 0
