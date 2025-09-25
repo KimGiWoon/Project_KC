@@ -43,6 +43,9 @@ namespace SDW
         private Dictionary<string, object> _dailyQuest;
         public IReadOnlyDictionary<string, object> DailyQuest => _dailyQuest;
 
+        private Dictionary<string, object> _dailyQuestProgress;
+        public IReadOnlyDictionary<string, object> DailyQuestProgress => _dailyQuestProgress;
+
         private Dictionary<string, object> _etcData;
         public IReadOnlyDictionary<string, object> EtcData => _etcData;
 
@@ -278,6 +281,7 @@ namespace SDW
                 { "totalYeopjeon", 0 } //# 총 획득 엽전 재화, 정산 시 사용
             };
 
+
             var characters = new Dictionary<string, object>();
 
             int selectedTeamCount = 0;
@@ -310,11 +314,15 @@ namespace SDW
             Debug.Log($"Number of characters : {characters.Count}");
 
             var dailyQuests = new Dictionary<string, object>();
+            var dailyQuestsProgress = new Dictionary<string, object>();
 
             foreach (QuestType quest in Enum.GetValues(typeof(QuestType)))
             {
                 dailyQuests[quest.ToString()] = false;
+                dailyQuestsProgress[quest.ToString()] = 0;
             }
+
+            dailyQuests["GetReward"] = false;
 
             var etcData = new Dictionary<string, object>
             {
@@ -343,6 +351,7 @@ namespace SDW
                 { "coinData", coinData },
                 { "characters", characters },
                 { "dailyQuests", dailyQuests },
+                { "dailyQuestsProgress", dailyQuestsProgress },
                 { "etcData", etcData }
             };
 
@@ -362,8 +371,14 @@ namespace SDW
                     return;
                 }
 
-                CheckUserInDatabase(user);
+                StartCoroutine(DelayedCall(user));
             });
+        }
+
+        private IEnumerator DelayedCall(FirebaseUser user)
+        {
+            yield return new WaitForSeconds(1f);
+            CheckUserInDatabase(user);
         }
 #endif
 
@@ -465,6 +480,7 @@ namespace SDW
                 _coinData = userData["coinData"] as Dictionary<string, object>;
                 _characters = userData["characters"] as Dictionary<string, object>;
                 _dailyQuest = userData["dailyQuests"] as Dictionary<string, object>;
+                _dailyQuestProgress = userData["dailyQuestProgress"] as Dictionary<string, object>;
                 _etcData = userData["etcData"] as Dictionary<string, object>;
                 _growthData = userData["growthData"] as Dictionary<string, object>;
                 _isLoaded = true;
@@ -531,13 +547,18 @@ namespace SDW
             Debug.Log($"Number of characters : {characters.Count}");
 
             var dailyQuests = new Dictionary<string, object>();
+            var dailyQuestsProgress = new Dictionary<string, object>();
 
             foreach (QuestType quest in Enum.GetValues(typeof(QuestType)))
             {
                 dailyQuests[quest.ToString()] = false;
+                dailyQuestsProgress[quest.ToString()] = 0;
             }
 
+            dailyQuests["GetReward"] = false;
+
             _dailyQuest = dailyQuests;
+            _dailyQuestProgress = dailyQuestsProgress;
 
             var etcData = new Dictionary<string, object>
             {
@@ -562,6 +583,7 @@ namespace SDW
                 { "coinData", coinData },
                 { "characters", characters },
                 { "dailyQuests", dailyQuests },
+                { "dailyQuestsProgress", dailyQuestsProgress },
                 { "etcData", etcData }
             };
 
