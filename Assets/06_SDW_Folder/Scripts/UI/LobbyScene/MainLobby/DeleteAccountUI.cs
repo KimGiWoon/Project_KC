@@ -17,22 +17,16 @@ namespace SDW
 
         private Coroutine _coroutine;
         private GameManager _gameManager;
-
-        /// <summary>
-        /// UI 요소가 활성화 준비를 마치고 초기화 작업을 수행하는 메서드
-        /// </summary>
-        private void Awake()
-        {
-            _panelContainer.SetActive(false);
-        }
+        private static bool _isInitialized;
 
         /// <summary>
         /// UI 요소가 활성화될 때 필요한 이벤트 연결 수행
         /// </summary>
         protected override void Start()
         {
-            if (GameManager.Instance.UI.UiDic.ContainsKey(UIName.DeleteAccountUI)) return;
+            if (_isInitialized || GameManager.Instance.UI.UiDic.ContainsKey(UIName.DeleteAccountUI)) return;
 
+            _panelContainer.SetActive(false);
             _gameManager = GameManager.Instance;
             base.Start();
             StartCoroutine(LoadCoroutine());
@@ -50,6 +44,7 @@ namespace SDW
             }
             _cancelButton.onClick.AddListener(DeleteCancelButtonClicked);
             _acceptButton.onClick.AddListener(DeleteAcceptButtonClicked);
+            _isInitialized = true;
         }
 
         /// <summary>
@@ -104,7 +99,7 @@ namespace SDW
         private IEnumerator ActiveDeleteButton()
         {
             yield return new WaitForSeconds(3f);
-            _acceptButton.interactable = false;
+            _acceptButton.interactable = true;
             _coroutine = null;
         }
     }
