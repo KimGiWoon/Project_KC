@@ -277,7 +277,7 @@ namespace CJH
             if (nodeObjects.TryGetValue(currentMap.CurrentNode.point, out var currentNodeObject))
             {
                 // 이동 시작 직전에 뒷모습으로 변경 
-                playerVisualController.SetMoving();
+                playerVisualController.SetMoving(new Vector2(1, 0));
 
                 playerVisualController.transform.DOKill();
                 playerVisualController.transform
