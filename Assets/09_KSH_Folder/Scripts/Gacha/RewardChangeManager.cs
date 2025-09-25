@@ -68,6 +68,8 @@ namespace KSH
         public event Action<int> OnShiningStarCandyChange;
         public event Action<int> OnStarCandyGained;
         public event Action<int> OnBeadGained;
+        
+        public event Action<CharacterDataSO> OnNewCharacterAdded;
 
         public (int starCandy, int bead, int currentBead) ProcessCharacter(CharacterDataSO character)
         {
@@ -82,12 +84,20 @@ namespace KSH
                 character.Beads++;
                 currentBead = character.Beads;
 
+                // 캐릭터의 업그레이드 레벨 저장
+                if (!GameManager.Instance.CharacterBattleDataSave._chaUpgrade.ContainsKey(character._chaBaseData.ChaEnName))
+                {
+                    GameManager.Instance.CharacterBattleDataSave._chaUpgrade.Add(character._chaBaseData.ChaEnName, currentBead);
+                }
+                GameManager.Instance.CharacterBattleDataSave._chaUpgrade[character._chaBaseData.ChaEnName] = currentBead;
+
                 if (currentBead >= 7)
                 {
                     gainedStarCandy = character._chaBaseData.ChaGrade == CharacterGrade.Rare ? RareReward : normalReward;
                     gainedBead = 0;
                     _charData.SetBead(character._chaBaseData.ChaEnName, beadMax);
                     character.Beads = beadMax;
+                    GameManager.Instance.CharacterBattleDataSave._chaUpgrade[character._chaBaseData.ChaEnName] = beadMax;
                     StarCandy += gainedStarCandy;
 
                     if (OnStarCandyGained != null)
@@ -112,6 +122,7 @@ namespace KSH
             else
             {
                 currentBead = AddFirstCharacter(character);
+                OnNewCharacterAdded?.Invoke(character);
             }
             return (gainedStarCandy, gainedBead, currentBead);
         }

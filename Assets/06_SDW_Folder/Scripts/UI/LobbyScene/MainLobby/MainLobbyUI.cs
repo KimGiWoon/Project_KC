@@ -39,7 +39,6 @@ namespace SDW
         [SerializeField] private float delayTime = 1.35f;
 
         public Action<UIName> OnUIOpenRequested;
-        public Action<UIName> OnUICloseRequested;
         public Action<int> OnIconRequested;
         public Action<bool> OnButtonInteractableChanged;
         private GameManager _gameManager;
@@ -57,8 +56,6 @@ namespace SDW
             _panelContainer.SetActive(false);
             _gameManager = GameManager.Instance;
             _videoPlayer = GetComponent<VideoPlayer>();
-            _cashStarButton.interactable = false;
-            _rainbowStarButton.interactable = false;
         }
 
         /// <summary>
@@ -66,6 +63,8 @@ namespace SDW
         /// </summary>
         private void OnEnable()
         {
+            _cashStarButton.onClick.AddListener(CashStarButtonClicked);
+            _rainbowStarButton.onClick.AddListener(RainbowStartButtonClicked);
             _optionButton.onClick.AddListener(OptionButtonClicked);
             _userInfoButton.onClick.AddListener(UserInfoButtonClicked);
             _stageSelectButton.onClick.AddListener(StageSelectButtonClicked);
@@ -76,9 +75,11 @@ namespace SDW
                 memoryButton.onClick.AddListener(() => MemoryButtonClicked(buttonId.Id));
             }
 
-            GameManager.Instance.Reward.OnStarCandyChange += UpdateRainbowStar;
-            GameManager.Instance.Reward.OnShiningStarCandyChange += UpdateShiningStarCandy;
-            GameManager.Instance.DailyQuest.OnStarCandyChange += UpdateRainbowStar;
+            _gameManager.Coin.OnShiningStarCandyChanged += UpdateShiningStarCandy;
+            _gameManager.Coin.OnStarCandyChanged += UpdateRainbowStar;
+            _gameManager.Reward.OnStarCandyChange += UpdateRainbowStar;
+            _gameManager.Reward.OnShiningStarCandyChange += UpdateShiningStarCandy;
+            _gameManager.DailyQuest.OnStarCandyChange += UpdateRainbowStar;
         }
 
         /// <summary>
@@ -86,6 +87,8 @@ namespace SDW
         /// </summary>
         private void OnDisable()
         {
+            _cashStarButton.onClick.RemoveListener(CashStarButtonClicked);
+            _rainbowStarButton.onClick.RemoveListener(RainbowStartButtonClicked);
             _optionButton.onClick.RemoveListener(OptionButtonClicked);
             _userInfoButton.onClick.RemoveListener(UserInfoButtonClicked);
             _stageSelectButton.onClick.RemoveListener(StageSelectButtonClicked);
@@ -95,10 +98,12 @@ namespace SDW
                 var buttonId = memoryButton.GetComponent<ButtonId>();
                 memoryButton.onClick.RemoveListener(() => MemoryButtonClicked(buttonId.Id));
             }
+            _gameManager.Coin.OnShiningStarCandyChanged -= UpdateShiningStarCandy;
+            _gameManager.Coin.OnStarCandyChanged -= UpdateRainbowStar;
 
-            GameManager.Instance.Reward.OnStarCandyChange -= UpdateRainbowStar;
-            GameManager.Instance.Reward.OnShiningStarCandyChange -= UpdateShiningStarCandy;
-            GameManager.Instance.DailyQuest.OnStarCandyChange -= UpdateRainbowStar;
+            _gameManager.Reward.OnStarCandyChange -= UpdateRainbowStar;
+            _gameManager.Reward.OnShiningStarCandyChange -= UpdateShiningStarCandy;
+            _gameManager.DailyQuest.OnStarCandyChange -= UpdateRainbowStar;
         }
 
         protected override void Start()
@@ -113,7 +118,7 @@ namespace SDW
             {
                 yield return null;
                 if (!_gameManager.CompleteDownload || !_gameManager.ImageSpriteConnected || !_gameManager.PrefabAndSoConnected ||
-                    !_gameManager.Firebase.IsLoaded) continue;
+                    !_gameManager.Firebase.IsLoaded || !_gameManager.Video.IsLoaded || !_gameManager.Audio.IsLoaded) continue;
 
                 break;
             }
@@ -165,6 +170,18 @@ namespace SDW
         }
 
         #region Button Methods
+
+        private void CashStarButtonClicked()
+        {
+            SetMainText("유료상점");
+            OnUIOpenRequested?.Invoke(UIName.PaidStoreUI);
+        }
+
+        private void RainbowStartButtonClicked()
+        {
+            SetMainText("별사탕 교환");
+            OnUIOpenRequested?.Invoke(UIName.SugarStarExchangeUI);
+        }
 
         private void OptionButtonClicked()
         {

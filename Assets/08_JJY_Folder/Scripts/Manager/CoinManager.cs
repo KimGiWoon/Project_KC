@@ -38,6 +38,8 @@ namespace JJY
         public Action OnPointChanged;
         public Action OnRelicChanged;
         public Action<int> OnYeopjeonBonus;
+        public Action<int> OnShiningStarCandyChanged;
+        public Action<int> OnStarCandyChanged;
 
         // public static CoinManager Instance { get; private set; }
         private void Awake()
@@ -189,13 +191,25 @@ namespace JJY
         /// </summary>
         public void SetStarCandy(int value)
         {
+            //todo invoke로 전체에 알려야 함
             starCandy = value;
+            OnStarCandyChanged?.Invoke(starCandy);
+            _firebase.SetStarCandy(starCandy);
+        }
+
+        public void AddStarCandy(int value)
+        {
+            //todo invoke로 전체에 알려야 함
+            starCandy += value;
+            OnStarCandyChanged?.Invoke(starCandy);
             _firebase.SetStarCandy(starCandy);
         }
 
         public void SetShiningStarCandy(int value)
         {
+            //todo invoke로 전체에 알려야 함
             shiningStarCandy = value;
+            OnShiningStarCandyChanged?.Invoke(shiningStarCandy);
             _firebase.SetShiningStarCandy(shiningStarCandy);
         }
 
@@ -204,7 +218,9 @@ namespace JJY
         /// </summary>
         public void AddShiningStarCandy(int value)
         {
+            //todo invoke로 전체에 알려야 함
             shiningStarCandy += value;
+            OnShiningStarCandyChanged?.Invoke(shiningStarCandy);
             _firebase.SetShiningStarCandy(shiningStarCandy);
         }
         /// <summary>
@@ -212,9 +228,11 @@ namespace JJY
         /// </summary>
         public void SubtractShiningStarCandy(int value)
         {
+            //todo invoke로 전체에 알려야 함
             if (shiningStarCandy < value) return;
 
             shiningStarCandy -= value;
+            OnShiningStarCandyChanged?.Invoke(shiningStarCandy);
             _firebase.SetShiningStarCandy(shiningStarCandy);
         }
 

@@ -27,15 +27,13 @@ namespace SDW
         private void Awake()
         {
             _panelContainer.SetActive(false);
-
-            //todo 추후 연결 후 해제
-            _collectionButton.interactable = false;
         }
 
         private void OnEnable()
         {
             _dailyQuestButton.onClick.AddListener(DailyQuestButtonClicked);
             _gachaButton.onClick.AddListener(GachaButtonClicked);
+            _collectionButton.onClick.AddListener(CollectionButtonClicked);
             _levelUpButton.onClick.AddListener(LevelUpButtonClicked);
         }
 
@@ -43,6 +41,7 @@ namespace SDW
         {
             _dailyQuestButton.onClick.RemoveListener(DailyQuestButtonClicked);
             _gachaButton.onClick.RemoveListener(GachaButtonClicked);
+            _collectionButton.onClick.RemoveListener(CollectionButtonClicked);
             _levelUpButton.onClick.RemoveListener(LevelUpButtonClicked);
         }
 
@@ -60,6 +59,11 @@ namespace SDW
         private void GachaButtonClicked()
         {
             OnUIOpenRequested?.Invoke(UIName.GachaMainUI, "미식가 초대");
+        }
+
+        private void CollectionButtonClicked()
+        {
+            OnUIOpenRequested?.Invoke(UIName.StoryCollectionUI, "미식가의 추억");
         }
 
         private void LevelUpButtonClicked()
@@ -87,8 +91,7 @@ namespace SDW
             _levelUpButton.interactable = value;
             _dailyQuestButton.interactable = value;
             _lobbyButton.interactable = value;
-            //todo 추후 collection 연결 후 해제
-            // _collectionButton.interactable = value;
+            _collectionButton.interactable = value;
             _gachaButton.interactable = value;
         }
     }

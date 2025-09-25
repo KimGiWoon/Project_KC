@@ -42,6 +42,7 @@ namespace SDW
 
         private AudioManager _audio;
         private GameManager _gameManager;
+        private bool _isProgress;
 
         private List<float> _originalVolumeList = new List<float>();
         private List<bool> _originalMuteList = new List<bool>();
@@ -56,7 +57,10 @@ namespace SDW
 
         protected override void Start()
         {
+            if (GameManager.Instance.UI.UiDic.ContainsKey(UIName.GlobalSettingUI)) return;
+
             _gameManager = GameManager.Instance;
+            base.Start();
             StartCoroutine(LoadCoroutine());
         }
 
@@ -70,14 +74,9 @@ namespace SDW
 
                 break;
             }
-
-            if (!GameManager.Instance.UI.UiDic.ContainsKey(UIName.GlobalSettingUI))
-            {
-                base.Start();
-                _audio = GameManager.Instance.Audio;
-                InitializeSettings();
-                CheckSceneName();
-            }
+            _audio = GameManager.Instance.Audio;
+            InitializeSettings();
+            CheckSceneName();
         }
 
         private void OnDisable()
@@ -115,7 +114,7 @@ namespace SDW
 
         private void Update()
         {
-            if (!_panelContainer.activeSelf) return;
+            if (!_panelContainer.activeSelf || _isProgress) return;
 
             //# 안드로이드 터치 감지
             if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began)
@@ -126,6 +125,7 @@ namespace SDW
                 if (!RectTransformUtility.RectangleContainsScreenPoint(_rectTransform, touchPos))
                 {
                     CancelToChange();
+                    _isProgress = true;
                     OnUICloseRequested?.Invoke(UIName.GlobalSettingUI);
                 }
             }
@@ -133,6 +133,7 @@ namespace SDW
 
         public override void Open()
         {
+            _isProgress = false;
             _backgroundPanelObject.SetActive(true);
             _gameManager.Firebase.RequestUserInfo();
             SetupInitialVolumeState();
@@ -292,6 +293,7 @@ namespace SDW
 
         private void SaveButtonClicked()
         {
+            _isProgress = true;
             PlayerPrefs.SetInt("MasterVolume", (int)_volumeSlider[0].value);
             PlayerPrefs.SetInt("BGMVolume", (int)_volumeSlider[1].value);
             PlayerPrefs.SetInt("SFXVolume", (int)_volumeSlider[2].value);

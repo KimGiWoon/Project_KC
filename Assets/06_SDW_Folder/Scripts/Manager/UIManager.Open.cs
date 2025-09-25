@@ -92,6 +92,14 @@ namespace SDW
                 //@ Stage Select UI
                 case UIName.StageSelectUI: ConnectStageSelectUI(uiName); break;
                 case UIName.MainLobbyBottomUI: ConnectMainLobbyBottomUI(uiName); break;
+                //@ Story Collection UI
+                case UIName.StoryCollectionUI: ConnectStoryCollectionUI(uiName); break;
+                //@ Money UI
+                case UIName.PaidStoreUI: ConnectPaidStoreUI(uiName); break;
+                case UIName.NoticePaidConfirmUI: ConnectNoticePaidConfirmUI(uiName); break;
+                case UIName.NoticePaidCompleteUI: ConnectNoticePaidCompleteUI(uiName); break;
+                case UIName.NoticeNotPaidUI: ConnectNoticeNotPaidUI(uiName); break;
+                case UIName.SugarStarExchangeUI: ConnectSugarStarExchangeUI(uiName); break;
             }
         }
 
@@ -210,7 +218,6 @@ namespace SDW
             var globalSettingUI = _uiDic[UIName.GlobalSettingUI] as GlobalSettingUI;
 
             mainLobbyUI.OnUIOpenRequested += OpenPanel;
-            mainLobbyUI.OnUICloseRequested += ClosePanel;
             mainLobbyUI.OnIconRequested += (index) =>
             {
                 var sprite = changeIconUI.GetIcon(index);
@@ -258,7 +265,11 @@ namespace SDW
 
             deleteAccountUI.OnDeleteAcceptButtonClicked += _firebase.DeleteAccount;
             deleteAccountUI.OnDeleteAcceptButtonClicked += globalSettingUI.DeactiveDeleteButton;
-            deleteAccountUI.OnCloseButtonClicked += ClosePanel;
+            deleteAccountUI.OnCloseButtonClicked += (firstUI, secondUI) =>
+            {
+                ClosePanel(firstUI);
+                ClosePanel(secondUI);
+            };
         }
 
         /// <summary>
@@ -332,8 +343,12 @@ namespace SDW
             var gachaConfirmUI = _uiDic[UIName.GachaConfirmUI] as GachaConfirmUI;
 
             gachaMainUI.OnGachaButtonClicked += gachaConfirmUI.SetDescriptionText;
-
-            gachaMainUI.OnUIOpenRequested += OpenPanel;
+            gachaMainUI.OnUIOpenRequested += (uiName) =>
+            {
+                if (uiName == UIName.PaidStoreUI) mainLobbyUI.SetMainText("유료상점");
+                else if (uiName == UIName.SugarStarExchangeUI) mainLobbyUI.SetMainText("별사탕 교환");
+                OpenPanel(uiName);
+            };
             gachaMainUI.OnUICloseRequested += (uiName) =>
             {
                 mainLobbyUI.ResetMainText();
@@ -344,17 +359,32 @@ namespace SDW
         private void ConnectGachaConfirmUI(UIName uiName)
         {
             var gachaConfirmUI = _uiDic[uiName] as GachaConfirmUI;
+            var gachaResultUI = _uiDic[UIName.GachaResultUI] as GachaResultUI;
 
-            gachaConfirmUI.OnUIOpenRequested += OpenPanel;
+            gachaConfirmUI.OnUIOpenRequested += (uiName, isSingle) =>
+            {
+                gachaResultUI.SetGachaType(isSingle);
+                OpenPanel(uiName);
+            };
             gachaConfirmUI.OnUICloseRequested += ClosePanel;
         }
 
         private void ConnectNotEnoughUI(UIName uiName)
         {
             var gachaNoEnoughUI = _uiDic[uiName] as GachaNotEnoughUI;
+            var mainLobbyUI = _uiDic[UIName.MainLobbyUI] as MainLobbyUI;
 
-            gachaNoEnoughUI.OnUIOpenRequested += OpenPanel;
-            gachaNoEnoughUI.OnUICloseRequested += ClosePanel;
+            gachaNoEnoughUI.OnUIOpenRequested += (uiName) =>
+            {
+                if (uiName == UIName.PaidStoreUI) mainLobbyUI.SetMainText("유료상점");
+                else if (uiName == UIName.SugarStarExchangeUI) mainLobbyUI.SetMainText("별사탕 교환");
+                OpenPanel(uiName);
+            };
+            gachaNoEnoughUI.OnUICloseRequested += (firstUI, secondUI) =>
+            {
+                ClosePanel(firstUI);
+                if (secondUI != UIName.None) ClosePanel(secondUI);
+            };
         }
 
         /// <summary>
@@ -495,6 +525,59 @@ namespace SDW
             };
 
             bottomUI.OnUICloseRequested += ClosePanel;
+        }
+
+        private void ConnectStoryCollectionUI(UIName uiName)
+        {
+            var storyCollectionUI = _uiDic[uiName] as StoryCollectionUI;
+
+            storyCollectionUI.OnUICloseRequested += ClosePanel;
+        }
+
+        private void ConnectPaidStoreUI(UIName uiName)
+        {
+            var paidStoreUI = _uiDic[uiName] as PaidStoreUI;
+            var noticePaidConfirmUI = _uiDic[UIName.NoticePaidConfirmUI] as NoticePaidConfirmUI;
+            var noticePaidCompleteUI = _uiDic[UIName.NoticePaidCompleteUI] as NoticePaidCompleteUI;
+            var mainLobbyUI = _uiDic[UIName.MainLobbyUI] as MainLobbyUI;
+
+            paidStoreUI.OnUIOpenRequested += OpenPanel;
+            paidStoreUI.OnUICloseRequested += (uiName) =>
+            {
+                mainLobbyUI.ResetMainText();
+                ClosePanel(uiName);
+            };
+            paidStoreUI.OnItemSelected += noticePaidConfirmUI.SetItemInfo;
+            paidStoreUI.OnItemSelected += noticePaidCompleteUI.SetItemInfo;
+        }
+
+        private void ConnectNoticePaidConfirmUI(UIName uiName)
+        {
+            var noticePaidConfirmUI = _uiDic[uiName] as NoticePaidConfirmUI;
+
+            noticePaidConfirmUI.OnUIOpenRequested += OpenPanel;
+            noticePaidConfirmUI.OnUICloseRequested += ClosePanel;
+        }
+
+        private void ConnectNoticePaidCompleteUI(UIName uiName)
+        {
+            var noticePaidCompleteUI = _uiDic[uiName] as NoticePaidCompleteUI;
+
+            noticePaidCompleteUI.OnUICloseRequested += ClosePanel;
+        }
+
+        private void ConnectNoticeNotPaidUI(UIName uiName)
+        {
+            var noticeNotPaidUI = _uiDic[uiName] as NoticeNotPaidUI;
+
+            noticeNotPaidUI.OnUICloseRequested += ClosePanel;
+        }
+
+        private void ConnectSugarStarExchangeUI(UIName uiName)
+        {
+            var _sugarStarExchangeUI = _uiDic[uiName] as SugarStarExchangeUI;
+
+            _sugarStarExchangeUI.OnUICloseRequested += ClosePanel;
         }
 
         #endregion
@@ -664,6 +747,7 @@ namespace SDW
         private void ConnectNonRemoveADUI(UIName uiName)
         {
             var nonRemoveADUI = _uiDic[uiName] as NonRemoveADUI;
+
             nonRemoveADUI.OnUIOpenRequested += OpenPanel;
             nonRemoveADUI.OnUICloseRequested += ClosePanel;
         }

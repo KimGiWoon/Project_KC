@@ -4,13 +4,15 @@ using System.Runtime.InteropServices;
 using UnityEngine;
 using UnityEngine.UI;
 using SDW;
+using TMPro;
 
 public class GrowthNodeUI : MonoBehaviour
 {
     [SerializeField] private Button growthButton; //노드 버튼
     [SerializeField] private Image growthImage; //노드 색
     [SerializeField] private GameObject growthEffect; //노드 해금 테두리
-    [SerializeField] private GrowthPopUpUI growthPopUpUI;
+    [SerializeField] private TextMeshProUGUI currencyText; //노드 필요 재화
+    [SerializeField] private TextMeshProUGUI growthDescription; //노드 설명
     private GrowthDatas growthDatas;
     public NodeGrade Grade;
     public bool CanActivate;
@@ -20,6 +22,20 @@ public class GrowthNodeUI : MonoBehaviour
     {
         growthDatas = growth;
         growthEffect.SetActive(false);
+
+        if (growthDescription != null && !string.IsNullOrEmpty(growthDatas.nodeDescription))
+        {
+            if(!string.IsNullOrEmpty(growthDescription.text))
+                growthDescription.text += "\n" + growthDatas.nodeDescription;
+            else
+                growthDescription.text = growthDatas.nodeDescription;
+        }
+        
+        if (growthDatas.nodeGrade == NodeGrade.Contents)
+            return;
+
+        if (currencyText != null)
+            currencyText.text = $"셰프의 흔적 {growthDatas.nodeCurrency} 소모";
     }
 
     public void NodeUIUpdate(bool isUnlocked, bool isCanActivate) //노드 UI 업데이트 기능

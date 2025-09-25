@@ -60,10 +60,20 @@
         CharInfoStatsUI,
         CharInfoBottomUI,
         LevelUpUI,
+
         GlobalSettingUI,
+
         StageSelectUI,
         MainLobbyBottomUI,
         GachaConfirmUI,
-        GachaNotEnoughUI
+        GachaNotEnoughUI,
+        StoryCollectionUI,
+
+        //# Money
+        PaidStoreUI,
+        NoticePaidConfirmUI,
+        NoticePaidCompleteUI,
+        NoticeNotPaidUI,
+        SugarStarExchangeUI
     }
 }

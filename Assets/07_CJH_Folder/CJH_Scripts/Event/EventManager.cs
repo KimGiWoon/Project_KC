@@ -31,6 +31,7 @@ namespace CJH
         public void SetCombatReward(bool isYeopjeon, int amount)
         {
             IsCombatRewardYeopjeon = isYeopjeon;
+            CombatRewardAmount = amount;
         }
 
         // MapView가 사건 ID를 직접 전달하도록 변경

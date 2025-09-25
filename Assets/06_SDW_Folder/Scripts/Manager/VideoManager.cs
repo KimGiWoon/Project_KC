@@ -12,6 +12,8 @@ namespace SDW
         public IReadOnlyDictionary<VideoClipName, VideoEntry> VideoDictionary => _videoDictionary;
 
         private GameManager _gameManager;
+        private bool _isLoaded;
+        public bool IsLoaded => _isLoaded;
 
         private void Start()
         {
@@ -42,6 +44,8 @@ namespace SDW
             {
                 _videoDictionary.Add(videoEntry.Name, videoEntry);
             }
+
+            _isLoaded = true;
         }
     }
 }

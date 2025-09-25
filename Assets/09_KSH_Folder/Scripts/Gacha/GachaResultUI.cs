@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using DG.Tweening;
 using SDW;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,26 +10,38 @@ namespace KSH
 {
     public class GachaResultUI : BaseUI
     {
+        [Header("Gacha Type")]
+        [SerializeField] private GameObject _singlePanel;
+        [SerializeField] private GameObject _tenPanel;
+
+        [Header("Single Type Components")]
+        [SerializeField] private Image _gachaCharacterImage;
+        [SerializeField] private GameObject _rareImage;
+        [SerializeField] private GameObject _normalImage;
+        [SerializeField] private TextMeshProUGUI _characterNameText;
+        [SerializeField] private TextMeshProUGUI _gachaGainText;
+        [SerializeField] private GameObject _sugarStartObject;
+        [SerializeField] private GameObject _beadsObject;
+
+        [Header("Ten Type Components")]
         [SerializeField] private Transform content;
         [SerializeField] private GachaUI gachaPrefab;
         [SerializeField] private int x;
         [SerializeField] private int y;
-        [SerializeField] private ScrollRect scrollRect;
+
+        [Header("ETC Components")]
         [SerializeField] private CharacterGacha _gacha;
         [SerializeField] private Button _backButton;
-        private RewardChangeManager _reward;
+        private bool _isSingle;
 
         public Action<UIName> OnUIOpenRequested;
         public Action<UIName> OnUICloseRequested;
-        // private Dictionary<string, bool> _isFirstCharacter = new Dictionary<string, bool>();
 
         private void Awake()
         {
             _panelContainer.SetActive(false);
             _gacha = GameManager.Instance.Gacha;
             _gacha.SetGachaResultUI(this);
-
-            _reward = GameManager.Instance.Reward;
         }
 
         private void OnEnable()
@@ -43,6 +56,8 @@ namespace KSH
 
         private void BackButtonClicked()
         {
+            _backButton.interactable = false;
+            _backButton.gameObject.SetActive(false);
             OnUIOpenRequested?.Invoke(UIName.GachaMainUI);
             OnUICloseRequested?.Invoke(UIName.GachaResultUI);
         }
@@ -50,18 +65,43 @@ namespace KSH
         public override void Open()
         {
             base.Open();
-            Show(_gacha.GetGacha());
+            _backButton.interactable = true;
+            _backButton.gameObject.SetActive(true);
+
+            var gachaResult = _gacha.GetGacha();
+
+            if (_isSingle) ShowSingleGacha(gachaResult);
+            else ShowTenGacha(gachaResult);
+        }
+
+        public override void Close()
+        {
+            base.Close();
+            _singlePanel.SetActive(false);
+            _tenPanel.SetActive(false);
+        }
+
+        private void ShowSingleGacha(ResultData characterData)
+        {
+            //todo 설정 이후
+            // _gachaCharacterImage;
+            // _rareImage;
+            // _normalImage;
+            // _characterNameText;
+            // _gachaGainText;
+            // _sugarStartObject;
+            // _beadsObject;
+
+            _singlePanel.SetActive(true);
         }
 
         // public void Show(List<CharacterData> characterDatas) //뽑은 캐릭터들을 보여주는 기능
-        public void Show(ResultData characterDatas) //뽑은 캐릭터들을 보여주는 기능
+        private void ShowTenGacha(ResultData characterDatas) //뽑은 캐릭터들을 보여주는 기능
         {
             foreach (Transform child in content) //content안에 있는 이전 뽑기 결과들
             {
                 Destroy(child.gameObject); //모두 삭제
             }
-
-            scrollRect.verticalNormalizedPosition = 1f; //스크롤 위치 초기화
 
             var spawnedRects = new List<RectTransform>(); //RectTransform 리스트 생성
 
@@ -71,7 +111,7 @@ namespace KSH
             for (int i = 0; i < characterDatas.Result.Count; i++) //뽑힌 캐릭터 수 만큼 생성
             {
                 var gacha = Instantiate(gachaPrefab, content); //뽑힌 캐릭터 UI을 content안에 생성
-                
+
                 bool isFirst = characterDatas.CurrentBead[i] == 0;
 
                 gacha.SetData(
@@ -101,6 +141,10 @@ namespace KSH
                     .SetEase(Ease.OutBack, 0.8f) //튕기는 효과
                     .SetDelay(0.2f * i); //순차적으로 등장
             }
+
+            _tenPanel.SetActive(true);
         }
+
+        public void SetGachaType(bool isSingle) => _isSingle = isSingle;
     }
 }

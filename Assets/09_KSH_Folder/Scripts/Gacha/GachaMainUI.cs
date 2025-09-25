@@ -11,10 +11,10 @@ namespace KSH
     public class GachaMainUI : BaseUI
     {
         [Header("Top Components")]
-        [SerializeField] private TextMeshProUGUI _shiningStartValueText;
-        [SerializeField] private Button _shiningStartButton;
-        [SerializeField] private TextMeshProUGUI _sugarStartValueText;
-        [SerializeField] private Button _sugarStartButton;
+        [SerializeField] private TextMeshProUGUI _shiningStarValueText;
+        [SerializeField] private Button _shiningStarButton;
+        [SerializeField] private TextMeshProUGUI _sugarStarValueText;
+        [SerializeField] private Button _sugarStarButton;
 
         [Header("Bottom Components")]
         [SerializeField] private Button _possibilityButton;
@@ -26,12 +26,13 @@ namespace KSH
         [SerializeField] private TweenAnimation _tweenAnimation;
 
         [Header("Panel")]
-        [SerializeField] private GameObject _topGamePanel;
+        [SerializeField] private RectTransform _topGamePanelRectTransform;
         [SerializeField] private GameObject _possibilityPanel;
         [SerializeField] private GameObject _gachaConfirmPanel;
         [SerializeField] private GameObject _gachaNotEnoughPanel;
-        [SerializeField] private GameObject _backgroundPanelObject;
-        private TweenAlpha_Image _backgroundPanel;
+        [SerializeField] private TweenAlpha_Image _backgroundPanel;
+        [SerializeField] private GameObject _singlePanel;
+        [SerializeField] private GameObject _tenPanel;
 
         public Action<UIName> OnUIOpenRequested;
         public Action<UIName> OnUICloseRequested;
@@ -39,18 +40,21 @@ namespace KSH
         [SerializeField] private CharacterLevelUpUIManager characterLevelUpUIManager;
 
         private RectTransform _rectTransform;
+        private GameManager _gameManager;
 
         private void Awake()
         {
             _panelContainer.SetActive(false);
             _rectTransform = _panelContainer.GetComponent<RectTransform>();
-            _backgroundPanel = _backgroundPanelObject.GetComponent<TweenAlpha_Image>();
-            _backgroundPanelObject.SetActive(false);
+            _backgroundPanel.gameObject.SetActive(false);
             _possibilityPanel.SetActive(false);
+            _gameManager = GameManager.Instance;
         }
 
         private void OnEnable()
         {
+            _shiningStarButton.onClick.AddListener(ShiningStarButtonClicked);
+            _sugarStarButton.onClick.AddListener(SugarStarButtonClicked);
             _possibilityButton.onClick.AddListener(PossibilityButtonClicked);
             _possibilityBackButton.onClick.AddListener(PossibilityBackButtonClicked);
             singleButton.onClick.AddListener(SingleButtonClicked);
@@ -59,12 +63,16 @@ namespace KSH
 
         private void OnDisable()
         {
-            if (GameManager.Instance != null)
+            if (_gameManager != null)
             {
-                GameManager.Instance.Reward.OnStarCandyChange -= CandyUpdate;
-                GameManager.Instance.Reward.OnShiningStarCandyChange -= ShiningCandyUpdate;
+                _gameManager.Reward.OnStarCandyChange -= CandyUpdate;
+                _gameManager.Reward.OnShiningStarCandyChange -= ShiningCandyUpdate;
+                _gameManager.Coin.OnStarCandyChanged -= CandyUpdate;
+                _gameManager.Coin.OnShiningStarCandyChanged -= ShiningCandyUpdate;
             }
 
+            _shiningStarButton.onClick.RemoveListener(ShiningStarButtonClicked);
+            _sugarStarButton.onClick.RemoveListener(SugarStarButtonClicked);
             _possibilityButton.onClick.RemoveListener(PossibilityButtonClicked);
             _possibilityBackButton.onClick.RemoveListener(PossibilityBackButtonClicked);
             singleButton.onClick.RemoveListener(SingleButtonClicked);
@@ -84,11 +92,14 @@ namespace KSH
                 var touchPos = Input.GetTouch(0).position;
 
                 //# 패널 안에 터치가 있는지 확인
-                if (!RectTransformUtility.RectangleContainsScreenPoint(_rectTransform, touchPos))
+                if (!RectTransformUtility.RectangleContainsScreenPoint(_rectTransform, touchPos) ||
+                    !RectTransformUtility.RectangleContainsScreenPoint(_topGamePanelRectTransform, touchPos))
                 {
                     if (_possibilityPanel.activeSelf) return;
                     if (_gachaConfirmPanel.activeSelf) return;
                     if (_gachaNotEnoughPanel.activeSelf) return;
+                    if (_singlePanel.activeSelf) return;
+                    if (_tenPanel.activeSelf) return;
 
                     OnUICloseRequested?.Invoke(UIName.GachaMainUI);
                 }
@@ -99,7 +110,7 @@ namespace KSH
         {
             _tweenAnimation.moveAway();
             base.Open();
-            _backgroundPanelObject.SetActive(true);
+            _backgroundPanel.gameObject.SetActive(true);
             Initialize();
         }
 
@@ -119,19 +130,36 @@ namespace KSH
 
         private void Initialize()
         {
-            GameManager.Instance.Reward.OnStarCandyChange += CandyUpdate;
-            GameManager.Instance.Reward.OnShiningStarCandyChange += ShiningCandyUpdate;
-            CandyUpdate(GameManager.Instance.Coin.starCandy);
+            _gameManager.Reward.OnStarCandyChange += CandyUpdate;
+            _gameManager.Reward.OnShiningStarCandyChange += ShiningCandyUpdate;
+            _gameManager.Coin.OnStarCandyChanged += CandyUpdate;
+            _gameManager.Coin.OnShiningStarCandyChanged += ShiningCandyUpdate;
+            CandyUpdate(_gameManager.Coin.starCandy);
+            ShiningCandyUpdate(_gameManager.Coin.shiningStarCandy);
         }
 
         private void CandyUpdate(int value)
         {
-            _sugarStartValueText.text = value.ToString();
+            _sugarStarValueText.text = value.ToString();
         }
 
         private void ShiningCandyUpdate(int value)
         {
-            _shiningStartValueText.text = value.ToString();
+            _shiningStarValueText.text = value.ToString();
+        }
+
+        private void ShiningStarButtonClicked()
+        {
+            OnUICloseRequested?.Invoke(UIName.GachaNotEnoughUI);
+            OnUICloseRequested?.Invoke(UIName.GachaMainUI);
+            OnUIOpenRequested?.Invoke(UIName.PaidStoreUI);
+        }
+
+        private void SugarStarButtonClicked()
+        {
+            OnUICloseRequested?.Invoke(UIName.GachaNotEnoughUI);
+            OnUICloseRequested?.Invoke(UIName.GachaMainUI);
+            OnUIOpenRequested?.Invoke(UIName.SugarStarExchangeUI);
         }
 
         private void PossibilityButtonClicked()

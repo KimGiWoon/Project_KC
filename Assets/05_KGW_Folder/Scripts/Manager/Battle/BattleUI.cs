@@ -4,6 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using SDW;
+using CJH;
 
 public class BattleUI : BaseUI
 {
@@ -106,7 +107,7 @@ public class BattleUI : BaseUI
         _count = 3f;
         _battleManager.Wall.gameObject.SetActive(false);
 
-        if (CharacterSelectManager.Instance._isFastGame && GameManager.Instance._canFaster)
+        if (CharacterSelectManager.Instance._isFastGame)
         {
             _fastButtonBG.gameObject.SetActive(true);
         }
@@ -138,7 +139,7 @@ public class BattleUI : BaseUI
         // 게임 클리어
         if (result)
         {
-            if (_battleManager.IsLastBoss) OnUIOpenRequested?.Invoke(UIName.ClearChapterUI);
+            if (_battleManager._battleType == BattleEventType.BossFinal) OnUIOpenRequested?.Invoke(UIName.ClearChapterUI);
             else OnUIOpenRequested?.Invoke(UIName.ClearStageUI);
         }
         else // 게임 실패
@@ -188,6 +189,9 @@ public class BattleUI : BaseUI
     // X2 속도 버튼 클릭
     private void X2FastButtonClick()
     {
+        if (!GameManager.Instance._canFaster) //해금되어야만 2배속 가능
+            return;
+        
         if (_isFast)
         {
             CharacterSelectManager.Instance._isFastGame = false;

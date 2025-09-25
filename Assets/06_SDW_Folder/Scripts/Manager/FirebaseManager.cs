@@ -660,6 +660,7 @@ namespace SDW
 
 #if !UNITY_EDITOR
                     GoogleSignIn.DefaultInstance.SignOut();
+                    GoogleSignIn.DefaultInstance.Disconnect();
 #endif
 
                     PlayerPrefs.SetInt("SignedUp", 0);
@@ -671,6 +672,7 @@ namespace SDW
                     UpdateButtonIcon();
                     // InitializeFirebaseDependencies();
                     GameManager.Instance.Scene.LoadSceneAsync(SceneName.SDW_SignInScene);
+                    ConnectToFirebase();
                 });
             });
         }

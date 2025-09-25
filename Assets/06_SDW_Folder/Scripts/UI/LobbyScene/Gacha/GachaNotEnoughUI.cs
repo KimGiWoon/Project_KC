@@ -12,7 +12,8 @@ namespace SDW
         private RectTransform _rectTransform;
 
         public Action<UIName> OnUIOpenRequested;
-        public Action<UIName> OnUICloseRequested;
+        public Action<UIName, UIName> OnUICloseRequested;
+        private bool _isProgress;
 
         private void Awake()
         {
@@ -32,12 +33,20 @@ namespace SDW
             _exchangeButton.onClick.RemoveListener(ExchangeButtonClicked);
         }
 
+        public override void Open()
+        {
+            _paidStoreButton.interactable = true;
+            _exchangeButton.interactable = true;
+            _isProgress = false;
+            base.Open();
+        }
+
         /// <summary>
         /// UI 외부 터치 시 UI를 Close
         /// </summary>
         public void Update()
         {
-            if (!_panelContainer.activeSelf) return;
+            if (!_panelContainer.activeSelf || _isProgress) return;
 
             //# 안드로이드 터치 감지
             if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began)
@@ -47,21 +56,29 @@ namespace SDW
                 //# 패널 안에 터치가 있는지 확인
                 if (!RectTransformUtility.RectangleContainsScreenPoint(_rectTransform, touchPos))
                 {
-                    OnUICloseRequested?.Invoke(UIName.GachaNotEnoughUI);
+                    OnUICloseRequested?.Invoke(UIName.GachaNotEnoughUI, UIName.None);
                 }
             }
         }
 
         private void PaidStoreButtonClicked()
         {
-            //todo PaidStore를 열어야 함
-            Debug.Log("Paid Store");
+            _paidStoreButton.interactable = false;
+            _exchangeButton.interactable = false;
+            _isProgress = true;
+            //todo title을 어떻게 바꿀 것인가
+            OnUIOpenRequested?.Invoke(UIName.PaidStoreUI);
+            OnUICloseRequested?.Invoke(UIName.GachaNotEnoughUI, UIName.GachaMainUI);
         }
 
         private void ExchangeButtonClicked()
         {
-            //todo Exchange를 열어야 함
-            Debug.Log("Exchange");
+            _paidStoreButton.interactable = false;
+            _exchangeButton.interactable = false;
+            _isProgress = true;
+            //todo title을 어떻게 바꿀 것인가
+            OnUIOpenRequested?.Invoke(UIName.SugarStarExchangeUI);
+            OnUICloseRequested?.Invoke(UIName.GachaNotEnoughUI, UIName.GachaMainUI);
         }
     }
 }

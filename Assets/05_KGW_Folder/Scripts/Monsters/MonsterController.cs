@@ -2,9 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using SDW;
-using TableForge.Demo;
 using UnityEngine;
-using UnityEngine.TextCore.Text;
 using UnityEngine.UI;
 
 public class MonsterController : UnitBaseData
@@ -73,8 +71,10 @@ public class MonsterController : UnitBaseData
 
     protected override void Update()
     {
-        if (_battleManager._isGameOver || _battleUI._isOnMenu || _isStern) return;
         base.Update();
+
+        // 게임이 종료되거나 메뉴창이 오픈되거나 그로기 상태이면 움직이지 않는다.
+        if (_battleManager._isGameOver || _battleUI._isOnMenu || _isStern || !_isAlive) return;
 
         UseSkill();
     }
@@ -271,7 +271,7 @@ public class MonsterController : UnitBaseData
     {
         // 정예 몬스터 이상만 스킬 사용 가능
         if (_monsterData.MonType == MonsterType.Normal) return;
-        // 타겟이 없으면 미사용
+        // 타겟이 없거으면 미사용
         if (_attackTarget == null) return;
 
         _skill1Timer += Time.deltaTime * _gameSpeed;
