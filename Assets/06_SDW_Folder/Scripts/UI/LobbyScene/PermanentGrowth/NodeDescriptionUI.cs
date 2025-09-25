@@ -124,6 +124,11 @@ namespace SDW
                 GameManager.Instance.Coin.SubtractPoint(_needPoint);
                 GameManager.Instance.AddGrowthCompleteNode(_nodeId);
                 _growthManager.UpdateAllNode();
+
+                GrowthDatas growthDatas;
+                if (_growthManager.GrowthDataDic.TryGetValue(_nodeId, out growthDatas))
+                    _growthManager.AllApplyGrowth(growthDatas); //모두 적용
+                
                 OnUICloseRequested?.Invoke(UIName.NodeDescriptionUI);
             }
         }
