@@ -1,3 +1,4 @@
+using SDW;
 using UnityEngine;
 
 public class SwingController : MonoBehaviour
@@ -18,6 +19,9 @@ public class SwingController : MonoBehaviour
     // 전체 캐릭터에게 휘두르기 사용
     public void AllCharacterSavageSlash()
     {
+        // 휘두르기 사운드 플레이
+        GameManager.Instance.Audio.Play2DSFX(AudioClipName.GiantBearSkill_1);
+
         foreach (var cha in _character._battleManager._characters)
         {
             if (!cha._isAlive) continue;

@@ -1,5 +1,5 @@
-using System;
 using System.Collections;
+using SDW;
 using UnityEngine;
 
 // 유닛의 공통의기능 정보 추상 클래스
@@ -63,6 +63,19 @@ public abstract class UnitBaseData : MonoBehaviour
     // 유닛의 데미지 받음
     public virtual void TakeDamage(float damage, float hitRate)
     {
+        // 1~5까지 랜덤
+        int randomValue = Random.Range(1, 6);
+
+        // 피격 사운드 플레이
+        switch (randomValue)
+        {
+            case 1: GameManager.Instance.Audio.Play2DSFX(AudioClipName.HitSound_1); break;
+            case 2: GameManager.Instance.Audio.Play2DSFX(AudioClipName.HitSound_2); break;
+            case 3: GameManager.Instance.Audio.Play2DSFX(AudioClipName.HitSound_3); break;
+            case 4: GameManager.Instance.Audio.Play2DSFX(AudioClipName.HitSound_4); break;
+            case 5: GameManager.Instance.Audio.Play2DSFX(AudioClipName.HitSound_5); break;
+        }
+        
         // 보스가 아니면 넉백 가능
         if (gameObject?.layer != LayerMask.NameToLayer("Boss"))
         {

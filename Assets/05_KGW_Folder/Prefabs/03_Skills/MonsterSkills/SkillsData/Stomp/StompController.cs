@@ -1,3 +1,4 @@
+using SDW;
 using UnityEngine;
 
 public class StompController : MonoBehaviour
@@ -18,6 +19,9 @@ public class StompController : MonoBehaviour
     // 전체 캐릭터에게 발구르기 사용
     public void AllCharacterStomp()
     {
+        // 발구르기 사운드 플레이
+        GameManager.Instance.Audio.Play2DSFX(AudioClipName.IronBullSkill_1);
+
         foreach (var cha in _character._battleManager._characters)
         {
             if (!cha._isAlive) continue;

@@ -1,3 +1,4 @@
+using SDW;
 using UnityEngine;
 
 public class ProtectiveGrenadeController : MonoBehaviour
@@ -19,7 +20,10 @@ public class ProtectiveGrenadeController : MonoBehaviour
 
     // 전체 몬스터한테 수류탄 투척
     public void AllMonsterGrenade()
-    {     
+    {
+        // 보호 수류탄 사운드 플레이
+        GameManager.Instance.Audio.Play2DSFX(AudioClipName.BCAActiveSkill);
+
         foreach (var mon in _monster._battleManager._monsters)
         {
             if (!mon._isAlive) continue;

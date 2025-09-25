@@ -1,4 +1,5 @@
 using System.Collections;
+using SDW;
 using UnityEngine;
 
 public class WrathOfTheGuardianController : MonoBehaviour
@@ -27,6 +28,9 @@ public class WrathOfTheGuardianController : MonoBehaviour
     public void SingleMonsterAttack()
     {
         if (!_monster._isAlive) return;
+
+        // 수호령의 분노 사운드 플레이
+        GameManager.Instance.Audio.Play2DSFX(AudioClipName.GSEActiveSkill);
 
         // 데미지 코루틴 시작
         _attackRoutine = StartCoroutine(MonsterAttackCoroutine(_monster));

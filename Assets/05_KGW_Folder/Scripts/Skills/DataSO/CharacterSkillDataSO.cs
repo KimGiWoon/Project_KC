@@ -24,7 +24,7 @@ public class CharacterSkillDataSO : ScriptableObject
 
     public GameObject _chaSkillPrefab; // 스킬 프리팹
 
-    // 스킬 사용 함수
+    // 액티브 스킬 사용 함수
     public virtual void UseSkill(MyCharacterController caster, CharacterSkillDataSO skill, MonsterController target)
     {
         switch (skill._chaSkillEnName)
