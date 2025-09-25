@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using KSH;
 using SDW;
 using UnityEngine;
 using UnityEngine.UI;
@@ -136,6 +137,7 @@ namespace JJY
                 foreach (var effect in itemLocal.recipe.effects)
                 {
                     ApplyEffectEntry(effect);
+                    GameManager.Instance.DailyQuest.CompleteQuest(QuestType.UseFood, 1); //음식 먹을 때 퀘스트 클리어
                 }
             }
 

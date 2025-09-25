@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using SDW;
 using System;
+using KSH;
 
 namespace JJY
 {
@@ -500,6 +501,7 @@ namespace JJY
             GameManager.Instance.CharacterData.SetCharExp(selectedCharacterData._chaBaseData.ChaEnName, exp);
             Debug.Log($"{GameManager.Instance.CharacterData.CharEnNameExp[selectedCharacterData._chaBaseData.ChaEnName]}");
             previewExp = 0;
+            
         }
 
         private IEnumerator AddExpRoutine(int gainedExp)
@@ -530,6 +532,7 @@ namespace JJY
                 {
                     curExp = 0;
                     curLevel++;
+                    GameManager.Instance.DailyQuest.CompleteQuest(QuestType.CharacterLevelUp, 1);
                 }
 
                 if (curLevel > 30) yield break;
