@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using SDW;
 using UnityEngine;
 
 public class CheerController : MonoBehaviour
@@ -24,6 +25,9 @@ public class CheerController : MonoBehaviour
     public void AllCharacterAttackUp()
     {
         if (_isAttackUp) return;
+
+        // 응원 사운드 플레이
+        GameManager.Instance.Audio.Play2DSFX(AudioClipName.HSRActiveSkill);
 
         foreach (var cha in _character._battleManager._characters)
         {

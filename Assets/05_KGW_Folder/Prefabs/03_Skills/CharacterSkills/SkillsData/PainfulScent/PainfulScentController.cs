@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using SDW;
 using UnityEngine;
 
 public class PainfulScentController : MonoBehaviour
@@ -40,6 +41,9 @@ public class PainfulScentController : MonoBehaviour
     public void AllMonsterAttackSkill()
     {
         if (_isArmorDown) return;
+
+        // 괴로운 향기 사운드 플레이
+        GameManager.Instance.Audio.Play2DSFX(AudioClipName.BWActiveSkill);
 
         foreach (var mon in _monster._battleManager._monsters)
         {

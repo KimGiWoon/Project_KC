@@ -108,12 +108,12 @@ public class MonsterSkillDataSO : ScriptableObject
         skillCon.Init(caster, _monSkillValue, _monSkillDuration);
     }
 
-    // 난도질 액티브 스킬
+    // 바위 주먹 액티브 스킬
     public void UseSavageSlash(MonsterController caster, MyCharacterController target)
     {
-        Debug.Log($"{caster._monsterState._monEnName} : 난도질 액티브 발동");
-        GameObject savageSlash = Instantiate(_monSkillPrefab, caster.transform.position, caster.transform.rotation);
-        RockFistController skillCon = savageSlash.GetComponent<RockFistController>();
+        Debug.Log($"{caster._monsterState._monEnName} : 바위 주먹 액티브 발동");
+        GameObject rockFist = Instantiate(_monSkillPrefab, caster.transform.position, caster.transform.rotation);
+        RockFistController skillCon = rockFist.GetComponent<RockFistController>();
 
         skillCon.Init(caster, target, _monSkillHit, _monSkillValue, _monSkillTick);
     }
