@@ -135,7 +135,7 @@ namespace SDW
 
         private bool _isLoaded;
         public bool _isStageClear;
-        
+
         public bool _canFaster = false;
 
         private List<int> _growthUnlockNodes = new List<int>();
@@ -215,7 +215,7 @@ namespace SDW
 
         private void Update()
         {
-            if (!_firebase.IsLoaded || _isLoaded) return;
+            if (_firebase == null || !_firebase.IsLoaded || _isLoaded) return;
 
             SetEtcData(_firebase.EtcData);
             SetGrowthData(_firebase.GrowthData);

@@ -72,6 +72,8 @@ namespace SDW
         private FirebaseManager _firebase;
         private bool _isDownloaded;
         public bool IsDownloaded => _isDownloaded;
+        private bool _isInitialized;
+        public bool IsInitialized => _isInitialized;
 
         public Action OnFirstCharacterChanged;
 
@@ -82,15 +84,19 @@ namespace SDW
         {
             _gameManager = GameManager.Instance;
             _firebase = GameManager.Instance.Firebase;
+            StartCoroutine(WaitForConnect());
         }
 
-        /// <summary>
-        /// 각 Data Table 데이터 연결
-        /// </summary>
-        private void Update()
+        private IEnumerator WaitForConnect()
         {
-            if (!_gameManager.CompleteDownload || !_gameManager.ImageSpriteConnected || !_gameManager.PrefabAndSoConnected ||
-                _isDownloaded || !_gameManager.Firebase.IsLoaded) return;
+            while (true)
+            {
+                yield return null;
+                if (!_gameManager.CompleteDownload || !_gameManager.ImageSpriteConnected || !_gameManager.PrefabAndSoConnected ||
+                    _isDownloaded) continue;
+
+                break;
+            }
 
             LoadCharacterBase();
             LoadCharacterType();
@@ -98,6 +104,17 @@ namespace SDW
             LoadCharacterLevelUpStat();
             LoadCharacterSkill();
             LoadCharacterSO();
+            _isInitialized = true;
+            StartCoroutine(WaitForFirebase());
+        }
+
+        private IEnumerator WaitForFirebase()
+        {
+            while (true)
+            {
+                yield return null;
+                if (_gameManager.Firebase.IsLoaded) break;
+            }
             LoadOwnedCharacter(_firebase.Characters);
             _isDownloaded = true;
         }
