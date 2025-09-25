@@ -1,4 +1,5 @@
 using System.Collections;
+using SDW;
 using UnityEngine;
 
 public class MonkeyBlade1Controller : MonoBehaviour
@@ -36,6 +37,9 @@ public class MonkeyBlade1Controller : MonoBehaviour
     // 검술 시작
     private void StartMonkeyBlade()
     {
+        // 원숭이 검술 사운드 플레이
+        GameManager.Instance.Audio.Play2DSFX(AudioClipName.BladeMonkeySkill_2);
+
         _bladeRoputine = StartCoroutine(BladeCoroutine());
     }
 

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using SDW;
 using UnityEngine;
 
 public class RoarController : MonoBehaviour
@@ -26,6 +27,9 @@ public class RoarController : MonoBehaviour
     // 전체 포효 캐릭터 공격
     public void AllCharacterRoarAttack()
     {
+        // 포효 사운드 플레이
+        GameManager.Instance.Audio.Play2DSFX(AudioClipName.GiantBearSkill_2);
+
         foreach (var cha in _character._battleManager._characters)
         {
             if (!cha._isAlive) continue;

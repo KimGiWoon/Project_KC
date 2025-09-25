@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using SDW;
 
 public class SelectableCharacterSlot : MonoBehaviour
 {
@@ -18,7 +19,7 @@ public class SelectableCharacterSlot : MonoBehaviour
         manager = formationManager;
 
         characterImage.sprite = data._characterSprite;
-        levelText.text = "Lv." + data._chaLv;
+        levelText.text = "Lv." + GameManager.Instance.CharacterData.CharEnNameLevel[data._chaBaseData.ChaEnName];
 
         if (characterButton) characterButton.onClick.AddListener(OnClick);
     }

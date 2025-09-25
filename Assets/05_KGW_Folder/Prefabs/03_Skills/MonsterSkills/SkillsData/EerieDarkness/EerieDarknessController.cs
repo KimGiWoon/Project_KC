@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using SDW;
 using UnityEngine;
 
 public class EerieDarknessController : MonoBehaviour
@@ -21,6 +22,9 @@ public class EerieDarknessController : MonoBehaviour
     // 전체 몬스터의 공격력 상승
     public void AllMonsterAttackUp()
     {
+        // 기괴한 어둠 사운드 플레이
+        GameManager.Instance.Audio.Play2DSFX(AudioClipName.ShadowScarecrowSkill);
+
         foreach (var mon in _monster._battleManager._monsters)
         {
             if (!mon._isAlive) continue;

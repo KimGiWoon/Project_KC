@@ -209,7 +209,12 @@ namespace JJY
 
             int curExp = GameManager.Instance.CharacterData.CharEnNameExp[data._chaBaseData.ChaEnName];
             int curlevel = GameManager.Instance.CharacterData.CharEnNameLevel[data._chaBaseData.ChaEnName];
+            int curUpgradeLevel = GameManager.Instance.CharacterData.BeadsInventory[data._chaBaseData.ChaEnName];
             int curMaxExp = GameManager.Instance.CharacterData.ChaLevelUpStatData[curlevel].ChaLevelPoint;
+
+            GameManager.Instance.CharacterBattleDataSave._chaLevel[data._chaBaseData.ChaEnName] = curlevel;
+            GameManager.Instance.CharacterBattleDataSave._chaUpgrade[data._chaBaseData.ChaEnName] = curUpgradeLevel;
+
             expBar.fillAmount = (float)curExp / curMaxExp;
 
             _classLevelText.text = curlevel.ToString();
