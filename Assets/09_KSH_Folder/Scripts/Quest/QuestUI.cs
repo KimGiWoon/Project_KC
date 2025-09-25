@@ -22,16 +22,11 @@ public class QuestUI : MonoBehaviour
     {
         if (GameManager.Instance.Time != null)
             GameManager.Instance.Time.OnDailyReset += InitUI;
-
-        if (GameManager.Instance.DailyQuest != null)
-            GameManager.Instance.DailyQuest.OnQuestComplete += CheckUI;
     }
 
     private void OnDisable()
     {
         GameManager.Instance.Time.OnDailyReset -= InitUI;
-
-        GameManager.Instance.DailyQuest.OnQuestComplete -= CheckUI;
     }
 
     public void InitUI()
@@ -42,10 +37,11 @@ public class QuestUI : MonoBehaviour
 
         if (nameText != null)
             nameText.text = dailyQuest.questName;
-        _checkImage.gameObject.SetActive(dailyQuest.isComplete);
         
-        if(countText == null)
-            UpdateCountText(dailyQuest);
+        if(_checkImage != null)
+            _checkImage.gameObject.SetActive(dailyQuest.isComplete);
+      
+        UpdateCountText(dailyQuest);
     }
 
     public void CheckUI()
@@ -56,6 +52,7 @@ public class QuestUI : MonoBehaviour
 
     public void UpdateCountText(DailyQuest dailyQuest)
     {
+        if (countText == null) return;
         countText.text = $"{dailyQuest.currentProgress}/{dailyQuest.questGoal}";
     }
 }

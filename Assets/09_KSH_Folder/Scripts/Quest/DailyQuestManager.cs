@@ -15,9 +15,10 @@ public class DailyQuestManager : MonoBehaviour
     private bool _canReward = false;
     private bool _isDownloaded;
     private GameManager _gameManager;
-
-    public event Action OnQuestComplete;
+    
     public event Action<int> OnStarCandyChange;
+    
+   
 
     private void Start()
     {
@@ -57,6 +58,8 @@ public class DailyQuestManager : MonoBehaviour
             questUIList[i].InitUI(); //연결한 걸 기반으로 초기화
             questUIList[i].UpdateCountText(dailyQuests[i]);
         }
+        if (_gameManager.Firebase.IsLoaded)
+            CompleteQuest(QuestType.GameLogin, 1);
     }
 
     private void ClearQuestUI() => questUIList?.Clear();
@@ -98,7 +101,7 @@ public class DailyQuestManager : MonoBehaviour
             {
                 Debug.Log("퀘스트완료");
                 quest.isComplete = true; //완료
-                OnQuestComplete?.Invoke();
+                questUIList[i].CheckUI();
                 CheckQuests();
             }    
         }

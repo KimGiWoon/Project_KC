@@ -36,6 +36,7 @@ public class CharacterDataSO : ScriptableObject
     [Header("Gacha")]
     public int Beads;
     public Sprite GachaBackground;
+    public Sprite GachaBackgroundTen;
 
     [Header("Character Role Type Icon")]
     public Sprite roleIcon;
