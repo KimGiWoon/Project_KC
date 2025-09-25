@@ -29,6 +29,7 @@ namespace JJY
         [SerializeField] private Slider itemBarSlider; // 아이템 사용 슬라이더
 
         [Header("Button")]
+        [SerializeField] private Button backButton; // 재화 사용 화면에서 뒤로가기 버튼
         [SerializeField] private Button useItemBtn; // 아이템 사용 버튼
         [SerializeField] private Button beekBtn; // beek 버튼
         [SerializeField] private Button fineDiningBtn; // fineDining 버튼
@@ -86,6 +87,13 @@ namespace JJY
         private bool _isLoaded;
         public bool IsLoaded => _isLoaded;
 
+        private void TestAddRecipeBooks()
+        {
+            GameManager.Instance.Coin.AddRecipeItem("beeksRecipeBook", 5000);
+            GameManager.Instance.Coin.AddRecipeItem("fineDiningRecipeBook", 5000);
+            GameManager.Instance.Coin.AddRecipeItem("masterChefRecipeBook", 5000);
+        }
+
         #region 초기화 작업
         private void Start()
         {
@@ -106,6 +114,9 @@ namespace JJY
             InitItemButtonImage();
             InitCharacterList();
             _characterLevelInfoPanel.gameObject.SetActive(false);
+
+            // Test
+            TestAddRecipeBooks();
 
             _isLoaded = true;
         }
@@ -278,6 +289,7 @@ namespace JJY
             beekBtn.onClick.AddListener(OnClickBeeks);
             fineDiningBtn.onClick.AddListener(OnClickFineDining);
             masterChefBtn.onClick.AddListener(OnClickMasterChef);
+            backButton.onClick.AddListener(BackButtonClicked);
         }
 
         private void OnDisable()
@@ -287,6 +299,7 @@ namespace JJY
             beekBtn.onClick.RemoveListener(OnClickBeeks);
             fineDiningBtn.onClick.RemoveListener(OnClickFineDining);
             masterChefBtn.onClick.RemoveListener(OnClickMasterChef);
+            backButton.onClick.RemoveListener(BackButtonClicked);
         }
 
         private void OnClickBeeks()
@@ -418,7 +431,7 @@ namespace JJY
             {
                 addedLevelText.gameObject.SetActive(true);
             }
-            
+
             if (addedExpText.gameObject.activeSelf && previewLevel > 30)
                 addedExpText.gameObject.SetActive(false);
             if (addedLevelText.gameObject.activeSelf && previewLevel > 30 &&
@@ -508,6 +521,14 @@ namespace JJY
             beekBtn.interactable = true;
             fineDiningBtn.interactable = true;
             masterChefBtn.interactable = true;
+        }
+        private void BackButtonClicked()
+        {
+            StopAllCoroutines();
+            beekBtn.interactable = true;
+            fineDiningBtn.interactable = true;
+            masterChefBtn.interactable = true;
+            InitCharacterInfo(selectedCharacterData);
         }
         #endregion
     }
