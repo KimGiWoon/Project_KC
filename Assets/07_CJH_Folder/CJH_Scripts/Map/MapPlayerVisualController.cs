@@ -45,11 +45,22 @@ public class MapPlayerVisualController : MonoBehaviour
     /// <summary>
     /// 이동 상태 (뒷모습)로 변경
     /// </summary>
-    public void SetMoving()
+    public void SetMoving(Vector2 direction)
     {
         if (characterData != null && characterData.backViewSprite != null)
         {
             spriteRenderer.sprite = characterData.backViewSprite;
+
+            // 왼쪽으로 이동 시 (direction.x < 0), 캐릭터 이미지를 좌우로 반전시킵니다.
+            if (direction.x < 0)
+            {
+                spriteRenderer.flipX = true;
+            }
+            // 오른쪽 또는 위로 이동 시, 원래 이미지 방향을 유지합니다.
+            else
+            {
+                spriteRenderer.flipX = false;
+            }
         }
     }
 }
