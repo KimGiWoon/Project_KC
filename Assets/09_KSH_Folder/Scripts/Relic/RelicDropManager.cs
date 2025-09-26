@@ -16,11 +16,11 @@ namespace KSH
         [Header("스크립트")]
         [SerializeField] private ClearStageUI _clearStageUI;
         [SerializeField] private BattleManager _battle;
-        
+
         private GameManager _gameManager;
         private WeightedRandom<RelicGrade> relicRarityPicker;
         private CharacterState characterState;
-        
+
         private void Awake()
         {
             if (Instance == null)
@@ -34,7 +34,7 @@ namespace KSH
             relics = Resources.LoadAll<RelicDatas>("Relics").ToList(); //리소스에 있는 유물들 리스트에 넣기
 
             relicRarityPicker = new WeightedRandom<RelicGrade>();
-            
+
             relicRarityPicker.Add(RelicGrade.Normal, 80); //노말 아이템 80
             relicRarityPicker.Add(RelicGrade.Rare, 20); //레어 아이템 20
         }
@@ -98,14 +98,16 @@ namespace KSH
             if (!alreadyAcquired) //만약 없다면
             {
                 GameManager.Instance.InGameItem.AddItem(relic); //인벤토리에 유물 아이템을 추가한다.
+                int relicCount = GameManager.Instance.InGameItem.GetRelicCount;
+                GameManager.Instance.DailyQuest.CompleteQuestInRoguelikeScene(QuestType.GetArtifact, relicCount);
             }
         }
-        
+
         public void GetRelicName(string relicName) //테스트용
         {
-            RelicDatas relic = relics.Find(r => r.relicName == relicName);
-            
-            if(relic!=null)
+            var relic = relics.Find(r => r.relicName == relicName);
+
+            if (relic != null)
                 GetRelic(relic);
         }
 

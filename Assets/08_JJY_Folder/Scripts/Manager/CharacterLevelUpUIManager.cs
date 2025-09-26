@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using SDW;
 using System;
+using KSH;
 
 namespace JJY
 {
@@ -530,9 +531,12 @@ namespace JJY
                 {
                     curExp = 0;
                     curLevel++;
+
+                    if (curLevel > 30) yield break;
+
+                    GameManager.Instance.DailyQuest.CompleteQuest(QuestType.CharacterLevelUp, 1);
                 }
 
-                if (curLevel > 30) yield break;
                 var newLevelData = GameManager.Instance.CharacterData.ChaLevelUpStatData[curLevel];
 
                 expBar.fillAmount = (float)curExp / newLevelData.ChaLevelPoint;

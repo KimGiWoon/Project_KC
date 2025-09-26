@@ -180,6 +180,7 @@ namespace KSH
             {
                 OnUIOpenRequested?.Invoke(UIName.GachaConfirmUI);
                 OnGachaButtonClicked?.Invoke(150, 1);
+                GameManager.Instance.DailyQuest.CompleteQuest(QuestType.Gacha, 1);
             }
             else
             {
@@ -194,6 +195,7 @@ namespace KSH
             {
                 OnUIOpenRequested?.Invoke(UIName.GachaConfirmUI);
                 OnGachaButtonClicked?.Invoke(1500, 10);
+                GameManager.Instance.DailyQuest.CompleteQuest(QuestType.Gacha, 1);
             }
             else
             {

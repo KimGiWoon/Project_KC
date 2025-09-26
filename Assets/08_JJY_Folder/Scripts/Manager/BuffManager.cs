@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using KSH;
 using SDW;
 using UnityEngine;
 using UnityEngine.UI;
@@ -73,7 +74,7 @@ namespace JJY
             {
                 dt *= 2f;
             }
-                for (int i = activeBuffs.Count - 1; i >= 0; i--)
+            for (int i = activeBuffs.Count - 1; i >= 0; i--)
             {
                 activeBuffs[i].remaining -= dt;
                 if (activeBuffs[i].remaining <= 0f)
@@ -136,6 +137,10 @@ namespace JJY
                 foreach (var effect in itemLocal.recipe.effects)
                 {
                     ApplyEffectEntry(effect);
+                    int usedCookCount = GameManager.Instance.InGameItem.UsedCookCount;
+
+                    GameManager.Instance.DailyQuest.CompleteQuestInRoguelikeScene(QuestType.UseFood,
+                        usedCookCount); //음식 먹을 때 퀘스트 클리어
                 }
             }
 
@@ -211,8 +216,6 @@ namespace JJY
                 {
                     FoodEffectUIManager.Instance.ApplyEffect(p.gameObject, uiParents, e);
                 }
-
-
             }
             if (logActions) Debug.Log("HP HEAL! TODO : UI 이벤트 함수 연결.");
         }
@@ -309,7 +312,6 @@ namespace JJY
             //     if (logActions) Debug.Log("TODO : UI 이벤트 연결");
             // }
             OnUseGroggyItem?.Invoke(e.value);
-
         }
 
         // Barrier 생성 (모든 아군)

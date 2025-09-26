@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using KSH;
 using SDW;
 using UnityEngine;
 using UnityEngine.UI;
@@ -103,6 +104,8 @@ public class NonRemoveADUI : BaseUI
         _battleManager.CharacterSpawn();
 
         _battleManager._battleUI.StartTimeCoroutine();
+
+        GameManager.Instance.DailyQuest.CompleteQuestInRoguelikeScene(QuestType.Revive, 1); //퀘스트 부활 1회
     }
 
     private void ConfirmButtonClicked()

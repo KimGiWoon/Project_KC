@@ -108,11 +108,13 @@ namespace SDW
             {
                 _slider.value = 0;
                 _slider.minValue = 0;
+                _selectedValue = 0;
             }
             else
             {
                 _slider.value = 1;
                 _slider.minValue = 1;
+                _selectedValue = 1;
             }
             _slider.maxValue = _coin.shiningStarCandy;
 

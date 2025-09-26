@@ -90,7 +90,7 @@ namespace KSH
             {
                 case CharacterGrade.Normal:
                     Color commonColor;
-                    ColorUtility.TryParseHtmlString("#C4F1FF", out commonColor);
+                    ColorUtility.TryParseHtmlString("#C6FCFF", out commonColor);
                     NormalImage.gameObject.SetActive(true);
                     RareImage.gameObject.SetActive(false);
                     return commonColor;
@@ -109,6 +109,7 @@ namespace KSH
         {
             if (isSet) return;
             starCandy.gameObject.SetActive(true);
+            starCandyText.gameObject.SetActive(true);
             bead.gameObject.SetActive(false);
             starCandyText.text = $"+ {amount.ToString()}";
             Debug.Log("별사탕 획득!");
@@ -118,6 +119,7 @@ namespace KSH
         {
             if (isSet) return;
             bead.gameObject.SetActive(true);
+            starCandyText.gameObject.SetActive(false);
             starCandy.gameObject.SetActive(false);
             Debug.Log("구슬 획득!");
         }

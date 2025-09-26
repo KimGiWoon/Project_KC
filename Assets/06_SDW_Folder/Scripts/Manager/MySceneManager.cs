@@ -154,6 +154,10 @@ namespace SDW
                 yield return null;
             }
 
+            var activeScene = (SceneName)Enum.Parse(typeof(SceneName), GetActiveScene());
+
+            if (activeScene == SceneName.SDW_SignInScene)
+                GameManager.Instance.UI.ClosePanel(UIName.ImagePrefabLoadingUI);
             _levelSceneOperation.allowSceneActivation = true;
             yield return _levelSceneOperation;
         }

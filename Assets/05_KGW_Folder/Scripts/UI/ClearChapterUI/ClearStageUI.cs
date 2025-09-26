@@ -51,6 +51,7 @@ namespace SDW
         public override void Open()
         {
             base.Open();
+
             // 승리 사운드 플레이
             GameManager.Instance.Audio.Play2DSFX(AudioClipName.BattleVictory);
 
@@ -68,8 +69,9 @@ namespace SDW
                 GameManager.Instance.Coin.OnRelicChanged?.Invoke();
                 GameManager.Instance.Coin.AddYeopjeon(100);
                 UpdateYeopjeonText(GameManager.Instance.Coin.bonus);
+                GameManager.Instance.DailyQuest.CompleteQuestInRoguelikeScene(QuestType.RoguelikeClear, 1); //클리어시 퀘스트 완료
             }
-
+            
             // 보스 클리어 시
             if (RoguelikeManager.Instance.MonsterType == BattleEventType.Boss ||
                 RoguelikeManager.Instance.MonsterType == BattleEventType.BossFinal)

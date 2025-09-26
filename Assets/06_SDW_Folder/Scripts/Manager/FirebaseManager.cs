@@ -43,6 +43,9 @@ namespace SDW
         private Dictionary<string, object> _dailyQuest;
         public IReadOnlyDictionary<string, object> DailyQuest => _dailyQuest;
 
+        private Dictionary<string, object> _dailyQuestProgress;
+        public IReadOnlyDictionary<string, object> DailyQuestProgress => _dailyQuestProgress;
+
         private Dictionary<string, object> _etcData;
         public IReadOnlyDictionary<string, object> EtcData => _etcData;
 
@@ -278,6 +281,7 @@ namespace SDW
                 { "totalYeopjeon", 0 } //# 총 획득 엽전 재화, 정산 시 사용
             };
 
+
             var characters = new Dictionary<string, object>();
 
             int selectedTeamCount = 0;
@@ -310,11 +314,15 @@ namespace SDW
             Debug.Log($"Number of characters : {characters.Count}");
 
             var dailyQuests = new Dictionary<string, object>();
+            var dailyQuestsProgress = new Dictionary<string, object>();
 
             foreach (QuestType quest in Enum.GetValues(typeof(QuestType)))
             {
                 dailyQuests[quest.ToString()] = false;
+                dailyQuestsProgress[quest.ToString()] = 0;
             }
+
+            dailyQuests["GetReward"] = false;
 
             var etcData = new Dictionary<string, object>
             {
@@ -343,6 +351,7 @@ namespace SDW
                 { "coinData", coinData },
                 { "characters", characters },
                 { "dailyQuests", dailyQuests },
+                { "dailyQuestsProgress", dailyQuestsProgress },
                 { "etcData", etcData }
             };
 
@@ -362,8 +371,14 @@ namespace SDW
                     return;
                 }
 
-                CheckUserInDatabase(user);
+                StartCoroutine(DelayedCall(user));
             });
+        }
+
+        private IEnumerator DelayedCall(FirebaseUser user)
+        {
+            yield return new WaitForSeconds(1f);
+            CheckUserInDatabase(user);
         }
 #endif
 
@@ -417,6 +432,7 @@ namespace SDW
                 var result = task.Result;
                 StartCoroutine(WaitForConnect(user, result));
 
+                _ui.OpenPanel(UIName.ImagePrefabLoadingUI);
                 _ui.ClosePanel(UIName.SignInUI);
             });
         }
@@ -465,8 +481,10 @@ namespace SDW
                 _coinData = userData["coinData"] as Dictionary<string, object>;
                 _characters = userData["characters"] as Dictionary<string, object>;
                 _dailyQuest = userData["dailyQuests"] as Dictionary<string, object>;
+                _dailyQuestProgress = userData["dailyQuestsProgress"] as Dictionary<string, object>;
                 _etcData = userData["etcData"] as Dictionary<string, object>;
-                _growthData = userData["growthData"] as Dictionary<string, object>;
+                if (userData.ContainsKey("growthData"))
+                    _growthData = userData["growthData"] as Dictionary<string, object>;
                 _isLoaded = true;
             }
         }
@@ -531,13 +549,18 @@ namespace SDW
             Debug.Log($"Number of characters : {characters.Count}");
 
             var dailyQuests = new Dictionary<string, object>();
+            var dailyQuestsProgress = new Dictionary<string, object>();
 
             foreach (QuestType quest in Enum.GetValues(typeof(QuestType)))
             {
                 dailyQuests[quest.ToString()] = false;
+                dailyQuestsProgress[quest.ToString()] = 0;
             }
 
+            dailyQuests["GetReward"] = false;
+
             _dailyQuest = dailyQuests;
+            _dailyQuestProgress = dailyQuestsProgress;
 
             var etcData = new Dictionary<string, object>
             {
@@ -562,6 +585,7 @@ namespace SDW
                 { "coinData", coinData },
                 { "characters", characters },
                 { "dailyQuests", dailyQuests },
+                { "dailyQuestsProgress", dailyQuestsProgress },
                 { "etcData", etcData }
             };
 
@@ -1213,6 +1237,44 @@ namespace SDW
                 if (task.IsFaulted)
                 {
                     Debug.LogWarning($"stageCount 저장 실패: {task.Exception.Message}");
+                }
+            });
+        }
+
+        public void SetQuestState(QuestType questType, bool isCompleted, int progress)
+        {
+            var updateData = new Dictionary<string, object>
+            {
+                { $"dailyQuests/{questType.ToString()}", isCompleted },
+                { $"dailyQuestsProgress/{questType.ToString()}", progress }
+            };
+
+            _dailyQuest[questType.ToString()] = isCompleted;
+            _dailyQuestProgress[questType.ToString()] = progress;
+
+            _db.Child("users").Child(_auth.CurrentUser.UserId).UpdateChildrenAsync(updateData).ContinueWithOnMainThread(task =>
+            {
+                if (task.IsFaulted)
+                {
+                    Debug.LogWarning($"quest 저장 실패: {task.Exception.Message}");
+                }
+            });
+        }
+
+        public void SetQuestReward(bool getReward)
+        {
+            var updateData = new Dictionary<string, object>
+            {
+                { "dailyQuests/GetReward", getReward }
+            };
+
+            _dailyQuest["GetReward"] = getReward;
+
+            _db.Child("users").Child(_auth.CurrentUser.UserId).UpdateChildrenAsync(updateData).ContinueWithOnMainThread(task =>
+            {
+                if (task.IsFaulted)
+                {
+                    Debug.LogWarning($"quest reward 저장 실패: {task.Exception.Message}");
                 }
             });
         }

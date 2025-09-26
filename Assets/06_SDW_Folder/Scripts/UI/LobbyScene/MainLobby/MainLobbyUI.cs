@@ -21,8 +21,6 @@ namespace SDW
         [SerializeField] private TextMeshProUGUI _rainbowStarText;
         [SerializeField] private Button _rainbowStarButton;
         [SerializeField] private Button _optionButton;
-        //todo Game Start 눌렀을 때 뜨는 팝업 창으로 이동해야 함
-        // [SerializeField] private Button _growthButton;
 
         [Header("Right Components")]
         [SerializeField] private Image _curerntChaImage;
@@ -45,7 +43,6 @@ namespace SDW
         private bool _isLoaded;
         private Coroutine _iconCoroutine;
         private int _iconNumber;
-        private bool _isBusy = false;
         private VideoPlayer _videoPlayer;
 
         /// <summary>
@@ -174,18 +171,24 @@ namespace SDW
         private void CashStarButtonClicked()
         {
             SetMainText("유료상점");
+            _cashStarButton.interactable = false;
+            StartCoroutine(DelayedActivateButton(_cashStarButton));
             OnUIOpenRequested?.Invoke(UIName.PaidStoreUI);
         }
 
         private void RainbowStartButtonClicked()
         {
             SetMainText("별사탕 교환");
+            _rainbowStarButton.interactable = false;
+            StartCoroutine(DelayedActivateButton(_rainbowStarButton));
             OnUIOpenRequested?.Invoke(UIName.SugarStarExchangeUI);
         }
 
         private void OptionButtonClicked()
         {
             SetMainText("환경설정");
+            _optionButton.interactable = false;
+            StartCoroutine(DelayedActivateButton(_optionButton));
             OnUIOpenRequested?.Invoke(UIName.GlobalSettingUI);
         }
 
@@ -195,6 +198,8 @@ namespace SDW
         private void UserInfoButtonClicked()
         {
             SetMainText("내 정보");
+            _userInfoButton.interactable = false;
+            StartCoroutine(DelayedActivateButton(_userInfoButton));
             OnUIOpenRequested?.Invoke(UIName.UserInfoUI);
         }
         private void MemoryButtonClicked(int index)
@@ -220,7 +225,15 @@ namespace SDW
         private void StageSelectButtonClicked()
         {
             SetMainText("스테이지 선택");
+            _stageSelectButton.interactable = false;
+            StartCoroutine(DelayedActivateButton(_stageSelectButton));
             OnUIOpenRequested?.Invoke(UIName.StageSelectUI);
+        }
+
+        private IEnumerator DelayedActivateButton(Button button)
+        {
+            yield return new WaitForSeconds(2f);
+            button.interactable = true;
         }
 
         #endregion

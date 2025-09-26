@@ -110,8 +110,8 @@ namespace KSH
 
             var spawnedRects = new List<RectTransform>(); //RectTransform 리스트 생성
 
-            float startY = -1000; //애니메이션 시작 위치
-            float spacing = 250; //캐릭터UI 간 간격
+            float startY = -2000; //애니메이션 시작 위치
+            float spacing = 250f; //캐릭터UI 간 간격
 
             for (int i = 0; i < characterDatas.Result.Count; i++) //뽑힌 캐릭터 수 만큼 생성
             {
@@ -132,10 +132,10 @@ namespace KSH
                 var rect = gacha.GetComponent<RectTransform>();
                 spawnedRects.Add(rect); //RectTransform을 만든 리스트에 저장
 
-                if (i == 0) //만약 인덱스가 0이라면
+                if (i == 0)
                     rect.anchoredPosition = new Vector2(x, startY);
                 else
-                    rect.anchoredPosition = new Vector2(x, startY * i);
+                    rect.anchoredPosition = new Vector2(x, startY * (i + 1));
             }
 
             for (int i = 0; i < spawnedRects.Count; i++) //생성된 UI 모두 적용
@@ -144,7 +144,7 @@ namespace KSH
                 var finalPos = new Vector2(x, y - i * spacing); //마지막 위치
 
                 rect.DOAnchorPos(finalPos, 0.5f) //startpos에서 finalPos까지 0.5초간 이동
-                    .SetEase(Ease.OutBack, 0.8f) //튕기는 효과
+                    .SetEase(Ease.OutBack, 0.5f) //튕기는 효과
                     .SetDelay(0.2f * i); //순차적으로 등장
             }
 
