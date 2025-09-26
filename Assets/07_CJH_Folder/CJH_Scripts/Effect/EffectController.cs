@@ -121,5 +121,6 @@ public class EffectController : MonoBehaviour
         }
 
         broken.SetActive(false);
+
     }
 }
