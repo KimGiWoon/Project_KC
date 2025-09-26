@@ -142,7 +142,7 @@ namespace SDW
 
         public bool CanGacha
         {
-            get => _canFaster;
+            get => _canGacha;
             set
             {
                 _canGacha = value;

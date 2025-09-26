@@ -29,8 +29,11 @@ public class DailyQuestUI : BaseUI
     {
         _panelContainer.SetActive(false);
         _backgroundPanel.gameObject.SetActive(false);
+        _redmardk.SetActive(false);
         _rewardButton.interactable = false;
         _gameManager = GameManager.Instance;
+
+        //todo firebase 초기화
     }
 
     private void OnEnable()
@@ -63,17 +66,24 @@ public class DailyQuestUI : BaseUI
         if (!GameManager.Instance.DailyQuest.CanReward())
         {
             if (_rewardButton.interactable)
+            {
                 _rewardButton.interactable = false;
+                _redmardk.SetActive(false);
+            }
             return;
         }
 
         if (!_rewardButton.interactable)
+        {
             _rewardButton.interactable = true;
+            _redmardk.SetActive(true);
+        }
     }
 
     public override void Open()
     {
         _gameManager.DailyQuest.UpdateFromRoguelikeScene();
+        _gameManager.DailyQuest.UpdateFromLobbyScene();
         _backgroundPanel.gameObject.SetActive(true);
         _tweenAnimation.moveAway();
         base.Open();

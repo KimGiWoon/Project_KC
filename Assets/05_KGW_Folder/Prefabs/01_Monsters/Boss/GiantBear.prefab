@@ -104,7 +104,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 14
+  m_SortingOrder: 11
   m_Sprite: {fileID: 21300000, guid: 7885f33bc909a584997d581ffcf0b20b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -297,6 +297,7 @@ MonoBehaviour:
   _isHalfHpSkill: 0
   _isStern: 0
   _isUseSkill: 0
+  _isUseSkill2: 0
   _attackCoolTimer: 0
   _moveDir: {x: 0, y: 0, z: 0}
   _gameSpeed: 0
@@ -335,7 +336,6 @@ MonoBehaviour:
   _isDetect: 0
   _isFirst: 0
   _isApplyPassive: 0
-  _isUseSkill2: 0
   Battle: {fileID: 0}
 --- !u!114 &8367841818794511618
 MonoBehaviour:

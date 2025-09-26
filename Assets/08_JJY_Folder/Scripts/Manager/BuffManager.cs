@@ -139,8 +139,8 @@ namespace JJY
                     ApplyEffectEntry(effect);
                     int usedCookCount = GameManager.Instance.InGameItem.UsedCookCount;
 
-                    GameManager.Instance.DailyQuest.CompleteQuestInRoguelikeScene(QuestType.UseFood,
-                        usedCookCount); //음식 먹을 때 퀘스트 클리어
+                    // GameManager.Instance.DailyQuest.CompleteQuestInRoguelikeScene(QuestType.UseFood,
+                    // usedCookCount); //음식 먹을 때 퀘스트 클리어
                 }
                 GameManager.Instance.InGameItem.IncreaseCookCount();
             }

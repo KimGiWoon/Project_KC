@@ -13,7 +13,7 @@ public class QuestUI : MonoBehaviour
 
     [Header("체크 이미지")]
     [SerializeField] private Image _checkImage;
-    
+
     [SerializeField] private TextMeshProUGUI countText;
 
     [HideInInspector] public DailyQuest dailyQuest;
@@ -37,10 +37,9 @@ public class QuestUI : MonoBehaviour
 
         if (nameText != null)
             nameText.text = dailyQuest.questName;
-        
-        if(_checkImage != null)
+
+        if (_checkImage != null)
             _checkImage.gameObject.SetActive(dailyQuest.isComplete);
-      
         UpdateCountText(dailyQuest);
     }
 

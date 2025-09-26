@@ -49,7 +49,13 @@ namespace SDW
 
         public override void Open()
         {
+            StartCoroutine(DelayedCheck());
             base.Open();
+        }
+
+        private IEnumerator DelayedCheck()
+        {
+            yield return new WaitForSeconds(0.5f);
             if (GameManager.Instance.CanGacha) _gachaButton.interactable = true;
             else _gachaButton.interactable = false;
         }
