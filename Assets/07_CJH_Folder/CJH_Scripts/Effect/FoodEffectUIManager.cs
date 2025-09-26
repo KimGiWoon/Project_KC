@@ -4,8 +4,6 @@ using JJY;
 
 public class FoodEffectUIManager : MonoBehaviour
 {
-    public static FoodEffectUIManager Instance { get; private set; }
-
     [System.Serializable]
     public class EffectAssetMapping
     {
@@ -31,18 +29,17 @@ public class FoodEffectUIManager : MonoBehaviour
     private Dictionary<int, Dictionary<EffectType, EffectIconUI>> activeIcons = new Dictionary<int, Dictionary<EffectType, EffectIconUI>>();
     private Dictionary<EffectType, EffectAssetMapping> assetLookup = new Dictionary<EffectType, EffectAssetMapping>();
 
+    public static FoodEffectUIManager Instance { get; private set; }
     private void Awake()
     {
-        if (Instance == null)
-        {
-            Instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
-        else
+        if (Instance != null && Instance != this)
         {
             Destroy(gameObject);
             return;
         }
+        Instance = this;
+
+        DontDestroyOnLoad(gameObject); // 필요하다면
 
         foreach (var asset in effectAssets)
         {

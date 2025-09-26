@@ -40,6 +40,7 @@ namespace JJY
         ReviveRandomAllyPercentHP,   // 전투 불가 상태의 캐릭터 한명을 랜덤으로 (최대 체력%) 부활
         BonusDamageToGroggyMonsters, // 그로기 상태의 몬스터에게 추가 피해
         CreateBarrierForAll,         // 전투 중인 캐릭터들에게 몬스터의 공격을 1회 방어할 수 있는 베리어 생성
+        BrokenBarrierForAll,
         AccumulateBossGroggyPercent, // 보스 몬스터 그로기 게이지 즉시 (n)% 누적
     }
     // public enum Target
