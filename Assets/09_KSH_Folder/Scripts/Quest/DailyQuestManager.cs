@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using System.Linq;
+using System.Net.Http;
 using UnityEngine.UI;
 using SDW;
 using KSH;
@@ -16,7 +17,6 @@ public class DailyQuestManager : MonoBehaviour
     private bool _isDownloaded;
     private GameManager _gameManager;
 
-    public event Action OnQuestComplete;
     public event Action<int> OnStarCandyChange;
 
     private void Start()
@@ -42,7 +42,7 @@ public class DailyQuestManager : MonoBehaviour
     {
         if (!_gameManager.CompleteDownload || !_gameManager.ImageSpriteConnected || !_gameManager.PrefabAndSoConnected ||
             _isDownloaded) return;
-        InitQuest();
+        InitQuestFromDatabase();
     }
 
     public void AddQuestUI(DailyQuestUI dailyQuestUI)
@@ -55,14 +55,16 @@ public class DailyQuestManager : MonoBehaviour
             if (dailyQuests[i] == null) break;
             questUIList[i].dailyQuest = dailyQuests[i]; //리스트 i번째 UI에 i번째 퀘스트 데이터 연결
             questUIList[i].InitUI(); //연결한 걸 기반으로 초기화
+            questUIList[i].UpdateCountText(dailyQuests[i]);
         }
+        if (_gameManager.Firebase.IsLoaded)
+            CompleteQuest(QuestType.GameLogin, 1);
     }
 
     private void ClearQuestUI() => questUIList?.Clear();
 
     public void InitQuest() //퀘스트 초기화
     {
-        _isDownloaded = true;
         foreach (var quest in dailyQuests)
         {
             quest.isComplete = false;
@@ -72,7 +74,55 @@ public class DailyQuestManager : MonoBehaviour
         ClearQuestUI();
         _canReward = false;
         reward = false;
-        Debug.Log("리셋");
+        // Debug.Log("리셋");
+    }
+
+    //todo quest 저장 시 db에 저장하도록 수정해야 함
+    private void InitQuestFromDatabase()
+    {
+        int completedQuestCount = 0;
+        var dbQuestDictionary = _gameManager.Firebase.DailyQuest as Dictionary<string, object>;
+        var dbQuestProgressDictionary = _gameManager.Firebase.DailyQuestProgress as Dictionary<string, object>;
+        for (int i = 0; i < dailyQuests.Count; i++)
+        {
+            if (Convert.ToBoolean(dbQuestDictionary[dailyQuests[i].questType.ToString()]))
+            {
+                dailyQuests[i].isComplete = true;
+                completedQuestCount++;
+                dailyQuests[i].currentProgress = dailyQuests[i].questGoal;
+                questUIList[i].InitUI(); //연결한 걸 기반으로 초기화
+                questUIList[i].dailyQuest = dailyQuests[i]; //리스트 i번째 UI에 i번째 퀘스트 데이터 연결
+                questUIList[i].UpdateCountText(dailyQuests[i]);
+                questUIList[i].CheckUI();
+            }
+            else
+            {
+                dailyQuests[i].isComplete = false;
+                dailyQuests[i].currentProgress = Convert.ToInt32(dbQuestProgressDictionary[dailyQuests[i].questType.ToString()]);
+                questUIList[i].InitUI(); //연결한 걸 기반으로 초기화
+                questUIList[i].dailyQuest = dailyQuests[i]; //리스트 i번째 UI에 i번째 퀘스트 데이터 연결
+                questUIList[i].UpdateCountText(dailyQuests[i]);
+            }
+        }
+
+        if (Convert.ToBoolean(dbQuestDictionary["GetReward"]))
+        {
+            _canReward = false;
+            reward = true;
+        }
+        else if (completedQuestCount >= 3)
+        {
+            _canReward = true;
+            reward = false;
+        }
+        else
+        {
+            _canReward = false;
+            reward = false;
+        }
+
+        CheckQuests();
+        _isDownloaded = true;
     }
 
     public int ExtractNumber(string name) //이름에서 숫자만 뽑기
@@ -83,18 +133,21 @@ public class DailyQuestManager : MonoBehaviour
 
     public void CompleteQuest(QuestType questType, int amount) //퀘스트가 완료되었는지 확인
     {
-        foreach (var quest in dailyQuests)
+        for (int i = 0; i < dailyQuests.Count; i++)
         {
+            var quest = dailyQuests[i];
             if (quest.questType != questType || quest.isComplete) // 이미 완료된 퀘스트는 건너뛰기
                 continue;
 
             quest.currentProgress += amount; //해당 퀘스트의 진행도 추가
 
+            questUIList[i].UpdateCountText(quest); //업데이트 UI
+
             if (quest.currentProgress >= quest.questGoal) //퀘스트 목표가 같거나 높으면
             {
                 Debug.Log("퀘스트완료");
                 quest.isComplete = true; //완료
-                OnQuestComplete?.Invoke();
+                questUIList[i].CheckUI();
                 CheckQuests();
             }
         }

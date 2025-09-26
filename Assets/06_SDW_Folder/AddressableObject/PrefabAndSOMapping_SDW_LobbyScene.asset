@@ -13,12 +13,6 @@ MonoBehaviour:
   m_Name: PrefabAndSOMapping_SDW_LobbyScene
   m_EditorClassIdentifier: 
   prefabEntries:
-  - PathHash: 5198830157726298727
-    AddressKey: b2f16cda616270d4da394dbf5a0b6bfd
-    fieldName: _selectSlotPrefab
-    index: -1
-    AssetPath: Assets/05_KGW_Folder/Prefabs/CharacterSlot/SelectCharacter.prefab
-    PathPreview: CharacterSelectManager
   - PathHash: 14938729717848126768
     AddressKey: e2d9fb0ff2abe3a4caac52a1c5bcc451
     fieldName: _prefab
@@ -139,6 +133,12 @@ MonoBehaviour:
     index: -1
     AssetPath: Assets/05_KGW_Folder/Prefabs/00_Characters/YHY.prefab
     PathPreview: TestGameManager/CSVDataContainer/CharacterData
+  - PathHash: 5198830157726298727
+    AddressKey: b2f16cda616270d4da394dbf5a0b6bfd
+    fieldName: _selectSlotPrefab
+    index: -1
+    AssetPath: Assets/05_KGW_Folder/Prefabs/CharacterSlot/SelectCharacter.prefab
+    PathPreview: CharacterSelectManager
   - PathHash: 14924776591921777621
     AddressKey: 91be6ea37ebd9b44a9024bd9f7ab907f
     fieldName: characterButtonPrefab
@@ -450,7 +450,7 @@ MonoBehaviour:
     AddressKey: 3187b59c549b7884e935f513a641ecad
     fieldName: dailyQuests
     index: 0
-    AssetPath: Assets/09_KSH_Folder/ScriptableObject/DailyQuests/ChallengeDungeon.asset
+    AssetPath: Assets/09_KSH_Folder/ScriptableObject/DailyQuests/GameLogin.asset
     PathPreview: TestGameManager/QuestManager
   - PathHash: 8583154407218596130
     AddressKey: 64eb3dee0b6864d41b34002f1d2722e2
