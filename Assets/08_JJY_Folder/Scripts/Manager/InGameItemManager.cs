@@ -69,7 +69,10 @@ public class InGameItemManager : MonoBehaviour
     {
         var item = new InventoryItem(dish);
         _foodInventory.Add(item);
+    }
 
+    public void IncreaseCookCount()
+    {
         _cookCount++;
         _firebase.SetCookCount(_cookCount);
     }
@@ -161,6 +164,7 @@ public class InGameItemManager : MonoBehaviour
         // 기존의 AddItem 함수를 사용해 인벤토리에 추가합니다.
         AddItem(relicToAdd);
 
+        _getRelicCount++;
         Debug.Log($"[InGameItemManager] 유물 '{relicToAdd.relicName}'을(를) 획득했습니다!");
 
         // 어떤 유물을 얻었는지 알려주기 위해 해당 유물 데이터를 반환합니다.
