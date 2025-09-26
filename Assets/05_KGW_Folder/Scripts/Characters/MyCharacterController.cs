@@ -277,9 +277,6 @@ public class MyCharacterController : UnitBaseData
         {
             _characterState._isBarrier = false;
 
-            // UI 쪽 알림
-            FoodEffectUIManager.Instance.NotifyBarrierHit(this.gameObject);
-
             // 이펙트 전환 (깨짐 이펙트 출력)
             effectController?.PlayBrokenBarrier();
 
