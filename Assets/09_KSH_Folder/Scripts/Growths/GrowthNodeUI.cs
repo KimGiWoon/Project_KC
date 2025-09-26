@@ -26,16 +26,16 @@ public class GrowthNodeUI : MonoBehaviour
         if (growthDescription != null && !string.IsNullOrEmpty(growthDatas.nodeDescription))
         {
             if(!string.IsNullOrEmpty(growthDescription.text))
-                growthDescription.text += "\n" + growthDatas.nodeDescription;
+                growthDescription.text += "\n" + growthDatas.nodeDescription.Replace("\\n", "\n");
             else
-                growthDescription.text = growthDatas.nodeDescription;
+                growthDescription.text = growthDatas.nodeDescription.Replace("\\n", "\n");
         }
         
         if (growthDatas.nodeGrade == NodeGrade.Contents)
             return;
 
         if (currencyText != null)
-            currencyText.text = $"셰프의 흔적 {growthDatas.nodeCurrency} 소모";
+            currencyText.text = $"조각난 기억 {growthDatas.nodeCurrency} 소모";
     }
 
     public void NodeUIUpdate(bool isUnlocked, bool isCanActivate) //노드 UI 업데이트 기능
@@ -74,4 +74,6 @@ public class GrowthNodeUI : MonoBehaviour
     public int GetCurrency() => growthDatas.nodeCurrency;
 
     public int GetNodeId() => growthDatas.nodeID;
+    
+    public string GetNodeName() => growthDatas.nodeName;
 }
