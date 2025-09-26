@@ -34,8 +34,6 @@ namespace SDW
         public Action<UIName> OnUIOpenRequested;
         public Action<UIName> OnUICloseRequested;
         public Action OnSignOutButtonClicked;
-        private Coroutine _coroutine;
-        private bool _isRoguelikeScene;
         private RectTransform _rectTransform;
 
         private AudioManager _audio;
@@ -215,14 +213,12 @@ namespace SDW
                 _signOutButton.gameObject.SetActive(false);
                 _deleteAccountButton.gameObject.SetActive(false);
                 _giveUpButton.gameObject.SetActive(true);
-                _isRoguelikeScene = false;
             }
             else
             {
                 _signOutButton.gameObject.SetActive(true);
                 _deleteAccountButton.gameObject.SetActive(true);
                 _giveUpButton.gameObject.SetActive(false);
-                _isRoguelikeScene = true;
             }
         }
 
@@ -304,14 +300,13 @@ namespace SDW
         public void DeactiveDeleteButton()
         {
             _deleteAccountButton.interactable = false;
-            _coroutine = StartCoroutine(ActiveDeleteButton());
+            StartCoroutine(ActiveDeleteButton());
         }
 
         private IEnumerator ActiveDeleteButton()
         {
             yield return new WaitForSeconds(3f);
             _deleteAccountButton.interactable = false;
-            _coroutine = null;
         }
 
         #endregion

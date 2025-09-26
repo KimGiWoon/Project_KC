@@ -21,8 +21,6 @@ namespace SDW
         [SerializeField] private TextMeshProUGUI _rainbowStarText;
         [SerializeField] private Button _rainbowStarButton;
         [SerializeField] private Button _optionButton;
-        //todo Game Start 눌렀을 때 뜨는 팝업 창으로 이동해야 함
-        // [SerializeField] private Button _growthButton;
 
         [Header("Right Components")]
         [SerializeField] private Image _curerntChaImage;
@@ -45,7 +43,6 @@ namespace SDW
         private bool _isLoaded;
         private Coroutine _iconCoroutine;
         private int _iconNumber;
-        private bool _isBusy = false;
         private VideoPlayer _videoPlayer;
 
         /// <summary>
