@@ -538,6 +538,7 @@ namespace JJY
                 }
 
                 var newLevelData = GameManager.Instance.CharacterData.ChaLevelUpStatData[curLevel];
+                GameManager.Instance.CharacterBattleDataSave._chaLevel[chaKey.ChaEnName] = GameManager.Instance.CharacterData.CharEnNameLevel[chaKey.ChaEnName];
 
                 expBar.fillAmount = (float)curExp / newLevelData.ChaLevelPoint;
 
