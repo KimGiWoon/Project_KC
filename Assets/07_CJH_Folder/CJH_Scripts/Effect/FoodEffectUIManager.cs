@@ -39,7 +39,7 @@ public class FoodEffectUIManager : MonoBehaviour
         }
         Instance = this;
 
-        DontDestroyOnLoad(gameObject); // 필요하다면
+        DontDestroyOnLoad(gameObject);
 
         foreach (var asset in effectAssets)
         {
