@@ -41,6 +41,7 @@ namespace SDW
 
         [HideInInspector] public bool fromMain;
         private bool _isExpanded = false;
+        public bool IsExpanded => _isExpanded;
 
         public Action<UIName> OnUIOpenRequested;
         public Action<UIName> OnUICloseRequested;
@@ -161,9 +162,7 @@ namespace SDW
 
         private void LevelUpButtonClicked()
         {
-            _expandTweenAnimation.ToggleShrink();
-            _isExpanded = false;
-
+            SetShrink();
             OnUIOpenRequested?.Invoke(UIName.LevelUpUI);
             OnUICloseRequested?.Invoke(UIName.CharInfoStatsUI);
         }

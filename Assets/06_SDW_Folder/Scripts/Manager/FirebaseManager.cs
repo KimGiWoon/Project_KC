@@ -509,7 +509,7 @@ namespace SDW
                 { "fineDiningRecipeBook", 0 }, //# 5000 경험치 재화
                 { "masterChefRecipeBook", 0 }, //# 20000 경험치 재화
                 //todo 추후 0으로 설정
-                { "point", 9999999 }, //# 영구 성장 포인트
+                { "point", 0 }, //# 영구 성장 포인트
                 { "starCandy", 9999999 }, //# 유료 -> 뽑기 재화
                 { "shiningStarCandy", 9999999 }, //# 유료 재화
                 { "totalYeopjeon", 0 } //# 총 획득 엽전 재화, 정산 시 사용
@@ -621,7 +621,10 @@ namespace SDW
         private void CheckNicknameRequired()
         {
             if (string.IsNullOrEmpty(_userData.Nickname))
+            {
+                _ui.ClosePanel(UIName.ImagePrefabLoadingUI);
                 _ui.OpenPanel(UIName.SetNicknameUI);
+            }
             else
                 OnSignInComplete();
         }
