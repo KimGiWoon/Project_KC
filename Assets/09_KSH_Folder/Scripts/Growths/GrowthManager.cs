@@ -203,6 +203,12 @@ public class GrowthManager : MonoBehaviour
                         GameManager.Instance._canFaster = true;
                     Debug.Log("배속 기능 활성화!");
                 }
+                else if (growthDatas.nodeID == 80001) //가챠 기능 활성화
+                {
+                    if(!GameManager.Instance._canGacha)
+                        GameManager.Instance._canGacha = true;
+                    Debug.Log("뽑기 기능 활성화");
+                }
                 break;
             }
         }
