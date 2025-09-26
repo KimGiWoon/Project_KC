@@ -74,6 +74,8 @@
         NoticePaidConfirmUI,
         NoticePaidCompleteUI,
         NoticeNotPaidUI,
-        SugarStarExchangeUI
+        SugarStarExchangeUI,
+
+        ImagePrefabLoadingUI
     }
 }

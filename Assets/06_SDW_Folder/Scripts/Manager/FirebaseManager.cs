@@ -432,6 +432,7 @@ namespace SDW
                 var result = task.Result;
                 StartCoroutine(WaitForConnect(user, result));
 
+                _ui.OpenPanel(UIName.ImagePrefabLoadingUI);
                 _ui.ClosePanel(UIName.SignInUI);
             });
         }

@@ -55,6 +55,7 @@ namespace SDW
                 case UIName.SignInUI: ConnectSignInUI(uiName); break;
                 case UIName.SetNicknameUI: ConnectNicknameUI(uiName); break;
                 case UIName.DownloadUI: ConnectDownloadUI(uiName); break;
+                case UIName.ImagePrefabLoadingUI: ConnectImagePrefabLoadingUI(uiName); break;
             }
         }
 
@@ -200,6 +201,10 @@ namespace SDW
                 _firebase.OnSendUserInfo += globalSettingUI.UpdateUserInfo;
                 globalSettingUI.OnSignOutButtonClicked += _firebase.SignOut;
             }
+        }
+
+        private void ConnectImagePrefabLoadingUI(UIName uiName)
+        {
         }
 
         #endregion
