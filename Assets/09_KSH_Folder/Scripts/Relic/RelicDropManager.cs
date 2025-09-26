@@ -98,8 +98,8 @@ namespace KSH
             if (!alreadyAcquired) //만약 없다면
             {
                 GameManager.Instance.InGameItem.AddItem(relic); //인벤토리에 유물 아이템을 추가한다.
-                int relicCount = GameManager.Instance.InGameItem.GetRelicCount;
-                GameManager.Instance.DailyQuest.CompleteQuestInRoguelikeScene(QuestType.GetArtifact, relicCount);
+                // int relicCount = GameManager.Instance.InGameItem.GetRelicCount;
+                // GameManager.Instance.DailyQuest.CompleteQuestInRoguelikeScene(QuestType.GetArtifact, relicCount);
             }
         }
 

@@ -60,6 +60,11 @@ namespace SDW
 
         #region Firebase Intialize Methods
 
+        private void Awake()
+        {
+            FirebaseDatabase.DefaultInstance.SetPersistenceEnabled(false);
+        }
+
         /// <summary>
         /// 시작 시 필요한 Firebase 관련 초기화 및 설정을 수행
         /// </summary>
@@ -1240,6 +1245,33 @@ namespace SDW
                 if (task.IsFaulted)
                 {
                     Debug.LogWarning($"stageCount 저장 실패: {task.Exception.Message}");
+                }
+            });
+        }
+        public void InitQuest()
+        {
+            _dailyQuest = new Dictionary<string, object>();
+            _dailyQuestProgress = new Dictionary<string, object>();
+
+            foreach (QuestType quest in Enum.GetValues(typeof(QuestType)))
+            {
+                _dailyQuest[quest.ToString()] = false;
+                _dailyQuestProgress[quest.ToString()] = 0;
+            }
+
+            _dailyQuest["GetReward"] = false;
+
+            var updateData = new Dictionary<string, object>
+            {
+                { "dailyQuests", _dailyQuest },
+                { "dailyQuestsProgress", _dailyQuestProgress }
+            };
+
+            _db.Child("users").Child(_auth.CurrentUser.UserId).UpdateChildrenAsync(updateData).ContinueWithOnMainThread(task =>
+            {
+                if (task.IsFaulted)
+                {
+                    Debug.LogWarning($"quest 초기화 실패: {task.Exception.Message}");
                 }
             });
         }

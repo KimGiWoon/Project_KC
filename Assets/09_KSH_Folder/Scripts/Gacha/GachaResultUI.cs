@@ -33,7 +33,10 @@ namespace KSH
         [Header("ETC Components")]
         [SerializeField] private CharacterGacha _gacha;
         [SerializeField] private Button _backButton;
+        [SerializeField] private GridLayoutGroup _gridLayout;
+        [SerializeField] private RectTransform _tenFullRect;
         private bool _isSingle;
+        private float _height;
 
         public Action<UIName> OnUIOpenRequested;
         public Action<UIName> OnUICloseRequested;
@@ -43,6 +46,19 @@ namespace KSH
             _panelContainer.SetActive(false);
             _gacha = GameManager.Instance.Gacha;
             _gacha.SetGachaResultUI(this);
+
+            _height = (_tenFullRect.rect.height - 225) / 10;
+            float width = _height * 4.8f;
+
+            if (width <= _tenFullRect.rect.width)
+            {
+                _gridLayout.cellSize = new Vector2(_height * 4.8f, _height);
+            }
+            else
+            {
+                _height = (_tenFullRect.rect.width - 100f) / 4.8f;
+                _gridLayout.cellSize = new Vector2(_tenFullRect.rect.width - 100f, _height);
+            }
         }
 
         private void OnEnable()
@@ -92,10 +108,10 @@ namespace KSH
                 data,
                 characterData.GainedStarCandy[0],
                 characterData.GainedBead[0],
-                characterData.CurrentBead[0],       
+                characterData.CurrentBead[0],
                 isFirst,
                 PullType.One
-                );
+            );
 
             _singlePanel.SetActive(true);
         }
@@ -111,7 +127,6 @@ namespace KSH
             var spawnedRects = new List<RectTransform>(); //RectTransform 리스트 생성
 
             float startY = -2000; //애니메이션 시작 위치
-            float spacing = 250f; //캐릭터UI 간 간격
 
             for (int i = 0; i < characterDatas.Result.Count; i++) //뽑힌 캐릭터 수 만큼 생성
             {
@@ -132,16 +147,19 @@ namespace KSH
                 var rect = gacha.GetComponent<RectTransform>();
                 spawnedRects.Add(rect); //RectTransform을 만든 리스트에 저장
 
-                if (i == 0)
-                    rect.anchoredPosition = new Vector2(x, startY);
-                else
-                    rect.anchoredPosition = new Vector2(x, startY * (i + 1));
+                // if (i == 0)
+                //     rect.anchoredPosition = new Vector2(x, startY);
+                // else
+                //     rect.anchoredPosition = new Vector2(x, startY * (i + 1));
             }
 
             for (int i = 0; i < spawnedRects.Count; i++) //생성된 UI 모두 적용
             {
                 var rect = spawnedRects[i]; //리스트 안에 i번째 요소 가져오기
-                var finalPos = new Vector2(x, y - i * spacing); //마지막 위치
+                int screenWidthCenter = Screen.width / 2;
+                int screenHeight = Screen.height - 225;
+                var finalPos = new Vector2(x + screenWidthCenter, screenHeight - i * _height); //마지막 위치
+                // var finalPos = new Vector2(x + screenWidthCenter, y - i * spacing); //마지막 위치
 
                 rect.DOAnchorPos(finalPos, 0.5f) //startpos에서 finalPos까지 0.5초간 이동
                     .SetEase(Ease.OutBack, 0.5f) //튕기는 효과

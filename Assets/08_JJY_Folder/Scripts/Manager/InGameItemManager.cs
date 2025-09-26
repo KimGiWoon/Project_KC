@@ -4,6 +4,7 @@ using UnityEngine;
 using System;
 using SDW;
 using System.Linq;
+using KSH;
 
 public class InGameItemManager : MonoBehaviour
 {
@@ -46,7 +47,7 @@ public class InGameItemManager : MonoBehaviour
             !_gameManager.Firebase.IsLoaded || _isLoaded) return;
 
         LoadItemData(_gameManager.Firebase.EtcData);
-
+        LoadQuestCount(_gameManager.Firebase.DailyQuestProgress);
         _isLoaded = true;
     }
 
@@ -65,6 +66,14 @@ public class InGameItemManager : MonoBehaviour
         }
     }
 
+    private void LoadQuestCount(IReadOnlyDictionary<string, object> dailyQuestProgress)
+    {
+        var dbQuestProgressDictionary = dailyQuestProgress as Dictionary<string, object>;
+
+        SetUsedCookCount(Convert.ToInt32(dbQuestProgressDictionary[QuestType.UseFood.ToString()]));
+        SetGetRelicCount(Convert.ToInt32(dbQuestProgressDictionary[QuestType.GetArtifact.ToString()]));
+    }
+
     public void AddItem(RecipeData dish)
     {
         var item = new InventoryItem(dish);
@@ -74,7 +83,21 @@ public class InGameItemManager : MonoBehaviour
     public void IncreaseCookCount()
     {
         _cookCount++;
+        _usedCookCount++;
         _firebase.SetCookCount(_cookCount);
+        _firebase.SetQuestState(QuestType.UseFood, _usedCookCount >= 3, _usedCookCount);
+    }
+
+    public void SetUsedCookCount(int value)
+    {
+        _usedCookCount = value;
+        _firebase.SetQuestState(QuestType.UseFood, _usedCookCount >= 3, _usedCookCount);
+    }
+
+    public void SetGetRelicCount(int value)
+    {
+        _getRelicCount = value;
+        _firebase.SetQuestState(QuestType.GetArtifact, _getRelicCount >= 5, _getRelicCount);
     }
 
     public void AddItem(RelicDatas relic)
@@ -87,6 +110,7 @@ public class InGameItemManager : MonoBehaviour
 
         _relicGradeCount[relic.relicGrade]++;
         _firebase.SetRelicCount(_relicCount, _relicGradeCount);
+        _firebase.SetQuestState(QuestType.GetArtifact, _getRelicCount >= 5, _getRelicCount);
     }
 
     public void ClearItemCounts()
@@ -129,6 +153,7 @@ public class InGameItemManager : MonoBehaviour
 
         // 무작위로 선택된 유물을 인벤토리에서 제거합니다.
         _relicInventory.RemoveAt(randomIndex);
+        _firebase.SetRelicCount(_relicCount, _relicGradeCount);
         Debug.Log($"[InGameItemManager] 유물 '{itemToRemove.relic.relicName}'을(를) 잃었습니다.");
 
         // 아이템이 변경되었음을 알려 UI 등을 업데이트합니다.
@@ -164,7 +189,11 @@ public class InGameItemManager : MonoBehaviour
         // 기존의 AddItem 함수를 사용해 인벤토리에 추가합니다.
         AddItem(relicToAdd);
 
+        _relicCount++;
         _getRelicCount++;
+
+        _relicGradeCount[relicToAdd.relicGrade]++;
+        _firebase.SetQuestState(QuestType.GetArtifact, false, _getRelicCount);
         Debug.Log($"[InGameItemManager] 유물 '{relicToAdd.relicName}'을(를) 획득했습니다!");
 
         // 어떤 유물을 얻었는지 알려주기 위해 해당 유물 데이터를 반환합니다.

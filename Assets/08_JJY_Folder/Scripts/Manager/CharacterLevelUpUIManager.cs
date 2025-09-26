@@ -245,7 +245,7 @@ namespace JJY
             {
                 _activeSkillImage.sprite = data._activeSkillSprite;
                 _activeSkillDescriptionText.text = GetDescription(data._chaActiveSkill, data._chaBaseData);
-                _activeSkillImage.gameObject.SetActive(false);
+                _activeSkillImage.gameObject.SetActive(true);
             }
 
             _mpText.text = data._chaBaseData.ChaMP.ToString();
@@ -534,7 +534,7 @@ namespace JJY
 
                     if (curLevel > 30) yield break;
 
-                    GameManager.Instance.DailyQuest.CompleteQuest(QuestType.CharacterLevelUp, 1);
+                    GameManager.Instance.DailyQuest.CompleteQuestInLobbyScene(QuestType.CharacterLevelUp, 1);
                 }
 
                 var newLevelData = GameManager.Instance.CharacterData.ChaLevelUpStatData[curLevel];
