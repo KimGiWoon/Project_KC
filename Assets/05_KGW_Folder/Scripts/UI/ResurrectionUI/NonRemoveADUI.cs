@@ -39,6 +39,14 @@ public class NonRemoveADUI : BaseUI
         _noButton.onClick.AddListener(NoButtonClick);
     }
 
+    public override void Open()
+    {
+        base.Open();
+
+        // 패배 사운드 플레이
+        GameManager.Instance.Audio.Play2DSFX(AudioClipName.BattleLose);
+    }
+
     private void OnDisable()
     {
         // 버튼, 슬라이드 등록
