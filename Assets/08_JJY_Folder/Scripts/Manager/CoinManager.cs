@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using CJH;
 using SDW;
 using UnityEngine;
 
@@ -135,8 +136,11 @@ namespace JJY
         /// </summary>
         public void AddYeopjeon(int value)
         {
+            int getYeopjeon = MapView.Instance._eventManager.CombatRewardAmount;
+
             yeopjeon += value;
-            bonus = Mathf.RoundToInt(value * (1f + _yeopjeonBonus / 100f));
+            bonus = MapView.Instance._eventManager.IsCombatRewardYeopjeon == true ?
+                Mathf.RoundToInt(value * (1f + _yeopjeonBonus / getYeopjeon)) : Mathf.RoundToInt(value * (1f + _yeopjeonBonus / 100f));
 
             yeopjeon += bonus;
 

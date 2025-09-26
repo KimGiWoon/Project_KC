@@ -23,9 +23,6 @@ public class SavageRushController : MonoBehaviour
     // 공격 대상인 캐릭터에게 난폭한 돌진 사용
     public void CharacterSavageRush()
     {
-        // 난폭한 돌진 사운드 플레이
-        GameManager.Instance.Audio.Play2DSFX(AudioClipName.IronBullSkill_2);
-
         if (!_character._isAlive) return;
 
         if (_character._battleManager._isGameOver)
@@ -59,6 +56,9 @@ public class SavageRushController : MonoBehaviour
         {
             yield break;
         }
+
+        // 난폭한 돌진 사운드 플레이
+        GameManager.Instance.Audio.Play2DSFX(AudioClipName.IronBullSkill_2);
 
         // 앞으로 돌진
         while (timer < rushTime)

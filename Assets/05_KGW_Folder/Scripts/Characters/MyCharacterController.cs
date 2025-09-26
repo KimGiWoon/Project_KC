@@ -42,6 +42,7 @@ public class MyCharacterController : UnitBaseData
 
     // 캐릭터 애니메이션
     public readonly int Idle_Hash = Animator.StringToHash("Idle");
+    public readonly int Walk_Hash = Animator.StringToHash("Walk");
     public readonly int Attack_Hash = Animator.StringToHash("Attack");
     public readonly int Critical_Hash = Animator.StringToHash("Critical");
 
@@ -148,6 +149,9 @@ public class MyCharacterController : UnitBaseData
         {
             // 오른쪽으로 이동
             transform.Translate(_moveDir * _characterState._chaMoveSpeed * _gameSpeed * Time.deltaTime);
+
+            // 이동 애니메이션
+            _chaAnimatior.Play(Walk_Hash);
         }
         else // 탐색 대상이 있으면
         {
@@ -166,6 +170,9 @@ public class MyCharacterController : UnitBaseData
                 // 탐색 대상으로 이동
                 transform.position = Vector3.MoveTowards(transform.position, _researchTarget.transform.position,
                     _characterState._chaMoveSpeed * _gameSpeed * Time.deltaTime);
+
+                // 이동 애니메이션
+                _chaAnimatior.Play(Walk_Hash);
             }
         }
     }
@@ -224,8 +231,9 @@ public class MyCharacterController : UnitBaseData
                 // 몬스터가 살아있으면 공격
                 if (_attackTarget != null && _attackTarget._isAlive)
                 {
+                    // TODO : 공격 애니메이션 추가 전 임시로 대기모션으로 지정
                     // 공격 애니메이션
-                    _chaAnimatior.Play(Attack_Hash);
+                    _chaAnimatior.Play(Idle_Hash);
 
                     // 캐릭터의 데미지로 몬스터에 주기
                     _attackTarget.TakeDamage(passiveDamage, _characterState._chaAccuracy);
@@ -276,9 +284,6 @@ public class MyCharacterController : UnitBaseData
         if (_characterState._isBarrier)
         {
             _characterState._isBarrier = false;
-
-            // UI 쪽 알림
-            FoodEffectUIManager.Instance.NotifyBarrierHit(this.gameObject);
 
             // 이펙트 전환 (깨짐 이펙트 출력)
             effectController?.PlayBrokenBarrier();

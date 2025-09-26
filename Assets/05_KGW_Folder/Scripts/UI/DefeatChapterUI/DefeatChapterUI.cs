@@ -20,6 +20,14 @@ public class DefeatChapterUI : BaseUI
         _confirmButton.onClick.AddListener(LobbyButtonClick);
     }
 
+    public override void Open()
+    {
+        base.Open();
+
+        // 패배 사운드 플레이
+        GameManager.Instance.Audio.Play2DSFX(AudioClipName.BattleLose);
+    }
+
     // 로비 이동 버튼 클릭
     private void LobbyButtonClick()
     {
