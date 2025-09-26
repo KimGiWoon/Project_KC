@@ -9,4 +9,5 @@ public enum ChoiceResultType
     LoseYeopjeon,   // 엽전 상실
     GainBadRelic, // 디버프 유물 휙득
     BuyRelic, // 유물 사기
+    RelicSel // 유물 선택지
 }
