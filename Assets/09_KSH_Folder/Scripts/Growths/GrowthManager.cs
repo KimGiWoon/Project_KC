@@ -205,8 +205,8 @@ public class GrowthManager : MonoBehaviour
                 }
                 else if (growthDatas.nodeID == 80001) //가챠 기능 활성화
                 {
-                    if(!GameManager.Instance._canGacha)
-                        GameManager.Instance._canGacha = true;
+                    if(!GameManager.Instance.CanGacha)
+                        GameManager.Instance.CanGacha = true;
                     Debug.Log("뽑기 기능 활성화");
                 }
                 break;
