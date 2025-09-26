@@ -41,7 +41,7 @@ namespace SDW
 
                 count++;
 
-                if (count >= 2)
+                if (count >= 3)
                 {
                     count = 0;
                     _canAdd = !_canAdd;

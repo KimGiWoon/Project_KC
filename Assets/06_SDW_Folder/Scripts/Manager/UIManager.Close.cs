@@ -431,28 +431,30 @@ namespace SDW
             var mainLobbyUI = _uiDic[UIName.MainLobbyUI] as MainLobbyUI;
             var mainLobbyBottomUI = _uiDic[UIName.MainLobbyBottomUI] as MainLobbyBottomUI;
 
-            charLevelUpMainUI.OnUIOpenRequested -= OpenPanel;
-            charLevelUpMainUI.OnUICloseRequested -= (uiName) =>
+            charLevelUpMainUI.OnUIOpenRequested -= (uiName, fromMain) =>
+            {
+                if (fromMain)
+                {
+                    if (uiName == UIName.CharInfoStatsUI)
+                        charInfoStatsUI.fromMain = true;
+                    else if (uiName == UIName.CharInfoBottomUI)
+                        charInfoBottomUI.fromMain = true;
+                }
+                OpenPanel(uiName);
+            };
+            charLevelUpMainUI.OnUICloseRequested -= (uiName, fromMain) =>
             {
                 mainLobbyBottomUI.SetButtonsInteractable(false);
-                mainLobbyUI.MainLobbyMoveBack();
+                StartCoroutine(DelayedClose(mainLobbyUI));
+
+                if (fromMain)
+                {
+                    if (uiName == UIName.CharInfoStatsUI)
+                        charInfoStatsUI.fromMain = true;
+                    else if (uiName == UIName.CharInfoBottomUI)
+                        charInfoBottomUI.fromMain = true;
+                }
                 ClosePanel(uiName);
-            };
-
-            charLevelUpMainUI.OnSubUIOpenRequested -= (firstUI, secondUI) =>
-            {
-                charInfoStatsUI.fromMain = true;
-                charInfoBottomUI.fromMain = true;
-                OpenPanel(firstUI);
-                OpenPanel(secondUI);
-            };
-
-            charLevelUpMainUI.OnSubUICloseRequested -= (firstUI, secondUI) =>
-            {
-                charInfoStatsUI.fromMain = true;
-                charInfoBottomUI.fromMain = true;
-                ClosePanel(firstUI);
-                ClosePanel(secondUI);
             };
         }
 
@@ -468,7 +470,7 @@ namespace SDW
             {
                 mainLobbyBottomUI.ButtonsMoveAway();
                 charLevelUpMainUI.CharacterMoveAway();
-                charInfoBottomUI.BottomMoveAway();
+                charInfoBottomUI.BottomMoveBack();
                 OpenPanel(uiName);
             };
 
@@ -490,7 +492,7 @@ namespace SDW
             levelUpUI.OnUIOpenRequested -= (uiName) =>
             {
                 charLevelUpMainUI.CharacterMoveBack();
-                charInfoBottomUI.BottomMoveBack();
+                charInfoBottomUI.BottomMoveAway();
                 OpenPanel(uiName);
             };
 

@@ -25,24 +25,24 @@ namespace SDW
         public override void Open()
         {
             base.Open();
-            if (fromMain)
-            {
-                fromMain = false;
-                return;
-            }
+            // if (fromMain)
+            // {
+            //     fromMain = false;
+            //     return;
+            // }
 
-            _tweenAnimation.moveBack();
+            _tweenAnimation.moveAway();
         }
 
         public override void Close()
         {
-            if (fromMain)
-            {
-                base.Close();
-                return;
-            }
+            // if (fromMain)
+            // {
+            //     base.Close();
+            //     return;
+            // }
 
-            _tweenAnimation.moveAway();
+            _tweenAnimation.moveBack();
             StartCoroutine(DelayedClose());
         }
 
