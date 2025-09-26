@@ -32,7 +32,10 @@ namespace SDW
         private void OnEnable()
         {
             _dailyQuestButton.onClick.AddListener(DailyQuestButtonClicked);
-            _gachaButton.onClick.AddListener(GachaButtonClicked);
+            
+            if(GameManager.Instance._canGacha)
+                _gachaButton.onClick.AddListener(GachaButtonClicked);
+            
             _collectionButton.onClick.AddListener(CollectionButtonClicked);
             _levelUpButton.onClick.AddListener(LevelUpButtonClicked);
         }
