@@ -170,6 +170,14 @@ public class MenuUI : BaseUI
     // 계속하기 버튼 클릭
     private void ContinueButtonClick()
     {
+        PlayerPrefs.SetInt("MasterVolume", (int)_volumeSlider[0].value);
+        PlayerPrefs.SetInt("BGMVolume", (int)_volumeSlider[1].value);
+        PlayerPrefs.SetInt("SFXVolume", (int)_volumeSlider[2].value);
+
+        PlayerPrefs.SetInt("MasterVolumeMute", _muteObjectList[0].activeSelf ? 1 : 0);
+        PlayerPrefs.SetInt("BGMVolumeMute", _muteObjectList[1].activeSelf ? 1 : 0);
+        PlayerPrefs.SetInt("SFXVolumeMute", _muteObjectList[2].activeSelf ? 1 : 0);
+
         OnUICloseRequested?.Invoke(UIName.MenuUI);
         _popupBackground.SetActive(false);
         _battleUI._isOnMenu = false;
