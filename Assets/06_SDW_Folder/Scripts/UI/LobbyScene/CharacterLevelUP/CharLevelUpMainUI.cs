@@ -20,12 +20,13 @@ namespace SDW
         [Header("Buttons")]
         [SerializeField] private Button _mainLobbyButton;
 
+        [Header("Animation")]
+        [SerializeField] private TweenAnimation _bottomTweenAnimation;
+        [SerializeField] private CharInfoStatsUI _charInfoStatsUI;
         private TweenAnimation _tweenAnimation;
 
-        public Action<UIName> OnUIOpenRequested;
-        public Action<UIName> OnUICloseRequested;
-        public Action<UIName, UIName> OnSubUIOpenRequested;
-        public Action<UIName, UIName> OnSubUICloseRequested;
+        public Action<UIName, bool> OnUIOpenRequested;
+        public Action<UIName, bool> OnUICloseRequested;
 
         private CharacterDataManager _charDataManager;
 
@@ -49,8 +50,15 @@ namespace SDW
         public override void Open()
         {
             base.Open();
-            OnSubUIOpenRequested?.Invoke(UIName.CharInfoStatsUI, UIName.CharInfoBottomUI);
+            OnUIOpenRequested?.Invoke(UIName.CharInfoStatsUI, true);
+            StartCoroutine(DelayedOpen());
             _tweenAnimation.moveAway();
+        }
+
+        private IEnumerator DelayedOpen()
+        {
+            yield return new WaitForSeconds(_tweenAnimation.tweenTime);
+            OnUIOpenRequested?.Invoke(UIName.CharInfoBottomUI, true);
         }
 
         public override void Close()
@@ -60,10 +68,21 @@ namespace SDW
 
         private IEnumerator DelayedClose()
         {
-            // yield return new WaitForSeconds(1f);
+            //todo CharInfo가 펴져있으면 접고 실행해야 함
+            if (_charInfoStatsUI.IsExpanded)
+            {
+                _charInfoStatsUI.SetShrink();
+                yield return new WaitForSeconds(0.4f);
+            }
+
+            OnUICloseRequested?.Invoke(UIName.CharInfoBottomUI, true);
+            yield return new WaitForSeconds(_bottomTweenAnimation.tweenTime);
+
             _tweenAnimation.moveBack();
+            OnUIOpenRequested?.Invoke(UIName.MainLobbyUI, false);
             yield return new WaitForSeconds(_tweenAnimation.tweenTime);
-            OnSubUICloseRequested?.Invoke(UIName.CharInfoStatsUI, UIName.CharInfoBottomUI);
+
+            OnUICloseRequested?.Invoke(UIName.CharInfoStatsUI, true);
             CharacterMoveBack();
             base.Close();
         }
@@ -106,8 +125,7 @@ namespace SDW
 
         private void MainLobbyButtonClicked()
         {
-            OnUIOpenRequested?.Invoke(UIName.MainLobbyUI);
-            OnUICloseRequested?.Invoke(UIName.CharLevelUpMainUI);
+            OnUICloseRequested?.Invoke(UIName.CharLevelUpMainUI, false);
         }
 
         public void CharacterMoveAway()

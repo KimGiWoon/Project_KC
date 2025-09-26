@@ -9,6 +9,7 @@ namespace SDW
     {
         [Header("UI Components")]
         [SerializeField] private RectTransform _panelRect;
+        [SerializeField] private TextMeshProUGUI _nodeTitle;
         [SerializeField] private TextMeshProUGUI _nodeTypeText;
         [SerializeField] private TextMeshProUGUI _descriptionText;
         [SerializeField] private TextMeshProUGUI _pointText;
@@ -96,6 +97,7 @@ namespace SDW
                 _activateInfoText.gameObject.SetActive(true);
             }
 
+            _nodeTitle.text = growthNode.GetNodeName();
             _descriptionText.text = growthNode.GetDescription();
             _pointText.text = growthNode.GetCurrency().ToString();
             _needPoint = growthNode.GetCurrency();
@@ -104,7 +106,7 @@ namespace SDW
             switch (growthNode.Grade)
             {
                 case NodeGrade.Contents:
-                    _nodeTypeText.text = "특수";
+                    _nodeTypeText.text = "콘텐츠";
                     break;
                 case NodeGrade.Main:
                     _nodeTypeText.text = "핵심";

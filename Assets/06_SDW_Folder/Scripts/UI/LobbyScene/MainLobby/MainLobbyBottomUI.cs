@@ -32,12 +32,10 @@ namespace SDW
         private void OnEnable()
         {
             _dailyQuestButton.onClick.AddListener(DailyQuestButtonClicked);
-            
-            if(GameManager.Instance._canGacha)
-                _gachaButton.onClick.AddListener(GachaButtonClicked);
-            
+            _gachaButton.onClick.AddListener(GachaButtonClicked);
             _collectionButton.onClick.AddListener(CollectionButtonClicked);
             _levelUpButton.onClick.AddListener(LevelUpButtonClicked);
+            GameManager.Instance.OnCanGachaChanged += SetGachaButton;
         }
 
         private void OnDisable()
@@ -46,6 +44,14 @@ namespace SDW
             _gachaButton.onClick.RemoveListener(GachaButtonClicked);
             _collectionButton.onClick.RemoveListener(CollectionButtonClicked);
             _levelUpButton.onClick.RemoveListener(LevelUpButtonClicked);
+            GameManager.Instance.OnCanGachaChanged -= SetGachaButton;
+        }
+
+        public override void Open()
+        {
+            base.Open();
+            if (GameManager.Instance.CanGacha) _gachaButton.interactable = true;
+            else _gachaButton.interactable = false;
         }
 
         /// <summary>
@@ -95,7 +101,10 @@ namespace SDW
             _dailyQuestButton.interactable = value;
             _lobbyButton.interactable = value;
             _collectionButton.interactable = value;
-            _gachaButton.interactable = value;
+            if (GameManager.Instance.CanGacha) _gachaButton.interactable = value;
+            else _gachaButton.interactable = false;
         }
+
+        private void SetGachaButton(bool canGacha) => _gachaButton.interactable = canGacha;
     }
 }

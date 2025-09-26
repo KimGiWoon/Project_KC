@@ -231,21 +231,23 @@ namespace SDW
             if (volumeType == VolumeType.MasterVolume)
             {
                 _isMasterVolumeMuted = isMute;
+                _volumeMuteList[0] = isMute;
                 BGMMute(isMute);
                 SFXMute(isMute);
-                _volumeMuteList[0] = isMute;
             }
             else if (volumeType == VolumeType.BGMVolume)
             {
                 _isBGMVolumeMuted = isMute;
-                BGMMute(isMute);
                 _volumeMuteList[1] = isMute;
+                if (_isMasterVolumeMuted) return;
+                BGMMute(isMute);
             }
             else if (volumeType == VolumeType.SFXVolume)
             {
                 _isSFXVolumeMuted = isMute;
-                SFXMute(isMute);
                 _volumeMuteList[2] = isMute;
+                if (_isMasterVolumeMuted) return;
+                SFXMute(isMute);
             }
         }
 

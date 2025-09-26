@@ -137,7 +137,20 @@ namespace SDW
         public bool _isStageClear;
 
         public bool _canFaster = false; //배속 기능
-        public bool _canGacha = false; //가챠 기능
+
+        private bool _canGacha;
+
+        public bool CanGacha
+        {
+            get => _canFaster;
+            set
+            {
+                _canGacha = value;
+                OnCanGachaChanged?.Invoke(_canGacha);
+            }
+        } //가챠 기능
+
+        public Action<bool> OnCanGachaChanged;
 
         private List<int> _growthUnlockNodes = new List<int>();
         public IReadOnlyList<int> GrowthUnlockNodes => _growthUnlockNodes;
