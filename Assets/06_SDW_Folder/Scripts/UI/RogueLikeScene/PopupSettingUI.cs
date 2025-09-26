@@ -74,7 +74,6 @@ namespace SDW
 
         private void SaveButtonClicked()
         {
-            //todo 추후 관련 세팅을 저장해야 함
             OnUICloseRequested?.Invoke(UIName.PopupSettingUI);
         }
     }

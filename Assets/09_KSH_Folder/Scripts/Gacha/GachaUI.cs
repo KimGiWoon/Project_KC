@@ -90,7 +90,7 @@ namespace KSH
             {
                 case CharacterGrade.Normal:
                     Color commonColor;
-                    ColorUtility.TryParseHtmlString("#C4F1FF", out commonColor);
+                    ColorUtility.TryParseHtmlString("#C6FCFF", out commonColor);
                     NormalImage.gameObject.SetActive(true);
                     RareImage.gameObject.SetActive(false);
                     return commonColor;

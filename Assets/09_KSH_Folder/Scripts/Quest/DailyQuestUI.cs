@@ -23,12 +23,14 @@ public class DailyQuestUI : BaseUI
 
     public Action<int> OnRewardButtonClicked;
     public Action<UIName> OnUICloseRequested;
+    private GameManager _gameManager;
 
     private void Awake()
     {
         _panelContainer.SetActive(false);
         _backgroundPanel.gameObject.SetActive(false);
         _rewardButton.interactable = false;
+        _gameManager = GameManager.Instance;
     }
 
     private void OnEnable()
@@ -71,6 +73,7 @@ public class DailyQuestUI : BaseUI
 
     public override void Open()
     {
+        _gameManager.DailyQuest.UpdateFromRoguelikeScene();
         _backgroundPanel.gameObject.SetActive(true);
         _tweenAnimation.moveAway();
         base.Open();
