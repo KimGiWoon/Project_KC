@@ -19,6 +19,12 @@ public class InGameItemManager : MonoBehaviour
     private int _relicCount = 0;
     public int RelicCount => _relicCount;
 
+    private int _usedCookCount = 0;
+    public int UsedCookCount => _usedCookCount;
+
+    private int _getRelicCount = 0;
+    public int GetRelicCount => _getRelicCount;
+
     private Dictionary<RelicGrade, int> _relicGradeCount = new Dictionary<RelicGrade, int>();
     public Dictionary<RelicGrade, int> RelicGradeCount => _relicGradeCount;
 
@@ -74,6 +80,7 @@ public class InGameItemManager : MonoBehaviour
         _relicInventory.Add(item);
         OnItemChanged?.Invoke();
         _relicCount++;
+        _getRelicCount++;
 
         _relicGradeCount[relic.relicGrade]++;
         _firebase.SetRelicCount(_relicCount, _relicGradeCount);
@@ -91,6 +98,11 @@ public class InGameItemManager : MonoBehaviour
 
         _firebase.SetCookCount(_cookCount);
         _firebase.SetRelicCount(_relicCount, _relicGradeCount);
+    }
+
+    public void IncreaseUsedCookCount()
+    {
+        _usedCookCount++;
     }
 
     // CJH 코드 추가

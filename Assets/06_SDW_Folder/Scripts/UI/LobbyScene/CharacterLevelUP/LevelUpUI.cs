@@ -15,8 +15,11 @@ namespace SDW
 
         [Header("Center Container")]
         [SerializeField] private Button _beekRecipeBook;
+        [SerializeField] private Button _beekRecipeSelectedBook;
         [SerializeField] private Button _fineDiningRecipeBook;
+        [SerializeField] private Button _fineDiningRecipeSelectedBook;
         [SerializeField] private Button _masterChefRecipeBook;
+        [SerializeField] private Button _masterChefRecipeSelectedBook;
         [SerializeField] private TextMeshProUGUI _beekValueText;
         [SerializeField] private TextMeshProUGUI _fineDiningValueText;
         [SerializeField] private TextMeshProUGUI _masterChefValueText;
@@ -74,6 +77,9 @@ namespace SDW
             _beekRecipeBook.onClick.AddListener(() => { RecipeButtonClicked(_coin.beek); });
             _fineDiningRecipeBook.onClick.AddListener(() => { RecipeButtonClicked(_coin.fineDining); });
             _masterChefRecipeBook.onClick.AddListener(() => { RecipeButtonClicked(_coin.masterChef); });
+            _beekRecipeSelectedBook.onClick.AddListener(() => { RecipeButtonClicked(_coin.beek); });
+            _fineDiningRecipeSelectedBook.onClick.AddListener(() => { RecipeButtonClicked(_coin.fineDining); });
+            _masterChefRecipeSelectedBook.onClick.AddListener(() => { RecipeButtonClicked(_coin.masterChef); });
             // _levelUpButton.onClick.AddListener(LevelUpButtonClicked);
             _backButton.onClick.AddListener(BackButtonClicked);
             _gaugeSlider.onValueChanged.AddListener(SliderValueChanged);
@@ -84,6 +90,9 @@ namespace SDW
             _beekRecipeBook.onClick.RemoveListener(() => { RecipeButtonClicked(_coin.beek); });
             _fineDiningRecipeBook.onClick.RemoveListener(() => { RecipeButtonClicked(_coin.fineDining); });
             _masterChefRecipeBook.onClick.RemoveListener(() => { RecipeButtonClicked(_coin.masterChef); });
+            _beekRecipeSelectedBook.onClick.RemoveListener(() => { RecipeButtonClicked(_coin.beek); });
+            _fineDiningRecipeSelectedBook.onClick.RemoveListener(() => { RecipeButtonClicked(_coin.fineDining); });
+            _masterChefRecipeSelectedBook.onClick.RemoveListener(() => { RecipeButtonClicked(_coin.masterChef); });
             // _levelUpButton.onClick.RemoveListener(LevelUpButtonClicked);
             _backButton.onClick.RemoveListener(BackButtonClicked);
             _gaugeSlider.onValueChanged.RemoveListener(SliderValueChanged);

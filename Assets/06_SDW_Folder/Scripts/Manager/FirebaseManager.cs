@@ -480,9 +480,10 @@ namespace SDW
                 _coinData = userData["coinData"] as Dictionary<string, object>;
                 _characters = userData["characters"] as Dictionary<string, object>;
                 _dailyQuest = userData["dailyQuests"] as Dictionary<string, object>;
-                _dailyQuestProgress = userData["dailyQuestProgress"] as Dictionary<string, object>;
+                _dailyQuestProgress = userData["dailyQuestsProgress"] as Dictionary<string, object>;
                 _etcData = userData["etcData"] as Dictionary<string, object>;
-                _growthData = userData["growthData"] as Dictionary<string, object>;
+                if (userData.ContainsKey("growthData"))
+                    _growthData = userData["growthData"] as Dictionary<string, object>;
                 _isLoaded = true;
             }
         }
@@ -1235,6 +1236,44 @@ namespace SDW
                 if (task.IsFaulted)
                 {
                     Debug.LogWarning($"stageCount 저장 실패: {task.Exception.Message}");
+                }
+            });
+        }
+
+        public void SetQuestState(QuestType questType, bool isCompleted, int progress)
+        {
+            var updateData = new Dictionary<string, object>
+            {
+                { $"dailyQuests/{questType.ToString()}", isCompleted },
+                { $"dailyQuestsProgress/{questType.ToString()}", progress }
+            };
+
+            _dailyQuest[questType.ToString()] = isCompleted;
+            _dailyQuestProgress[questType.ToString()] = progress;
+
+            _db.Child("users").Child(_auth.CurrentUser.UserId).UpdateChildrenAsync(updateData).ContinueWithOnMainThread(task =>
+            {
+                if (task.IsFaulted)
+                {
+                    Debug.LogWarning($"quest 저장 실패: {task.Exception.Message}");
+                }
+            });
+        }
+
+        public void SetQuestReward(bool getReward)
+        {
+            var updateData = new Dictionary<string, object>
+            {
+                { "dailyQuests/GetReward", getReward }
+            };
+
+            _dailyQuest["GetReward"] = getReward;
+
+            _db.Child("users").Child(_auth.CurrentUser.UserId).UpdateChildrenAsync(updateData).ContinueWithOnMainThread(task =>
+            {
+                if (task.IsFaulted)
+                {
+                    Debug.LogWarning($"quest reward 저장 실패: {task.Exception.Message}");
                 }
             });
         }
