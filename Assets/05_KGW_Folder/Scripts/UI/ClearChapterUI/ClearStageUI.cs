@@ -14,6 +14,7 @@ namespace SDW
         [Header("UI Components")]
         [SerializeField] private Button _confirmButton; // 랜덤 인카운터로 이동 버튼
         [SerializeField] private TextMeshProUGUI _yeopjeonText;
+        [SerializeField] private TextMeshProUGUI _selectText;
         [SerializeField] private Transform content;
         [SerializeField] private RelicUI relicPrefab;
         [SerializeField] public GameObject RelicWindow;
@@ -59,7 +60,9 @@ namespace SDW
             {
                 int getYeopjeon = MapView.Instance._eventManager.CombatRewardAmount;
 
-                RelicWindow.SetActive(false);
+                _selectText.text = "전투에서 승리했습니다!";
+                _confirmButton.interactable = true;
+                content.gameObject.SetActive(false);
                 GameManager.Instance.Coin.AddYeopjeon(getYeopjeon);
                 UpdateYeopjeonText(GameManager.Instance.Coin.bonus);
             }
