@@ -49,6 +49,9 @@ public class BattleUI : BaseUI
         _isFast = false;
         _panelContainer.SetActive(false);
         _bottomUI.SetActive(false);
+        if (!GameManager.Instance._canFaster) _fastButtonX2.interactable = false;
+        else _fastButtonX2.interactable = true;
+
         _fastButtonX2.onClick.AddListener(X2FastButtonClick);
         _optionButton.onClick.AddListener(MenuButtonClick);
     }
@@ -189,9 +192,6 @@ public class BattleUI : BaseUI
     // X2 속도 버튼 클릭
     private void X2FastButtonClick()
     {
-        if (!GameManager.Instance._canFaster) //해금되어야만 2배속 가능
-            return;
-        
         if (_isFast)
         {
             CharacterSelectManager.Instance._isFastGame = false;
