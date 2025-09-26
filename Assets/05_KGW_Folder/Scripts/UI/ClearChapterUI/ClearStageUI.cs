@@ -51,10 +51,25 @@ namespace SDW
         public override void Open()
         {
             base.Open();
-            _confirmButton.interactable = false;
-            GameManager.Instance.Coin.OnRelicChanged?.Invoke();
-            GameManager.Instance.Coin.AddYeopjeon(100);
-            UpdateYeopjeonText(GameManager.Instance.Coin.bonus);
+            // 승리 사운드 플레이
+            GameManager.Instance.Audio.Play2DSFX(AudioClipName.BattleVictory);
+
+            if (MapView.Instance._eventManager.IsCombatRewardYeopjeon)
+            {
+                int getYeopjeon = MapView.Instance._eventManager.CombatRewardAmount;
+
+                RelicWindow.SetActive(false);
+                GameManager.Instance.Coin.AddYeopjeon(getYeopjeon);
+                UpdateYeopjeonText(GameManager.Instance.Coin.bonus);
+            }
+            else
+            {
+                _confirmButton.interactable = false;
+                GameManager.Instance.Coin.OnRelicChanged?.Invoke();
+                GameManager.Instance.Coin.AddYeopjeon(100);
+                UpdateYeopjeonText(GameManager.Instance.Coin.bonus);
+            }
+
             // 보스 클리어 시
             if (RoguelikeManager.Instance.MonsterType == BattleEventType.Boss ||
                 RoguelikeManager.Instance.MonsterType == BattleEventType.BossFinal)
@@ -67,7 +82,8 @@ namespace SDW
 
         private void ConfirmButtonClicked()
         {
-            GetRelic();
+            if (!MapView.Instance._eventManager.IsCombatRewardYeopjeon) GetRelic();
+
             RoguelikeManager.Instance.OnBattleEnd?.Invoke();
             OnUICloseRequested?.Invoke(UIName.ClearStageUI);
         }

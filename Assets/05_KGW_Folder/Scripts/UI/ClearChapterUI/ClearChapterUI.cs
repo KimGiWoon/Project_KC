@@ -33,8 +33,12 @@ public class ClearChapterUI : BaseUI
 
     public override void Open()
     {
-        _yeopjeonText.text = "100 엽전을 획득하였습니다.";
         base.Open();
+
+        _yeopjeonText.text = "100 엽전을 획득하였습니다.";
+        // 승리 사운드 플레이
+        GameManager.Instance.Audio.Play2DSFX(AudioClipName.BattleVictory);
+
     }
 
     // 로비 이동 버튼 클릭
