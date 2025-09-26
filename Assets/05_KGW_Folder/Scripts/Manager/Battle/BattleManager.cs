@@ -261,7 +261,7 @@ public class BattleManager : MonoBehaviour
                 var monterOIL = monster.GetComponentInChildren<SpriteRenderer>();
 
                 // 마직막 캐릭터를 맨 앞으로 보여주기
-                monterOIL.sortingOrder = 10 + i;
+                monterOIL.sortingOrder = 12 + i;
                 // 생성된 캐릭터 저장
                 var createMonster = monster.GetComponent<MonsterController>();
                 createMonster.Battle = this;

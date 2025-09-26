@@ -231,9 +231,8 @@ public class MyCharacterController : UnitBaseData
                 // 몬스터가 살아있으면 공격
                 if (_attackTarget != null && _attackTarget._isAlive)
                 {
-                    // TODO : 공격 애니메이션 추가 전 임시로 대기모션으로 지정
                     // 공격 애니메이션
-                    _chaAnimatior.Play(Idle_Hash);
+                    _chaAnimatior.Play(Attack_Hash);
 
                     // 캐릭터의 데미지로 몬스터에 주기
                     _attackTarget.TakeDamage(passiveDamage, _characterState._chaAccuracy);

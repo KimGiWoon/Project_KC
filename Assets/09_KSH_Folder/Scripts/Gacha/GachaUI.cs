@@ -34,6 +34,7 @@ namespace KSH
 
         private void OnDisable()
         {
+            if (manager == null) return;
             manager.OnStarCandyGained -= SetStarCandy;
             manager.OnBeadGained -= SetBead;
         }

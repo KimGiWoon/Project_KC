@@ -17,6 +17,7 @@ public class DailyQuestManager : MonoBehaviour
     private bool _isDownloaded;
     private GameManager _gameManager;
     private Dictionary<QuestType, int> _roguelikeUpdate = new Dictionary<QuestType, int>();
+    private Dictionary<QuestType, int> _lobbylikeUpdate = new Dictionary<QuestType, int>();
 
     public event Action<int> OnStarCandyChange;
 
@@ -73,6 +74,7 @@ public class DailyQuestManager : MonoBehaviour
             quest.currentProgress = 0;
         }
 
+        _gameManager.Firebase.InitQuest();
         ClearQuestUI();
         _canReward = false;
         reward = false;
@@ -146,6 +148,7 @@ public class DailyQuestManager : MonoBehaviour
 
             quest.currentProgress += amount; //해당 퀘스트의 진행도 추가
 
+            // if(questUIList != null)
             questUIList[i].UpdateCountText(quest); //업데이트 UI
 
             if (quest.currentProgress >= quest.questGoal) //퀘스트 목표가 같거나 높으면
@@ -169,6 +172,11 @@ public class DailyQuestManager : MonoBehaviour
         _roguelikeUpdate[questType] = amount;
     }
 
+    public void CompleteQuestInLobbyScene(QuestType questType, int amount)
+    {
+        _lobbylikeUpdate[questType] = amount;
+    }
+
     public void UpdateFromRoguelikeScene()
     {
         foreach (var completedQuest in _roguelikeUpdate)
@@ -176,6 +184,15 @@ public class DailyQuestManager : MonoBehaviour
             CompleteQuest(completedQuest.Key, completedQuest.Value);
         }
         _roguelikeUpdate.Clear();
+    }
+
+    public void UpdateFromLobbyScene()
+    {
+        foreach (var completedQuest in _lobbylikeUpdate)
+        {
+            CompleteQuest(completedQuest.Key, completedQuest.Value);
+        }
+        _lobbylikeUpdate.Clear();
     }
 
     public void CheckQuests() //퀘스트 3회 이상 완료되었는지 확인

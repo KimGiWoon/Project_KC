@@ -3,6 +3,7 @@ using System.Linq;
 using UnityEngine;
 using SDW;
 using System;
+using System.Collections;
 
 public class GrowthManager : MonoBehaviour
 {
@@ -10,7 +11,7 @@ public class GrowthManager : MonoBehaviour
     [SerializeField] private Transform nodeContent; //노드들 들어있는 부모 오브젝트
 
     [SerializeField] private PermanentGrowthUI _permanentGrowthUI;
-    
+
     private CharacterDataManager _charData;
 
     //노드 데이터 저장 딕셔너리
@@ -29,7 +30,7 @@ public class GrowthManager : MonoBehaviour
     {
         _gameManager = GameManager.Instance;
         _charData = _gameManager.CharacterData;
-        if(!_hasFaster)
+        if (!_hasFaster)
             GameManager.Instance._canFaster = false;
     }
 
@@ -43,8 +44,14 @@ public class GrowthManager : MonoBehaviour
         if (!_gameManager.GrowthUnlockNodes.Contains(80201))
             UnlockNode(80201); //처음 노드만 활성화
         UpdateAllNode();
+        StartCoroutine(DelayedSetNewCharacter());
         _isLoaded = true;
-        
+    }
+
+    private IEnumerator DelayedSetNewCharacter()
+    {
+        yield return new WaitForSeconds(0.5f);
+
         foreach (var cha in _charData.AllOwnedCharacters)
         {
             SetNewCharacter(cha);
@@ -199,19 +206,18 @@ public class GrowthManager : MonoBehaviour
             case NodeAbility.None:
                 if (growthDatas.nodeID == 80002) //배속 기능 활성화
                 {
-                    if(!GameManager.Instance._canFaster)
+                    if (!GameManager.Instance._canFaster)
                         GameManager.Instance._canFaster = true;
                     Debug.Log("배속 기능 활성화!");
                 }
                 else if (growthDatas.nodeID == 80001) //가챠 기능 활성화
                 {
-                    if(!GameManager.Instance.CanGacha)
-                        GameManager.Instance.CanGacha = true;
+                    GameManager.Instance.CanGacha = true;
                     Debug.Log("뽑기 기능 활성화");
                 }
                 break;
-            }
         }
+    }
 
     public void AllApplyGrowth(GrowthDatas growthDatas) //전체 스탯 적용
     {
@@ -220,10 +226,10 @@ public class GrowthManager : MonoBehaviour
             ApplyGrowthStat(growthDatas, cha);
         }
     }
-    
+
     private void SetNewCharacter(CharacterDataSO cha) //새로 뽑힌 캐릭터에 기존 스탯 적용
     {
-        foreach (var nodeID in GameManager.Instance.GrowthCompleteNodes)
+        foreach (int nodeID in GameManager.Instance.GrowthCompleteNodes)
         {
             if (GrowthDataDic.TryGetValue(nodeID, out var growthDatas))
             {
