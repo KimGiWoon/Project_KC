@@ -13,7 +13,6 @@ namespace SDW
         [SerializeField] private TextMeshProUGUI _currencyValueText;
         [SerializeField] private Button _okButton;
         [SerializeField] private TweenAlpha_Image _backgroundPanel;
-        private bool _isProgress;
 
         public Action<UIName> OnUICloseRequested;
 
@@ -35,7 +34,6 @@ namespace SDW
         public override void Open()
         {
             _okButton.interactable = true;
-            _isProgress = false;
             _backgroundPanel.gameObject.SetActive(true);
             base.Open();
         }
@@ -55,7 +53,6 @@ namespace SDW
         private void OkButtonClicked()
         {
             _okButton.interactable = false;
-            _isProgress = true;
             OnUICloseRequested?.Invoke(UIName.NoticePaidCompleteUI);
         }
 
