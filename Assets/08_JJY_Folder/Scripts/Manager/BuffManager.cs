@@ -313,6 +313,7 @@ namespace JJY
             //     if (logActions) Debug.Log("TODO : UI 이벤트 연결");
             // }
             OnUseGroggyItem?.Invoke(e.value);
+
         }
 
         // Barrier 생성 (모든 아군)
@@ -345,6 +346,7 @@ namespace JJY
             {
                 p.ApplyGroggyBonus(p._characterState._groggyDamage * e.value);
                 // 현재 상태 : p.그로기 추가 피해량 = p.공격력 * 1;
+                p.effectController?.ShowEffect(e.type, e.duration);
             }
         }
 
@@ -392,6 +394,8 @@ namespace JJY
 
                         p._characterState._chaAttack += added;
                         buff.appliedBuffAmounts[p] = added;
+
+                        p.effectController?.ShowEffect(e.type, float.PositiveInfinity);
                     }
                     break;
                 case EffectType.DefenseBuff:
