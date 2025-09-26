@@ -77,8 +77,8 @@ public class RemoveADUI : BaseUI
         _battleManager.CharacterSpawn();
 
         _battleManager._battleUI.StartTimeCoroutine();
-        
-        GameManager.Instance.DailyQuest.CompleteQuest(QuestType.Revive, 1); //퀘스트 부활 1회
+
+        GameManager.Instance.DailyQuest.CompleteQuestInRoguelikeScene(QuestType.Revive, 1); //퀘스트 부활 1회
     }
 
     // 노 버튼 클릭

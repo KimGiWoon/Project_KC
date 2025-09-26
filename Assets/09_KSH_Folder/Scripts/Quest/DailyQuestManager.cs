@@ -16,6 +16,7 @@ public class DailyQuestManager : MonoBehaviour
     private bool _canReward = false;
     private bool _isDownloaded;
     private GameManager _gameManager;
+    private Dictionary<QuestType, int> _roguelikeUpdate = new Dictionary<QuestType, int>();
 
     public event Action<int> OnStarCandyChange;
 
@@ -38,12 +39,11 @@ public class DailyQuestManager : MonoBehaviour
         }
     }
 
-    private void Update() //테스트용
-    {
-        if (!_gameManager.CompleteDownload || !_gameManager.ImageSpriteConnected || !_gameManager.PrefabAndSoConnected ||
-            _isDownloaded) return;
-        InitQuestFromDatabase();
-    }
+    // private void Update() //테스트용
+    // {
+    //     if (!_gameManager.CompleteDownload || !_gameManager.ImageSpriteConnected || !_gameManager.PrefabAndSoConnected ||
+    //         !_gameManager.Firebase.IsLoaded || _isDownloaded) return;
+    // }
 
     public void AddQuestUI(DailyQuestUI dailyQuestUI)
     {
@@ -57,8 +57,10 @@ public class DailyQuestManager : MonoBehaviour
             questUIList[i].InitUI(); //연결한 걸 기반으로 초기화
             questUIList[i].UpdateCountText(dailyQuests[i]);
         }
-        if (_gameManager.Firebase.IsLoaded)
-            CompleteQuest(QuestType.GameLogin, 1);
+
+        InitQuestFromDatabase();
+
+        CompleteQuest(QuestType.GameLogin, 1);
     }
 
     private void ClearQuestUI() => questUIList?.Clear();
@@ -74,7 +76,7 @@ public class DailyQuestManager : MonoBehaviour
         ClearQuestUI();
         _canReward = false;
         reward = false;
-        // Debug.Log("리셋");
+        Debug.Log("리셋");
     }
 
     //todo quest 저장 시 db에 저장하도록 수정해야 함
@@ -133,6 +135,9 @@ public class DailyQuestManager : MonoBehaviour
 
     public void CompleteQuest(QuestType questType, int amount) //퀘스트가 완료되었는지 확인
     {
+        var dbQuestDictionary = _gameManager.Firebase.DailyQuest as Dictionary<string, object>;
+        var dbQuestProgressDictionary = _gameManager.Firebase.DailyQuestProgress as Dictionary<string, object>;
+
         for (int i = 0; i < dailyQuests.Count; i++)
         {
             var quest = dailyQuests[i];
@@ -150,7 +155,27 @@ public class DailyQuestManager : MonoBehaviour
                 questUIList[i].CheckUI();
                 CheckQuests();
             }
+
+            if (Convert.ToBoolean(dbQuestDictionary[dailyQuests[i].questType.ToString()]) == quest.isComplete) continue;
+            if (Convert.ToInt32(dbQuestProgressDictionary[dailyQuests[i].questType.ToString()]) == quest.currentProgress)
+                continue;
+
+            _gameManager.Firebase.SetQuestState(quest.questType, quest.isComplete, quest.currentProgress);
         }
+    }
+
+    public void CompleteQuestInRoguelikeScene(QuestType questType, int amount)
+    {
+        _roguelikeUpdate[questType] = amount;
+    }
+
+    public void UpdateFromRoguelikeScene()
+    {
+        foreach (var completedQuest in _roguelikeUpdate)
+        {
+            CompleteQuest(completedQuest.Key, completedQuest.Value);
+        }
+        _roguelikeUpdate.Clear();
     }
 
     public void CheckQuests() //퀘스트 3회 이상 완료되었는지 확인
@@ -181,6 +206,7 @@ public class DailyQuestManager : MonoBehaviour
             OnStarCandyChange?.Invoke(GameManager.Instance.Coin.starCandy);
             reward = true;
             _canReward = false;
+            _gameManager.Firebase.SetQuestReward(reward);
         }
     }
 
