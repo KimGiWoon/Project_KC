@@ -349,6 +349,7 @@ MonoBehaviour:
   Name: 33
   _panelContainer: {fileID: 3526852155454209937}
   _panelRect: {fileID: 8591972677724996708}
+  _nodeTitle: {fileID: 64699794242819036}
   _nodeTypeText: {fileID: 6145245332888134097}
   _descriptionText: {fileID: 6208123869324351600}
   _pointText: {fileID: 6645384035770008206}
@@ -451,8 +452,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 84
-  m_fontSizeBase: 84
+  m_fontSize: 70
+  m_fontSizeBase: 70
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -815,7 +816,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &8591972677724996708
 RectTransform:
   m_ObjectHideFlags: 0
