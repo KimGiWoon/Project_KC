@@ -93,7 +93,7 @@ namespace SDW
             _acceptButton.interactable = false;
             _coroutine = StartCoroutine(ActiveDeleteButton());
             OnDeleteAcceptButtonClicked?.Invoke();
-            OnCloseButtonClicked?.Invoke(UIName.DeleteAccountUI, UIName.GlobalSettingUI);
+            OnCloseButtonClicked?.Invoke(UIName.DeleteAccountUI, UIName.LobbySettingUI);
         }
 
         private IEnumerator ActiveDeleteButton()

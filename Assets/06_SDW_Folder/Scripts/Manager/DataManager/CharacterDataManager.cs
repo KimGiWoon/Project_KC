@@ -74,6 +74,7 @@ namespace SDW
         public bool IsDownloaded => _isDownloaded;
         private bool _isInitialized;
         public bool IsInitialized => _isInitialized;
+        private Coroutine _coroutine;
 
         public Action OnFirstCharacterChanged;
 
@@ -84,7 +85,8 @@ namespace SDW
         {
             _gameManager = GameManager.Instance;
             _firebase = GameManager.Instance.Firebase;
-            StartCoroutine(WaitForConnect());
+            _firebase.OnUserInfoUpdated += ClearOwnedCharacter;
+            _coroutine = StartCoroutine(WaitForConnect());
         }
 
         private IEnumerator WaitForConnect()
@@ -117,6 +119,7 @@ namespace SDW
             }
             LoadOwnedCharacter(_firebase.Characters);
             _isDownloaded = true;
+            _coroutine = null;
         }
 
         private void LoadOwnedCharacter(IReadOnlyDictionary<string, object> charData)
@@ -327,5 +330,18 @@ namespace SDW
         }
 
         //todo 추후 캐릭터 레벨, 경험치 연동되어야 함
+
+        private void ClearOwnedCharacter()
+        {
+            if (_coroutine != null) return;
+            _allOwnedCharacters.Clear();
+            _selectedTeam.Clear();
+            _charEnNameExp.Clear();
+            _charEnNameLevel.Clear();
+            _beadsInventory.Clear();
+            _ownedCharacters.Clear();
+            _isDownloaded = false;
+            _coroutine = StartCoroutine(WaitForFirebase());
+        }
     }
 }

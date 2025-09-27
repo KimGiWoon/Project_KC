@@ -537,6 +537,7 @@ public class BattleManager : MonoBehaviour
         _characters.Clear();
         _monsters.Clear();
 
+        _canResurrection = true;
         _isSpawned = false;
         _isBattleStarted = false;
         _isGameOver = false;

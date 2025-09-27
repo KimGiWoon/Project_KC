@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 namespace SDW
 {
-    public class GlobalSettingUI : BaseUI
+    public class RoguelikeSettingUI : BaseUI
     {
         [SerializeField] private GameObject _backgroundPanelObject;
         private TweenAlpha_Image _backgroundPanel;
@@ -23,8 +23,6 @@ namespace SDW
         [SerializeField] private List<GameObject> _muteObjectList;
 
         [Header("Buttons")]
-        [SerializeField] private Button _deleteAccountButton;
-        [SerializeField] private Button _signOutButton;
         [SerializeField] private Button _giveUpButton;
         [SerializeField] private Button _saveButton;
 
@@ -33,7 +31,6 @@ namespace SDW
 
         public Action<UIName> OnUIOpenRequested;
         public Action<UIName> OnUICloseRequested;
-        public Action OnSignOutButtonClicked;
         private RectTransform _rectTransform;
 
         private AudioManager _audio;
@@ -42,12 +39,9 @@ namespace SDW
 
         private List<float> _originalVolumeList = new List<float>();
         private List<bool> _originalMuteList = new List<bool>();
-        private static bool _isInitialized;
 
-        protected override void Start()
+        private void OnEnable()
         {
-            if (_isInitialized || GameManager.Instance.UI.UiDic.ContainsKey(UIName.GlobalSettingUI)) return;
-
             _panelContainer.SetActive(false);
             _backgroundPanel = _backgroundPanelObject.GetComponent<TweenAlpha_Image>();
             _backgroundPanelObject.SetActive(false);
@@ -63,47 +57,38 @@ namespace SDW
             {
                 yield return null;
                 if (!_gameManager.CompleteDownload || !_gameManager.ImageSpriteConnected ||
-                    !_gameManager.PrefabAndSoConnected || !_gameManager.Firebase.IsLoaded) continue;
+                    !_gameManager.PrefabAndSoConnected) continue;
 
                 break;
             }
             _audio = GameManager.Instance.Audio;
             InitializeSettings();
-            CheckSceneName();
-            _isInitialized = true;
         }
 
         private void OnDisable()
         {
-            // foreach (var slider in _volumeSlider)
-            // {
-            //     slider.onValueChanged.RemoveListener((value) =>
-            //     {
-            //         var buttonId = slider.GetComponent<ButtonId>();
-            //         slider.minValue = 0f;
-            //         slider.maxValue = 100f;
-            //         slider.wholeNumbers = true;
-            //         VolumeSliderChanged(buttonId.Id, value);
-            //     });
-            // }
-            // foreach (var muteButton in _muteButtonList)
-            // {
-            //     muteButton.onClick.RemoveListener(() =>
-            //     {
-            //         var buttonId = muteButton.GetComponent<ButtonId>();
-            //         MuteButtonClicked(buttonId.Id);
-            //     });
-            // }
-            // _deleteAccountButton.onClick.RemoveListener(DeleteAccountButtonClicked);
-            // _signOutButton.onClick.RemoveListener(SignOutButtonClicked);
-            // _giveUpButton.onClick.RemoveListener(GiveUpButtonClicked);
-            // _saveButton.onClick.RemoveListener(SaveButtonClicked);
-            //
-            // if (_coroutine != null) StopCoroutine(_coroutine);
-        }
+            foreach (var slider in _volumeSlider)
+            {
+                slider.onValueChanged.RemoveListener((value) =>
+                {
+                    var buttonId = slider.GetComponent<ButtonId>();
+                    slider.minValue = 0f;
+                    slider.maxValue = 100f;
+                    slider.wholeNumbers = true;
+                    VolumeSliderChanged(buttonId.Id, value);
+                });
+            }
+            foreach (var muteButton in _muteButtonList)
+            {
+                muteButton.onClick.RemoveListener(() =>
+                {
+                    var buttonId = muteButton.GetComponent<ButtonId>();
+                    MuteButtonClicked(buttonId.Id);
+                });
+            }
 
-        protected override void OnDestroy()
-        {
+            _giveUpButton.onClick.RemoveListener(GiveUpButtonClicked);
+            _saveButton.onClick.RemoveListener(SaveButtonClicked);
         }
 
         private void Update()
@@ -116,11 +101,11 @@ namespace SDW
                 var touchPos = Input.GetTouch(0).position;
 
                 //# 패널 안에 터치가 있는지 확인
-                if (!RectTransformUtility.RectangleContainsScreenPoint(_rectTransform, touchPos))
+                if (!RectTransformUtility.RectangleContainsScreenPoint(_rectTransform, touchPos, Camera.main))
                 {
                     CancelToChange();
                     _isProgress = true;
-                    OnUICloseRequested?.Invoke(UIName.GlobalSettingUI);
+                    OnUICloseRequested?.Invoke(UIName.RoguelikeSettingUI);
                 }
             }
         }
@@ -131,7 +116,6 @@ namespace SDW
             _backgroundPanelObject.SetActive(true);
             _gameManager.Firebase.RequestUserInfo();
             SetupInitialVolumeState();
-            CheckSceneName();
             _tweenAnimation.moveAway();
             base.Open();
         }
@@ -173,8 +157,6 @@ namespace SDW
                 });
             }
 
-            _deleteAccountButton.onClick.AddListener(DeleteAccountButtonClicked);
-            _signOutButton.onClick.AddListener(SignOutButtonClicked);
             _giveUpButton.onClick.AddListener(GiveUpButtonClicked);
             _saveButton.onClick.AddListener(SaveButtonClicked);
         }
@@ -203,24 +185,6 @@ namespace SDW
         }
 
         #endregion
-
-        private void CheckSceneName()
-        {
-            var sceneName = (SceneName)Enum.Parse(typeof(SceneName), GameManager.Instance.Scene.GetActiveScene());
-
-            if (sceneName == SceneName.SDW_RoguelikeScene)
-            {
-                _signOutButton.gameObject.SetActive(false);
-                _deleteAccountButton.gameObject.SetActive(false);
-                _giveUpButton.gameObject.SetActive(true);
-            }
-            else
-            {
-                _signOutButton.gameObject.SetActive(true);
-                _deleteAccountButton.gameObject.SetActive(true);
-                _giveUpButton.gameObject.SetActive(false);
-            }
-        }
 
         private void CancelToChange()
         {
@@ -257,30 +221,11 @@ namespace SDW
             _audio.SetMute((VolumeType)buttonId, _muteObjectList[buttonId].activeSelf);
         }
 
-        /// <summary>
-        /// Delete Account 버튼 클릭 이벤트 핸들러
-        /// </summary>
-        private void DeleteAccountButtonClicked()
-        {
-            CancelToChange();
-            OnUIOpenRequested?.Invoke(UIName.DeleteAccountUI);
-        }
-
-        /// <summary>
-        /// 호출된 경우 사용자 정보 UI에서로그아웃 기능을 실행하는 이벤트 핸들러 메소드
-        /// </summary>
-        private void SignOutButtonClicked()
-        {
-            CancelToChange();
-            OnSignOutButtonClicked?.Invoke();
-            OnUICloseRequested?.Invoke(UIName.GlobalSettingUI);
-        }
-
         private void GiveUpButtonClicked()
         {
             CancelToChange();
+            OnUICloseRequested?.Invoke(UIName.RoguelikeSettingUI);
             OnUIOpenRequested?.Invoke(UIName.RoguelikeClosingUI);
-            OnUICloseRequested?.Invoke(UIName.GlobalSettingUI);
         }
 
         private void SaveButtonClicked()
@@ -294,19 +239,7 @@ namespace SDW
             PlayerPrefs.SetInt("BGMVolumeMute", _muteObjectList[1].activeSelf ? 1 : 0);
             PlayerPrefs.SetInt("SFXVolumeMute", _muteObjectList[2].activeSelf ? 1 : 0);
 
-            OnUICloseRequested?.Invoke(UIName.GlobalSettingUI);
-        }
-
-        public void DeactiveDeleteButton()
-        {
-            _deleteAccountButton.interactable = false;
-            StartCoroutine(ActiveDeleteButton());
-        }
-
-        private IEnumerator ActiveDeleteButton()
-        {
-            yield return new WaitForSeconds(3f);
-            _deleteAccountButton.interactable = true;
+            OnUICloseRequested?.Invoke(UIName.RoguelikeSettingUI);
         }
 
         #endregion

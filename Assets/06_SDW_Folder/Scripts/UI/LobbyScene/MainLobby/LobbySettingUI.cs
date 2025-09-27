@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 namespace SDW
 {
-    public class GlobalSettingUI : BaseUI
+    public class LobbySettingUI : BaseUI
     {
         [SerializeField] private GameObject _backgroundPanelObject;
         private TweenAlpha_Image _backgroundPanel;
@@ -25,7 +25,6 @@ namespace SDW
         [Header("Buttons")]
         [SerializeField] private Button _deleteAccountButton;
         [SerializeField] private Button _signOutButton;
-        [SerializeField] private Button _giveUpButton;
         [SerializeField] private Button _saveButton;
 
         [Header("Animation")]
@@ -42,18 +41,14 @@ namespace SDW
 
         private List<float> _originalVolumeList = new List<float>();
         private List<bool> _originalMuteList = new List<bool>();
-        private static bool _isInitialized;
 
-        protected override void Start()
+        private void OnEnable()
         {
-            if (_isInitialized || GameManager.Instance.UI.UiDic.ContainsKey(UIName.GlobalSettingUI)) return;
-
             _panelContainer.SetActive(false);
             _backgroundPanel = _backgroundPanelObject.GetComponent<TweenAlpha_Image>();
             _backgroundPanelObject.SetActive(false);
             _rectTransform = _panelContainer.GetComponent<RectTransform>();
             _gameManager = GameManager.Instance;
-            base.Start();
             StartCoroutine(LoadCoroutine());
         }
 
@@ -63,47 +58,38 @@ namespace SDW
             {
                 yield return null;
                 if (!_gameManager.CompleteDownload || !_gameManager.ImageSpriteConnected ||
-                    !_gameManager.PrefabAndSoConnected || !_gameManager.Firebase.IsLoaded) continue;
+                    !_gameManager.PrefabAndSoConnected) continue;
 
                 break;
             }
             _audio = GameManager.Instance.Audio;
             InitializeSettings();
-            CheckSceneName();
-            _isInitialized = true;
         }
 
         private void OnDisable()
         {
-            // foreach (var slider in _volumeSlider)
-            // {
-            //     slider.onValueChanged.RemoveListener((value) =>
-            //     {
-            //         var buttonId = slider.GetComponent<ButtonId>();
-            //         slider.minValue = 0f;
-            //         slider.maxValue = 100f;
-            //         slider.wholeNumbers = true;
-            //         VolumeSliderChanged(buttonId.Id, value);
-            //     });
-            // }
-            // foreach (var muteButton in _muteButtonList)
-            // {
-            //     muteButton.onClick.RemoveListener(() =>
-            //     {
-            //         var buttonId = muteButton.GetComponent<ButtonId>();
-            //         MuteButtonClicked(buttonId.Id);
-            //     });
-            // }
-            // _deleteAccountButton.onClick.RemoveListener(DeleteAccountButtonClicked);
-            // _signOutButton.onClick.RemoveListener(SignOutButtonClicked);
-            // _giveUpButton.onClick.RemoveListener(GiveUpButtonClicked);
-            // _saveButton.onClick.RemoveListener(SaveButtonClicked);
-            //
-            // if (_coroutine != null) StopCoroutine(_coroutine);
-        }
-
-        protected override void OnDestroy()
-        {
+            foreach (var slider in _volumeSlider)
+            {
+                slider.onValueChanged.RemoveListener((value) =>
+                {
+                    var buttonId = slider.GetComponent<ButtonId>();
+                    slider.minValue = 0f;
+                    slider.maxValue = 100f;
+                    slider.wholeNumbers = true;
+                    VolumeSliderChanged(buttonId.Id, value);
+                });
+            }
+            foreach (var muteButton in _muteButtonList)
+            {
+                muteButton.onClick.RemoveListener(() =>
+                {
+                    var buttonId = muteButton.GetComponent<ButtonId>();
+                    MuteButtonClicked(buttonId.Id);
+                });
+            }
+            _deleteAccountButton.onClick.RemoveListener(DeleteAccountButtonClicked);
+            _signOutButton.onClick.RemoveListener(SignOutButtonClicked);
+            _saveButton.onClick.RemoveListener(SaveButtonClicked);
         }
 
         private void Update()
@@ -120,7 +106,7 @@ namespace SDW
                 {
                     CancelToChange();
                     _isProgress = true;
-                    OnUICloseRequested?.Invoke(UIName.GlobalSettingUI);
+                    OnUICloseRequested?.Invoke(UIName.LobbySettingUI);
                 }
             }
         }
@@ -131,7 +117,6 @@ namespace SDW
             _backgroundPanelObject.SetActive(true);
             _gameManager.Firebase.RequestUserInfo();
             SetupInitialVolumeState();
-            CheckSceneName();
             _tweenAnimation.moveAway();
             base.Open();
         }
@@ -175,7 +160,6 @@ namespace SDW
 
             _deleteAccountButton.onClick.AddListener(DeleteAccountButtonClicked);
             _signOutButton.onClick.AddListener(SignOutButtonClicked);
-            _giveUpButton.onClick.AddListener(GiveUpButtonClicked);
             _saveButton.onClick.AddListener(SaveButtonClicked);
         }
 
@@ -203,24 +187,6 @@ namespace SDW
         }
 
         #endregion
-
-        private void CheckSceneName()
-        {
-            var sceneName = (SceneName)Enum.Parse(typeof(SceneName), GameManager.Instance.Scene.GetActiveScene());
-
-            if (sceneName == SceneName.SDW_RoguelikeScene)
-            {
-                _signOutButton.gameObject.SetActive(false);
-                _deleteAccountButton.gameObject.SetActive(false);
-                _giveUpButton.gameObject.SetActive(true);
-            }
-            else
-            {
-                _signOutButton.gameObject.SetActive(true);
-                _deleteAccountButton.gameObject.SetActive(true);
-                _giveUpButton.gameObject.SetActive(false);
-            }
-        }
 
         private void CancelToChange()
         {
@@ -273,14 +239,7 @@ namespace SDW
         {
             CancelToChange();
             OnSignOutButtonClicked?.Invoke();
-            OnUICloseRequested?.Invoke(UIName.GlobalSettingUI);
-        }
-
-        private void GiveUpButtonClicked()
-        {
-            CancelToChange();
-            OnUIOpenRequested?.Invoke(UIName.RoguelikeClosingUI);
-            OnUICloseRequested?.Invoke(UIName.GlobalSettingUI);
+            OnUICloseRequested?.Invoke(UIName.LobbySettingUI);
         }
 
         private void SaveButtonClicked()
@@ -294,7 +253,7 @@ namespace SDW
             PlayerPrefs.SetInt("BGMVolumeMute", _muteObjectList[1].activeSelf ? 1 : 0);
             PlayerPrefs.SetInt("SFXVolumeMute", _muteObjectList[2].activeSelf ? 1 : 0);
 
-            OnUICloseRequested?.Invoke(UIName.GlobalSettingUI);
+            OnUICloseRequested?.Invoke(UIName.LobbySettingUI);
         }
 
         public void DeactiveDeleteButton()

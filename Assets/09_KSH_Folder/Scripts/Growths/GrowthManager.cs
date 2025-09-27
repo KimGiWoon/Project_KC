@@ -173,47 +173,47 @@ public class GrowthManager : MonoBehaviour
         {
             case NodeAbility.chaAttack:
                 AddGrowthStat(ref cha._chaBaseData.ChaAttack, growthDatas);
-                Debug.Log($"{cha._chaBaseData.ChaName}의 공격력 증가!");
+                // Debug.Log($"{cha._chaBaseData.ChaName}의 공격력 증가!");
                 break;
             case NodeAbility.chaAtkSpeed:
                 AddGrowthStat(ref cha._chaBaseData.ChaAtkSpeed, growthDatas);
-                Debug.Log($"{cha._chaBaseData.ChaName}의 공격속도 증가!");
+                // Debug.Log($"{cha._chaBaseData.ChaName}의 공격속도 증가!");
                 break;
             case NodeAbility.chaArmor:
                 AddGrowthStat(ref cha._chaBaseData.ChaArmor, growthDatas);
-                Debug.Log($"{cha._chaBaseData.ChaName}의 방어력 증가!");
+                // Debug.Log($"{cha._chaBaseData.ChaName}의 방어력 증가!");
                 break;
             case NodeAbility.chaAvoid:
                 AddGrowthStat(ref cha._chaTypeData.ChaAvoid, growthDatas);
-                Debug.Log($"{cha._chaBaseData.ChaName}의 회피율 증가!");
+                // Debug.Log($"{cha._chaBaseData.ChaName}의 회피율 증가!");
                 break;
             case NodeAbility.chaCrit:
                 AddGrowthStat(ref cha._chaTypeData.ChaCrit, growthDatas);
-                Debug.Log($"{cha._chaBaseData.ChaName}의 치명타 증가!");
+                // Debug.Log($"{cha._chaBaseData.ChaName}의 치명타 증가!");
                 break;
             case NodeAbility.chaCritDmg:
                 AddGrowthStat(ref cha._chaTypeData.ChaCritDmg, growthDatas);
-                Debug.Log($"{cha._chaBaseData.ChaName}의 치명타데미지 증가!");
+                // Debug.Log($"{cha._chaBaseData.ChaName}의 치명타데미지 증가!");
                 break;
             case NodeAbility.chaMPRecovery:
                 AddGrowthStat(ref cha._chaBaseData.ChaMPRecovery, growthDatas);
-                Debug.Log($"{cha._chaBaseData.ChaName}의 마나회복량 증가!");
+                // Debug.Log($"{cha._chaBaseData.ChaName}의 마나회복량 증가!");
                 break;
             case NodeAbility.chaMP:
                 AddGrowthStat(ref cha._chaBaseData.ChaMP, growthDatas);
-                Debug.Log($"{cha._chaBaseData.ChaName}의 마나 증가!");
+                // Debug.Log($"{cha._chaBaseData.ChaName}의 마나 증가!");
                 break;
             case NodeAbility.None:
                 if (growthDatas.nodeID == 80002) //배속 기능 활성화
                 {
                     if (!GameManager.Instance._canFaster)
                         GameManager.Instance._canFaster = true;
-                    Debug.Log("배속 기능 활성화!");
+                    // Debug.Log("배속 기능 활성화!");
                 }
                 else if (growthDatas.nodeID == 80001) //가챠 기능 활성화
                 {
                     GameManager.Instance.CanGacha = true;
-                    Debug.Log("뽑기 기능 활성화");
+                    // Debug.Log("뽑기 기능 활성화");
                 }
                 break;
         }

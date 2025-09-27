@@ -39,6 +39,7 @@ public class InGameItemManager : MonoBehaviour
     {
         _gameManager = GameManager.Instance;
         _firebase = _gameManager.Firebase;
+        _firebase.OnUserInfoUpdated += ClearIsLoaded;
     }
 
     private void Update()
@@ -227,4 +228,6 @@ public class InGameItemManager : MonoBehaviour
     {
         foodInventory.Remove(food);
     }
+
+    private void ClearIsLoaded() => _isLoaded = false;
 }
