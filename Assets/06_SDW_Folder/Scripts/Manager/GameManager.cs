@@ -226,6 +226,7 @@ namespace SDW
             QualitySettings.vSyncCount = 1;
 #endif
             FixPortrait();
+            _firebase.OnUserInfoUpdated += ClearIsLoaded;
         }
 
         private void Update()
@@ -402,6 +403,20 @@ namespace SDW
         {
             _growthCompleteNodes.Add(id);
             _firebase.SetGrowthCompleteData(GrowthCompleteNodes);
+        }
+
+        private void ClearIsLoaded()
+        {
+            _score = 0;
+            _totalScore = 0;
+            _buyAdRemover = false;
+            _gachaCount = 0;
+            _chapter = 0;
+            _stamina = 0;
+            _clearCount = 0;
+            _growthUnlockNodes.Clear();
+            _growthCompleteNodes.Clear();
+            _isLoaded = false;
         }
     }
 }

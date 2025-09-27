@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using SDW;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace KGW
@@ -17,7 +18,17 @@ namespace KGW
         // 캐릭터의 현재 체력
         public Dictionary<CharacterEnName, float> _chaHpSave = new Dictionary<CharacterEnName, float>();
 
+        private void Start()
+        {
+            GameManager.Instance.Firebase.OnUserInfoUpdated += ClearDictionary;
+        }
+
         // TODO : 보유중인 유물과 요리도 저장
+        private void ClearDictionary()
+        {
+            _chaLevel.Clear();
+            _chaUpgrade.Clear();
+            _chaHpSave.Clear();
+        }
     }
 }
-

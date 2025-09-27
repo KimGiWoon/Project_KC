@@ -52,6 +52,7 @@ namespace JJY
         {
             _gameManager = GameManager.Instance;
             _firebase = _gameManager.Firebase;
+            _gameManager.Firebase.OnUserInfoUpdated += ClearIsDownloaded;
         }
 
         private void Update()
@@ -140,7 +141,8 @@ namespace JJY
 
             yeopjeon += value;
             bonus = MapView.Instance._eventManager.IsCombatRewardYeopjeon == true ?
-                Mathf.RoundToInt(value * (1f + _yeopjeonBonus / getYeopjeon)) : Mathf.RoundToInt(value * (1f + _yeopjeonBonus / 100f));
+                Mathf.RoundToInt(value * (1f + _yeopjeonBonus / getYeopjeon))
+                : Mathf.RoundToInt(value * (1f + _yeopjeonBonus / 100f));
 
             yeopjeon += bonus;
 
@@ -248,7 +250,7 @@ namespace JJY
         {
             point += value;
             OnPointChanged?.Invoke();
-            _firebase.SetPoint(value);
+            _firebase.SetPoint(point);
         }
 
         /// <summary>
@@ -260,8 +262,10 @@ namespace JJY
         {
             point -= value;
             OnPointChanged?.Invoke();
-            _firebase.SetPoint(value);
+            _firebase.SetPoint(point);
         }
+
+        private void ClearIsDownloaded() => _isDownloaded = false;
 
 #if UNITY_EDITOR
         /// <summary>

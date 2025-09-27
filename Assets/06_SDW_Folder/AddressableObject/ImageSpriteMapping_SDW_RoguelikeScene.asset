@@ -13,22 +13,6 @@ MonoBehaviour:
   m_Name: ImageSpriteMapping_SDW_RoguelikeScene
   m_EditorClassIdentifier: 
   entries:
-  - PathHash: 9254638222183715369
-    AddressKey: 0c92d89ca2497324a85c04d355a14743
-    AssetPath: Assets/00_Imports/11_LCS_Assets/UI/Rectangle 27 (3).png
-    PathPreview: '- Battle UI/PopupCanvas/BottomUIContainer/BattleUIPanel/BottomUI/Button_CharacterCard_Second/MPBar/Outline'
-  - PathHash: 18221776237405436686
-    AddressKey: 0c92d89ca2497324a85c04d355a14743
-    AssetPath: Assets/00_Imports/11_LCS_Assets/UI/Rectangle 27 (3).png
-    PathPreview: '- Battle UI/PopupCanvas/BottomUIContainer/BattleUIPanel/BottomUI/Button_CharacterCard_Second/HPBar/Outline'
-  - PathHash: 2349286886030443654
-    AddressKey: 57daccc1527ca1d43abc8eea0dd14179
-    AssetPath: Assets/06_SDW_Folder/Sprites/PanelBackground.png
-    PathPreview: '- Battle UI/PopupCanvas/BottomUIContainer/BattleUIPanel/BottomUI/Button_CharacterCard_Second/CharacterImage'
-  - PathHash: 4132832267481167565
-    AddressKey: cbb100b9b8fc7cf40b52289f13994d4d
-    AssetPath: Assets/00_Imports/11_LCS_Assets/UI/Rectangle 2.png
-    PathPreview: '- Battle UI/PopupCanvas/BottomUIContainer/BattleUIPanel/BottomUI/Button_CharacterCard_Second'
   - PathHash: 17289785115339887198
     AddressKey: 0c92d89ca2497324a85c04d355a14743
     AssetPath: Assets/00_Imports/11_LCS_Assets/UI/Rectangle 27 (3).png
@@ -45,6 +29,22 @@ MonoBehaviour:
     AddressKey: cbb100b9b8fc7cf40b52289f13994d4d
     AssetPath: Assets/00_Imports/11_LCS_Assets/UI/Rectangle 2.png
     PathPreview: '- Battle UI/PopupCanvas/BottomUIContainer/BattleUIPanel/BottomUI/Button_CharacterCard_Third'
+  - PathHash: 9254638222183715369
+    AddressKey: 0c92d89ca2497324a85c04d355a14743
+    AssetPath: Assets/00_Imports/11_LCS_Assets/UI/Rectangle 27 (3).png
+    PathPreview: '- Battle UI/PopupCanvas/BottomUIContainer/BattleUIPanel/BottomUI/Button_CharacterCard_Second/MPBar/Outline'
+  - PathHash: 18221776237405436686
+    AddressKey: 0c92d89ca2497324a85c04d355a14743
+    AssetPath: Assets/00_Imports/11_LCS_Assets/UI/Rectangle 27 (3).png
+    PathPreview: '- Battle UI/PopupCanvas/BottomUIContainer/BattleUIPanel/BottomUI/Button_CharacterCard_Second/HPBar/Outline'
+  - PathHash: 2349286886030443654
+    AddressKey: 57daccc1527ca1d43abc8eea0dd14179
+    AssetPath: Assets/06_SDW_Folder/Sprites/PanelBackground.png
+    PathPreview: '- Battle UI/PopupCanvas/BottomUIContainer/BattleUIPanel/BottomUI/Button_CharacterCard_Second/CharacterImage'
+  - PathHash: 4132832267481167565
+    AddressKey: cbb100b9b8fc7cf40b52289f13994d4d
+    AssetPath: Assets/00_Imports/11_LCS_Assets/UI/Rectangle 2.png
+    PathPreview: '- Battle UI/PopupCanvas/BottomUIContainer/BattleUIPanel/BottomUI/Button_CharacterCard_Second'
   - PathHash: 11816969354735479685
     AddressKey: 0c92d89ca2497324a85c04d355a14743
     AssetPath: Assets/00_Imports/11_LCS_Assets/UI/Rectangle 27 (3).png
@@ -659,22 +659,53 @@ MonoBehaviour:
     AddressKey: b3aa72fb83080a942a7cf397f6860771
     AssetPath: Assets/00_Imports/12_LSR_Assets/Farm Game UI - Simple 2D UI/Sprites/256x256/panel_inner_2.png
     PathPreview: '- Roguelike UI/StageGlobalCanvas/FoodDescriptionContainer/FoodDescriptionPanel/FoodImage'
-  - PathHash: 9254638222183715369
-    AddressKey: 0c92d89ca2497324a85c04d355a14743
-    AssetPath: Assets/00_Imports/11_LCS_Assets/UI/Rectangle 27 (3).png
-    PathPreview: '- Battle UI/PopupCanvas/BottomUIContainer/BattleUIPanel/BottomUI/Button_CharacterCard_Second/MPBar/Outline'
-  - PathHash: 18221776237405436686
-    AddressKey: 0c92d89ca2497324a85c04d355a14743
-    AssetPath: Assets/00_Imports/11_LCS_Assets/UI/Rectangle 27 (3).png
-    PathPreview: '- Battle UI/PopupCanvas/BottomUIContainer/BattleUIPanel/BottomUI/Button_CharacterCard_Second/HPBar/Outline'
-  - PathHash: 2349286886030443654
-    AddressKey: 57daccc1527ca1d43abc8eea0dd14179
-    AssetPath: Assets/06_SDW_Folder/Sprites/PanelBackground.png
-    PathPreview: '- Battle UI/PopupCanvas/BottomUIContainer/BattleUIPanel/BottomUI/Button_CharacterCard_Second/CharacterImage'
-  - PathHash: 4132832267481167565
-    AddressKey: cbb100b9b8fc7cf40b52289f13994d4d
-    AssetPath: Assets/00_Imports/11_LCS_Assets/UI/Rectangle 2.png
-    PathPreview: '- Battle UI/PopupCanvas/BottomUIContainer/BattleUIPanel/BottomUI/Button_CharacterCard_Second'
+  - PathHash: 3412247335476664646
+    AddressKey: baefb0215243a804982570185e7eec30
+    AssetPath: Assets/00_Imports/10_LYH_Assets/UI/simpleWhite.jpg
+    PathPreview: '- Roguelike UI/StageGlobalCanvas/RoguelikeSettingContainer/RoguelikeSettingPanel/CenterContainer/MasterVolumeContainer/MasterVolumeSlider/Fill
+      Area/Fill'
+  - PathHash: 13953913107531121654
+    AddressKey: baefb0215243a804982570185e7eec30
+    AssetPath: Assets/00_Imports/10_LYH_Assets/UI/simpleWhite.jpg
+    PathPreview: '- Roguelike UI/StageGlobalCanvas/RoguelikeSettingContainer/RoguelikeSettingPanel/CenterContainer/BGMVolumeContainer/BGMVolumeSlider/Fill
+      Area/Fill'
+  - PathHash: 14501198124338765163
+    AddressKey: 337d422e4c33fc74db054ef36eb917c3
+    AssetPath: Assets/00_Imports/10_LYH_Assets/UI/CustomUI/Checkmark.png
+    PathPreview: '- Roguelike UI/StageGlobalCanvas/RoguelikeSettingContainer/RoguelikeSettingPanel/CenterContainer/SFXVolumeContainer/SFXMuteButton/SFXMuteImage'
+  - PathHash: 8458694954668949770
+    AddressKey: 3f7034a708d04ef40a34381184f51820
+    AssetPath: Assets/00_Imports/DatingGameUI/Exports/CharacterSheetBackground.png
+    PathPreview: '- Roguelike UI/StageGlobalCanvas/RoguelikeSettingContainer/RoguelikeSettingPanel/SaveSettingButton'
+  - PathHash: 305009734211752582
+    AddressKey: 337d422e4c33fc74db054ef36eb917c3
+    AssetPath: Assets/00_Imports/10_LYH_Assets/UI/CustomUI/Checkmark.png
+    PathPreview: '- Roguelike UI/StageGlobalCanvas/RoguelikeSettingContainer/RoguelikeSettingPanel/CenterContainer/MasterVolumeContainer/MasterMuteButton/MasterMuteImage'
+  - PathHash: 8171713575638092062
+    AddressKey: 337d422e4c33fc74db054ef36eb917c3
+    AssetPath: Assets/00_Imports/10_LYH_Assets/UI/CustomUI/Checkmark.png
+    PathPreview: '- Roguelike UI/StageGlobalCanvas/RoguelikeSettingContainer/RoguelikeSettingPanel/CenterContainer/BGMVolumeContainer/BGMMuteButton/BGMMuteImage'
+  - PathHash: 4405149274144021096
+    AddressKey: 00eb591620c16274e9475853d2ce995b
+    AssetPath: Assets/00_Imports/10_LYH_Assets/UI/CustomUI/Dots.png
+    PathPreview: '- Roguelike UI/StageGlobalCanvas/RoguelikeSettingContainer/RoguelikeSettingPanel/CenterContainer/DotsLine'
+  - PathHash: 10770800348261509567
+    AddressKey: 3f7034a708d04ef40a34381184f51820
+    AssetPath: Assets/00_Imports/DatingGameUI/Exports/CharacterSheetBackground.png
+    PathPreview: '- Roguelike UI/StageGlobalCanvas/RoguelikeSettingContainer/RoguelikeSettingPanel/GiveUpButton'
+  - PathHash: 1432723289766739680
+    AddressKey: baefb0215243a804982570185e7eec30
+    AssetPath: Assets/00_Imports/10_LYH_Assets/UI/simpleWhite.jpg
+    PathPreview: '- Roguelike UI/StageGlobalCanvas/RoguelikeSettingContainer/RoguelikeSettingPanel/CenterContainer/SFXVolumeContainer/SFXVolumeSlider/Fill
+      Area/Fill'
+  - PathHash: 4405149274144021096
+    AddressKey: 00eb591620c16274e9475853d2ce995b
+    AssetPath: Assets/00_Imports/10_LYH_Assets/UI/CustomUI/Dots.png
+    PathPreview: '- Roguelike UI/StageGlobalCanvas/RoguelikeSettingContainer/RoguelikeSettingPanel/CenterContainer/DotsLine'
+  - PathHash: 12677088586445843830
+    AddressKey: 041304e4808256b48b3987a50121bd71
+    AssetPath: Assets/00_Imports/10_LYH_Assets/UI/CustomUI/BlackBGPanel.png
+    PathPreview: '- Roguelike UI/StageGlobalCanvas/RoguelikeSettingContainer/RoguelikeSettingPanel'
   - PathHash: 17289785115339887198
     AddressKey: 0c92d89ca2497324a85c04d355a14743
     AssetPath: Assets/00_Imports/11_LCS_Assets/UI/Rectangle 27 (3).png
@@ -691,6 +722,22 @@ MonoBehaviour:
     AddressKey: cbb100b9b8fc7cf40b52289f13994d4d
     AssetPath: Assets/00_Imports/11_LCS_Assets/UI/Rectangle 2.png
     PathPreview: '- Battle UI/PopupCanvas/BottomUIContainer/BattleUIPanel/BottomUI/Button_CharacterCard_Third'
+  - PathHash: 9254638222183715369
+    AddressKey: 0c92d89ca2497324a85c04d355a14743
+    AssetPath: Assets/00_Imports/11_LCS_Assets/UI/Rectangle 27 (3).png
+    PathPreview: '- Battle UI/PopupCanvas/BottomUIContainer/BattleUIPanel/BottomUI/Button_CharacterCard_Second/MPBar/Outline'
+  - PathHash: 18221776237405436686
+    AddressKey: 0c92d89ca2497324a85c04d355a14743
+    AssetPath: Assets/00_Imports/11_LCS_Assets/UI/Rectangle 27 (3).png
+    PathPreview: '- Battle UI/PopupCanvas/BottomUIContainer/BattleUIPanel/BottomUI/Button_CharacterCard_Second/HPBar/Outline'
+  - PathHash: 2349286886030443654
+    AddressKey: 57daccc1527ca1d43abc8eea0dd14179
+    AssetPath: Assets/06_SDW_Folder/Sprites/PanelBackground.png
+    PathPreview: '- Battle UI/PopupCanvas/BottomUIContainer/BattleUIPanel/BottomUI/Button_CharacterCard_Second/CharacterImage'
+  - PathHash: 4132832267481167565
+    AddressKey: cbb100b9b8fc7cf40b52289f13994d4d
+    AssetPath: Assets/00_Imports/11_LCS_Assets/UI/Rectangle 2.png
+    PathPreview: '- Battle UI/PopupCanvas/BottomUIContainer/BattleUIPanel/BottomUI/Button_CharacterCard_Second'
   - PathHash: 11816969354735479685
     AddressKey: 0c92d89ca2497324a85c04d355a14743
     AssetPath: Assets/00_Imports/11_LCS_Assets/UI/Rectangle 27 (3).png
@@ -1317,3 +1364,50 @@ MonoBehaviour:
     AddressKey: b3aa72fb83080a942a7cf397f6860771
     AssetPath: Assets/00_Imports/12_LSR_Assets/Farm Game UI - Simple 2D UI/Sprites/256x256/panel_inner_2.png
     PathPreview: '- Roguelike UI/StageGlobalCanvas/FoodDescriptionContainer/FoodDescriptionPanel/FoodImage'
+  - PathHash: 3412247335476664646
+    AddressKey: baefb0215243a804982570185e7eec30
+    AssetPath: Assets/00_Imports/10_LYH_Assets/UI/simpleWhite.jpg
+    PathPreview: '- Roguelike UI/StageGlobalCanvas/RoguelikeSettingContainer/RoguelikeSettingPanel/CenterContainer/MasterVolumeContainer/MasterVolumeSlider/Fill
+      Area/Fill'
+  - PathHash: 13953913107531121654
+    AddressKey: baefb0215243a804982570185e7eec30
+    AssetPath: Assets/00_Imports/10_LYH_Assets/UI/simpleWhite.jpg
+    PathPreview: '- Roguelike UI/StageGlobalCanvas/RoguelikeSettingContainer/RoguelikeSettingPanel/CenterContainer/BGMVolumeContainer/BGMVolumeSlider/Fill
+      Area/Fill'
+  - PathHash: 14501198124338765163
+    AddressKey: 337d422e4c33fc74db054ef36eb917c3
+    AssetPath: Assets/00_Imports/10_LYH_Assets/UI/CustomUI/Checkmark.png
+    PathPreview: '- Roguelike UI/StageGlobalCanvas/RoguelikeSettingContainer/RoguelikeSettingPanel/CenterContainer/SFXVolumeContainer/SFXMuteButton/SFXMuteImage'
+  - PathHash: 8458694954668949770
+    AddressKey: 3f7034a708d04ef40a34381184f51820
+    AssetPath: Assets/00_Imports/DatingGameUI/Exports/CharacterSheetBackground.png
+    PathPreview: '- Roguelike UI/StageGlobalCanvas/RoguelikeSettingContainer/RoguelikeSettingPanel/SaveSettingButton'
+  - PathHash: 305009734211752582
+    AddressKey: 337d422e4c33fc74db054ef36eb917c3
+    AssetPath: Assets/00_Imports/10_LYH_Assets/UI/CustomUI/Checkmark.png
+    PathPreview: '- Roguelike UI/StageGlobalCanvas/RoguelikeSettingContainer/RoguelikeSettingPanel/CenterContainer/MasterVolumeContainer/MasterMuteButton/MasterMuteImage'
+  - PathHash: 8171713575638092062
+    AddressKey: 337d422e4c33fc74db054ef36eb917c3
+    AssetPath: Assets/00_Imports/10_LYH_Assets/UI/CustomUI/Checkmark.png
+    PathPreview: '- Roguelike UI/StageGlobalCanvas/RoguelikeSettingContainer/RoguelikeSettingPanel/CenterContainer/BGMVolumeContainer/BGMMuteButton/BGMMuteImage'
+  - PathHash: 4405149274144021096
+    AddressKey: 00eb591620c16274e9475853d2ce995b
+    AssetPath: Assets/00_Imports/10_LYH_Assets/UI/CustomUI/Dots.png
+    PathPreview: '- Roguelike UI/StageGlobalCanvas/RoguelikeSettingContainer/RoguelikeSettingPanel/CenterContainer/DotsLine'
+  - PathHash: 10770800348261509567
+    AddressKey: 3f7034a708d04ef40a34381184f51820
+    AssetPath: Assets/00_Imports/DatingGameUI/Exports/CharacterSheetBackground.png
+    PathPreview: '- Roguelike UI/StageGlobalCanvas/RoguelikeSettingContainer/RoguelikeSettingPanel/GiveUpButton'
+  - PathHash: 1432723289766739680
+    AddressKey: baefb0215243a804982570185e7eec30
+    AssetPath: Assets/00_Imports/10_LYH_Assets/UI/simpleWhite.jpg
+    PathPreview: '- Roguelike UI/StageGlobalCanvas/RoguelikeSettingContainer/RoguelikeSettingPanel/CenterContainer/SFXVolumeContainer/SFXVolumeSlider/Fill
+      Area/Fill'
+  - PathHash: 4405149274144021096
+    AddressKey: 00eb591620c16274e9475853d2ce995b
+    AssetPath: Assets/00_Imports/10_LYH_Assets/UI/CustomUI/Dots.png
+    PathPreview: '- Roguelike UI/StageGlobalCanvas/RoguelikeSettingContainer/RoguelikeSettingPanel/CenterContainer/DotsLine'
+  - PathHash: 12677088586445843830
+    AddressKey: 041304e4808256b48b3987a50121bd71
+    AssetPath: Assets/00_Imports/10_LYH_Assets/UI/CustomUI/BlackBGPanel.png
+    PathPreview: '- Roguelike UI/StageGlobalCanvas/RoguelikeSettingContainer/RoguelikeSettingPanel'

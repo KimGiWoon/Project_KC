@@ -68,7 +68,7 @@ namespace KSH
         public event Action<int> OnShiningStarCandyChange;
         public event Action<int> OnStarCandyGained;
         public event Action<int> OnBeadGained;
-        
+
         public event Action<CharacterDataSO> OnNewCharacterAdded;
 
         public (int starCandy, int bead, int currentBead) ProcessCharacter(CharacterDataSO character)
@@ -138,7 +138,7 @@ namespace KSH
             isStarCandy[character._chaBaseData.ChaName] = false;
 
             character.Beads = beads;
-            Debug.Log($"{character._chaBaseData.ChaName} 획득!");
+            // Debug.Log($"{character._chaBaseData.ChaName} 획득!");
             return currentBead;
         }
 

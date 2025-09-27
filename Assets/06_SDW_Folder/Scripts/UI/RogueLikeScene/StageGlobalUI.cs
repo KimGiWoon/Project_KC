@@ -128,14 +128,14 @@ namespace SDW
 
         private void SettingButtonClicked()
         {
-            if (_uiStack.Count > 0)
-            {
-                var tempUI = _uiStack.Peek();
-                tempUI = _uiStack.Pop();
-                if (tempUI != UIName.PopupSettingUI)
-                    OnUICloseRequested?.Invoke(tempUI, false);
-            }
-            OnUIOpenRequested?.Invoke(UIName.GlobalSettingUI);
+            // if (_uiStack.Count > 0)
+            // {
+            //     var tempUI = _uiStack.Peek();
+            //     tempUI = _uiStack.Pop();
+            //     if (tempUI != UIName.RoguelikeSettingUI)
+            //         OnUICloseRequested?.Invoke(tempUI, false);
+            // }
+            OnUIOpenRequested?.Invoke(UIName.RoguelikeSettingUI);
         }
 
         private void ShopButtonClicked()

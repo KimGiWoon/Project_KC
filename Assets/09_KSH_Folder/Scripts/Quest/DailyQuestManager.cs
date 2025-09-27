@@ -20,6 +20,8 @@ public class DailyQuestManager : MonoBehaviour
     private Dictionary<QuestType, int> _lobbylikeUpdate = new Dictionary<QuestType, int>();
 
     public event Action<int> OnStarCandyChange;
+    private bool _isInitialized;
+    public bool IsInitialized => _isInitialized;
 
     private void Start()
     {
@@ -29,6 +31,7 @@ public class DailyQuestManager : MonoBehaviour
         {
             _gameManager.Time.OnDailyReset += InitQuest;
         }
+        _isInitialized = true;
     }
 
     private void OnDisable()
@@ -39,12 +42,6 @@ public class DailyQuestManager : MonoBehaviour
             _gameManager.Time.OnDailyReset -= InitQuest;
         }
     }
-
-    // private void Update() //테스트용
-    // {
-    //     if (!_gameManager.CompleteDownload || !_gameManager.ImageSpriteConnected || !_gameManager.PrefabAndSoConnected ||
-    //         !_gameManager.Firebase.IsLoaded || _isDownloaded) return;
-    // }
 
     public void AddQuestUI(DailyQuestUI dailyQuestUI)
     {

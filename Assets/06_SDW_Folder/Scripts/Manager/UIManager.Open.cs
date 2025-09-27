@@ -19,22 +19,22 @@ namespace SDW
 
             _prevOpenedUI = uiName;
 
-            if (uiName == UIName.GlobalSettingUI)
-            {
-                ConnectGlobalSettingUI(uiName);
-            }
-            else
-            {
-                var sceneName = (SceneName)Enum.Parse(typeof(SceneName), GameManager.Instance.Scene.GetActiveScene());
+            // if (uiName == UIName.GlobalSettingUI)
+            // {
+            //     ConnectGlobalSettingUI(uiName);
+            // }
+            // else
+            // {
+            var sceneName = (SceneName)Enum.Parse(typeof(SceneName), GameManager.Instance.Scene.GetActiveScene());
 
-                switch (sceneName)
-                {
-                    case SceneName.SDW_SignInScene: OpenSignInScene(uiName); break;
-                    case SceneName.KSH_Gacha:
-                    case SceneName.SDW_LobbyScene: OpenLobbyScene(uiName); break;
-                    case SceneName.SDW_RoguelikeScene: OpenRoguelikeScene(uiName); break;
-                }
+            switch (sceneName)
+            {
+                case SceneName.SDW_SignInScene: OpenSignInScene(uiName); break;
+                case SceneName.KSH_Gacha:
+                case SceneName.SDW_LobbyScene: OpenLobbyScene(uiName); break;
+                case SceneName.SDW_RoguelikeScene: OpenRoguelikeScene(uiName); break;
             }
+            // }
 
 
             if (_prevOpenedUI == _prevClosedUI)
@@ -102,6 +102,8 @@ namespace SDW
                 case UIName.NoticePaidCompleteUI: ConnectNoticePaidCompleteUI(uiName); break;
                 case UIName.NoticeNotPaidUI: ConnectNoticeNotPaidUI(uiName); break;
                 case UIName.SugarStarExchangeUI: ConnectSugarStarExchangeUI(uiName); break;
+                //@ Setting UI
+                case UIName.LobbySettingUI: ConnectLobbySettingUI(uiName); break;
             }
         }
 
@@ -120,6 +122,7 @@ namespace SDW
                 case UIName.InventoryUI: ConnectInventoryUI(uiName); break;
                 case UIName.CookingUI: ConnectCookingUI(uiName); break;
                 case UIName.FoodDescriptionUI: ConnectFoodDescriptionUI(uiName); break;
+                case UIName.RoguelikeSettingUI: ConnectRoguelikeSettingUI(uiName); break;
 
                 //# Battle Scene
                 case UIName.BattleUI: ConnectBattleUI(uiName); break;
@@ -183,26 +186,26 @@ namespace SDW
             downloadUI.OnCheckUpdate();
         }
 
-        private void ConnectGlobalSettingUI(UIName uiName)
-        {
-            var globalSettingUI = _uiDic[uiName] as GlobalSettingUI;
-            globalSettingUI.OnUIOpenRequested += OpenPanel;
-            globalSettingUI.OnUICloseRequested += ClosePanel;
-
-            var sceneName = (SceneName)Enum.Parse(typeof(SceneName), GameManager.Instance.Scene.GetActiveScene());
-
-            if (sceneName == SceneName.SDW_RoguelikeScene)
-            {
-                var stageGlobalUI = _uiDic[UIName.StageGlobalUI] as StageGlobalUI;
-                stageGlobalUI.ButtonContainerMoveAway();
-            }
-
-            if (_firebase != null)
-            {
-                _firebase.OnSendUserInfo += globalSettingUI.UpdateUserInfo;
-                globalSettingUI.OnSignOutButtonClicked += _firebase.SignOut;
-            }
-        }
+        // private void ConnectGlobalSettingUI(UIName uiName)
+        // {
+        //     var globalSettingUI = _uiDic[uiName] as GlobalSettingUI;
+        //     globalSettingUI.OnUIOpenRequested += OpenPanel;
+        //     globalSettingUI.OnUICloseRequested += ClosePanel;
+        //
+        //     var sceneName = (SceneName)Enum.Parse(typeof(SceneName), GameManager.Instance.Scene.GetActiveScene());
+        //
+        //     if (sceneName == SceneName.SDW_RoguelikeScene)
+        //     {
+        //         var stageGlobalUI = _uiDic[UIName.StageGlobalUI] as StageGlobalUI;
+        //         stageGlobalUI.ButtonContainerMoveAway();
+        //     }
+        //
+        //     if (_firebase != null)
+        //     {
+        //         _firebase.OnSendUserInfo += globalSettingUI.UpdateUserInfo;
+        //         globalSettingUI.OnSignOutButtonClicked += _firebase.SignOut;
+        //     }
+        // }
 
         private void ConnectImagePrefabLoadingUI(UIName uiName)
         {
@@ -221,7 +224,7 @@ namespace SDW
             var mainLobbyUI = _uiDic[uiName] as MainLobbyUI;
             var changeIconUI = _uiDic[UIName.ChangeIconUI] as ChangeIconUI;
             var userInfoUI = _uiDic[UIName.UserInfoUI] as UserInfoUI;
-            var globalSettingUI = _uiDic[UIName.GlobalSettingUI] as GlobalSettingUI;
+            var lobbySettingUI = _uiDic[UIName.LobbySettingUI] as LobbySettingUI;
 
             mainLobbyUI.OnUIOpenRequested += OpenPanel;
             mainLobbyUI.OnIconRequested += (index) =>
@@ -231,7 +234,7 @@ namespace SDW
                 userInfoUI.SetIcon(sprite);
             };
 
-            globalSettingUI.OnUICloseRequested += (uiName) => { mainLobbyUI.ResetMainText(); };
+            lobbySettingUI.OnUICloseRequested += (uiName) => { mainLobbyUI.ResetMainText(); };
 
             if (_firebase != null)
             {
@@ -267,10 +270,10 @@ namespace SDW
         private void ConnectDeleteAccountUI(UIName uiName)
         {
             var deleteAccountUI = _uiDic[uiName] as DeleteAccountUI;
-            var globalSettingUI = _uiDic[UIName.GlobalSettingUI] as GlobalSettingUI;
+            var lobbySettingUI = _uiDic[UIName.LobbySettingUI] as LobbySettingUI;
 
             deleteAccountUI.OnDeleteAcceptButtonClicked += _firebase.DeleteAccount;
-            deleteAccountUI.OnDeleteAcceptButtonClicked += globalSettingUI.DeactiveDeleteButton;
+            deleteAccountUI.OnDeleteAcceptButtonClicked += lobbySettingUI.DeactiveDeleteButton;
             deleteAccountUI.OnCloseButtonClicked += (firstUI, secondUI) =>
             {
                 ClosePanel(firstUI);
@@ -593,6 +596,20 @@ namespace SDW
             _sugarStarExchangeUI.OnUICloseRequested += ClosePanel;
         }
 
+        private void ConnectLobbySettingUI(UIName uiName)
+        {
+            var lobbySettingUI = _uiDic[uiName] as LobbySettingUI;
+
+            lobbySettingUI.OnUIOpenRequested += OpenPanel;
+            lobbySettingUI.OnUICloseRequested += ClosePanel;
+
+            if (_firebase != null)
+            {
+                _firebase.OnSendUserInfo += lobbySettingUI.UpdateUserInfo;
+                lobbySettingUI.OnSignOutButtonClicked += _firebase.SignOut;
+            }
+        }
+
         #endregion
 
         #region Stage UI Connect Methods
@@ -708,6 +725,16 @@ namespace SDW
             var foodDescriptionUI = _uiDic[uiName] as FoodDescriptionUI;
 
             foodDescriptionUI.OnUICloseRequrested += ClosePanel;
+        }
+
+        private void ConnectRoguelikeSettingUI(UIName uiName)
+        {
+            var roguelikeSettingUI = _uiDic[uiName] as RoguelikeSettingUI;
+            var stageGlobalUI = _uiDic[UIName.StageGlobalUI] as StageGlobalUI;
+
+            roguelikeSettingUI.OnUIOpenRequested += OpenPanel;
+            roguelikeSettingUI.OnUICloseRequested += ClosePanel;
+            // stageGlobalUI.ButtonContainerMoveAway();
         }
 
         /// <summary>
