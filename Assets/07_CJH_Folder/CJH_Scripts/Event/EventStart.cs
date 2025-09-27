@@ -526,7 +526,7 @@ namespace CJH
                     // 기본 텍스트와 유물 정보 텍스트를 합칩니다.
                     finalResultText = $"{baseText}\n{relicInfoLine}";
                 }
-                else // 그 외 다른 모든 이벤트는 기존 방식을 따릅니다.
+                else if (choiceIndex >= 0 && choiceIndex < data.EncounterExitText.Count)
                 {
                     string baseResultText = data.EncounterExitText[choiceIndex].Replace("\\n", "\n");
 

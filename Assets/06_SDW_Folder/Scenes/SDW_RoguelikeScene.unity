@@ -1547,7 +1547,7 @@ GameObject:
   - component: {fileID: 75231939}
   - component: {fileID: 75231938}
   m_Layer: 5
-  m_Name: ClaasIconCIrcle
+  m_Name: ClaasIconCircle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9428,7 +9428,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 443353042}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c308a1b15c1d9654d8a9ad34078afb7c, type: 3}
   m_Name: 
@@ -17188,7 +17188,7 @@ GameObject:
   - component: {fileID: 837913356}
   - component: {fileID: 837913355}
   m_Layer: 5
-  m_Name: ClaasIconCIrcle
+  m_Name: ClaasIconCircle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -23337,7 +23337,7 @@ GameObject:
   - component: {fileID: 1115602057}
   - component: {fileID: 1115602056}
   m_Layer: 5
-  m_Name: ClaasIconCIrcle
+  m_Name: ClaasIconCircle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -30798,7 +30798,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1386363454
 RectTransform:
   m_ObjectHideFlags: 0
@@ -46665,26 +46665,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86da1c26f44923744816f7704425abc7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Name: 52
-  _panelContainer: {fileID: 2082147285081350039}
-  _backgroundPanelObject: {fileID: 578421514}
-  _userNameText: {fileID: 8546922628626286535}
-  _uidText: {fileID: 1012280928765504629}
-  _volumeSlider:
-  - {fileID: 1827887570014811373}
-  - {fileID: 1317970408925371411}
-  - {fileID: 8579404812736466752}
-  _muteButtonList:
-  - {fileID: 8292684492741675051}
-  - {fileID: 9033908735629663398}
-  - {fileID: 783028325512810605}
-  _muteObjectList:
-  - {fileID: 3256119490919318340}
-  - {fileID: 6998333034925182093}
-  - {fileID: 6057073185907974681}
-  _giveUpButton: {fileID: 614060540557777007}
-  _saveButton: {fileID: 5978955867651603374}
-  _tweenAnimation: {fileID: 990824896932630204}
+  Name: 0
+  _panelContainer: {fileID: 0}
+  _backgroundPanelObject: {fileID: 0}
+  _userNameText: {fileID: 0}
+  _uidText: {fileID: 0}
+  _volumeSlider: []
+  _muteButtonList: []
+  _muteObjectList: []
+  _giveUpButton: {fileID: 0}
+  _saveButton: {fileID: 0}
+  _tweenAnimation: {fileID: 0}
 --- !u!224 &4102803373749874900
 RectTransform:
   m_ObjectHideFlags: 0
