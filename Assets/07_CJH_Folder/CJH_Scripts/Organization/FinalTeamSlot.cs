@@ -9,6 +9,7 @@ public class FinalTeamSlot : MonoBehaviour
     public Image characterImage;
     public TextMeshProUGUI levelText;
     public Button characterButton;
+    [SerializeField] private bool _isPartyUI;
 
     public CharacterDataSO characterData;
     private TeamFormationManager manager;
@@ -19,7 +20,9 @@ public class FinalTeamSlot : MonoBehaviour
     private void Awake()
     {
         // OrderNumberText 라는 이름의 자식 오브젝트에서 TextMeshProUGUI 컴포넌트를 찾습니다.
-        Transform orderTextTransform = transform.Find("OrderNumberTextCircle/OrderNumberText");
+        if (_isPartyUI) return;
+
+        var orderTextTransform = transform.Find("OrderNumberTextCircle/OrderNumberText");
         if (orderTextTransform != null)
         {
             orderNumberText = orderTextTransform.GetComponent<TextMeshProUGUI>();
@@ -30,7 +33,7 @@ public class FinalTeamSlot : MonoBehaviour
         }
 
         // ClaasIcon 이라는 이름의 자식 오브젝트에서 Image 컴포넌트를 찾습니다.
-        Transform classIconTransform = transform.Find("ClaasIconCircle/ClaasIcon");
+        var classIconTransform = transform.Find("ClaasIconCircle/ClaasIcon");
         if (classIconTransform != null)
         {
             classIconImage = classIconTransform.GetComponent<Image>();
@@ -66,7 +69,8 @@ public class FinalTeamSlot : MonoBehaviour
             // 아이콘 배열에 이미지가 있는지, 배열 길이는 몇인지 확인합니다.
             if (classIconSprites.Length <= roleIndex)
             {
-                Debug.LogError($"[에러!] 직업 번호({roleIndex})에 맞는 아이콘이 없습니다. Job Icon Sprites 배열의 크기({classIconSprites.Length})를 확인해주세요!");
+                Debug.LogError(
+                    $"[에러!] 직업 번호({roleIndex})에 맞는 아이콘이 없습니다. Job Icon Sprites 배열의 크기({classIconSprites.Length})를 확인해주세요!");
             }
             else if (classIconSprites[roleIndex] == null)
             {

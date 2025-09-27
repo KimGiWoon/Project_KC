@@ -56,6 +56,8 @@ public class TeamFormationManager : MonoBehaviour
             break;
         }
 
+        yield return new WaitForSeconds(0.1f);
+
         InitPartUI();
     }
 

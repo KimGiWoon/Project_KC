@@ -42,32 +42,32 @@ namespace SDW
         private List<float> _originalVolumeList = new List<float>();
         private List<bool> _originalMuteList = new List<bool>();
 
-        private void OnEnable()
+        private void Awake()
         {
             _panelContainer.SetActive(false);
             _backgroundPanel = _backgroundPanelObject.GetComponent<TweenAlpha_Image>();
             _backgroundPanelObject.SetActive(false);
             _rectTransform = _panelContainer.GetComponent<RectTransform>();
+
             _gameManager = GameManager.Instance;
-            StartCoroutine(LoadCoroutine());
+            _audio = _gameManager.Audio;
         }
 
-        private IEnumerator LoadCoroutine()
+        private void OnEnable()
         {
-            while (true)
-            {
-                yield return null;
-                if (!_gameManager.CompleteDownload || !_gameManager.ImageSpriteConnected ||
-                    !_gameManager.PrefabAndSoConnected) continue;
+            _deleteAccountButton.onClick.AddListener(DeleteAccountButtonClicked);
+            _signOutButton.onClick.AddListener(SignOutButtonClicked);
+            _saveButton.onClick.AddListener(SaveButtonClicked);
 
-                break;
-            }
-            _audio = GameManager.Instance.Audio;
-            InitializeSettings();
+            StartCoroutine(LoadCoroutine());
         }
 
         private void OnDisable()
         {
+            _deleteAccountButton.onClick.RemoveListener(DeleteAccountButtonClicked);
+            _signOutButton.onClick.RemoveListener(SignOutButtonClicked);
+            _saveButton.onClick.RemoveListener(SaveButtonClicked);
+
             foreach (var slider in _volumeSlider)
             {
                 slider.onValueChanged.RemoveListener((value) =>
@@ -87,9 +87,24 @@ namespace SDW
                     MuteButtonClicked(buttonId.Id);
                 });
             }
-            _deleteAccountButton.onClick.RemoveListener(DeleteAccountButtonClicked);
-            _signOutButton.onClick.RemoveListener(SignOutButtonClicked);
-            _saveButton.onClick.RemoveListener(SaveButtonClicked);
+        }
+
+        protected override void Start()
+        {
+            base.Start();
+        }
+
+        private IEnumerator LoadCoroutine()
+        {
+            while (true)
+            {
+                yield return null;
+                if (!_gameManager.CompleteDownload || !_gameManager.ImageSpriteConnected ||
+                    !_gameManager.PrefabAndSoConnected) continue;
+
+                break;
+            }
+            InitializeSettings();
         }
 
         private void Update()
@@ -157,10 +172,6 @@ namespace SDW
                     MuteButtonClicked(buttonId.Id);
                 });
             }
-
-            _deleteAccountButton.onClick.AddListener(DeleteAccountButtonClicked);
-            _signOutButton.onClick.AddListener(SignOutButtonClicked);
-            _saveButton.onClick.AddListener(SaveButtonClicked);
         }
 
         private void SetupInitialVolumeState()

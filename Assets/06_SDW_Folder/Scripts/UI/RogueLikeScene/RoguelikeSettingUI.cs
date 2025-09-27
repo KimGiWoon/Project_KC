@@ -40,14 +40,21 @@ namespace SDW
         private List<float> _originalVolumeList = new List<float>();
         private List<bool> _originalMuteList = new List<bool>();
 
-        private void OnEnable()
+        private void Awake()
         {
             _panelContainer.SetActive(false);
             _backgroundPanel = _backgroundPanelObject.GetComponent<TweenAlpha_Image>();
             _backgroundPanelObject.SetActive(false);
             _rectTransform = _panelContainer.GetComponent<RectTransform>();
             _gameManager = GameManager.Instance;
-            base.Start();
+            _audio = _gameManager.Audio;
+        }
+
+        private void OnEnable()
+        {
+            _giveUpButton.onClick.AddListener(GiveUpButtonClicked);
+            _saveButton.onClick.AddListener(SaveButtonClicked);
+
             StartCoroutine(LoadCoroutine());
         }
 
@@ -61,34 +68,22 @@ namespace SDW
 
                 break;
             }
-            _audio = GameManager.Instance.Audio;
             InitializeSettings();
         }
 
         private void OnDisable()
         {
+            _giveUpButton.onClick.RemoveListener(GiveUpButtonClicked);
+            _saveButton.onClick.RemoveListener(SaveButtonClicked);
+
             foreach (var slider in _volumeSlider)
             {
-                slider.onValueChanged.RemoveListener((value) =>
-                {
-                    var buttonId = slider.GetComponent<ButtonId>();
-                    slider.minValue = 0f;
-                    slider.maxValue = 100f;
-                    slider.wholeNumbers = true;
-                    VolumeSliderChanged(buttonId.Id, value);
-                });
+                slider.onValueChanged.RemoveAllListeners();
             }
             foreach (var muteButton in _muteButtonList)
             {
-                muteButton.onClick.RemoveListener(() =>
-                {
-                    var buttonId = muteButton.GetComponent<ButtonId>();
-                    MuteButtonClicked(buttonId.Id);
-                });
+                muteButton.onClick.RemoveAllListeners();
             }
-
-            _giveUpButton.onClick.RemoveListener(GiveUpButtonClicked);
-            _saveButton.onClick.RemoveListener(SaveButtonClicked);
         }
 
         private void Update()
@@ -156,9 +151,6 @@ namespace SDW
                     MuteButtonClicked(buttonId.Id);
                 });
             }
-
-            _giveUpButton.onClick.AddListener(GiveUpButtonClicked);
-            _saveButton.onClick.AddListener(SaveButtonClicked);
         }
 
         private void SetupInitialVolumeState()
@@ -224,8 +216,8 @@ namespace SDW
         private void GiveUpButtonClicked()
         {
             CancelToChange();
-            OnUICloseRequested?.Invoke(UIName.RoguelikeSettingUI);
             OnUIOpenRequested?.Invoke(UIName.RoguelikeClosingUI);
+            OnUICloseRequested?.Invoke(UIName.RoguelikeSettingUI);
         }
 
         private void SaveButtonClicked()

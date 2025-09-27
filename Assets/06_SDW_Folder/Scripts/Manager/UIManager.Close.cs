@@ -733,6 +733,11 @@ namespace SDW
             roguelikeSettingUI.OnUIOpenRequested -= OpenPanel;
             roguelikeSettingUI.OnUICloseRequested -= ClosePanel;
             // stageGlobalUI.ButtonContainerMoveBack();
+
+            if (_firebase != null)
+            {
+                _firebase.OnSendUserInfo -= roguelikeSettingUI.UpdateUserInfo;
+            }
         }
 
         /// <summary>
