@@ -12,7 +12,8 @@ namespace SDW
         [SerializeField] private AudioMixerGroup _bgmMixer;
         [SerializeField] private AudioMixerGroup _sfxMixer;
         private AudioSource _bgmAudioSource;
-        private List<AudioSource> _sfxAudioSourceList = new List<AudioSource>();
+        // private List<AudioSource> _sfxAudioSourceList = new List<AudioSource>();
+        private HashSet<AudioSource> _sfxAudioSourceList = new HashSet<AudioSource>();
 
         private bool _isMasterVolumeMuted;
         private bool _isBGMVolumeMuted;
@@ -260,6 +261,7 @@ namespace SDW
         {
             foreach (var audio in _sfxAudioSourceList)
             {
+                if (audio == null) continue;
                 audio.mute = isMute;
             }
         }

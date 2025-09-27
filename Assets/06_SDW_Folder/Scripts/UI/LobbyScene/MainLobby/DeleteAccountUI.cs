@@ -16,35 +16,13 @@ namespace SDW
         public Action OnDeleteAcceptButtonClicked;
 
         private Coroutine _coroutine;
-        private GameManager _gameManager;
-        private static bool _isInitialized;
 
-        /// <summary>
-        /// UI 요소가 활성화될 때 필요한 이벤트 연결 수행
-        /// </summary>
-        protected override void Start()
+        private void Awake()
         {
-            if (_isInitialized || GameManager.Instance.UI.UiDic.ContainsKey(UIName.DeleteAccountUI)) return;
-
             _panelContainer.SetActive(false);
-            _gameManager = GameManager.Instance;
-            base.Start();
-            StartCoroutine(LoadCoroutine());
-        }
 
-        private IEnumerator LoadCoroutine()
-        {
-            while (true)
-            {
-                yield return null;
-                if (!_gameManager.CompleteDownload || !_gameManager.ImageSpriteConnected ||
-                    !_gameManager.PrefabAndSoConnected) continue;
-
-                break;
-            }
             _cancelButton.onClick.AddListener(DeleteCancelButtonClicked);
             _acceptButton.onClick.AddListener(DeleteAcceptButtonClicked);
-            _isInitialized = true;
         }
 
         /// <summary>
@@ -52,14 +30,10 @@ namespace SDW
         /// </summary>
         private void OnDisable()
         {
-            // _cancelButton.onClick.RemoveListener(DeleteCancelButtonClicked);
-            // _acceptButton.onClick.RemoveListener(DeleteAcceptButtonClicked);
+            _cancelButton.onClick.RemoveListener(DeleteCancelButtonClicked);
+            _acceptButton.onClick.RemoveListener(DeleteAcceptButtonClicked);
 
             if (_coroutine != null) StopCoroutine(_coroutine);
-        }
-
-        protected override void OnDestroy()
-        {
         }
 
         public override void Open()

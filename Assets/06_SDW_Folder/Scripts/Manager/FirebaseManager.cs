@@ -682,57 +682,158 @@ namespace SDW
         /// <summary>
         /// 사용자의 Firebase 계정과 관련된 데이터를 영구적으로 삭제하고, 모든 연결을 종료
         /// </summary>
+//         public void DeleteAccount()
+//         {
+//             if (_auth.CurrentUser == null)
+//             {
+//                 Debug.LogWarning("로그인된 사용가자 없습니다.");
+//                 return;
+//             }
+//
+//             string userId = _auth.CurrentUser.UserId;
+//
+//             _db.Child("users").Child(userId).RemoveValueAsync().ContinueWithOnMainThread(task =>
+//             {
+//                 if (task.IsFaulted)
+//                 {
+//                     Debug.LogWarning($"데이터베이스 삭제 실패: {task.Exception.Message}");
+//                     return;
+//                 }
+//
+//                 _auth.CurrentUser.DeleteAsync().ContinueWithOnMainThread(deleteTask =>
+//                 {
+//                     if (deleteTask.IsFaulted)
+//                     {
+//                         Debug.LogWarning($"Firebase 계정 삭제 실패: {deleteTask.Exception.Message}");
+//                         return;
+//                     }
+//
+//                     _coinData = null;
+//                     _characters = null;
+//                     _dailyQuest = null;
+//                     _dailyQuestProgress = null;
+//                     _etcData = null;
+//                     _growthData = null;
+//                     _userData = null;
+//
+// #if !UNITY_EDITOR
+//                     GoogleSignIn.DefaultInstance.SignOut();
+//                     GoogleSignIn.DefaultInstance.Disconnect();
+// #endif
+//
+//                     PlayerPrefs.SetInt("SignedUp", 0);
+//                     PlayerPrefs.Save();
+//
+//                     _ui.ClosePanel(UIName.MainLobbyUI);
+//                     _ui.ClosePanel(UIName.UserInfoUI);
+//
+//                     UpdateButtonIcon();
+//                     // InitializeFirebaseDependencies();
+//                     GameManager.Instance.Scene.LoadSceneAsync(SceneName.SDW_SignInScene);
+//                     ConnectToFirebase();
+//                 });
+//             });
+//         }
         public void DeleteAccount()
         {
             if (_auth.CurrentUser == null)
             {
-                Debug.LogWarning("로그인된 사용가자 없습니다.");
+                Debug.LogWarning("로그인된 사용자가 없습니다.");
                 return;
             }
 
-            string userId = _auth.CurrentUser.UserId;
+#if !UNITY_EDITOR
+            ReauthenticateUser(_auth.CurrentUser);
+#else
+            Debug.LogWarning("Unity Editor에서는 계정 삭제 테스트 불가 (재인증 필요)");
+#endif
+        }
+
+        private void ReauthenticateUser(FirebaseUser user)
+        {
+            GoogleSignIn.DefaultInstance.SignIn().ContinueWithOnMainThread(googleTask =>
+            {
+                if (googleTask.IsCanceled || googleTask.IsFaulted)
+                {
+                    Debug.LogWarning("구글 로그인 재인증 실패");
+                    return;
+                }
+
+                var googleUser = googleTask.Result;
+                var credential = GoogleAuthProvider.GetCredential(googleUser.IdToken, null);
+
+                user.ReauthenticateAsync(credential).ContinueWithOnMainThread(reAuthTask =>
+                {
+                    if (reAuthTask.IsFaulted)
+                    {
+                        Debug.LogWarning($"재인증 실패: {reAuthTask.Exception?.Message}");
+                        return;
+                    }
+
+                    Debug.Log("재인증 성공");
+                    DeleteUserData(user);
+                });
+            });
+        }
+
+        private void DeleteUserData(FirebaseUser user)
+        {
+            string userId = user.UserId;
 
             _db.Child("users").Child(userId).RemoveValueAsync().ContinueWithOnMainThread(task =>
             {
                 if (task.IsFaulted)
                 {
-                    Debug.LogWarning($"데이터베이스 삭제 실패: {task.Exception.Message}");
+                    Debug.LogWarning($"데이터베이스 삭제 실패: {task.Exception?.Message}");
                     return;
                 }
 
-                _auth.CurrentUser.DeleteAsync().ContinueWithOnMainThread(deleteTask =>
-                {
-                    if (deleteTask.IsFaulted)
-                    {
-                        Debug.LogWarning($"Firebase 계정 삭제 실패: {deleteTask.Exception.Message}");
-                        return;
-                    }
+                Debug.Log("데이터베이스 삭제 성공");
+                DeleteFirebaseAccount(user);
+            });
+        }
 
-                    _coinData = null;
-                    _characters = null;
-                    _dailyQuest = null;
-                    _dailyQuestProgress = null;
-                    _etcData = null;
-                    _growthData = null;
-                    _userData = null;
+        private void DeleteFirebaseAccount(FirebaseUser user)
+        {
+            user.DeleteAsync().ContinueWithOnMainThread(deleteTask =>
+            {
+                if (deleteTask.IsFaulted)
+                {
+                    Debug.LogWarning($"Firebase 계정 삭제 실패: {deleteTask.Exception?.Message}");
+                    return;
+                }
+
+                Debug.Log("Firebase 계정 삭제 성공");
+                CleanupLocalData();
+            });
+        }
+
+        private void CleanupLocalData()
+        {
+            _coinData = null;
+            _characters = null;
+            _dailyQuest = null;
+            _dailyQuestProgress = null;
+            _etcData = null;
+            _growthData = null;
+            _userData = null;
 
 #if !UNITY_EDITOR
-                    GoogleSignIn.DefaultInstance.SignOut();
-                    GoogleSignIn.DefaultInstance.Disconnect();
+            GoogleSignIn.DefaultInstance.SignOut();
+            GoogleSignIn.DefaultInstance.Disconnect();
 #endif
 
-                    PlayerPrefs.SetInt("SignedUp", 0);
-                    PlayerPrefs.Save();
+            PlayerPrefs.SetInt("SignedUp", 0);
+            PlayerPrefs.Save();
 
-                    _ui.ClosePanel(UIName.MainLobbyUI);
-                    _ui.ClosePanel(UIName.UserInfoUI);
+            _ui.ClosePanel(UIName.MainLobbyUI);
+            _ui.ClosePanel(UIName.UserInfoUI);
 
-                    UpdateButtonIcon();
-                    // InitializeFirebaseDependencies();
-                    GameManager.Instance.Scene.LoadSceneAsync(SceneName.SDW_SignInScene);
-                    ConnectToFirebase();
-                });
-            });
+            UpdateButtonIcon();
+            GameManager.Instance.Scene.LoadSceneAsync(SceneName.SDW_SignInScene);
+            ConnectToFirebase();
+
+            Debug.Log("회원 탈퇴 완료");
         }
 
         #endregion
