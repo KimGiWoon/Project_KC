@@ -1547,7 +1547,7 @@ GameObject:
   - component: {fileID: 75231939}
   - component: {fileID: 75231938}
   m_Layer: 5
-  m_Name: ClaasIconCIrcle
+  m_Name: ClaasIconCircle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -11869,7 +11869,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1375832582116618208, guid: deebb08dc143a3b4ab9c2e1a7ac24287, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7729042647577635469, guid: deebb08dc143a3b4ab9c2e1a7ac24287, type: 3}
       propertyPath: m_LocalPosition.x
@@ -17188,7 +17188,7 @@ GameObject:
   - component: {fileID: 837913356}
   - component: {fileID: 837913355}
   m_Layer: 5
-  m_Name: ClaasIconCIrcle
+  m_Name: ClaasIconCircle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -23337,7 +23337,7 @@ GameObject:
   - component: {fileID: 1115602057}
   - component: {fileID: 1115602056}
   m_Layer: 5
-  m_Name: ClaasIconCIrcle
+  m_Name: ClaasIconCircle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -38745,7 +38745,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6277260461048291607, guid: d217fedec1d951f44af4d3abdc966b96, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -46665,26 +46665,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86da1c26f44923744816f7704425abc7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Name: 52
-  _panelContainer: {fileID: 2082147285081350039}
-  _backgroundPanelObject: {fileID: 578421514}
-  _userNameText: {fileID: 8546922628626286535}
-  _uidText: {fileID: 1012280928765504629}
-  _volumeSlider:
-  - {fileID: 1827887570014811373}
-  - {fileID: 1317970408925371411}
-  - {fileID: 8579404812736466752}
-  _muteButtonList:
-  - {fileID: 8292684492741675051}
-  - {fileID: 9033908735629663398}
-  - {fileID: 783028325512810605}
-  _muteObjectList:
-  - {fileID: 3256119490919318340}
-  - {fileID: 6998333034925182093}
-  - {fileID: 6057073185907974681}
-  _giveUpButton: {fileID: 614060540557777007}
-  _saveButton: {fileID: 5978955867651603374}
-  _tweenAnimation: {fileID: 990824896932630204}
 --- !u!224 &4102803373749874900
 RectTransform:
   m_ObjectHideFlags: 0

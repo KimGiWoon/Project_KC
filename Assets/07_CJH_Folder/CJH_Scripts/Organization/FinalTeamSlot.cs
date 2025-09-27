@@ -19,7 +19,7 @@ public class FinalTeamSlot : MonoBehaviour
     private void Awake()
     {
         // OrderNumberText 라는 이름의 자식 오브젝트에서 TextMeshProUGUI 컴포넌트를 찾습니다.
-        Transform orderTextTransform = transform.Find("OrderNumberText");
+        Transform orderTextTransform = transform.Find("OrderNumberTextCircle/OrderNumberText");
         if (orderTextTransform != null)
         {
             orderNumberText = orderTextTransform.GetComponent<TextMeshProUGUI>();
