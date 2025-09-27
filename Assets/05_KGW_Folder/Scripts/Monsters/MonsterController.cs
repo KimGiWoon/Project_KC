@@ -367,6 +367,8 @@ public class MonsterController : UnitBaseData
         // 체력이 0이 됨
         if (_monsterState._monCurrentHP <= 0)
         {
+            _monsterState._monCurrentHP = 0f;
+            _monsterHp.value = 0f;
             _monAnimatior.Play(Death_Hash);
             // 유닛의 죽음
             Death();
@@ -531,6 +533,8 @@ public class MonsterController : UnitBaseData
         if (_breakCount >= _monsterState._monbreakGage)
         {
             _isStern = true;
+            _skill1Timer = 0f;
+            _skill2Timer = 0f;
 
             _breakCount = 0;
             // 그로기 수치 UI
