@@ -300,6 +300,8 @@ public class MyCharacterController : UnitBaseData
         // 체력이 0이 됨
         if (_characterState._chaCurrentHP <= 0)
         {
+            _characterState._chaCurrentHP = 0f;
+            OnHpChange?.Invoke(0f);
             // 유닛의 죽음
             Death();
         }

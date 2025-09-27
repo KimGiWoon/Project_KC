@@ -86,10 +86,7 @@ public class CharacterInfoSlotUI : MonoBehaviour
     // 받은 데미지로 체력바 변화
     private void HpChangeCheck(float _curHp)
     {
-        if (_characterHp)
-        {
-            _characterHp.value = _curHp;
-        }
+        _characterHp.value = _curHp;
     }
 
     // 충전되는 마나바 변화
