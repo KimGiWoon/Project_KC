@@ -67,6 +67,7 @@ public class TeamFormationManager : MonoBehaviour
             finalTeamSlots[i].characterButton.interactable = false;
             finalTeamSlots[i].levelText.text = _charData.SelectedTeam[i]._chaLv.ToString();
             finalTeamSlots[i].characterData = _charData.SelectedTeam[i];
+            finalTeamSlots[i].DisplayCharacter(_charData.SelectedTeam[i], i);
             finalTeamSlots[i].gameObject.SetActive(true);
             _selectedTeam.Add(_charData.SelectedTeam[i]);
         }
@@ -141,13 +142,13 @@ public class TeamFormationManager : MonoBehaviour
     // 하단 패널 한 개를 업데이트하는 전용 함수
     private void UpdateFinalTeamPanel(List<FinalTeamSlot> slots)
     {
-        // 리스트가 비어있으면 아무것도 하지 않음
         if (slots == null || slots.Count == 0) return;
         for (int i = 0; i < slots.Count; i++)
         {
             if (i < _charData.SelectedTeam.Count)
             {
-                slots[i].DisplayCharacter(_charData.SelectedTeam[i]);
+                // DisplayCharacter 호출 시 인덱스(i)를 함께 전달
+                slots[i].DisplayCharacter(_charData.SelectedTeam[i], i);
             }
             else
             {

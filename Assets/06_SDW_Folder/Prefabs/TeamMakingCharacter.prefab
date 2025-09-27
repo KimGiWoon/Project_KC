@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 7700554671819330616}
   - component: {fileID: 3769601329183535304}
   m_Layer: 5
-  m_Name: SlotBackgroundImage2
+  m_Name: OrderNumberText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -88,7 +88,7 @@ GameObject:
   - component: {fileID: 8777496589993402197}
   - component: {fileID: 8788160568473564958}
   m_Layer: 5
-  m_Name: CharacterClassBackgroundImage
+  m_Name: ClaasIcon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -163,7 +163,7 @@ GameObject:
   - component: {fileID: 1397182350172677754}
   - component: {fileID: 7980655490122613019}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: CharacterNumber
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -297,7 +297,7 @@ GameObject:
   - component: {fileID: 186080738188541795}
   - component: {fileID: 2518190927946277622}
   m_Layer: 5
-  m_Name: SlotBackgroundImage3
+  m_Name: OrderNumberText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -618,7 +618,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: fc44acd48aa0ae54089336a9b93973a1, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 72ecca62ca5a467418f049d7d645c9ea, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -640,7 +640,7 @@ GameObject:
   - component: {fileID: 7638374405677042752}
   - component: {fileID: 5110742471863145350}
   m_Layer: 5
-  m_Name: SlotBackgroundImage1
+  m_Name: OrderNumberText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -772,7 +772,7 @@ MonoBehaviour:
   m_text: 2
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: fdaa16ae054fd324aae2c5b3993bbfdb, type: 2}
-  m_sharedMaterial: {fileID: -2564337763371800588, guid: 3a6050e03328bad4598160b2d2285549, type: 2}
+  m_sharedMaterial: {fileID: -6624606523854908980, guid: fdaa16ae054fd324aae2c5b3993bbfdb, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []

@@ -434,9 +434,9 @@ namespace CJH
 
                 case ChoiceResultType.RelicSel:
                     var acquirableRelics = _eventManager.allRelicsDatabase
-                        .Where(relic => !GameManager.Instance.InGameItem.HasRelic(relic))
-                        .OrderBy(x => Random.value)
-                        .ToList();
+                            .Where(relic => !GameManager.Instance.InGameItem.HasRelic(relic))
+                            .OrderBy(x => Random.value)
+                            .ToList();
 
                     if (acquirableRelics.Any())
                     {
@@ -489,19 +489,6 @@ namespace CJH
                     break;
             }
 
-            //case ChoiceResultType.Continue:
-            //
-            //        int numberOfChoices = Random.Range(2, 4);
-            //
-            //        ShowRelicSelection(numberOfChoices);
-            //
-            //        GameManager.Instance.Coin.AddYeopjeon(resultMoney); // resultValue 변수 사용
-            //
-            //        Debug.Log($"{resultMoney} 엽전 얻음");
-            //
-            //        Debug.Log("유물 선택지");
-            //
-            //        break;
 
             // 결과가 있으면 결과창 보여주고 없으면 이벤트 종료
             if (data.EncounterExitText.Count > 0 && !string.IsNullOrEmpty(data.EncounterExitText[0]))
