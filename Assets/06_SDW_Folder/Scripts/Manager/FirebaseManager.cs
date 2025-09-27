@@ -58,18 +58,16 @@ namespace SDW
         private ButtonType _buttonType;
         public ButtonType ButtonType => _buttonType;
 
-        #region Firebase Intialize Methods
+        public Action OnUserInfoUpdated;
 
-        private void Awake()
-        {
-            FirebaseDatabase.DefaultInstance.SetPersistenceEnabled(false);
-        }
+        #region Firebase Intialize Methods
 
         /// <summary>
         /// 시작 시 필요한 Firebase 관련 초기화 및 설정을 수행
         /// </summary>
         public void ConnectToFirebase()
         {
+            FirebaseDatabase.DefaultInstance.SetPersistenceEnabled(false);
             _ui = GameManager.Instance.UI;
             _character = GameManager.Instance.CharacterData;
             InitializeFirebaseDependencies();
@@ -333,7 +331,7 @@ namespace SDW
             {
                 { "score", 0 },
                 { "totalScore", 0 },
-                { "questUpdate", DateTime.UtcNow.AddHours(9).ToString("yyyy-MM-dd HH:mm:ss") },
+                { "questUpdate", 0 },
                 { "buyAdRemover", false },
                 { "gachaCount", 0 },
                 { "chapter", 1 },
@@ -490,6 +488,10 @@ namespace SDW
                 _etcData = userData["etcData"] as Dictionary<string, object>;
                 if (userData.ContainsKey("growthData"))
                     _growthData = userData["growthData"] as Dictionary<string, object>;
+                else
+                    _growthData = new Dictionary<string, object>();
+
+                OnUserInfoUpdated?.Invoke();
                 _isLoaded = true;
             }
         }
@@ -571,7 +573,7 @@ namespace SDW
             {
                 { "score", 0 },
                 { "totalScore", 0 },
-                { "questUpdate", DateTime.UtcNow.AddHours(9).ToString("yyyy-MM-dd HH:mm:ss") },
+                { "questUpdate", 0 },
                 { "buyAdRemover", false },
                 { "gachaCount", 0 },
                 { "chapter", 1 },
@@ -606,6 +608,9 @@ namespace SDW
                 profileData.ContainsKey("icon") ? Convert.ToInt32(profileData["icon"]) : 0
             );
 
+            _growthData = new Dictionary<string, object>();
+
+            OnUserInfoUpdated?.Invoke();
             _isLoaded = true;
 
             _db.Child("users").Child(user.UserId).SetValueAsync(userData).ContinueWithOnMainThread(task =>
@@ -658,7 +663,12 @@ namespace SDW
 #if !UNITY_EDITOR
             GoogleSignIn.DefaultInstance.SignOut();
 #endif
-
+            _coinData = null;
+            _characters = null;
+            _dailyQuest = null;
+            _dailyQuestProgress = null;
+            _etcData = null;
+            _growthData = null;
             _userData = null;
 
             _ui.ClosePanel(UIName.MainLobbyUI);
@@ -698,6 +708,12 @@ namespace SDW
                         return;
                     }
 
+                    _coinData = null;
+                    _characters = null;
+                    _dailyQuest = null;
+                    _dailyQuestProgress = null;
+                    _etcData = null;
+                    _growthData = null;
                     _userData = null;
 
 #if !UNITY_EDITOR
@@ -817,6 +833,8 @@ namespace SDW
                 { "coinData/starCandy", starCandy }
             };
 
+            _coinData["starCandy"] = starCandy;
+
             _db.Child("users").Child(_auth.CurrentUser.UserId).UpdateChildrenAsync(updateData).ContinueWithOnMainThread(task =>
             {
                 if (task.IsFaulted)
@@ -837,6 +855,8 @@ namespace SDW
                 { "coinData/shiningStarCandy", shiningStarCandy }
             };
 
+            _coinData["shiningStarCandy"] = shiningStarCandy;
+
             _db.Child("users").Child(_auth.CurrentUser.UserId).UpdateChildrenAsync(updateData).ContinueWithOnMainThread(task =>
             {
                 if (task.IsFaulted)
@@ -852,6 +872,8 @@ namespace SDW
             {
                 { "coinData/totalYeopjeon", yeopjeon }
             };
+
+            _coinData["totalYeopjeon"] = yeopjeon;
 
             _db.Child("users").Child(_auth.CurrentUser.UserId).UpdateChildrenAsync(updateData).ContinueWithOnMainThread(task =>
             {
@@ -869,6 +891,8 @@ namespace SDW
                 { "coinData/point", point }
             };
 
+            _coinData["point"] = point;
+
             _db.Child("users").Child(_auth.CurrentUser.UserId).UpdateChildrenAsync(updateData).ContinueWithOnMainThread(task =>
             {
                 if (task.IsFaulted)
@@ -884,6 +908,8 @@ namespace SDW
             {
                 { $"coinData/{key}", value }
             };
+
+            _coinData[key] = value;
 
             _db.Child("users").Child(_auth.CurrentUser.UserId).UpdateChildrenAsync(updateData).ContinueWithOnMainThread(task =>
             {
@@ -1043,6 +1069,8 @@ namespace SDW
                 { "etcData/totalScore", totalScore }
             };
 
+            _etcData["totalScore"] = totalScore;
+
             _db.Child("users").Child(_auth.CurrentUser.UserId).UpdateChildrenAsync(updateData).ContinueWithOnMainThread(task =>
             {
                 if (task.IsFaulted)
@@ -1055,12 +1083,14 @@ namespace SDW
         /// <summary>
         /// 사용자의 퀘스트 업데이트 정보를 Firebase 데이터베이스에 설정
         /// </summary>
-        public void SetQuestUpdate()
+        public void SetQuestUpdate(string nextReset)
         {
             var updateData = new Dictionary<string, object>
             {
-                { "etcData/questUpdate", DateTime.UtcNow.AddHours(9).ToString("yyyy-MM-dd HH:mm:ss") }
+                { "etcData/questUpdate", nextReset }
             };
+
+            _etcData["questUpdate"] = nextReset;
 
             _db.Child("users").Child(_auth.CurrentUser.UserId).UpdateChildrenAsync(updateData).ContinueWithOnMainThread(task =>
             {
@@ -1082,6 +1112,8 @@ namespace SDW
                 { "etcData/buyAdRemover", false }
             };
 
+            _etcData["buyAdRemover"] = false;
+
             _db.Child("users").Child(_auth.CurrentUser.UserId).UpdateChildrenAsync(updateData).ContinueWithOnMainThread(task =>
             {
                 if (task.IsFaulted)
@@ -1101,6 +1133,8 @@ namespace SDW
             {
                 { "etcData/gachaCount", gachaCount }
             };
+
+            _etcData["gachaCount"] = gachaCount;
 
             _db.Child("users").Child(_auth.CurrentUser.UserId).UpdateChildrenAsync(updateData).ContinueWithOnMainThread(task =>
             {
@@ -1122,6 +1156,8 @@ namespace SDW
                 { "etcData/chapter", chapter }
             };
 
+            _etcData["chapter"] = chapter;
+
             _db.Child("users").Child(_auth.CurrentUser.UserId).UpdateChildrenAsync(updateData).ContinueWithOnMainThread(task =>
             {
                 if (task.IsFaulted)
@@ -1139,6 +1175,9 @@ namespace SDW
                 { "etcData/lastStaminaUpdate", DateTime.UtcNow.AddHours(9).ToString("yyyy-MM-dd HH:mm:ss") }
             };
 
+            _etcData["stamina"] = stamina;
+            _etcData["lastStaminaUpdate"] = DateTime.UtcNow.AddHours(9).ToString("yyyy-MM-dd HH:mm:ss");
+
             _db.Child("users").Child(_auth.CurrentUser.UserId).UpdateChildrenAsync(updateData).ContinueWithOnMainThread(task =>
             {
                 if (task.IsFaulted)
@@ -1155,6 +1194,8 @@ namespace SDW
                 { "etcData/battleCount", battleCount }
             };
 
+            _etcData["battleCount"] = battleCount;
+
             _db.Child("users").Child(_auth.CurrentUser.UserId).UpdateChildrenAsync(updateData).ContinueWithOnMainThread(task =>
             {
                 if (task.IsFaulted)
@@ -1170,6 +1211,8 @@ namespace SDW
             {
                 { "etcData/relicCount", relicCount }
             };
+
+            _etcData["relicCount"] = relicCount;
 
             foreach (var grade in relicGradeCount)
             {
@@ -1192,6 +1235,8 @@ namespace SDW
                 { "etcData/cookCount", cookCount }
             };
 
+            _etcData["cookCount"] = cookCount;
+
             _db.Child("users").Child(_auth.CurrentUser.UserId).UpdateChildrenAsync(updateData).ContinueWithOnMainThread(task =>
             {
                 if (task.IsFaulted)
@@ -1207,6 +1252,8 @@ namespace SDW
             {
                 { "etcData/stageCount", stageCount }
             };
+
+            _etcData["stageCount"] = stageCount;
 
             _db.Child("users").Child(_auth.CurrentUser.UserId).UpdateChildrenAsync(updateData).ContinueWithOnMainThread(task =>
             {
@@ -1224,6 +1271,8 @@ namespace SDW
                 { "growthData/unlockNodes", unlockNodes }
             };
 
+            _growthData["unlockNodes"] = unlockNodes;
+
             _db.Child("users").Child(_auth.CurrentUser.UserId).UpdateChildrenAsync(updateData).ContinueWithOnMainThread(task =>
             {
                 if (task.IsFaulted)
@@ -1239,6 +1288,8 @@ namespace SDW
             {
                 { "growthData/completeNodes", completeNodes }
             };
+
+            _growthData["completeNodes"] = completeNodes;
 
             _db.Child("users").Child(_auth.CurrentUser.UserId).UpdateChildrenAsync(updateData).ContinueWithOnMainThread(task =>
             {

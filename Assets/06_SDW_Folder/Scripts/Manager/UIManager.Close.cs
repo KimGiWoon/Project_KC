@@ -20,22 +20,22 @@ namespace SDW
             _uiDic[uiName].Close();
 
             _prevClosedUI = uiName;
-            if (uiName == UIName.GlobalSettingUI)
-            {
-                DisconnectGlobalSettingUI(uiName);
-            }
-            else
-            {
-                var sceneName = (SceneName)Enum.Parse(typeof(SceneName), GameManager.Instance.Scene.GetActiveScene());
+            // if (uiName == UIName.GlobalSettingUI)
+            // {
+            //     DisconnectGlobalSettingUI(uiName);
+            // }
+            // else
+            // {
+            var sceneName = (SceneName)Enum.Parse(typeof(SceneName), GameManager.Instance.Scene.GetActiveScene());
 
-                switch (sceneName)
-                {
-                    case SceneName.SDW_SignInScene: CloseSignInScene(uiName); break;
-                    case SceneName.KSH_Gacha:
-                    case SceneName.SDW_LobbyScene: CloseLobbyScene(uiName); break;
-                    case SceneName.SDW_RoguelikeScene: CloseRoguelikeScene(uiName); break;
-                }
+            switch (sceneName)
+            {
+                case SceneName.SDW_SignInScene: CloseSignInScene(uiName); break;
+                case SceneName.KSH_Gacha:
+                case SceneName.SDW_LobbyScene: CloseLobbyScene(uiName); break;
+                case SceneName.SDW_RoguelikeScene: CloseRoguelikeScene(uiName); break;
             }
+            // }
 
 
             if (_prevOpenedUI == _prevClosedUI)
@@ -100,6 +100,8 @@ namespace SDW
                 case UIName.NoticePaidCompleteUI: DisconnectNoticePaidCompleteUI(uiName); break;
                 case UIName.NoticeNotPaidUI: DisconnectNoticeNotPaidUI(uiName); break;
                 case UIName.SugarStarExchangeUI: DisconnectSugarStarExchangeUI(uiName); break;
+                //@ Setting UI
+                case UIName.LobbySettingUI: DisconnectLobbySettingUI(uiName); break;
             }
         }
 
@@ -118,6 +120,7 @@ namespace SDW
                 case UIName.InventoryUI: DisconnectInventoryUI(uiName); break;
                 case UIName.CookingUI: DisconnectCookingUI(uiName); break;
                 case UIName.FoodDescriptionUI: DisconnectFoodDescriptionUI(uiName); break;
+                case UIName.RoguelikeSettingUI: DisconnectRoguelikeSettingUI(uiName); break;
 
                 //# Battle scene
                 case UIName.BattleUI: DisconnectBattleUI(uiName); break;
@@ -179,29 +182,29 @@ namespace SDW
             downloadUI.OnUICloseRequested -= ClosePanel;
         }
 
-        private void DisconnectGlobalSettingUI(UIName uiName)
-        {
-            var globalSettingUI = _uiDic[uiName] as GlobalSettingUI;
-
-            globalSettingUI.OnUIOpenRequested -= OpenPanel;
-            globalSettingUI.OnUICloseRequested -= ClosePanel;
-
-
-            var sceneName = (SceneName)Enum.Parse(typeof(SceneName), GameManager.Instance.Scene.GetActiveScene());
-
-            if (sceneName == SceneName.SDW_RoguelikeScene)
-            {
-                var stageGlobalUI = _uiDic[UIName.StageGlobalUI] as StageGlobalUI;
-                stageGlobalUI.ButtonContainerMoveBack();
-                stageGlobalUI.PushPrevUI();
-            }
-
-            if (_firebase != null)
-            {
-                _firebase.OnSendUserInfo -= globalSettingUI.UpdateUserInfo;
-                globalSettingUI.OnSignOutButtonClicked -= _firebase.SignOut;
-            }
-        }
+        // private void DisconnectGlobalSettingUI(UIName uiName)
+        // {
+        //     var globalSettingUI = _uiDic[uiName] as GlobalSettingUI;
+        //
+        //     globalSettingUI.OnUIOpenRequested -= OpenPanel;
+        //     globalSettingUI.OnUICloseRequested -= ClosePanel;
+        //
+        //
+        //     var sceneName = (SceneName)Enum.Parse(typeof(SceneName), GameManager.Instance.Scene.GetActiveScene());
+        //
+        //     if (sceneName == SceneName.SDW_RoguelikeScene)
+        //     {
+        //         var stageGlobalUI = _uiDic[UIName.StageGlobalUI] as StageGlobalUI;
+        //         stageGlobalUI.ButtonContainerMoveBack();
+        //         stageGlobalUI.PushPrevUI();
+        //     }
+        //
+        //     if (_firebase != null)
+        //     {
+        //         _firebase.OnSendUserInfo -= globalSettingUI.UpdateUserInfo;
+        //         globalSettingUI.OnSignOutButtonClicked -= _firebase.SignOut;
+        //     }
+        // }
 
         private void DisconnectImagePrefabLoadingUI(UIName uiName)
         {
@@ -220,7 +223,7 @@ namespace SDW
             var mainLobbyUI = _uiDic[uiName] as MainLobbyUI;
             var changeIconUI = _uiDic[UIName.ChangeIconUI] as ChangeIconUI;
             var userInfoUI = _uiDic[UIName.UserInfoUI] as UserInfoUI;
-            var globalSettingUI = _uiDic[UIName.GlobalSettingUI] as GlobalSettingUI;
+            var lobbySettingUI = _uiDic[UIName.LobbySettingUI] as LobbySettingUI;
 
             mainLobbyUI.OnUIOpenRequested -= OpenPanel;
             mainLobbyUI.OnIconRequested -= (index) =>
@@ -230,7 +233,7 @@ namespace SDW
                 userInfoUI.SetIcon(sprite);
             };
 
-            globalSettingUI.OnUICloseRequested -= (uiName) => { mainLobbyUI.ResetMainText(); };
+            lobbySettingUI.OnUICloseRequested -= (uiName) => { mainLobbyUI.ResetMainText(); };
 
             if (_firebase != null)
                 _firebase.OnSendUserInfo -= mainLobbyUI.UpdateUserInfo;
@@ -264,10 +267,10 @@ namespace SDW
         private void DisconnectDeleteAccountUI(UIName uiName)
         {
             var deleteAccountUI = _uiDic[uiName] as DeleteAccountUI;
-            var globalSettingUI = _uiDic[UIName.GlobalSettingUI] as GlobalSettingUI;
+            var lobbySettingUI = _uiDic[UIName.LobbySettingUI] as LobbySettingUI;
 
             deleteAccountUI.OnDeleteAcceptButtonClicked -= _firebase.DeleteAccount;
-            deleteAccountUI.OnDeleteAcceptButtonClicked -= globalSettingUI.DeactiveDeleteButton;
+            deleteAccountUI.OnDeleteAcceptButtonClicked -= lobbySettingUI.DeactiveDeleteButton;
             deleteAccountUI.OnCloseButtonClicked -= (firstUI, secondUI) =>
             {
                 ClosePanel(firstUI);
@@ -578,6 +581,20 @@ namespace SDW
             _sugarStarExchangeUI.OnUICloseRequested -= ClosePanel;
         }
 
+        private void DisconnectLobbySettingUI(UIName uiName)
+        {
+            var lobbySettingUI = _uiDic[uiName] as LobbySettingUI;
+
+            lobbySettingUI.OnUIOpenRequested -= OpenPanel;
+            lobbySettingUI.OnUICloseRequested -= ClosePanel;
+
+            if (_firebase != null)
+            {
+                _firebase.OnSendUserInfo -= lobbySettingUI.UpdateUserInfo;
+                lobbySettingUI.OnSignOutButtonClicked -= _firebase.SignOut;
+            }
+        }
+
         #endregion
 
         #region Stage UI Disconnect Methods
@@ -706,6 +723,16 @@ namespace SDW
             var foodDescriptionUI = _uiDic[uiName] as FoodDescriptionUI;
 
             foodDescriptionUI.OnUICloseRequrested -= ClosePanel;
+        }
+
+        private void DisconnectRoguelikeSettingUI(UIName uiName)
+        {
+            var roguelikeSettingUI = _uiDic[uiName] as RoguelikeSettingUI;
+            var stageGlobalUI = _uiDic[UIName.StageGlobalUI] as StageGlobalUI;
+
+            roguelikeSettingUI.OnUIOpenRequested -= OpenPanel;
+            roguelikeSettingUI.OnUICloseRequested -= ClosePanel;
+            // stageGlobalUI.ButtonContainerMoveBack();
         }
 
         /// <summary>

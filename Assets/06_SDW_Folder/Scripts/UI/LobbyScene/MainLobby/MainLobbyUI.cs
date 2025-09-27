@@ -189,7 +189,7 @@ namespace SDW
             SetMainText("환경설정");
             _optionButton.interactable = false;
             StartCoroutine(DelayedActivateButton(_optionButton));
-            OnUIOpenRequested?.Invoke(UIName.GlobalSettingUI);
+            OnUIOpenRequested?.Invoke(UIName.LobbySettingUI);
         }
 
         /// <summary>

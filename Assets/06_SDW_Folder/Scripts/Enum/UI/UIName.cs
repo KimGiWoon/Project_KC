@@ -76,6 +76,9 @@
         NoticeNotPaidUI,
         SugarStarExchangeUI,
 
-        ImagePrefabLoadingUI
+        ImagePrefabLoadingUI,
+
+        LobbySettingUI,
+        RoguelikeSettingUI
     }
 }
