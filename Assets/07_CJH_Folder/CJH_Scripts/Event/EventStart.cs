@@ -24,7 +24,7 @@ namespace CJH
         [System.Serializable]
         public class EncounterSpriteMapping
         {
-            public EncounterSentiment Sentiment;
+            public EncounterType Type;
             public Sprite sprite;
         }
 
@@ -57,10 +57,6 @@ namespace CJH
         {
             _eventManager = eventManager;
 
-            if (relicSelectionPanel != null)
-            {
-                relicSelectionPanel.SetActive(false);
-            }
 
             if (eventTitleText != null)
             {
@@ -78,7 +74,7 @@ namespace CJH
                 }
             }
 
-            var mapping = encounterSprites.Find(m => m.Sentiment == data.Sentiment);
+            var mapping = encounterSprites.Find(m => m.Type == data.Type);
             if (mapping != null && eventImage != null)
             {
                 eventImage.sprite = mapping.sprite;
