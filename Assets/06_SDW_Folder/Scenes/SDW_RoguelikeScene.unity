@@ -1547,7 +1547,7 @@ GameObject:
   - component: {fileID: 75231939}
   - component: {fileID: 75231938}
   m_Layer: 5
-  m_Name: CharacterClassBackgroundImage
+  m_Name: ClaasIconCIrcle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9428,7 +9428,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 443353042}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c308a1b15c1d9654d8a9ad34078afb7c, type: 3}
   m_Name: 
@@ -9438,7 +9438,12 @@ MonoBehaviour:
   levelText: {fileID: 246496535}
   characterButton: {fileID: 443353045}
   characterData: {fileID: 11400000, guid: 103b7f3043d88a9429d25209c9d1f182, type: 2}
-  classIconSprites: []
+  classIconSprites:
+  - {fileID: 21300000, guid: 23d92ba5fa0a921468db16216c05ced8, type: 3}
+  - {fileID: 21300000, guid: 72ecca62ca5a467418f049d7d645c9ea, type: 3}
+  - {fileID: 21300000, guid: db26bb630ee3004479b3d76ca8dbb96b, type: 3}
+  - {fileID: 21300000, guid: b395a27d9e54fe44c85b6155c9d908eb, type: 3}
+  - {fileID: 21300000, guid: cf83d10d13a3edb4f9f644e45c7e07b3, type: 3}
 --- !u!1 &445154301
 GameObject:
   m_ObjectHideFlags: 0
@@ -12252,7 +12257,7 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  tweenTime: 0.6
+  TweenTime: 1
 --- !u!114 &578421518
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13594,7 +13599,7 @@ GameObject:
   - component: {fileID: 639145348}
   - component: {fileID: 639145347}
   m_Layer: 5
-  m_Name: CharacterClassIconImage
+  m_Name: ClaasIcon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -14785,7 +14790,12 @@ MonoBehaviour:
   levelText: {fileID: 1431835982}
   characterButton: {fileID: 693392299}
   characterData: {fileID: 11400000, guid: 0977072b4d0ff2c4bb1c250d908f0ba6, type: 2}
-  classIconSprites: []
+  classIconSprites:
+  - {fileID: 21300000, guid: 23d92ba5fa0a921468db16216c05ced8, type: 3}
+  - {fileID: 21300000, guid: 72ecca62ca5a467418f049d7d645c9ea, type: 3}
+  - {fileID: 21300000, guid: db26bb630ee3004479b3d76ca8dbb96b, type: 3}
+  - {fileID: 21300000, guid: b395a27d9e54fe44c85b6155c9d908eb, type: 3}
+  - {fileID: 21300000, guid: cf83d10d13a3edb4f9f644e45c7e07b3, type: 3}
 --- !u!114 &693392299
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15782,7 +15792,7 @@ GameObject:
   - component: {fileID: 772446736}
   - component: {fileID: 772446735}
   m_Layer: 5
-  m_Name: CharacterClassIconImage
+  m_Name: ClaasIcon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -17178,7 +17188,7 @@ GameObject:
   - component: {fileID: 837913356}
   - component: {fileID: 837913355}
   m_Layer: 5
-  m_Name: CharacterClassBackgroundImage
+  m_Name: ClaasIconCIrcle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -23327,7 +23337,7 @@ GameObject:
   - component: {fileID: 1115602057}
   - component: {fileID: 1115602056}
   m_Layer: 5
-  m_Name: CharacterClassBackgroundImage
+  m_Name: ClaasIconCIrcle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -32782,7 +32792,12 @@ MonoBehaviour:
   levelText: {fileID: 1254565343}
   characterButton: {fileID: 1501097235}
   characterData: {fileID: 11400000, guid: b2b81c36db1a8e54ea99f22c0ce7f76f, type: 2}
-  classIconSprites: []
+  classIconSprites:
+  - {fileID: 21300000, guid: 23d92ba5fa0a921468db16216c05ced8, type: 3}
+  - {fileID: 21300000, guid: 72ecca62ca5a467418f049d7d645c9ea, type: 3}
+  - {fileID: 21300000, guid: db26bb630ee3004479b3d76ca8dbb96b, type: 3}
+  - {fileID: 21300000, guid: b395a27d9e54fe44c85b6155c9d908eb, type: 3}
+  - {fileID: 21300000, guid: cf83d10d13a3edb4f9f644e45c7e07b3, type: 3}
 --- !u!1 &1507698287
 GameObject:
   m_ObjectHideFlags: 0
@@ -37837,7 +37852,7 @@ GameObject:
   - component: {fileID: 1777807506}
   - component: {fileID: 1777807505}
   m_Layer: 5
-  m_Name: CharacterClassIconImage
+  m_Name: ClaasIcon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
