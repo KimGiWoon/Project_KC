@@ -33,11 +33,13 @@ namespace CJH
         private static int gambleCount = 0;
 
         [Header("유물 선택 UI")]
-        public GameObject relicSelectionPanel; // 유물 선택 화면 전체 패널
         [SerializeField] private GameObject relicChoiceButtonPrefab;
         [SerializeField] private Transform relicChoiceContainer;
         public GameObject closeButton;
 
+
+        public GameObject failedPanel;
+        public TextMeshProUGUI failedText;
 
         private Dictionary<EncounterType, List<string>> ButtonColors = new Dictionary<EncounterType, List<string>>();
 
@@ -129,33 +131,7 @@ namespace CJH
                 }
 
                 var button = buttonObj.GetComponent<Button>();
-                int requiredMoney = 0;
-
-                // 돈이 필요한 EncounterType인지, 그리고 몇 번째 선택지인지 확인
-                if ((data.Type == EncounterType.MoneySpend ||
-                     data.Type == EncounterType.MoneyFight) && choiceIndex == 0)
-                {
-                    // ResultMoney: 데이터 시트에 정의된 필요 엽전
-                    requiredMoney = data.ResultMoney;
-                }
-                else if (data.Type == EncounterType.Gamb && choiceIndex == 0)
-                {
-                    requiredMoney = 500;
-                }
-
-                // 돈이 필요한 선택지일 경우, 현재 엽전과 비교
-                if (requiredMoney > 0)
-                {
-                    // GameManager에서 현재 엽전 가져오기
-                    int currentMoney = GameManager.Instance.Coin.yeopjeon;
-
-                    if (currentMoney < requiredMoney)
-                    {
-                        // 가진 돈이 부족하면 버튼 비활성화
-                        button.interactable = false;
-
-                    }
-                }
+               
                 button.onClick.AddListener(() => OnChoiceSelected(data, choiceIndex));
             }
 
@@ -164,6 +140,35 @@ namespace CJH
 
         private void OnChoiceSelected(EncounterTable data, int choiceIndex)
         {
+            int requiredMoney = 0;
+
+            if (data.Type == EncounterType.MoneySpend && choiceIndex == 0)
+            {
+                requiredMoney = 500;
+            }
+            // 갬블의 첫 번째 선택지
+            else if (data.Type == EncounterType.Gamb && choiceIndex == 0)
+            {
+                requiredMoney = 500;
+            }
+            else if(data.Type == EncounterType.MoneyFight && choiceIndex == 0)
+            {
+                requiredMoney = 200;
+            }
+
+            // 돈이 필요한데 현재 가진 돈이 부족한 경우
+            if (requiredMoney > 0 && GameManager.Instance.Coin.yeopjeon < requiredMoney)
+            {
+                // 참고 이미지와 같이 "한도 초과" 메시지를 띄웁니다.
+                if (failedPanel != null && failedText != null)
+                {
+                    failedText.text = "셰프님...? 한도 초과라고 하네요...?";
+                    failedPanel.SetActive(true);
+
+                }
+                return; // 엽전이 부족하므로 아래 로직을 실행하지 않고 함수를 종료
+            }
+
             var resultType = ChoiceResultType.None;
             int resultMoney = data.ResultMoney;
             //todo 추후 잃거나 얻는 유물의 수가 1개 초과가 되면 수정 필요
@@ -249,7 +254,7 @@ namespace CJH
                     }
                     break;
                 case EncounterType.RelicSel:
-                    resultType = ChoiceResultType.RelicSel; // 선택형 유물 분기로
+                    resultType = ChoiceResultType.RelicSel;
                     break;
 
                 case EncounterType.Luck:
@@ -526,9 +531,15 @@ namespace CJH
                     // 기본 텍스트와 유물 정보 텍스트를 합칩니다.
                     finalResultText = $"{baseText}\n{relicInfoLine}";
                 }
-                else if (choiceIndex >= 0 && choiceIndex < data.EncounterExitText.Count)
+                else if (data.Type == EncounterType.RelicSel || (choiceIndex >= 0 && choiceIndex < data.EncounterExitText.Count))
                 {
-                    string baseResultText = data.EncounterExitText[choiceIndex].Replace("\\n", "\n");
+                    // RelicSel 타입은 모든 선택지의 결과 텍스트가 동일하므로, 
+                    // choiceIndex 대신 항상 0번 인덱스를 사용하여 데이터가 1개만 있어도 에러가 나지 않도록 합니다.
+                    string textToShow = (data.Type == EncounterType.RelicSel && data.EncounterExitText.Count > 0) ?
+                        data.EncounterExitText[0] :
+                        data.EncounterExitText[choiceIndex];
+
+                    string baseResultText = textToShow.Replace("\\n", "\n");
 
                     if (!string.IsNullOrEmpty(specificRelicName))
                     {
