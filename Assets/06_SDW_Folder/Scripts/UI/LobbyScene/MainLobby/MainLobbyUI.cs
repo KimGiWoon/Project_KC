@@ -120,10 +120,15 @@ namespace SDW
                 break;
             }
 
-            //todo 추후 선택지도 DB에 저장하면 Load해서 설정, 초기 HSR로 설정
-            _curerntChaImage.sprite = _memoryImageList[0].sprite;
-            _videoPlayer.clip = _gameManager.Video.VideoDictionary[VideoClipName.VideoHSR].Video;
-            _gameManager.Audio.PlayBGM(AudioClipName.MemoryHSR);
+            int index = 0;
+            if (!PlayerPrefs.HasKey("LobbyMedia"))
+                PlayerPrefs.SetInt("LobbyMedia", index);
+            else
+                index = PlayerPrefs.GetInt("LobbyMedia");
+
+            _curerntChaImage.sprite = _memoryImageList[index].sprite;
+            _videoPlayer.clip = _gameManager.Video.VideoDictionary[(VideoClipName)index].Video;
+            _gameManager.Audio.PlayBGM((AudioClipName)index);
         }
 
         public override void Open()
@@ -207,12 +212,14 @@ namespace SDW
             //todo 기본적으로 index로 적용하면 되지만 현재는 4번까지만 나왔으므로
             if (index < 4)
             {
+                PlayerPrefs.SetInt("LobbyMedia", index);
                 _curerntChaImage.sprite = _memoryImageList[index].sprite;
                 _videoPlayer.clip = _gameManager.Video.VideoDictionary[(VideoClipName)index].Video;
                 _gameManager.Audio.PlayBGM((AudioClipName)index);
             }
             else
             {
+                PlayerPrefs.SetInt("LobbyMedia", 3);
                 _curerntChaImage.sprite = _memoryImageList[index].sprite;
                 _videoPlayer.clip = _gameManager.Video.VideoDictionary[(VideoClipName)3].Video;
                 _gameManager.Audio.PlayBGM((AudioClipName)3);

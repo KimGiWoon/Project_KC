@@ -89,11 +89,6 @@ namespace SDW
             }
         }
 
-        protected override void Start()
-        {
-            base.Start();
-        }
-
         private IEnumerator LoadCoroutine()
         {
             while (true)

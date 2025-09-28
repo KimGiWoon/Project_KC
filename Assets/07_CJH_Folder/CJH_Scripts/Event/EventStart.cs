@@ -37,23 +37,18 @@ namespace CJH
         [SerializeField] private Transform relicChoiceContainer;
         public GameObject closeButton;
 
-
         public GameObject failedPanel;
-        public TextMeshProUGUI failedText;
 
         private Dictionary<EncounterType, List<string>> ButtonColors = new Dictionary<EncounterType, List<string>>();
 
-        void Awake()
+        private void Awake()
         {
             ButtonColors.Add(EncounterType.MoneySpend, new List<string> { "#8FDDFF", "#FF8F8F" });
             ButtonColors.Add(EncounterType.RelicSpent, new List<string> { "#8FDDFF", "#FF8F8F" });
             ButtonColors.Add(EncounterType.FightSel, new List<string> { "#8FDDFF", "#FF8F8F" });
             ButtonColors.Add(EncounterType.MoneyFight, new List<string> { "#8FDDFF", "#FF8F8F" });
             ButtonColors.Add(EncounterType.Gamb, new List<string> { "#8FDDFF", "#FF8F8F" });
-
-
         }
-
 
         public void Initialize(EncounterTable data, EventManager eventManager)
         {
@@ -105,12 +100,12 @@ namespace CJH
                 if (buttonImage != null && ButtonColors.ContainsKey(data.Type))
                 {
                     // 여기도 data.EncounterID를 data.Type으로 변경
-                    List<string> colors = ButtonColors[data.Type];
+                    var colors = ButtonColors[data.Type];
 
                     if (choiceIndex < colors.Count)
                     {
                         string colorHex = colors[choiceIndex];
-                        if (!string.IsNullOrEmpty(colorHex) && ColorUtility.TryParseHtmlString(colorHex, out Color newColor))
+                        if (!string.IsNullOrEmpty(colorHex) && ColorUtility.TryParseHtmlString(colorHex, out var newColor))
                         {
                             buttonImage.color = newColor;
                         }
@@ -131,7 +126,7 @@ namespace CJH
                 }
 
                 var button = buttonObj.GetComponent<Button>();
-               
+
                 button.onClick.AddListener(() => OnChoiceSelected(data, choiceIndex));
             }
 
@@ -151,7 +146,7 @@ namespace CJH
             {
                 requiredMoney = 500;
             }
-            else if(data.Type == EncounterType.MoneyFight && choiceIndex == 0)
+            else if (data.Type == EncounterType.MoneyFight && choiceIndex == 0)
             {
                 requiredMoney = 200;
             }
@@ -160,11 +155,9 @@ namespace CJH
             if (requiredMoney > 0 && GameManager.Instance.Coin.yeopjeon < requiredMoney)
             {
                 // 참고 이미지와 같이 "한도 초과" 메시지를 띄웁니다.
-                if (failedPanel != null && failedText != null)
+                if (failedPanel != null)
                 {
-                    failedText.text = "셰프님...? 한도 초과라고 하네요...?";
                     failedPanel.SetActive(true);
-
                 }
                 return; // 엽전이 부족하므로 아래 로직을 실행하지 않고 함수를 종료
             }
@@ -374,7 +367,6 @@ namespace CJH
                     {
                         specificRelicName = gainedRelic.relicName;
                         Debug.Log($"획득한 유물: {gainedRelic.relicName}");
-
                     }
                     break;
 
@@ -439,9 +431,9 @@ namespace CJH
 
                 case ChoiceResultType.RelicSel:
                     var acquirableRelics = _eventManager.allRelicsDatabase
-                            .Where(relic => !GameManager.Instance.InGameItem.HasRelic(relic))
-                            .OrderBy(x => Random.value)
-                            .ToList();
+                        .Where(relic => !GameManager.Instance.InGameItem.HasRelic(relic))
+                        .OrderBy(x => Random.value)
+                        .ToList();
 
                     if (acquirableRelics.Any())
                     {
@@ -462,7 +454,7 @@ namespace CJH
                     Debug.Log($"{numberOfRelicsToGain}개의 유물을 획득합니다.");
 
                     // 획득한 유물들의 이름을 저장할 리스트를 생성합니다.
-                    List<string> gainedRelicNames = new List<string>();
+                    var gainedRelicNames = new List<string>();
 
                     // 정해진 숫자만큼 유물 획득을 반복합니다.
                     for (int i = 0; i < numberOfRelicsToGain; i++)
@@ -503,7 +495,7 @@ namespace CJH
                 // 텍스트 색상 지정
                 if (data.Sentiment == EncounterSentiment.Good)
                 {
-                    if (ColorUtility.TryParseHtmlString("#8FDDFF", out Color goodColor))
+                    if (ColorUtility.TryParseHtmlString("#8FDDFF", out var goodColor))
                     {
                         resultText.color = goodColor;
                     }
@@ -531,11 +523,11 @@ namespace CJH
                     // 기본 텍스트와 유물 정보 텍스트를 합칩니다.
                     finalResultText = $"{baseText}\n{relicInfoLine}";
                 }
-                else if (data.Type == EncounterType.RelicSel || (choiceIndex >= 0 && choiceIndex < data.EncounterExitText.Count))
+                else if (data.Type == EncounterType.RelicSel || choiceIndex >= 0 && choiceIndex < data.EncounterExitText.Count)
                 {
                     // RelicSel 타입은 모든 선택지의 결과 텍스트가 동일하므로, 
                     // choiceIndex 대신 항상 0번 인덱스를 사용하여 데이터가 1개만 있어도 에러가 나지 않도록 합니다.
-                    string textToShow = (data.Type == EncounterType.RelicSel && data.EncounterExitText.Count > 0) ?
+                    string textToShow = data.Type == EncounterType.RelicSel && data.EncounterExitText.Count > 0 ?
                         data.EncounterExitText[0] :
                         data.EncounterExitText[choiceIndex];
 

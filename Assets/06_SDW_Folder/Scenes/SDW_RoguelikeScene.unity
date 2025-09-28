@@ -10356,9 +10356,9 @@ MonoBehaviour:
   characterImage: {fileID: 1426535411}
   levelText: {fileID: 246496535}
   characterButton: {fileID: 443353045}
+  classIconImage: {fileID: 1777807505}
   _isPartyUI: 1
   characterData: {fileID: 11400000, guid: 103b7f3043d88a9429d25209c9d1f182, type: 2}
-  classIconImage: {fileID: 1777807505}
 --- !u!1 &445154301
 GameObject:
   m_ObjectHideFlags: 0
@@ -16238,9 +16238,9 @@ MonoBehaviour:
   characterImage: {fileID: 1660226031}
   levelText: {fileID: 1431835982}
   characterButton: {fileID: 693392299}
+  classIconImage: {fileID: 772446735}
   _isPartyUI: 1
   characterData: {fileID: 11400000, guid: 0977072b4d0ff2c4bb1c250d908f0ba6, type: 2}
-  classIconImage: {fileID: 772446735}
 --- !u!114 &693392299
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -35231,7 +35231,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 20
+  m_SortingOrder: 30
   m_TargetDisplay: 0
 --- !u!1 &1460408245
 GameObject:
@@ -35906,9 +35906,9 @@ MonoBehaviour:
   characterImage: {fileID: 2010334801}
   levelText: {fileID: 1254565343}
   characterButton: {fileID: 1501097235}
+  classIconImage: {fileID: 639145347}
   _isPartyUI: 1
   characterData: {fileID: 11400000, guid: b2b81c36db1a8e54ea99f22c0ce7f76f, type: 2}
-  classIconImage: {fileID: 639145347}
 --- !u!1 &1507698287
 GameObject:
   m_ObjectHideFlags: 0
@@ -36625,7 +36625,6 @@ MonoBehaviour:
   - {fileID: 1310320960}
   - {fileID: 1259133390}
   - {fileID: 1272144704}
-  _storeButton: {fileID: 1518380863}
   _resetButton: {fileID: 1607464652}
   _buyButton: {fileID: 204480630}
   _mainPanelRect: {fileID: 507581696}
