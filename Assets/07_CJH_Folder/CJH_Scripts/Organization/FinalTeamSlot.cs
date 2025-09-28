@@ -9,12 +9,12 @@ public class FinalTeamSlot : MonoBehaviour
     public Image characterImage;
     public TextMeshProUGUI levelText;
     public Button characterButton;
+    public Image classIconImage;
     [SerializeField] private bool _isPartyUI;
 
     public CharacterDataSO characterData;
     private TeamFormationManager manager;
     private TextMeshProUGUI orderNumberText;
-    [SerializeField] private Image classIconImage;
 
     private void Awake()
     {
@@ -39,14 +39,14 @@ public class FinalTeamSlot : MonoBehaviour
         if (characterButton) characterButton.onClick.AddListener(OnClick);
     }
 
-    public void DisplayCharacter(CharacterDataSO data, int index)
+    public void DisplayCharacter(CharacterDataSO data, int index, bool canInteractable)
     {
         characterData = data;
 
         characterInfoGroup.SetActive(true);
         characterImage.sprite = data._characterSprite;
         levelText.text = GameManager.Instance.CharacterData.CharEnNameLevel[data._chaBaseData.ChaEnName].ToString();
-        characterButton.interactable = true;
+        characterButton.interactable = canInteractable;
         classIconImage.sprite = data.roleIcon;
         classIconImage.gameObject.SetActive(true);
     }
@@ -57,7 +57,6 @@ public class FinalTeamSlot : MonoBehaviour
         characterInfoGroup.SetActive(false);
 
         if (orderNumberText != null) orderNumberText.gameObject.SetActive(false);
-        if (classIconImage != null) classIconImage.gameObject.SetActive(false);
     }
 
     private void OnClick()

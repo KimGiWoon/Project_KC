@@ -141,7 +141,6 @@ namespace JJY
         {
             int getYeopjeon = MapView.Instance._eventManager.CombatRewardAmount;
 
-            yeopjeon += value;
             bonus = MapView.Instance._eventManager.IsCombatRewardYeopjeon == true ?
                 Mathf.RoundToInt(value * (1f + _yeopjeonBonus / getYeopjeon))
                 : Mathf.RoundToInt(value * (1f + _yeopjeonBonus / 100f));

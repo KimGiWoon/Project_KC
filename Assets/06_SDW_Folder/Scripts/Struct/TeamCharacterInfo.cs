@@ -8,5 +8,6 @@ namespace SDW
         public Sprite Sprite;
         public string LevelText;
         public CharacterDataSO Data;
+        public Sprite RoleSprite;
     }
 }
