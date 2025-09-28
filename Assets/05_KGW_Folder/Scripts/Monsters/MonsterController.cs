@@ -25,6 +25,7 @@ public class MonsterController : UnitBaseData
     public bool _isDetect;
     public bool _isFirst;
     public bool _isApplyPassive;
+    private bool _isFirstAttack;
     private float _skill1Timer;
     private float _skill2Timer;
     private float _breakCount;
@@ -121,6 +122,7 @@ public class MonsterController : UnitBaseData
 
         _moveDir = Vector3.left;
         _isAlive = true;
+        _isFirstAttack = true;
         _isApplyPassive = false;
         _skill1Timer = 0f;
         _skill2Timer = 0f;
@@ -224,30 +226,36 @@ public class MonsterController : UnitBaseData
             // 공격 대상의 거리가 몬스터의 공격 사거리에 들어오면 타겟 공격
             if (attackDistance <= attackSpareDistance && _attackCoolTimer <= 0f)
             {
-                // 공격 애니메이션
-                _monAnimatior.Play(Attack_Hash);
-
-                // 캐릭터가 살아있으면 공격
-                if (_attackTarget != null && _attackTarget._isAlive)
+                if (_attackCoolTimer <= 0f || _isFirstAttack)
                 {
-                    // 몬스터의 데미지로 캐릭터에 주기
-                    _attackTarget.TakeDamage(_monsterState._monAttack, _monsterState._monAccuracy);
+                    // 공격 애니메이션
+                    _monAnimatior.Play(Attack_Hash);
 
-                    _isAttack = true;
-
-                    if (_attackTarget != null)
+                    // 캐릭터가 살아있으면 공격
+                    if (_attackTarget != null && _attackTarget._isAlive)
                     {
-                        // 캐릭터의 공격 타겟 전환
-                        _attackTarget.AttackTargetChange(_monster);
-                    }
+                        // 몬스터의 데미지로 캐릭터에 주기
+                        _attackTarget.TakeDamage(_monsterState._monAttack, _monsterState._monAccuracy);
 
-                    // 공격 쿨타임 초기화
-                    _attackCoolTimer = _monsterState._monAtkSpeed / _gameSpeed;
+                        _isAttack = true;
+
+                        if (_attackTarget != null)
+                        {
+                            // 캐릭터의 공격 타겟 전환
+                            _attackTarget.AttackTargetChange(_monster);
+                        }
+
+                        _isFirstAttack = false;
+
+                        // 공격 쿨타임 초기화
+                        _attackCoolTimer = _monsterState._monAtkSpeed / _gameSpeed;
+                    }
                 }
             }
             else
             {
                 _isAttack = false;
+                _isFirstAttack = true;
             }
         }
     }
