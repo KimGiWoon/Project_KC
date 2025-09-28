@@ -26,6 +26,7 @@ public class MyCharacterController : UnitBaseData
 
     private Coroutine _manaRoutine;
     private float _manaChangeValue;
+    private bool _isFirstAttack;
     private MyCharacterController _character;
     private Animator _chaAnimatior;
 
@@ -111,6 +112,7 @@ public class MyCharacterController : UnitBaseData
         _characterState._isResurrection = false;
         _moveDir = Vector3.right;
         _isAlive = true;
+        _isFirstAttack = true;
 
         // 캐릭터의 저장된 데이터 불러오기
         CharacterSaveDataLoad();
@@ -205,7 +207,7 @@ public class MyCharacterController : UnitBaseData
         // 공격 대상의 거리가 캐릭터의 공격 사거리에 들어오면 타겟 공격
         if (attackDistance <= attackSpareDistance)
         {
-            if (_attackCoolTimer <= 0f)
+            if (_attackCoolTimer <= 0f || _isFirstAttack)
             {
                 OnRelicAttack?.Invoke();
                 float attackDamage = _characterState._chaAttack;
@@ -245,6 +247,7 @@ public class MyCharacterController : UnitBaseData
                 }
 
                 _isAttack = true;
+                _isFirstAttack = false;
 
                 // 공격 쿨타임 초기화
                 _attackCoolTimer = _characterState._chaAtkSpeed / _gameSpeed;
@@ -253,7 +256,7 @@ public class MyCharacterController : UnitBaseData
         else
         {
             _isAttack = false;
-
+            _isFirstAttack = true;
             // 대기 애니메이션
             //_chaAnimatior.Play(Idle_Hash);
         }
