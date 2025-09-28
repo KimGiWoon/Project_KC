@@ -95,6 +95,7 @@ public class BattleUI : BaseUI
     {
         base.Open();
         _bottomUI.SetActive(true);
+        _stageInfo.text = $"{GameManager.Instance.Chapter}챕터 - {GameManager.Instance.Stage}스테이지";
     }
 
     public override void Close()
