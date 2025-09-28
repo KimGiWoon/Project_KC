@@ -144,12 +144,12 @@ namespace SDW
             if (_uiStack.Count > 0)
             {
                 tempUI = _uiStack.Pop();
-                if (_prevUIName != UIName.ShoppingUI)
+                if (tempUI != UIName.ShoppingUI)
                     OnUICloseRequested?.Invoke(tempUI, true);
             }
 
             _uiStack.Push(UIName.ShoppingUI);
-            if (_prevUIName != UIName.ShoppingUI)
+            if (tempUI != UIName.ShoppingUI)
                 OnUIOpenRequested?.Invoke(UIName.ShoppingUI);
         }
 

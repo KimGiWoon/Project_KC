@@ -523,8 +523,18 @@ namespace SDW
         private void ConnectStageSelectUI(UIName uiName)
         {
             var stageSelectUI = _uiDic[uiName] as StageSelectUI;
+            var mainLobbyUI = _uiDic[UIName.MainLobbyUI] as MainLobbyUI;
+            var lobbySettingUI = _uiDic[UIName.LobbySettingUI] as LobbySettingUI;
+            var deleteAccountUI = _uiDic[UIName.DeleteAccountUI] as DeleteAccountUI;
+
+            lobbySettingUI.OnSignOutButtonClicked += stageSelectUI.ClearButtonInteractable;
+            deleteAccountUI.OnDeleteAcceptButtonClicked += stageSelectUI.ClearButtonInteractable;
             stageSelectUI.OnUIOpenRequested += OpenPanel;
-            stageSelectUI.OnUICloseRequested += ClosePanel;
+            stageSelectUI.OnUICloseRequested += (uiName) =>
+            {
+                mainLobbyUI.ResetMainText();
+                ClosePanel(uiName);
+            };
         }
 
         private void ConnectMainLobbyBottomUI(UIName uiName)

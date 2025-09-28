@@ -139,5 +139,10 @@ namespace SDW
             _stageRectTransform.DOAnchorPos(_targetPos, _tweenTime).SetEase(Ease.OutCubic);
             _stageNameText.text = _stageNameList[_index];
         }
+
+        public void ClearButtonInteractable()
+        {
+            _startButton.interactable = false;
+        }
     }
 }
