@@ -43,6 +43,7 @@ namespace CJH
 
         private void Awake()
         {
+            failedPanel.SetActive(false);
             ButtonColors.Add(EncounterType.MoneySpend, new List<string> { "#8FDDFF", "#FF8F8F" });
             ButtonColors.Add(EncounterType.RelicSpent, new List<string> { "#8FDDFF", "#FF8F8F" });
             ButtonColors.Add(EncounterType.FightSel, new List<string> { "#8FDDFF", "#FF8F8F" });
