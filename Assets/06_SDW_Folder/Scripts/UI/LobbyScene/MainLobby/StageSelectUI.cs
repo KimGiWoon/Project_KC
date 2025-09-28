@@ -118,8 +118,8 @@ namespace SDW
 
         private void StartButtonClicked()
         {
-            GameManager.Instance.Scene.LoadSceneAsync(SceneName.SDW_RoguelikeScene);
             OnUICloseRequested?.Invoke(UIName.MainLobbyUI);
+            GameManager.Instance.Scene.LoadSceneAsync(SceneName.SDW_RoguelikeScene);
         }
 
         private void PermanentButtonClicked()

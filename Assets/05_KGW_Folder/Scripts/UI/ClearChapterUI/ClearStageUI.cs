@@ -86,6 +86,12 @@ namespace SDW
             }
         }
 
+        public override void Close()
+        {
+            DetailUI.SetActive(false);
+            base.Close();
+        }
+
         private void ConfirmButtonClicked()
         {
             if (!MapView.Instance._eventManager.IsCombatRewardYeopjeon) GetRelic();
@@ -133,6 +139,10 @@ namespace SDW
                 GameManager.Instance._isStageClear = true;
                 // 스테이지 증가
                 GameManager.Instance.NextStage();
+                //todo 스테이지가 완료되었을 때, 초기화 필요?
+                // GameManager.Instance.InGameItem.ClearItemCounts();
+                // GameManager.Instance.InGameItem.foodInventory.Clear();
+                // GameManager.Instance.InGameItem.relicInventory.Clear();
 
                 Debug.Log($"보스 클리어 후 {GameManager.Instance.Stage} 스테이지로 이동");
 

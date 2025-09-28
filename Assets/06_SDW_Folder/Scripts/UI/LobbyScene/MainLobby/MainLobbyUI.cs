@@ -159,6 +159,7 @@ namespace SDW
 
         public override void Close()
         {
+            _videoPlayer.Stop();
             _mainLobbyTweenAnimation.moveAway();
             _backgroundVideoTweenAnimation.FadeOut();
 
