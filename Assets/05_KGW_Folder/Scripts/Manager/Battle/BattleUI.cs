@@ -49,7 +49,7 @@ public class BattleUI : BaseUI
         _isFast = false;
         _panelContainer.SetActive(false);
         _bottomUI.SetActive(false);
-        if (!GameManager.Instance._canFaster) _fastButtonX2.interactable = false;
+        if (!GameManager.Instance.CanFaster) _fastButtonX2.interactable = false;
         else _fastButtonX2.interactable = true;
 
         _fastButtonX2.onClick.AddListener(X2FastButtonClick);

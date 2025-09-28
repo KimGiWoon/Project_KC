@@ -148,7 +148,6 @@ namespace JJY
             yeopjeon += bonus;
 
             if (value >= 0) totalYeopjeon += value;
-            if (bonus >= 0) totalYeopjeon += bonus;
 
             OnYeopjeonChanged?.Invoke(yeopjeon);
             OnYeopjeonBonus?.Invoke(_yeopjeonBonus);
