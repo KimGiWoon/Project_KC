@@ -29,6 +29,7 @@ namespace SDW
         [SerializeField] private TextMeshProUGUI _passiveSkillDescriptionText;
 
         [Header("Active Skill Components")]
+        [SerializeField] private GameObject _activeContainerObject;
         [SerializeField] private Image _activeSkillImage;
         [SerializeField] private TextMeshProUGUI _activeSkillNameText;
         [SerializeField] private TextMeshProUGUI _activeSkillDescriptionText;
@@ -60,12 +61,17 @@ namespace SDW
             GameManager.Instance.CharacterBattleDataSave._chaLevel[data._chaBaseData.ChaEnName] = curlevel;
             GameManager.Instance.CharacterBattleDataSave._chaUpgrade[data._chaBaseData.ChaEnName] = curUpgradeLevel;
 
-            var levelData = GameManager.Instance.CharacterData.ChaLevelUpStatData[GameManager.Instance.CharacterBattleDataSave._chaLevel[data._chaBaseData.ChaEnName]];
-            var upgradeData = GameManager.Instance.CharacterData.ChaBeadsData[GameManager.Instance.CharacterBattleDataSave._chaUpgrade[data._chaBaseData.ChaEnName]];
+            var levelData =
+                GameManager.Instance.CharacterData.ChaLevelUpStatData[
+                    GameManager.Instance.CharacterBattleDataSave._chaLevel[data._chaBaseData.ChaEnName]];
+            var upgradeData =
+                GameManager.Instance.CharacterData.ChaBeadsData[
+                    GameManager.Instance.CharacterBattleDataSave._chaUpgrade[data._chaBaseData.ChaEnName]];
 
             _characterImage.sprite = data._characterSprite;
             _characterNameText.text = data._chaBaseData.ChaName;
-            _startValueText.text = GameManager.Instance.CharacterBattleDataSave._chaUpgrade[data._chaBaseData.ChaEnName].ToString();
+            _startValueText.text =
+                GameManager.Instance.CharacterBattleDataSave._chaUpgrade[data._chaBaseData.ChaEnName].ToString();
             _classNameText.text = data._chaBaseData.ChaRole.ToString();
             _classLevelText.text = "Lv. " + GameManager.Instance.CharacterBattleDataSave._chaLevel[data._chaBaseData.ChaEnName];
             _hpText.text = (data._chaBaseData.ChaHP * levelData.ChaHPIncrease * upgradeData.ChaHP).ToString("F0");
@@ -80,13 +86,22 @@ namespace SDW
             _passiveSkillDescriptionText.text = GetDescription(passiveSkill, characterBaseData);
 
             var activeSkill = data._chaActiveSkill;
-            if (activeSkill == null) return;
+            if (activeSkill == null)
+            {
+                _activeContainerObject.SetActive(false);
+                return;
+            }
 
-            if (activeSkill._chaSkillID == -1) return;
+            if (activeSkill._chaSkillID == -1)
+            {
+                _activeContainerObject.SetActive(false);
+                return;
+            }
 
             _activeSkillImage.sprite = data._activeSkillSprite;
             _activeSkillNameText.text = activeSkill._chaSkillName;
             _activeSkillDescriptionText.text = GetDescription(passiveSkill, characterBaseData);
+            _activeContainerObject.SetActive(true);
         }
 
         private string GetDescription(CharacterSkillDataSO skillData, CharacterBaseDataFileData characterBaseData)

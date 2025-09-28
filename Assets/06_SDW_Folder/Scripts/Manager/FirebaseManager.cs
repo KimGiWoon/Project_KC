@@ -277,10 +277,10 @@ namespace SDW
                 { "beeksRecipeBook", 0 }, //# 1000 경험치 재화
                 { "fineDiningRecipeBook", 0 }, //# 5000 경험치 재화
                 { "masterChefRecipeBook", 0 }, //# 20000 경험치 재화
-                { "point", 10 }, //# 영구 성장 포인트
+                { "point", 0 }, //# 영구 성장 포인트
                 //todo 추후 0으로 설정
-                { "starCandy", 9999999 }, //# 유료 -> 뽑기 재화
-                { "shiningStarCandy", 9999999 }, //# 유료 재화
+                { "starCandy", 0 }, //# 유료 -> 뽑기 재화
+                { "shiningStarCandy", 0 }, //# 유료 재화
                 { "totalYeopjeon", 0 } //# 총 획득 엽전 재화, 정산 시 사용
             };
 
@@ -517,8 +517,8 @@ namespace SDW
                 { "masterChefRecipeBook", 0 }, //# 20000 경험치 재화
                 //todo 추후 0으로 설정
                 { "point", 0 }, //# 영구 성장 포인트
-                { "starCandy", 9999999 }, //# 유료 -> 뽑기 재화
-                { "shiningStarCandy", 9999999 }, //# 유료 재화
+                { "starCandy", 0 }, //# 유료 -> 뽑기 재화
+                { "shiningStarCandy", 0 }, //# 유료 재화
                 { "totalYeopjeon", 0 } //# 총 획득 엽전 재화, 정산 시 사용
             };
             _coinData = coinData;
@@ -679,61 +679,6 @@ namespace SDW
             GameManager.Instance.Scene.LoadSceneAsync(SceneName.SDW_SignInScene);
         }
 
-        /// <summary>
-        /// 사용자의 Firebase 계정과 관련된 데이터를 영구적으로 삭제하고, 모든 연결을 종료
-        /// </summary>
-//         public void DeleteAccount()
-//         {
-//             if (_auth.CurrentUser == null)
-//             {
-//                 Debug.LogWarning("로그인된 사용가자 없습니다.");
-//                 return;
-//             }
-//
-//             string userId = _auth.CurrentUser.UserId;
-//
-//             _db.Child("users").Child(userId).RemoveValueAsync().ContinueWithOnMainThread(task =>
-//             {
-//                 if (task.IsFaulted)
-//                 {
-//                     Debug.LogWarning($"데이터베이스 삭제 실패: {task.Exception.Message}");
-//                     return;
-//                 }
-//
-//                 _auth.CurrentUser.DeleteAsync().ContinueWithOnMainThread(deleteTask =>
-//                 {
-//                     if (deleteTask.IsFaulted)
-//                     {
-//                         Debug.LogWarning($"Firebase 계정 삭제 실패: {deleteTask.Exception.Message}");
-//                         return;
-//                     }
-//
-//                     _coinData = null;
-//                     _characters = null;
-//                     _dailyQuest = null;
-//                     _dailyQuestProgress = null;
-//                     _etcData = null;
-//                     _growthData = null;
-//                     _userData = null;
-//
-// #if !UNITY_EDITOR
-//                     GoogleSignIn.DefaultInstance.SignOut();
-//                     GoogleSignIn.DefaultInstance.Disconnect();
-// #endif
-//
-//                     PlayerPrefs.SetInt("SignedUp", 0);
-//                     PlayerPrefs.Save();
-//
-//                     _ui.ClosePanel(UIName.MainLobbyUI);
-//                     _ui.ClosePanel(UIName.UserInfoUI);
-//
-//                     UpdateButtonIcon();
-//                     // InitializeFirebaseDependencies();
-//                     GameManager.Instance.Scene.LoadSceneAsync(SceneName.SDW_SignInScene);
-//                     ConnectToFirebase();
-//                 });
-//             });
-//         }
         public void DeleteAccount()
         {
             if (_auth.CurrentUser == null)
