@@ -46,11 +46,13 @@ namespace KSH
 
         private void Update() //테스트용
         {
+#if UNITY_EDitor
             if (Input.GetKeyDown(KeyCode.R))
             {
                 Debug.Log("R");
                 GetRelicName("행운의 영수증");
             }
+#endif
         }
 
         private void OnEnable()

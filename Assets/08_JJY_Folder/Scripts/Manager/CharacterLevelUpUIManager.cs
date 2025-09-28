@@ -535,6 +535,7 @@ namespace JJY
                     if (curLevel > 30) yield break;
 
                     GameManager.Instance.DailyQuest.CompleteQuestInLobbyScene(QuestType.CharacterLevelUp, 1);
+                    GameManager.Instance.Firebase.SetQuestState(QuestType.CharacterLevelUp, true, 1);
                 }
 
                 var newLevelData = GameManager.Instance.CharacterData.ChaLevelUpStatData[curLevel];

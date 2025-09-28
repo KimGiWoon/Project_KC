@@ -106,6 +106,7 @@ public class NonRemoveADUI : BaseUI
         _battleManager._battleUI.StartTimeCoroutine();
 
         GameManager.Instance.DailyQuest.CompleteQuestInRoguelikeScene(QuestType.Revive, 1); //퀘스트 부활 1회
+        GameManager.Instance.Firebase.SetQuestState(QuestType.Revive, true, 1);
     }
 
     private void ConfirmButtonClicked()
