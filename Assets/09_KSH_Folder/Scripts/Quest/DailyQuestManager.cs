@@ -143,7 +143,7 @@ public class DailyQuestManager : MonoBehaviour
             if (quest.questType != questType || quest.isComplete) // 이미 완료된 퀘스트는 건너뛰기
                 continue;
 
-            quest.currentProgress += amount; //해당 퀘스트의 진행도 추가
+            quest.currentProgress = amount; //해당 퀘스트의 진행도 추가
 
             // if(questUIList != null)
             questUIList[i].UpdateCountText(quest); //업데이트 UI

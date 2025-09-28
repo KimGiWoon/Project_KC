@@ -139,8 +139,8 @@ namespace JJY
                     ApplyEffectEntry(effect);
                     int usedCookCount = GameManager.Instance.InGameItem.UsedCookCount;
 
-                    // GameManager.Instance.DailyQuest.CompleteQuestInRoguelikeScene(QuestType.UseFood,
-                    // usedCookCount); //음식 먹을 때 퀘스트 클리어
+                    GameManager.Instance.DailyQuest.CompleteQuestInRoguelikeScene(QuestType.UseFood,
+                        usedCookCount); //음식 먹을 때 퀘스트 클리어
                 }
                 GameManager.Instance.InGameItem.IncreaseCookCount();
             }
@@ -313,7 +313,6 @@ namespace JJY
             //     if (logActions) Debug.Log("TODO : UI 이벤트 연결");
             // }
             OnUseGroggyItem?.Invoke(e.value);
-
         }
 
         // Barrier 생성 (모든 아군)

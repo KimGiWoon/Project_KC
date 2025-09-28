@@ -133,12 +133,25 @@ public class TeamFormationManager : MonoBehaviour
 
     private void UpdateAllVisuals()
     {
-        foreach (var slot in selectableSlots)
+        for (int i = 0; i < selectableSlots.Count; i++)
         {
-            slot.UpdateSelectionVisual(_charData.SelectedTeam.Contains(slot.GetCharacterData()));
-        }
+            bool isSelected = _charData.SelectedTeam.Contains(selectableSlots[i].GetCharacterData());
 
-        UpdateFinalTeamPanel(finalTeamSlots);
+            UpdateFinalTeamPanel(finalTeamSlots);
+
+            if (isSelected)
+            {
+                for (int j = 0; j < finalTeamSlots.Count; j++)
+                {
+                    if (finalTeamSlots[j].GetCharacterData() != selectableSlots[i].GetCharacterData()) continue;
+                    selectableSlots[i].UpdateSelectionVisual(isSelected, j + 1);
+                }
+            }
+            else
+            {
+                selectableSlots[i].UpdateSelectionVisual(isSelected, 0);
+            }
+        }
     }
 
     // 하단 패널 한 개를 업데이트하는 전용 함수

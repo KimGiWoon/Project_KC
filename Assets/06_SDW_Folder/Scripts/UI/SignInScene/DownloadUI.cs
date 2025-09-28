@@ -129,7 +129,7 @@ namespace SDW
                 yield return new WaitForSeconds(0.1f);
                 GameManager.Instance.SetCompleteDownload(true);
                 GameManagerEvents.RaiseDownloadCompleted();
-                yield return new WaitForSeconds(1.5f);
+                yield return new WaitForSeconds(3.0f);
                 //# 다운로드 완료 시 다음 UI로
                 // OnUIOpenRequested?.Invoke(UIName.SignInUI);
                 // yield return null;
@@ -261,7 +261,7 @@ namespace SDW
             yield return new WaitForSeconds(0.1f);
             GameManager.Instance.SetCompleteDownload(true);
             GameManagerEvents.RaiseDownloadCompleted();
-            yield return new WaitForSeconds(1.5f);
+            yield return new WaitForSeconds(3.0f);
             OnUICloseRequested?.Invoke(UIName.DownloadUI);
         }
 

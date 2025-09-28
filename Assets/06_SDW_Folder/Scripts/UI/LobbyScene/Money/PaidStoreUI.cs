@@ -34,6 +34,11 @@ namespace SDW
             _panelContainer.SetActive(false);
             _rectTransform = _panelContainer.GetComponent<RectTransform>();
             _backgroundPanel.gameObject.SetActive(false);
+
+            foreach (var itemButton in _itemButtonList)
+            {
+                itemButton.interactable = false;
+            }
         }
 
         private void OnEnable()
@@ -102,6 +107,7 @@ namespace SDW
 
         private void ItemButtonClicked(int buttonIdId)
         {
+            //todo IAP 구현 이후 사용
             OnItemSelected?.Invoke(_getStarList[buttonIdId], _paidPriceList[buttonIdId]);
             OnUIOpenRequested?.Invoke(UIName.NoticePaidConfirmUI);
         }

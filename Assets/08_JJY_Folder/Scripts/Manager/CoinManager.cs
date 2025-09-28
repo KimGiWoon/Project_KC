@@ -45,7 +45,9 @@ namespace JJY
         // public static CoinManager Instance { get; private set; }
         private void Awake()
         {
+#if UNITY_EDITOR
             yeopjeon = 999999;
+#endif
         }
 
         private void Start()
