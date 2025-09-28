@@ -9,6 +9,9 @@ public class SelectableCharacterSlot : MonoBehaviour
     [SerializeField] private TextMeshProUGUI levelText;
     [SerializeField] private GameObject selectionOverlay;
     [SerializeField] private Button characterButton;
+    [SerializeField] private Image _classIcon;
+    [SerializeField] private TextMeshProUGUI OrderNumberText;
+    [SerializeField] private GameObject OrderNumberBackground;
 
     private CharacterDataSO characterData;
     private TeamFormationManager manager;
@@ -20,6 +23,7 @@ public class SelectableCharacterSlot : MonoBehaviour
 
         characterImage.sprite = data._characterSprite;
         levelText.text = "Lv." + GameManager.Instance.CharacterData.CharEnNameLevel[data._chaBaseData.ChaEnName];
+        _classIcon.sprite = data.roleIcon;
 
         if (characterButton) characterButton.onClick.AddListener(OnClick);
     }
@@ -29,13 +33,15 @@ public class SelectableCharacterSlot : MonoBehaviour
         manager.SelectCharacter(characterData);
     }
 
-    public void UpdateSelectionVisual(bool isSelected)
+    public void UpdateSelectionVisual(bool isSelected, int orderNumber)
     {
-        if (selectionOverlay) selectionOverlay.SetActive(isSelected);
+        if (selectionOverlay)
+        {
+            selectionOverlay.SetActive(isSelected);
+            OrderNumberBackground.SetActive(isSelected);
+            OrderNumberText.text = orderNumber.ToString();
+        }
     }
 
-    public CharacterDataSO GetCharacterData()
-    {
-        return characterData;
-    }
+    public CharacterDataSO GetCharacterData() => characterData;
 }

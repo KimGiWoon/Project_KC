@@ -10358,12 +10358,7 @@ MonoBehaviour:
   characterButton: {fileID: 443353045}
   _isPartyUI: 1
   characterData: {fileID: 11400000, guid: 103b7f3043d88a9429d25209c9d1f182, type: 2}
-  classIconSprites:
-  - {fileID: 21300000, guid: 23d92ba5fa0a921468db16216c05ced8, type: 3}
-  - {fileID: 21300000, guid: 72ecca62ca5a467418f049d7d645c9ea, type: 3}
-  - {fileID: 21300000, guid: db26bb630ee3004479b3d76ca8dbb96b, type: 3}
-  - {fileID: 21300000, guid: b395a27d9e54fe44c85b6155c9d908eb, type: 3}
-  - {fileID: 21300000, guid: cf83d10d13a3edb4f9f644e45c7e07b3, type: 3}
+  classIconImage: {fileID: 1777807505}
 --- !u!1 &445154301
 GameObject:
   m_ObjectHideFlags: 0
@@ -14938,7 +14933,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -16245,12 +16240,7 @@ MonoBehaviour:
   characterButton: {fileID: 693392299}
   _isPartyUI: 1
   characterData: {fileID: 11400000, guid: 0977072b4d0ff2c4bb1c250d908f0ba6, type: 2}
-  classIconSprites:
-  - {fileID: 21300000, guid: 23d92ba5fa0a921468db16216c05ced8, type: 3}
-  - {fileID: 21300000, guid: 72ecca62ca5a467418f049d7d645c9ea, type: 3}
-  - {fileID: 21300000, guid: db26bb630ee3004479b3d76ca8dbb96b, type: 3}
-  - {fileID: 21300000, guid: b395a27d9e54fe44c85b6155c9d908eb, type: 3}
-  - {fileID: 21300000, guid: cf83d10d13a3edb4f9f644e45c7e07b3, type: 3}
+  classIconImage: {fileID: 772446735}
 --- !u!114 &693392299
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17360,7 +17350,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -20567,7 +20557,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f163707ce708d34479d56d402294c1a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _mappingSo: {fileID: 11400000, guid: 4b7519b3d9bb4934a91c2ea997c0ab9d, type: 2}
+  _mappingSo: {fileID: 11400000, guid: 4bbb18cebe1f7414f96ac5c6f4a2c0c9, type: 2}
 --- !u!114 &897264368
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20580,7 +20570,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be2b34b329cf0154c81c3cc384bd432b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _mappingSo: {fileID: 11400000, guid: 0c87aece735bcf14681dffd302c3b47b, type: 2}
+  _mappingSo: {fileID: 11400000, guid: 75fed61f1d517704f88b0bb7831b1f03, type: 2}
 --- !u!4 &897264369
 Transform:
   m_ObjectHideFlags: 0
@@ -33535,7 +33525,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1386363454
 RectTransform:
   m_ObjectHideFlags: 0
@@ -35917,12 +35907,7 @@ MonoBehaviour:
   characterButton: {fileID: 1501097235}
   _isPartyUI: 1
   characterData: {fileID: 11400000, guid: b2b81c36db1a8e54ea99f22c0ce7f76f, type: 2}
-  classIconSprites:
-  - {fileID: 21300000, guid: 23d92ba5fa0a921468db16216c05ced8, type: 3}
-  - {fileID: 21300000, guid: 72ecca62ca5a467418f049d7d645c9ea, type: 3}
-  - {fileID: 21300000, guid: db26bb630ee3004479b3d76ca8dbb96b, type: 3}
-  - {fileID: 21300000, guid: b395a27d9e54fe44c85b6155c9d908eb, type: 3}
-  - {fileID: 21300000, guid: cf83d10d13a3edb4f9f644e45c7e07b3, type: 3}
+  classIconImage: {fileID: 639145347}
 --- !u!1 &1507698287
 GameObject:
   m_ObjectHideFlags: 0
@@ -41568,7 +41553,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1

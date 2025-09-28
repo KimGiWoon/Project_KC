@@ -271,6 +271,7 @@ namespace SDW
 
         public void SetSelectedTeam(List<CharacterDataSO> selectedTeam, bool updateToFirebase)
         {
+            //todo selectedTeam에 대한 SetSelected를 수행해야 함
             // 기존 팀 정보를 먼저 비웁니다.
             _selectedTeam.Clear();
 
