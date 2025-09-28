@@ -63,13 +63,14 @@ public class TeamFormationManager : MonoBehaviour
 
     public void InitPartUI()
     {
+        _selectedTeam.Clear();
         for (int i = 0; i < _charData.SelectedTeam.Count; i++)
         {
             finalTeamSlots[i].characterImage.sprite = _charData.SelectedTeam[i]._characterSprite;
             finalTeamSlots[i].characterButton.interactable = false;
             finalTeamSlots[i].levelText.text = _charData.SelectedTeam[i]._chaLv.ToString();
             finalTeamSlots[i].characterData = _charData.SelectedTeam[i];
-            finalTeamSlots[i].DisplayCharacter(_charData.SelectedTeam[i], i);
+            finalTeamSlots[i].DisplayCharacter(_charData.SelectedTeam[i], i, false);
             finalTeamSlots[i].gameObject.SetActive(true);
             _selectedTeam.Add(_charData.SelectedTeam[i]);
         }
@@ -79,13 +80,16 @@ public class TeamFormationManager : MonoBehaviour
     {
         _charData = GameManager.Instance.CharacterData;
 
+        InitPartUI();
+
         for (int i = 0; i < finalTeamSlots.Count; i++)
         {
             _prevFinalTeamSlots.Add(new TeamCharacterInfo
             {
                 Sprite = finalTeamSlots[i].characterImage.sprite,
                 LevelText = finalTeamSlots[i].levelText.text,
-                Data = finalTeamSlots[i].characterData
+                Data = finalTeamSlots[i].characterData,
+                RoleSprite = finalTeamSlots[i].classIconImage.sprite
             });
         }
 
@@ -163,7 +167,7 @@ public class TeamFormationManager : MonoBehaviour
             if (i < _charData.SelectedTeam.Count)
             {
                 // DisplayCharacter 호출 시 인덱스(i)를 함께 전달
-                slots[i].DisplayCharacter(_charData.SelectedTeam[i], i);
+                slots[i].DisplayCharacter(_charData.SelectedTeam[i], i, true);
             }
             else
             {
@@ -221,6 +225,7 @@ public class TeamFormationManager : MonoBehaviour
             finalTeamSlots[i].characterButton.interactable = false;
             finalTeamSlots[i].levelText.text = _prevFinalTeamSlots[i].LevelText;
             finalTeamSlots[i].characterData = _prevFinalTeamSlots[i].Data;
+            finalTeamSlots[i].classIconImage.sprite = _prevFinalTeamSlots[i].RoleSprite;
             finalTeamSlots[i].gameObject.SetActive(true);
 
             selectedTeam.Add(_prevFinalTeamSlots[i].Data);
