@@ -120,13 +120,6 @@ public class BattleManager : MonoBehaviour
             _isSpawned || !_isBattleStarted) return;
         //if(_isDownloaded) return;
 
-        //_isLocalBoss = ;
-        //todo BossFinal과 Boss는 구분되어야 함 - 아래 코드는 Test 코드
-        //_isLastBoss = RoguelikeManager.Instance.MonsterType == BattleEventType.Boss;
-        // _monsterList = monsterData[stageName].NormalMonsters;
-        // _eliteList = monsterData[stageName].EliteMonsters;
-        // _bossList = monsterData[stageName].BossMonsters;
-
         _battleType = RoguelikeManager.Instance.MonsterType;
         _stageNum = GameManager.Instance.Stage;
         _chapterNum = GameManager.Instance.Chapter;
@@ -189,7 +182,21 @@ public class BattleManager : MonoBehaviour
             var characterOIL = character.GetComponentInChildren<SpriteRenderer>();
 
             // 마직막 캐릭터를 맨 앞으로 보여주기
-            characterOIL.sortingOrder = 10 + count - i;
+            switch (spawnPoint.name)
+            {
+                case "SpawnPoint_1":
+                case "ResurrectionPoint_1":
+                    characterOIL.sortingOrder = 13;
+                    break;
+                case "SpawnPoint_2":
+                case "ResurrectionPoint_2":
+                    characterOIL.sortingOrder = 12;
+                    break;
+                case "SpawnPoint_3":
+                case "ResurrectionPoint_3":
+                    characterOIL.sortingOrder = 11;
+                    break;
+            }
 
             // 생성된 캐릭터 저장
             var createCharacter = character.GetComponent<MyCharacterController>();
