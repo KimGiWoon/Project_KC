@@ -1,10 +1,11 @@
 using System;
 using System.Collections;
+using System.Data;
+using CJH;
+using SDW;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using SDW;
-using CJH;
 
 public class BattleUI : BaseUI
 {
@@ -95,7 +96,12 @@ public class BattleUI : BaseUI
     {
         base.Open();
         _bottomUI.SetActive(true);
-        _stageInfo.text = $"{GameManager.Instance.Chapter}챕터 - {GameManager.Instance.Stage}스테이지";
+
+        // 스테이지 UI 텍스트 출력
+        string dataKey = $"{GameManager.Instance.Chapter}-{GameManager.Instance.Stage}";
+        var stageUIData = GameManager.Instance.BattleMonster.BattleStageUIDataTable[dataKey];
+
+        _stageInfo.text = $"{stageUIData.StageName}";
     }
 
     public override void Close()
