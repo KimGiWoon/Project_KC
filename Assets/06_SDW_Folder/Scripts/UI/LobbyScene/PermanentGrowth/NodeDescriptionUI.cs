@@ -99,6 +99,7 @@ namespace SDW
 
             _nodeTitle.text = growthNode.GetNodeName();
             _descriptionText.text = growthNode.GetDescription();
+            _descriptionText.text = growthNode.GetDescription().Replace("\\n", "");
             _pointText.text = growthNode.GetCurrency().ToString();
             _needPoint = growthNode.GetCurrency();
             _nodeId = growthNode.GetNodeId();
