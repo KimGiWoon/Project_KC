@@ -3,7 +3,6 @@ using UnityEngine;
 
 // 몬스터 스킬 데이터 저장
 [CreateAssetMenu(fileName = "MonsterSkillData", menuName = "Monsters/MonsterSkillData")]
-
 public class MonsterSkillDataSO : ScriptableObject
 {
     [Header("Monster Skill Data Setting")]
@@ -32,32 +31,32 @@ public class MonsterSkillDataSO : ScriptableObject
     {
         switch (skill._monSkillEnName)
         {
-            case MonsterSkillEnName.EerieDarkness:  // 기괴한 어둠
+            case MonsterSkillEnName.EerieDarkness: // 기괴한 어둠
                 skill.UseEerieDarkness(caster);
                 break;
-            case MonsterSkillEnName.DangerousPollen:    // 위험한 꽃가루
+            case MonsterSkillEnName.DangerousPollen: // 위험한 꽃가루
                 skill.UseDangerousPollen(caster);
                 break;
-            case MonsterSkillEnName.RockFist:    // 바위 주먹
-                skill.UseSavageSlash(caster,target);
+            case MonsterSkillEnName.RockFist: // 바위 주먹
+                skill.UseSavageSlash(caster, target);
                 break;
-            case MonsterSkillEnName.Stomp:  // 발구르기
-                skill.UseStomp(caster,target); 
+            case MonsterSkillEnName.Stomp: // 발구르기
+                skill.UseStomp(caster, target);
                 break;
             case MonsterSkillEnName.SavageRush: // 낙폭한 돌진
-                skill.UseSavageRush(caster,target);
+                skill.UseSavageRush(caster, target);
                 break;
-            case MonsterSkillEnName.Swing:  // 휘두르기
-                skill.UseSwing(caster,target);
+            case MonsterSkillEnName.Swing: // 휘두르기
+                skill.UseSwing(caster, target);
                 break;
-            case MonsterSkillEnName.Roar:   // 포효
-                skill.UseRoar(caster,target);
+            case MonsterSkillEnName.Roar: // 포효
+                skill.UseRoar(caster, target);
                 break;
             case MonsterSkillEnName.BrutalSlash: // 난폭한 베기
-                skill.UseBrutalSlash(caster,target);
+                skill.UseBrutalSlash(caster, target);
                 break;
-            case MonsterSkillEnName.MonkeyBlade1:   // 원숭이 검술 1식
-                skill.UseMonkeyBlade1(caster,target);
+            case MonsterSkillEnName.MonkeyBlade1: // 원숭이 검술 1식
+                skill.UseMonkeyBlade1(caster, target);
                 break;
             default:
                 Debug.Log("스킬이 없습니다.");
@@ -88,12 +87,13 @@ public class MonsterSkillDataSO : ScriptableObject
     }
 
     #region 몬스터의 액티브 스킬
+
     // 기괴한 어둠 액티브 스킬
     public void UseEerieDarkness(MonsterController caster)
     {
-        Debug.Log($"{caster._monsterState._monEnName} : 기괴한 어둠 액티브 발동");
-        GameObject eerieDarkness = Instantiate(_monSkillPrefab, caster.transform.position, caster.transform.rotation);
-        EerieDarknessController skillCon = eerieDarkness.GetComponent<EerieDarknessController>();
+        // Debug.Log($"{caster._monsterState._monEnName} : 기괴한 어둠 액티브 발동");
+        var eerieDarkness = Instantiate(_monSkillPrefab, caster.transform.position, caster.transform.rotation);
+        var skillCon = eerieDarkness.GetComponent<EerieDarknessController>();
 
         skillCon.Init(caster, _monEffectValue, _monSkillDuration);
     }
@@ -101,9 +101,9 @@ public class MonsterSkillDataSO : ScriptableObject
     // 위험한 꽃가루 액티브 스킬
     public void UseDangerousPollen(MonsterController caster)
     {
-        Debug.Log($"{caster._monsterState._monEnName} : 위험한 꽃가루 액티브 발동");
-        GameObject dangerousPollen = Instantiate(_monSkillPrefab, caster.transform.position, caster.transform.rotation);
-        DangerousPollenController skillCon = dangerousPollen.GetComponent<DangerousPollenController>();
+        // Debug.Log($"{caster._monsterState._monEnName} : 위험한 꽃가루 액티브 발동");
+        var dangerousPollen = Instantiate(_monSkillPrefab, caster.transform.position, caster.transform.rotation);
+        var skillCon = dangerousPollen.GetComponent<DangerousPollenController>();
 
         skillCon.Init(caster, _monSkillValue, _monSkillDuration);
     }
@@ -111,9 +111,9 @@ public class MonsterSkillDataSO : ScriptableObject
     // 바위 주먹 액티브 스킬
     public void UseSavageSlash(MonsterController caster, MyCharacterController target)
     {
-        Debug.Log($"{caster._monsterState._monEnName} : 바위 주먹 액티브 발동");
-        GameObject rockFist = Instantiate(_monSkillPrefab, caster.transform.position, caster.transform.rotation);
-        RockFistController skillCon = rockFist.GetComponent<RockFistController>();
+        // Debug.Log($"{caster._monsterState._monEnName} : 바위 주먹 액티브 발동");
+        var rockFist = Instantiate(_monSkillPrefab, caster.transform.position, caster.transform.rotation);
+        var skillCon = rockFist.GetComponent<RockFistController>();
 
         skillCon.Init(caster, target, _monSkillHit, _monSkillValue, _monSkillTick);
     }
@@ -121,9 +121,9 @@ public class MonsterSkillDataSO : ScriptableObject
     // 발구르기 액티브 스킬
     public void UseStomp(MonsterController caster, MyCharacterController target)
     {
-        Debug.Log($"{caster._monsterState._monEnName} : 발구르기 액티브 발동");
-        GameObject stomp = Instantiate(_monSkillPrefab, caster.transform.position, caster.transform.rotation);
-        StompController skillCon = stomp.GetComponent<StompController>();
+        // Debug.Log($"{caster._monsterState._monEnName} : 발구르기 액티브 발동");
+        var stomp = Instantiate(_monSkillPrefab, caster.transform.position, caster.transform.rotation);
+        var skillCon = stomp.GetComponent<StompController>();
 
         skillCon.Init(caster, target, _monSkillValue);
     }
@@ -131,9 +131,9 @@ public class MonsterSkillDataSO : ScriptableObject
     // 난폭한 돌진 액티브 스킬
     public void UseSavageRush(MonsterController caster, MyCharacterController target)
     {
-        Debug.Log($"{caster._monsterState._monEnName} : 난폭한 돌진 액티브 발동");
-        GameObject savageRush = Instantiate(_monSkillPrefab, caster.transform.position, caster.transform.rotation);
-        SavageRushController skillCon = savageRush.GetComponent<SavageRushController>();
+        // Debug.Log($"{caster._monsterState._monEnName} : 난폭한 돌진 액티브 발동");
+        var savageRush = Instantiate(_monSkillPrefab, caster.transform.position, caster.transform.rotation);
+        var skillCon = savageRush.GetComponent<SavageRushController>();
 
         skillCon.Init(caster, target, _monSkillValue);
     }
@@ -141,9 +141,9 @@ public class MonsterSkillDataSO : ScriptableObject
     // 휘두르기 액티브 스킬
     public void UseSwing(MonsterController caster, MyCharacterController target)
     {
-        Debug.Log($"{caster._monsterState._monEnName} : 휘두르기 액티브 발동");
-        GameObject swing = Instantiate(_monSkillPrefab, caster.transform.position, caster.transform.rotation);
-        SwingController skillCon = swing.GetComponent<SwingController>();
+        // Debug.Log($"{caster._monsterState._monEnName} : 휘두르기 액티브 발동");
+        var swing = Instantiate(_monSkillPrefab, caster.transform.position, caster.transform.rotation);
+        var skillCon = swing.GetComponent<SwingController>();
 
         skillCon.Init(caster, target, _monSkillValue);
     }
@@ -151,9 +151,9 @@ public class MonsterSkillDataSO : ScriptableObject
     // 포효 액티브 스킬
     public void UseRoar(MonsterController caster, MyCharacterController target)
     {
-        Debug.Log($"{caster._monsterState._monEnName} : 포효 액티브 발동");
-        GameObject roar = Instantiate(_monSkillPrefab, caster.transform.position, caster.transform.rotation);
-        RoarController skillCon = roar.GetComponent<RoarController>();
+        // Debug.Log($"{caster._monsterState._monEnName} : 포효 액티브 발동");
+        var roar = Instantiate(_monSkillPrefab, caster.transform.position, caster.transform.rotation);
+        var skillCon = roar.GetComponent<RoarController>();
 
         skillCon.Init(caster, target, _monSkillDuration, _monSkillValue, _monEffectValue);
     }
@@ -161,9 +161,9 @@ public class MonsterSkillDataSO : ScriptableObject
     // 난폭한 베기 액티브 스킬
     public void UseBrutalSlash(MonsterController caster, MyCharacterController target)
     {
-        Debug.Log($"{caster._monsterState._monEnName} : 난폭한 베기 액티브 발동");
-        GameObject brutalSlash = Instantiate(_monSkillPrefab, caster.transform.position, caster.transform.rotation);
-        BrutalSlashController skillCon = brutalSlash.GetComponent<BrutalSlashController>();
+        // Debug.Log($"{caster._monsterState._monEnName} : 난폭한 베기 액티브 발동");
+        var brutalSlash = Instantiate(_monSkillPrefab, caster.transform.position, caster.transform.rotation);
+        var skillCon = brutalSlash.GetComponent<BrutalSlashController>();
 
         skillCon.Init(caster, target, _monSkillHit, _monSkillValue, _monSkillTick);
     }
@@ -171,11 +171,12 @@ public class MonsterSkillDataSO : ScriptableObject
     // 원숭이 검술 1식 액티브 스킬
     public void UseMonkeyBlade1(MonsterController caster, MyCharacterController target)
     {
-        Debug.Log($"{caster._monsterState._monEnName} : 원숭이 검술 1식 액티브 발동");
-        GameObject MonkeyBlade1 = Instantiate(_monSkillPrefab, caster.transform.position, caster.transform.rotation);
-        MonkeyBlade1Controller skillCon = MonkeyBlade1.GetComponent<MonkeyBlade1Controller>();
+        // Debug.Log($"{caster._monsterState._monEnName} : 원숭이 검술 1식 액티브 발동");
+        var MonkeyBlade1 = Instantiate(_monSkillPrefab, caster.transform.position, caster.transform.rotation);
+        var skillCon = MonkeyBlade1.GetComponent<MonkeyBlade1Controller>();
 
         skillCon.Init(caster, target, _monSkillValue);
     }
+
     #endregion
 }

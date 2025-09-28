@@ -8,7 +8,7 @@ public class EffectController : MonoBehaviour
     // 이펙트 타입과 게임 오브젝트를 자동으로 연결해서 담아둘 딕셔너리
     private Dictionary<EffectType, GameObject> effectObjects = new Dictionary<EffectType, GameObject>();
 
-    void Awake()
+    private void Awake()
     {
         foreach (Transform categoryParent in transform) // Buff, Debuff, Instant 등 부모들을 순회
         {
@@ -19,12 +19,12 @@ public class EffectController : MonoBehaviour
                 {
                     effectObjects[type] = effect.gameObject;
                     effect.gameObject.SetActive(false); // 게임 시작 시 모든 이펙트 비활성화
-                    Debug.Log($"<color=green>[{transform.root.name}] 이펙트 등록 성공: {type.ToString()}</color>");
+                    // Debug.Log($"<color=green>[{transform.root.name}] 이펙트 등록 성공: {type.ToString()}</color>");
                 }
-                else
-                {
-                    Debug.LogWarning($"[{transform.root.name}] '{effect.name}'을 EffectType으로 변환 실패. 프리팹 오브젝트 이름을 확인해주세요.");
-                }
+                // else
+                // {
+                //     Debug.LogWarning($"[{transform.root.name}] '{effect.name}'을 EffectType으로 변환 실패. 프리팹 오브젝트 이름을 확인해주세요.");
+                // }
             }
         }
     }
@@ -36,9 +36,9 @@ public class EffectController : MonoBehaviour
     /// <param name="duration">지속 시간 (0이면 계속 켜짐, 0보다 크면 해당 시간 후 자동 비활성화)</param>
     public void ShowEffect(EffectType type, float duration)
     {
-        Debug.Log($"<color=yellow>[{transform.root.name}] ShowEffect 호출됨 => 타입: {type}, 지속시간: {duration}</color>");
+        // Debug.Log($"<color=yellow>[{transform.root.name}] ShowEffect 호출됨 => 타입: {type}, 지속시간: {duration}</color>");
 
-        if (effectObjects.TryGetValue(type, out GameObject effectObject))
+        if (effectObjects.TryGetValue(type, out var effectObject))
         {
             if (duration > 0)
             {
@@ -51,10 +51,10 @@ public class EffectController : MonoBehaviour
                 effectObject.SetActive(true); // Barrier처럼 계속 켜져 있어야 하는 효과
             }
         }
-        else
-        {
-            Debug.LogWarning($"[{transform.root.name}] '{type}' 타입의 이펙트가 딕셔너리에 등록되어 있지 않습니다.");
-        }
+        // else
+        // {
+        //     Debug.LogWarning($"[{transform.root.name}] '{type}' 타입의 이펙트가 딕셔너리에 등록되어 있지 않습니다.");
+        // }
     }
 
     /// <summary>
@@ -62,7 +62,7 @@ public class EffectController : MonoBehaviour
     /// </summary>
     public void HideEffect(EffectType type)
     {
-        if (effectObjects.TryGetValue(type, out GameObject effectObject))
+        if (effectObjects.TryGetValue(type, out var effectObject))
         {
             effectObject.SetActive(false);
         }
@@ -79,13 +79,13 @@ public class EffectController : MonoBehaviour
     public void PlayBrokenBarrier()
     {
         // Armor 비활성화
-        if (effectObjects.TryGetValue(EffectType.CreateBarrierForAll, out GameObject armor))
+        if (effectObjects.TryGetValue(EffectType.CreateBarrierForAll, out var armor))
         {
             armor.SetActive(false);
         }
 
         // Armor2 켜고 → 1초 유지 → 0.5초 페이드 아웃
-        if (effectObjects.TryGetValue(EffectType.BrokenBarrierForAll, out GameObject broken))
+        if (effectObjects.TryGetValue(EffectType.BrokenBarrierForAll, out var broken))
         {
             StartCoroutine(BrokenBarrierRoutine(broken));
         }
@@ -112,7 +112,7 @@ public class EffectController : MonoBehaviour
             {
                 if (r != null)
                 {
-                    Color c = r.color;
+                    var c = r.color;
                     c.a = alpha;
                     r.color = c;
                 }
@@ -121,6 +121,5 @@ public class EffectController : MonoBehaviour
         }
 
         broken.SetActive(false);
-
     }
 }

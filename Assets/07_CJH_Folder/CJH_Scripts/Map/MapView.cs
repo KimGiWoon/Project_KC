@@ -118,7 +118,7 @@ namespace CJH
 
             UpdateMapState();
             UpdateStageBackground();
-            
+
             // 스테이지 클리어 후 다음 스테이지로 이동 전 초기화
             if (GameManager.Instance._isStageClear)
             {
@@ -166,7 +166,7 @@ namespace CJH
 
         public void SelectNode(MapNode selectedNode)
         {
-            Debug.Log($"[MapView] SelectNode 실행: {selectedNode.gameObject.name} 선택됨");
+            // Debug.Log($"[MapView] SelectNode 실행: {selectedNode.gameObject.name} 선택됨");
 
             if (currentMap.Path.Contains(selectedNode.nodeData)) return;
             currentMap.Path.Add(selectedNode.nodeData);

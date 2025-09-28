@@ -167,8 +167,8 @@ public class BuffRelicManager : MonoBehaviour
         if (relic.chaAtkSpeed != 0) //공격 속도
         {
             p._characterState._chaAtkSpeed -= AddStat(p._characterState._chaAtkSpeed, relic.chaAtkSpeed);
-            // Debug.Log(
-            //     $"캐릭터 이름 {p._characterState._chaEnName},{relic.relicName}: 공격속도 +{relic.chaAtkSpeed}% → 최종 {p._characterState._chaAtkSpeed}");
+            Debug.Log(
+                $"캐릭터 이름 {p._characterState._chaEnName},{relic.relicName}: 공격속도 +{relic.chaAtkSpeed}% → 최종 {p._characterState._chaAtkSpeed}");
         }
 
         if (relic.chaHP != 0) //최대 체력
@@ -481,8 +481,12 @@ public class BuffRelicManager : MonoBehaviour
             foreach (var buffRelic in buffRelicCount)
             {
                 if (buffRelic.chaAtkSpeed != 0)
+                {
                     p._characterState._chaAtkSpeed -=
                         AddRelicCountStat(baseStates[p]._chaAtkSpeed, buffRelic.chaAtkSpeed, buffRelicCount.Count);
+                    Debug.Log(
+                        $"캐릭터 이름 {p._characterState._chaEnName}, 최종 {p._characterState._chaAtkSpeed}");
+                }
 
                 if (buffRelic.chaAttack != 0)
                 {
