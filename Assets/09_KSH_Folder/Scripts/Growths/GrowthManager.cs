@@ -77,7 +77,7 @@ public class GrowthManager : MonoBehaviour
             growthDataDic[growthData.nodeID] = growthData; //없다면 넣기
         }
 
-        Debug.Log($"{growthDataDic.Count}개의 노드를 로드");
+        // Debug.Log($"{growthDataDic.Count}개의 노드를 로드");
     }
 
     private void ConnectUIAndData() //성장 데이터와 UI 연결시켜주는 기능
@@ -163,7 +163,7 @@ public class GrowthManager : MonoBehaviour
         }
         else if (growthDatas.nodeAbilityValueMult != 0 && growthDatas.nodeAbilityValuePlus <= 0)
         {
-            stat *= growthDatas.nodeAbilityValueMult;
+            stat *= 2f - growthDatas.nodeAbilityValueMult;
         }
     }
 

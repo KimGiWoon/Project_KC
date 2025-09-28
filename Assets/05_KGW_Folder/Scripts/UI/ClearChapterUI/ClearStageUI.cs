@@ -127,6 +127,7 @@ namespace SDW
                 var relic = Instantiate(relicPrefab, content);
                 relic.SetData(relics[i], OnClickRelic, relicDetailUI);
             }
+
             currentRelicUI = null;
         }
 

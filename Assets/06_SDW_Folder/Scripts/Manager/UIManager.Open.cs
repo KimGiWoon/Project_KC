@@ -40,7 +40,7 @@ namespace SDW
             if (_prevOpenedUI == _prevClosedUI)
                 _prevClosedUI = UIName.None;
 
-            Debug.Log($"Open UI name : {uiName}");
+            // Debug.Log($"Open UI name : {uiName}");
             _uiDic[uiName].Open();
         }
 

@@ -27,7 +27,7 @@ public class StompController : MonoBehaviour
             if (!cha._isAlive) continue;
 
             cha.TakeDamage(_skillDamage, _monster._monsterState._monAccuracy);
-            Debug.Log($"{cha._characterState._chaEnName}에게 {_skillDamage}의 데미지를 주었습니다.");
+            // Debug.Log($"{cha._characterState._chaEnName}에게 {_skillDamage}의 데미지를 주었습니다.");
         }
 
         Destroy(gameObject);

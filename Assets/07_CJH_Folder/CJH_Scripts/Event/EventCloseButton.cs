@@ -18,12 +18,12 @@ public class EventCloseButton : MonoBehaviour
         if (button != null)
         {
             button.onClick.AddListener(EndEncounterViaManager);
-            Debug.Log($"'{gameObject.name}' 버튼에 닫기 기능을 연결했습니다.");
+            // Debug.Log($"'{gameObject.name}' 버튼에 닫기 기능을 연결했습니다.");
         }
-        else
-        {
-            Debug.LogError("EventCloseButton이 붙은 오브젝트에 Button 컴포넌트가 없습니다!");
-        }
+        // else
+        // {
+        //     Debug.LogError("EventCloseButton이 붙은 오브젝트에 Button 컴포넌트가 없습니다!");
+        // }
     }
 
     /// <summary>

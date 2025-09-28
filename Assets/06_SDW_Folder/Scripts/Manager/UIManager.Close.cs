@@ -16,7 +16,7 @@ namespace SDW
         {
             if (_prevClosedUI == uiName) return;
 
-            Debug.Log($"Close UI name : {uiName}");
+            // Debug.Log($"Close UI name : {uiName}");
             _uiDic[uiName].Close();
 
             _prevClosedUI = uiName;

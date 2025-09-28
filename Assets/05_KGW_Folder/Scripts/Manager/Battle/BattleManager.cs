@@ -411,7 +411,7 @@ public class BattleManager : MonoBehaviour
         // 남아있는 몬스터가 없으면
         if (_monsterCount == 0)
         {
-            Debug.Log("클리어 성공!");
+            // Debug.Log("클리어 성공!");
 
             _isClear = true;
             _isGameOver = true;
@@ -432,7 +432,7 @@ public class BattleManager : MonoBehaviour
         // 남아있는 플레이어가 없으면
         if (_characterCount == 0)
         {
-            Debug.Log("클리어 실패!");
+            // Debug.Log("클리어 실패!");
             _isClear = false;
             _isGameOver = true;
 
@@ -602,7 +602,7 @@ public class BattleManager : MonoBehaviour
         {
             if (mon._isAlive)
             {
-                Debug.Log($"{mon._monsterState._monEnName}가 {damageValue}의 공격받음");
+                // Debug.Log($"{mon._monsterState._monEnName}가 {damageValue}의 공격받음");
 
                 if (mon != null)
                 {

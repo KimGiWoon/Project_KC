@@ -337,12 +337,12 @@ namespace CJH
             {
                 case ChoiceResultType.GainYeopjeon:
                     GameManager.Instance.Coin.AddYeopjeon(resultMoney); // resultValue 변수 사용
-                    Debug.Log($"{resultMoney} 엽전 얻음");
+                    // Debug.Log($"{resultMoney} 엽전 얻음");
                     break;
 
                 case ChoiceResultType.LoseYeopjeon:
                     GameManager.Instance.Coin.SubtractYeopjeon(Mathf.Abs(resultMoney));
-                    Debug.Log($"{Mathf.Abs(resultMoney)} 엽전 잃음");
+                    // Debug.Log($"{Mathf.Abs(resultMoney)} 엽전 잃음");
                     break;
 
                 case ChoiceResultType.BuyRelic:
@@ -350,43 +350,43 @@ namespace CJH
                     var boughtRelic = GameManager.Instance.InGameItem.AddRandomRelic(_eventManager.allRelicsDatabase);
 
                     GameManager.Instance.Coin.AddYeopjeon(resultMoney);
-                    Debug.Log($"{resultMoney} 엽전으로 유물을 구매했습니다.");
+                    // Debug.Log($"{resultMoney} 엽전으로 유물을 구매했습니다.");
 
                     if (boughtRelic != null)
                     {
                         specificRelicName = boughtRelic.relicName;
-                        Debug.Log($"구매한 유물: {boughtRelic.relicName}");
+                        // Debug.Log($"구매한 유물: {boughtRelic.relicName}");
                     }
                     break;
 
                 case ChoiceResultType.GainRelic:
                     var gainedRelic = GameManager.Instance.InGameItem.AddRandomRelic(_eventManager.allRelicsDatabase);
 
-                    Debug.Log("유물을 획득했습니다.");
+                    // Debug.Log("유물을 획득했습니다.");
 
                     if (gainedRelic != null)
                     {
                         specificRelicName = gainedRelic.relicName;
-                        Debug.Log($"획득한 유물: {gainedRelic.relicName}");
+                        // Debug.Log($"획득한 유물: {gainedRelic.relicName}");
                     }
                     break;
 
                 case ChoiceResultType.LoseRelic:
                     var lostRelic = GameManager.Instance.InGameItem.RemoveRandomRelic();
                     GameManager.Instance.Coin.AddYeopjeon(resultMoney); // resultValue 변수 사용
-                    Debug.Log($"{resultMoney} 엽전 얻음");
+                    // Debug.Log($"{resultMoney} 엽전 얻음");
 
                     // 어떤 유물을 잃었는지 확인하거나, 잃을 유물이 없었는지 확인할 수 있습니다.
                     if (lostRelic != null)
                     {
                         specificRelicName = lostRelic.relicName;
-                        Debug.Log($"잃어버린 유물: {lostRelic.relicEnName}");
+                        // Debug.Log($"잃어버린 유물: {lostRelic.relicEnName}");
                     }
-                    else
-                    {
-                        // 잃을 유물이 없었을 경우
-                        Debug.Log("잃을 유물이 없어서 아무 일도 일어나지 않았습니다.");
-                    }
+                    // else
+                    // {
+                    //     // 잃을 유물이 없었을 경우
+                    //     // Debug.Log("잃을 유물이 없어서 아무 일도 일어나지 않았습니다.");
+                    // }
                     break;
 
                 case ChoiceResultType.GainBadRelic:
@@ -409,7 +409,7 @@ namespace CJH
                         GameManager.Instance.InGameItem.AddItem(debuffRelicToAdd);
 
                         specificRelicName = debuffRelicToAdd.relicName;
-                        Debug.Log($"디버프 유물 '{debuffRelicToAdd.relicName}'을(를) 강제로 획득했습니다.");
+                        // Debug.Log($"디버프 유물 '{debuffRelicToAdd.relicName}'을(를) 강제로 획득했습니다.");
                     }
                     break;
 
@@ -442,17 +442,17 @@ namespace CJH
                         GameManager.Instance.InGameItem.AddItem(relicToGain);
                         specificRelicName = relicToGain.relicName;
                     }
-                    else
-                    {
-                        Debug.Log("제공할 수 있는 새로운 유물이 없습니다.");
-                    }
+                    // else
+                    // {
+                    //     Debug.Log("제공할 수 있는 새로운 유물이 없습니다.");
+                    // }
                     break;
 
 
                 case ChoiceResultType.Continue:
                     // 2~3 사이의 랜덤한 숫자를 정합니다.
                     int numberOfRelicsToGain = Random.Range(2, 4);
-                    Debug.Log($"{numberOfRelicsToGain}개의 유물을 획득합니다.");
+                    // Debug.Log($"{numberOfRelicsToGain}개의 유물을 획득합니다.");
 
                     // 획득한 유물들의 이름을 저장할 리스트를 생성합니다.
                     var gainedRelicNames = new List<string>();
@@ -479,11 +479,11 @@ namespace CJH
                     }
 
                     GameManager.Instance.Coin.AddYeopjeon(resultMoney);
-                    Debug.Log($"{resultMoney} 엽전 얻음");
+                    // Debug.Log($"{resultMoney} 엽전 얻음");
                     break;
 
                 case ChoiceResultType.None:
-                    Debug.Log(" 이벤트 지나감 ");
+                    // Debug.Log(" 이벤트 지나감 ");
                     break;
             }
 
