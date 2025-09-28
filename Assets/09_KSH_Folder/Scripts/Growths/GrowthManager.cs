@@ -31,7 +31,7 @@ public class GrowthManager : MonoBehaviour
         _gameManager = GameManager.Instance;
         _charData = _gameManager.CharacterData;
         if (!_hasFaster)
-            GameManager.Instance._canFaster = false;
+            GameManager.Instance.CanFaster = false;
     }
 
     private void Update()
@@ -206,8 +206,8 @@ public class GrowthManager : MonoBehaviour
             case NodeAbility.None:
                 if (growthDatas.nodeID == 80002) //배속 기능 활성화
                 {
-                    if (!GameManager.Instance._canFaster)
-                        GameManager.Instance._canFaster = true;
+                    if (!GameManager.Instance.CanFaster)
+                        GameManager.Instance.CanFaster = true;
                     // Debug.Log("배속 기능 활성화!");
                 }
                 else if (growthDatas.nodeID == 80001) //가챠 기능 활성화

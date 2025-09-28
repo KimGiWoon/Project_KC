@@ -315,7 +315,7 @@ public class MonsterController : UnitBaseData
     // 리셋 애니메이션
     private void ResetAnimation()
     {
-        if (_isUseSkill2) 
+        if (_isUseSkill2)
         {
             // 타이머 초기화
             _skill2Timer = 0f;
@@ -368,7 +368,9 @@ public class MonsterController : UnitBaseData
         if (_monsterState._monCurrentHP <= 0)
         {
             _monsterState._monCurrentHP = 0f;
-            _monsterHp.value = 0f;
+
+            if (gameObject.layer != LayerMask.NameToLayer("Boss"))
+                _monsterHp.value = 0f;
             _monAnimatior.Play(Death_Hash);
             // 유닛의 죽음
             Death();
@@ -558,7 +560,6 @@ public class MonsterController : UnitBaseData
         // 그로기 초기화
         _monAnimatior.Play(Idle_Hash);
         _isStern = false;
-
     }
 
     private void ApplyGroggy(float value)

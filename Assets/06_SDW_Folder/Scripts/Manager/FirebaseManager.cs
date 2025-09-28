@@ -335,12 +335,15 @@ namespace SDW
                 { "buyAdRemover", false },
                 { "gachaCount", 0 },
                 { "chapter", 1 },
+                { "stage", 1 },
                 { "stamina", 120 },
                 { "lastStaminaUpdate", DateTime.UtcNow.AddHours(9).ToString("yyyy-MM-dd HH:mm:ss") },
                 { "battleCount", 0 },
                 { "relicCount", 0 },
                 { "cookCount", 0 },
-                { "stageCount", 0 }
+                { "stageCount", 0 },
+                { "canGacha", false },
+                { "canFaster", false }
             };
 
             foreach (string grade in Enum.GetNames(typeof(RelicGrade)))
@@ -577,12 +580,15 @@ namespace SDW
                 { "buyAdRemover", false },
                 { "gachaCount", 0 },
                 { "chapter", 1 },
+                { "stage", 1 },
                 { "stamina", 120 },
                 { "lastStaminaUpdate", DateTime.UtcNow.AddHours(9).ToString("yyyy-MM-dd HH:mm:ss") },
                 { "battleCount", 0 },
                 { "relicCount", 0 },
                 { "cookCount", 0 },
-                { "stageCount", 0 }
+                { "stageCount", 0 },
+                { "canGacha", false },
+                { "canFaster", false }
             };
             _etcData = etcData;
 
@@ -1209,6 +1215,60 @@ namespace SDW
                 if (task.IsFaulted)
                 {
                     Debug.LogWarning($"Chapter 저장 실패: {task.Exception.Message}");
+                }
+            });
+        }
+
+        public void SetCanFaster(bool canFaster)
+        {
+            var updateData = new Dictionary<string, object>
+            {
+                { "etcData/canFaster", canFaster }
+            };
+
+            _etcData["canFaster"] = canFaster;
+
+            _db.Child("users").Child(_auth.CurrentUser.UserId).UpdateChildrenAsync(updateData).ContinueWithOnMainThread(task =>
+            {
+                if (task.IsFaulted)
+                {
+                    Debug.LogWarning($"CanFaster 저장 실패: {task.Exception.Message}");
+                }
+            });
+        }
+
+        public void SetCanGacha(bool canGacha)
+        {
+            var updateData = new Dictionary<string, object>
+            {
+                { "etcData/canGacha", canGacha }
+            };
+
+            _etcData["canGacha"] = canGacha;
+
+            _db.Child("users").Child(_auth.CurrentUser.UserId).UpdateChildrenAsync(updateData).ContinueWithOnMainThread(task =>
+            {
+                if (task.IsFaulted)
+                {
+                    Debug.LogWarning($"CanGacha 저장 실패: {task.Exception.Message}");
+                }
+            });
+        }
+
+        public void SetStage(int stage)
+        {
+            var updateData = new Dictionary<string, object>
+            {
+                { "etcData/stage", stage }
+            };
+
+            _etcData["stage"] = stage;
+
+            _db.Child("users").Child(_auth.CurrentUser.UserId).UpdateChildrenAsync(updateData).ContinueWithOnMainThread(task =>
+            {
+                if (task.IsFaulted)
+                {
+                    Debug.LogWarning($"Stage 저장 실패: {task.Exception.Message}");
                 }
             });
         }

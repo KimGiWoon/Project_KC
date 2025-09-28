@@ -136,7 +136,17 @@ namespace SDW
         private bool _isLoaded;
         public bool _isStageClear;
 
-        public bool _canFaster = false; //배속 기능
+        private bool _canFaster = false;
+
+        public bool CanFaster
+        {
+            get => _canFaster;
+            set
+            {
+                _canFaster = value;
+                _firebase.SetCanFaster(_canFaster);
+            }
+        }
 
         private bool _canGacha;
 
@@ -146,6 +156,7 @@ namespace SDW
             set
             {
                 _canGacha = value;
+                _firebase.SetCanGacha(_canGacha);
                 OnCanGachaChanged?.Invoke(_canGacha);
             }
         } //가챠 기능
@@ -324,7 +335,11 @@ namespace SDW
         /// <summary>
         /// 다음 스테이지로 이동하기 위해 스테이지 증가
         /// </summary>
-        public void NextStage() => _stage++;
+        public void NextStage()
+        {
+            _stage++;
+            _firebase.SetStage(_stage);
+        }
 
         /// <summary>
         /// 다운로드 완료 상태를 설정
@@ -353,9 +368,30 @@ namespace SDW
             _buyAdRemover = Convert.ToBoolean(etcData["buyAdRemover"]);
             _gachaCount = Convert.ToInt32(etcData["gachaCount"]);
             _chapter = Convert.ToInt32(etcData["chapter"]);
+
+            if (!etcData.ContainsKey("stage"))
+            {
+                _firebase.SetStage(1);
+                _stage = 1;
+            }
+            else _stage = Convert.ToInt32(etcData["stage"]);
             _stamina = Convert.ToInt32(etcData["stamina"]);
             //todo stamina 시간을 가져와서 시간 차이만큼 회복을 시켜야 함
             _clearCount = Convert.ToInt32(etcData["stageCount"]);
+
+            if (!etcData.ContainsKey("canFaster"))
+            {
+                _firebase.SetCanFaster(false);
+                CanFaster = false;
+            }
+            else CanFaster = Convert.ToBoolean(etcData["canFaster"]);
+
+            if (!etcData.ContainsKey("canGacha"))
+            {
+                _firebase.SetCanGacha(false);
+                _canGacha = false;
+            }
+            else _canGacha = Convert.ToBoolean(etcData["canGacha"]);
         }
 
         private void SetGrowthData(IReadOnlyDictionary<string, object> growthData)
