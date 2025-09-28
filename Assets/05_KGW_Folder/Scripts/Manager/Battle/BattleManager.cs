@@ -186,15 +186,15 @@ public class BattleManager : MonoBehaviour
             {
                 case "SpawnPoint_1":
                 case "ResurrectionPoint_1":
-                    characterOIL.sortingOrder = 13;
+                    characterOIL.sortingOrder = 18;
                     break;
                 case "SpawnPoint_2":
                 case "ResurrectionPoint_2":
-                    characterOIL.sortingOrder = 12;
+                    characterOIL.sortingOrder = 17;
                     break;
                 case "SpawnPoint_3":
                 case "ResurrectionPoint_3":
-                    characterOIL.sortingOrder = 11;
+                    characterOIL.sortingOrder = 16;
                     break;
             }
 
