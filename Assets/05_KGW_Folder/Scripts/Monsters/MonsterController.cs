@@ -351,7 +351,7 @@ public class MonsterController : UnitBaseData
         // 공격 회피
         if (AttackEvasion(_monsterState._monAvoid, hitRate))
         {
-            Debug.Log($"{_monsterState._monEnName}가 공격을 회피했습니다.");
+            // Debug.Log($"{_monsterState._monEnName}가 공격을 회피했습니다.");
             return;
         }
 
@@ -500,9 +500,9 @@ public class MonsterController : UnitBaseData
         float finalReduction = MathF.Min(reduction + buffReduction, 0.95f);
         float finalDamage = damage * (1 - finalReduction);
 
-        Debug.Log($"몬스터 방어력 : {_monsterState._monArmor}");
-        Debug.Log(
-            $"몬스터가 받은 데미지 계산 Reduction : {reduction}, BuffReduction : {buffReduction}, FinalReduction : {finalReduction}, FinalDamage : {finalDamage}");
+        // Debug.Log($"몬스터 방어력 : {_monsterState._monArmor}");
+        // Debug.Log(
+        //     $"몬스터가 받은 데미지 계산 Reduction : {reduction}, BuffReduction : {buffReduction}, FinalReduction : {finalReduction}, FinalDamage : {finalDamage}");
         return finalDamage;
     }
 
@@ -521,7 +521,7 @@ public class MonsterController : UnitBaseData
             evasionRate = 1f;
         }
 
-        Debug.Log($"{_monsterState._monEnName} 회피율 : {evasionRate}");
+        // Debug.Log($"{_monsterState._monEnName} 회피율 : {evasionRate}");
 
         // 회피 가능 확인
         bool isEvasion = UnityEngine.Random.value < evasionRate ? true : false;
@@ -551,11 +551,11 @@ public class MonsterController : UnitBaseData
     private IEnumerator BossBreakCoroutine()
     {
         _monAnimatior.Play(Break_Hash);
-        Debug.Log("보스가 그로기 상태 입니다.");
+        // Debug.Log("보스가 그로기 상태 입니다.");
 
         yield return new WaitForSeconds(5f);
 
-        Debug.Log("보스가 그로기 상태가 끝났습니다.");
+        // Debug.Log("보스가 그로기 상태가 끝났습니다.");
 
         // 그로기 초기화
         _monAnimatior.Play(Idle_Hash);

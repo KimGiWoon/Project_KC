@@ -48,7 +48,6 @@ public class MyCharacterController : UnitBaseData
 
     public EffectController effectController;
 
-
     /// <summary>
     /// 캐릭터별 UI 부모 Transform을 담는 간단한 데이터 클래스입니다.
     /// 캐릭터 프리팹의 루트에 추가하고, 자식으로 만든 위치 오브젝트들을 연결합니다.
@@ -56,11 +55,12 @@ public class MyCharacterController : UnitBaseData
     public class CharacterUIParents : MonoBehaviour
     {
         [Header("UI 아이콘 생성 위치")]
-        public Transform buff;      // 우상단 (버프)
-        public Transform debuff;    // 좌상단 (디버프)
-        public Transform instant;   // 하단 (회복, 부활 등 즉시효과)
-        public Transform barrier;   // 좌측 (보호막)
+        public Transform buff; // 우상단 (버프)
+        public Transform debuff; // 좌상단 (디버프)
+        public Transform instant; // 하단 (회복, 부활 등 즉시효과)
+        public Transform barrier; // 좌측 (보호막)
     }
+
     private CharacterUIParents uiParents;
 
     protected override void Awake()
@@ -73,7 +73,7 @@ public class MyCharacterController : UnitBaseData
         uiParents = GetComponent<CharacterUIParents>();
         effectController = GetComponentInChildren<EffectController>();
 
-        Debug.Log($"{name} 의 EffectController 연결됨? {effectController != null}");
+        // Debug.Log($"{name} 의 EffectController 연결됨? {effectController != null}");
     }
 
     // 캐릭터 생성 초기화
@@ -214,7 +214,9 @@ public class MyCharacterController : UnitBaseData
                 // 사용하려는 패시브와 캐릭터가 사용하는 패시브가 같은지 확인
                 if (_characterData._chaPassiveSkill._chaSkillEnName == CharacterSkillEnName.AimForTheWound)
                 {
-                    passiveDamage = _characterData._chaPassiveSkill.UsePassiveSkill(_character, _characterData._chaPassiveSkill, attackDamage);
+                    passiveDamage =
+                        _characterData._chaPassiveSkill.UsePassiveSkill(_character, _characterData._chaPassiveSkill,
+                            attackDamage);
                 }
                 else // 패시브 없으면 원래 공격력
                 {
@@ -275,7 +277,7 @@ public class MyCharacterController : UnitBaseData
         // 공격 회피
         if (AttackEvasion(_characterState._chaAvoid, hitRate))
         {
-            Debug.Log($"{_characterState._chaEnName}가 공격을 회피했습니다.");
+            // Debug.Log($"{_characterState._chaEnName}가 공격을 회피했습니다.");
             return;
         }
 
@@ -287,7 +289,7 @@ public class MyCharacterController : UnitBaseData
             // 이펙트 전환 (깨짐 이펙트 출력)
             effectController?.PlayBrokenBarrier();
 
-            Debug.Log($"{_characterState._chaEnName}의 배리어가 사용되었습니다.");
+            // Debug.Log($"{_characterState._chaEnName}의 배리어가 사용되었습니다.");
             return;
         }
 
@@ -500,7 +502,6 @@ public class MyCharacterController : UnitBaseData
     // 캐릭터 사망
     protected override void Death()
     {
-
         base.Death();
 
         OnSkillModeChange?.Invoke(_isAlive);
@@ -510,7 +511,7 @@ public class MyCharacterController : UnitBaseData
         _battleManager.CharacterDeathCheck();
 
         // UI 매니저에 사망했음을 알려 모든 아이콘을 제거
-        FoodEffectUIManager.Instance.OnCharacterDied(this.gameObject);
+        FoodEffectUIManager.Instance.OnCharacterDied(gameObject);
     }
 
     // 타임오버 시 캐릭터 사망
@@ -539,9 +540,9 @@ public class MyCharacterController : UnitBaseData
         float finalReduction = MathF.Min(reduction + buffReduction, 0.95f);
         float finalDamage = damage * (1 - finalReduction) * critical;
 
-        Debug.Log($"캐릭터 방어력 : {_characterState._chaArmor}");
-        Debug.Log(
-            $"캐릭터가 받은 데미지 계산 Reduction : {reduction}, BuffReduction : {buffReduction}, FinalReduction : {finalReduction}, FinalDamage : {finalDamage}");
+        // Debug.Log($"캐릭터 방어력 : {_characterState._chaArmor}");
+        // Debug.Log(
+        //     $"캐릭터가 받은 데미지 계산 Reduction : {reduction}, BuffReduction : {buffReduction}, FinalReduction : {finalReduction}, FinalDamage : {finalDamage}");
         return finalDamage;
     }
 
@@ -560,7 +561,7 @@ public class MyCharacterController : UnitBaseData
             evasionRate = 1f;
         }
 
-        Debug.Log($"{_characterState._chaEnName} 회피율 : {evasionRate}");
+        // Debug.Log($"{_characterState._chaEnName} 회피율 : {evasionRate}");
 
         // 회피 가능 확인
         bool isEvasion = UnityEngine.Random.value < evasionRate ? true : false;

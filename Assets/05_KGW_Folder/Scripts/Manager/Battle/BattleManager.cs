@@ -471,14 +471,14 @@ public class BattleManager : MonoBehaviour
                 // 체력의 30%만 저장
                 GameManager.Instance.CharacterBattleDataSave._chaHpSave[cha._characterState._chaEnName] =
                     cha._characterState._chaMaxHP * 0.3f;
-                Debug.Log($"{cha._characterState._chaEnName}의 전체 체력의 30%인 {cha._characterState._chaCurrentHP}저장");
+                // Debug.Log($"{cha._characterState._chaEnName}의 전체 체력의 30%인 {cha._characterState._chaCurrentHP}저장");
             }
             else
             {
                 // 캐릭터의 현재 남은 체력 저장
                 GameManager.Instance.CharacterBattleDataSave._chaHpSave[cha._characterState._chaEnName] =
                     cha._characterState._chaCurrentHP;
-                Debug.Log($"{cha._characterState._chaEnName}의 현재 남은 체력 {cha._characterState._chaCurrentHP}저장");
+                // Debug.Log($"{cha._characterState._chaEnName}의 현재 남은 체력 {cha._characterState._chaCurrentHP}저장");
             }
 
             GameManager.Instance.CharacterBattleDataSave._chaLevel[cha._characterState._chaEnName] =
@@ -523,7 +523,7 @@ public class BattleManager : MonoBehaviour
         {
             GameManager.Instance.CharacterBattleDataSave._chaHpSave[cha._characterState._chaEnName] =
                 cha._characterState._chaMaxHP;
-            Debug.Log($"{cha._characterState._chaEnName}의 체력이 {cha._characterState._chaMaxHP}로 저장이 되었습니다.");
+            // Debug.Log($"{cha._characterState._chaEnName}의 체력이 {cha._characterState._chaMaxHP}로 저장이 되었습니다.");
         }
 
         _characterStats.Clear();
