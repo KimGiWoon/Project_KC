@@ -13,7 +13,7 @@ public class AimForTheWoundController : MonoBehaviour
         if(skillValue != 1f)
         {
             // 상처 조준 사운드 플레이
-            GameManager.Instance.Audio.Play2DSFX(AudioClipName.DebufferPassiveSkill);
+            GameManager.Instance.Audio.Play2DSFX(AudioClipName.RangedPassiveSkill);
         }
 
         Destroy(gameObject, 0.1f);

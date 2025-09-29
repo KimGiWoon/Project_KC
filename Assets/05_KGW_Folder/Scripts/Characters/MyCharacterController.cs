@@ -201,6 +201,7 @@ public class MyCharacterController : UnitBaseData
         // 공격 여유 사거리
         float attackSpareDistance = _characterState._chaAtkIsMelee * 0.9f;
 
+        if (_attackTarget == null) return;
         // 공격 타겟과 거리 비교
         float attackDistance = Vector3.Distance(transform.position, _attackTarget.transform.position);
 
@@ -209,16 +210,16 @@ public class MyCharacterController : UnitBaseData
         {
             if (_attackCoolTimer <= 0f || _isFirstAttack)
             {
+                if (_attackTarget == null) return;
+
                 OnRelicAttack?.Invoke();
                 float attackDamage = _characterState._chaAttack;
                 float passiveDamage;
 
                 // 사용하려는 패시브와 캐릭터가 사용하는 패시브가 같은지 확인
-                if (_characterData._chaPassiveSkill._chaSkillEnName == CharacterSkillEnName.AimForTheWound)
+                if (_characterData._chaPassiveSkill._chaSkillEnName == CharacterSkillEnName.AimForTheWound && _characterData._chaPassiveSkill != null)
                 {
-                    passiveDamage =
-                        _characterData._chaPassiveSkill.UsePassiveSkill(_character, _characterData._chaPassiveSkill,
-                            attackDamage);
+                    passiveDamage = _characterData._chaPassiveSkill.UsePassiveSkill(_character, _characterData._chaPassiveSkill, attackDamage);
                 }
                 else // 패시브 없으면 원래 공격력
                 {
@@ -473,6 +474,8 @@ public class MyCharacterController : UnitBaseData
         // 사기 저하 패시브 스킬이 있는지 확인
         if (_characterData._chaPassiveSkill._chaSkillEnName == CharacterSkillEnName.MoraleDecline)
         {
+            if (_attackTarget == null) return;
+
             float saveAttack = _attackTarget._monsterState._monAttack;
             float attackDownValue = _characterData._chaPassiveSkill.UsePassiveSkill(_character, _characterState._chaPassiveSkill,
                 _characterState._chaPassiveSkill._chaEffectValue);
@@ -491,11 +494,12 @@ public class MyCharacterController : UnitBaseData
         float attackDamage = _characterState._chaAttack;
         float allAttackDamage = 0f;
 
-        // 체력 회복 패시브 스킬이 있는지 확인
+        // 강철의 파동 패시브 스킬이 있는지 확인
         if (_characterData._chaPassiveSkill._chaSkillEnName == CharacterSkillEnName.WaveOfSteel)
         {
-            allAttackDamage =
-                _characterData._chaPassiveSkill.UsePassiveSkill(_character, _characterData._chaPassiveSkill, attackDamage);
+            if (_attackTarget == null) return;
+
+            allAttackDamage = _characterData._chaPassiveSkill.UsePassiveSkill(_character, _characterData._chaPassiveSkill, attackDamage);
 
             // 데미지가 0이면 넘어감
             if (allAttackDamage == 0f) return;

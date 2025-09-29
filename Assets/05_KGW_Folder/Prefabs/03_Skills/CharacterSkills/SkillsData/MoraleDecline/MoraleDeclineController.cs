@@ -13,7 +13,7 @@ public class MoraleDeclineController : MonoBehaviour
         if (attckDownValue != 0f)
         {
             // 사기 저하 사운드 플레이
-            GameManager.Instance.Audio.Play2DSFX(AudioClipName.MeleePassiveSkill);
+            GameManager.Instance.Audio.Play2DSFX(AudioClipName.DebufferPassiveSkill);
         }
 
         Destroy(gameObject, 0.1f);
