@@ -131,6 +131,8 @@ namespace SDW
                 if (_growthManager.GrowthDataDic.TryGetValue(_nodeId, out growthDatas))
                     _growthManager.AllApplyGrowth(growthDatas); //모두 적용
                 
+                _growthManager.CompleteNodeContent(_nodeId);
+                
                 OnUICloseRequested?.Invoke(UIName.NodeDescriptionUI);
             }
         }
