@@ -83,6 +83,7 @@ namespace SDW
         {
             yield return new WaitForSeconds(_tweenAnimation.tweenTime);
             _isProgress = false;
+            _canInteract = true;
         }
 
         public override void Close()
