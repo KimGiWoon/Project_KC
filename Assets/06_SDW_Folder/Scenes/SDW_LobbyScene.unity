@@ -2353,7 +2353,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &91830749
 RectTransform:
   m_ObjectHideFlags: 0
@@ -11420,8 +11420,7 @@ MonoBehaviour:
   _gachaConfirmPanel: {fileID: 1165112644}
   _gachaNotEnoughPanel: {fileID: 1285128721}
   _backgroundPanel: {fileID: 486624513}
-  _singlePanel: {fileID: 985930553}
-  _tenPanel: {fileID: 1883828341}
+  _resultPanel: {fileID: 1364241469}
   characterLevelUpUIManager: {fileID: 1199925832}
 --- !u!1001 &446123004
 PrefabInstance:
@@ -14609,7 +14608,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 0, g: 0, b: 0, a: 0.74509805}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -34867,7 +34866,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1377498034}
-  - component: {fileID: 1377498035}
   m_Layer: 0
   m_Name: Skills
   m_TagString: Untagged
@@ -34896,32 +34894,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: -400}
   m_SizeDelta: {x: 0, y: 270}
   m_Pivot: {x: 0.5, y: 1}
---- !u!114 &1377498035
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1377498033}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 59f8146938fff824cb5fd77236b75775, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Padding:
-    m_Left: 0
-    m_Right: 0
-    m_Top: 0
-    m_Bottom: 0
-  m_ChildAlignment: 3
-  m_Spacing: 10
-  m_ChildForceExpandWidth: 1
-  m_ChildForceExpandHeight: 1
-  m_ChildControlWidth: 0
-  m_ChildControlHeight: 0
-  m_ChildScaleWidth: 0
-  m_ChildScaleHeight: 0
-  m_ReverseArrangement: 0
 --- !u!1 &1380106228
 GameObject:
   m_ObjectHideFlags: 0
@@ -46328,7 +46300,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 0, g: 0, b: 0, a: 0.74509805}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
