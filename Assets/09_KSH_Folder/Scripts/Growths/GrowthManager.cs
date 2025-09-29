@@ -163,8 +163,11 @@ public class GrowthManager : MonoBehaviour
         }
         else if (growthDatas.nodeAbilityValueMult != 0 && growthDatas.nodeAbilityValuePlus <= 0)
         {
-            stat *= 2f - growthDatas.nodeAbilityValueMult;
+            stat *= growthDatas.nodeAbilityValueMult;
         }
+        //todo 공격속도의 경우, 현재 1.2 기준 =>  + 20%
+        //todo 이렇게 되어야 함 : stat *= (2 - growthDatas.nodeAbilityValueMult);
+        //todo 원본 * 0.8
     }
 
     public void ApplyGrowthStat(GrowthDatas growthDatas, CharacterDataSO cha) //단일 스탯 적용
@@ -223,6 +226,7 @@ public class GrowthManager : MonoBehaviour
     {
         foreach (var cha in _charData.AllOwnedCharacters)
         {
+            //todo 캐릭터영어이름 - 사본data => 초기화
             ApplyGrowthStat(growthDatas, cha);
         }
     }
@@ -231,10 +235,15 @@ public class GrowthManager : MonoBehaviour
     {
         foreach (int nodeID in GameManager.Instance.GrowthCompleteNodes)
         {
+            //todo 캐릭터영어이름 - 사본data => 초기화
             if (GrowthDataDic.TryGetValue(nodeID, out var growthDatas))
             {
                 ApplyGrowthStat(growthDatas, cha);
             }
         }
     }
+
+    //todo 캐릭터 리스트 - characterdataso 사본
+    //todo 여기서 업데이트 적용(AllAPllyGrowth, SetNew) -> 다시 사본을 생성한 후 스탯 적용
+    //todo charactercontroller에서 -> charadataso 원본으로 초기호
 }
