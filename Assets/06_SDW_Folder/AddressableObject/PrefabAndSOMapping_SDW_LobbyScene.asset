@@ -13,6 +13,12 @@ MonoBehaviour:
   m_Name: PrefabAndSOMapping_SDW_LobbyScene
   m_EditorClassIdentifier: 
   prefabEntries:
+  - PathHash: 5198830157726298727
+    AddressKey: b2f16cda616270d4da394dbf5a0b6bfd
+    fieldName: _selectSlotPrefab
+    index: -1
+    AssetPath: Assets/05_KGW_Folder/Prefabs/CharacterSlot/SelectCharacter.prefab
+    PathPreview: CharacterSelectManager
   - PathHash: 14938729717848126768
     AddressKey: e2d9fb0ff2abe3a4caac52a1c5bcc451
     fieldName: _prefab
@@ -56,10 +62,10 @@ MonoBehaviour:
     AssetPath: Assets/05_KGW_Folder/Prefabs/00_Characters/DRA.prefab
     PathPreview: TestGameManager/CSVDataContainer/CharacterData
   - PathHash: 14938729717848126768
-    AddressKey: 77cf2f03e94412f4396a146ec41d3c1f
+    AddressKey: e9e04faab6d169f4abe5c607ab5bac22
     fieldName: _chaSkillPrefab
     index: -1
-    AssetPath: Assets/05_KGW_Folder/Prefabs/03_Skills/CharacterSkills/SkillsData/WaveOfSteel/WaveOfSteel.prefab
+    AssetPath: Assets/05_KGW_Folder/Prefabs/03_Skills/CharacterSkills/SkillsData/AimForTheWound/AimForTheWound.prefab
     PathPreview: TestGameManager/CSVDataContainer/CharacterData
   - PathHash: 14938729717848126768
     AddressKey: c889b9d3de7e89149912daa542c1bc7b
@@ -78,12 +84,6 @@ MonoBehaviour:
     fieldName: _prefab
     index: -1
     AssetPath: Assets/05_KGW_Folder/Prefabs/00_Characters/GSE.prefab
-    PathPreview: TestGameManager/CSVDataContainer/CharacterData
-  - PathHash: 14938729717848126768
-    AddressKey: e9e04faab6d169f4abe5c607ab5bac22
-    fieldName: _chaSkillPrefab
-    index: -1
-    AssetPath: Assets/05_KGW_Folder/Prefabs/03_Skills/CharacterSkills/SkillsData/AimForTheWound/AimForTheWound.prefab
     PathPreview: TestGameManager/CSVDataContainer/CharacterData
   - PathHash: 14938729717848126768
     AddressKey: ef3fef9e16e18ee4e93fd9850795f051
@@ -116,6 +116,12 @@ MonoBehaviour:
     AssetPath: Assets/05_KGW_Folder/Prefabs/00_Characters/SDR.prefab
     PathPreview: TestGameManager/CSVDataContainer/CharacterData
   - PathHash: 14938729717848126768
+    AddressKey: 77cf2f03e94412f4396a146ec41d3c1f
+    fieldName: _chaSkillPrefab
+    index: -1
+    AssetPath: Assets/05_KGW_Folder/Prefabs/03_Skills/CharacterSkills/SkillsData/WaveOfSteel/WaveOfSteel.prefab
+    PathPreview: TestGameManager/CSVDataContainer/CharacterData
+  - PathHash: 14938729717848126768
     AddressKey: fef05c0739b55164ea1677d3f4349296
     fieldName: _prefab
     index: -1
@@ -133,12 +139,6 @@ MonoBehaviour:
     index: -1
     AssetPath: Assets/05_KGW_Folder/Prefabs/00_Characters/YHY.prefab
     PathPreview: TestGameManager/CSVDataContainer/CharacterData
-  - PathHash: 5198830157726298727
-    AddressKey: b2f16cda616270d4da394dbf5a0b6bfd
-    fieldName: _selectSlotPrefab
-    index: -1
-    AssetPath: Assets/05_KGW_Folder/Prefabs/CharacterSlot/SelectCharacter.prefab
-    PathPreview: CharacterSelectManager
   - PathHash: 14924776591921777621
     AddressKey: 91be6ea37ebd9b44a9024bd9f7ab907f
     fieldName: characterButtonPrefab
@@ -231,16 +231,16 @@ MonoBehaviour:
     AssetPath: Assets/05_KGW_Folder/Prefabs/00_Characters/CharactersSOData/DRA_Data.asset
     PathPreview: TestGameManager/CSVDataContainer/CharacterData
   - PathHash: 14938729717848126768
-    AddressKey: d878cb11f5f90e548a5f492a57a47010
+    AddressKey: 47189edbb54ca18499e51caaa3eb7486
     fieldName: _characterState
     index: -1
-    AssetPath: Assets/05_KGW_Folder/Prefabs/03_Skills/CharacterSkills/SkillsSOData/WaveOfSteel_Data.asset
+    AssetPath: Assets/05_KGW_Folder/Prefabs/03_Skills/CharacterSkills/SkillsSOData/AimForTheWound_Data.asset
     PathPreview: TestGameManager/CSVDataContainer/CharacterData
   - PathHash: 14938729717848126768
-    AddressKey: d878cb11f5f90e548a5f492a57a47010
+    AddressKey: 47189edbb54ca18499e51caaa3eb7486
     fieldName: _chaPassiveSkill
     index: -1
-    AssetPath: Assets/05_KGW_Folder/Prefabs/03_Skills/CharacterSkills/SkillsSOData/WaveOfSteel_Data.asset
+    AssetPath: Assets/05_KGW_Folder/Prefabs/03_Skills/CharacterSkills/SkillsSOData/AimForTheWound_Data.asset
     PathPreview: TestGameManager/CSVDataContainer/CharacterData
   - PathHash: 14938729717848126768
     AddressKey: 9a13d90448a4f63409bf98028055be21
@@ -351,16 +351,16 @@ MonoBehaviour:
     AssetPath: Assets/05_KGW_Folder/Prefabs/00_Characters/CharactersSOData/JHB_Data.asset
     PathPreview: TestGameManager/CSVDataContainer/CharacterData
   - PathHash: 14938729717848126768
-    AddressKey: 47189edbb54ca18499e51caaa3eb7486
+    AddressKey: 0e55c03446951384b88a5af133a1832f
     fieldName: _characterState
     index: -1
-    AssetPath: Assets/05_KGW_Folder/Prefabs/03_Skills/CharacterSkills/SkillsSOData/AimForTheWound_Data.asset
+    AssetPath: Assets/05_KGW_Folder/Prefabs/03_Skills/CharacterSkills/SkillsSOData/MoraleDecline_Data.asset
     PathPreview: TestGameManager/CSVDataContainer/CharacterData
   - PathHash: 14938729717848126768
-    AddressKey: 47189edbb54ca18499e51caaa3eb7486
+    AddressKey: 0e55c03446951384b88a5af133a1832f
     fieldName: _chaPassiveSkill
     index: -1
-    AssetPath: Assets/05_KGW_Folder/Prefabs/03_Skills/CharacterSkills/SkillsSOData/AimForTheWound_Data.asset
+    AssetPath: Assets/05_KGW_Folder/Prefabs/03_Skills/CharacterSkills/SkillsSOData/MoraleDecline_Data.asset
     PathPreview: TestGameManager/CSVDataContainer/CharacterData
   - PathHash: 14938729717848126768
     AddressKey: 265ffa3c68152e74a8ca0b6b30d27bd8
@@ -375,16 +375,16 @@ MonoBehaviour:
     AssetPath: Assets/05_KGW_Folder/Prefabs/00_Characters/CharactersSOData/SDR_Data.asset
     PathPreview: TestGameManager/CSVDataContainer/CharacterData
   - PathHash: 14938729717848126768
-    AddressKey: 0e55c03446951384b88a5af133a1832f
+    AddressKey: d878cb11f5f90e548a5f492a57a47010
     fieldName: _characterState
     index: -1
-    AssetPath: Assets/05_KGW_Folder/Prefabs/03_Skills/CharacterSkills/SkillsSOData/MoraleDecline_Data.asset
+    AssetPath: Assets/05_KGW_Folder/Prefabs/03_Skills/CharacterSkills/SkillsSOData/WaveOfSteel_Data.asset
     PathPreview: TestGameManager/CSVDataContainer/CharacterData
   - PathHash: 14938729717848126768
-    AddressKey: 0e55c03446951384b88a5af133a1832f
+    AddressKey: d878cb11f5f90e548a5f492a57a47010
     fieldName: _chaPassiveSkill
     index: -1
-    AssetPath: Assets/05_KGW_Folder/Prefabs/03_Skills/CharacterSkills/SkillsSOData/MoraleDecline_Data.asset
+    AssetPath: Assets/05_KGW_Folder/Prefabs/03_Skills/CharacterSkills/SkillsSOData/WaveOfSteel_Data.asset
     PathPreview: TestGameManager/CSVDataContainer/CharacterData
   - PathHash: 14938729717848126768
     AddressKey: 65f2c3ff647fbb64882a5e1b70abfa2e
