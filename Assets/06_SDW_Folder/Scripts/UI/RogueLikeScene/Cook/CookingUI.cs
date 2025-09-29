@@ -28,6 +28,7 @@ namespace SDW
         private TweenAnimation _tweenAnimation;
         private WaitForSeconds _waitForSeconds = new WaitForSeconds(1f);
         private bool _canInteract;
+        private bool _isProgress;
 
         public Action<UIName, PopupDescription> OnUIOpenRequested;
         public Action<UIName, bool> OnUICloseRequested;
@@ -60,16 +61,24 @@ namespace SDW
 
         public override void Open()
         {
+            _isProgress = true;
             _backgroundObject.SetActive(true);
-            StartCoroutine(InteractDelay());
             base.Open();
             _tweenAnimation.moveAway();
+            StartCoroutine(DelayedOpen());
             _cookManager.RefreshInventoryUI();
             _cookManager.UpdateResultButton(); // result 버튼 활성화 여부 반영
         }
 
+        private IEnumerator DelayedOpen()
+        {
+            yield return new WaitForSeconds(_tweenAnimation.tweenTime);
+            _isProgress = false;
+        }
+
         public override void Close()
         {
+            _isProgress = true;
             _tweenAnimation.moveBack();
             StartCoroutine(DelayedClose());
             _backgroundObject.SetActive(false);
@@ -79,6 +88,7 @@ namespace SDW
         {
             yield return _waitForSeconds;
             _canInteract = true;
+            _isProgress = false;
         }
 
         private IEnumerator DelayedClose()
@@ -90,7 +100,7 @@ namespace SDW
 
         private void Update()
         {
-            if (!_panelContainer.activeSelf || !_canInteract) return;
+            if (!_panelContainer.activeSelf || !_canInteract || _isProgress) return;
 
             //# 안드로이드 터치 감지
             if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began)

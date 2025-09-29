@@ -26,6 +26,7 @@ namespace SDW
         public Action<UIName> OnUICloseRequested;
         private int _selectedValue;
         private CoinManager _coin;
+        private bool _isProgress;
 
         private void Awake()
         {
@@ -51,7 +52,7 @@ namespace SDW
         /// </summary>
         public void Update()
         {
-            if (!_panelContainer.activeSelf) return;
+            if (!_panelContainer.activeSelf || _isProgress) return;
 
             //# 안드로이드 터치 감지
             if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began)
@@ -68,14 +69,22 @@ namespace SDW
 
         public override void Open()
         {
+            _isProgress = true;
             Initialize();
             _backgroundPanel.gameObject.SetActive(true);
             _tweenAnimation.moveAway();
             base.Open();
         }
 
+        private IEnumerator DelayedOpen()
+        {
+            yield return new WaitForSeconds(_tweenAnimation.tweenTime);
+            _isProgress = false;
+        }
+
         public override void Close()
         {
+            _isProgress = true;
             _backgroundPanel.FadeOut();
             StartCoroutine(DelayedClose());
         }
@@ -85,6 +94,7 @@ namespace SDW
             _tweenAnimation.moveBack();
             yield return new WaitForSeconds(_tweenAnimation.tweenTime);
             base.Close();
+            _isProgress = false;
         }
 
         private void SliderValueChanged(float value)

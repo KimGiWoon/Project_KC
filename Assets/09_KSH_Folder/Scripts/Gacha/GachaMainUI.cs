@@ -40,6 +40,7 @@ namespace KSH
 
         private RectTransform _rectTransform;
         private GameManager _gameManager;
+        private bool _isProgress;
 
         private void Awake()
         {
@@ -83,7 +84,7 @@ namespace KSH
         /// </summary>
         public void Update()
         {
-            if (!_panelContainer.activeSelf) return;
+            if (!_panelContainer.activeSelf || _isProgress) return;
 
             //# 안드로이드 터치 감지
             if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began)
@@ -106,14 +107,23 @@ namespace KSH
 
         public override void Open()
         {
+            _isProgress = true;
             _tweenAnimation.moveAway();
+            StartCoroutine(DelayedOpen());
             base.Open();
             _backgroundPanel.gameObject.SetActive(true);
             Initialize();
         }
 
+        private IEnumerator DelayedOpen()
+        {
+            yield return new WaitForSeconds(_tweenAnimation.tweenTime);
+            _isProgress = false;
+        }
+
         public override void Close()
         {
+            _isProgress = true;
             characterLevelUpUIManager.InitCharacterList();
             _backgroundPanel.FadeOut();
             StartCoroutine(DelayedClose());
@@ -124,6 +134,7 @@ namespace KSH
             _tweenAnimation.moveBack();
             yield return new WaitForSeconds(_tweenAnimation.tweenTime);
             base.Close();
+            _isProgress = false;
         }
 
         private void Initialize()
