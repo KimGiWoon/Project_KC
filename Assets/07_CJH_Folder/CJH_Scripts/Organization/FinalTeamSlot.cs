@@ -41,14 +41,21 @@ public class FinalTeamSlot : MonoBehaviour
 
     public void DisplayCharacter(CharacterDataSO data, int index, bool canInteractable)
     {
+        int curlevel = GameManager.Instance.CharacterData.CharEnNameLevel[data._chaBaseData.ChaEnName];
+        int curUpgradeLevel = GameManager.Instance.CharacterData.BeadsInventory[data._chaBaseData.ChaEnName];
+
         characterData = data;
 
         characterInfoGroup.SetActive(true);
         characterImage.sprite = data._characterSprite;
-        levelText.text = GameManager.Instance.CharacterData.CharEnNameLevel[data._chaBaseData.ChaEnName].ToString();
+        levelText.text = curlevel.ToString();
         characterButton.interactable = canInteractable;
         classIconImage.sprite = data.roleIcon;
         classIconImage.gameObject.SetActive(true);
+
+        // 캐릭터의 레벨과 업그레이드 레벨 전달
+        GameManager.Instance.CharacterBattleDataSave._chaLevel[data._chaBaseData.ChaEnName] = curlevel;
+        GameManager.Instance.CharacterBattleDataSave._chaUpgrade[data._chaBaseData.ChaEnName] = curUpgradeLevel;
     }
 
     public void DisplayEmpty()
