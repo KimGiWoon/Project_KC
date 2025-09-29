@@ -155,56 +155,61 @@ public class GrowthManager : MonoBehaviour
         _gameManager.AddGrowthUnlockNode(nodeId); //해금딕셔너리에 추가
     }
 
-    private void AddGrowthStat(ref float stat, GrowthDatas growthDatas) //더하기, 곱하기 계산 기능
+    private void AddGrowthStat(ref float modified, float original, GrowthDatas growthDatas) //더하기, 곱하기 계산 기능
     {
         if (growthDatas.nodeAbilityValuePlus != 0 && growthDatas.nodeAbilityValueMult <= 1)
         {
-            stat += growthDatas.nodeAbilityValuePlus;
+            modified = original + growthDatas.nodeAbilityValuePlus;
         }
         else if (growthDatas.nodeAbilityValueMult != 0 && growthDatas.nodeAbilityValuePlus <= 0)
         {
-            stat *= growthDatas.nodeAbilityValueMult;
+            if (growthDatas.nodeAbility == NodeAbility.chaAtkSpeed)
+            {
+                modified = original * (2 - growthDatas.nodeAbilityValueMult);
+            }
+            else
+            {
+                modified = original * growthDatas.nodeAbilityValueMult;    
+            }
         }
-        //todo 공격속도의 경우, 현재 1.2 기준 =>  + 20%
-        //todo 이렇게 되어야 함 : stat *= (2 - growthDatas.nodeAbilityValueMult);
-        //todo 원본 * 0.8
     }
 
-    public void ApplyGrowthStat(GrowthDatas growthDatas, CharacterDataSO cha) //단일 스탯 적용
+    public void ApplyGrowthStat(GrowthDatas growthDatas, CharacterState modified, CharacterState original) //단일 스탯 적용
     {
         switch (growthDatas.nodeAbility)
-        {
+         {
             case NodeAbility.chaAttack:
-                AddGrowthStat(ref cha._chaBaseData.ChaAttack, growthDatas);
-                // Debug.Log($"{cha._chaBaseData.ChaName}의 공격력 증가!");
+                AddGrowthStat(ref modified._chaAttack, original._chaAttack, growthDatas);
+                Debug.Log($"{original._chaName}{modified._chaName} 공격력 증가: {original._chaAttack} -> {modified._chaAttack}");
                 break;
             case NodeAbility.chaAtkSpeed:
-                AddGrowthStat(ref cha._chaBaseData.ChaAtkSpeed, growthDatas);
-                // Debug.Log($"{cha._chaBaseData.ChaName}의 공격속도 증가!");
+                AddGrowthStat(ref modified._chaAtkSpeed, original._chaAtkSpeed, growthDatas);
+                Debug.Log($"{original._chaName}{modified._chaName} 공격속도 증가: {original._chaAtkSpeed} -> {modified._chaAtkSpeed}");
                 break;
             case NodeAbility.chaArmor:
-                AddGrowthStat(ref cha._chaBaseData.ChaArmor, growthDatas);
-                // Debug.Log($"{cha._chaBaseData.ChaName}의 방어력 증가!");
+                AddGrowthStat(ref modified._chaArmor, original._chaArmor, growthDatas);
+                Debug.Log($"{original._chaName}{modified._chaName} 방어력 증가: {original._chaArmor} -> {modified._chaArmor}");
                 break;
             case NodeAbility.chaAvoid:
-                AddGrowthStat(ref cha._chaTypeData.ChaAvoid, growthDatas);
-                // Debug.Log($"{cha._chaBaseData.ChaName}의 회피율 증가!");
+                AddGrowthStat(ref modified._chaAvoid, original._chaAvoid, growthDatas);
+                Debug.Log($"{original._chaName}{modified._chaName} 회피율 증가: {original._chaAvoid} -> {modified._chaAvoid}");
                 break;
             case NodeAbility.chaCrit:
-                AddGrowthStat(ref cha._chaTypeData.ChaCrit, growthDatas);
-                // Debug.Log($"{cha._chaBaseData.ChaName}의 치명타 증가!");
+                AddGrowthStat(ref modified._chaCrit, original._chaCrit, growthDatas);
+                Debug.Log($"{original._chaName}{modified._chaName} 치명타 증가: {original._chaCrit} -> {modified._chaCrit}");
                 break;
             case NodeAbility.chaCritDmg:
-                AddGrowthStat(ref cha._chaTypeData.ChaCritDmg, growthDatas);
-                // Debug.Log($"{cha._chaBaseData.ChaName}의 치명타데미지 증가!");
+                AddGrowthStat(ref modified._chaCritDmg, original._chaCritDmg, growthDatas);
+                Debug.Log($"{original._chaName}{modified._chaName} 치명타데미지 증가: {original._chaCritDmg} -> {modified._chaCritDmg}");
                 break;
             case NodeAbility.chaMPRecovery:
-                AddGrowthStat(ref cha._chaBaseData.ChaMPRecovery, growthDatas);
-                // Debug.Log($"{cha._chaBaseData.ChaName}의 마나회복량 증가!");
+                AddGrowthStat(ref modified._chaMPRecovery, original._chaMPRecovery, growthDatas);
+                Debug.Log($"{original._chaName}{modified._chaName} 마나회복 증가: {original._chaMPRecovery} -> {modified._chaMPRecovery}");
                 break;
             case NodeAbility.chaMP:
-                AddGrowthStat(ref cha._chaBaseData.ChaMP, growthDatas);
-                // Debug.Log($"{cha._chaBaseData.ChaName}의 마나 증가!");
+                modified._chaMaxMP = original._chaMaxMP;
+                modified._chaCurrentMP = modified._chaMaxMP * growthDatas.nodeAbilityValueMult;
+                Debug.Log($"{original._chaName}{modified._chaName} 현재 MP 증가: {modified._chaCurrentMP} ({growthDatas.nodeAbilityValueMult * 100}%)");
                 break;
             case NodeAbility.None:
                 if (growthDatas.nodeID == 80002) //배속 기능 활성화
@@ -225,27 +230,26 @@ public class GrowthManager : MonoBehaviour
     public void AllApplyGrowth(GrowthDatas growthDatas) //전체 스탯 적용
     {
         //todo CharacterDataSO의 GetOriginalCharacterState()를 가져와서
-        //todo 변경된 스탯은 GetCharacterState() => 여기꺼에 적용
+        //todo 변경된 스탯은 GetModifiedCharacterState() => 여기꺼에 적용
         foreach (var cha in _charData.AllOwnedCharacters)
         {
-            //todo 캐릭터영어이름 - 사본data => 초기화
-            ApplyGrowthStat(growthDatas, cha);
+            CharacterState original = cha.GetOriginalCharacterState();
+            CharacterState modified = cha.GetModifiedCharacterState();
+            ApplyGrowthStat(growthDatas, modified, original);
         }
     }
 
     private void SetNewCharacter(CharacterDataSO cha) //새로 뽑힌 캐릭터에 기존 스탯 적용
     {
+        CharacterState original = cha.GetOriginalCharacterState();
+        CharacterState modified = cha.GetModifiedCharacterState();
+        
         foreach (int nodeID in GameManager.Instance.GrowthCompleteNodes)
         {
-            //todo 캐릭터영어이름 - 사본data => 초기화
             if (GrowthDataDic.TryGetValue(nodeID, out var growthDatas))
             {
-                ApplyGrowthStat(growthDatas, cha);
+                ApplyGrowthStat(growthDatas, modified, original);
             }
         }
     }
-
-    //todo 캐릭터 리스트 - characterdataso 사본
-    //todo 여기서 업데이트 적용(AllAPllyGrowth, SetNew) -> 다시 사본을 생성한 후 스탯 적용
-    //todo charactercontroller에서 -> charadataso 원본으로 초기호
 }
