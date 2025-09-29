@@ -164,6 +164,7 @@ public class MonsterController : UnitBaseData
                 // 왼쪽으로 이동
                 transform.Translate(_moveDir * _monsterState._monMoveSpeed * _gameSpeed * Time.deltaTime);
 
+                _monAnimatior.speed = _gameSpeed;
                 // 이동 애니메이션
                 _monAnimatior.Play(Walk_Hash);
             }
@@ -185,6 +186,7 @@ public class MonsterController : UnitBaseData
                     transform.position = Vector3.MoveTowards(transform.position, _researchTarget.transform.position,
                         _monsterState._monMoveSpeed * _gameSpeed * Time.deltaTime);
 
+                    _monAnimatior.speed = _gameSpeed;
                     // 이동 애니메이션
                     _monAnimatior.Play(Walk_Hash);
                 }
@@ -228,6 +230,7 @@ public class MonsterController : UnitBaseData
             {
                 if (_attackCoolTimer <= 0f || _isFirstAttack)
                 {
+                    _monAnimatior.speed = _gameSpeed;
                     // 공격 애니메이션
                     _monAnimatior.Play(Attack_Hash);
 
@@ -292,6 +295,8 @@ public class MonsterController : UnitBaseData
             if (_monsterState._monActiveSkill_1._monSkillCd <= _skill1Timer && !_isUseSkill && !_isUseSkill2)
             {
                 _isUseSkill = true;
+
+                _monAnimatior.speed = _gameSpeed;
                 // 스킬1 애니메이션
                 _monAnimatior.Play(Skill1_Hash);
 
@@ -309,6 +314,7 @@ public class MonsterController : UnitBaseData
             {
                 _isUseSkill2 = true;
 
+                _monAnimatior.speed = _gameSpeed;
                 // 스킬2 애니메이션
                 _monAnimatior.Play(Skill2_Hash);
 
