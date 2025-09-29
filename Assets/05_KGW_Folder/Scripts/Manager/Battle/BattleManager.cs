@@ -153,6 +153,7 @@ public class BattleManager : MonoBehaviour
         _canResurrection = true;
         _characters.Clear();
         _monsters.Clear();
+        _bossMonster.Clear();
     }
 
     // 캐릭터 스폰
@@ -284,7 +285,6 @@ public class BattleManager : MonoBehaviour
         _monsterTotalCurrentHp = _monsterTotalMaxHp;
         // 생성된 몬스터 수 저장
         _monsterCount = _monsters.Count;
-
         // 통합 체력 초기화
         OnTotalHpChange?.Invoke(_monsterTotalCurrentHp, _monsterTotalMaxHp);
     }
@@ -411,7 +411,7 @@ public class BattleManager : MonoBehaviour
         // 남아있는 몬스터가 없으면
         if (_monsterCount == 0)
         {
-            // Debug.Log("클리어 성공!");
+            //Debug.Log("클리어 성공!");
 
             _isClear = true;
             _isGameOver = true;
@@ -432,7 +432,7 @@ public class BattleManager : MonoBehaviour
         // 남아있는 플레이어가 없으면
         if (_characterCount == 0)
         {
-            // Debug.Log("클리어 실패!");
+            //Debug.Log("클리어 실패!");
             _isClear = false;
             _isGameOver = true;
 
@@ -441,7 +441,7 @@ public class BattleManager : MonoBehaviour
 
             foreach (var boss in _bossMonster)
             {
-                Debug.Log("보스 몬스터의 공격타겟 삭제");
+                //Debug.Log("보스 몬스터의 공격타겟 삭제");
                 boss._attackTarget = null;
                 boss._attackTargets.Clear();
             }
@@ -538,6 +538,8 @@ public class BattleManager : MonoBehaviour
 
         _characters.Clear();
         _monsters.Clear();
+        _bossMonster.Clear();
+        
 
         _canResurrection = true;
         _isSpawned = false;

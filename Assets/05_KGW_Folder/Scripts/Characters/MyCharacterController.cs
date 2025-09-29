@@ -106,7 +106,7 @@ public class MyCharacterController : UnitBaseData
 
         _characterState._isBarrier = _characterData.GetModifiedCharacterState()._isBarrier;
         _characterState._groggyDamage = _characterData.GetModifiedCharacterState()._groggyDamage;
-        _characterState._chaPassiveSkill = _characterData.GetModifiedCharacterState()._chaPassiveSkill;
+        _characterState._chaPassiveSkill = _characterData._chaPassiveSkill;
         _characterState._isResurrection = _characterData.GetModifiedCharacterState()._isResurrection;
         _moveDir = Vector3.right;
         _isAlive = true;
