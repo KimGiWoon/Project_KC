@@ -14,16 +14,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Row:
     EncounterID: 5004
-    Type: 0
+    Sentiment: 0
     EncounterStage: 1
     ResultType: 1
     EncounterText: "\uB2F9\uC2E0\uC740 \uB0A1\uC740 \uC9D1\uC5D0\uC11C \uB098\uBB34
-      \uADA4\uC9DD\uC744 \uBC1C\uACAC\uD558\uACE0 \uC5F4\uC5B4\uBD05\uB2C8\uB2E4.\\n\uC548\uC5D0\uB294
-      \uC5FD\uC804\uC774 \uAC00\uB4DD \uB4E4\uC5B4\uC788\uC5C8\uC2B5\uB2C8\uB2E4!\\n "
-    EnCounterType: 5
+      \uADA4\uC9DD\uC744 \uBC1C\uACAC\uD558\uACE0 \uC5F4\uC5B4\uBD05\uB2C8\uB2E4.
+      \uC548\uC5D0\uB294 \uC5FD\uC804\uC774 \uAC00\uB4DD \uB4E4\uC5B4\uC788\uC5C8\uC2B5\uB2C8\uB2E4!  "
+    Type: 5
     ChoiceCount: 1
-    ChoiceTexts: []
-    RandomType: 0
+    ChoiceTexts:
+    - null
+    - null
+    - null
+    RandomGrade: 0
     ResultOwned: 0
     CanGetMoney: 1
     StartID: 0

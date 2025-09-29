@@ -14,16 +14,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Row:
     EncounterID: 6015
-    Type: 1
+    Sentiment: 1
     EncounterStage: 0
     ResultType: 1
     EncounterText: "\uAC8C\uC784\uC5D0\uC11C \uC2B9\uB9AC\uD588\uC2B5\uB2C8\uB2E4!"
-    EnCounterType: 3
+    Type: 3
     ChoiceCount: 2
     ChoiceTexts:
-    - "\uD55C\uD310 \uB354!\\n\uC5FD\uC804 -500"
+    - "\uD55C\uD310 \uB354! \uC5FD\uC804 -500"
     - "\uC774\uC81C \uADF8\uB9CC\uD558\uC790.."
-    RandomType: 5
+    RandomGrade: 5
     ResultOwned: 0
     CanGetMoney: 1
     StartID: 0
@@ -34,9 +34,10 @@ MonoBehaviour:
     ResultNumber: 1
     ResultChoiceCount: 1
     EncounterExitText:
-    - "\uB2F9\uC2E0\uC740 \uB5A0\uB098\uAE30\uB85C \uD569\uB2C8\uB2E4.\\n\uC5B4\uCA0B\uB4E0
+    - "\uB2F9\uC2E0\uC740 \uB5A0\uB098\uAE30\uB85C \uD569\uB2C8\uB2E4. \uC5B4\uCA0B\uB4E0
       \uB3C4\uBC15\uC740 \uB098\uC058\uB2C8\uAE50\uC694."
     - "\uC5FD\uC804 +1000"
     - "\uACC4\uC18D \uD558\uB2E4\uBCF4\uB2C8\uAE4C \uC0AC\uB78C\uB4E4\uC774 \uC774\uC81C
-      \uADF8\uB9CC\uD558\uC790\uBA74\uC11C\\n\uC790\uB9AC\uB97C \uB728\uAE30 \uC2DC\uC791\uD569\uB2C8\uB2E4.\\n\uB2F9\uC2E0\uB3C4
-      \uC5B4\uCA54 \uC218 \uC5C6\uC774 \uC790\uB9AC\uB97C \uB728\uAE30\uB85C \uD569\uB2C8\uB2E4."
+      \uADF8\uB9CC\uD558\uC790\uBA74\uC11C \uC790\uB9AC\uB97C \uB728\uAE30 \uC2DC\uC791\uD569\uB2C8\uB2E4.
+      \uB2F9\uC2E0\uB3C4 \uC5B4\uCA54 \uC218 \uC5C6\uC774 \uC790\uB9AC\uB97C \uB728\uAE30\uB85C
+      \uD569\uB2C8\uB2E4."

@@ -14,19 +14,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Row:
     EncounterID: 6010
-    Type: 1
+    Sentiment: 1
     EncounterStage: 3
     ResultType: 1
     EncounterText: "\uB204\uAD70\uAC00 \uB9C8\uC744 \uD55C\uBCF5\uD310\uC5D0\uC11C
-      \uC790\uAE30\uB97C \uC4F0\uB7EC\uD2B8\uB9AC\uB294\\n  \uC0AC\uB78C\uC5D0\uAC8C
+      \uC790\uAE30\uB97C \uC4F0\uB7EC\uD2B8\uB9AC\uB294   \uC0AC\uB78C\uC5D0\uAC8C
       \uC0C1\uAE08\uC744 \uC8FC\uACA0\uB2E4\uACE0 \uD569\uB2C8\uB2E4."
-    EnCounterType: 2
+    Type: 2
     ChoiceCount: 2
     ChoiceTexts:
-    - "\uC2F8\uC6CC\uC11C \uD30C\uC774\uD2B8 \uBA38\uB2C8\uB97C \uC5BB\uC790!\\n(\uC2B9\uB9AC
+    - "\uC2F8\uC6CC\uC11C \uD30C\uC774\uD2B8 \uBA38\uB2C8\uB97C \uC5BB\uC790! (\uC2B9\uB9AC
       \uC2DC \uC5FD\uC804 +1500)"
     - "\uC2F8\uC6B0\uB294 \uAC74 \uC2EB\uB2E4."
-    RandomType: 0
+    RandomGrade: 0
     ResultOwned: 0
     CanGetMoney: 1
     StartID: 0
