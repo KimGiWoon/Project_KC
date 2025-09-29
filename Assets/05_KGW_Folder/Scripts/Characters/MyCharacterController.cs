@@ -74,7 +74,8 @@ public class MyCharacterController : UnitBaseData
         uiParents = GetComponent<CharacterUIParents>();
         effectController = GetComponentInChildren<EffectController>();
 
-        // Debug.Log($"{name} 의 EffectController 연결됨? {effectController != null}");
+        // 오리지널 스탯을 모디파이 스탯으로 연결
+        _characterData._modifiedCharacterState = _characterData.GetOriginalCharacterState();
     }
 
     // 캐릭터 생성 초기화
