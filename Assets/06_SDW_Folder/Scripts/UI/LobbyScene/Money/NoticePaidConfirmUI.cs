@@ -65,16 +65,18 @@ namespace SDW
 
         public override void Open()
         {
+            _isProgress = true;
             _cancelButton.interactable = true;
             _payButton.interactable = true;
-            _isProgress = false;
             _isPayButtonClicked = false;
             _backgroundPanel.gameObject.SetActive(true);
             base.Open();
+            _isProgress = false;
         }
 
         public override void Close()
         {
+            _isProgress = true;
             if (!_isPayButtonClicked) _backgroundPanel.FadeOut();
             StartCoroutine(DelayedClose());
         }
@@ -83,6 +85,7 @@ namespace SDW
         {
             yield return new WaitForSeconds(_backgroundPanel.TweenTime);
             base.Close();
+            _isProgress = false;
         }
 
         private void CancelButtonClicked()

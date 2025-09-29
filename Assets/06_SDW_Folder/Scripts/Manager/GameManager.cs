@@ -341,6 +341,12 @@ namespace SDW
             _firebase.SetStage(_stage);
         }
 
+        public void ClearStage()
+        {
+            _stage = 1;
+            _firebase.SetStage(_stage);
+        }
+
         /// <summary>
         /// 다운로드 완료 상태를 설정
         /// </summary>

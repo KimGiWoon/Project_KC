@@ -33,14 +33,6 @@ namespace SDW
             _exchangeButton.onClick.RemoveListener(ExchangeButtonClicked);
         }
 
-        public override void Open()
-        {
-            _paidStoreButton.interactable = true;
-            _exchangeButton.interactable = true;
-            _isProgress = false;
-            base.Open();
-        }
-
         /// <summary>
         /// UI 외부 터치 시 UI를 Close
         /// </summary>
@@ -59,6 +51,22 @@ namespace SDW
                     OnUICloseRequested?.Invoke(UIName.GachaNotEnoughUI, UIName.None);
                 }
             }
+        }
+
+        public override void Open()
+        {
+            _paidStoreButton.interactable = true;
+            _exchangeButton.interactable = true;
+            _isProgress = true;
+            base.Open();
+            _isProgress = false;
+        }
+
+        public override void Close()
+        {
+            _isProgress = true;
+            base.Close();
+            _isProgress = false;
         }
 
         private void PaidStoreButtonClicked()

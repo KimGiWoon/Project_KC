@@ -31,7 +31,7 @@ namespace SDW
         [SerializeField] private TweenAnimation _panelTweenAnimation;
 
         private GameManager _gameManager;
-        private bool _isLoaded;
+        private bool _isProgress;
 
         public Action<UIName> OnUICloseRequested;
         public Action<UIName> OnUIOpenButtonRequested;
@@ -74,16 +74,25 @@ namespace SDW
 
         public override void Open()
         {
+            _isProgress = true;
             GameManager.Instance.Firebase.RequestUserInfo();
             _containerTweenAnimation.moveAway();
+            StartCoroutine(DelayedOpen());
             base.Open();
             _backgroundPanel.gameObject.SetActive(true);
             _medalPanel.SetActive(true);
             _uiStack.Push(UIName.UserInfoUI);
         }
 
+        private IEnumerator DelayedOpen()
+        {
+            yield return new WaitForSeconds(_containerTweenAnimation.tweenTime);
+            _isProgress = false;
+        }
+
         public override void Close()
         {
+            _isProgress = true;
             _backgroundPanel.FadeOut();
             StartCoroutine(DelayedClose());
         }
@@ -93,6 +102,7 @@ namespace SDW
             _containerTweenAnimation.moveBack();
             yield return new WaitForSeconds(_containerTweenAnimation.tweenTime);
             base.Close();
+            _isProgress = false;
             _medalPanel.SetActive(false);
             _uiStack.Clear();
         }
@@ -102,7 +112,7 @@ namespace SDW
         /// </summary>
         public void Update()
         {
-            if (!_panelContainer.activeSelf) return;
+            if (!_panelContainer.activeSelf || _isProgress) return;
 
             //# 안드로이드 터치 감지
             if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began)

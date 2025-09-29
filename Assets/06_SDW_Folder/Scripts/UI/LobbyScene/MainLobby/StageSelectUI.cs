@@ -39,6 +39,7 @@ namespace SDW
         public Action<UIName> OnUICloseRequested;
 
         private GameManager _gameManager;
+        private bool _isProgress;
 
         private void Awake()
         {
@@ -70,7 +71,7 @@ namespace SDW
         /// </summary>
         public void Update()
         {
-            if (!_panelContainer.activeSelf) return;
+            if (!_panelContainer.activeSelf || _isProgress) return;
 
             //# 안드로이드 터치 감지
             if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began)
@@ -89,6 +90,7 @@ namespace SDW
 
         public override void Open()
         {
+            _isProgress = true;
             CheckPermanentRemark();
             _index = 0;
             _tweenAnimation.moveAway();
@@ -96,8 +98,15 @@ namespace SDW
             _backgroundPanel.gameObject.SetActive(true);
         }
 
+        private IEnumerator DelayedOpen()
+        {
+            yield return new WaitForSeconds(_tweenAnimation.tweenTime);
+            _isProgress = false;
+        }
+
         public override void Close()
         {
+            _isProgress = true;
             _permanentRemarkImage.gameObject.SetActive(false);
             _backgroundPanel.FadeOut();
             StartCoroutine(DelayedClose());
@@ -108,19 +117,38 @@ namespace SDW
             _tweenAnimation.moveBack();
             yield return new WaitForSeconds(_tweenAnimation.tweenTime);
             base.Close();
+            _isProgress = false;
         }
 
         public void CheckPermanentRemark()
         {
-            int currentNode = _gameManager.GrowthUnlockNodes.Last();
+            int currentUnlockedNode = 0;
+            for (int i = _gameManager.GrowthUnlockNodes.Count - 1; i >= 0; i--)
+            {
+                if (_gameManager.GrowthUnlockNodes[i] < 80100)
+                    continue;
 
-            if (_gameManager.GrowthCompleteNodes.Count != 0 && currentNode == _gameManager.GrowthCompleteNodes.Last())
+                currentUnlockedNode = _gameManager.GrowthUnlockNodes[i];
+                break;
+            }
+
+            int currentCompletedNode = 0;
+            for (int i = _gameManager.GrowthCompleteNodes.Count - 1; i >= 0; i--)
+            {
+                if (_gameManager.GrowthCompleteNodes[i] < 80100)
+                    continue;
+
+                currentCompletedNode = _gameManager.GrowthCompleteNodes[i];
+                break;
+            }
+
+            if (_gameManager.GrowthCompleteNodes.Count != 0 && currentUnlockedNode == currentCompletedNode)
             {
                 _permanentRemarkImage.gameObject.SetActive(false);
                 return;
             }
 
-            if (_growthManager.GrowthDataDic[currentNode].nodeCurrency > _gameManager.Coin.point)
+            if (_growthManager.GrowthDataDic[currentUnlockedNode].nodeCurrency > _gameManager.Coin.point)
             {
                 _permanentRemarkImage.gameObject.SetActive(false);
                 return;

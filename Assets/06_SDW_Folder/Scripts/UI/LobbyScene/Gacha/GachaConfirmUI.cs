@@ -22,6 +22,7 @@ namespace SDW
         private bool _isSingleGacha;
         private int _sugarStar;
         private string _originalDescription;
+        private bool _isProgress;
 
         private void Awake()
         {
@@ -53,7 +54,7 @@ namespace SDW
         /// </summary>
         public void Update()
         {
-            if (!_panelContainer.activeSelf) return;
+            if (!_panelContainer.activeSelf || _isProgress) return;
 
             //# 안드로이드 터치 감지
             if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began)
@@ -70,8 +71,10 @@ namespace SDW
 
         public override void Close()
         {
+            _isProgress = true;
             base.Close();
             _descriptionText.text = _originalDescription;
+            _isProgress = false;
         }
 
         public void SetDescriptionText(int sugarStar, int count)

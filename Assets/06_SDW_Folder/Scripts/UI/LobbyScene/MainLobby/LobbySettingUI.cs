@@ -123,16 +123,24 @@ namespace SDW
 
         public override void Open()
         {
-            _isProgress = false;
+            _isProgress = true;
             _backgroundPanelObject.SetActive(true);
             _gameManager.Firebase.RequestUserInfo();
             SetupInitialVolumeState();
             _tweenAnimation.moveAway();
+            StartCoroutine(DelayedOpen());
             base.Open();
+        }
+
+        private IEnumerator DelayedOpen()
+        {
+            yield return new WaitForSeconds(_tweenAnimation.tweenTime);
+            _isProgress = false;
         }
 
         public override void Close()
         {
+            _isProgress = true;
             _backgroundPanel.FadeOut();
             StartCoroutine(DelayedClose());
         }
@@ -144,6 +152,7 @@ namespace SDW
             _originalVolumeList.Clear();
             _originalMuteList.Clear();
             base.Close();
+            _isProgress = false;
         }
 
         private void InitializeSettings()
