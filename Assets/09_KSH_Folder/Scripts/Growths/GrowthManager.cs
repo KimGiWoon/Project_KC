@@ -34,6 +34,7 @@ public class GrowthManager : MonoBehaviour
     private GameManager _gameManager;
     private bool _isLoaded;
     private static bool _hasFaster = false;
+    public event Action OnGrowthUpdate;
 
     private void Awake()
     {
@@ -249,6 +250,7 @@ public class GrowthManager : MonoBehaviour
                  modified._chaCurrentMP = modified._chaMaxMP * growthDatas.nodeAbilityValueMult;
                  Debug.Log($"{original._chaName} 최대 MP: {prevMaxMP} -> {modified._chaMaxMP}, 현재 MP: {modified._chaCurrentMP}");
                  break;
+             
             case NodeAbility.None:
                 if (growthDatas.nodeID == 80002) //배속 기능 활성화
                 {
@@ -269,8 +271,8 @@ public class GrowthManager : MonoBehaviour
     {
         foreach (var cha in _charData.AllOwnedCharacters)
         {
-            CharacterState original = cha.GetOriginalCharacterState();
-            CharacterState modified = cha.GetModifiedCharacterState();
+            var modified = cha._modifiedCharacterState;
+            var original = cha._originalCharacterState;
             ModifiedStat(original, modified);
             
             foreach (int nodeID in GameManager.Instance.GrowthCompleteNodes)
@@ -281,12 +283,14 @@ public class GrowthManager : MonoBehaviour
                 }
             }
         }
+        OnGrowthUpdate?.Invoke();
     }
+    
 
     private void SetNewCharacter(CharacterDataSO cha) //새로 뽑힌 캐릭터에 기존 스탯 적용
     {
-        CharacterState original = cha.GetOriginalCharacterState();
-        CharacterState modified = cha.GetModifiedCharacterState();
+        var modified = cha._modifiedCharacterState;
+        var original = cha._originalCharacterState;
         
         ModifiedStat(original, modified);
         
