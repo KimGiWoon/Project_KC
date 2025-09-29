@@ -58,6 +58,9 @@ namespace SDW
             int curlevel = GameManager.Instance.CharacterData.CharEnNameLevel[data._chaBaseData.ChaEnName];
             int curUpgradeLevel = GameManager.Instance.CharacterData.BeadsInventory[data._chaBaseData.ChaEnName];
 
+            //JJY 수정
+            CharacterState currentCharacterStatData = data.GetModifiedCharacterState();
+
             GameManager.Instance.CharacterBattleDataSave._chaLevel[data._chaBaseData.ChaEnName] = curlevel;
             GameManager.Instance.CharacterBattleDataSave._chaUpgrade[data._chaBaseData.ChaEnName] = curUpgradeLevel;
 
@@ -75,15 +78,15 @@ namespace SDW
             _classNameText.text = data._chaBaseData.ChaRole.ToString();
             _classLevelText.text = "Lv. " + GameManager.Instance.CharacterBattleDataSave._chaLevel[data._chaBaseData.ChaEnName];
             _hpText.text = (data._chaBaseData.ChaHP * levelData.ChaHPIncrease * upgradeData.ChaHP).ToString("F0");
-            _attackText.text = (data._chaBaseData.ChaAttack * levelData.ChaAttackIncrease * upgradeData.ChaAttack).ToString("F0");
-            _deffenceText.text = (data._chaBaseData.ChaArmor * levelData.ChaArmorIncrease * upgradeData.ChaArmor).ToString("F0");
+            _attackText.text = (currentCharacterStatData._chaAttack * levelData.ChaAttackIncrease * upgradeData.ChaAttack).ToString("F0");
+            _deffenceText.text = (currentCharacterStatData._chaArmor * levelData.ChaArmorIncrease * upgradeData.ChaArmor).ToString("F0");
 
-            var characterBaseData = data._chaBaseData;
+            // var characterBaseData = data._chaBaseData;
 
             var passiveSkill = data._chaPassiveSkill;
             _passiveSkillImage.sprite = data._passiveSkillSprite;
             _passiveSkillNameText.text = passiveSkill._chaSkillName;
-            _passiveSkillDescriptionText.text = GetDescription(passiveSkill, characterBaseData);
+            _passiveSkillDescriptionText.text = GetDescription(passiveSkill, currentCharacterStatData);
 
             var activeSkill = data._chaActiveSkill;
             if (activeSkill == null)
@@ -100,17 +103,17 @@ namespace SDW
 
             _activeSkillImage.sprite = data._activeSkillSprite;
             _activeSkillNameText.text = activeSkill._chaSkillName;
-            _activeSkillDescriptionText.text = GetDescription(passiveSkill, characterBaseData);
+            _activeSkillDescriptionText.text = GetDescription(activeSkill, currentCharacterStatData);
             _activeContainerObject.SetActive(true);
         }
 
-        private string GetDescription(CharacterSkillDataSO skillData, CharacterBaseDataFileData characterBaseData)
+        private string GetDescription(CharacterSkillDataSO skillData, CharacterState characterState)
         {
             string description = skillData._chaSkillDescription.Replace(
                 "<chaSkillChance>", skillData._chaSkillChance.ToString("F0")
             );
             description = description.Replace(
-                "<chaAttack>*<chaSkillValue>", (skillData._chaSkillValue * characterBaseData.ChaAttack).ToString("F0")
+                "<chaAttack>*<chaSkillValue>", (skillData._chaSkillValue * characterState._chaAttack).ToString("F0")
             );
             description = description.Replace(
                 "<chaEffectValue*100>", (skillData._chaEffectValue * 100).ToString("F0")
