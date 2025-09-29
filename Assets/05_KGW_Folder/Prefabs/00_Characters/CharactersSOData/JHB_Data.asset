@@ -24,7 +24,7 @@ MonoBehaviour:
     ChaAtkSpeed: 0.7
     ChaAttack: 50
     ChaArmor: 10
-    ChaPassiveSkill: 12005
+    ChaPassiveSkill: 12003
     ChaActiveSkill: -1
     ChaPassiveSkillEffect: -1
     ChaActiveSkillEffect: -1
@@ -47,74 +47,74 @@ MonoBehaviour:
   _chaUpgradeLevel: 0
   frontViewSprite: {fileID: 21300000, guid: e2ff942922c8f2742ac51269e625cedd, type: 3}
   backViewSprite: {fileID: 21300000, guid: 007a983d139af29418e8208998c3e2d8, type: 3}
-  _chaPassiveSkill: {fileID: 11400000, guid: 47189edbb54ca18499e51caaa3eb7486, type: 2}
+  _chaPassiveSkill: {fileID: 11400000, guid: 0e55c03446951384b88a5af133a1832f, type: 2}
   _chaActiveSkill: {fileID: 0}
   _passiveSkillSprite: {fileID: 21300000, guid: 2afddafcb71278847a887789ecc5e038, type: 3}
   _activeSkillSprite: {fileID: 0}
-  Beads: 0
+  Beads: 6
   GachaBackground: {fileID: 21300000, guid: b4cdad622be7bac419a9d5e79f1f457b, type: 3}
   GachaBackgroundTen: {fileID: 21300000, guid: dc5d1e7ac74c9594fa278093dfe01251, type: 3}
   roleIcon: {fileID: 21300000, guid: db26bb630ee3004479b3d76ca8dbb96b, type: 3}
   largeDeformationSprite: {fileID: 21300000, guid: df131f73e60ae0e46bb27a8b06b875dd, type: 3}
   _modifiedCharacterState:
-    _chaID: 0
-    _chaName: 
-    _chaEnName: 0
+    _chaID: 11005
+    _chaName: "\uC7A5\uD76C\uBE48"
+    _chaEnName: 5
     _chaGrade: 0
-    _chaRole: 0
-    _chaLevel: 0
+    _chaRole: 2
+    _chaLevel: 1
     _chaUpgrade: 0
-    _chaCurrentHP: 0
-    _chaMaxHP: 0
+    _chaCurrentHP: 800
+    _chaMaxHP: 800
     _chaCurrentMP: 0
     _chaMaxMP: 0
     _chaMPRecovery: 0
-    _chaAtkSpeed: 0
-    _chaAttack: 0
-    _chaArmor: 0
+    _chaAtkSpeed: 0.55999994
+    _chaAttack: 60.7753
+    _chaArmor: 30
     _isBarrier: 0
     _groggyDamage: 0
     _reductionUpValue: 0
     _reductionDownValue: 0
-    _chaAtkIsMelee: 0
-    _chaAccuracy: 0
-    _chaAvoid: 0
-    _chaCrit: 0
-    _chaCritDmg: 0
-    _chaReg: 0
-    _chaMoveSpeed: 0
-    _chaPassiveSkill: {fileID: 0}
+    _chaAtkIsMelee: 3
+    _chaAccuracy: 100
+    _chaAvoid: 23
+    _chaCrit: 22
+    _chaCritDmg: 240.00002
+    _chaReg: 20
+    _chaMoveSpeed: 1
+    _chaPassiveSkill: {fileID: 11400000, guid: 47189edbb54ca18499e51caaa3eb7486, type: 2}
     _chaActiveSkill: {fileID: 0}
     _isManaFull: 0
     _isResurrection: 0
   _originalCharacterState:
-    _chaID: 0
-    _chaName: 
-    _chaEnName: 0
+    _chaID: 11005
+    _chaName: "\uC7A5\uD76C\uBE48"
+    _chaEnName: 5
     _chaGrade: 0
-    _chaRole: 0
-    _chaLevel: 0
+    _chaRole: 2
+    _chaLevel: 1
     _chaUpgrade: 0
-    _chaCurrentHP: 0
-    _chaMaxHP: 0
+    _chaCurrentHP: 800
+    _chaMaxHP: 800
     _chaCurrentMP: 0
     _chaMaxMP: 0
     _chaMPRecovery: 0
-    _chaAtkSpeed: 0
-    _chaAttack: 0
-    _chaArmor: 0
+    _chaAtkSpeed: 0.7
+    _chaAttack: 50
+    _chaArmor: 10
     _isBarrier: 0
     _groggyDamage: 0
     _reductionUpValue: 0
     _reductionDownValue: 0
-    _chaAtkIsMelee: 0
-    _chaAccuracy: 0
-    _chaAvoid: 0
-    _chaCrit: 0
-    _chaCritDmg: 0
-    _chaReg: 0
-    _chaMoveSpeed: 0
-    _chaPassiveSkill: {fileID: 0}
+    _chaAtkIsMelee: 3
+    _chaAccuracy: 100
+    _chaAvoid: 15
+    _chaCrit: 10
+    _chaCritDmg: 200
+    _chaReg: 20
+    _chaMoveSpeed: 1
+    _chaPassiveSkill: {fileID: 11400000, guid: 47189edbb54ca18499e51caaa3eb7486, type: 2}
     _chaActiveSkill: {fileID: 0}
     _isManaFull: 0
     _isResurrection: 0
