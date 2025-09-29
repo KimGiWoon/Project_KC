@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58585316b513e9144a61e8da57f72608, type: 3}
+  m_Name: Encounter_0000
+  m_EditorClassIdentifier: 
+  Row:
+    EncounterID: 0
+    Sentiment: 0
+    EncounterStage: 0
+    ResultType: 0
+    EncounterText: string
+    Type: 0
+    ChoiceCount: 0
+    ChoiceTexts:
+    - string
+    RandomGrade: 0
+    ResultOwned: 0
+    CanGetMoney: 0
+    StartID: 0
+    EndID: 0
+    ResultMinCount: 0
+    ResultMaxCount: 0
+    ResultMoney: 0
+    ResultNumber: 0
+    ResultChoiceCount: 0
+    EncounterExitText:
+    - string

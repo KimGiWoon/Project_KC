@@ -14,19 +14,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Row:
     EncounterID: 5010
-    Type: 0
+    Sentiment: 0
     EncounterStage: 1
     ResultType: 3
     EncounterText: " \uC660\uC9C0 \uBAA8\uB974\uAC8C \uB2E8\uB2E8\uD574\uC9C4\uAC83
       \uAC19\uC2B5\uB2C8\uB2E4!"
-    EnCounterType: 8
+    Type: 8
     ChoiceCount: 1
-    ChoiceTexts: []
-    RandomType: 1
+    ChoiceTexts:
+    - null
+    - null
+    - null
+    RandomGrade: 1
     ResultOwned: 0
     CanGetMoney: 0
-    StartID: 11001
-    EndID: 11030
+    StartID: 1001
+    EndID: 1018
     ResultMinCount: 1
     ResultMaxCount: 1
     ResultMoney: 0

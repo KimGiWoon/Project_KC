@@ -14,17 +14,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Row:
     EncounterID: 7011
-    Sentiment: 0
+    Sentiment: 2
     EncounterStage: 0
     ResultType: 3
-    EncounterText: "\uB204\uAD70\uAC00 \uC5B4\uAE68\uB97C '\uD0C1' \uCE58\uACE0 \uC9C0\uB098\uAC11\uB2C8\uB2E4.\\n\uADFC\uB370
-      \uC5B4\uC9F8... \uC8FC\uBA38\uB2C8\uAC00 \uAC00\uBCBC\uC6CC\uC11C \uD655\uC778
-      \uD574\uBCF4\uB2C8 \\n \uC138\uC0C1\uC5D0 \uB2F9\uC2E0\uC758 \uBBAC\uAC74\uC774
-      \uD138\uB838\uC2B5\uB2C8\uB2E4! \\n \uB9DD\uD560 \uC18C\uB9E4\uCE58\uAE30 \uAC19\uC73C\uB2C8\uB77C\uACE0!"
-    Type: 2
+    EncounterText: "\uB204\uAD70\uAC00 \uC5B4\uAE68\uB97C '\uD0C1' \uCE58\uACE0 \uC9C0\uB098\uAC11\uB2C8\uB2E4.
+      \uADFC\uB370 \uC5B4\uC9F8... \uC8FC\uBA38\uB2C8\uAC00 \uAC00\uBCBC\uC6CC\uC11C
+      \uD655\uC778 \uD574\uBCF4\uB2C8   \uC138\uC0C1\uC5D0 \uB2F9\uC2E0\uC758 \uBBAC\uAC74\uC774
+      \uD138\uB838\uC2B5\uB2C8\uB2E4!   \uB9DD\uD560 \uC18C\uB9E4\uCE58\uAE30 \uAC19\uC73C\uB2C8\uB77C\uACE0!"
+    Type: 9
     ChoiceCount: 1
-    ChoiceTexts: []
-    RandomGrade: 0
+    ChoiceTexts:
+    - null
+    - null
+    - null
+    RandomGrade: 5
     ResultOwned: 1
     CanGetMoney: 0
     StartID: 0
@@ -35,4 +38,4 @@ MonoBehaviour:
     ResultNumber: -1
     ResultChoiceCount: 1
     EncounterExitText:
-    - "\uC720\uBB3C\uC774 \uC0AC\uB77C\uC84C\uC2B5\uB2C8\uB2E4! \\n {relicName}"
+    - "\uC720\uBB3C\uC774 \uC0AC\uB77C\uC84C\uC2B5\uB2C8\uB2E4!"

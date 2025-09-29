@@ -15,24 +15,26 @@ MonoBehaviour:
   Row:
     EncounterID: 5020
     Sentiment: 0
-    EncounterStage: 3
+    EncounterStage: 1
     ResultType: 3
     EncounterText: "\uAE38\uC744 \uAC00\uB358 \uC911, \uB0A1\uC740 \uC0C1\uC790\uB97C
       \uBC1C\uACAC\uD574\uC11C \uC5F4\uC5B4\uBCF4\uB2C8 \uC4F8\uB9CC\uD574\uBCF4\uC774\uB294
-      \uAC78\\n\uC5BB\uC5C8\uC2B5\uB2C8\uB2E4."
-    Type: 0
+      \uAC78 \uC5BB\uC5C8\uC2B5\uB2C8\uB2E4."
+    Type: 8
     ChoiceCount: 1
-    ChoiceTexts: []
-    RandomGrade: 0
+    ChoiceTexts:
+    - null
+    - null
+    - null
+    RandomGrade: 1
     ResultOwned: 0
     CanGetMoney: 0
-    StartID: 11001
-    EndID: 11029
+    StartID: 1001
+    EndID: 1116
     ResultMinCount: 1
     ResultMaxCount: 1
     ResultMoney: 0
     ResultNumber: 1
     ResultChoiceCount: 1
     EncounterExitText:
-    - "\uC544\uB798\uC758 \uC720\uBB3C\uC744 \uD68D\uB4DD\uD569\uB2C8\uB2E4. \\n
-      {relicName}"
+    - "\uC544\uB798\uC758 \uC720\uBB3C\uC744 \uD68D\uB4DD\uD569\uB2C8\uB2E4."
