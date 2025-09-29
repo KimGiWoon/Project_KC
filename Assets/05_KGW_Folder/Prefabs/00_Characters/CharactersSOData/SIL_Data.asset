@@ -30,9 +30,9 @@ MonoBehaviour:
     ChaActiveSkillEffect: -1
     ChaIntroduction: "\uC0B0 \uC18D\uC5D0\uC11C \uC0DD\uD65C\uD558\uB294 \uC758\uBB38\uC758
       \uC18C\uB140. \uBA38\uB9AC\uC5D0 \uC7A5\uC2DD\uAC19\uC740 \uB291\uB300 \uADC0\uAC00
-      \uB2EC\uB824\uC788\uB2E4."
+      \uB2EC\uB824\uC788\uB2E4.\r"
   _chaTypeData:
-    ChaRole: 2
+    ChaRole: 1
     ChaAtkIsMelee: 2
     ChaAccuracy: 120
     ChaAvoid: 10
@@ -56,3 +56,65 @@ MonoBehaviour:
   GachaBackgroundTen: {fileID: 21300000, guid: b27c624109ca3c14597d3824762e41bc, type: 3}
   roleIcon: {fileID: 21300000, guid: 72ecca62ca5a467418f049d7d645c9ea, type: 3}
   largeDeformationSprite: {fileID: 21300000, guid: ff8c9f13cfd9e8d4280442b2726f88cf, type: 3}
+  _modifiedCharacterState:
+    _chaID: 0
+    _chaName: 
+    _chaEnName: 0
+    _chaGrade: 0
+    _chaRole: 0
+    _chaLevel: 0
+    _chaUpgrade: 0
+    _chaCurrentHP: 0
+    _chaMaxHP: 0
+    _chaCurrentMP: 0
+    _chaMaxMP: 0
+    _chaMPRecovery: 0
+    _chaAtkSpeed: 0
+    _chaAttack: 0
+    _chaArmor: 0
+    _isBarrier: 0
+    _groggyDamage: 0
+    _reductionUpValue: 0
+    _reductionDownValue: 0
+    _chaAtkIsMelee: 0
+    _chaAccuracy: 0
+    _chaAvoid: 0
+    _chaCrit: 0
+    _chaCritDmg: 0
+    _chaReg: 0
+    _chaMoveSpeed: 0
+    _chaPassiveSkill: {fileID: 0}
+    _chaActiveSkill: {fileID: 0}
+    _isManaFull: 0
+    _isResurrection: 0
+  _originalCharacterState:
+    _chaID: 0
+    _chaName: 
+    _chaEnName: 0
+    _chaGrade: 0
+    _chaRole: 0
+    _chaLevel: 0
+    _chaUpgrade: 0
+    _chaCurrentHP: 0
+    _chaMaxHP: 0
+    _chaCurrentMP: 0
+    _chaMaxMP: 0
+    _chaMPRecovery: 0
+    _chaAtkSpeed: 0
+    _chaAttack: 0
+    _chaArmor: 0
+    _isBarrier: 0
+    _groggyDamage: 0
+    _reductionUpValue: 0
+    _reductionDownValue: 0
+    _chaAtkIsMelee: 0
+    _chaAccuracy: 0
+    _chaAvoid: 0
+    _chaCrit: 0
+    _chaCritDmg: 0
+    _chaReg: 0
+    _chaMoveSpeed: 0
+    _chaPassiveSkill: {fileID: 0}
+    _chaActiveSkill: {fileID: 0}
+    _isManaFull: 0
+    _isResurrection: 0

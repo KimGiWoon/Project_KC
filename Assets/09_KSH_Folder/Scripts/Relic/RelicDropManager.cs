@@ -31,7 +31,6 @@ namespace KSH
             {
                 Destroy(gameObject);
             }
-            relics = Resources.LoadAll<RelicDatas>("Relics").ToList(); //리소스에 있는 유물들 리스트에 넣기
 
             relicRarityPicker = new WeightedRandom<RelicGrade>();
 

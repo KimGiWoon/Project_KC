@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using DG.Tweening;
 using TMPro;
 using UnityEngine;
@@ -16,6 +17,7 @@ namespace SDW
         [SerializeField] private Button _rightButton;
         [SerializeField] private Button _startButton;
         [SerializeField] private Button _permanentButton;
+        [SerializeField] private Image _permanentRemarkImage;
         [SerializeField] private List<Image> _stageImageList;
         [SerializeField] private List<string> _stageNameList;
         [SerializeField] private GameObject _permanentPanel;
@@ -27,6 +29,8 @@ namespace SDW
         [SerializeField] private RectTransform _stageRectTransform;
         [SerializeField] private float _tweenTime = 0.6f;
 
+        [SerializeField] private GrowthManager _growthManager;
+
         private int _index = 0;
         private Vector2 _targetPos = new Vector2();
         private RectTransform _rectTransform;
@@ -34,11 +38,15 @@ namespace SDW
         public Action<UIName> OnUIOpenRequested;
         public Action<UIName> OnUICloseRequested;
 
+        private GameManager _gameManager;
+
         private void Awake()
         {
             _panelContainer.SetActive(false);
             _rectTransform = _panelContainer.GetComponent<RectTransform>();
             _backgroundPanel.gameObject.SetActive(false);
+            _permanentRemarkImage.gameObject.SetActive(false);
+            _gameManager = GameManager.Instance;
         }
 
         private void OnEnable()
@@ -81,6 +89,7 @@ namespace SDW
 
         public override void Open()
         {
+            CheckPermanentRemark();
             _index = 0;
             _tweenAnimation.moveAway();
             base.Open();
@@ -89,6 +98,7 @@ namespace SDW
 
         public override void Close()
         {
+            _permanentRemarkImage.gameObject.SetActive(false);
             _backgroundPanel.FadeOut();
             StartCoroutine(DelayedClose());
         }
@@ -98,6 +108,25 @@ namespace SDW
             _tweenAnimation.moveBack();
             yield return new WaitForSeconds(_tweenAnimation.tweenTime);
             base.Close();
+        }
+
+        public void CheckPermanentRemark()
+        {
+            int currentNode = _gameManager.GrowthUnlockNodes.Last();
+
+            if (_gameManager.GrowthCompleteNodes.Count != 0 && currentNode == _gameManager.GrowthCompleteNodes.Last())
+            {
+                _permanentRemarkImage.gameObject.SetActive(false);
+                return;
+            }
+
+            if (_growthManager.GrowthDataDic[currentNode].nodeCurrency > _gameManager.Coin.point)
+            {
+                _permanentRemarkImage.gameObject.SetActive(false);
+                return;
+            }
+
+            _permanentRemarkImage.gameObject.SetActive(true);
         }
 
         #region Button Methods

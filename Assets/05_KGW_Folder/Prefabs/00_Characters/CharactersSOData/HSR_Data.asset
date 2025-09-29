@@ -19,10 +19,10 @@ MonoBehaviour:
     ChaGrade: 1
     ChaRole: 3
     ChaMP: 70
-    ChaMPRecovery: 7.7174993
+    ChaMPRecovery: 7
     ChaHP: 770
-    ChaAtkSpeed: 0.84000003
-    ChaAttack: 77.174995
+    ChaAtkSpeed: 0.7
+    ChaAttack: 70
     ChaArmor: 20
     ChaPassiveSkill: 12001
     ChaActiveSkill: 12201
@@ -31,13 +31,13 @@ MonoBehaviour:
     ChaIntroduction: "\uC790\uC2E0\uC774 \uACFC\uAC70 \uC870\uC120\uC758 \uC655\uB140\uB77C\uACE0
       \uC790\uCE6D\uD558\uB294 \uD55C \uC18C\uB140. \uADF8\uB140\uC758 \uC18C\uC6D0\uC740
       \uC790\uC2E0\uC758 \uAD6D\uAC00\uB97C \uB418\uCC3E\uB294 \uAC83\uC774\uB77C\uACE0
-      \uD55C\uB2E4...?"
+      \uD55C\uB2E4...?\r"
   _chaTypeData:
     ChaRole: 3
     ChaAtkIsMelee: 4
     ChaAccuracy: 100
-    ChaAvoid: 19
-    ChaCrit: 13
+    ChaAvoid: 15
+    ChaCrit: 10
     ChaCritDmg: 200
     ChaReg: 20
     ChaMoveSpeed: 0.9
@@ -57,3 +57,65 @@ MonoBehaviour:
   GachaBackgroundTen: {fileID: 21300000, guid: 942f7994e4ff63f4bb82c16efa13121c, type: 3}
   roleIcon: {fileID: 21300000, guid: b395a27d9e54fe44c85b6155c9d908eb, type: 3}
   largeDeformationSprite: {fileID: 21300000, guid: b0dd1475a2c9f754ab907fe970488140, type: 3}
+  _modifiedCharacterState:
+    _chaID: 0
+    _chaName: 
+    _chaEnName: 0
+    _chaGrade: 0
+    _chaRole: 0
+    _chaLevel: 0
+    _chaUpgrade: 0
+    _chaCurrentHP: 0
+    _chaMaxHP: 0
+    _chaCurrentMP: 0
+    _chaMaxMP: 0
+    _chaMPRecovery: 0
+    _chaAtkSpeed: 0
+    _chaAttack: 0
+    _chaArmor: 0
+    _isBarrier: 0
+    _groggyDamage: 0
+    _reductionUpValue: 0
+    _reductionDownValue: 0
+    _chaAtkIsMelee: 0
+    _chaAccuracy: 0
+    _chaAvoid: 0
+    _chaCrit: 0
+    _chaCritDmg: 0
+    _chaReg: 0
+    _chaMoveSpeed: 0
+    _chaPassiveSkill: {fileID: 0}
+    _chaActiveSkill: {fileID: 0}
+    _isManaFull: 0
+    _isResurrection: 0
+  _originalCharacterState:
+    _chaID: 0
+    _chaName: 
+    _chaEnName: 0
+    _chaGrade: 0
+    _chaRole: 0
+    _chaLevel: 0
+    _chaUpgrade: 0
+    _chaCurrentHP: 0
+    _chaMaxHP: 0
+    _chaCurrentMP: 0
+    _chaMaxMP: 0
+    _chaMPRecovery: 0
+    _chaAtkSpeed: 0
+    _chaAttack: 0
+    _chaArmor: 0
+    _isBarrier: 0
+    _groggyDamage: 0
+    _reductionUpValue: 0
+    _reductionDownValue: 0
+    _chaAtkIsMelee: 0
+    _chaAccuracy: 0
+    _chaAvoid: 0
+    _chaCrit: 0
+    _chaCritDmg: 0
+    _chaReg: 0
+    _chaMoveSpeed: 0
+    _chaPassiveSkill: {fileID: 0}
+    _chaActiveSkill: {fileID: 0}
+    _isManaFull: 0
+    _isResurrection: 0
