@@ -92,5 +92,39 @@ public class CharacterDataSO : ScriptableObject
         return _originalCharacterState;
     }
 
-    public CharacterState GetModifiedCharacterState() => _modifiedCharacterState;
+    public CharacterState GetModifiedCharacterState()
+    {
+        _modifiedCharacterState._chaLevel = _chaLv;
+        _modifiedCharacterState._chaUpgrade = _chaUpgradeLevel;
+        _modifiedCharacterState._chaID = _chaBaseData.ChaID;
+
+        _modifiedCharacterState._chaName = _chaBaseData.ChaName;
+        _modifiedCharacterState._chaEnName = _chaBaseData.ChaEnName;
+        _modifiedCharacterState._chaGrade = _chaBaseData.ChaGrade;
+        _modifiedCharacterState._chaRole = _chaBaseData.ChaRole;
+        _modifiedCharacterState._chaCurrentHP = _chaBaseData.ChaHP;
+        _modifiedCharacterState._chaMaxHP = _chaBaseData.ChaHP;
+        _modifiedCharacterState._chaCurrentMP = 0f;
+        _modifiedCharacterState._chaMaxMP = _chaBaseData.ChaMP;
+        _modifiedCharacterState._chaMPRecovery = _chaBaseData.ChaMPRecovery;
+        _modifiedCharacterState._chaAtkSpeed = _chaBaseData.ChaAtkSpeed;
+        _modifiedCharacterState._chaAttack = _chaBaseData.ChaAttack;
+        _modifiedCharacterState._chaArmor = _chaBaseData.ChaArmor;
+        _modifiedCharacterState._chaAtkIsMelee = _chaTypeData.ChaAtkIsMelee;
+        _modifiedCharacterState._chaAccuracy = _chaTypeData.ChaAccuracy;
+        _modifiedCharacterState._chaAvoid = _chaTypeData.ChaAvoid;
+        _modifiedCharacterState._chaCrit = _chaTypeData.ChaCrit;
+        _modifiedCharacterState._chaCritDmg = _chaTypeData.ChaCritDmg;
+        _modifiedCharacterState._chaReg = _chaTypeData.ChaReg;
+        _modifiedCharacterState._chaMoveSpeed = _chaTypeData.ChaMoveSpeed;
+        _modifiedCharacterState._reductionUpValue = 0f;
+        _modifiedCharacterState._reductionDownValue = 0f;
+
+        _modifiedCharacterState._isBarrier = false;
+        _modifiedCharacterState._groggyDamage = 0f;
+        _modifiedCharacterState._chaPassiveSkill = _chaPassiveSkill;
+        _modifiedCharacterState._isResurrection = false;
+
+        return _modifiedCharacterState;
+    }
 }

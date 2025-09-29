@@ -31,8 +31,7 @@ namespace KSH
         [SerializeField] private GameObject _gachaConfirmPanel;
         [SerializeField] private GameObject _gachaNotEnoughPanel;
         [SerializeField] private TweenAlpha_Image _backgroundPanel;
-        [SerializeField] private GameObject _singlePanel;
-        [SerializeField] private GameObject _tenPanel;
+        [SerializeField] private GameObject _resultPanel;
 
         public Action<UIName> OnUIOpenRequested;
         public Action<UIName> OnUICloseRequested;
@@ -98,8 +97,7 @@ namespace KSH
                     if (_possibilityPanel.activeSelf) return;
                     if (_gachaConfirmPanel.activeSelf) return;
                     if (_gachaNotEnoughPanel.activeSelf) return;
-                    if (_singlePanel.activeSelf) return;
-                    if (_tenPanel.activeSelf) return;
+                    if (_resultPanel.activeSelf) return;
 
                     OnUICloseRequested?.Invoke(UIName.GachaMainUI);
                 }
