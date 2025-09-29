@@ -266,6 +266,7 @@ namespace SDW
             //todo QA가 아닌 버전에서는 엽전도 Clear 해야 함
             _gameManager.Coin.ClearYeopjeon();
             _gameManager.ClearStage();
+            _gameManager.Coin.ClearBonusYeopjeon();
 
             _scorePanelButton.interactable = true;
         }

@@ -42,13 +42,17 @@ namespace KSH
         // public void SetData(CharacterData data)
         public void SetData(
             CharacterDataSO data,
-            int starCandy,
-            int bead,
+            int localStarCandy,
+            int locaBead,
             int currentBead,
             bool isFirstCharacter,
             PullType pullType
         )
         {
+            starCandy.SetActive(false);
+            bead.SetActive(false);
+            starCandyText.gameObject.SetActive(false);
+
             manager = GameManager.Instance.Reward;
             _data = GameManager.Instance.CharacterData;
             if (manager != null)
@@ -72,14 +76,14 @@ namespace KSH
                 //SetStarCandy(RewardChangeManager.Instance.gainedStarCandy);    
                 Debug.Log($"{data._chaBaseData.ChaName}스타캔디트루");
                 Debug.Log($"스타캔디트루 {manager.isStarCandy[data._chaBaseData.ChaName]}");
-                SetStarCandy(starCandy);
+                SetStarCandy(localStarCandy);
             }
             else
             {
                 //SetBead(RewardChangeManager.Instance.gainedBead);
                 Debug.Log($"{data._chaBaseData.ChaName}스타캔디펄스");
                 Debug.Log($"스타캔디트루 {manager.isStarCandy[data._chaBaseData.ChaName]}");
-                SetBead(bead);
+                SetBead(locaBead);
             }
             // _data.OwnedCharacters[data._chaBaseData.ChaName] = true;
             // }

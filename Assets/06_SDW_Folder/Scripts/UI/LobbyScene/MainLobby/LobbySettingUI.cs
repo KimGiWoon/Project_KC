@@ -10,6 +10,7 @@ namespace SDW
     public class LobbySettingUI : BaseUI
     {
         [SerializeField] private GameObject _backgroundPanelObject;
+        [SerializeField] private GameObject _confirmPanelObject;
         private TweenAlpha_Image _backgroundPanel;
         [Header("Top Component")]
         [SerializeField] private TextMeshProUGUI _userNameText;
@@ -114,6 +115,7 @@ namespace SDW
                 //# 패널 안에 터치가 있는지 확인
                 if (!RectTransformUtility.RectangleContainsScreenPoint(_rectTransform, touchPos))
                 {
+                    if (_confirmPanelObject.activeSelf) return;
                     CancelToChange();
                     _isProgress = true;
                     OnUICloseRequested?.Invoke(UIName.LobbySettingUI);

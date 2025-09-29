@@ -4212,7 +4212,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &188717872
 RectTransform:
   m_ObjectHideFlags: 0
@@ -18948,7 +18948,7 @@ MonoBehaviour:
   _selectText: {fileID: 2094354255}
   content: {fileID: 1410356852}
   relicPrefab: {fileID: 9136602848948372974, guid: 98c5d8002c0f47340bdd879e3049d661, type: 3}
-  RelicWindow: {fileID: 371453495}
+  RelicWindow: {fileID: 1410356851}
   ignoreText: {fileID: 866317049}
   relicDetailUI: {fileID: 1111991300}
 --- !u!222 &842175313
@@ -20597,7 +20597,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f163707ce708d34479d56d402294c1a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _mappingSo: {fileID: 11400000, guid: acf89812b52f6cb44a891d5aba8f2cc2, type: 2}
+  _mappingSo: {fileID: 11400000, guid: d68f91c210759bb44a91b4b44cb8d44d, type: 2}
 --- !u!114 &897264368
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20610,7 +20610,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be2b34b329cf0154c81c3cc384bd432b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _mappingSo: {fileID: 11400000, guid: 8e0e6d9393fe6e74fbfe9136dfa0818f, type: 2}
+  _mappingSo: {fileID: 11400000, guid: d52eb664147972148b3c0aa90f4ddbc3, type: 2}
 --- !u!4 &897264369
 Transform:
   m_ObjectHideFlags: 0
@@ -25331,7 +25331,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1111991300
 MonoBehaviour:
   m_ObjectHideFlags: 0
