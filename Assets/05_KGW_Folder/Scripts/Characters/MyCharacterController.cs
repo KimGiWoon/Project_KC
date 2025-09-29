@@ -80,36 +80,36 @@ public class MyCharacterController : UnitBaseData
     // 캐릭터 생성 초기화
     protected override void Init()
     {
-        _characterState._chaLevel = _characterData._chaLv;
-        _characterState._chaUpgrade = _characterData._chaUpgradeLevel;
-        _characterState._chaID = _characterData._chaBaseData.ChaID;
+        _characterState._chaLevel = _characterData.GetModifiedCharacterState()._chaLevel;
+        _characterState._chaUpgrade = _characterData.GetModifiedCharacterState()._chaUpgrade;
+        _characterState._chaID = _characterData.GetModifiedCharacterState()._chaID;
 
-        _characterState._chaName = _characterData._chaBaseData.ChaName;
-        _characterState._chaEnName = _characterData._chaBaseData.ChaEnName;
-        _characterState._chaGrade = _characterData._chaBaseData.ChaGrade;
-        _characterState._chaRole = _characterData._chaBaseData.ChaRole;
-        _characterState._chaCurrentHP = _characterData._chaBaseData.ChaHP;
-        _characterState._chaMaxHP = _characterData._chaBaseData.ChaHP;
-        _characterState._chaCurrentMP = 0f;
-        _characterState._chaMaxMP = _characterData._chaBaseData.ChaMP;
-        _characterState._chaMPRecovery = _characterData._chaBaseData.ChaMPRecovery;
-        _characterState._chaAtkSpeed = _characterData._chaBaseData.ChaAtkSpeed;
-        _characterState._chaAttack = _characterData._chaBaseData.ChaAttack;
-        _characterState._chaArmor = _characterData._chaBaseData.ChaArmor;
-        _characterState._chaAtkIsMelee = _characterData._chaTypeData.ChaAtkIsMelee;
-        _characterState._chaAccuracy = _characterData._chaTypeData.ChaAccuracy;
-        _characterState._chaAvoid = _characterData._chaTypeData.ChaAvoid;
-        _characterState._chaCrit = _characterData._chaTypeData.ChaCrit;
-        _characterState._chaCritDmg = _characterData._chaTypeData.ChaCritDmg;
-        _characterState._chaReg = _characterData._chaTypeData.ChaReg;
-        _characterState._chaMoveSpeed = _characterData._chaTypeData.ChaMoveSpeed;
-        _characterState._reductionUpValue = 0f;
-        _characterState._reductionDownValue = 0f;
+        _characterState._chaName = _characterData.GetModifiedCharacterState()._chaName;
+        _characterState._chaEnName = _characterData.GetModifiedCharacterState()._chaEnName;
+        _characterState._chaGrade = _characterData.GetModifiedCharacterState()._chaGrade;
+        _characterState._chaRole = _characterData.GetModifiedCharacterState()._chaRole;
+        _characterState._chaCurrentHP = _characterData.GetModifiedCharacterState()._chaCurrentHP;
+        _characterState._chaMaxHP = _characterData.GetModifiedCharacterState()._chaMaxHP;
+        _characterState._chaCurrentMP = _characterData.GetModifiedCharacterState()._chaCurrentMP;
+        _characterState._chaMaxMP = _characterData.GetModifiedCharacterState()._chaMaxMP;
+        _characterState._chaMPRecovery = _characterData.GetModifiedCharacterState()._chaMPRecovery;
+        _characterState._chaAtkSpeed = _characterData.GetModifiedCharacterState()._chaAtkSpeed;
+        _characterState._chaAttack = _characterData.GetModifiedCharacterState()._chaAttack;
+        _characterState._chaArmor = _characterData.GetModifiedCharacterState()._chaArmor;
+        _characterState._chaAtkIsMelee = _characterData.GetModifiedCharacterState()._chaAtkIsMelee;
+        _characterState._chaAccuracy = _characterData.GetModifiedCharacterState()._chaAccuracy;
+        _characterState._chaAvoid = _characterData.GetModifiedCharacterState()._chaAvoid;
+        _characterState._chaCrit = _characterData.GetModifiedCharacterState()._chaCrit;
+        _characterState._chaCritDmg = _characterData.GetModifiedCharacterState()._chaCritDmg;
+        _characterState._chaReg = _characterData.GetModifiedCharacterState()._chaReg;
+        _characterState._chaMoveSpeed = _characterData.GetModifiedCharacterState()._chaMoveSpeed;
+        _characterState._reductionUpValue = _characterData.GetModifiedCharacterState()._reductionUpValue;
+        _characterState._reductionDownValue = _characterData.GetModifiedCharacterState()._reductionDownValue;
 
-        _characterState._isBarrier = false;
-        _characterState._groggyDamage = 0f;
-        _characterState._chaPassiveSkill = _characterData._chaPassiveSkill;
-        _characterState._isResurrection = false;
+        _characterState._isBarrier = _characterData.GetModifiedCharacterState()._isBarrier;
+        _characterState._groggyDamage = _characterData.GetModifiedCharacterState()._groggyDamage;
+        _characterState._chaPassiveSkill = _characterData.GetModifiedCharacterState()._chaPassiveSkill;
+        _characterState._isResurrection = _characterData.GetModifiedCharacterState()._isResurrection;
         _moveDir = Vector3.right;
         _isAlive = true;
         _isFirstAttack = true;

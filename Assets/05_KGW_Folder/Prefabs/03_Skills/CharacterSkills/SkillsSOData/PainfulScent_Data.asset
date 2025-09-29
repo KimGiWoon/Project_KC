@@ -25,7 +25,7 @@ MonoBehaviour:
   _chaSkillValue: 0.5
   _chaEffectValue: 0.2
   _chaSkillDescription: "\uC9C0\uB3C5\uD55C \uB9C8\uB298\uD5A5\uC744 \uBFDC\uC5B4\uB0B4\uC5B4
-    {chaAttack*chaSkillValue} x {chaSkillHit}\uC758 \uD53C\uD574\uB97C \uC785\uD788\uACE0,
-    \uBAA8\uB4E0 \uC801\uC774 \uBC1B\uB294 \uD53C\uD574\uB97C  {chaEffectValue}%
+    <chaAttack>*<chaSkillValue> x <chaSkillHit>\uC758 \uD53C\uD574\uB97C \uC785\uD788\uACE0,
+    \uBAA8\uB4E0 \uC801\uC774 \uBC1B\uB294 \uD53C\uD574\uB97C  <chaEffectValue*100>%
     \uB9CC\uD07C \uC99D\uAC00 \uC2DC\uD0A8\uB2E4.\r"
   _chaSkillPrefab: {fileID: 8792730173350454514, guid: 41d9ad55b69e9594785e9b5d42b2b812, type: 3}

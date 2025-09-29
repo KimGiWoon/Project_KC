@@ -107,16 +107,16 @@ namespace SDW
         private string GetDescription(CharacterSkillDataSO skillData, CharacterBaseDataFileData characterBaseData)
         {
             string description = skillData._chaSkillDescription.Replace(
-                "{chaSkillChance}", skillData._chaSkillChance.ToString()
+                "<chaSkillChance>", skillData._chaSkillChance.ToString("F0")
             );
             description = description.Replace(
-                "{chaAttack*chaSkillValue}", (skillData._chaSkillValue * characterBaseData.ChaAttack).ToString()
+                "<chaAttack>*<chaSkillValue>", (skillData._chaSkillValue * characterBaseData.ChaAttack).ToString("F0")
             );
             description = description.Replace(
-                "{chaEffectValue}", skillData._chaEffectValue.ToString()
+                "<chaEffectValue*100>", (skillData._chaEffectValue * 100).ToString("F0")
             );
             description = description.Replace(
-                "{chaSkillHit}", skillData._chaSkillHit.ToString()
+                "<chaSkillHit>", skillData._chaSkillHit.ToString("F0")
             );
 
             return description;
