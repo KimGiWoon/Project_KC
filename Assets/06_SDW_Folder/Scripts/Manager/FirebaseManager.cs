@@ -60,6 +60,8 @@ namespace SDW
 
         public Action OnUserInfoUpdated;
 
+        private const bool _isQA = true;
+
         #region Firebase Intialize Methods
 
         /// <summary>
@@ -284,6 +286,16 @@ namespace SDW
                 { "totalYeopjeon", 0 } //# 총 획득 엽전 재화, 정산 시 사용
             };
 
+            if (_isQA)
+            {
+                coinData["beeksRecipeBook"] = 999;
+                coinData["fineDiningRecipeBook"] = 999;
+                coinData["masterChefRecipeBook"] = 999;
+                coinData["point"] = 99999;
+                coinData["starCandy"] = 99999;
+                coinData["shiningStarCandy"] = 99999;
+                coinData["totalYeopjeon"] = 99999;
+            }
 
             var characters = new Dictionary<string, object>();
 
@@ -525,6 +537,17 @@ namespace SDW
                 { "totalYeopjeon", 0 } //# 총 획득 엽전 재화, 정산 시 사용
             };
             _coinData = coinData;
+
+            if (_isQA)
+            {
+                coinData["beeksRecipeBook"] = 999;
+                coinData["fineDiningRecipeBook"] = 999;
+                coinData["masterChefRecipeBook"] = 999;
+                coinData["point"] = 99999;
+                coinData["starCandy"] = 99999;
+                coinData["shiningStarCandy"] = 99999;
+                coinData["totalYeopjeon"] = 99999;
+            }
 
             var characters = new Dictionary<string, object>();
 
