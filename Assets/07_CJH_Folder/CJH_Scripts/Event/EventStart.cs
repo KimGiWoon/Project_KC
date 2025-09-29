@@ -299,8 +299,9 @@ namespace CJH
                     if (choiceIndex == 0)
                     {
                         resultType = ChoiceResultType.LoseYeopjeon; // 첫 번째 선택은 돈 잃기
+                        string exitText = data.EncounterExitText[1];
                     }
-                    else
+                    else if (choiceIndex == 1)
                     {
                         resultType = ChoiceResultType.Combat; // 두 번째 선택은 전투
                     }
