@@ -73,9 +73,6 @@ public class MyCharacterController : UnitBaseData
 
         uiParents = GetComponent<CharacterUIParents>();
         effectController = GetComponentInChildren<EffectController>();
-
-        // 오리지널 스탯을 모디파이 스탯으로 연결
-        // _characterData._modifiedCharacterState = _characterData.GetOriginalCharacterState();
     }
 
     // 캐릭터 생성 초기화
@@ -153,6 +150,7 @@ public class MyCharacterController : UnitBaseData
             // 오른쪽으로 이동
             transform.Translate(_moveDir * _characterState._chaMoveSpeed * _gameSpeed * Time.deltaTime);
 
+            _chaAnimatior.speed = _gameSpeed;
             // 이동 애니메이션
             _chaAnimatior.Play(Walk_Hash);
         }
@@ -174,6 +172,7 @@ public class MyCharacterController : UnitBaseData
                 transform.position = Vector3.MoveTowards(transform.position, _researchTarget.transform.position,
                     _characterState._chaMoveSpeed * _gameSpeed * Time.deltaTime);
 
+                _chaAnimatior.speed = _gameSpeed;
                 // 이동 애니메이션
                 _chaAnimatior.Play(Walk_Hash);
             }
@@ -236,6 +235,10 @@ public class MyCharacterController : UnitBaseData
                 // 몬스터가 살아있으면 공격
                 if (_attackTarget != null && _attackTarget._isAlive)
                 {
+                    float basicAniSpeed = _characterData._chaBaseData.ChaAtkSpeed;
+                    float increaseAniSpeed = _characterState._chaAtkSpeed;
+
+                    _chaAnimatior.speed = ((basicAniSpeed + increaseAniSpeed) * _gameSpeed);
                     // 공격 애니메이션
                     _chaAnimatior.Play(Attack_Hash);
 
@@ -533,10 +536,11 @@ public class MyCharacterController : UnitBaseData
         // 치명타 계산
         float critical = UnityEngine.Random.value < _characterState._chaCrit * 0.01f ? _characterState._chaCritDmg * 0.01f : 1f;
 
-        if (critical != 1f)
-        {
-            _chaAnimatior.Play(Critical_Hash);
-        }
+        //if (critical != 1f)
+        //{
+        //    _chaAnimatior.speed = 1 * _gameSpeed;
+        //    _chaAnimatior.Play(Critical_Hash);
+        //}
 
         // 데미지 계산
         float reduction = _characterState._chaArmor / (_characterState._chaArmor + 100);
