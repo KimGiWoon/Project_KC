@@ -27,6 +27,14 @@ namespace SDW
         private void Awake()
         {
             _panelContainer.SetActive(false);
+            SetButtonsInteractable(false);
+            StartCoroutine(DelayedInteract());
+        }
+
+        private IEnumerator DelayedInteract()
+        {
+            yield return new WaitForSeconds(3f);
+            SetButtonsInteractable(true);
         }
 
         private void OnEnable()

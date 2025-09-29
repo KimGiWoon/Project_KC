@@ -8373,6 +8373,7 @@ MonoBehaviour:
   _rightButton: {fileID: 1995009949}
   _startButton: {fileID: 1756601516}
   _permanentButton: {fileID: 2043458140}
+  _permanentRemarkImage: {fileID: 1530073164}
   _stageImageList:
   - {fileID: 977165419}
   - {fileID: 1686681308}
@@ -8390,6 +8391,7 @@ MonoBehaviour:
   - -4650
   _stageRectTransform: {fileID: 514810707}
   _tweenTime: 0.6
+  _growthManager: {fileID: 1917224560}
 --- !u!1 &327953521
 GameObject:
   m_ObjectHideFlags: 0
@@ -41187,7 +41189,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f163707ce708d34479d56d402294c1a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _mappingSo: {fileID: 11400000, guid: f195158d02acd84459ce9b8def9ab615, type: 2}
+  _mappingSo: {fileID: 11400000, guid: d42c1f2ed32a22b47958ecbeb4d8c9cf, type: 2}
 --- !u!114 &1720060141
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -41200,7 +41202,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be2b34b329cf0154c81c3cc384bd432b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _mappingSo: {fileID: 11400000, guid: 438213188d824be42a40cd4a00c72d8e, type: 2}
+  _mappingSo: {fileID: 11400000, guid: 95f47374e49c5ef4486d0575ed32d1a3, type: 2}
 --- !u!4 &1720060142
 Transform:
   m_ObjectHideFlags: 0
