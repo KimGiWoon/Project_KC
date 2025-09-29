@@ -8,7 +8,9 @@ using UnityEditor;
 
 public class OfflinePopupManager : MonoBehaviour
 {
-    [Header("UI")]
+    // TODO GameManager 연결
+    [Header("UI")] // 이 오브젝트들을 전역으로 써야하는데 방법을 잘 모르겠음.
+    // 이미지, 폰트 다운로드 중 연결이 끊겼을 때 어떻게 보일지.
     [SerializeField] private GameObject popupPanel;
     [SerializeField] private TextMeshProUGUI popupText; // 팝업 내 메시지 Text (Text 컴포넌트)
     [SerializeField] private Button retryButton; // 재시도 버튼
@@ -123,7 +125,7 @@ public class OfflinePopupManager : MonoBehaviour
         while (popupVisible)
         {
             yield return new WaitForSeconds(autoRetryDelaySeconds);
-            
+
             popupText.text = CHECKING_MESSAGE;
 
             if (CheckReachability())
