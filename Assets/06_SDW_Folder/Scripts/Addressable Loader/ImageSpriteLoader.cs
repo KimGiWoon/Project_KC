@@ -37,7 +37,11 @@ namespace SDW
         private void TryBind()
         {
             if (_bound) return;
-            if (_mappingSo == null) return;
+            if (_mappingSo == null)
+            {
+                Debug.Log($"Image Mapping SO 연결 안됨 {GameManager.Instance.Scene.GetActiveScene()}");
+                return;
+            }
             if (!ScenePathIndex.IsBuilt) return;
 
 #if UNITY_EDITOR
