@@ -222,6 +222,7 @@ public class MonsterController : UnitBaseData
             // 공격 여유 사거리
             float attackSpareDistance = _monsterState._monAtkRange * 0.9f;
 
+            if (_attackTarget == null) return;
             // 공격 타겟과 거리 비교
             float attackDistance = Vector3.Distance(transform.position, _attackTarget.transform.position);
 
@@ -385,6 +386,10 @@ public class MonsterController : UnitBaseData
 
             if (gameObject.layer != LayerMask.NameToLayer("Boss"))
                 _monsterHp.value = 0f;
+
+            // 그로기 수치 UI
+            _breakCount = 0f;
+            _battleManager.ReportBreakGauge(_breakCount, _monsterState._monbreakGage);
             _monAnimatior.Play(Death_Hash);
             // 유닛의 죽음
             Death();
@@ -552,7 +557,7 @@ public class MonsterController : UnitBaseData
             _skill1Timer = 0f;
             _skill2Timer = 0f;
 
-            _breakCount = 0;
+            _breakCount = 0f;
             // 그로기 수치 UI
             _battleManager.ReportBreakGauge(_breakCount, _monsterState._monbreakGage);
 
