@@ -13,7 +13,7 @@ public class WaveOfSteelController : MonoBehaviour
         if (skillValue != 0f)
         {
             // 강철의 파동 사운드 플레이
-            GameManager.Instance.Audio.Play2DSFX(AudioClipName.RangedPassiveSkill);
+            GameManager.Instance.Audio.Play2DSFX(AudioClipName.MeleePassiveSkill);
         }
 
         Destroy(gameObject, 0.1f);
