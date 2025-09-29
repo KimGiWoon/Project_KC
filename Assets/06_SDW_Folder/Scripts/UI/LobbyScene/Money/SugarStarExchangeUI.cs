@@ -73,6 +73,7 @@ namespace SDW
             Initialize();
             _backgroundPanel.gameObject.SetActive(true);
             _tweenAnimation.moveAway();
+            StartCoroutine(DelayedOpen());
             base.Open();
         }
 

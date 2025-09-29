@@ -68,6 +68,7 @@ namespace SDW
             _tweenAnimation.moveAway();
             StartCoroutine(DelayedOpen());
             _inventoryUIManager.InitFoodInventory();
+            _canInteract = true;
         }
 
         private IEnumerator DelayedOpen()
