@@ -134,6 +134,8 @@ namespace JJY
             _yeopjeonBonus = percent;
         }
 
+        public void ClearBonusYeopjeon() => _yeopjeonBonus = 0;
+
         /// <summary>
         /// yeopjeon 재화 증가
         /// </summary>

@@ -53,6 +53,7 @@ namespace SDW
             _panelContainer.SetActive(false);
             _gameManager = GameManager.Instance;
             _videoPlayer = GetComponent<VideoPlayer>();
+            _videoPlayer.skipOnDrop = true;
         }
 
         /// <summary>

@@ -30,6 +30,7 @@ namespace SDW
         {
             _panelContainer.SetActive(false);
             DetailUI = relicDetailUI.gameObject;
+            DetailUI.SetActive(false);
         }
 
         private void OnEnable()

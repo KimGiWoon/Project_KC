@@ -94,6 +94,7 @@ namespace SDW
             CheckPermanentRemark();
             _index = 0;
             _tweenAnimation.moveAway();
+            StartCoroutine(DelayedOpen());
             base.Open();
             _backgroundPanel.gameObject.SetActive(true);
         }

@@ -43,6 +43,8 @@ namespace CJH
         private List<GameObject> lineArrows = new List<GameObject>();
         [SerializeField] public EventManager _eventManager;
 
+        private List<Button> _arrowButtons = new List<Button>();
+
         // 생성된 플레이어 캐릭터를 담을 변수
         private MapPlayerVisualController playerVisualController;
 
@@ -235,6 +237,8 @@ namespace CJH
                 Destroy(child.gameObject);
             }
 
+            _arrowButtons.Clear();
+
             var currentNode = currentMap.CurrentNode;
             if (currentNode == null || currentNode.nextNodes == null || !currentNode.nextNodes.Any()) return;
 
@@ -261,11 +265,23 @@ namespace CJH
                 }
 
                 var button = arrowBtn.GetComponent<Button>();
+                _arrowButtons.Add(button);
+                int index = _arrowButtons.IndexOf(button);
+                StartCoroutine(DelayedInteractable(_arrowButtons[index]));
                 if (button != null)
                 {
                     button.onClick.AddListener(() => SelectNode(targetNode));
                 }
             }
+        }
+
+        private IEnumerator DelayedInteractable(Button button)
+        {
+            button.interactable = false;
+            yield return new WaitForSeconds(1f);
+
+            if (button == null) yield break;
+            button.interactable = true;
         }
 
         // 플레이어 캐릭터를 현재 노드 위치로 이동시키는 함수
