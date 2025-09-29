@@ -44,6 +44,9 @@ public class CharacterDataSO : ScriptableObject
     [Header("Character Large Deformation Image")]
     public Sprite largeDeformationSprite;
 
+    [HideInInspector] public CharacterState _modifiedCharacterState = new CharacterState();
+    [HideInInspector] public CharacterState _originalCharacterState = new CharacterState();
+
     // 파싱 데이터를 매핑
     public virtual void DataApply(CharacterBaseDataFileData characterData, CharacterTypeFileData typeData)
     {
@@ -52,4 +55,42 @@ public class CharacterDataSO : ScriptableObject
         _chaLv = 1;
         _chaUpgradeLevel = 0;
     }
+
+    public CharacterState GetOriginalCharacterState()
+    {
+        _originalCharacterState._chaLevel = _chaLv;
+        _originalCharacterState._chaUpgrade = _chaUpgradeLevel;
+        _originalCharacterState._chaID = _chaBaseData.ChaID;
+
+        _originalCharacterState._chaName = _chaBaseData.ChaName;
+        _originalCharacterState._chaEnName = _chaBaseData.ChaEnName;
+        _originalCharacterState._chaGrade = _chaBaseData.ChaGrade;
+        _originalCharacterState._chaRole = _chaBaseData.ChaRole;
+        _originalCharacterState._chaCurrentHP = _chaBaseData.ChaHP;
+        _originalCharacterState._chaMaxHP = _chaBaseData.ChaHP;
+        _originalCharacterState._chaCurrentMP = 0f;
+        _originalCharacterState._chaMaxMP = _chaBaseData.ChaMP;
+        _originalCharacterState._chaMPRecovery = _chaBaseData.ChaMPRecovery;
+        _originalCharacterState._chaAtkSpeed = _chaBaseData.ChaAtkSpeed;
+        _originalCharacterState._chaAttack = _chaBaseData.ChaAttack;
+        _originalCharacterState._chaArmor = _chaBaseData.ChaArmor;
+        _originalCharacterState._chaAtkIsMelee = _chaTypeData.ChaAtkIsMelee;
+        _originalCharacterState._chaAccuracy = _chaTypeData.ChaAccuracy;
+        _originalCharacterState._chaAvoid = _chaTypeData.ChaAvoid;
+        _originalCharacterState._chaCrit = _chaTypeData.ChaCrit;
+        _originalCharacterState._chaCritDmg = _chaTypeData.ChaCritDmg;
+        _originalCharacterState._chaReg = _chaTypeData.ChaReg;
+        _originalCharacterState._chaMoveSpeed = _chaTypeData.ChaMoveSpeed;
+        _originalCharacterState._reductionUpValue = 0f;
+        _originalCharacterState._reductionDownValue = 0f;
+
+        _originalCharacterState._isBarrier = false;
+        _originalCharacterState._groggyDamage = 0f;
+        _originalCharacterState._chaPassiveSkill = _chaPassiveSkill;
+        _originalCharacterState._isResurrection = false;
+
+        return _originalCharacterState;
+    }
+
+    public CharacterState GetModifiedCharacterState() => _modifiedCharacterState;
 }

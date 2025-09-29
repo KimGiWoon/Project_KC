@@ -10,18 +10,14 @@ public class MapGenerator : MonoBehaviour
 
     public MapConfig config;
 
-    [SerializeField] private DataManager _dataManager;
-
     private int _floors;
     private int _mapWidth;
     private List<List<Node>> _map;
+
     private List<EncounterData> availableEncounters;
 
     public MapData GenerateMap(MapConfig configToGenerate)
     {
-        // Resources 폴더에서 EncounterData를 불러옵니다.
-        availableEncounters = Resources.LoadAll<EncounterData>("Data/EncounterData").ToList();
-
         // 전달받은 config를 이 컴포넌트의 config 변수에 저장합니다.
         config = configToGenerate;
         // Debug.Log("--- 맵 생성 시작 ---");
@@ -107,7 +103,6 @@ public class MapGenerator : MonoBehaviour
         }
     }
 
-
     private void AssignNodeTypesToPaths(Node start, Node end)
     {
         //1. 일반 규칙을 적용합니다.
@@ -125,11 +120,13 @@ public class MapGenerator : MonoBehaviour
         }
 
         // 3층은 이전 노드 타입에 따라 Battle 또는 Event로 설정
-        foreach (var childNode in _map[3].Where(n => n.nodeType != NodeType.NotAssigned && n.nodeType != NodeType.Start && n.nodeType != NodeType.Boss))
+        foreach (var childNode in _map[3].Where(n =>
+                     n.nodeType != NodeType.NotAssigned && n.nodeType != NodeType.Start && n.nodeType != NodeType.Boss))
         {
             if (childNode.previousNodes.Any())
             {
-                childNode.nodeType = childNode.previousNodes.Any(p => p.nodeType == NodeType.Event) ? NodeType.Battle : NodeType.Event;
+                childNode.nodeType = childNode.previousNodes.Any(p => p.nodeType == NodeType.Event) ? NodeType.Battle
+                    : NodeType.Event;
             }
         }
 
@@ -140,7 +137,7 @@ public class MapGenerator : MonoBehaviour
         {
             // 일단 모든 이벤트 노드에 랜덤 타입을 할당합니다.
             var sentimentTypes = new List<EventTypeKC>
-            { EventTypeKC.Positive, EventTypeKC.Negative, EventTypeKC.Neutral, EventTypeKC.Subtlety };
+                { EventTypeKC.Positive, EventTypeKC.Negative, EventTypeKC.Neutral, EventTypeKC.Subtlety };
             eventNode.EventTypeKC = sentimentTypes[Random.Range(0, sentimentTypes.Count)];
         }
 

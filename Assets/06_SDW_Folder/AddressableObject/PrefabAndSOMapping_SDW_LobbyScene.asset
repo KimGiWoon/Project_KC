@@ -13,12 +13,6 @@ MonoBehaviour:
   m_Name: PrefabAndSOMapping_SDW_LobbyScene
   m_EditorClassIdentifier: 
   prefabEntries:
-  - PathHash: 5198830157726298727
-    AddressKey: b2f16cda616270d4da394dbf5a0b6bfd
-    fieldName: _selectSlotPrefab
-    index: -1
-    AssetPath: Assets/05_KGW_Folder/Prefabs/CharacterSlot/SelectCharacter.prefab
-    PathPreview: CharacterSelectManager
   - PathHash: 14938729717848126768
     AddressKey: e2d9fb0ff2abe3a4caac52a1c5bcc451
     fieldName: _prefab
@@ -139,6 +133,12 @@ MonoBehaviour:
     index: -1
     AssetPath: Assets/05_KGW_Folder/Prefabs/00_Characters/YHY.prefab
     PathPreview: TestGameManager/CSVDataContainer/CharacterData
+  - PathHash: 5198830157726298727
+    AddressKey: b2f16cda616270d4da394dbf5a0b6bfd
+    fieldName: _selectSlotPrefab
+    index: -1
+    AssetPath: Assets/05_KGW_Folder/Prefabs/CharacterSlot/SelectCharacter.prefab
+    PathPreview: CharacterSelectManager
   - PathHash: 14924776591921777621
     AddressKey: 91be6ea37ebd9b44a9024bd9f7ab907f
     fieldName: characterButtonPrefab
@@ -480,143 +480,143 @@ MonoBehaviour:
     AddressKey: ec0364da73ca6d14eab646f1faa0d041
     fieldName: _growthsDatas
     index: 0
-    AssetPath: Assets/09_KSH_Folder/Resources/Growths/BusyKitchen_Dara.asset
+    AssetPath: Assets/09_KSH_Folder/ScriptableObject/Growths/BusyKitchen_Dara.asset
     PathPreview: GrowthManager
   - PathHash: 3825699745166513093
     AddressKey: 453c4261b9a8636479e6a88bba5a651d
     fieldName: _growthsDatas
     index: 1
-    AssetPath: Assets/09_KSH_Folder/Resources/Growths/ChefsINvitation_Dara.asset
+    AssetPath: Assets/09_KSH_Folder/ScriptableObject/Growths/ChefsINvitation_Dara.asset
     PathPreview: GrowthManager
   - PathHash: 3825699745166513093
     AddressKey: ecfc131df2a83864aa3226250462d0a9
     fieldName: _growthsDatas
     index: 2
-    AssetPath: Assets/09_KSH_Folder/Resources/Growths/ClearMind_Dara.asset
+    AssetPath: Assets/09_KSH_Folder/ScriptableObject/Growths/ClearMind_Dara.asset
     PathPreview: GrowthManager
   - PathHash: 3825699745166513093
     AddressKey: 07f8361e7735d7c4090b2b7690b8cf73
     fieldName: _growthsDatas
     index: 3
-    AssetPath: Assets/09_KSH_Folder/Resources/Growths/HardenedSkin_Dara.asset
+    AssetPath: Assets/09_KSH_Folder/ScriptableObject/Growths/HardenedSkin_Dara.asset
     PathPreview: GrowthManager
   - PathHash: 3825699745166513093
     AddressKey: 9f72fbd2ac192a543960dba5055c10f2
     fieldName: _growthsDatas
     index: 4
-    AssetPath: Assets/09_KSH_Folder/Resources/Growths/HeavyCleaver_Dara.asset
+    AssetPath: Assets/09_KSH_Folder/ScriptableObject/Growths/HeavyCleaver_Dara.asset
     PathPreview: GrowthManager
   - PathHash: 3825699745166513093
     AddressKey: f0d3cb1e80bf6564c9e83252a830e76f
     fieldName: _growthsDatas
     index: 5
-    AssetPath: Assets/09_KSH_Folder/Resources/Growths/KnifeSharpeningI_Dara.asset
+    AssetPath: Assets/09_KSH_Folder/ScriptableObject/Growths/KnifeSharpeningI_Dara.asset
     PathPreview: GrowthManager
   - PathHash: 3825699745166513093
     AddressKey: 50aa4c97ba3d57c478b4fdc7e30c34b6
     fieldName: _growthsDatas
     index: 6
-    AssetPath: Assets/09_KSH_Folder/Resources/Growths/KnifeSharpeningII_Dara.asset
+    AssetPath: Assets/09_KSH_Folder/ScriptableObject/Growths/KnifeSharpeningII_Dara.asset
     PathPreview: GrowthManager
   - PathHash: 3825699745166513093
     AddressKey: 825e93d022a139c4f976fc1dc57eba08
     fieldName: _growthsDatas
     index: 7
-    AssetPath: Assets/09_KSH_Folder/Resources/Growths/KnifeSharpeningIII_Dara.asset
+    AssetPath: Assets/09_KSH_Folder/ScriptableObject/Growths/KnifeSharpeningIII_Dara.asset
     PathPreview: GrowthManager
   - PathHash: 3825699745166513093
     AddressKey: 72b94275e61aeb2488010479d2b01859
     fieldName: _growthsDatas
     index: 8
-    AssetPath: Assets/09_KSH_Folder/Resources/Growths/KnifeSharpeningIV_Dara.asset
+    AssetPath: Assets/09_KSH_Folder/ScriptableObject/Growths/KnifeSharpeningIV_Dara.asset
     PathPreview: GrowthManager
   - PathHash: 3825699745166513093
     AddressKey: 7c36440b64787cb4db63ef20d5bac8e0
     fieldName: _growthsDatas
     index: 9
-    AssetPath: Assets/09_KSH_Folder/Resources/Growths/NutritiousSnackI_Dara.asset
+    AssetPath: Assets/09_KSH_Folder/ScriptableObject/Growths/NutritiousSnackI_Dara.asset
     PathPreview: GrowthManager
   - PathHash: 3825699745166513093
     AddressKey: b157e0aa7216ff74b947199e67b290c2
     fieldName: _growthsDatas
     index: 10
-    AssetPath: Assets/09_KSH_Folder/Resources/Growths/NutritiousSnackII_Dara.asset
+    AssetPath: Assets/09_KSH_Folder/ScriptableObject/Growths/NutritiousSnackII_Dara.asset
     PathPreview: GrowthManager
   - PathHash: 3825699745166513093
     AddressKey: 91d0f48a877b7b046a1225339d6b2e3b
     fieldName: _growthsDatas
     index: 11
-    AssetPath: Assets/09_KSH_Folder/Resources/Growths/NutritiousSnackIII_Dara.asset
+    AssetPath: Assets/09_KSH_Folder/ScriptableObject/Growths/NutritiousSnackIII_Dara.asset
     PathPreview: GrowthManager
   - PathHash: 3825699745166513093
     AddressKey: 7507a08022a69d04c999f78bbc2abaeb
     fieldName: _growthsDatas
     index: 12
-    AssetPath: Assets/09_KSH_Folder/Resources/Growths/NutritiousSnackIV_Dara.asset
+    AssetPath: Assets/09_KSH_Folder/ScriptableObject/Growths/NutritiousSnackIV_Dara.asset
     PathPreview: GrowthManager
   - PathHash: 3825699745166513093
     AddressKey: bba90e5cde7536344983d2bc15d0665d
     fieldName: _growthsDatas
     index: 13
-    AssetPath: Assets/09_KSH_Folder/Resources/Growths/RankingBattle_Dara.asset
+    AssetPath: Assets/09_KSH_Folder/ScriptableObject/Growths/RankingBattle_Dara.asset
     PathPreview: GrowthManager
   - PathHash: 3825699745166513093
     AddressKey: ecff1b39b6d67fd4a8ce27a80b01705a
     fieldName: _growthsDatas
     index: 14
-    AssetPath: Assets/09_KSH_Folder/Resources/Growths/RecipeOperation_Dara.asset
+    AssetPath: Assets/09_KSH_Folder/ScriptableObject/Growths/RecipeOperation_Dara.asset
     PathPreview: GrowthManager
   - PathHash: 3825699745166513093
     AddressKey: e96dcc73030c70e4ab4e09b596a5d357
     fieldName: _growthsDatas
     index: 15
-    AssetPath: Assets/09_KSH_Folder/Resources/Growths/SharpEyesI_Dara.asset
+    AssetPath: Assets/09_KSH_Folder/ScriptableObject/Growths/SharpEyesI_Dara.asset
     PathPreview: GrowthManager
   - PathHash: 3825699745166513093
     AddressKey: d7a325a9d67f77c45bb8f5c69eede699
     fieldName: _growthsDatas
     index: 16
-    AssetPath: Assets/09_KSH_Folder/Resources/Growths/SharpEyesII_Dara.asset
+    AssetPath: Assets/09_KSH_Folder/ScriptableObject/Growths/SharpEyesII_Dara.asset
     PathPreview: GrowthManager
   - PathHash: 3825699745166513093
     AddressKey: 103c08ec08e4fb342a375409028cda71
     fieldName: _growthsDatas
     index: 17
-    AssetPath: Assets/09_KSH_Folder/Resources/Growths/SharpEyesIII_Dara.asset
+    AssetPath: Assets/09_KSH_Folder/ScriptableObject/Growths/SharpEyesIII_Dara.asset
     PathPreview: GrowthManager
   - PathHash: 3825699745166513093
     AddressKey: f46b7c2753ee51a4a97e5163e51a8070
     fieldName: _growthsDatas
     index: 18
-    AssetPath: Assets/09_KSH_Folder/Resources/Growths/SharpEyesIV_Dara.asset
+    AssetPath: Assets/09_KSH_Folder/ScriptableObject/Growths/SharpEyesIV_Dara.asset
     PathPreview: GrowthManager
   - PathHash: 3825699745166513093
     AddressKey: 42fb476e5de4f0148a53b1d4bf223c59
     fieldName: _growthsDatas
     index: 19
-    AssetPath: Assets/09_KSH_Folder/Resources/Growths/SwiftFeetI_Dara.asset
+    AssetPath: Assets/09_KSH_Folder/ScriptableObject/Growths/SwiftFeetI_Dara.asset
     PathPreview: GrowthManager
   - PathHash: 3825699745166513093
     AddressKey: e3bc8ac2ec4720043b8f05f1f286b372
     fieldName: _growthsDatas
     index: 20
-    AssetPath: Assets/09_KSH_Folder/Resources/Growths/SwiftFeetII_Dara.asset
+    AssetPath: Assets/09_KSH_Folder/ScriptableObject/Growths/SwiftFeetII_Dara.asset
     PathPreview: GrowthManager
   - PathHash: 3825699745166513093
     AddressKey: f358f0d2872a63b40bfcb37b8f2dbc8a
     fieldName: _growthsDatas
     index: 21
-    AssetPath: Assets/09_KSH_Folder/Resources/Growths/SwiftFeetIII_Dara.asset
+    AssetPath: Assets/09_KSH_Folder/ScriptableObject/Growths/SwiftFeetIII_Dara.asset
     PathPreview: GrowthManager
   - PathHash: 3825699745166513093
     AddressKey: 721639b5945504342a68a91a2492ffdb
     fieldName: _growthsDatas
     index: 22
-    AssetPath: Assets/09_KSH_Folder/Resources/Growths/SwiftFeetIV_Dara.asset
+    AssetPath: Assets/09_KSH_Folder/ScriptableObject/Growths/SwiftFeetIV_Dara.asset
     PathPreview: GrowthManager
   - PathHash: 3825699745166513093
     AddressKey: 6fe5941f547735648a0c0be1a983bc1c
     fieldName: _growthsDatas
     index: 23
-    AssetPath: Assets/09_KSH_Folder/Resources/Growths/SwiftHands_Dara.asset
+    AssetPath: Assets/09_KSH_Folder/ScriptableObject/Growths/SwiftHands_Dara.asset
     PathPreview: GrowthManager

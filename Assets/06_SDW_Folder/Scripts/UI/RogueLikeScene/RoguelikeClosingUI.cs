@@ -239,16 +239,16 @@ namespace SDW
         private void SetRecipeAndPoint()
         {
             _scorePanelButton.interactable = false;
-            int totalScore = _totalResultScore % 20000;
+            int totalScore = _totalResultScore * 10 % 20000;
 
-            int masterChef = _totalResultScore / 20000;
+            int masterChef = _totalResultScore * 10 / 20000;
             int fineDining = totalScore / 5000;
             totalScore %= 5000;
             int baek = totalScore / 1000;
             int point = 0;
 
             if (_totalResultScore >= 200)
-                point = ((_totalResultScore - 200) / 500 + 1) * 10;
+                point = (_totalResultScore - 200) / 250 + 1;
 
             _baekRecipeBookText.text = baek.ToString();
             _fineDiningRecipeBookText.text = fineDining.ToString();
