@@ -11,6 +11,8 @@ namespace JJY
 {
     public class CharacterLevelUpUIManager : MonoBehaviour
     {
+        [SerializeField] private GrowthManager growthManager;
+
         [Header("Button Prefab")]
         [SerializeField] private Transform _contents;
         [SerializeField] private GameObject characterButtonPrefab;
@@ -81,14 +83,14 @@ namespace JJY
         private bool _isLoaded;
         public bool IsLoaded => _isLoaded;
 
-// #if UNITY_EDITOR
-//         private void TestAddRecipeBooks()
-//         {
-//             GameManager.Instance.Coin.AddRecipeItem("beeksRecipeBook", 5000);
-//             GameManager.Instance.Coin.AddRecipeItem("fineDiningRecipeBook", 5000);
-//             GameManager.Instance.Coin.AddRecipeItem("masterChefRecipeBook", 5000);
-//         }
-// #endif
+        // #if UNITY_EDITOR
+        //         private void TestAddRecipeBooks()
+        //         {
+        //             GameManager.Instance.Coin.AddRecipeItem("beeksRecipeBook", 5000);
+        //             GameManager.Instance.Coin.AddRecipeItem("fineDiningRecipeBook", 5000);
+        //             GameManager.Instance.Coin.AddRecipeItem("masterChefRecipeBook", 5000);
+        //         }
+        // #endif
 
         #region 초기화 작업
 
@@ -112,10 +114,10 @@ namespace JJY
             InitCharacterList();
             _characterLevelInfoPanel.gameObject.SetActive(false);
 
-//             // Test
-// #if UNITY_EDITOR
-//             TestAddRecipeBooks();
-// #endif
+            //             // Test
+            // #if UNITY_EDITOR
+            //             TestAddRecipeBooks();
+            // #endif
 
             _isLoaded = true;
         }
@@ -300,6 +302,10 @@ namespace JJY
             fineDiningSelectedBtn.onClick.AddListener(OnClickFineDining);
             masterChefSelectedBtn.onClick.AddListener(OnClickMasterChef);
         }
+        private void OnEnable()
+        {
+            growthManager.OnGrowthUpdate += GrowthUpdateCharacterInfo;
+        }
 
         private void OnDisable()
         {
@@ -312,6 +318,7 @@ namespace JJY
             beekSelectedBtn.onClick.RemoveListener(OnClickBeeks);
             fineDiningSelectedBtn.onClick.RemoveListener(OnClickFineDining);
             masterChefSelectedBtn.onClick.RemoveListener(OnClickMasterChef);
+            growthManager.OnGrowthUpdate -= GrowthUpdateCharacterInfo;
         }
 
         private void OnClickBeeks()
@@ -562,5 +569,6 @@ namespace JJY
         }
 
         #endregion
+        private void GrowthUpdateCharacterInfo() => InitCharacterInfo(selectedCharacterData);
     }
 }
