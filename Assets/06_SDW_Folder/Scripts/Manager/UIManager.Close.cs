@@ -404,13 +404,18 @@ namespace SDW
         {
             var permanentUI = _uiDic[uiName] as PermanentGrowthUI;
             var nodeDescriptionUI = _uiDic[UIName.NodeDescriptionUI] as NodeDescriptionUI;
+            var stageSelectUI = _uiDic[UIName.StageSelectUI] as StageSelectUI;
 
             permanentUI.OnUIOpenRequested -= (uiName, growthNode) =>
             {
                 if (growthNode != null) nodeDescriptionUI.SetDescription(growthNode);
                 OpenPanel(uiName);
             };
-            permanentUI.OnUICloseRequested -= ClosePanel;
+            permanentUI.OnUICloseRequested -= (uiName) =>
+            {
+                stageSelectUI.CheckPermanentRemark();
+                ClosePanel(uiName);
+            };
         }
 
         private void DisconnectNodeDescriptionUI(UIName uiName)
@@ -448,7 +453,6 @@ namespace SDW
             charLevelUpMainUI.OnUICloseRequested -= (uiName, fromMain) =>
             {
                 mainLobbyBottomUI.SetButtonsInteractable(false);
-                StartCoroutine(DelayedClose(mainLobbyUI));
 
                 if (fromMain)
                 {

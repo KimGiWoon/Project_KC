@@ -40,10 +40,10 @@ namespace SDW
         public Action<int> OnIconRequested;
         public Action<bool> OnButtonInteractableChanged;
         private GameManager _gameManager;
-        private bool _isLoaded;
         private Coroutine _iconCoroutine;
         private int _iconNumber;
         private VideoPlayer _videoPlayer;
+        private bool _isProgress;
 
         /// <summary>
         /// UI 컴포넌트 활성화 설정 및 이벤트 리스너 할당을 수행
@@ -120,6 +120,8 @@ namespace SDW
                 break;
             }
 
+            yield return new WaitForSeconds(0.1f);
+
             int index = 0;
             if (!PlayerPrefs.HasKey("LobbyMedia"))
                 PlayerPrefs.SetInt("LobbyMedia", index);
@@ -127,38 +129,49 @@ namespace SDW
                 index = PlayerPrefs.GetInt("LobbyMedia");
 
             _curerntChaImage.sprite = _memoryImageList[index].sprite;
-            _videoPlayer.clip = _gameManager.Video.VideoDictionary[(VideoClipName)index].Video;
             _gameManager.Audio.PlayBGM((AudioClipName)index);
         }
-
         public override void Open()
         {
             SetMainText("메인 로비");
             _prevTitle = _menuTitle.text;
-            OnUIOpenRequested?.Invoke(UIName.MainLobbyBottomUI);
-            base.Open();
             StartCoroutine(UpdateCoroutine());
         }
 
         private IEnumerator UpdateCoroutine()
         {
-            while (!_gameManager.CompleteDownload || !_gameManager.ImageSpriteConnected || !_gameManager.PrefabAndSoConnected ||
-                   !_gameManager.Firebase.IsLoaded || _isLoaded)
+            while (true)
             {
                 yield return null;
+                if (!_gameManager.CompleteDownload ||
+                    !_gameManager.ImageSpriteConnected ||
+                    !_gameManager.PrefabAndSoConnected ||
+                    !_gameManager.Firebase.IsLoaded ||
+                    !_gameManager.Video.IsLoaded ||
+                    !_gameManager.Audio.IsLoaded ||
+                    _isProgress
+                   )
+                    continue;
+
+                break;
             }
+
+            int index = PlayerPrefs.GetInt("LobbyMedia");
+            _videoPlayer.clip = _gameManager.Video.VideoDictionary[(VideoClipName)index].Video;
 
             yield return new WaitForSeconds(0.1f);
 
+            MainLobbyMoveBack();
+            base.Open();
+            OnUIOpenRequested?.Invoke(UIName.MainLobbyBottomUI);
             UpdateUserInfo(_gameManager.Firebase.GetUserInfo());
             UpdateRainbowStar(GameManager.Instance.Coin.starCandy);
             UpdateShiningStarCandy(GameManager.Instance.Coin.shiningStarCandy);
-
-            _isLoaded = true;
         }
 
         public override void Close()
         {
+            _isProgress = true;
             _videoPlayer.Stop();
             _mainLobbyTweenAnimation.moveAway();
             _backgroundVideoTweenAnimation.FadeOut();
@@ -170,6 +183,7 @@ namespace SDW
         {
             yield return new WaitForSeconds(_mainLobbyTweenAnimation.tweenTime);
             base.Close();
+            _isProgress = false;
         }
 
         #region Button Methods
