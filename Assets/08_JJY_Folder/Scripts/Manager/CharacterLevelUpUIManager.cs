@@ -81,14 +81,14 @@ namespace JJY
         private bool _isLoaded;
         public bool IsLoaded => _isLoaded;
 
-#if UNITY_EDITOR
-        private void TestAddRecipeBooks()
-        {
-            GameManager.Instance.Coin.AddRecipeItem("beeksRecipeBook", 5000);
-            GameManager.Instance.Coin.AddRecipeItem("fineDiningRecipeBook", 5000);
-            GameManager.Instance.Coin.AddRecipeItem("masterChefRecipeBook", 5000);
-        }
-#endif
+// #if UNITY_EDITOR
+//         private void TestAddRecipeBooks()
+//         {
+//             GameManager.Instance.Coin.AddRecipeItem("beeksRecipeBook", 5000);
+//             GameManager.Instance.Coin.AddRecipeItem("fineDiningRecipeBook", 5000);
+//             GameManager.Instance.Coin.AddRecipeItem("masterChefRecipeBook", 5000);
+//         }
+// #endif
 
         #region 초기화 작업
 
@@ -112,10 +112,10 @@ namespace JJY
             InitCharacterList();
             _characterLevelInfoPanel.gameObject.SetActive(false);
 
-            // Test
-#if UNITY_EDITOR
-            TestAddRecipeBooks();
-#endif
+//             // Test
+// #if UNITY_EDITOR
+//             TestAddRecipeBooks();
+// #endif
 
             _isLoaded = true;
         }
@@ -198,6 +198,7 @@ namespace JJY
         private void InitCharacterInfo(CharacterDataSO data)
         {
             selectedCharacterData = data;
+            CharacterState currentCharacterStatData = data.GetModifiedCharacterState();
 
             var levelData =
                 GameManager.Instance.CharacterData.ChaLevelUpStatData[
@@ -208,11 +209,11 @@ namespace JJY
 
             int curExp = GameManager.Instance.CharacterData.CharEnNameExp[data._chaBaseData.ChaEnName];
             int curlevel = GameManager.Instance.CharacterData.CharEnNameLevel[data._chaBaseData.ChaEnName];
-            int curUpgradeLevel = GameManager.Instance.CharacterData.BeadsInventory[data._chaBaseData.ChaEnName];
+            // int curUpgradeLevel = GameManager.Instance.CharacterData.BeadsInventory[data._chaBaseData.ChaEnName];
             int curMaxExp = GameManager.Instance.CharacterData.ChaLevelUpStatData[curlevel].ChaLevelPoint;
 
-            GameManager.Instance.CharacterBattleDataSave._chaLevel[data._chaBaseData.ChaEnName] = curlevel;
-            GameManager.Instance.CharacterBattleDataSave._chaUpgrade[data._chaBaseData.ChaEnName] = curUpgradeLevel;
+            // GameManager.Instance.CharacterBattleDataSave._chaLevel[data._chaBaseData.ChaEnName] = curlevel;
+            // GameManager.Instance.CharacterBattleDataSave._chaUpgrade[data._chaBaseData.ChaEnName] = curUpgradeLevel;
 
             expBar.fillAmount = (float)curExp / curMaxExp;
 
@@ -239,22 +240,22 @@ namespace JJY
             _characterDescription.text = data._chaBaseData.ChaIntroduction;
 
             _passiveSkillImage.sprite = data._passiveSkillSprite;
-            _passiveSkillDescriptionText.text = GetDescription(data._chaPassiveSkill, data._chaBaseData);
+            _passiveSkillDescriptionText.text = GetDescription(data._chaPassiveSkill, currentCharacterStatData);
             if (data._chaActiveSkill == null) _activeSkillImage.gameObject.SetActive(false);
             else
             {
                 _activeSkillImage.sprite = data._activeSkillSprite;
-                _activeSkillDescriptionText.text = GetDescription(data._chaActiveSkill, data._chaBaseData);
+                _activeSkillDescriptionText.text = GetDescription(data._chaActiveSkill, currentCharacterStatData);
                 _activeSkillImage.gameObject.SetActive(true);
             }
 
-            _mpText.text = data._chaBaseData.ChaMP.ToString();
+            _mpText.text = currentCharacterStatData._chaMaxMP.ToString();
             _hpText.text = (data._chaBaseData.ChaHP * levelData.ChaHPIncrease * beadData.ChaHP).ToString("F0");
-            _attackSpeedText.text = data._chaBaseData.ChaAtkSpeed.ToString();
-            _attackText.text = (data._chaBaseData.ChaAttack * levelData.ChaAttackIncrease * beadData.ChaAttack).ToString("F0");
-            _defenceText.text = (data._chaBaseData.ChaArmor * levelData.ChaArmorIncrease * beadData.ChaArmor).ToString("F0");
-            _criticalChanceText.text = data._chaTypeData.ChaCrit.ToString();
-            _criticalDamageText.text = data._chaTypeData.ChaCritDmg.ToString();
+            _attackSpeedText.text = currentCharacterStatData._chaAtkSpeed.ToString("n2");
+            _attackText.text = (currentCharacterStatData._chaAttack * levelData.ChaAttackIncrease * beadData.ChaAttack).ToString("F0");
+            _defenceText.text = (currentCharacterStatData._chaArmor * levelData.ChaArmorIncrease * beadData.ChaArmor).ToString("F0");
+            _criticalChanceText.text = currentCharacterStatData._chaCrit.ToString();
+            _criticalDamageText.text = currentCharacterStatData._chaCritDmg.ToString();
 
             _characterLevelInfoPanel.gameObject.SetActive(true);
             characterStatInfoButton.interactable = true;
@@ -267,19 +268,19 @@ namespace JJY
             levelUpButton.interactable = true;
         }
 
-        private string GetDescription(CharacterSkillDataSO skillData, CharacterBaseDataFileData characterBaseData)
+        private string GetDescription(CharacterSkillDataSO skillData, CharacterState characterState)
         {
             string description = skillData._chaSkillDescription.Replace(
-                "{chaSkillChance}", skillData._chaSkillChance.ToString()
+                "<chaSkillChance>", skillData._chaSkillChance.ToString("F0")
             );
             description = description.Replace(
-                "{chaAttack*chaSkillValue}", (skillData._chaSkillValue * characterBaseData.ChaAttack).ToString()
+                "<chaAttack>*<chaSkillValue>", (skillData._chaSkillValue * characterState._chaAttack).ToString("F0")
             );
             description = description.Replace(
-                "{chaEffectValue}", skillData._chaEffectValue.ToString()
+                "<chaEffectValue*100>", (skillData._chaEffectValue * 100).ToString("F0")
             );
             description = description.Replace(
-                "{chaSkillHit}", skillData._chaSkillHit.ToString()
+                "<chaSkillHit>", skillData._chaSkillHit.ToString("F0")
             );
 
             return description;
