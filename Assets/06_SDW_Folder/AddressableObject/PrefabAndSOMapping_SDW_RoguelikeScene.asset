@@ -13,150 +13,42 @@ MonoBehaviour:
   m_Name: PrefabAndSOMapping_SDW_RoguelikeScene
   m_EditorClassIdentifier: 
   prefabEntries:
-  - PathHash: 15261896909515170510
-    AddressKey: 24ebee958139a88488fd62e8803caf55
-    fieldName: foodBtnPrefab
-    index: -1
-    AssetPath: Assets/08_JJY_Folder/Prefabs/FoodButtonPrefab.prefab
-    PathPreview: '- BattleManager/BuffManager'
-  - PathHash: 7503452556317305295
-    AddressKey: 6861ca5fd7922654b851134b76556b08
-    fieldName: _prefab
-    index: -1
-    AssetPath: Assets/05_KGW_Folder/Prefabs/00_Characters/BW.prefab
-    PathPreview: '- Roguelike UI/StageGlobalCanvas/PartyContainer/PartyPanel/SelectedCharContainer/SelectedChar2'
-  - PathHash: 7503452556317305295
-    AddressKey: 32f7ab234e9623f409b35bf804e824a7
-    fieldName: _chaSkillPrefab
-    index: -1
-    AssetPath: Assets/05_KGW_Folder/Prefabs/03_Skills/CharacterSkills/SkillsData/MoraleDecline/MoraleDecline.prefab
-    PathPreview: '- Roguelike UI/StageGlobalCanvas/PartyContainer/PartyPanel/SelectedCharContainer/SelectedChar2'
-  - PathHash: 7503452556317305295
-    AddressKey: 41d9ad55b69e9594785e9b5d42b2b812
-    fieldName: _chaSkillPrefab
-    index: -1
-    AssetPath: Assets/05_KGW_Folder/Prefabs/03_Skills/CharacterSkills/SkillsData/PainfulScent/PainfulScent.prefab
-    PathPreview: '- Roguelike UI/StageGlobalCanvas/PartyContainer/PartyPanel/SelectedCharContainer/SelectedChar2'
-  - PathHash: 17956514649916126371
-    AddressKey: 3b0a73deead0dc041a11dd194bf2cfb0
-    fieldName: playerCharacterPrefab
-    index: -1
-    AssetPath: Assets/07_CJH_Folder/CJH_Prefabs/Character.prefab
-    PathPreview: '- Roguelike Map/MapView'
-  - PathHash: 17956514649916126371
-    AddressKey: d99358c57b189bc4ea4cd191eac17a0f
-    fieldName: arrowPrefab
-    index: -1
-    AssetPath: Assets/07_CJH_Folder/CJH_Prefabs/Arrow.prefab
-    PathPreview: '- Roguelike Map/MapView'
-  - PathHash: 17956514649916126371
-    AddressKey: 8cf8ba5e4903fe245a05e258613b630f
-    fieldName: nodeButtonPrefab
-    index: -1
-    AssetPath: Assets/06_SDW_Folder/Prefabs/MoveStraightButton.prefab
-    PathPreview: '- Roguelike Map/MapView'
-  - PathHash: 2356680866015544654
-    AddressKey: 3a424c3db3dc04c4caa3f7390bab28db
-    fieldName: _eventPrefab
-    index: -1
-    AssetPath: Assets/07_CJH_Folder/CJH_Prefabs/Event.prefab
-    PathPreview: '- RoguelikeManager/EventManager'
-  - PathHash: 2356680866015544654
-    AddressKey: 3a424c3db3dc04c4caa3f7390bab28db
-    fieldName: eventPanel
-    index: -1
-    AssetPath: Assets/07_CJH_Folder/CJH_Prefabs/Event.prefab
-    PathPreview: '- RoguelikeManager/EventManager'
-  - PathHash: 2356680866015544654
-    AddressKey: 3a424c3db3dc04c4caa3f7390bab28db
-    fieldName: resultPanel
-    index: -1
-    AssetPath: Assets/07_CJH_Folder/CJH_Prefabs/Event.prefab
-    PathPreview: '- RoguelikeManager/EventManager'
-  - PathHash: 2356680866015544654
-    AddressKey: 733ad4313cdd19b42932d1703ad6a440
-    fieldName: choiceButtonPrefab
-    index: -1
-    AssetPath: Assets/07_CJH_Folder/CJH_Prefabs/ConfirmButton.prefab
-    PathPreview: '- RoguelikeManager/EventManager'
-  - PathHash: 2356680866015544654
-    AddressKey: a588edd19e682f84083e954e09f735f4
-    fieldName: relicChoiceButtonPrefab
-    index: -1
-    AssetPath: Assets/07_CJH_Folder/CJH_Prefabs/RelicChoiceButton.prefab
-    PathPreview: '- RoguelikeManager/EventManager'
-  - PathHash: 2356680866015544654
-    AddressKey: 3a424c3db3dc04c4caa3f7390bab28db
-    fieldName: closeButton
-    index: -1
-    AssetPath: Assets/07_CJH_Folder/CJH_Prefabs/Event.prefab
-    PathPreview: '- RoguelikeManager/EventManager'
-  - PathHash: 2356680866015544654
-    AddressKey: 3a424c3db3dc04c4caa3f7390bab28db
-    fieldName: failedPanel
-    index: -1
-    AssetPath: Assets/07_CJH_Folder/CJH_Prefabs/Event.prefab
-    PathPreview: '- RoguelikeManager/EventManager'
-  - PathHash: 7503453655828933506
+  - PathHash: 14938729717848126768
     AddressKey: e2d9fb0ff2abe3a4caac52a1c5bcc451
     fieldName: _prefab
     index: -1
     AssetPath: Assets/05_KGW_Folder/Prefabs/00_Characters/BCA.prefab
-    PathPreview: '- Roguelike UI/StageGlobalCanvas/PartyContainer/PartyPanel/SelectedCharContainer/SelectedChar1'
-  - PathHash: 7503453655828933506
+    PathPreview: TestGameManager/CSVDataContainer/CharacterData
+  - PathHash: 14938729717848126768
     AddressKey: 6e3eba291fade8043b99a824641233b4
     fieldName: _chaSkillPrefab
     index: -1
     AssetPath: Assets/05_KGW_Folder/Prefabs/03_Skills/CharacterSkills/SkillsData/Vanguard/Vanguard.prefab
-    PathPreview: '- Roguelike UI/StageGlobalCanvas/PartyContainer/PartyPanel/SelectedCharContainer/SelectedChar1'
-  - PathHash: 7503453655828933506
+    PathPreview: TestGameManager/CSVDataContainer/CharacterData
+  - PathHash: 14938729717848126768
     AddressKey: 346537fde4010da49ba98236b66aac38
     fieldName: _chaSkillPrefab
     index: -1
     AssetPath: Assets/05_KGW_Folder/Prefabs/03_Skills/CharacterSkills/SkillsData/ProtectiveGrenade/ProtectiveGrenade.prefab
-    PathPreview: '- Roguelike UI/StageGlobalCanvas/PartyContainer/PartyPanel/SelectedCharContainer/SelectedChar1'
-  - PathHash: 3444940125978463120
-    AddressKey: 3d4c1df5ca9658a44b42ff3c2d11c74c
-    fieldName: ingredientButtonPrefab
+    PathPreview: TestGameManager/CSVDataContainer/CharacterData
+  - PathHash: 14938729717848126768
+    AddressKey: 6861ca5fd7922654b851134b76556b08
+    fieldName: _prefab
     index: -1
-    AssetPath: Assets/08_JJY_Folder/Prefabs/IngredientButtonPrefab.prefab
-    PathPreview: '- RoguelikeManager/CookManager'
-  - PathHash: 10310560038834626594
-    AddressKey: 423d751296e03584a90f46f70ea241ef
-    fieldName: relicPrefab
+    AssetPath: Assets/05_KGW_Folder/Prefabs/00_Characters/BW.prefab
+    PathPreview: TestGameManager/CSVDataContainer/CharacterData
+  - PathHash: 14938729717848126768
+    AddressKey: 32f7ab234e9623f409b35bf804e824a7
+    fieldName: _chaSkillPrefab
     index: -1
-    AssetPath: Assets/09_KSH_Folder/Prefabs/RelicInventoryImage.prefab
-    PathPreview: '- Battle UI/PopupCanvas/BottomUIContainer'
-  - PathHash: 12076934927530401535
-    AddressKey: ad70a377b08cee941a1d760d8411e636
-    fieldName: mapNodePrefabs
-    index: 0
-    AssetPath: Assets/07_CJH_Folder/CJH_Prefabs/Map Prefab 1.prefab
-    PathPreview: '- Roguelike Map/MapPrefabRandomizer'
-  - PathHash: 12076934927530401535
-    AddressKey: 0ca5741936035a2468177aaa5d4df827
-    fieldName: mapNodePrefabs
-    index: 1
-    AssetPath: Assets/07_CJH_Folder/CJH_Prefabs/Map Prefab 2.prefab
-    PathPreview: '- Roguelike Map/MapPrefabRandomizer'
-  - PathHash: 12076934927530401535
-    AddressKey: 764401bcc62d4104581f853f3d008117
-    fieldName: mapNodePrefabs
-    index: 2
-    AssetPath: Assets/07_CJH_Folder/CJH_Prefabs/Map Prefab 3.prefab
-    PathPreview: '- Roguelike Map/MapPrefabRandomizer'
-  - PathHash: 12076934927530401535
-    AddressKey: 08eb32ba6c2bfe44f87ee1fceb066650
-    fieldName: mapNodePrefabs
-    index: 3
-    AssetPath: Assets/07_CJH_Folder/CJH_Prefabs/Map Prefab 4.prefab
-    PathPreview: '- Roguelike Map/MapPrefabRandomizer'
-  - PathHash: 12076934927530401535
-    AddressKey: 3ecfd832edbe6bf48bd563f086f82d8c
-    fieldName: mapNodePrefabs
-    index: 4
-    AssetPath: Assets/07_CJH_Folder/CJH_Prefabs/Map Prefab 5.prefab
-    PathPreview: '- Roguelike Map/MapPrefabRandomizer'
+    AssetPath: Assets/05_KGW_Folder/Prefabs/03_Skills/CharacterSkills/SkillsData/MoraleDecline/MoraleDecline.prefab
+    PathPreview: TestGameManager/CSVDataContainer/CharacterData
+  - PathHash: 14938729717848126768
+    AddressKey: 41d9ad55b69e9594785e9b5d42b2b812
+    fieldName: _chaSkillPrefab
+    index: -1
+    AssetPath: Assets/05_KGW_Folder/Prefabs/03_Skills/CharacterSkills/SkillsData/PainfulScent/PainfulScent.prefab
+    PathPreview: TestGameManager/CSVDataContainer/CharacterData
   - PathHash: 14938729717848126768
     AddressKey: 527750cc54288f14c8be073cf35314c9
     fieldName: _prefab
@@ -241,6 +133,114 @@ MonoBehaviour:
     index: -1
     AssetPath: Assets/05_KGW_Folder/Prefabs/00_Characters/YHY.prefab
     PathPreview: TestGameManager/CSVDataContainer/CharacterData
+  - PathHash: 15261896909515170510
+    AddressKey: 24ebee958139a88488fd62e8803caf55
+    fieldName: foodBtnPrefab
+    index: -1
+    AssetPath: Assets/08_JJY_Folder/Prefabs/FoodButtonPrefab.prefab
+    PathPreview: '- BattleManager/BuffManager'
+  - PathHash: 17956514649916126371
+    AddressKey: 3b0a73deead0dc041a11dd194bf2cfb0
+    fieldName: playerCharacterPrefab
+    index: -1
+    AssetPath: Assets/07_CJH_Folder/CJH_Prefabs/Character.prefab
+    PathPreview: '- Roguelike Map/MapView'
+  - PathHash: 17956514649916126371
+    AddressKey: d99358c57b189bc4ea4cd191eac17a0f
+    fieldName: arrowPrefab
+    index: -1
+    AssetPath: Assets/07_CJH_Folder/CJH_Prefabs/Arrow.prefab
+    PathPreview: '- Roguelike Map/MapView'
+  - PathHash: 17956514649916126371
+    AddressKey: 8cf8ba5e4903fe245a05e258613b630f
+    fieldName: nodeButtonPrefab
+    index: -1
+    AssetPath: Assets/06_SDW_Folder/Prefabs/MoveStraightButton.prefab
+    PathPreview: '- Roguelike Map/MapView'
+  - PathHash: 2356680866015544654
+    AddressKey: 3a424c3db3dc04c4caa3f7390bab28db
+    fieldName: _eventPrefab
+    index: -1
+    AssetPath: Assets/07_CJH_Folder/CJH_Prefabs/Event.prefab
+    PathPreview: '- RoguelikeManager/EventManager'
+  - PathHash: 2356680866015544654
+    AddressKey: 3a424c3db3dc04c4caa3f7390bab28db
+    fieldName: eventPanel
+    index: -1
+    AssetPath: Assets/07_CJH_Folder/CJH_Prefabs/Event.prefab
+    PathPreview: '- RoguelikeManager/EventManager'
+  - PathHash: 2356680866015544654
+    AddressKey: 3a424c3db3dc04c4caa3f7390bab28db
+    fieldName: resultPanel
+    index: -1
+    AssetPath: Assets/07_CJH_Folder/CJH_Prefabs/Event.prefab
+    PathPreview: '- RoguelikeManager/EventManager'
+  - PathHash: 2356680866015544654
+    AddressKey: 733ad4313cdd19b42932d1703ad6a440
+    fieldName: choiceButtonPrefab
+    index: -1
+    AssetPath: Assets/07_CJH_Folder/CJH_Prefabs/ConfirmButton.prefab
+    PathPreview: '- RoguelikeManager/EventManager'
+  - PathHash: 2356680866015544654
+    AddressKey: a588edd19e682f84083e954e09f735f4
+    fieldName: relicChoiceButtonPrefab
+    index: -1
+    AssetPath: Assets/07_CJH_Folder/CJH_Prefabs/RelicChoiceButton.prefab
+    PathPreview: '- RoguelikeManager/EventManager'
+  - PathHash: 2356680866015544654
+    AddressKey: 3a424c3db3dc04c4caa3f7390bab28db
+    fieldName: closeButton
+    index: -1
+    AssetPath: Assets/07_CJH_Folder/CJH_Prefabs/Event.prefab
+    PathPreview: '- RoguelikeManager/EventManager'
+  - PathHash: 2356680866015544654
+    AddressKey: 3a424c3db3dc04c4caa3f7390bab28db
+    fieldName: failedPanel
+    index: -1
+    AssetPath: Assets/07_CJH_Folder/CJH_Prefabs/Event.prefab
+    PathPreview: '- RoguelikeManager/EventManager'
+  - PathHash: 3444940125978463120
+    AddressKey: 3d4c1df5ca9658a44b42ff3c2d11c74c
+    fieldName: ingredientButtonPrefab
+    index: -1
+    AssetPath: Assets/08_JJY_Folder/Prefabs/IngredientButtonPrefab.prefab
+    PathPreview: '- RoguelikeManager/CookManager'
+  - PathHash: 10310560038834626594
+    AddressKey: 423d751296e03584a90f46f70ea241ef
+    fieldName: relicPrefab
+    index: -1
+    AssetPath: Assets/09_KSH_Folder/Prefabs/RelicInventoryImage.prefab
+    PathPreview: '- Battle UI/PopupCanvas/BottomUIContainer'
+  - PathHash: 12076934927530401535
+    AddressKey: ad70a377b08cee941a1d760d8411e636
+    fieldName: mapNodePrefabs
+    index: 0
+    AssetPath: Assets/07_CJH_Folder/CJH_Prefabs/Map Prefab 1.prefab
+    PathPreview: '- Roguelike Map/MapPrefabRandomizer'
+  - PathHash: 12076934927530401535
+    AddressKey: 0ca5741936035a2468177aaa5d4df827
+    fieldName: mapNodePrefabs
+    index: 1
+    AssetPath: Assets/07_CJH_Folder/CJH_Prefabs/Map Prefab 2.prefab
+    PathPreview: '- Roguelike Map/MapPrefabRandomizer'
+  - PathHash: 12076934927530401535
+    AddressKey: 764401bcc62d4104581f853f3d008117
+    fieldName: mapNodePrefabs
+    index: 2
+    AssetPath: Assets/07_CJH_Folder/CJH_Prefabs/Map Prefab 3.prefab
+    PathPreview: '- Roguelike Map/MapPrefabRandomizer'
+  - PathHash: 12076934927530401535
+    AddressKey: 08eb32ba6c2bfe44f87ee1fceb066650
+    fieldName: mapNodePrefabs
+    index: 3
+    AssetPath: Assets/07_CJH_Folder/CJH_Prefabs/Map Prefab 4.prefab
+    PathPreview: '- Roguelike Map/MapPrefabRandomizer'
+  - PathHash: 12076934927530401535
+    AddressKey: 3ecfd832edbe6bf48bd563f086f82d8c
+    fieldName: mapNodePrefabs
+    index: 4
+    AssetPath: Assets/07_CJH_Folder/CJH_Prefabs/Map Prefab 5.prefab
+    PathPreview: '- Roguelike Map/MapPrefabRandomizer'
   - PathHash: 1189390587134714722
     AddressKey: 825ccdf668af77a42be47a6559afb8bf
     fieldName: characterSlotPrefab
@@ -320,6 +320,306 @@ MonoBehaviour:
     AssetPath: Assets/05_KGW_Folder/Prefabs/03_Skills/MonsterSkills/SkillsData/Swing/Swing.prefab
     PathPreview: '- BattleManager/SkillDataManager'
   soEntries:
+  - PathHash: 14938729717848126768
+    AddressKey: 0977072b4d0ff2c4bb1c250d908f0ba6
+    fieldName: _characterLists
+    index: 0
+    AssetPath: Assets/05_KGW_Folder/Prefabs/00_Characters/CharactersSOData/BCA_Data.asset
+    PathPreview: TestGameManager/CSVDataContainer/CharacterData
+  - PathHash: 14938729717848126768
+    AddressKey: 0977072b4d0ff2c4bb1c250d908f0ba6
+    fieldName: _characterData
+    index: -1
+    AssetPath: Assets/05_KGW_Folder/Prefabs/00_Characters/CharactersSOData/BCA_Data.asset
+    PathPreview: TestGameManager/CSVDataContainer/CharacterData
+  - PathHash: 14938729717848126768
+    AddressKey: 225cf737d40a09d48b2ddce59168cd9a
+    fieldName: _characterState
+    index: -1
+    AssetPath: Assets/05_KGW_Folder/Prefabs/03_Skills/CharacterSkills/SkillsSOData/Vanguard_Data.asset
+    PathPreview: TestGameManager/CSVDataContainer/CharacterData
+  - PathHash: 14938729717848126768
+    AddressKey: 4a2c293d48547944daadf326f357d3c6
+    fieldName: _characterState
+    index: -1
+    AssetPath: Assets/05_KGW_Folder/Prefabs/03_Skills/CharacterSkills/SkillsSOData/ProtectiveGrenade_Data.asset
+    PathPreview: TestGameManager/CSVDataContainer/CharacterData
+  - PathHash: 14938729717848126768
+    AddressKey: 225cf737d40a09d48b2ddce59168cd9a
+    fieldName: _chaPassiveSkill
+    index: -1
+    AssetPath: Assets/05_KGW_Folder/Prefabs/03_Skills/CharacterSkills/SkillsSOData/Vanguard_Data.asset
+    PathPreview: TestGameManager/CSVDataContainer/CharacterData
+  - PathHash: 14938729717848126768
+    AddressKey: 4a2c293d48547944daadf326f357d3c6
+    fieldName: _chaActiveSkill
+    index: -1
+    AssetPath: Assets/05_KGW_Folder/Prefabs/03_Skills/CharacterSkills/SkillsSOData/ProtectiveGrenade_Data.asset
+    PathPreview: TestGameManager/CSVDataContainer/CharacterData
+  - PathHash: 14938729717848126768
+    AddressKey: 103b7f3043d88a9429d25209c9d1f182
+    fieldName: _characterLists
+    index: 1
+    AssetPath: Assets/05_KGW_Folder/Prefabs/00_Characters/CharactersSOData/BW_Data.asset
+    PathPreview: TestGameManager/CSVDataContainer/CharacterData
+  - PathHash: 14938729717848126768
+    AddressKey: 103b7f3043d88a9429d25209c9d1f182
+    fieldName: _characterData
+    index: -1
+    AssetPath: Assets/05_KGW_Folder/Prefabs/00_Characters/CharactersSOData/BW_Data.asset
+    PathPreview: TestGameManager/CSVDataContainer/CharacterData
+  - PathHash: 14938729717848126768
+    AddressKey: 0e55c03446951384b88a5af133a1832f
+    fieldName: _characterState
+    index: -1
+    AssetPath: Assets/05_KGW_Folder/Prefabs/03_Skills/CharacterSkills/SkillsSOData/MoraleDecline_Data.asset
+    PathPreview: TestGameManager/CSVDataContainer/CharacterData
+  - PathHash: 14938729717848126768
+    AddressKey: cd0b153ae3b15c645beb75384683886d
+    fieldName: _characterState
+    index: -1
+    AssetPath: Assets/05_KGW_Folder/Prefabs/03_Skills/CharacterSkills/SkillsSOData/PainfulScent_Data.asset
+    PathPreview: TestGameManager/CSVDataContainer/CharacterData
+  - PathHash: 14938729717848126768
+    AddressKey: 0e55c03446951384b88a5af133a1832f
+    fieldName: _chaPassiveSkill
+    index: -1
+    AssetPath: Assets/05_KGW_Folder/Prefabs/03_Skills/CharacterSkills/SkillsSOData/MoraleDecline_Data.asset
+    PathPreview: TestGameManager/CSVDataContainer/CharacterData
+  - PathHash: 14938729717848126768
+    AddressKey: cd0b153ae3b15c645beb75384683886d
+    fieldName: _chaActiveSkill
+    index: -1
+    AssetPath: Assets/05_KGW_Folder/Prefabs/03_Skills/CharacterSkills/SkillsSOData/PainfulScent_Data.asset
+    PathPreview: TestGameManager/CSVDataContainer/CharacterData
+  - PathHash: 14938729717848126768
+    AddressKey: b2b81c36db1a8e54ea99f22c0ce7f76f
+    fieldName: _characterLists
+    index: 2
+    AssetPath: Assets/05_KGW_Folder/Prefabs/00_Characters/CharactersSOData/DRA_Data.asset
+    PathPreview: TestGameManager/CSVDataContainer/CharacterData
+  - PathHash: 14938729717848126768
+    AddressKey: b2b81c36db1a8e54ea99f22c0ce7f76f
+    fieldName: _characterData
+    index: -1
+    AssetPath: Assets/05_KGW_Folder/Prefabs/00_Characters/CharactersSOData/DRA_Data.asset
+    PathPreview: TestGameManager/CSVDataContainer/CharacterData
+  - PathHash: 14938729717848126768
+    AddressKey: d878cb11f5f90e548a5f492a57a47010
+    fieldName: _characterState
+    index: -1
+    AssetPath: Assets/05_KGW_Folder/Prefabs/03_Skills/CharacterSkills/SkillsSOData/WaveOfSteel_Data.asset
+    PathPreview: TestGameManager/CSVDataContainer/CharacterData
+  - PathHash: 14938729717848126768
+    AddressKey: d878cb11f5f90e548a5f492a57a47010
+    fieldName: _chaPassiveSkill
+    index: -1
+    AssetPath: Assets/05_KGW_Folder/Prefabs/03_Skills/CharacterSkills/SkillsSOData/WaveOfSteel_Data.asset
+    PathPreview: TestGameManager/CSVDataContainer/CharacterData
+  - PathHash: 14938729717848126768
+    AddressKey: 9a13d90448a4f63409bf98028055be21
+    fieldName: _characterLists
+    index: 3
+    AssetPath: Assets/05_KGW_Folder/Prefabs/00_Characters/CharactersSOData/EMA_Data.asset
+    PathPreview: TestGameManager/CSVDataContainer/CharacterData
+  - PathHash: 14938729717848126768
+    AddressKey: 9a13d90448a4f63409bf98028055be21
+    fieldName: _characterData
+    index: -1
+    AssetPath: Assets/05_KGW_Folder/Prefabs/00_Characters/CharactersSOData/EMA_Data.asset
+    PathPreview: TestGameManager/CSVDataContainer/CharacterData
+  - PathHash: 14938729717848126768
+    AddressKey: d10e51f1b5c6b5a4fb362c7e9535f891
+    fieldName: _characterState
+    index: -1
+    AssetPath: Assets/05_KGW_Folder/Prefabs/03_Skills/CharacterSkills/SkillsSOData/RegenerativeStrike_Data.asset
+    PathPreview: TestGameManager/CSVDataContainer/CharacterData
+  - PathHash: 14938729717848126768
+    AddressKey: d10e51f1b5c6b5a4fb362c7e9535f891
+    fieldName: _chaPassiveSkill
+    index: -1
+    AssetPath: Assets/05_KGW_Folder/Prefabs/03_Skills/CharacterSkills/SkillsSOData/RegenerativeStrike_Data.asset
+    PathPreview: TestGameManager/CSVDataContainer/CharacterData
+  - PathHash: 14938729717848126768
+    AddressKey: 53f708173e2eda44480072ad77fcc9bd
+    fieldName: _characterLists
+    index: 4
+    AssetPath: Assets/05_KGW_Folder/Prefabs/00_Characters/CharactersSOData/GSE_Data.asset
+    PathPreview: TestGameManager/CSVDataContainer/CharacterData
+  - PathHash: 14938729717848126768
+    AddressKey: 53f708173e2eda44480072ad77fcc9bd
+    fieldName: _characterData
+    index: -1
+    AssetPath: Assets/05_KGW_Folder/Prefabs/00_Characters/CharactersSOData/GSE_Data.asset
+    PathPreview: TestGameManager/CSVDataContainer/CharacterData
+  - PathHash: 14938729717848126768
+    AddressKey: 47189edbb54ca18499e51caaa3eb7486
+    fieldName: _characterState
+    index: -1
+    AssetPath: Assets/05_KGW_Folder/Prefabs/03_Skills/CharacterSkills/SkillsSOData/AimForTheWound_Data.asset
+    PathPreview: TestGameManager/CSVDataContainer/CharacterData
+  - PathHash: 14938729717848126768
+    AddressKey: 0e1f6a269f20a784ca12b6ae5669cda8
+    fieldName: _characterState
+    index: -1
+    AssetPath: Assets/05_KGW_Folder/Prefabs/03_Skills/CharacterSkills/SkillsSOData/WrathOfTheGuardian_Data.asset
+    PathPreview: TestGameManager/CSVDataContainer/CharacterData
+  - PathHash: 14938729717848126768
+    AddressKey: 47189edbb54ca18499e51caaa3eb7486
+    fieldName: _chaPassiveSkill
+    index: -1
+    AssetPath: Assets/05_KGW_Folder/Prefabs/03_Skills/CharacterSkills/SkillsSOData/AimForTheWound_Data.asset
+    PathPreview: TestGameManager/CSVDataContainer/CharacterData
+  - PathHash: 14938729717848126768
+    AddressKey: 0e1f6a269f20a784ca12b6ae5669cda8
+    fieldName: _chaActiveSkill
+    index: -1
+    AssetPath: Assets/05_KGW_Folder/Prefabs/03_Skills/CharacterSkills/SkillsSOData/WrathOfTheGuardian_Data.asset
+    PathPreview: TestGameManager/CSVDataContainer/CharacterData
+  - PathHash: 14938729717848126768
+    AddressKey: 9ed735c570481004a8718f1c6026da54
+    fieldName: _characterLists
+    index: 5
+    AssetPath: Assets/05_KGW_Folder/Prefabs/00_Characters/CharactersSOData/HSR_Data.asset
+    PathPreview: TestGameManager/CSVDataContainer/CharacterData
+  - PathHash: 14938729717848126768
+    AddressKey: 9ed735c570481004a8718f1c6026da54
+    fieldName: _characterData
+    index: -1
+    AssetPath: Assets/05_KGW_Folder/Prefabs/00_Characters/CharactersSOData/HSR_Data.asset
+    PathPreview: TestGameManager/CSVDataContainer/CharacterData
+  - PathHash: 14938729717848126768
+    AddressKey: d10e51f1b5c6b5a4fb362c7e9535f891
+    fieldName: _characterState
+    index: -1
+    AssetPath: Assets/05_KGW_Folder/Prefabs/03_Skills/CharacterSkills/SkillsSOData/RegenerativeStrike_Data.asset
+    PathPreview: TestGameManager/CSVDataContainer/CharacterData
+  - PathHash: 14938729717848126768
+    AddressKey: 6589aa72ba5dd374a9e771753e65d224
+    fieldName: _characterState
+    index: -1
+    AssetPath: Assets/05_KGW_Folder/Prefabs/03_Skills/CharacterSkills/SkillsSOData/Cheer_Data.asset
+    PathPreview: TestGameManager/CSVDataContainer/CharacterData
+  - PathHash: 14938729717848126768
+    AddressKey: d10e51f1b5c6b5a4fb362c7e9535f891
+    fieldName: _chaPassiveSkill
+    index: -1
+    AssetPath: Assets/05_KGW_Folder/Prefabs/03_Skills/CharacterSkills/SkillsSOData/RegenerativeStrike_Data.asset
+    PathPreview: TestGameManager/CSVDataContainer/CharacterData
+  - PathHash: 14938729717848126768
+    AddressKey: 6589aa72ba5dd374a9e771753e65d224
+    fieldName: _chaActiveSkill
+    index: -1
+    AssetPath: Assets/05_KGW_Folder/Prefabs/03_Skills/CharacterSkills/SkillsSOData/Cheer_Data.asset
+    PathPreview: TestGameManager/CSVDataContainer/CharacterData
+  - PathHash: 14938729717848126768
+    AddressKey: 965766ae0e04c104fa450eef4279d84e
+    fieldName: _characterLists
+    index: 6
+    AssetPath: Assets/05_KGW_Folder/Prefabs/00_Characters/CharactersSOData/JHB_Data.asset
+    PathPreview: TestGameManager/CSVDataContainer/CharacterData
+  - PathHash: 14938729717848126768
+    AddressKey: 965766ae0e04c104fa450eef4279d84e
+    fieldName: _characterData
+    index: -1
+    AssetPath: Assets/05_KGW_Folder/Prefabs/00_Characters/CharactersSOData/JHB_Data.asset
+    PathPreview: TestGameManager/CSVDataContainer/CharacterData
+  - PathHash: 14938729717848126768
+    AddressKey: 47189edbb54ca18499e51caaa3eb7486
+    fieldName: _characterState
+    index: -1
+    AssetPath: Assets/05_KGW_Folder/Prefabs/03_Skills/CharacterSkills/SkillsSOData/AimForTheWound_Data.asset
+    PathPreview: TestGameManager/CSVDataContainer/CharacterData
+  - PathHash: 14938729717848126768
+    AddressKey: 47189edbb54ca18499e51caaa3eb7486
+    fieldName: _chaPassiveSkill
+    index: -1
+    AssetPath: Assets/05_KGW_Folder/Prefabs/03_Skills/CharacterSkills/SkillsSOData/AimForTheWound_Data.asset
+    PathPreview: TestGameManager/CSVDataContainer/CharacterData
+  - PathHash: 14938729717848126768
+    AddressKey: 265ffa3c68152e74a8ca0b6b30d27bd8
+    fieldName: _characterLists
+    index: 7
+    AssetPath: Assets/05_KGW_Folder/Prefabs/00_Characters/CharactersSOData/SDR_Data.asset
+    PathPreview: TestGameManager/CSVDataContainer/CharacterData
+  - PathHash: 14938729717848126768
+    AddressKey: 265ffa3c68152e74a8ca0b6b30d27bd8
+    fieldName: _characterData
+    index: -1
+    AssetPath: Assets/05_KGW_Folder/Prefabs/00_Characters/CharactersSOData/SDR_Data.asset
+    PathPreview: TestGameManager/CSVDataContainer/CharacterData
+  - PathHash: 14938729717848126768
+    AddressKey: 0e55c03446951384b88a5af133a1832f
+    fieldName: _characterState
+    index: -1
+    AssetPath: Assets/05_KGW_Folder/Prefabs/03_Skills/CharacterSkills/SkillsSOData/MoraleDecline_Data.asset
+    PathPreview: TestGameManager/CSVDataContainer/CharacterData
+  - PathHash: 14938729717848126768
+    AddressKey: 0e55c03446951384b88a5af133a1832f
+    fieldName: _chaPassiveSkill
+    index: -1
+    AssetPath: Assets/05_KGW_Folder/Prefabs/03_Skills/CharacterSkills/SkillsSOData/MoraleDecline_Data.asset
+    PathPreview: TestGameManager/CSVDataContainer/CharacterData
+  - PathHash: 14938729717848126768
+    AddressKey: 65f2c3ff647fbb64882a5e1b70abfa2e
+    fieldName: _characterLists
+    index: 8
+    AssetPath: Assets/05_KGW_Folder/Prefabs/00_Characters/CharactersSOData/SIL_Data.asset
+    PathPreview: TestGameManager/CSVDataContainer/CharacterData
+  - PathHash: 14938729717848126768
+    AddressKey: 65f2c3ff647fbb64882a5e1b70abfa2e
+    fieldName: _characterData
+    index: -1
+    AssetPath: Assets/05_KGW_Folder/Prefabs/00_Characters/CharactersSOData/SIL_Data.asset
+    PathPreview: TestGameManager/CSVDataContainer/CharacterData
+  - PathHash: 14938729717848126768
+    AddressKey: d878cb11f5f90e548a5f492a57a47010
+    fieldName: _characterState
+    index: -1
+    AssetPath: Assets/05_KGW_Folder/Prefabs/03_Skills/CharacterSkills/SkillsSOData/WaveOfSteel_Data.asset
+    PathPreview: TestGameManager/CSVDataContainer/CharacterData
+  - PathHash: 14938729717848126768
+    AddressKey: 431d938b1a2067345b62be8d3e323b3d
+    fieldName: _characterState
+    index: -1
+    AssetPath: Assets/05_KGW_Folder/Prefabs/03_Skills/CharacterSkills/SkillsSOData/WolfSlash_Data.asset
+    PathPreview: TestGameManager/CSVDataContainer/CharacterData
+  - PathHash: 14938729717848126768
+    AddressKey: d878cb11f5f90e548a5f492a57a47010
+    fieldName: _chaPassiveSkill
+    index: -1
+    AssetPath: Assets/05_KGW_Folder/Prefabs/03_Skills/CharacterSkills/SkillsSOData/WaveOfSteel_Data.asset
+    PathPreview: TestGameManager/CSVDataContainer/CharacterData
+  - PathHash: 14938729717848126768
+    AddressKey: 431d938b1a2067345b62be8d3e323b3d
+    fieldName: _chaActiveSkill
+    index: -1
+    AssetPath: Assets/05_KGW_Folder/Prefabs/03_Skills/CharacterSkills/SkillsSOData/WolfSlash_Data.asset
+    PathPreview: TestGameManager/CSVDataContainer/CharacterData
+  - PathHash: 14938729717848126768
+    AddressKey: a933f06d6c448424f8215186aa712cb0
+    fieldName: _characterLists
+    index: 9
+    AssetPath: Assets/05_KGW_Folder/Prefabs/00_Characters/CharactersSOData/YHY_Data.asset
+    PathPreview: TestGameManager/CSVDataContainer/CharacterData
+  - PathHash: 14938729717848126768
+    AddressKey: a933f06d6c448424f8215186aa712cb0
+    fieldName: _characterData
+    index: -1
+    AssetPath: Assets/05_KGW_Folder/Prefabs/00_Characters/CharactersSOData/YHY_Data.asset
+    PathPreview: TestGameManager/CSVDataContainer/CharacterData
+  - PathHash: 14938729717848126768
+    AddressKey: 225cf737d40a09d48b2ddce59168cd9a
+    fieldName: _characterState
+    index: -1
+    AssetPath: Assets/05_KGW_Folder/Prefabs/03_Skills/CharacterSkills/SkillsSOData/Vanguard_Data.asset
+    PathPreview: TestGameManager/CSVDataContainer/CharacterData
+  - PathHash: 14938729717848126768
+    AddressKey: 225cf737d40a09d48b2ddce59168cd9a
+    fieldName: _chaPassiveSkill
+    index: -1
+    AssetPath: Assets/05_KGW_Folder/Prefabs/03_Skills/CharacterSkills/SkillsSOData/Vanguard_Data.asset
+    PathPreview: TestGameManager/CSVDataContainer/CharacterData
   - PathHash: 6503854872276189124
     AddressKey: 0ee9653550d07a54db37830a0be7f827
     fieldName: eventGroupData
@@ -331,36 +631,6 @@ MonoBehaviour:
     fieldName: characterData
     index: -1
     AssetPath: Assets/05_KGW_Folder/Prefabs/00_Characters/CharactersSOData/BW_Data.asset
-    PathPreview: '- Roguelike UI/StageGlobalCanvas/PartyContainer/PartyPanel/SelectedCharContainer/SelectedChar2'
-  - PathHash: 7503452556317305295
-    AddressKey: 103b7f3043d88a9429d25209c9d1f182
-    fieldName: _characterData
-    index: -1
-    AssetPath: Assets/05_KGW_Folder/Prefabs/00_Characters/CharactersSOData/BW_Data.asset
-    PathPreview: '- Roguelike UI/StageGlobalCanvas/PartyContainer/PartyPanel/SelectedCharContainer/SelectedChar2'
-  - PathHash: 7503452556317305295
-    AddressKey: 0e55c03446951384b88a5af133a1832f
-    fieldName: _characterState
-    index: -1
-    AssetPath: Assets/05_KGW_Folder/Prefabs/03_Skills/CharacterSkills/SkillsSOData/MoraleDecline_Data.asset
-    PathPreview: '- Roguelike UI/StageGlobalCanvas/PartyContainer/PartyPanel/SelectedCharContainer/SelectedChar2'
-  - PathHash: 7503452556317305295
-    AddressKey: cd0b153ae3b15c645beb75384683886d
-    fieldName: _characterState
-    index: -1
-    AssetPath: Assets/05_KGW_Folder/Prefabs/03_Skills/CharacterSkills/SkillsSOData/PainfulScent_Data.asset
-    PathPreview: '- Roguelike UI/StageGlobalCanvas/PartyContainer/PartyPanel/SelectedCharContainer/SelectedChar2'
-  - PathHash: 7503452556317305295
-    AddressKey: 0e55c03446951384b88a5af133a1832f
-    fieldName: _chaPassiveSkill
-    index: -1
-    AssetPath: Assets/05_KGW_Folder/Prefabs/03_Skills/CharacterSkills/SkillsSOData/MoraleDecline_Data.asset
-    PathPreview: '- Roguelike UI/StageGlobalCanvas/PartyContainer/PartyPanel/SelectedCharContainer/SelectedChar2'
-  - PathHash: 7503452556317305295
-    AddressKey: cd0b153ae3b15c645beb75384683886d
-    fieldName: _chaActiveSkill
-    index: -1
-    AssetPath: Assets/05_KGW_Folder/Prefabs/03_Skills/CharacterSkills/SkillsSOData/PainfulScent_Data.asset
     PathPreview: '- Roguelike UI/StageGlobalCanvas/PartyContainer/PartyPanel/SelectedCharContainer/SelectedChar2'
   - PathHash: 17956514649916126371
     AddressKey: 1bcc5d240b86c65409d04d652ea76f67
@@ -398,6 +668,246 @@ MonoBehaviour:
     index: 4
     AssetPath: Assets/07_CJH_Folder/CJH_DataSO/BossNode.asset
     PathPreview: '- Roguelike Map/MapView'
+  - PathHash: 2356680866015544654
+    AddressKey: 083dd4f51dcd3524aacad8965f5e69e4
+    fieldName: allRelicsDatabase
+    index: 0
+    AssetPath: Assets/09_KSH_Folder/ScriptableObject/Relics/BloodstainedCleaver_Data.asset
+    PathPreview: '- RoguelikeManager/EventManager'
+  - PathHash: 2356680866015544654
+    AddressKey: edbea83fe730525479b3d315b23c0a33
+    fieldName: allRelicsDatabase
+    index: 1
+    AssetPath: Assets/09_KSH_Folder/ScriptableObject/Relics/BoneBroth_Data.asset
+    PathPreview: '- RoguelikeManager/EventManager'
+  - PathHash: 2356680866015544654
+    AddressKey: d6f71759f4b41454f97400647dd426ad
+    fieldName: allRelicsDatabase
+    index: 2
+    AssetPath: Assets/09_KSH_Folder/ScriptableObject/Relics/BrothPot_Data.asset
+    PathPreview: '- RoguelikeManager/EventManager'
+  - PathHash: 2356680866015544654
+    AddressKey: 6b7560d5c279e9d4eabd5d890c894732
+    fieldName: allRelicsDatabase
+    index: 3
+    AssetPath: Assets/09_KSH_Folder/ScriptableObject/Relics/BurdenedQuiver_Data.asset
+    PathPreview: '- RoguelikeManager/EventManager'
+  - PathHash: 2356680866015544654
+    AddressKey: e0d1d5f04c0ade442a0e3682fbb54fe5
+    fieldName: allRelicsDatabase
+    index: 4
+    AssetPath: Assets/09_KSH_Folder/ScriptableObject/Relics/Cleaver_Data.asset
+    PathPreview: '- RoguelikeManager/EventManager'
+  - PathHash: 2356680866015544654
+    AddressKey: 58bc0826ca5c3e14ab5ea71fe493e3ca
+    fieldName: allRelicsDatabase
+    index: 5
+    AssetPath: Assets/09_KSH_Folder/ScriptableObject/Relics/ColdFrypan_Data.asset
+    PathPreview: '- RoguelikeManager/EventManager'
+  - PathHash: 2356680866015544654
+    AddressKey: 4efac66de39946446b680e8c66f0a029
+    fieldName: allRelicsDatabase
+    index: 6
+    AssetPath: Assets/09_KSH_Folder/ScriptableObject/Relics/CorruptedScale_Data.asset
+    PathPreview: '- RoguelikeManager/EventManager'
+  - PathHash: 2356680866015544654
+    AddressKey: 230813fe2f4dca041b3079043220ef19
+    fieldName: allRelicsDatabase
+    index: 7
+    AssetPath: Assets/09_KSH_Folder/ScriptableObject/Relics/CouponBook_Data.asset
+    PathPreview: '- RoguelikeManager/EventManager'
+  - PathHash: 2356680866015544654
+    AddressKey: e20d12db2404939409791e21ddfdf5cb
+    fieldName: allRelicsDatabase
+    index: 8
+    AssetPath: Assets/09_KSH_Folder/ScriptableObject/Relics/DullBlade_Data.asset
+    PathPreview: '- RoguelikeManager/EventManager'
+  - PathHash: 2356680866015544654
+    AddressKey: 509ea087a0d919c4f8c999367837ab03
+    fieldName: allRelicsDatabase
+    index: 9
+    AssetPath: Assets/09_KSH_Folder/ScriptableObject/Relics/FryingNozzle_Data.asset
+    PathPreview: '- RoguelikeManager/EventManager'
+  - PathHash: 2356680866015544654
+    AddressKey: 9c8f7c9da898e8f4b8a807347de69570
+    fieldName: allRelicsDatabase
+    index: 10
+    AssetPath: Assets/09_KSH_Folder/ScriptableObject/Relics/Frypan_Data.asset
+    PathPreview: '- RoguelikeManager/EventManager'
+  - PathHash: 2356680866015544654
+    AddressKey: 3be8e0dbf084a444bbfe5f9b97811291
+    fieldName: allRelicsDatabase
+    index: 11
+    AssetPath: Assets/09_KSH_Folder/ScriptableObject/Relics/Grill_Data.asset
+    PathPreview: '- RoguelikeManager/EventManager'
+  - PathHash: 2356680866015544654
+    AddressKey: 642cf2028b4bce84bb048f1881955336
+    fieldName: allRelicsDatabase
+    index: 12
+    AssetPath: Assets/09_KSH_Folder/ScriptableObject/Relics/HeatproofLid_Data.asset
+    PathPreview: '- RoguelikeManager/EventManager'
+  - PathHash: 2356680866015544654
+    AddressKey: 247102ac3ce45ce4fa448cfb6d106ecf
+    fieldName: allRelicsDatabase
+    index: 13
+    AssetPath: Assets/09_KSH_Folder/ScriptableObject/Relics/HeavyCoin_Data.asset
+    PathPreview: '- RoguelikeManager/EventManager'
+  - PathHash: 2356680866015544654
+    AddressKey: 333be8eec215e0b46ae4a99ef1fe020f
+    fieldName: allRelicsDatabase
+    index: 14
+    AssetPath: Assets/09_KSH_Folder/ScriptableObject/Relics/HerbalSatchel_Data.asset
+    PathPreview: '- RoguelikeManager/EventManager'
+  - PathHash: 2356680866015544654
+    AddressKey: 5ffe6f76b4d53f0439ddd5002c3710da
+    fieldName: allRelicsDatabase
+    index: 15
+    AssetPath: Assets/09_KSH_Folder/ScriptableObject/Relics/IronLid_Data.asset
+    PathPreview: '- RoguelikeManager/EventManager'
+  - PathHash: 2356680866015544654
+    AddressKey: c76f1ada740be8e4f90d37fd9c4f5f82
+    fieldName: allRelicsDatabase
+    index: 16
+    AssetPath: Assets/09_KSH_Folder/ScriptableObject/Relics/KimchiFridge_Data.asset
+    PathPreview: '- RoguelikeManager/EventManager'
+  - PathHash: 2356680866015544654
+    AddressKey: 99a4fb9106814444abe16109cced1189
+    fieldName: allRelicsDatabase
+    index: 17
+    AssetPath: Assets/09_KSH_Folder/ScriptableObject/Relics/LeakingManaCrystal_Data.asset
+    PathPreview: '- RoguelikeManager/EventManager'
+  - PathHash: 2356680866015544654
+    AddressKey: db3c03ae950867b4eb4186e8c051091d
+    fieldName: allRelicsDatabase
+    index: 18
+    AssetPath: Assets/09_KSH_Folder/ScriptableObject/Relics/LuckyReceipt_Data.asset
+    PathPreview: '- RoguelikeManager/EventManager'
+  - PathHash: 2356680866015544654
+    AddressKey: 8366100fe30520547a94e8d9821fce3e
+    fieldName: allRelicsDatabase
+    index: 19
+    AssetPath: Assets/09_KSH_Folder/ScriptableObject/Relics/MadBrew_Data.asset
+    PathPreview: '- RoguelikeManager/EventManager'
+  - PathHash: 2356680866015544654
+    AddressKey: 5a9dc0164b13eec40a065a9a1b957c5b
+    fieldName: allRelicsDatabase
+    index: 20
+    AssetPath: Assets/09_KSH_Folder/ScriptableObject/Relics/MarkOfPrecision_Data.asset
+    PathPreview: '- RoguelikeManager/EventManager'
+  - PathHash: 2356680866015544654
+    AddressKey: 72b7b0b50429f484fb1488af2bd4f1f7
+    fieldName: allRelicsDatabase
+    index: 21
+    AssetPath: Assets/09_KSH_Folder/ScriptableObject/Relics/MeatJuicer_Data.asset
+    PathPreview: '- RoguelikeManager/EventManager'
+  - PathHash: 2356680866015544654
+    AddressKey: 10d189bd74b3d9843977c47369888639
+    fieldName: allRelicsDatabase
+    index: 22
+    AssetPath: Assets/09_KSH_Folder/ScriptableObject/Relics/Mitts_Data.asset
+    PathPreview: '- RoguelikeManager/EventManager'
+  - PathHash: 2356680866015544654
+    AddressKey: 3797eb6dcc483c14397d8ad63b14f927
+    fieldName: allRelicsDatabase
+    index: 23
+    AssetPath: Assets/09_KSH_Folder/ScriptableObject/Relics/Mixer_Data.asset
+    PathPreview: '- RoguelikeManager/EventManager'
+  - PathHash: 2356680866015544654
+    AddressKey: 288d5d1021286e34b9cd4a8fb0f579f9
+    fieldName: allRelicsDatabase
+    index: 24
+    AssetPath: Assets/09_KSH_Folder/ScriptableObject/Relics/NoisyHood_Data.asset
+    PathPreview: '- RoguelikeManager/EventManager'
+  - PathHash: 2356680866015544654
+    AddressKey: e3f74eb057fce6f44a3a5be4d6fe098b
+    fieldName: allRelicsDatabase
+    index: 25
+    AssetPath: Assets/09_KSH_Folder/ScriptableObject/Relics/OilPot_Data.asset
+    PathPreview: '- RoguelikeManager/EventManager'
+  - PathHash: 2356680866015544654
+    AddressKey: bf7705ad316730d498911289c989b216
+    fieldName: allRelicsDatabase
+    index: 26
+    AssetPath: Assets/09_KSH_Folder/ScriptableObject/Relics/PrecisionScale_Data.asset
+    PathPreview: '- RoguelikeManager/EventManager'
+  - PathHash: 2356680866015544654
+    AddressKey: 4a1933e95e300484b9500a9d5e032a6c
+    fieldName: allRelicsDatabase
+    index: 27
+    AssetPath: Assets/09_KSH_Folder/ScriptableObject/Relics/RoastGrounds_Data.asset
+    PathPreview: '- RoguelikeManager/EventManager'
+  - PathHash: 2356680866015544654
+    AddressKey: 31f97dd93311d8641863258451483be5
+    fieldName: allRelicsDatabase
+    index: 28
+    AssetPath: Assets/09_KSH_Folder/ScriptableObject/Relics/SaltJar_Data.asset
+    PathPreview: '- RoguelikeManager/EventManager'
+  - PathHash: 2356680866015544654
+    AddressKey: e0c57b707de39694fb106e3727c21fb7
+    fieldName: allRelicsDatabase
+    index: 29
+    AssetPath: Assets/09_KSH_Folder/ScriptableObject/Relics/SeasoningJar_Data.asset
+    PathPreview: '- RoguelikeManager/EventManager'
+  - PathHash: 2356680866015544654
+    AddressKey: 8f7da6015879dd54e9b80759c5dc47ec
+    fieldName: allRelicsDatabase
+    index: 30
+    AssetPath: Assets/09_KSH_Folder/ScriptableObject/Relics/SecretSauceJar_Data.asset
+    PathPreview: '- RoguelikeManager/EventManager'
+  - PathHash: 2356680866015544654
+    AddressKey: 0eea9fd081ca1824596da14453f7e33a
+    fieldName: allRelicsDatabase
+    index: 31
+    AssetPath: Assets/09_KSH_Folder/ScriptableObject/Relics/SharpKnife_Data.asset
+    PathPreview: '- RoguelikeManager/EventManager'
+  - PathHash: 2356680866015544654
+    AddressKey: b52d24aa7685bcd4c8d3887ca1c7f439
+    fieldName: allRelicsDatabase
+    index: 32
+    AssetPath: Assets/09_KSH_Folder/ScriptableObject/Relics/SluggishBody_Data.asset
+    PathPreview: '- RoguelikeManager/EventManager'
+  - PathHash: 2356680866015544654
+    AddressKey: 17b406adef6d3b043b7f71622802b0b0
+    fieldName: allRelicsDatabase
+    index: 33
+    AssetPath: Assets/09_KSH_Folder/ScriptableObject/Relics/ThermalFlask_Data.asset
+    PathPreview: '- RoguelikeManager/EventManager'
+  - PathHash: 2356680866015544654
+    AddressKey: e13dc491909a74f41b90ee3c3ddde150
+    fieldName: allRelicsDatabase
+    index: 34
+    AssetPath: Assets/09_KSH_Folder/ScriptableObject/Relics/TokenOfValor_Data.asset
+    PathPreview: '- RoguelikeManager/EventManager'
+  - PathHash: 2356680866015544654
+    AddressKey: 35d0ffed4d0f08b459d8244962a1bcd1
+    fieldName: allRelicsDatabase
+    index: 35
+    AssetPath: Assets/09_KSH_Folder/ScriptableObject/Relics/Torch_Data.asset
+    PathPreview: '- RoguelikeManager/EventManager'
+  - PathHash: 2356680866015544654
+    AddressKey: 60126af60e8114345b03bba14e0c1fc7
+    fieldName: allRelicsDatabase
+    index: 36
+    AssetPath: Assets/09_KSH_Folder/ScriptableObject/Relics/TornApron_Data.asset
+    PathPreview: '- RoguelikeManager/EventManager'
+  - PathHash: 2356680866015544654
+    AddressKey: 2af48ff56b3967b45b4de1452b2aff6c
+    fieldName: allRelicsDatabase
+    index: 37
+    AssetPath: Assets/09_KSH_Folder/ScriptableObject/Relics/TornGloves_Data.asset
+    PathPreview: '- RoguelikeManager/EventManager'
+  - PathHash: 2356680866015544654
+    AddressKey: 4b6f34f03fb9e484c9dc92b6ed2093c5
+    fieldName: allRelicsDatabase
+    index: 38
+    AssetPath: Assets/09_KSH_Folder/ScriptableObject/Relics/TradersCharm_Data.asset
+    PathPreview: '- RoguelikeManager/EventManager'
+  - PathHash: 2356680866015544654
+    AddressKey: 81bdfbcfb6e54224ea7dd659f51fc965
+    fieldName: allRelicsDatabase
+    index: 39
+    AssetPath: Assets/09_KSH_Folder/ScriptableObject/Relics/ValveSwitch_Data.asset
+    PathPreview: '- RoguelikeManager/EventManager'
   - PathHash: 13143975309963784821
     AddressKey: ddb682d1b45fc6648b273d2d988f0189
     fieldName: ingredientDatabase
@@ -499,36 +1009,6 @@ MonoBehaviour:
     fieldName: characterData
     index: -1
     AssetPath: Assets/05_KGW_Folder/Prefabs/00_Characters/CharactersSOData/BCA_Data.asset
-    PathPreview: '- Roguelike UI/StageGlobalCanvas/PartyContainer/PartyPanel/SelectedCharContainer/SelectedChar1'
-  - PathHash: 7503453655828933506
-    AddressKey: 0977072b4d0ff2c4bb1c250d908f0ba6
-    fieldName: _characterData
-    index: -1
-    AssetPath: Assets/05_KGW_Folder/Prefabs/00_Characters/CharactersSOData/BCA_Data.asset
-    PathPreview: '- Roguelike UI/StageGlobalCanvas/PartyContainer/PartyPanel/SelectedCharContainer/SelectedChar1'
-  - PathHash: 7503453655828933506
-    AddressKey: 225cf737d40a09d48b2ddce59168cd9a
-    fieldName: _characterState
-    index: -1
-    AssetPath: Assets/05_KGW_Folder/Prefabs/03_Skills/CharacterSkills/SkillsSOData/Vanguard_Data.asset
-    PathPreview: '- Roguelike UI/StageGlobalCanvas/PartyContainer/PartyPanel/SelectedCharContainer/SelectedChar1'
-  - PathHash: 7503453655828933506
-    AddressKey: 4a2c293d48547944daadf326f357d3c6
-    fieldName: _characterState
-    index: -1
-    AssetPath: Assets/05_KGW_Folder/Prefabs/03_Skills/CharacterSkills/SkillsSOData/ProtectiveGrenade_Data.asset
-    PathPreview: '- Roguelike UI/StageGlobalCanvas/PartyContainer/PartyPanel/SelectedCharContainer/SelectedChar1'
-  - PathHash: 7503453655828933506
-    AddressKey: 225cf737d40a09d48b2ddce59168cd9a
-    fieldName: _chaPassiveSkill
-    index: -1
-    AssetPath: Assets/05_KGW_Folder/Prefabs/03_Skills/CharacterSkills/SkillsSOData/Vanguard_Data.asset
-    PathPreview: '- Roguelike UI/StageGlobalCanvas/PartyContainer/PartyPanel/SelectedCharContainer/SelectedChar1'
-  - PathHash: 7503453655828933506
-    AddressKey: 4a2c293d48547944daadf326f357d3c6
-    fieldName: _chaActiveSkill
-    index: -1
-    AssetPath: Assets/05_KGW_Folder/Prefabs/03_Skills/CharacterSkills/SkillsSOData/ProtectiveGrenade_Data.asset
     PathPreview: '- Roguelike UI/StageGlobalCanvas/PartyContainer/PartyPanel/SelectedCharContainer/SelectedChar1'
   - PathHash: 3444940125978463120
     AddressKey: 0c493d05ed322284894a49da06e45e52
@@ -659,246 +1139,246 @@ MonoBehaviour:
     index: -1
     AssetPath: Assets/00_Imports/Scriptable Object/IngredientData/Ingredient Database.asset
     PathPreview: '- RoguelikeManager/CookManager'
-  - PathHash: 14938729717848126768
-    AddressKey: 0977072b4d0ff2c4bb1c250d908f0ba6
-    fieldName: _characterLists
+  - PathHash: 14002182929224405944
+    AddressKey: 083dd4f51dcd3524aacad8965f5e69e4
+    fieldName: relics
     index: 0
-    AssetPath: Assets/05_KGW_Folder/Prefabs/00_Characters/CharactersSOData/BCA_Data.asset
-    PathPreview: TestGameManager/CSVDataContainer/CharacterData
-  - PathHash: 14938729717848126768
-    AddressKey: 103b7f3043d88a9429d25209c9d1f182
-    fieldName: _characterLists
+    AssetPath: Assets/09_KSH_Folder/ScriptableObject/Relics/BloodstainedCleaver_Data.asset
+    PathPreview: '- BattleManager/RelicManager'
+  - PathHash: 14002182929224405944
+    AddressKey: edbea83fe730525479b3d315b23c0a33
+    fieldName: relics
     index: 1
-    AssetPath: Assets/05_KGW_Folder/Prefabs/00_Characters/CharactersSOData/BW_Data.asset
-    PathPreview: TestGameManager/CSVDataContainer/CharacterData
-  - PathHash: 14938729717848126768
-    AddressKey: b2b81c36db1a8e54ea99f22c0ce7f76f
-    fieldName: _characterLists
+    AssetPath: Assets/09_KSH_Folder/ScriptableObject/Relics/BoneBroth_Data.asset
+    PathPreview: '- BattleManager/RelicManager'
+  - PathHash: 14002182929224405944
+    AddressKey: d6f71759f4b41454f97400647dd426ad
+    fieldName: relics
     index: 2
-    AssetPath: Assets/05_KGW_Folder/Prefabs/00_Characters/CharactersSOData/DRA_Data.asset
-    PathPreview: TestGameManager/CSVDataContainer/CharacterData
-  - PathHash: 14938729717848126768
-    AddressKey: b2b81c36db1a8e54ea99f22c0ce7f76f
-    fieldName: _characterData
-    index: -1
-    AssetPath: Assets/05_KGW_Folder/Prefabs/00_Characters/CharactersSOData/DRA_Data.asset
-    PathPreview: TestGameManager/CSVDataContainer/CharacterData
-  - PathHash: 14938729717848126768
-    AddressKey: d878cb11f5f90e548a5f492a57a47010
-    fieldName: _characterState
-    index: -1
-    AssetPath: Assets/05_KGW_Folder/Prefabs/03_Skills/CharacterSkills/SkillsSOData/WaveOfSteel_Data.asset
-    PathPreview: TestGameManager/CSVDataContainer/CharacterData
-  - PathHash: 14938729717848126768
-    AddressKey: d878cb11f5f90e548a5f492a57a47010
-    fieldName: _chaPassiveSkill
-    index: -1
-    AssetPath: Assets/05_KGW_Folder/Prefabs/03_Skills/CharacterSkills/SkillsSOData/WaveOfSteel_Data.asset
-    PathPreview: TestGameManager/CSVDataContainer/CharacterData
-  - PathHash: 14938729717848126768
-    AddressKey: 9a13d90448a4f63409bf98028055be21
-    fieldName: _characterLists
+    AssetPath: Assets/09_KSH_Folder/ScriptableObject/Relics/BrothPot_Data.asset
+    PathPreview: '- BattleManager/RelicManager'
+  - PathHash: 14002182929224405944
+    AddressKey: 6b7560d5c279e9d4eabd5d890c894732
+    fieldName: relics
     index: 3
-    AssetPath: Assets/05_KGW_Folder/Prefabs/00_Characters/CharactersSOData/EMA_Data.asset
-    PathPreview: TestGameManager/CSVDataContainer/CharacterData
-  - PathHash: 14938729717848126768
-    AddressKey: 9a13d90448a4f63409bf98028055be21
-    fieldName: _characterData
-    index: -1
-    AssetPath: Assets/05_KGW_Folder/Prefabs/00_Characters/CharactersSOData/EMA_Data.asset
-    PathPreview: TestGameManager/CSVDataContainer/CharacterData
-  - PathHash: 14938729717848126768
-    AddressKey: d10e51f1b5c6b5a4fb362c7e9535f891
-    fieldName: _characterState
-    index: -1
-    AssetPath: Assets/05_KGW_Folder/Prefabs/03_Skills/CharacterSkills/SkillsSOData/RegenerativeStrike_Data.asset
-    PathPreview: TestGameManager/CSVDataContainer/CharacterData
-  - PathHash: 14938729717848126768
-    AddressKey: d10e51f1b5c6b5a4fb362c7e9535f891
-    fieldName: _chaPassiveSkill
-    index: -1
-    AssetPath: Assets/05_KGW_Folder/Prefabs/03_Skills/CharacterSkills/SkillsSOData/RegenerativeStrike_Data.asset
-    PathPreview: TestGameManager/CSVDataContainer/CharacterData
-  - PathHash: 14938729717848126768
-    AddressKey: 53f708173e2eda44480072ad77fcc9bd
-    fieldName: _characterLists
+    AssetPath: Assets/09_KSH_Folder/ScriptableObject/Relics/BurdenedQuiver_Data.asset
+    PathPreview: '- BattleManager/RelicManager'
+  - PathHash: 14002182929224405944
+    AddressKey: e0d1d5f04c0ade442a0e3682fbb54fe5
+    fieldName: relics
     index: 4
-    AssetPath: Assets/05_KGW_Folder/Prefabs/00_Characters/CharactersSOData/GSE_Data.asset
-    PathPreview: TestGameManager/CSVDataContainer/CharacterData
-  - PathHash: 14938729717848126768
-    AddressKey: 53f708173e2eda44480072ad77fcc9bd
-    fieldName: _characterData
-    index: -1
-    AssetPath: Assets/05_KGW_Folder/Prefabs/00_Characters/CharactersSOData/GSE_Data.asset
-    PathPreview: TestGameManager/CSVDataContainer/CharacterData
-  - PathHash: 14938729717848126768
-    AddressKey: 47189edbb54ca18499e51caaa3eb7486
-    fieldName: _characterState
-    index: -1
-    AssetPath: Assets/05_KGW_Folder/Prefabs/03_Skills/CharacterSkills/SkillsSOData/AimForTheWound_Data.asset
-    PathPreview: TestGameManager/CSVDataContainer/CharacterData
-  - PathHash: 14938729717848126768
-    AddressKey: 0e1f6a269f20a784ca12b6ae5669cda8
-    fieldName: _characterState
-    index: -1
-    AssetPath: Assets/05_KGW_Folder/Prefabs/03_Skills/CharacterSkills/SkillsSOData/WrathOfTheGuardian_Data.asset
-    PathPreview: TestGameManager/CSVDataContainer/CharacterData
-  - PathHash: 14938729717848126768
-    AddressKey: 47189edbb54ca18499e51caaa3eb7486
-    fieldName: _chaPassiveSkill
-    index: -1
-    AssetPath: Assets/05_KGW_Folder/Prefabs/03_Skills/CharacterSkills/SkillsSOData/AimForTheWound_Data.asset
-    PathPreview: TestGameManager/CSVDataContainer/CharacterData
-  - PathHash: 14938729717848126768
-    AddressKey: 0e1f6a269f20a784ca12b6ae5669cda8
-    fieldName: _chaActiveSkill
-    index: -1
-    AssetPath: Assets/05_KGW_Folder/Prefabs/03_Skills/CharacterSkills/SkillsSOData/WrathOfTheGuardian_Data.asset
-    PathPreview: TestGameManager/CSVDataContainer/CharacterData
-  - PathHash: 14938729717848126768
-    AddressKey: 9ed735c570481004a8718f1c6026da54
-    fieldName: _characterLists
+    AssetPath: Assets/09_KSH_Folder/ScriptableObject/Relics/Cleaver_Data.asset
+    PathPreview: '- BattleManager/RelicManager'
+  - PathHash: 14002182929224405944
+    AddressKey: 58bc0826ca5c3e14ab5ea71fe493e3ca
+    fieldName: relics
     index: 5
-    AssetPath: Assets/05_KGW_Folder/Prefabs/00_Characters/CharactersSOData/HSR_Data.asset
-    PathPreview: TestGameManager/CSVDataContainer/CharacterData
-  - PathHash: 14938729717848126768
-    AddressKey: 9ed735c570481004a8718f1c6026da54
-    fieldName: _characterData
-    index: -1
-    AssetPath: Assets/05_KGW_Folder/Prefabs/00_Characters/CharactersSOData/HSR_Data.asset
-    PathPreview: TestGameManager/CSVDataContainer/CharacterData
-  - PathHash: 14938729717848126768
-    AddressKey: d10e51f1b5c6b5a4fb362c7e9535f891
-    fieldName: _characterState
-    index: -1
-    AssetPath: Assets/05_KGW_Folder/Prefabs/03_Skills/CharacterSkills/SkillsSOData/RegenerativeStrike_Data.asset
-    PathPreview: TestGameManager/CSVDataContainer/CharacterData
-  - PathHash: 14938729717848126768
-    AddressKey: 6589aa72ba5dd374a9e771753e65d224
-    fieldName: _characterState
-    index: -1
-    AssetPath: Assets/05_KGW_Folder/Prefabs/03_Skills/CharacterSkills/SkillsSOData/Cheer_Data.asset
-    PathPreview: TestGameManager/CSVDataContainer/CharacterData
-  - PathHash: 14938729717848126768
-    AddressKey: d10e51f1b5c6b5a4fb362c7e9535f891
-    fieldName: _chaPassiveSkill
-    index: -1
-    AssetPath: Assets/05_KGW_Folder/Prefabs/03_Skills/CharacterSkills/SkillsSOData/RegenerativeStrike_Data.asset
-    PathPreview: TestGameManager/CSVDataContainer/CharacterData
-  - PathHash: 14938729717848126768
-    AddressKey: 6589aa72ba5dd374a9e771753e65d224
-    fieldName: _chaActiveSkill
-    index: -1
-    AssetPath: Assets/05_KGW_Folder/Prefabs/03_Skills/CharacterSkills/SkillsSOData/Cheer_Data.asset
-    PathPreview: TestGameManager/CSVDataContainer/CharacterData
-  - PathHash: 14938729717848126768
-    AddressKey: 965766ae0e04c104fa450eef4279d84e
-    fieldName: _characterLists
+    AssetPath: Assets/09_KSH_Folder/ScriptableObject/Relics/ColdFrypan_Data.asset
+    PathPreview: '- BattleManager/RelicManager'
+  - PathHash: 14002182929224405944
+    AddressKey: 4efac66de39946446b680e8c66f0a029
+    fieldName: relics
     index: 6
-    AssetPath: Assets/05_KGW_Folder/Prefabs/00_Characters/CharactersSOData/JHB_Data.asset
-    PathPreview: TestGameManager/CSVDataContainer/CharacterData
-  - PathHash: 14938729717848126768
-    AddressKey: 965766ae0e04c104fa450eef4279d84e
-    fieldName: _characterData
-    index: -1
-    AssetPath: Assets/05_KGW_Folder/Prefabs/00_Characters/CharactersSOData/JHB_Data.asset
-    PathPreview: TestGameManager/CSVDataContainer/CharacterData
-  - PathHash: 14938729717848126768
-    AddressKey: 47189edbb54ca18499e51caaa3eb7486
-    fieldName: _characterState
-    index: -1
-    AssetPath: Assets/05_KGW_Folder/Prefabs/03_Skills/CharacterSkills/SkillsSOData/AimForTheWound_Data.asset
-    PathPreview: TestGameManager/CSVDataContainer/CharacterData
-  - PathHash: 14938729717848126768
-    AddressKey: 47189edbb54ca18499e51caaa3eb7486
-    fieldName: _chaPassiveSkill
-    index: -1
-    AssetPath: Assets/05_KGW_Folder/Prefabs/03_Skills/CharacterSkills/SkillsSOData/AimForTheWound_Data.asset
-    PathPreview: TestGameManager/CSVDataContainer/CharacterData
-  - PathHash: 14938729717848126768
-    AddressKey: 265ffa3c68152e74a8ca0b6b30d27bd8
-    fieldName: _characterLists
+    AssetPath: Assets/09_KSH_Folder/ScriptableObject/Relics/CorruptedScale_Data.asset
+    PathPreview: '- BattleManager/RelicManager'
+  - PathHash: 14002182929224405944
+    AddressKey: 230813fe2f4dca041b3079043220ef19
+    fieldName: relics
     index: 7
-    AssetPath: Assets/05_KGW_Folder/Prefabs/00_Characters/CharactersSOData/SDR_Data.asset
-    PathPreview: TestGameManager/CSVDataContainer/CharacterData
-  - PathHash: 14938729717848126768
-    AddressKey: 265ffa3c68152e74a8ca0b6b30d27bd8
-    fieldName: _characterData
-    index: -1
-    AssetPath: Assets/05_KGW_Folder/Prefabs/00_Characters/CharactersSOData/SDR_Data.asset
-    PathPreview: TestGameManager/CSVDataContainer/CharacterData
-  - PathHash: 14938729717848126768
-    AddressKey: 0e55c03446951384b88a5af133a1832f
-    fieldName: _characterState
-    index: -1
-    AssetPath: Assets/05_KGW_Folder/Prefabs/03_Skills/CharacterSkills/SkillsSOData/MoraleDecline_Data.asset
-    PathPreview: TestGameManager/CSVDataContainer/CharacterData
-  - PathHash: 14938729717848126768
-    AddressKey: 0e55c03446951384b88a5af133a1832f
-    fieldName: _chaPassiveSkill
-    index: -1
-    AssetPath: Assets/05_KGW_Folder/Prefabs/03_Skills/CharacterSkills/SkillsSOData/MoraleDecline_Data.asset
-    PathPreview: TestGameManager/CSVDataContainer/CharacterData
-  - PathHash: 14938729717848126768
-    AddressKey: 65f2c3ff647fbb64882a5e1b70abfa2e
-    fieldName: _characterLists
+    AssetPath: Assets/09_KSH_Folder/ScriptableObject/Relics/CouponBook_Data.asset
+    PathPreview: '- BattleManager/RelicManager'
+  - PathHash: 14002182929224405944
+    AddressKey: e20d12db2404939409791e21ddfdf5cb
+    fieldName: relics
     index: 8
-    AssetPath: Assets/05_KGW_Folder/Prefabs/00_Characters/CharactersSOData/SIL_Data.asset
-    PathPreview: TestGameManager/CSVDataContainer/CharacterData
-  - PathHash: 14938729717848126768
-    AddressKey: 65f2c3ff647fbb64882a5e1b70abfa2e
-    fieldName: _characterData
-    index: -1
-    AssetPath: Assets/05_KGW_Folder/Prefabs/00_Characters/CharactersSOData/SIL_Data.asset
-    PathPreview: TestGameManager/CSVDataContainer/CharacterData
-  - PathHash: 14938729717848126768
-    AddressKey: d878cb11f5f90e548a5f492a57a47010
-    fieldName: _characterState
-    index: -1
-    AssetPath: Assets/05_KGW_Folder/Prefabs/03_Skills/CharacterSkills/SkillsSOData/WaveOfSteel_Data.asset
-    PathPreview: TestGameManager/CSVDataContainer/CharacterData
-  - PathHash: 14938729717848126768
-    AddressKey: 431d938b1a2067345b62be8d3e323b3d
-    fieldName: _characterState
-    index: -1
-    AssetPath: Assets/05_KGW_Folder/Prefabs/03_Skills/CharacterSkills/SkillsSOData/WolfSlash_Data.asset
-    PathPreview: TestGameManager/CSVDataContainer/CharacterData
-  - PathHash: 14938729717848126768
-    AddressKey: d878cb11f5f90e548a5f492a57a47010
-    fieldName: _chaPassiveSkill
-    index: -1
-    AssetPath: Assets/05_KGW_Folder/Prefabs/03_Skills/CharacterSkills/SkillsSOData/WaveOfSteel_Data.asset
-    PathPreview: TestGameManager/CSVDataContainer/CharacterData
-  - PathHash: 14938729717848126768
-    AddressKey: 431d938b1a2067345b62be8d3e323b3d
-    fieldName: _chaActiveSkill
-    index: -1
-    AssetPath: Assets/05_KGW_Folder/Prefabs/03_Skills/CharacterSkills/SkillsSOData/WolfSlash_Data.asset
-    PathPreview: TestGameManager/CSVDataContainer/CharacterData
-  - PathHash: 14938729717848126768
-    AddressKey: a933f06d6c448424f8215186aa712cb0
-    fieldName: _characterLists
+    AssetPath: Assets/09_KSH_Folder/ScriptableObject/Relics/DullBlade_Data.asset
+    PathPreview: '- BattleManager/RelicManager'
+  - PathHash: 14002182929224405944
+    AddressKey: 509ea087a0d919c4f8c999367837ab03
+    fieldName: relics
     index: 9
-    AssetPath: Assets/05_KGW_Folder/Prefabs/00_Characters/CharactersSOData/YHY_Data.asset
-    PathPreview: TestGameManager/CSVDataContainer/CharacterData
-  - PathHash: 14938729717848126768
-    AddressKey: a933f06d6c448424f8215186aa712cb0
-    fieldName: _characterData
-    index: -1
-    AssetPath: Assets/05_KGW_Folder/Prefabs/00_Characters/CharactersSOData/YHY_Data.asset
-    PathPreview: TestGameManager/CSVDataContainer/CharacterData
-  - PathHash: 14938729717848126768
-    AddressKey: 225cf737d40a09d48b2ddce59168cd9a
-    fieldName: _characterState
-    index: -1
-    AssetPath: Assets/05_KGW_Folder/Prefabs/03_Skills/CharacterSkills/SkillsSOData/Vanguard_Data.asset
-    PathPreview: TestGameManager/CSVDataContainer/CharacterData
-  - PathHash: 14938729717848126768
-    AddressKey: 225cf737d40a09d48b2ddce59168cd9a
-    fieldName: _chaPassiveSkill
-    index: -1
-    AssetPath: Assets/05_KGW_Folder/Prefabs/03_Skills/CharacterSkills/SkillsSOData/Vanguard_Data.asset
-    PathPreview: TestGameManager/CSVDataContainer/CharacterData
+    AssetPath: Assets/09_KSH_Folder/ScriptableObject/Relics/FryingNozzle_Data.asset
+    PathPreview: '- BattleManager/RelicManager'
+  - PathHash: 14002182929224405944
+    AddressKey: 9c8f7c9da898e8f4b8a807347de69570
+    fieldName: relics
+    index: 10
+    AssetPath: Assets/09_KSH_Folder/ScriptableObject/Relics/Frypan_Data.asset
+    PathPreview: '- BattleManager/RelicManager'
+  - PathHash: 14002182929224405944
+    AddressKey: 3be8e0dbf084a444bbfe5f9b97811291
+    fieldName: relics
+    index: 11
+    AssetPath: Assets/09_KSH_Folder/ScriptableObject/Relics/Grill_Data.asset
+    PathPreview: '- BattleManager/RelicManager'
+  - PathHash: 14002182929224405944
+    AddressKey: 642cf2028b4bce84bb048f1881955336
+    fieldName: relics
+    index: 12
+    AssetPath: Assets/09_KSH_Folder/ScriptableObject/Relics/HeatproofLid_Data.asset
+    PathPreview: '- BattleManager/RelicManager'
+  - PathHash: 14002182929224405944
+    AddressKey: 247102ac3ce45ce4fa448cfb6d106ecf
+    fieldName: relics
+    index: 13
+    AssetPath: Assets/09_KSH_Folder/ScriptableObject/Relics/HeavyCoin_Data.asset
+    PathPreview: '- BattleManager/RelicManager'
+  - PathHash: 14002182929224405944
+    AddressKey: 333be8eec215e0b46ae4a99ef1fe020f
+    fieldName: relics
+    index: 14
+    AssetPath: Assets/09_KSH_Folder/ScriptableObject/Relics/HerbalSatchel_Data.asset
+    PathPreview: '- BattleManager/RelicManager'
+  - PathHash: 14002182929224405944
+    AddressKey: 5ffe6f76b4d53f0439ddd5002c3710da
+    fieldName: relics
+    index: 15
+    AssetPath: Assets/09_KSH_Folder/ScriptableObject/Relics/IronLid_Data.asset
+    PathPreview: '- BattleManager/RelicManager'
+  - PathHash: 14002182929224405944
+    AddressKey: c76f1ada740be8e4f90d37fd9c4f5f82
+    fieldName: relics
+    index: 16
+    AssetPath: Assets/09_KSH_Folder/ScriptableObject/Relics/KimchiFridge_Data.asset
+    PathPreview: '- BattleManager/RelicManager'
+  - PathHash: 14002182929224405944
+    AddressKey: 99a4fb9106814444abe16109cced1189
+    fieldName: relics
+    index: 17
+    AssetPath: Assets/09_KSH_Folder/ScriptableObject/Relics/LeakingManaCrystal_Data.asset
+    PathPreview: '- BattleManager/RelicManager'
+  - PathHash: 14002182929224405944
+    AddressKey: db3c03ae950867b4eb4186e8c051091d
+    fieldName: relics
+    index: 18
+    AssetPath: Assets/09_KSH_Folder/ScriptableObject/Relics/LuckyReceipt_Data.asset
+    PathPreview: '- BattleManager/RelicManager'
+  - PathHash: 14002182929224405944
+    AddressKey: 8366100fe30520547a94e8d9821fce3e
+    fieldName: relics
+    index: 19
+    AssetPath: Assets/09_KSH_Folder/ScriptableObject/Relics/MadBrew_Data.asset
+    PathPreview: '- BattleManager/RelicManager'
+  - PathHash: 14002182929224405944
+    AddressKey: 5a9dc0164b13eec40a065a9a1b957c5b
+    fieldName: relics
+    index: 20
+    AssetPath: Assets/09_KSH_Folder/ScriptableObject/Relics/MarkOfPrecision_Data.asset
+    PathPreview: '- BattleManager/RelicManager'
+  - PathHash: 14002182929224405944
+    AddressKey: 72b7b0b50429f484fb1488af2bd4f1f7
+    fieldName: relics
+    index: 21
+    AssetPath: Assets/09_KSH_Folder/ScriptableObject/Relics/MeatJuicer_Data.asset
+    PathPreview: '- BattleManager/RelicManager'
+  - PathHash: 14002182929224405944
+    AddressKey: 10d189bd74b3d9843977c47369888639
+    fieldName: relics
+    index: 22
+    AssetPath: Assets/09_KSH_Folder/ScriptableObject/Relics/Mitts_Data.asset
+    PathPreview: '- BattleManager/RelicManager'
+  - PathHash: 14002182929224405944
+    AddressKey: 3797eb6dcc483c14397d8ad63b14f927
+    fieldName: relics
+    index: 23
+    AssetPath: Assets/09_KSH_Folder/ScriptableObject/Relics/Mixer_Data.asset
+    PathPreview: '- BattleManager/RelicManager'
+  - PathHash: 14002182929224405944
+    AddressKey: 288d5d1021286e34b9cd4a8fb0f579f9
+    fieldName: relics
+    index: 24
+    AssetPath: Assets/09_KSH_Folder/ScriptableObject/Relics/NoisyHood_Data.asset
+    PathPreview: '- BattleManager/RelicManager'
+  - PathHash: 14002182929224405944
+    AddressKey: e3f74eb057fce6f44a3a5be4d6fe098b
+    fieldName: relics
+    index: 25
+    AssetPath: Assets/09_KSH_Folder/ScriptableObject/Relics/OilPot_Data.asset
+    PathPreview: '- BattleManager/RelicManager'
+  - PathHash: 14002182929224405944
+    AddressKey: bf7705ad316730d498911289c989b216
+    fieldName: relics
+    index: 26
+    AssetPath: Assets/09_KSH_Folder/ScriptableObject/Relics/PrecisionScale_Data.asset
+    PathPreview: '- BattleManager/RelicManager'
+  - PathHash: 14002182929224405944
+    AddressKey: 4a1933e95e300484b9500a9d5e032a6c
+    fieldName: relics
+    index: 27
+    AssetPath: Assets/09_KSH_Folder/ScriptableObject/Relics/RoastGrounds_Data.asset
+    PathPreview: '- BattleManager/RelicManager'
+  - PathHash: 14002182929224405944
+    AddressKey: 31f97dd93311d8641863258451483be5
+    fieldName: relics
+    index: 28
+    AssetPath: Assets/09_KSH_Folder/ScriptableObject/Relics/SaltJar_Data.asset
+    PathPreview: '- BattleManager/RelicManager'
+  - PathHash: 14002182929224405944
+    AddressKey: e0c57b707de39694fb106e3727c21fb7
+    fieldName: relics
+    index: 29
+    AssetPath: Assets/09_KSH_Folder/ScriptableObject/Relics/SeasoningJar_Data.asset
+    PathPreview: '- BattleManager/RelicManager'
+  - PathHash: 14002182929224405944
+    AddressKey: 8f7da6015879dd54e9b80759c5dc47ec
+    fieldName: relics
+    index: 30
+    AssetPath: Assets/09_KSH_Folder/ScriptableObject/Relics/SecretSauceJar_Data.asset
+    PathPreview: '- BattleManager/RelicManager'
+  - PathHash: 14002182929224405944
+    AddressKey: 0eea9fd081ca1824596da14453f7e33a
+    fieldName: relics
+    index: 31
+    AssetPath: Assets/09_KSH_Folder/ScriptableObject/Relics/SharpKnife_Data.asset
+    PathPreview: '- BattleManager/RelicManager'
+  - PathHash: 14002182929224405944
+    AddressKey: b52d24aa7685bcd4c8d3887ca1c7f439
+    fieldName: relics
+    index: 32
+    AssetPath: Assets/09_KSH_Folder/ScriptableObject/Relics/SluggishBody_Data.asset
+    PathPreview: '- BattleManager/RelicManager'
+  - PathHash: 14002182929224405944
+    AddressKey: 17b406adef6d3b043b7f71622802b0b0
+    fieldName: relics
+    index: 33
+    AssetPath: Assets/09_KSH_Folder/ScriptableObject/Relics/ThermalFlask_Data.asset
+    PathPreview: '- BattleManager/RelicManager'
+  - PathHash: 14002182929224405944
+    AddressKey: e13dc491909a74f41b90ee3c3ddde150
+    fieldName: relics
+    index: 34
+    AssetPath: Assets/09_KSH_Folder/ScriptableObject/Relics/TokenOfValor_Data.asset
+    PathPreview: '- BattleManager/RelicManager'
+  - PathHash: 14002182929224405944
+    AddressKey: 35d0ffed4d0f08b459d8244962a1bcd1
+    fieldName: relics
+    index: 35
+    AssetPath: Assets/09_KSH_Folder/ScriptableObject/Relics/Torch_Data.asset
+    PathPreview: '- BattleManager/RelicManager'
+  - PathHash: 14002182929224405944
+    AddressKey: 60126af60e8114345b03bba14e0c1fc7
+    fieldName: relics
+    index: 36
+    AssetPath: Assets/09_KSH_Folder/ScriptableObject/Relics/TornApron_Data.asset
+    PathPreview: '- BattleManager/RelicManager'
+  - PathHash: 14002182929224405944
+    AddressKey: 2af48ff56b3967b45b4de1452b2aff6c
+    fieldName: relics
+    index: 37
+    AssetPath: Assets/09_KSH_Folder/ScriptableObject/Relics/TornGloves_Data.asset
+    PathPreview: '- BattleManager/RelicManager'
+  - PathHash: 14002182929224405944
+    AddressKey: 4b6f34f03fb9e484c9dc92b6ed2093c5
+    fieldName: relics
+    index: 38
+    AssetPath: Assets/09_KSH_Folder/ScriptableObject/Relics/TradersCharm_Data.asset
+    PathPreview: '- BattleManager/RelicManager'
+  - PathHash: 14002182929224405944
+    AddressKey: 81bdfbcfb6e54224ea7dd659f51fc965
+    fieldName: relics
+    index: 39
+    AssetPath: Assets/09_KSH_Folder/ScriptableObject/Relics/ValveSwitch_Data.asset
+    PathPreview: '- BattleManager/RelicManager'
   - PathHash: 6822475509943882160
     AddressKey: 1bcc5d240b86c65409d04d652ea76f67
     fieldName: config

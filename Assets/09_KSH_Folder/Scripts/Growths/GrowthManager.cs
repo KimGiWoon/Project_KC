@@ -224,6 +224,8 @@ public class GrowthManager : MonoBehaviour
 
     public void AllApplyGrowth(GrowthDatas growthDatas) //전체 스탯 적용
     {
+        //todo CharacterDataSO의 GetOriginalCharacterState()를 가져와서
+        //todo 변경된 스탯은 GetCharacterState() => 여기꺼에 적용
         foreach (var cha in _charData.AllOwnedCharacters)
         {
             //todo 캐릭터영어이름 - 사본data => 초기화

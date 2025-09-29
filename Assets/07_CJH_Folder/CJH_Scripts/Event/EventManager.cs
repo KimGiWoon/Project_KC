@@ -23,11 +23,6 @@ namespace CJH
         public bool IsCombatRewardYeopjeon { get; private set; }
         public int CombatRewardAmount { get; private set; }
 
-        private void Awake()
-        {
-            allRelicsDatabase = Resources.LoadAll<RelicDatas>("Relics").ToList();
-        }
-
         // EventStart에서 전투 시작 전 보상 정보를 설정하기 위한 메서드
         public void SetCombatReward(bool isYeopjeon, int amount)
         {
