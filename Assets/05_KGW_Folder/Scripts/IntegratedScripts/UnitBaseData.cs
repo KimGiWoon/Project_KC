@@ -100,7 +100,7 @@ public abstract class UnitBaseData : MonoBehaviour
         // 유닛의 사망처리
         _isAlive = false;
 
-        Invoke(nameof(MonsterDeath), 1f);
+        Invoke(nameof(MonsterDeath), 0.7f);
     }
 
     // 몬스터 사망
