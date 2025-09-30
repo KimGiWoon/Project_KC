@@ -107,6 +107,7 @@ namespace SDW
             {
                 case NodeGrade.Contents:
                     _nodeTypeText.text = "콘텐츠";
+                    _descriptionText.text = growthNode.GetDescription().Replace("\\n", "\n");
                     break;
                 case NodeGrade.Main:
                     _nodeTypeText.text = "핵심";
