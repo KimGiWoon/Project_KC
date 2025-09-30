@@ -34,7 +34,7 @@ namespace CJH
         }
 
         // 게임이 시작될 때 Awake() 함수가 가장 먼저 호출됩니다.
-        private void Init()
+        public void Init()
         {
             // 프리팹 목록이 비어있지 않은지 확인합니다.
             if (mapNodePrefabs != null && mapNodePrefabs.Count > 0)

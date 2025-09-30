@@ -23,6 +23,7 @@ namespace SDW
         private RelicUI currentRelicUI;
         private RelicDatas relic;
         private GameObject DetailUI;
+        [SerializeField] private PrefabRandomizer _prefabRandomizer;
 
         public Action<UIName> OnUICloseRequested;
 
@@ -154,6 +155,7 @@ namespace SDW
 
                 if (generator != null && config != null)
                 {
+                    _prefabRandomizer.Init();
                     var newMapData = generator.GenerateMap(config);
                     MapView.Instance.CreateMapView(newMapData);
                 }
