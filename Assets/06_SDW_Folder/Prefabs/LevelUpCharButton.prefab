@@ -237,6 +237,7 @@ GameObject:
   - component: {fileID: 8903099586365315395}
   - component: {fileID: 5494311715190666317}
   - component: {fileID: 7851080402314362985}
+  - component: {fileID: 2921692622460884141}
   m_Layer: 0
   m_Name: LevelUpCharButton
   m_TagString: Untagged
@@ -339,6 +340,19 @@ MonoBehaviour:
   rareColor: {r: 1, g: 0.9607843, b: 0.4117647, a: 1}
   IsSelected: 0
   ChaEnName: 2
+--- !u!114 &2921692622460884141
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5699898554263084225}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d77a5a979f8474c4d86ea21b3a9f942e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Id: 0
 --- !u!1 &6945361640982255168
 GameObject:
   m_ObjectHideFlags: 0

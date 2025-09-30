@@ -40,7 +40,7 @@ namespace KSH
         {
             // getCount++; //횟수 누적
             GameManager.Instance.AddGachaCount(1);
-            Debug.Log($"누적 {getCount}회");
+            // Debug.Log($"누적 {GameManager.Instance.GachaCount}회");
 
             var getRarity = rarityPicker.GetRandom(); //가중치 랜덤 뽑기로 등급 뽑기
 
@@ -67,7 +67,7 @@ namespace KSH
             //뽑힌 등급의 캐릭터들을 랜덤으로 돌린다.
             var selectChracter = getCharacterList[Random.Range(0, getCharacterList.Count)];
 
-            Debug.Log($"가챠 결과 → {selectChracter._chaBaseData.ChaName} (등급: {selectChracter._chaBaseData.ChaGrade})");
+            // Debug.Log($"가챠 결과 → {selectChracter._chaBaseData.ChaName} (등급: {selectChracter._chaBaseData.ChaGrade})");
             return selectChracter;
         }
 

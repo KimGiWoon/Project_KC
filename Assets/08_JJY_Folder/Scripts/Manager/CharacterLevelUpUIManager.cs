@@ -167,10 +167,14 @@ namespace JJY
 
                 var go = Instantiate(characterButtonPrefab);
                 var button = go.GetComponent<Button>();
+                var buttonId = go.GetComponent<ButtonId>();
+                buttonId.Id = i;
                 var init = go.GetComponent<LevelUpCharButton>();
 
                 button.onClick.RemoveAllListeners();
-                button.onClick.AddListener(() => InitCharacterInfo(list[i]._chaBaseData.ChaEnName));
+                button.onClick.AddListener(() =>
+                    InitCharacterInfo(GameManager.Instance.CharacterData.CharacterLists[buttonId.Id]._chaBaseData.ChaEnName)
+                );
 
                 bool hasCharacter;
                 GameManager.Instance.CharacterData.OwnedCharacters.TryGetValue(characterLocal._chaBaseData.ChaEnName,
