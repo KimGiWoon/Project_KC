@@ -29,6 +29,12 @@ public class MapData
         Path = new List<Node> { StartNode };
     }
 
+    public void ResetPath()
+    {
+        Path.Clear();
+        Path.Add(StartNode);
+    }
+
     public Node GetNodeByPoint(int row, int column)
     {
         if (row < 0 || column < 0 || row >= Map.Count || column >= Map[0].Count)
