@@ -93,7 +93,7 @@ public class MyCharacterController : UnitBaseData
         _characterState._chaCurrentMP = _characterData.GetModifiedCharacterState()._chaCurrentMP;
         _characterState._chaMaxMP = _characterData.GetModifiedCharacterState()._chaMaxMP;
         _characterState._chaMPRecovery = _characterData.GetModifiedCharacterState()._chaMPRecovery;
-        _characterState._chaAtkSpeed = _characterData.GetModifiedCharacterState()._chaAtkSpeed;
+        _characterState._chaAtkSpeed = MathF.Max(0.15f, _characterData.GetModifiedCharacterState()._chaAtkSpeed);
         _characterState._chaAttack = _characterData.GetModifiedCharacterState()._chaAttack;
         _characterState._chaArmor = _characterData.GetModifiedCharacterState()._chaArmor;
         _characterState._chaAtkIsMelee = _characterData.GetModifiedCharacterState()._chaAtkIsMelee;
@@ -260,7 +260,7 @@ public class MyCharacterController : UnitBaseData
                 _isFirstAttack = false;
 
                 // 공격 쿨타임 초기화
-                _attackCoolTimer = _characterState._chaAtkSpeed / _gameSpeed;
+                _attackCoolTimer = _limitAtkSpeed / _gameSpeed;
             }
         }
         else
