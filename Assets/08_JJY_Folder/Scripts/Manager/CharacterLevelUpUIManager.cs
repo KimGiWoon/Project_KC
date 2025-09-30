@@ -170,7 +170,7 @@ namespace JJY
                 var init = go.GetComponent<LevelUpCharButton>();
 
                 button.onClick.RemoveAllListeners();
-                button.onClick.AddListener(() => InitCharacterInfo(characterLocal));
+                button.onClick.AddListener(() => InitCharacterInfo(list[i]._chaBaseData.ChaEnName));
 
                 bool hasCharacter;
                 GameManager.Instance.CharacterData.OwnedCharacters.TryGetValue(characterLocal._chaBaseData.ChaEnName,
@@ -197,17 +197,22 @@ namespace JJY
             }
         }
 
-        private void InitCharacterInfo(CharacterDataSO data)
+        private void InitCharacterInfo(CharacterEnName enName)
         {
+            var data = GameManager.Instance.CharacterData.CharacterEnNameData[enName];
             selectedCharacterData = data;
-            CharacterState currentCharacterStatData = data.GetModifiedCharacterState();
+            var currentCharacterStatData = data.GetModifiedCharacterState();
 
             var levelData =
                 GameManager.Instance.CharacterData.ChaLevelUpStatData[
                     GameManager.Instance.CharacterData.CharEnNameLevel[data._chaBaseData.ChaEnName]];
+
+            if (!GameManager.Instance.CharacterData.BeadsInventory.ContainsKey(data._chaBaseData.ChaEnName)) return;
+
             var beadData =
                 GameManager.Instance.CharacterData.ChaBeadsData[
                     GameManager.Instance.CharacterData.BeadsInventory[data._chaBaseData.ChaEnName]];
+
 
             int curExp = GameManager.Instance.CharacterData.CharEnNameExp[data._chaBaseData.ChaEnName];
             int curlevel = GameManager.Instance.CharacterData.CharEnNameLevel[data._chaBaseData.ChaEnName];
@@ -254,8 +259,10 @@ namespace JJY
             _mpText.text = currentCharacterStatData._chaMaxMP.ToString();
             _hpText.text = (data._chaBaseData.ChaHP * levelData.ChaHPIncrease * beadData.ChaHP).ToString("F0");
             _attackSpeedText.text = currentCharacterStatData._chaAtkSpeed.ToString("n2");
-            _attackText.text = (currentCharacterStatData._chaAttack * levelData.ChaAttackIncrease * beadData.ChaAttack).ToString("F0");
-            _defenceText.text = (currentCharacterStatData._chaArmor * levelData.ChaArmorIncrease * beadData.ChaArmor).ToString("F0");
+            _attackText.text =
+                (currentCharacterStatData._chaAttack * levelData.ChaAttackIncrease * beadData.ChaAttack).ToString("F0");
+            _defenceText.text =
+                (currentCharacterStatData._chaArmor * levelData.ChaArmorIncrease * beadData.ChaArmor).ToString("F0");
             _criticalChanceText.text = currentCharacterStatData._chaCrit.ToString();
             _criticalDamageText.text = currentCharacterStatData._chaCritDmg.ToString();
 
@@ -565,10 +572,17 @@ namespace JJY
             beekBtn.interactable = true;
             fineDiningBtn.interactable = true;
             masterChefBtn.interactable = true;
-            InitCharacterInfo(selectedCharacterData);
+            InitCharacterInfo(selectedCharacterData._chaBaseData.ChaEnName);
         }
 
         #endregion
-        private void GrowthUpdateCharacterInfo() => InitCharacterInfo(selectedCharacterData);
+
+        private void GrowthUpdateCharacterInfo()
+        {
+            foreach (var character in GameManager.Instance.CharacterData.CharacterLists)
+            {
+                InitCharacterInfo(character._chaBaseData.ChaEnName);
+            }
+        }
     }
 }
