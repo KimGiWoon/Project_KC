@@ -10,7 +10,7 @@ namespace SDW
     {
         [Header("UI Components")]
         [SerializeField] private Image _chaIconImage;
-        [SerializeField] private Image _glowImage; //# 레어면 활성화 // 이거 뭐임 몰라
+        [SerializeField] private Image _glowImage; //# 레어면 활성화
         // [SerializeField] private GameObject _darkImageObj; //# 없으면 dark?
         [SerializeField] private TextMeshProUGUI _chaUpgradeText;
         [SerializeField] private Image _circleImage; //# 선택 시 활성화? 이것이 레어나 노말일 때 색 바뀜.
@@ -31,7 +31,6 @@ namespace SDW
         public void SetLevelUpChar(CharacterDataSO data)
         {
             _chaIconImage.sprite = data._characterCircleSprite;
-            _glowImage.gameObject.SetActive(true);
             _circleImage.gameObject.SetActive(true);
 
             ChaEnName = data._chaBaseData.ChaEnName;
@@ -39,10 +38,12 @@ namespace SDW
             // _glowImageObj.SetActive(isRare);
             if (isRare)
             {
+                _glowImage.gameObject.SetActive(true);
                 _circleImage.color = rareColor;
             }
             else
             {
+                _glowImage.gameObject.SetActive(false);
                 _circleImage.color = normalColor;
             }
 

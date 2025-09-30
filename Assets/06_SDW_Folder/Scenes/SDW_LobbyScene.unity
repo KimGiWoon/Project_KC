@@ -5949,7 +5949,7 @@ MonoBehaviour:
   _lobbyButton: {fileID: 756250199}
   _collectionButton: {fileID: 1406177600}
   _gachaButton: {fileID: 1892115751}
-  _mainTitleText: {fileID: 16990843}
+  _mainTitleText: {fileID: 0}
   _bottomButtonsTweenAnimation: {fileID: 216733364}
   delayTime: 1.35
 --- !u!1 &218921241
@@ -30934,6 +30934,8 @@ MonoBehaviour:
   _characterTypeImage: {fileID: 1685343710}
   _passiveSkillImage: {fileID: 1000498225}
   _activeSkillImage: {fileID: 1730065531}
+  beadBlankImage: {fileID: 21300000, guid: bcb37826bebb43a4a92894b72fded2ab, type: 3}
+  beadFilledImage: {fileID: 21300000, guid: 7ac15ca4869ec114f9e211d8315d4bf3, type: 3}
   _charBeadImageLists:
   - {fileID: 672713340}
   - {fileID: 750521914}
@@ -30941,8 +30943,7 @@ MonoBehaviour:
   - {fileID: 1045226535}
   - {fileID: 1789772214}
   - {fileID: 53883831}
-  _blankColor: {r: 1, g: 1, b: 1, a: 1}
-  _filledColor: {r: 0.8666667, g: 0.49803922, b: 0.6784314, a: 1}
+  _filledColor: {r: 0.8666667, g: 0.49803922, b: 0.7294118, a: 1}
   _classLevelText: {fileID: 684877699}
   _currentEXP: {fileID: 423486745}
   _characterNameText: {fileID: 181472744}
@@ -30978,7 +30979,7 @@ MonoBehaviour:
   _charCurrentExpText: {fileID: 423486745}
   _charExpGaugeImage: {fileID: 583693595}
   _mainLobbyButton: {fileID: 756250199}
-  _mainTitleText: {fileID: 16990843}
+  _mainTitleText: {fileID: 0}
   _bottomTweenAnimation: {fileID: 342220796}
   _charInfoStatsUI: {fileID: 327953523}
 --- !u!114 &1199925834
