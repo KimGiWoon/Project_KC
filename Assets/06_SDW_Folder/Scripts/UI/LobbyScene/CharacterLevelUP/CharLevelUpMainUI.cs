@@ -19,6 +19,7 @@ namespace SDW
 
         [Header("Buttons")]
         [SerializeField] private Button _mainLobbyButton;
+        [SerializeField] private TextMeshProUGUI _mainTitleText;
 
         [Header("Animation")]
         [SerializeField] private TweenAnimation _bottomTweenAnimation;
@@ -125,6 +126,7 @@ namespace SDW
 
         private void MainLobbyButtonClicked()
         {
+            if (_mainTitleText.text.Equals("메인 로비")) return;
             OnUICloseRequested?.Invoke(UIName.CharLevelUpMainUI, false);
         }
 

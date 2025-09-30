@@ -246,7 +246,9 @@ namespace SDW
         private void DeleteAccountButtonClicked()
         {
             CancelToChange();
+            _deleteAccountButton.interactable = false;
             OnUIOpenRequested?.Invoke(UIName.DeleteAccountUI);
+            StartCoroutine(ActiveDeleteButton());
         }
 
         /// <summary>
@@ -281,7 +283,12 @@ namespace SDW
 
         private IEnumerator ActiveDeleteButton()
         {
-            yield return new WaitForSeconds(3f);
+            yield return new WaitForSeconds(0.5f);
+            while (_backgroundPanel.gameObject.activeSelf)
+            {
+                yield return null;
+            }
+            yield return new WaitForSeconds(0.5f);
             _deleteAccountButton.interactable = true;
         }
 

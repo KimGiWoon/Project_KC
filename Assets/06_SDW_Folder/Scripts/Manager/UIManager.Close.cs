@@ -274,7 +274,9 @@ namespace SDW
             deleteAccountUI.OnCloseButtonClicked -= (firstUI, secondUI) =>
             {
                 ClosePanel(firstUI);
-                ClosePanel(secondUI);
+
+                if (secondUI != UIName.None)
+                    ClosePanel(secondUI);
             };
         }
 

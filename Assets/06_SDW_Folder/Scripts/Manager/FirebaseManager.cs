@@ -145,7 +145,7 @@ namespace SDW
         public void SignInWithGoogle()
         {
 #if UNITY_EDITOR
-            string email = "team11@test.com";
+            string email = "team12@test.com";
             string password = "kga1111";
 
             if (PlayerPrefs.GetInt("SignedUp", 0) == 0)

@@ -349,6 +349,7 @@ public class BuffRelicManager : MonoBehaviour
                 }
                 break;
         }
+        currentRelic = null;
     }
 
     public void OnYeopjeonBonus() => GameManager.Instance.Coin.BonusYeopjeon(currentRelic.addReward);
