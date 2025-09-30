@@ -159,10 +159,12 @@ namespace SDW
 
         private void FoodButtonClicked()
         {
+            _descriptionPanel.SetActive(false);
             _inventoryUIManager.InitFoodInventory();
         }
         private void RelicButtonClicked()
         {
+            _descriptionPanel.SetActive(false);
             _inventoryUIManager.InitRelicInventory();
         }
 

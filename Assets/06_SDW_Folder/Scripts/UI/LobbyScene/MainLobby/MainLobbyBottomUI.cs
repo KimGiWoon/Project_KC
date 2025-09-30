@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -16,6 +17,7 @@ namespace SDW
         [SerializeField] private Button _lobbyButton;
         [SerializeField] private Button _collectionButton;
         [SerializeField] private Button _gachaButton;
+        [SerializeField] private TextMeshProUGUI _mainTitleText;
 
         [Header("Animation")]
         [SerializeField] private TweenAnimation _bottomButtonsTweenAnimation;
@@ -91,6 +93,7 @@ namespace SDW
 
         private void LevelUpButtonClicked()
         {
+            if (_mainTitleText.text.Equals("미식가")) return;
             SetButtonsInteractable(false);
 
             DOVirtual.DelayedCall(delayTime, () => { SetButtonsInteractable(true); });
