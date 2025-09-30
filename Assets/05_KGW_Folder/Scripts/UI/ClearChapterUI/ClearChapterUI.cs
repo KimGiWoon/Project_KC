@@ -35,16 +35,16 @@ public class ClearChapterUI : BaseUI
     {
         base.Open();
 
-        _yeopjeonText.text = "100 엽전을 획득하였습니다.";
+        GameManager.Instance.Coin.OnRelicChanged?.Invoke();
+        GameManager.Instance.Coin.AddYeopjeon(100);
+        _yeopjeonText.text = $"{GameManager.Instance.Coin.bonus} 엽전을 획득하였습니다.";
         // 승리 사운드 플레이
         GameManager.Instance.Audio.Play2DSFX(AudioClipName.BattleVictory);
-
     }
 
     // 로비 이동 버튼 클릭
     private void LobbyButtonClick()
     {
-        GameManager.Instance.Coin.AddYeopjeon(100);
         OnUIOpenRequested?.Invoke(UIName.RoguelikeClosingUI);
         OnUICloseRequested?.Invoke(UIName.ClearChapterUI);
     }

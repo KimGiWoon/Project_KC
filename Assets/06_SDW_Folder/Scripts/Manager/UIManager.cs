@@ -134,6 +134,12 @@ namespace SDW
 
             var activeScene = (SceneName)Enum.Parse(typeof(SceneName), GameManager.Instance.Scene.GetActiveScene());
 
+            int index = 0;
+            if (!PlayerPrefs.HasKey("LobbyMedia"))
+                PlayerPrefs.SetInt("LobbyMedia", index);
+            else
+                index = PlayerPrefs.GetInt("LobbyMedia");
+
             switch (activeScene)
             {
                 case SceneName.SDW_SignInScene:
@@ -145,6 +151,7 @@ namespace SDW
                         OpenPanel(UIName.MainLobbyUI);
                     else
                         OpenPanel(targetUI);
+                    _gameManager.Audio.PlayBGM((AudioClipName)index);
                     break;
                 case SceneName.SDW_RoguelikeScene:
                     if (targetUI == UIName.None)
@@ -155,6 +162,7 @@ namespace SDW
                     }
                     else
                         OpenPanel(targetUI);
+                    _gameManager.Audio.PlayBGM(AudioClipName.Stage1BGM);
                     break;
             }
         }

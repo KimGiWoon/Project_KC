@@ -24,10 +24,9 @@ namespace SDW
         Map_Moving,
         Good_Encounter,
         Nautral_Encounter,
-        Bad_Encounter,
+        Bad_Encounter
 
         // TODO : 스토리 사운드는 미정 -> 정해지면 추가 예정
         // 게임 스토리 오디오
-
     }
 }

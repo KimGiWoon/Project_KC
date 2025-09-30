@@ -126,12 +126,34 @@ namespace JJY
             else Debug.LogError($"{itemName},{value} : 아이템 이름 또는 오류");
         }
 
+        public void BonusYeopjeon(int bonus)
+        {
+            _yeopjeonBonus += bonus;
+            Debug.Log($"* Bonus : {bonus} - Total : {_yeopjeonBonus}");
+        }
+
         /// <summary>
         /// yeopjeon 획득량 %
         /// </summary>
-        public void BonusYeopjeon(int percent)
+        public void BonusYeopjeon(List<RelicDatas> addRewardList)
         {
-            _yeopjeonBonus = percent;
+            int percent = 0;
+
+            if (addRewardList.Count == 0)
+            {
+                _yeopjeonBonus = 0;
+                return;
+            }
+
+            foreach (var addReward in addRewardList)
+            {
+                if (addReward.relicEnName == RelicEnName.LuckyReceipt) continue;
+
+                percent += addReward.addReward;
+            }
+
+            _yeopjeonBonus += percent;
+            Debug.Log($"* percent: {percent} - Total : {_yeopjeonBonus}");
         }
 
         public void ClearBonusYeopjeon() => _yeopjeonBonus = 0;
@@ -149,12 +171,13 @@ namespace JJY
 
             yeopjeon += bonus;
 
-            if (value >= 0) totalYeopjeon += value;
+            if (bonus >= 0) totalYeopjeon += bonus;
 
             OnYeopjeonChanged?.Invoke(yeopjeon);
             OnYeopjeonBonus?.Invoke(_yeopjeonBonus);
 
             _firebase.SetTotalYeopjeon(totalYeopjeon);
+            ClearBonusYeopjeon();
         }
 
         /// <summary>

@@ -339,6 +339,19 @@ namespace SDW
         {
             _stage++;
             _firebase.SetStage(_stage);
+
+            switch (_stage)
+            {
+                case 1:
+                    _audio.PlayBGM(AudioClipName.Stage1BGM);
+                    break;
+                case 2:
+                    _audio.PlayBGM(AudioClipName.Stage2BGM);
+                    break;
+                case 3:
+                    _audio.PlayBGM(AudioClipName.Stage3BGM);
+                    break;
+            }
         }
 
         public void ClearStage()

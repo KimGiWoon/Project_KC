@@ -46,7 +46,7 @@ namespace SDW
         ShadowScarecrowSkill,
         CorruptedFlowerSkill,
         RockGolemSkill,
- 
+
         // 보스 몬스터의 스킬 오디오 클립
         IronBullSkill_1,
         IronBullSkill_2,
@@ -75,6 +75,11 @@ namespace SDW
         PositiveEncounter,
         NeutralEncounter,
         MapMoving,
+
+        //# 로그라이크 BGM
+        Stage1BGM,
+        Stage2BGM,
+        Stage3BGM
 
         // TODO : 스토리 사운드는 미정 -> 정해지면 추가 예정
         // 게임 스토리 오디오 클립 이름

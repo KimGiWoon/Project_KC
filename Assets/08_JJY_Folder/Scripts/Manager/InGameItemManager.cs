@@ -35,6 +35,12 @@ public class InGameItemManager : MonoBehaviour
     private FirebaseManager _firebase;
     private bool _isLoaded;
 
+#if UNITY_EDITOR
+    [Header("Debug")]
+    [SerializeField]
+    private List<InventoryItem> testRelic = new List<InventoryItem>();
+#endif
+
     private void Start()
     {
         _gameManager = GameManager.Instance;
@@ -51,6 +57,16 @@ public class InGameItemManager : MonoBehaviour
         LoadQuestCount(_gameManager.Firebase.DailyQuestProgress);
         _isLoaded = true;
     }
+
+#if UNITY_EDITOR
+    public void TestRelic()
+    {
+        for (int i = 0; i < testRelic.Count; i++)
+        {
+            if (testRelic[i].relic != null) RelicDropManager.Instance.GetRelic(testRelic[i].relic);
+        }
+    }
+#endif
 
     private void LoadItemData(IReadOnlyDictionary<string, object> etcData)
     {

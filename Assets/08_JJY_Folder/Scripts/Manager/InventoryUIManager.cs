@@ -66,6 +66,9 @@ namespace JJY
 #endif
         private void OnEnable()
         {
+#if UNITY_EDITOR
+            GameManager.Instance.InGameItem.TestRelic();
+#endif
             InitFoodInventory();
         }
 
