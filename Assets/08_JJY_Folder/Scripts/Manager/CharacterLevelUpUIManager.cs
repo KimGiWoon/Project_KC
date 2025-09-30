@@ -250,7 +250,11 @@ namespace JJY
                     _charBeadImageLists[i].sprite = beadFilledImage;
                     _charBeadImageLists[i].color = _filledColor;
                 }
-                else _charBeadImageLists[i].sprite = beadBlankImage;
+                else
+                {
+                    _charBeadImageLists[i].sprite = beadBlankImage;
+                    _charBeadImageLists[i].color = Color.white;
+                }
             }
             _classNameText.text = data._chaBaseData.ChaRole.ToString();
             _characterDescription.text = data._chaBaseData.ChaIntroduction;
