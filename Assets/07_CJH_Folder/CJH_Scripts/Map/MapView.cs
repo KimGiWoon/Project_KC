@@ -88,6 +88,7 @@ namespace CJH
             currentMap = map;
             nodeObjects = new Dictionary<Vector2Int, MapNode>();
             mapTemplatePrefab.SetActive(true);
+            currentMap.ResetPath();
 
             // 플레이어 캐릭터 생성 (씬에 없으면 새로 생성)
             if (playerVisualController == null && playerCharacterPrefab != null)
@@ -348,7 +349,7 @@ namespace CJH
                     break;
                 case NodeType.Boss:
                     isBattle = true;
-                    if (RoguelikeManager.Instance.StageNumber == 3)
+                    if (GameManager.Instance.Stage == 3)
                         type = BattleEventType.BossFinal;
                     else
                         type = BattleEventType.Boss;
