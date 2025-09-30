@@ -16,7 +16,6 @@ public abstract class UnitBaseData : MonoBehaviour
     public bool _isStern; // 유닛의 그로기 상태확인
     public bool _isUseSkill; // 유닛의 스킬사용 확인
     public bool _isUseSkill2;
-    public float _attackCoolTimer; // 공격 쿨타임
     public Vector3 _moveDir; // 유닛의 이동 방향
     public int _gameSpeed; // 게임 속도
 

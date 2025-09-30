@@ -28,6 +28,7 @@ public class MonsterController : UnitBaseData
     private float _skill1Timer;
     private float _skill2Timer;
     private float _breakCount;
+    public float _attackCoolTimer; // 공격 쿨타임
     private RecallPointProvider _recallPointProvider;
     private MonsterController _monster;
     private float _saveAttackValue;
@@ -241,12 +242,6 @@ public class MonsterController : UnitBaseData
                         _attackTarget.TakeDamage(_monsterState._monAttack, _monsterState._monAccuracy);
 
                         _isAttack = true;
-
-                        if (_attackTarget != null)
-                        {
-                            // 캐릭터의 공격 타겟 전환
-                            _attackTarget.AttackTargetChange(_monster);
-                        }
 
                         _isFirstAttack = false;
 
