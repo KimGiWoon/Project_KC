@@ -167,14 +167,10 @@ namespace JJY
 
                 var go = Instantiate(characterButtonPrefab);
                 var button = go.GetComponent<Button>();
-                var buttonId = go.GetComponent<ButtonId>();
-                buttonId.Id = i;
                 var init = go.GetComponent<LevelUpCharButton>();
 
                 button.onClick.RemoveAllListeners();
-                button.onClick.AddListener(() =>
-                    InitCharacterInfo(GameManager.Instance.CharacterData.CharacterLists[buttonId.Id]._chaBaseData.ChaEnName)
-                );
+                button.onClick.AddListener(() => InitCharacterInfo(characterLocal));
 
                 bool hasCharacter;
                 GameManager.Instance.CharacterData.OwnedCharacters.TryGetValue(characterLocal._chaBaseData.ChaEnName,
@@ -201,22 +197,17 @@ namespace JJY
             }
         }
 
-        private void InitCharacterInfo(CharacterEnName enName)
+        private void InitCharacterInfo(CharacterDataSO data)
         {
-            var data = GameManager.Instance.CharacterData.CharacterEnNameData[enName];
             selectedCharacterData = data;
-            var currentCharacterStatData = data.GetModifiedCharacterState();
+            CharacterState currentCharacterStatData = data.GetModifiedCharacterState();
 
             var levelData =
                 GameManager.Instance.CharacterData.ChaLevelUpStatData[
                     GameManager.Instance.CharacterData.CharEnNameLevel[data._chaBaseData.ChaEnName]];
-
-            if (!GameManager.Instance.CharacterData.BeadsInventory.ContainsKey(data._chaBaseData.ChaEnName)) return;
-
             var beadData =
                 GameManager.Instance.CharacterData.ChaBeadsData[
                     GameManager.Instance.CharacterData.BeadsInventory[data._chaBaseData.ChaEnName]];
-
 
             int curExp = GameManager.Instance.CharacterData.CharEnNameExp[data._chaBaseData.ChaEnName];
             int curlevel = GameManager.Instance.CharacterData.CharEnNameLevel[data._chaBaseData.ChaEnName];
@@ -263,10 +254,8 @@ namespace JJY
             _mpText.text = currentCharacterStatData._chaMaxMP.ToString();
             _hpText.text = (data._chaBaseData.ChaHP * levelData.ChaHPIncrease * beadData.ChaHP).ToString("F0");
             _attackSpeedText.text = currentCharacterStatData._chaAtkSpeed.ToString("n2");
-            _attackText.text =
-                (currentCharacterStatData._chaAttack * levelData.ChaAttackIncrease * beadData.ChaAttack).ToString("F0");
-            _defenceText.text =
-                (currentCharacterStatData._chaArmor * levelData.ChaArmorIncrease * beadData.ChaArmor).ToString("F0");
+            _attackText.text = (currentCharacterStatData._chaAttack * levelData.ChaAttackIncrease * beadData.ChaAttack).ToString("F0");
+            _defenceText.text = (currentCharacterStatData._chaArmor * levelData.ChaArmorIncrease * beadData.ChaArmor).ToString("F0");
             _criticalChanceText.text = currentCharacterStatData._chaCrit.ToString();
             _criticalDamageText.text = currentCharacterStatData._chaCritDmg.ToString();
 
@@ -480,6 +469,8 @@ namespace JJY
                     .ChaLevelPoint)
                 addedLevelText.gameObject.SetActive(false);
 
+            useItemBtn.interactable = previewLevel <= 30;
+
             addedLevelText.text = levelUpCount > 0 ? $"+{levelUpCount}" : "";
         }
 
@@ -519,6 +510,7 @@ namespace JJY
             GameManager.Instance.CharacterData.SetCharLevel(selectedCharacterData._chaBaseData.ChaEnName, level);
             GameManager.Instance.CharacterData.SetCharExp(selectedCharacterData._chaBaseData.ChaEnName, exp);
             Debug.Log($"{GameManager.Instance.CharacterData.CharEnNameExp[selectedCharacterData._chaBaseData.ChaEnName]}");
+            previewLevel = 0;
             previewExp = 0;
         }
 
@@ -576,17 +568,12 @@ namespace JJY
             beekBtn.interactable = true;
             fineDiningBtn.interactable = true;
             masterChefBtn.interactable = true;
-            InitCharacterInfo(selectedCharacterData._chaBaseData.ChaEnName);
+            if (addedExpText.gameObject.activeSelf) addedExpText.gameObject.SetActive(false);
+            if (addedLevelText.gameObject.activeSelf) addedLevelText.gameObject.SetActive(false);
+            InitCharacterInfo(selectedCharacterData);
         }
 
         #endregion
-
-        private void GrowthUpdateCharacterInfo()
-        {
-            foreach (var character in GameManager.Instance.CharacterData.CharacterLists)
-            {
-                InitCharacterInfo(character._chaBaseData.ChaEnName);
-            }
-        }
+        private void GrowthUpdateCharacterInfo() => InitCharacterInfo(selectedCharacterData);
     }
 }
