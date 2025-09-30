@@ -109,6 +109,19 @@ namespace SDW
 
             RoguelikeManager.Instance.OnBattleEnd?.Invoke();
             OnUICloseRequested?.Invoke(UIName.ClearStageUI);
+
+            switch (GameManager.Instance.Stage)
+            {
+                case 1:
+                    GameManager.Instance.Audio.PlayBGM(AudioClipName.Stage1BGM);
+                    break;
+                case 2:
+                    GameManager.Instance.Audio.PlayBGM(AudioClipName.Stage2BGM);
+                    break;
+                case 3:
+                    GameManager.Instance.Audio.PlayBGM(AudioClipName.Stage3BGM);
+                    break;
+            }
         }
 
         private void GetRelic()

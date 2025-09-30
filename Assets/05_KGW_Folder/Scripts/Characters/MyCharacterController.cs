@@ -220,9 +220,12 @@ public class MyCharacterController : UnitBaseData
                 float passiveDamage;
 
                 // 사용하려는 패시브와 캐릭터가 사용하는 패시브가 같은지 확인
-                if (_characterData._chaPassiveSkill._chaSkillEnName == CharacterSkillEnName.AimForTheWound && _characterData._chaPassiveSkill != null)
+                if (_characterData._chaPassiveSkill._chaSkillEnName == CharacterSkillEnName.AimForTheWound &&
+                    _characterData._chaPassiveSkill != null)
                 {
-                    passiveDamage = _characterData._chaPassiveSkill.UsePassiveSkill(_character, _characterData._chaPassiveSkill, attackDamage);
+                    passiveDamage =
+                        _characterData._chaPassiveSkill.UsePassiveSkill(_character, _characterData._chaPassiveSkill,
+                            attackDamage);
                 }
                 else // 패시브 없으면 원래 공격력
                 {
@@ -242,7 +245,7 @@ public class MyCharacterController : UnitBaseData
                     float basicAniSpeed = _characterData._chaBaseData.ChaAtkSpeed;
                     float increaseAniSpeed = _characterState._chaAtkSpeed;
 
-                    _chaAnimatior.speed = ((basicAniSpeed + increaseAniSpeed) * _gameSpeed);
+                    _chaAnimatior.speed = (basicAniSpeed + increaseAniSpeed) * _gameSpeed;
                     // 공격 애니메이션
                     _chaAnimatior.Play(Attack_Hash);
 
@@ -498,7 +501,8 @@ public class MyCharacterController : UnitBaseData
         {
             if (_attackTarget == null) return;
 
-            allAttackDamage = _characterData._chaPassiveSkill.UsePassiveSkill(_character, _characterData._chaPassiveSkill, attackDamage);
+            allAttackDamage =
+                _characterData._chaPassiveSkill.UsePassiveSkill(_character, _characterData._chaPassiveSkill, attackDamage);
 
             // 데미지가 0이면 넘어감
             if (allAttackDamage == 0f) return;
@@ -530,6 +534,10 @@ public class MyCharacterController : UnitBaseData
         if (timeOver)
         {
             base.Death();
+
+            OnSkillModeChange?.Invoke(_isAlive);
+
+            StopManaRecovery();
         }
     }
 
