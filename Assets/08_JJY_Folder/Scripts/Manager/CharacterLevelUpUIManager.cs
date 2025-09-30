@@ -54,8 +54,10 @@ namespace JJY
         [SerializeField] private Image _characterTypeImage;
         [SerializeField] private Image _passiveSkillImage;
         [SerializeField] private Image _activeSkillImage;
+        [SerializeField] private Sprite beadBlankImage;
+        [SerializeField] private Sprite beadFilledImage;
         [SerializeField] private List<Image> _charBeadImageLists;
-        [SerializeField] private Color _blankColor;
+        // [SerializeField] private Color _blankColor;
         [SerializeField] private Color _filledColor;
         [SerializeField] private TextMeshProUGUI _classLevelText;
         [SerializeField] private TextMeshProUGUI _currentEXP;
@@ -243,8 +245,12 @@ namespace JJY
             int beadCount = GameManager.Instance.CharacterData.BeadsInventory[data._chaBaseData.ChaEnName];
             for (int i = 0; i < _charBeadImageLists.Count; i++)
             {
-                if (i < beadCount) _charBeadImageLists[i].color = _filledColor;
-                else _charBeadImageLists[i].color = _blankColor;
+                if (i < beadCount)
+                {
+                    _charBeadImageLists[i].sprite = beadFilledImage;
+                    _charBeadImageLists[i].color = _filledColor;
+                }
+                else _charBeadImageLists[i].sprite = beadBlankImage;
             }
             _classNameText.text = data._chaBaseData.ChaRole.ToString();
             _characterDescription.text = data._chaBaseData.ChaIntroduction;
