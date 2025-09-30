@@ -66,6 +66,7 @@ namespace SDW
                 content.gameObject.SetActive(false);
                 GameManager.Instance.Coin.AddYeopjeon(getYeopjeon);
                 UpdateYeopjeonText(GameManager.Instance.Coin.bonus);
+                MapView.Instance._eventManager.SetCombatReward(false, 0);
             }
             else
             {

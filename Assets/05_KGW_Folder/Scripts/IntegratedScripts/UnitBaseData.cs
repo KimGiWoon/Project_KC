@@ -100,11 +100,25 @@ public abstract class UnitBaseData : MonoBehaviour
         // 유닛의 사망처리
         _isAlive = false;
 
-        // 오브젝트 삭제
-        // Destroy(gameObject);
-        Invoke(nameof(MonsterDeath), 1f);
+        if (gameObject.layer == LayerMask.NameToLayer("Boss"))
+        {
+            // 매니저에 사망 보고
+            _battleManager.MonsterDeathCheck();
+        }
+        else
+        {
+            // 보스전에서는 몬스터는 사망보고 하지 않음
+            if (_battleManager._battleType == BattleEventType.Boss ||
+                _battleManager._battleType == BattleEventType.BossFinal) return;
+
+            // 매니저에 사망 보고
+            _battleManager.MonsterDeathCheck();
+        }
+
+        Invoke(nameof(MonsterDeath), 0.9f);
     }
 
+    // 몬스터 사망
     private void MonsterDeath()
     {
         gameObject.SetActive(false);

@@ -22,7 +22,6 @@ public class MonsterController : UnitBaseData
     // 몬스터의 상태
     public MonsterState _monsterState;
 
-    public bool _isDetect;
     public bool _isFirst;
     public bool _isApplyPassive;
     private bool _isFirstAttack;
@@ -391,6 +390,7 @@ public class MonsterController : UnitBaseData
             _breakCount = 0f;
             _battleManager.ReportBreakGauge(_breakCount, _monsterState._monbreakGage);
             _monAnimatior.Play(Death_Hash);
+
             // 유닛의 죽음
             Death();
         }
@@ -451,24 +451,9 @@ public class MonsterController : UnitBaseData
     // 몬스터 사망
     protected override void Death()
     {
-        base.Death();
         OnRelicMonsterDeath?.Invoke();
-        if (gameObject.layer == LayerMask.NameToLayer("Boss"))
-        {
-            _isDetect = false;
 
-            // 매니저에 사망 보고
-            _battleManager.MonsterDeathCheck();
-        }
-        else
-        {
-            // 보스전에서는 몬스터는 사망보고 하지 않음
-            if (_battleManager._battleType == BattleEventType.Boss ||
-                _battleManager._battleType == BattleEventType.BossFinal) return;
-
-            // 매니저에 사망 보고
-            _battleManager.MonsterDeathCheck();
-        }
+        base.Death();
     }
 
     // 공격 대상 변경
