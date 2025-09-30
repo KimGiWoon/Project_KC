@@ -54,11 +54,11 @@ namespace JJY
         [SerializeField] private Image _characterTypeImage;
         [SerializeField] private Image _passiveSkillImage;
         [SerializeField] private Image _activeSkillImage;
-        [SerializeField] private Sprite beadBlankImage;
-        [SerializeField] private Sprite beadFilledImage;
+        // [SerializeField] private Sprite beadBlankImage;
+        // [SerializeField] private Sprite beadFilledImage;
         [SerializeField] private List<Image> _charBeadImageLists;
         // [SerializeField] private Color _blankColor;
-        [SerializeField] private Color _filledColor;
+        // [SerializeField] private Color _filledColor;
         [SerializeField] private TextMeshProUGUI _classLevelText;
         [SerializeField] private TextMeshProUGUI _currentEXP;
         [SerializeField] private TextMeshProUGUI _characterNameText;
@@ -243,18 +243,23 @@ namespace JJY
             _characterTypeImage.sprite = data.roleIcon;
 
             int beadCount = GameManager.Instance.CharacterData.BeadsInventory[data._chaBaseData.ChaEnName];
+            // for (int i = 0; i < _charBeadImageLists.Count; i++)
+            // {
+            //     if (i < beadCount)
+            //     {
+            //         _charBeadImageLists[i].sprite = beadFilledImage;
+            //         _charBeadImageLists[i].color = _filledColor;
+            //     }
+            //     else
+            //     {
+            //         _charBeadImageLists[i].sprite = beadBlankImage;
+            //         _charBeadImageLists[i].color = Color.white;
+            //     }
+            // }
             for (int i = 0; i < _charBeadImageLists.Count; i++)
             {
-                if (i < beadCount)
-                {
-                    _charBeadImageLists[i].sprite = beadFilledImage;
-                    _charBeadImageLists[i].color = _filledColor;
-                }
-                else
-                {
-                    _charBeadImageLists[i].sprite = beadBlankImage;
-                    _charBeadImageLists[i].color = Color.white;
-                }
+                if (i < beadCount) _charBeadImageLists[i].gameObject.SetActive(true);
+                else _charBeadImageLists[i].gameObject.SetActive(false);
             }
             _classNameText.text = data._chaBaseData.ChaRole.ToString();
             _characterDescription.text = data._chaBaseData.ChaIntroduction;
