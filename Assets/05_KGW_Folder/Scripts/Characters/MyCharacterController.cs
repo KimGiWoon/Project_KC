@@ -368,12 +368,6 @@ public class MyCharacterController : UnitBaseData
         }
     }
 
-    // 저장된 캐릭터의 체력 불러오기
-    private void CharacterHpSaveDataLoad()
-    {
-
-    }
-
     // 마나 회복
     public void ManaRecovery()
     {
