@@ -130,6 +130,8 @@ public class MyCharacterController : UnitBaseData
 
         _manaChangeValue = _characterState._chaMPRecovery;
 
+        Debug.Log($"공속 : {_characterState._chaEnName}{_characterState._chaAtkSpeed}");
+
         // 마나 충전 
         ManaRecovery();
     }

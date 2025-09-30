@@ -13,9 +13,6 @@ public class MonsterResearchContoller : MonoBehaviour
             // 적이 감지되고 보스몬스터이면 스킬 사용
             if (_controller.gameObject.layer == LayerMask.NameToLayer("Boss"))
             {
-                // 적 감지
-                _controller._isDetect = true;
-
                 if (!_controller._isFirst)
                 {
                     _controller.UseRecallSkill();
