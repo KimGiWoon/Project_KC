@@ -121,6 +121,8 @@ public class MyCharacterController : UnitBaseData
         // 캐릭터 돌파 스텟 적용
         UpgradeStatUpdate();
 
+        // 최대 체력 저장
+        GameManager.Instance.CharacterBattleDataSave._chaMaxHpSave[_characterState._chaEnName] = _characterState._chaMaxHP;
         // 체력, 마나 게이지 현재값 초기화
         OnHpChange?.Invoke(_characterState._chaCurrentHP / _characterState._chaMaxHP);
         OnMpChange?.Invoke(_characterState._chaCurrentMP / _characterState._chaMaxMP);
@@ -133,8 +135,6 @@ public class MyCharacterController : UnitBaseData
         _attackCoolTimer = _limitAtkSpeed;
 
         _manaChangeValue = _characterState._chaMPRecovery;
-
-        Debug.Log($"공속 : {_characterState._chaEnName}{_characterState._chaAtkSpeed}");
 
         // 마나 충전 
         ManaRecovery();
@@ -322,6 +322,9 @@ public class MyCharacterController : UnitBaseData
         _characterState._chaMaxHP *= levelData.ChaHPIncrease;
         _characterState._chaAttack *= levelData.ChaAttackIncrease;
         _characterState._chaArmor *= levelData.ChaArmorIncrease;
+
+        // 현재 체력 보정
+        _characterState._chaCurrentHP = Mathf.Min(_characterState._chaCurrentHP, _characterState._chaMaxHP);
     }
 
     // 캐릭터 돌파 스텟 적용
@@ -333,6 +336,9 @@ public class MyCharacterController : UnitBaseData
         _characterState._chaMaxHP *= upgradeData.ChaHP;
         _characterState._chaAttack *= upgradeData.ChaAttack;
         _characterState._chaArmor *= upgradeData.ChaArmor;
+
+        // 현재 체력 보정
+        _characterState._chaCurrentHP = Mathf.Min(_characterState._chaCurrentHP, _characterState._chaMaxHP);
     }
 
     // 저장된 캐릭터의 데이터 불러오기
@@ -360,6 +366,12 @@ public class MyCharacterController : UnitBaseData
         {
             _characterState._chaUpgrade = characterUpgradeSaveData[_characterState._chaEnName];
         }
+    }
+
+    // 저장된 캐릭터의 체력 불러오기
+    private void CharacterHpSaveDataLoad()
+    {
+
     }
 
     // 마나 회복

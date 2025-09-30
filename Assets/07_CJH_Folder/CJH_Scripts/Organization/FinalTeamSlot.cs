@@ -6,6 +6,7 @@ using SDW;
 public class FinalTeamSlot : MonoBehaviour
 {
     [SerializeField] private GameObject characterInfoGroup;
+    [SerializeField] private Image _characterHp;
     public Image characterImage;
     public TextMeshProUGUI levelText;
     public Button characterButton;
@@ -18,6 +19,8 @@ public class FinalTeamSlot : MonoBehaviour
 
     private void Awake()
     {
+        _characterHp.GetComponent<Image>();
+
         // OrderNumberText 라는 이름의 자식 오브젝트에서 TextMeshProUGUI 컴포넌트를 찾습니다.
         if (_isPartyUI) return;
 
@@ -30,6 +33,11 @@ public class FinalTeamSlot : MonoBehaviour
         {
             Debug.LogError("'OrderNumberText' 이름의 자식 오브젝트를 찾을 수 없습니다. 프리팹에서 이름을 확인해주세요.", gameObject);
         }
+    }
+
+    private void OnEnable()
+    {
+        HpChangeCheck();
     }
 
     private void Start()
@@ -56,6 +64,20 @@ public class FinalTeamSlot : MonoBehaviour
         // 캐릭터의 레벨과 업그레이드 레벨 전달
         GameManager.Instance.CharacterBattleDataSave._chaLevel[data._chaBaseData.ChaEnName] = curlevel;
         GameManager.Instance.CharacterBattleDataSave._chaUpgrade[data._chaBaseData.ChaEnName] = curUpgradeLevel;
+
+    }
+
+    // 체력바 변화
+    private void HpChangeCheck()
+    {
+        if (GameManager.Instance.CharacterBattleDataSave._chaHpSave.ContainsKey(characterData._chaBaseData.ChaEnName))
+        {
+            float curHp = GameManager.Instance.CharacterBattleDataSave._chaHpSave[characterData._chaBaseData.ChaEnName];
+            float maxHp = GameManager.Instance.CharacterBattleDataSave._chaMaxHpSave[characterData._chaBaseData.ChaEnName];
+
+            Debug.Log($"{characterData._chaBaseData.ChaEnName}의 체력 : {curHp} / {maxHp}");
+            _characterHp.fillAmount = curHp / maxHp;
+        }
     }
 
     public void DisplayEmpty()
