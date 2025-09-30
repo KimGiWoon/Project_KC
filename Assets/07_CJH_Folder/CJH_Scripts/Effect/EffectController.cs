@@ -19,12 +19,8 @@ public class EffectController : MonoBehaviour
                 {
                     effectObjects[type] = effect.gameObject;
                     effect.gameObject.SetActive(false); // 게임 시작 시 모든 이펙트 비활성화
-                    // Debug.Log($"<color=green>[{transform.root.name}] 이펙트 등록 성공: {type.ToString()}</color>");
                 }
-                // else
-                // {
-                //     Debug.LogWarning($"[{transform.root.name}] '{effect.name}'을 EffectType으로 변환 실패. 프리팹 오브젝트 이름을 확인해주세요.");
-                // }
+
             }
         }
     }
@@ -36,7 +32,10 @@ public class EffectController : MonoBehaviour
     /// <param name="duration">지속 시간 (0이면 계속 켜짐, 0보다 크면 해당 시간 후 자동 비활성화)</param>
     public void ShowEffect(EffectType type, float duration)
     {
-        // Debug.Log($"<color=yellow>[{transform.root.name}] ShowEffect 호출됨 => 타입: {type}, 지속시간: {duration}</color>");
+        if (type == EffectType.AttackBuff)
+        {
+            duration = 10f;
+        }
 
         if (effectObjects.TryGetValue(type, out var effectObject))
         {
@@ -45,16 +44,13 @@ public class EffectController : MonoBehaviour
                 // 이미 켜져 있는 코루틴이 있다면 중지하고 새로 시작 (효과 시간 갱신)
                 StopCoroutine(nameof(EffectCoroutine));
                 StartCoroutine(EffectCoroutine(effectObject, duration));
+
             }
             else
             {
                 effectObject.SetActive(true); // Barrier처럼 계속 켜져 있어야 하는 효과
             }
         }
-        // else
-        // {
-        //     Debug.LogWarning($"[{transform.root.name}] '{type}' 타입의 이펙트가 딕셔너리에 등록되어 있지 않습니다.");
-        // }
     }
 
     /// <summary>
