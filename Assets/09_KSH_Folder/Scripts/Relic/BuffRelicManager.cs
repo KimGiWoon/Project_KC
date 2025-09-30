@@ -18,6 +18,7 @@ public class BuffRelicManager : MonoBehaviour
     private RelicDatas currentRelic;
     private int attackCount = 0;
     private int aliveCount = 0;
+    private List<RelicDatas> addRewardList = new List<RelicDatas>();
 
     private void Awake()
     {
@@ -37,6 +38,7 @@ public class BuffRelicManager : MonoBehaviour
     {
         battleManager.OnCharacterSpawned += CharacterSpawned;
         RoguelikeManager.Instance.OnBattleEnd += BattleEnd;
+        GameManager.Instance.Coin.OnRelicChanged = null;
     }
 
     private void OnDisable()
@@ -55,6 +57,7 @@ public class BuffRelicManager : MonoBehaviour
     {
         CacheBaseState();
         ResetAll();
+        addRewardList.Clear();
         ApplyAll();
     }
 
@@ -341,18 +344,19 @@ public class BuffRelicManager : MonoBehaviour
                 {
                     GameManager.Instance.Coin.OnRelicChanged -= OnYeopjeonBonus;
                     GameManager.Instance.Coin.OnRelicChanged += OnYeopjeonBonus;
+                    addRewardList.Add(currentRelic);
                 }
                 else if (relic.relicType == RelicType.ChaNumber)
                 {
                     GameManager.Instance.Coin.OnRelicChanged -= CharacterCheckYeopjeon;
                     GameManager.Instance.Coin.OnRelicChanged += CharacterCheckYeopjeon;
+                    addRewardList.Add(currentRelic);
                 }
                 break;
         }
-        currentRelic = null;
     }
 
-    public void OnYeopjeonBonus() => GameManager.Instance.Coin.BonusYeopjeon(currentRelic.addReward);
+    public void OnYeopjeonBonus() => GameManager.Instance.Coin.BonusYeopjeon(addRewardList);
     public void OnRelicAttackHeal() => CharacterHeal(currentRelic);
     public void OnRelicEffectStat() => ApplyStatToCharacter(currentRelic);
     public void OnRelicAttackStack() => AttackSpeedStack(currentRelic);
@@ -429,6 +433,9 @@ public class BuffRelicManager : MonoBehaviour
     private void CharacterCheckYeopjeon()
     {
         aliveCount = 0;
+
+        if (addRewardList.Count == 0) return;
+
         //캐릭터 수 체크해서
         foreach (var p in battleManager._characters)
         {
@@ -439,7 +446,19 @@ public class BuffRelicManager : MonoBehaviour
         }
         //캐릭터 수 당 10% 증가
         int baseBonus = GameManager.Instance.Coin._yeopjeonBonus;
-        int aliveBonus = currentRelic.addReward * aliveCount;
+
+        RelicDatas relic = null;
+        foreach (var addReward in addRewardList)
+        {
+            if (addReward.relicEnName != RelicEnName.LuckyReceipt) continue;
+
+            relic = addReward;
+            break;
+        }
+
+        if (relic == null) return;
+
+        int aliveBonus = relic.addReward * aliveCount;
         int lastBonus = baseBonus + aliveBonus;
         GameManager.Instance.Coin.BonusYeopjeon(lastBonus);
     }

@@ -81,6 +81,7 @@ namespace SDW
         {
             _isProgress = true;
             _tweenAnimation.moveBack();
+            _descriptionPanel.SetActive(false);
             StartCoroutine(DelayedClose());
             _backgroundObject.SetActive(false);
         }

@@ -274,6 +274,12 @@ namespace SDW
         private void ScorePanelButtonClicked()
         {
             OnUICloseRequested?.Invoke(UIName.RoguelikeClosingUI);
+            StartCoroutine(DelayedSceneChange());
+        }
+
+        private IEnumerator DelayedSceneChange()
+        {
+            yield return new WaitForSeconds(0.5f);
             GameManager.Instance.Scene.LoadSceneAsync(SceneName.SDW_LobbyScene);
         }
     }

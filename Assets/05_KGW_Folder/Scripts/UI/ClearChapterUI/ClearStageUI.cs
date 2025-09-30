@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using CJH;
 using KSH;
@@ -53,6 +54,7 @@ namespace SDW
 
         public override void Open()
         {
+            _confirmButton.interactable = false;
             base.Open();
 
             // 승리 사운드 플레이
@@ -87,6 +89,12 @@ namespace SDW
                 // 다음 스테이지 이동
                 NextStage();
             }
+            StartCoroutine(DelayedInteractable());
+        }
+
+        private IEnumerator DelayedInteractable()
+        {
+            yield return new WaitForSeconds(1f);
         }
 
         public override void Close()

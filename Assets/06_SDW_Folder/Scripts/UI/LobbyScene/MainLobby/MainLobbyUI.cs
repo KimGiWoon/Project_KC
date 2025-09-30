@@ -131,7 +131,6 @@ namespace SDW
 
             _curerntChaImage.sprite = _memoryImageList[index].sprite;
             _videoPlayer.clip = _gameManager.Video.VideoDictionary[(VideoClipName)index].Video;
-            _gameManager.Audio.PlayBGM((AudioClipName)index);
         }
         public override void Open()
         {
