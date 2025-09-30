@@ -167,10 +167,14 @@ namespace JJY
 
                 var go = Instantiate(characterButtonPrefab);
                 var button = go.GetComponent<Button>();
+                var buttonId = go.GetComponent<ButtonId>();
+                buttonId.Id = i;
                 var init = go.GetComponent<LevelUpCharButton>();
 
                 button.onClick.RemoveAllListeners();
-                button.onClick.AddListener(() => InitCharacterInfo(characterLocal));
+                button.onClick.AddListener(() =>
+                    InitCharacterInfo(GameManager.Instance.CharacterData.CharacterLists[buttonId.Id]._chaBaseData.ChaEnName)
+                );
 
                 bool hasCharacter;
                 GameManager.Instance.CharacterData.OwnedCharacters.TryGetValue(characterLocal._chaBaseData.ChaEnName,
@@ -197,14 +201,18 @@ namespace JJY
             }
         }
 
-        private void InitCharacterInfo(CharacterDataSO data)
+        private void InitCharacterInfo(CharacterEnName enName)
         {
+            var data = GameManager.Instance.CharacterData.CharacterEnNameData[enName];
             selectedCharacterData = data;
-            CharacterState currentCharacterStatData = data.GetModifiedCharacterState();
+            var currentCharacterStatData = data.GetModifiedCharacterState();
 
             var levelData =
                 GameManager.Instance.CharacterData.ChaLevelUpStatData[
                     GameManager.Instance.CharacterData.CharEnNameLevel[data._chaBaseData.ChaEnName]];
+
+            if (!GameManager.Instance.CharacterData.BeadsInventory.ContainsKey(data._chaBaseData.ChaEnName)) return;
+
             var beadData =
                 GameManager.Instance.CharacterData.ChaBeadsData[
                     GameManager.Instance.CharacterData.BeadsInventory[data._chaBaseData.ChaEnName]];
@@ -570,10 +578,16 @@ namespace JJY
             masterChefBtn.interactable = true;
             if (addedExpText.gameObject.activeSelf) addedExpText.gameObject.SetActive(false);
             if (addedLevelText.gameObject.activeSelf) addedLevelText.gameObject.SetActive(false);
-            InitCharacterInfo(selectedCharacterData);
+            InitCharacterInfo(selectedCharacterData._chaBaseData.ChaEnName);
         }
 
         #endregion
-        private void GrowthUpdateCharacterInfo() => InitCharacterInfo(selectedCharacterData);
+        private void GrowthUpdateCharacterInfo()
+        {
+            foreach (var character in GameManager.Instance.CharacterData.CharacterLists)
+            {
+                InitCharacterInfo(character._chaBaseData.ChaEnName);
+            }
+        }
     }
 }
