@@ -14671,6 +14671,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Button_CharacterCard_First
       objectReference: {fileID: 0}
+    - target: {fileID: 2900223009284143356, guid: 89a9530360f2d1142a1f827d9ffbdec5, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3320377629574751451, guid: 89a9530360f2d1142a1f827d9ffbdec5, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -20600,7 +20604,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f163707ce708d34479d56d402294c1a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _mappingSo: {fileID: 11400000, guid: 46d954435d0fc224b85f1834f6a6ef00, type: 2}
+  _mappingSo: {fileID: 11400000, guid: 5011d860c23f5b34d9568c53fc8d775b, type: 2}
 --- !u!114 &897264368
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20613,7 +20617,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be2b34b329cf0154c81c3cc384bd432b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _mappingSo: {fileID: 11400000, guid: 964a93a5bbd07674898d6b781e106885, type: 2}
+  _mappingSo: {fileID: 11400000, guid: a57ab4c23e70f41439eb99b62571aff9, type: 2}
 --- !u!4 &897264369
 Transform:
   m_ObjectHideFlags: 0
