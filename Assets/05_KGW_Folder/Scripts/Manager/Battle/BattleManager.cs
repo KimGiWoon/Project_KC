@@ -540,8 +540,6 @@ public class BattleManager : MonoBehaviour
         _monsters.Clear();
         _bossMonster.Clear();
         
-
-        _canResurrection = true;
         _isSpawned = false;
         _isBattleStarted = false;
         _isGameOver = false;

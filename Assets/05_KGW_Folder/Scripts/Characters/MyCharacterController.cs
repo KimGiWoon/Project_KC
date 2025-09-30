@@ -29,6 +29,8 @@ public class MyCharacterController : UnitBaseData
     private bool _isFirstAttack;
     private MyCharacterController _character;
     private Animator _chaAnimatior;
+    public float _attackCoolTimer; // 공격 쿨타임
+    private float _limitAtkSpeed;
 
     // 체력과 마나의 변화 이벤트
     public event Action<float> OnHpChange;
@@ -126,7 +128,9 @@ public class MyCharacterController : UnitBaseData
         _battleUI.OnTimeOver += TimeDeath;
         _battleManager.OnAniChange += CharacterAniIdle;
 
-        _attackCoolTimer = _characterState._chaAtkSpeed;
+        // 공격속도 감소 수치 제한
+        _limitAtkSpeed = Mathf.Max(0.15f, _characterState._chaAtkSpeed);
+        _attackCoolTimer = _limitAtkSpeed;
 
         _manaChangeValue = _characterState._chaMPRecovery;
 
@@ -192,9 +196,6 @@ public class MyCharacterController : UnitBaseData
         {
             // 공격 대상에서 삭제
             _attackTargets.Remove(_attackTarget);
-
-            // 공격 타겟 재선정
-            _attackController.RecheckAttackTarget();
         }
 
         // 공격 쿨타임 계산
@@ -269,16 +270,6 @@ public class MyCharacterController : UnitBaseData
             // 대기 애니메이션
             //_chaAnimatior.Play(Idle_Hash);
         }
-    }
-
-    // 공격 대상 변경
-    public void AttackTargetChange(MonsterController monData)
-    {
-        // 공격한 캐릭터가 죽었으면 넘어가기
-        if (monData == null || !monData.isActiveAndEnabled) return;
-
-        // 공격 대상 전환
-        _attackTarget = monData;
     }
 
     // 데미지를 받음

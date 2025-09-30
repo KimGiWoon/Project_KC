@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class CharacterAttackController : MonoBehaviour
@@ -8,11 +9,26 @@ public class CharacterAttackController : MonoBehaviour
     // 몬스터와 보스 레이어
     int _monsterLayer;
     int _bossLayer;
+    Coroutine _recheckCoroutine;
 
     private void Awake()
     {
         _monsterLayer = LayerMask.NameToLayer("Monster");
         _bossLayer = LayerMask.NameToLayer("Boss");
+    }
+
+    private void OnEnable()
+    {
+        _recheckCoroutine = StartCoroutine(RecheckRoutine());
+    }
+
+    private void OnDisable()
+    {
+        if (_recheckCoroutine != null)
+        {
+            StopCoroutine(_recheckCoroutine);
+            _recheckCoroutine = null;
+        }
     }
 
     // 사거리에 들어온 몬스터
@@ -28,33 +44,78 @@ public class CharacterAttackController : MonoBehaviour
                 // 감지된 몬스터 추가
                 _controller._attackTargets.Add(monster);
 
-                RecheckAttackTarget();
+                //RecheckAttackTarget();
 
-                // 현재 공격 대상이 없으면
-                if (_controller._attackTarget == null)
-                {
-                    // 감지된 몬스터를 공격 대상에 지정
-                    _controller._attackTarget = monster;
-                }
-                else // 공격 대상이 있지만
-                {
-                    // 공격 대상이 보스몬스터이고 감지된 몬스터가 몬스터이면 (몬스터 우선 공격)
-                    if (_controller._attackTarget.gameObject.layer == _bossLayer && collision.gameObject.layer == _monsterLayer)
-                    {
-                        // 몬스터를 공격 타겟으로 설정
-                        _controller._attackTarget = monster;
-                    }   // 공격 대상이 보스몬스터이고 감지된 몬스터가 보스이면
-                    else if (_controller._attackTarget.gameObject.layer == _bossLayer && collision.gameObject.layer == _bossLayer)
-                    {
-                        // 보스를 공격 타겟으로 설정
-                        _controller._attackTarget = monster;
-                    }
-                }
+                //// 현재 공격 대상이 없으면
+                //if (_controller._attackTarget == null)
+                //{
+                //    // 감지된 몬스터를 공격 대상에 지정
+                //    _controller._attackTarget = monster;
+                //}
+                //else // 공격 대상이 있지만
+                //{
+                //    // 공격 대상이 보스몬스터이고 감지된 몬스터가 몬스터이면 (몬스터 우선 공격)
+                //    if (_controller._attackTarget.gameObject.layer == _bossLayer && collision.gameObject.layer == _monsterLayer)
+                //    {
+                //        // 몬스터를 공격 타겟으로 설정
+                //        _controller._attackTarget = monster;
+                //    }   // 공격 대상이 보스몬스터이고 감지된 몬스터가 보스이면
+                //    else if (_controller._attackTarget.gameObject.layer == _bossLayer && collision.gameObject.layer == _bossLayer)
+                //    {
+                //        // 보스를 공격 타겟으로 설정
+                //        _controller._attackTarget = monster;
+                //    }
+                //}
             }
         }
     }
 
-    // 공격 대상 재선정
+    // 사거리에서 벗어난 몬스터
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.gameObject.layer == _monsterLayer || collision.gameObject.layer == _bossLayer)
+        {
+            MonsterController monster = collision.GetComponent<MonsterController>();
+
+            // 공격 가능한 몬스터에 해당 몬스터가 있으면
+            if (_controller._attackTargets.Contains(monster))
+            {
+                // 몬스터 삭제
+                _controller._attackTargets.Remove(monster);
+
+                //RecheckAttackTarget();
+
+                //// 현재의 타겟이 사거리에서 벗어나면
+                //if (_controller._attackTarget == monster)
+                //{
+                //    // 다음 순서의 몬스터가 있으면 현재 공격 대상으로 변경
+                //    _controller._attackTarget = _controller._attackTargets.Count > 0 ? _controller._attackTargets[0] : null;
+                //}
+            }
+        }
+    }
+
+    private IEnumerator RecheckRoutine()
+    {
+        // 0.1초 마다 가까운 몬스터 탐색
+        WaitForSeconds recheckDelayTime = new WaitForSeconds(0.1f);
+
+        while (true)
+        {
+            if(_controller._attackTargets.Count > 0)
+            {
+                RecheckAttackTarget();
+            }
+            else
+            {
+                _controller._attackTarget = null;
+            }
+
+            yield return recheckDelayTime;
+        }
+    } 
+
+    // 가까운 공격 대상 재선정
     public void RecheckAttackTarget()
     {
         // 우선 공격 타겟
@@ -93,30 +154,5 @@ public class CharacterAttackController : MonoBehaviour
 
         // 공격 대상에 타겟 설정
         _controller._attackTarget = firstTarget;
-    }
-
-    // 사거리에서 벗어난 몬스터
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        if (collision.gameObject.layer == _monsterLayer || collision.gameObject.layer == _bossLayer)
-        {
-            MonsterController monster = collision.GetComponent<MonsterController>();
-
-            // 공격 가능한 몬스터에 해당 몬스터가 있으면
-            if (_controller._attackTargets.Contains(monster))
-            {
-                // 몬스터 삭제
-                _controller._attackTargets.Remove(monster);
-
-                RecheckAttackTarget();
-
-                // 현재의 타겟이 사거리에서 벗어나면
-                if (_controller._attackTarget == monster)
-                {
-                    // 다음 순서의 몬스터가 있으면 현재 공격 대상으로 변경
-                    _controller._attackTarget = _controller._attackTargets.Count > 0 ? _controller._attackTargets[0] : null;
-                }
-            }
-        }
     }
 }
