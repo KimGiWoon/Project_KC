@@ -28,8 +28,8 @@ namespace CJH
         {
             if (!_gameManager.CompleteDownload || !_gameManager.ImageSpriteConnected || !_gameManager.PrefabAndSoConnected ||
                 _isDownloaded || !_prefabRandomizer.IsDownloaded) return;
-            Init();
             _isDownloaded = true;
+            Init();
         }
 
         private void Init()

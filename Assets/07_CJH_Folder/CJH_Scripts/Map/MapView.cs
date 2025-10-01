@@ -253,17 +253,25 @@ namespace CJH
             foreach (var targetNode in nextMapNodes)
             {
                 var arrowBtn = Instantiate(nodeButtonPrefab, bottomPanelContainer);
+                var moveDirection = arrowBtn.GetComponent<MoveDirection>();
 
                 // 화살표 방향 계산
                 var from = nodeObjects[currentNode.point].transform.position;
                 var to = targetNode.transform.position;
                 float angle = Mathf.Atan2(to.y - from.y, to.x - from.x) * Mathf.Rad2Deg;
 
-                var arrowImage = arrowBtn.GetComponentInChildren<Image>();
-                if (arrowImage != null)
-                {
-                    arrowImage.transform.rotation = Quaternion.Euler(0, 0, angle - 90f); // Sprite 기준 보정
-                }
+                // var arrowImage = arrowBtn.GetComponentInChildren<Image>();
+                // if (arrowImage != null)
+                // {
+                // arrowImage.transform.rotation = Quaternion.Euler(0, 0, angle - 90f); // Sprite 기준 보정
+
+                if (angle - 90f > -10f && angle - 90f < 10f)
+                    moveDirection.SetButtonFromDirection(ButtonDirection.Stright);
+                else if (angle - 90f <= -10f)
+                    moveDirection.SetButtonFromDirection(ButtonDirection.Right);
+                else if (angle - 90f >= 10f)
+                    moveDirection.SetButtonFromDirection(ButtonDirection.Left);
+                // }
 
                 var button = arrowBtn.GetComponent<Button>();
                 _arrowButtons.Add(button);
