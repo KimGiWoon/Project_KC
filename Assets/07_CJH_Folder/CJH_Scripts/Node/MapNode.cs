@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Linq;
 using UnityEngine;
 using System.Collections.Generic;
@@ -18,11 +19,10 @@ namespace CJH
         private MapConfig _mapConfig;
         private SpriteRenderer _spriteRenderer;
 
-
         public void Setup(Node dataNode, MapConfig config)
         {
-            this.nodeData = dataNode;
-            this._mapConfig = config;
+            nodeData = dataNode;
+            _mapConfig = config;
             _spriteRenderer = GetComponent<SpriteRenderer>();
 
             isRevealed = false;
@@ -47,7 +47,18 @@ namespace CJH
 
         public void SetSelectable(bool selectable)
         {
-            isSelectable = selectable;
+            if (selectable == false)
+            {
+                isSelectable = false;
+                UpdateVisuals();
+            }
+            else StartCoroutine(DelayedSelectable());
+        }
+
+        private IEnumerator DelayedSelectable()
+        {
+            yield return new WaitForSeconds(1f);
+            isSelectable = true;
             UpdateVisuals();
         }
 
@@ -64,7 +75,8 @@ namespace CJH
 
             ApplySprite(nodeData.nodeType);
 
-            if (MapView.Instance != null && MapView.Instance.CurrentMapData != null && MapView.Instance.CurrentMapData.Path.Contains(nodeData))
+            if (MapView.Instance != null && MapView.Instance.CurrentMapData != null &&
+                MapView.Instance.CurrentMapData.Path.Contains(nodeData))
                 _spriteRenderer.color = visitedColor;
             else if (isSelectable)
                 _spriteRenderer.color = selectableColor;
@@ -83,7 +95,7 @@ namespace CJH
                 int groupID = nodeData.GroupID;
 
                 // 2. MapConfig에 만들어둔 함수를 이용해 GroupID에 맞는 아이콘을 찾습니다.
-                Sprite icon = _mapConfig.GetIconForEventGroup(groupID);
+                var icon = _mapConfig.GetIconForEventGroup(groupID);
 
                 // 3. 찾은 아이콘을 적용합니다.
                 if (icon != null)
@@ -93,14 +105,14 @@ namespace CJH
                 else
                 {
                     // 혹시라도 해당하는 아이콘이 없으면 기본 이벤트 아이콘을 표시합니다.
-                    NodeTemplate template = _mapConfig.NodeTemplates.FirstOrDefault(t => t.nodeType == type);
+                    var template = _mapConfig.NodeTemplates.FirstOrDefault(t => t.nodeType == type);
                     if (template != null) _spriteRenderer.sprite = template.sprite;
                 }
             }
             // 이벤트가 아닌 다른 모든 노드 타입의 경우
             else
             {
-                NodeTemplate template = _mapConfig.NodeTemplates.FirstOrDefault(t => t.nodeType == type);
+                var template = _mapConfig.NodeTemplates.FirstOrDefault(t => t.nodeType == type);
                 if (template != null && template.sprite != null)
                 {
                     _spriteRenderer.sprite = template.sprite;
@@ -117,13 +129,13 @@ namespace CJH
         {
             if (_mapConfig == null) return null;
 
-            if (this.nodeData.nodeType == NodeType.Event)
+            if (nodeData.nodeType == NodeType.Event)
             {
-                return _mapConfig.GetIconForEventGroup(this.nodeData.GroupID);
+                return _mapConfig.GetIconForEventGroup(nodeData.GroupID);
             }
             else
             {
-                NodeTemplate template = _mapConfig.NodeTemplates.FirstOrDefault(t => t.nodeType == this.nodeData.nodeType);
+                var template = _mapConfig.NodeTemplates.FirstOrDefault(t => t.nodeType == nodeData.nodeType);
                 return template?.sprite;
             }
         }
