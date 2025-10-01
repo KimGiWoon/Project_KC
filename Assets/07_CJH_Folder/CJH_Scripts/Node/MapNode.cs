@@ -57,7 +57,7 @@ namespace CJH
 
         private IEnumerator DelayedSelectable()
         {
-            yield return new WaitForSeconds(1f);
+            yield return new WaitForSeconds(0.3f);
             isSelectable = true;
             UpdateVisuals();
         }

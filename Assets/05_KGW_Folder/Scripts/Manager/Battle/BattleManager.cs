@@ -480,6 +480,9 @@ public class BattleManager : MonoBehaviour
                 // 캐릭터의 현재 남은 체력 저장
                 GameManager.Instance.CharacterBattleDataSave._chaHpSave[cha._characterState._chaEnName] =
                     cha._characterState._chaCurrentHP / levelData.ChaHPIncrease / upgradeData.ChaHP;
+                GameManager.Instance.CharacterBattleDataSave._chaCalculatedHpSave[cha._characterState._chaEnName] =
+                    cha._characterState._chaMaxHP / levelData.ChaHPIncrease / upgradeData.ChaHP;
+
                 // Debug.Log($"{cha._characterState._chaEnName}의 현재 남은 체력 {cha._characterState._chaCurrentHP}저장");
             }
         }
