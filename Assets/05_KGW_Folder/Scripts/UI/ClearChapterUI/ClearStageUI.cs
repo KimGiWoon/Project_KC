@@ -69,6 +69,7 @@ namespace SDW
                 GameManager.Instance.Coin.AddYeopjeon(getYeopjeon);
                 UpdateYeopjeonText(GameManager.Instance.Coin.bonus);
                 MapView.Instance._eventManager.SetCombatReward(false, 0);
+                StartCoroutine(DelayedInteractable());
             }
             else
             {
@@ -87,7 +88,6 @@ namespace SDW
                 // 다음 스테이지 이동
                 NextStage();
             }
-            StartCoroutine(DelayedInteractable());
         }
 
         private IEnumerator DelayedInteractable()
