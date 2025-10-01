@@ -72,10 +72,16 @@ public class FinalTeamSlot : MonoBehaviour
     private void HpChangeCheck()
     {
         // 캐릭터의 데이터가 없거나 저장된 데이터가 없으면 실행하지 않음
-        if(characterData ==  null || !GameManager.Instance.CharacterBattleDataSave._chaHpSave.ContainsKey(characterData._chaBaseData.ChaEnName)) return;
+        if (characterData == null ||
+            !GameManager.Instance.CharacterBattleDataSave._chaHpSave.ContainsKey(characterData._chaBaseData.ChaEnName)) return;
 
+        var levelData = GameManager.Instance.CharacterData.ChaLevelUpStatData[characterData._modifiedCharacterState._chaLevel];
+            var beadData =
+                GameManager.Instance.CharacterData.ChaBeadsData[
+                    GameManager.Instance.CharacterData.BeadsInventory[characterData._chaBaseData.ChaEnName]];
         float curHp = GameManager.Instance.CharacterBattleDataSave._chaHpSave[characterData._chaBaseData.ChaEnName];
-        float maxHp = GameManager.Instance.CharacterBattleDataSave._chaMaxHpSave[characterData._chaBaseData.ChaEnName];
+        float maxHp = GameManager.Instance.CharacterBattleDataSave._chaMaxHpSave[characterData._chaBaseData.ChaEnName] /
+                      levelData.ChaHPIncrease / beadData.ChaHP;
 
         _characterHp.fillAmount = curHp / maxHp;
     }
