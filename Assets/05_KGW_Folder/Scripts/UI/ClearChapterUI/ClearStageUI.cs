@@ -65,7 +65,6 @@ namespace SDW
                 int getYeopjeon = MapView.Instance._eventManager.CombatRewardAmount;
 
                 _selectText.text = "전투에서 승리했습니다!";
-                _confirmButton.interactable = true;
                 content.gameObject.SetActive(false);
                 GameManager.Instance.Coin.AddYeopjeon(getYeopjeon);
                 UpdateYeopjeonText(GameManager.Instance.Coin.bonus);
@@ -73,7 +72,6 @@ namespace SDW
             }
             else
             {
-                _confirmButton.interactable = false;
                 GameManager.Instance.Coin.OnRelicChanged?.Invoke();
                 GameManager.Instance.Coin.AddYeopjeon(100);
                 UpdateYeopjeonText(GameManager.Instance.Coin.bonus);
@@ -94,7 +92,8 @@ namespace SDW
 
         private IEnumerator DelayedInteractable()
         {
-            yield return new WaitForSeconds(1f);
+            yield return new WaitForSeconds(2f);
+            _confirmButton.interactable = true;
         }
 
         public override void Close()
