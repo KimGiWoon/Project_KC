@@ -60,7 +60,14 @@ public class CharacterInfoSlotUI : MonoBehaviour
     public void GetCharacterData(CharacterDataSO data)
     {
         _characterPortrait.sprite = data._characterSprite;
-        _characterHp.value = 1f;
+        //_characterHp.value = 1f;
+        //_characterMp.value = 0f;
+    }
+
+    // 체력 갱신
+    public void HpRenewal(MyCharacterController character)
+    {
+        _characterHp.value = character._characterState._chaCurrentHP / character._characterState._chaMaxHP;
         _characterMp.value = 0f;
     }
 
