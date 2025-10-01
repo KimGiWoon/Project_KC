@@ -9,13 +9,6 @@ namespace SDW
         [SerializeField] private GameObject _leftDiction;
         [SerializeField] private GameObject _rightDiction;
 
-        private void Awake()
-        {
-            // _straightDiction.SetActive(false);
-            // _leftDiction.SetActive(false);
-            // _rightDiction.SetActive(false);
-        }
-
         public void SetButtonFromDirection(ButtonDirection direction)
         {
             switch (direction)

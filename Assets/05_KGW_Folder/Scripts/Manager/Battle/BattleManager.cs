@@ -475,9 +475,11 @@ public class BattleManager : MonoBehaviour
             }
             else
             {
+                var levelData = GameManager.Instance.CharacterData.ChaLevelUpStatData[cha._characterState._chaLevel];
+                var upgradeData = GameManager.Instance.CharacterData.ChaBeadsData[cha._characterState._chaUpgrade];
                 // 캐릭터의 현재 남은 체력 저장
                 GameManager.Instance.CharacterBattleDataSave._chaHpSave[cha._characterState._chaEnName] =
-                    cha._characterState._chaCurrentHP;
+                    cha._characterState._chaCurrentHP / levelData.ChaHPIncrease / upgradeData.ChaHP;
                 // Debug.Log($"{cha._characterState._chaEnName}의 현재 남은 체력 {cha._characterState._chaCurrentHP}저장");
             }
         }
@@ -539,7 +541,7 @@ public class BattleManager : MonoBehaviour
         _characters.Clear();
         _monsters.Clear();
         _bossMonster.Clear();
-        
+
         _isSpawned = false;
         _isBattleStarted = false;
         _isGameOver = false;
