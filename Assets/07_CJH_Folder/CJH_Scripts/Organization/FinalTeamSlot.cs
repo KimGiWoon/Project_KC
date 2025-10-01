@@ -65,19 +65,19 @@ public class FinalTeamSlot : MonoBehaviour
         GameManager.Instance.CharacterBattleDataSave._chaLevel[data._chaBaseData.ChaEnName] = curlevel;
         GameManager.Instance.CharacterBattleDataSave._chaUpgrade[data._chaBaseData.ChaEnName] = curUpgradeLevel;
 
+        HpChangeCheck();
     }
 
     // 체력바 변화
     private void HpChangeCheck()
     {
-        if (GameManager.Instance.CharacterBattleDataSave._chaHpSave.ContainsKey(characterData._chaBaseData.ChaEnName))
-        {
-            float curHp = GameManager.Instance.CharacterBattleDataSave._chaHpSave[characterData._chaBaseData.ChaEnName];
-            float maxHp = GameManager.Instance.CharacterBattleDataSave._chaMaxHpSave[characterData._chaBaseData.ChaEnName];
+        // 캐릭터의 데이터가 없거나 저장된 데이터가 없으면 실행하지 않음
+        if(characterData ==  null || !GameManager.Instance.CharacterBattleDataSave._chaHpSave.ContainsKey(characterData._chaBaseData.ChaEnName)) return;
 
-            Debug.Log($"{characterData._chaBaseData.ChaEnName}의 체력 : {curHp} / {maxHp}");
-            _characterHp.fillAmount = curHp / maxHp;
-        }
+        float curHp = GameManager.Instance.CharacterBattleDataSave._chaHpSave[characterData._chaBaseData.ChaEnName];
+        float maxHp = GameManager.Instance.CharacterBattleDataSave._chaMaxHpSave[characterData._chaBaseData.ChaEnName];
+
+        _characterHp.fillAmount = curHp / maxHp;
     }
 
     public void DisplayEmpty()
@@ -93,6 +93,7 @@ public class FinalTeamSlot : MonoBehaviour
         if (characterData != null && manager != null)
         {
             manager.SelectCharacter(characterData);
+            HpChangeCheck();
         }
     }
 

@@ -92,10 +92,10 @@ public class MyCharacterController : UnitBaseData
         _characterState._chaMaxHP = _characterData.GetModifiedCharacterState()._chaMaxHP;
         _characterState._chaCurrentMP = _characterData.GetModifiedCharacterState()._chaCurrentMP;
         _characterState._chaMaxMP = _characterData.GetModifiedCharacterState()._chaMaxMP;
-        _characterState._chaMPRecovery = _characterData.GetModifiedCharacterState()._chaMPRecovery;
-        _characterState._chaAtkSpeed = MathF.Max(0.15f, _characterData.GetModifiedCharacterState()._chaAtkSpeed);
-        _characterState._chaAttack = _characterData.GetModifiedCharacterState()._chaAttack;
-        _characterState._chaArmor = _characterData.GetModifiedCharacterState()._chaArmor;
+        _characterState._chaMPRecovery = (int)_characterData.GetModifiedCharacterState()._chaMPRecovery;
+        _characterState._chaAtkSpeed = MathF.Round(MathF.Max(0.15f, _characterData.GetModifiedCharacterState()._chaAtkSpeed), 2);
+        _characterState._chaAttack = (int)_characterData.GetModifiedCharacterState()._chaAttack;
+        _characterState._chaArmor = (int)_characterData.GetModifiedCharacterState()._chaArmor;
         _characterState._chaAtkIsMelee = _characterData.GetModifiedCharacterState()._chaAtkIsMelee;
         _characterState._chaAccuracy = _characterData.GetModifiedCharacterState()._chaAccuracy;
         _characterState._chaAvoid = _characterData.GetModifiedCharacterState()._chaAvoid;
@@ -123,9 +123,11 @@ public class MyCharacterController : UnitBaseData
 
         // 최대 체력 저장
         GameManager.Instance.CharacterBattleDataSave._chaMaxHpSave[_characterState._chaEnName] = _characterState._chaMaxHP;
+
         // 체력, 마나 게이지 현재값 초기화
         OnHpChange?.Invoke(_characterState._chaCurrentHP / _characterState._chaMaxHP);
         OnMpChange?.Invoke(_characterState._chaCurrentMP / _characterState._chaMaxMP);
+
         // 타임오버에 대한 캐릭터 삭제 이벤트 구독
         _battleUI.OnTimeOver += TimeDeath;
         _battleManager.OnAniChange += CharacterAniIdle;
@@ -359,7 +361,6 @@ public class MyCharacterController : UnitBaseData
             // 저장된 데이터 불러오기
             _characterState._chaCurrentHP = characterHpSaveData[_characterState._chaEnName];
         }
-
         if (characterLevelSaveData.ContainsKey(_characterState._chaEnName))
         {
             _characterState._chaLevel = characterLevelSaveData[_characterState._chaEnName];
