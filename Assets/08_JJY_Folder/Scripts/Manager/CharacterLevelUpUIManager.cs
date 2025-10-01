@@ -221,11 +221,21 @@ namespace JJY
 
             int curExp = GameManager.Instance.CharacterData.CharEnNameExp[data._chaBaseData.ChaEnName];
             int curlevel = GameManager.Instance.CharacterData.CharEnNameLevel[data._chaBaseData.ChaEnName];
-            // int curUpgradeLevel = GameManager.Instance.CharacterData.BeadsInventory[data._chaBaseData.ChaEnName];
+            //int curUpgradeLevel = GameManager.Instance.CharacterData.BeadsInventory[data._chaBaseData.ChaEnName];
             int curMaxExp = GameManager.Instance.CharacterData.ChaLevelUpStatData[curlevel].ChaLevelPoint;
 
-            // GameManager.Instance.CharacterBattleDataSave._chaLevel[data._chaBaseData.ChaEnName] = curlevel;
-            // GameManager.Instance.CharacterBattleDataSave._chaUpgrade[data._chaBaseData.ChaEnName] = curUpgradeLevel;
+            if (!GameManager.Instance.CharacterBattleDataSave._chaHpSave.ContainsKey(data._chaBaseData.ChaEnName))
+            {
+                GameManager.Instance.CharacterBattleDataSave._chaHpSave.Add(data._chaBaseData.ChaEnName, data._chaBaseData.ChaHP * levelData.ChaHPIncrease * beadData.ChaHP);
+            }
+            if (!GameManager.Instance.CharacterBattleDataSave._chaMaxHpSave.ContainsKey(data._chaBaseData.ChaEnName))
+            {
+                GameManager.Instance.CharacterBattleDataSave._chaMaxHpSave.Add(data._chaBaseData.ChaEnName, data._chaBaseData.ChaHP * levelData.ChaHPIncrease * beadData.ChaHP);
+            }
+            GameManager.Instance.CharacterBattleDataSave._chaHpSave[data._chaBaseData.ChaEnName]  = data._chaBaseData.ChaHP * levelData.ChaHPIncrease * beadData.ChaHP;
+            GameManager.Instance.CharacterBattleDataSave._chaMaxHpSave[data._chaBaseData.ChaEnName] = data._chaBaseData.ChaHP * levelData.ChaHPIncrease * beadData.ChaHP;
+            //GameManager.Instance.CharacterBattleDataSave._chaLevel[data._chaBaseData.ChaEnName] = curlevel;
+            //GameManager.Instance.CharacterBattleDataSave._chaUpgrade[data._chaBaseData.ChaEnName] = curUpgradeLevel;
 
             expBar.fillAmount = (float)curExp / curMaxExp;
 

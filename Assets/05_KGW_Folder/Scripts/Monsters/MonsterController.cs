@@ -99,10 +99,10 @@ public class MonsterController : UnitBaseData
         _monsterState._monCurrentHP = _monsterData.MonHP;
         _monsterState._monMaxHP = _monsterData.MonHP;
         _monsterState._monAtkRange = _monsterData.MonAtkRange;
-        _monsterState._monAttack = _monsterData.MonAttack;
-        _monsterState._monAtkSpeed = _monsterData.MonAtkSpeed;
+        _monsterState._monAttack = (int)_monsterData.MonAttack;
+        _monsterState._monAtkSpeed = MathF.Round(_monsterData.MonAtkSpeed, 2);
         _monsterState._monMoveSpeed = _monsterData.MonMoveSpeed;
-        _monsterState._monArmor = _monsterData.MonArmor;
+        _monsterState._monArmor = (int)_monsterData.MonArmor;
         _monsterState._monAccuracy = _monsterData.MonAccuracy;
         _monsterState._monAvoid = _monsterData.MonAvoid;
         _monsterState._monReg = _monsterData.MonReg;
