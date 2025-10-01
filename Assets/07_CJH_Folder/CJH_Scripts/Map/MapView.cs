@@ -268,11 +268,6 @@ namespace CJH
                 var to = targetNode.transform.position;
                 float angle = Mathf.Atan2(to.y - from.y, to.x - from.x) * Mathf.Rad2Deg;
 
-                // var arrowImage = arrowBtn.GetComponentInChildren<Image>();
-                // if (arrowImage != null)
-                // {
-                // arrowImage.transform.rotation = Quaternion.Euler(0, 0, angle - 90f); // Sprite 기준 보정
-
                 if (angle - 90f > -10f && angle - 90f < 10f)
                     moveDirection.SetButtonFromDirection(ButtonDirection.Stright);
                 else if (angle - 90f <= -10f)
