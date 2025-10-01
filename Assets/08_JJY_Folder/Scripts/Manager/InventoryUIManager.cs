@@ -156,7 +156,8 @@ namespace JJY
 
                 var go = GetButtonFromPool();
                 var btn = go.GetComponent<Button>();
-                var img = go.GetComponent<Image>();
+                var imgs = go.GetComponentsInChildren<Image>(); // 아이콘용 이미지
+                var img = imgs[1];
                 var newIcon = go.transform.Find("NewIcon")?.gameObject;
 
                 // 이미지 설정
@@ -221,7 +222,8 @@ namespace JJY
 
                 var go = GetButtonFromPool();
                 var btn = go.GetComponent<Button>();
-                var img = go.GetComponent<Image>();
+                var imgs = go.GetComponentsInChildren<Image>(); // 아이콘용 이미지
+                var img = imgs[1];
                 var newIcon = go.transform.Find("NewIcon")?.gameObject;
 
                 // 이미지 설정
