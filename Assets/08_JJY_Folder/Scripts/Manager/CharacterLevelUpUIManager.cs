@@ -226,14 +226,23 @@ namespace JJY
 
             if (!GameManager.Instance.CharacterBattleDataSave._chaHpSave.ContainsKey(data._chaBaseData.ChaEnName))
             {
-                GameManager.Instance.CharacterBattleDataSave._chaHpSave.Add(data._chaBaseData.ChaEnName, data._chaBaseData.ChaHP * levelData.ChaHPIncrease * beadData.ChaHP);
+                GameManager.Instance.CharacterBattleDataSave._chaHpSave.Add(data._chaBaseData.ChaEnName,
+                    data._chaBaseData.ChaHP * levelData.ChaHPIncrease * beadData.ChaHP);
             }
             if (!GameManager.Instance.CharacterBattleDataSave._chaMaxHpSave.ContainsKey(data._chaBaseData.ChaEnName))
             {
-                GameManager.Instance.CharacterBattleDataSave._chaMaxHpSave.Add(data._chaBaseData.ChaEnName, data._chaBaseData.ChaHP * levelData.ChaHPIncrease * beadData.ChaHP);
+                GameManager.Instance.CharacterBattleDataSave._chaMaxHpSave.Add(data._chaBaseData.ChaEnName,
+                    data._chaBaseData.ChaHP * levelData.ChaHPIncrease * beadData.ChaHP);
             }
-            GameManager.Instance.CharacterBattleDataSave._chaHpSave[data._chaBaseData.ChaEnName]  = data._chaBaseData.ChaHP * levelData.ChaHPIncrease * beadData.ChaHP;
-            GameManager.Instance.CharacterBattleDataSave._chaMaxHpSave[data._chaBaseData.ChaEnName] = data._chaBaseData.ChaHP * levelData.ChaHPIncrease * beadData.ChaHP;
+            if (!GameManager.Instance.CharacterBattleDataSave._chaCalculatedHpSave.ContainsKey(data._chaBaseData.ChaEnName))
+            {
+                GameManager.Instance.CharacterBattleDataSave._chaCalculatedHpSave.Add(data._chaBaseData.ChaEnName,
+                    data._chaBaseData.ChaHP * levelData.ChaHPIncrease * beadData.ChaHP);
+            }
+            GameManager.Instance.CharacterBattleDataSave._chaHpSave[data._chaBaseData.ChaEnName] =
+                data._chaBaseData.ChaHP * levelData.ChaHPIncrease * beadData.ChaHP;
+            GameManager.Instance.CharacterBattleDataSave._chaMaxHpSave[data._chaBaseData.ChaEnName] =
+                data._chaBaseData.ChaHP * levelData.ChaHPIncrease * beadData.ChaHP;
             //GameManager.Instance.CharacterBattleDataSave._chaLevel[data._chaBaseData.ChaEnName] = curlevel;
             //GameManager.Instance.CharacterBattleDataSave._chaUpgrade[data._chaBaseData.ChaEnName] = curUpgradeLevel;
 
@@ -287,8 +296,10 @@ namespace JJY
             _mpText.text = currentCharacterStatData._chaMaxMP.ToString();
             _hpText.text = (data._chaBaseData.ChaHP * levelData.ChaHPIncrease * beadData.ChaHP).ToString("F0");
             _attackSpeedText.text = currentCharacterStatData._chaAtkSpeed.ToString("n2");
-            _attackText.text = (currentCharacterStatData._chaAttack * levelData.ChaAttackIncrease * beadData.ChaAttack).ToString("F0");
-            _defenceText.text = (currentCharacterStatData._chaArmor * levelData.ChaArmorIncrease * beadData.ChaArmor).ToString("F0");
+            _attackText.text =
+                (currentCharacterStatData._chaAttack * levelData.ChaAttackIncrease * beadData.ChaAttack).ToString("F0");
+            _defenceText.text =
+                (currentCharacterStatData._chaArmor * levelData.ChaArmorIncrease * beadData.ChaArmor).ToString("F0");
             _criticalChanceText.text = currentCharacterStatData._chaCrit.ToString();
             _criticalDamageText.text = currentCharacterStatData._chaCritDmg.ToString();
 
@@ -607,6 +618,7 @@ namespace JJY
         }
 
         #endregion
+
         private void GrowthUpdateCharacterInfo()
         {
             foreach (var character in GameManager.Instance.CharacterData.CharacterLists)

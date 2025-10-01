@@ -130,8 +130,11 @@ namespace SDW
                 index = PlayerPrefs.GetInt("LobbyMedia");
 
             _curerntChaImage.sprite = _memoryImageList[index].sprite;
-            _videoPlayer.clip = _gameManager.Video.VideoDictionary[(VideoClipName)index].Video;
+            // _videoPlayer.clip = _gameManager.Video.VideoDictionary[(VideoClipName)index].Video;
+
+            PlayVideoByIndex(index);
         }
+
         public override void Open()
         {
             SetMainText("메인 로비");
@@ -228,14 +231,16 @@ namespace SDW
             {
                 PlayerPrefs.SetInt("LobbyMedia", index);
                 _curerntChaImage.sprite = _memoryImageList[index].sprite;
-                _videoPlayer.clip = _gameManager.Video.VideoDictionary[(VideoClipName)index].Video;
+                // _videoPlayer.clip = _gameManager.Video.VideoDictionary[(VideoClipName)index].Video;
+                PlayVideoByIndex(index);
                 _gameManager.Audio.PlayBGM((AudioClipName)index);
             }
             else
             {
                 PlayerPrefs.SetInt("LobbyMedia", 3);
                 _curerntChaImage.sprite = _memoryImageList[index].sprite;
-                _videoPlayer.clip = _gameManager.Video.VideoDictionary[(VideoClipName)3].Video;
+                // _videoPlayer.clip = _gameManager.Video.VideoDictionary[(VideoClipName)3].Video;
+                PlayVideoByIndex(3);
                 _gameManager.Audio.PlayBGM((AudioClipName)3);
             }
         }
@@ -327,5 +332,22 @@ namespace SDW
         }
 
         public void ResetMainText() => SetMainText(_prevTitle);
+
+        private async void PlayVideoByIndex(int index)
+        {
+            var videoName = (VideoClipName)index;
+
+            var loadedClip = await _gameManager.Video.GetVideoClipAsync(videoName);
+
+            if (loadedClip != null)
+            {
+                _videoPlayer.clip = loadedClip;
+                _videoPlayer.Play();
+            }
+            else
+            {
+                Debug.LogError($"Failed to load and play video: {videoName}");
+            }
+        }
     }
 }

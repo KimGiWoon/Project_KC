@@ -97,6 +97,7 @@ namespace SDW
         {
             var labels = new List<string>();
 
+            // 유효한 레이블만 목록에 추가
             foreach (var label in _spriteLabel)
             {
                 if (!LabelExists(label.labelString)) continue;
@@ -105,12 +106,16 @@ namespace SDW
 
             _patchSize = default;
 
-            foreach (string label in labels)
+            if (labels.Count > 0)
             {
-                var handle = Addressables.GetDownloadSizeAsync(label);
+                // 수정: 레이블 목록을 한 번에 GetDownloadSizeAsync에 전달하여 중복 계산 방지
+                var handle = Addressables.GetDownloadSizeAsync(labels.ToArray());
                 yield return handle;
 
-                _patchSize += handle.Result;
+                _patchSize = handle.Result;
+
+                // 핸들 해제
+                Addressables.Release(handle);
             }
 
             if (_patchSize > decimal.Zero)

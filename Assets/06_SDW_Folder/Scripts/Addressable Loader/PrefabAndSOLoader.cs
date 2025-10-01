@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Threading.Tasks; // async/await 사용을 위해 추가
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
 using System.Linq;
+using UnityEngine.SceneManagement;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -19,18 +20,21 @@ namespace SDW
         public PrefabAndSOMappingSO _mappingSo;
 
         private bool _bound;
+        private static List<AsyncOperationHandle> _loadedHandles = new List<AsyncOperationHandle>();
+        private static string _currentSceneLabel = "";
 
         private void OnEnable()
         {
             GameManagerEvents.OnDownloadCompleted += TryBind;
             GameManagerEvents.OnSceneIndexed += TryBind;
-            // TryBind();
+            SceneManager.sceneUnloaded += OnSceneUnloaded;
         }
 
         private void OnDisable()
         {
             GameManagerEvents.OnDownloadCompleted -= TryBind;
             GameManagerEvents.OnSceneIndexed -= TryBind;
+            SceneManager.sceneUnloaded -= OnSceneUnloaded;
         }
 
         private void TryBind()
@@ -38,7 +42,7 @@ namespace SDW
             if (_bound) return;
             if (_mappingSo == null)
             {
-                Debug.Log($"Image Mapping SO 연결 안됨 {GameManager.Instance.Scene.GetActiveScene()}");
+                Debug.Log($"PrefabAndSO Mapping SO 연결 안됨 {GameManager.Instance.Scene.GetActiveScene()}");
                 return;
             }
             if (!ScenePathIndex.IsBuilt) return;
@@ -47,186 +51,81 @@ namespace SDW
             _bound = true;
         }
 
-        // private bool _isDownloaded;
-
-//         private async void Update()
-//         {
-//             if (!GameManager.Instance.CompleteDownload || _isDownloaded) return;
-//
-// #if UNITY_EDITOR
-//             if (!Application.isPlaying)
-//             {
-//                 ApplyEditorPreview();
-//                 return;
-//             }
-// #endif
-//             // async void 메서드 호출
-//             await LoadFromAddressables();
-//             _isDownloaded = true;
-//         }
-
-/*
-#if UNITY_EDITOR
-        private void ApplyEditorPreview()
+        private void OnSceneUnloaded(Scene scene)
         {
-            if (_mappingSo == null) return;
-
-            // PrefabEntries와 SOEntries를 모두 포함하는 리스트 생성
-            var allEntries = _mappingSo.prefabEntries.Cast<PrefabAndSOMappingSO.Entry>()
-                .Concat(_mappingSo.soEntries.Cast<PrefabAndSOMappingSO.Entry>());
-
-            // 로드할 에셋의 AddressKey를 GroupBy로 묶어 중복 제거
-            var groupedEntries = allEntries.GroupBy(e => e.AddressKey);
-
-            foreach (var group in groupedEntries)
+            // 씬이 언로드될 때 해당 씬의 라벨로 로드된 에셋들을 언로드
+            if (!string.IsNullOrEmpty(_currentSceneLabel))
             {
-                var entry = group.First();
-
-                var loadedObj = AssetDatabase.LoadAssetAtPath<UnityEngine.Object>(entry.AssetPath);
-
-                if (loadedObj == null) continue;
-
-                foreach (var singleEntry in group)
-                {
-                    if (loadedObj is GameObject go && PrefabUtility.IsPartOfPrefabAsset(go))
-                    {
-                        AssignToMonoBehaviourField(singleEntry.Path, singleEntry.fieldName, singleEntry.index, go);
-                    }
-                    else if (loadedObj is ScriptableObject so)
-                    {
-                        AssignToMonoBehaviourField(singleEntry.Path, singleEntry.fieldName, singleEntry.index, so);
-                    }
-                }
-            }
-        }
-#endif
-
-        private async Task LoadFromAddressables()
-        {
-            if (_mappingSo == null) return;
-
-            // 로드할 에셋의 AddressKey를 GroupBy로 묶어 중복 제거
-            var allEntries = _mappingSo.prefabEntries.Cast<PrefabAndSOMappingSO.Entry>()
-                .Concat(_mappingSo.soEntries.Cast<PrefabAndSOMappingSO.Entry>());
-
-            var groupedEntries = allEntries.GroupBy(e => e.AddressKey);
-
-            foreach (var group in groupedEntries)
-            {
-                var entry = group.First();
-
-                var handle = Addressables.LoadAssetAsync<UnityEngine.Object>(entry.AddressKey);
-                await handle.Task;
-
-                if (handle.Status == AsyncOperationStatus.Succeeded)
-                {
-                    var loadedObj = handle.Result;
-
-                    foreach (var singleEntry in group)
-                    {
-                        AssignToMonoBehaviourField(singleEntry.Path, singleEntry.fieldName, singleEntry.index, loadedObj);
-                    }
-                }
-                else
-                {
-                    Debug.LogError($"[PrefabAndSOLoader] Asset load failed: {entry.AddressKey}");
-                }
+                UnloadAddressablesByLabel(_currentSceneLabel);
             }
         }
 
-        /// <summary>
-        /// 필드 이름과 인덱스를 사용하여 MonoBehaviour 필드에 객체를 할당합니다.
-        /// </summary>
-        private void AssignToMonoBehaviourField(string path, string fieldName, int index, UnityEngine.Object loadedObj)
+        private static void UnloadAddressablesByLabel(string label)
         {
-            var monos = FindObjectsOfType<MonoBehaviour>(true);
-            foreach (var mb in monos)
+            Debug.Log($"[PrefabAndSOLoader] Unloading assets with label: {label}");
+
+            // 모든 핸들 릴리즈
+            foreach (var handle in _loadedHandles)
             {
-                if (mb == null) continue;
-
-                string mbPath = GetPath(mb.gameObject);
-                if (mbPath != path) continue;
-
-                var fields = mb.GetType().GetFields(
-                    System.Reflection.BindingFlags.Public |
-                    System.Reflection.BindingFlags.NonPublic |
-                    System.Reflection.BindingFlags.Instance);
-
-                foreach (var field in fields)
+                if (handle.IsValid())
                 {
-                    if (field.Name == fieldName)
-                    {
-                        if (index == -1) // 단일 객체 필드
-                        {
-                            if (field.FieldType.IsAssignableFrom(loadedObj.GetType()))
-                            {
-                                field.SetValue(mb, loadedObj);
-                            }
-                        }
-                        else // 리스트/배열 필드
-                        {
-                            if (typeof(IList).IsAssignableFrom(field.FieldType) && field.FieldType.IsGenericType)
-                            {
-                                var genericType = field.FieldType.GetGenericArguments()[0];
-                                if (genericType.IsAssignableFrom(loadedObj.GetType()))
-                                {
-                                    var list = field.GetValue(mb) as IList;
-
-                                    if (list == null)
-                                    {
-                                        list = (IList)Activator.CreateInstance(field.FieldType);
-                                        field.SetValue(mb, list);
-                                    }
-
-                                    // 필요한 경우 리스트 크기를 확장하여 인덱스에 할당
-                                    while (list.Count <= index)
-                                    {
-                                        list.Add(null);
-                                    }
-                                    list[index] = loadedObj;
-                                }
-                            }
-                        }
-                        break;
-                    }
+                    Addressables.Release(handle);
                 }
             }
-        }
+            _loadedHandles.Clear();
 
-        private static string GetPath(GameObject go)
-        {
-            string p = go.name;
-            while (go.transform.parent != null)
-            {
-                go = go.transform.parent.gameObject;
-                p = go.name + "/" + p;
-            }
-            return p;
+            Debug.Log($"[PrefabAndSOLoader] Released {_loadedHandles.Count} handles for label: {label}");
         }
-    */
 
         private async void LoadFromAddressables()
         {
-            // if (_mappingSo == null) return;
-            //
-            // var loadedKeys = new HashSet<string>();
-            //
-            // foreach (var entry in _mappingSo.prefabEntries)
-            // {
-            //     await LoadAndAssign(entry, loadedKeys, typeof(GameObject));
-            // }
-            //
-            // foreach (var entry in _mappingSo.soEntries)
-            // {
-            //     await LoadAndAssign(entry, loadedKeys, typeof(ScriptableObject));
-            // }
-
             if (_mappingSo == null) return;
 
-            var loadedKeys = new HashSet<string>();
+            // 이전 씬의 라벨이 있으면 언로드
+            if (!string.IsNullOrEmpty(_currentSceneLabel))
+            {
+                UnloadAddressablesByLabel(_currentSceneLabel);
+            }
 
+            // 현재 씬의 라벨로 설정
+            _currentSceneLabel = _mappingSo.sceneLabel;
+
+            if (string.IsNullOrEmpty(_currentSceneLabel))
+            {
+                Debug.LogWarning($"[PrefabAndSOLoader] Scene '{_mappingSo.sceneName}' has no label assigned!");
+            }
+
+            var loadedKeys = new HashSet<string>();
             var tasks = new List<Task>();
 
+            // Label을 기준으로 한번에 로드
+            if (!string.IsNullOrEmpty(_currentSceneLabel))
+            {
+                Debug.Log($"[PrefabAndSOLoader] Loading assets with label: {_currentSceneLabel}");
+
+                // Label로 에셋 로드
+                var labelHandle = Addressables.LoadAssetsAsync<UnityEngine.Object>(
+                    _currentSceneLabel,
+                    (loadedAsset) =>
+                    {
+                        // 각 에셋이 로드될 때마다 호출됨
+                    });
+
+                await labelHandle.Task;
+
+                if (labelHandle.Status == AsyncOperationStatus.Succeeded)
+                {
+                    _loadedHandles.Add(labelHandle);
+                    Debug.Log(
+                        $"[PrefabAndSOLoader] Successfully loaded {labelHandle.Result.Count} assets with label: {_currentSceneLabel}");
+                }
+                else
+                {
+                    Debug.LogError($"[PrefabAndSOLoader] Failed to load assets with label: {_currentSceneLabel}");
+                }
+            }
+
+            // 각 Entry를 개별적으로 로드하고 할당
             foreach (var entry in _mappingSo.prefabEntries)
             {
                 tasks.Add(LoadAndAssign(entry, loadedKeys, typeof(GameObject)));
@@ -239,8 +138,9 @@ namespace SDW
 
             await Task.WhenAll(tasks);
 
-
             GameManager.Instance.SetPrefabAndSoConnected(true);
+            Debug.Log(
+                $"[PrefabAndSOLoader] Scene '{_mappingSo.sceneName}' (Label: {_currentSceneLabel}) - All assets loaded and assigned");
         }
 
         private async Task LoadAndAssign(PrefabAndSOMappingSO.Entry e, HashSet<string> loaded, Type type)
@@ -252,10 +152,15 @@ namespace SDW
             {
                 var handle = Addressables.LoadAssetAsync<GameObject>(e.AddressKey);
                 await handle.Task;
+
                 if (handle.Status == AsyncOperationStatus.Succeeded)
                 {
+                    if (!loaded.Contains(e.AddressKey))
+                    {
+                        _loadedHandles.Add(handle);
+                        loaded.Add(e.AddressKey);
+                    }
                     AssignToMonoBehaviourField(go, e.fieldName, e.index, handle.Result);
-                    loaded.Add(e.AddressKey);
                 }
                 else
                 {
@@ -266,8 +171,14 @@ namespace SDW
             {
                 var handle = Addressables.LoadAssetAsync<ScriptableObject>(e.AddressKey);
                 await handle.Task;
+
                 if (handle.Status == AsyncOperationStatus.Succeeded)
                 {
+                    if (!loaded.Contains(e.AddressKey))
+                    {
+                        _loadedHandles.Add(handle);
+                        loaded.Add(e.AddressKey);
+                    }
                     AssignToMonoBehaviourField(go, e.fieldName, e.index, handle.Result);
                 }
                 else
@@ -281,7 +192,7 @@ namespace SDW
         {
             if (go == null) return;
 
-            var monos = go.GetComponents<MonoBehaviour>(); // 전역이 아닌 "해당 GO"에 붙은 컴포넌트만
+            var monos = go.GetComponents<MonoBehaviour>();
             foreach (var mb in monos)
             {
                 if (!mb) continue;
@@ -295,11 +206,11 @@ namespace SDW
                 {
                     if (field.Name != fieldName) continue;
 
-                    if (index == -1) // 단일
+                    if (index == -1)
                     {
                         field.SetValue(mb, loadedObj);
                     }
-                    else // 리스트/배열
+                    else
                     {
                         object val = field.GetValue(mb);
                         if (val is IList list)
@@ -312,7 +223,6 @@ namespace SDW
                         }
                         else
                         {
-                            // 리스트가 null이면 생성 시도
                             if (field.FieldType.IsGenericType)
                             {
                                 var inst = Activator.CreateInstance(field.FieldType) as IList;

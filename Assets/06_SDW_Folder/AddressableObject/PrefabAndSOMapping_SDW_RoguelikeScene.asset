@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 429858b7358497341860536dc63325ff, type: 3}
   m_Name: PrefabAndSOMapping_SDW_RoguelikeScene
   m_EditorClassIdentifier: 
+  sceneName: SDW_RoguelikeScene
+  sceneLabel: Roguelike_Prefab_SO
   prefabEntries:
   - PathHash: 14938729717848126768
     AddressKey: e2d9fb0ff2abe3a4caac52a1c5bcc451
@@ -155,7 +157,25 @@ MonoBehaviour:
     AddressKey: 8cf8ba5e4903fe245a05e258613b630f
     fieldName: nodeButtonPrefab
     index: -1
-    AssetPath: Assets/06_SDW_Folder/Prefabs/MoveStraightButton.prefab
+    AssetPath: Assets/06_SDW_Folder/Prefabs/MoveButton.prefab
+    PathPreview: '- Roguelike Map/MapView'
+  - PathHash: 17956514649916126371
+    AddressKey: 8cf8ba5e4903fe245a05e258613b630f
+    fieldName: _straightDiction
+    index: -1
+    AssetPath: Assets/06_SDW_Folder/Prefabs/MoveButton.prefab
+    PathPreview: '- Roguelike Map/MapView'
+  - PathHash: 17956514649916126371
+    AddressKey: 8cf8ba5e4903fe245a05e258613b630f
+    fieldName: _leftDiction
+    index: -1
+    AssetPath: Assets/06_SDW_Folder/Prefabs/MoveButton.prefab
+    PathPreview: '- Roguelike Map/MapView'
+  - PathHash: 17956514649916126371
+    AddressKey: 8cf8ba5e4903fe245a05e258613b630f
+    fieldName: _rightDiction
+    index: -1
+    AssetPath: Assets/06_SDW_Folder/Prefabs/MoveButton.prefab
     PathPreview: '- Roguelike Map/MapView'
   - PathHash: 2356680866015544654
     AddressKey: 3a424c3db3dc04c4caa3f7390bab28db

@@ -1,5 +1,5 @@
 ﻿using System;
-using UnityEngine.Video;
+using UnityEngine.Video; // VideoClipName을 정의한 곳
 
 namespace SDW
 {
@@ -7,6 +7,7 @@ namespace SDW
     public class VideoEntry
     {
         public VideoClipName Name;
-        public VideoClip Video;
+        // public VideoClip Video; // 이 필드를 제거
+        public string AddressKey; // Addressables 키를 저장하는 필드 추가
     }
 }

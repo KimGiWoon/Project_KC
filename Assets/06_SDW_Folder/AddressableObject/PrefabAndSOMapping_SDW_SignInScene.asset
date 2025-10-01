@@ -12,7 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 429858b7358497341860536dc63325ff, type: 3}
   m_Name: PrefabAndSOMapping_SDW_SignInScene
   m_EditorClassIdentifier: 
+  sceneName: SDW_SignInScene
+  sceneLabel: SignIn_Prefab_SO
   prefabEntries:
+  - PathHash: 7084653306044793400
+    AddressKey: 292dcd9d46c1d4448813317db46e6d3b
+    fieldName: _audioSourcePrefab
+    index: -1
+    AssetPath: Assets/06_SDW_Folder/Prefabs/AudioSourcePrefab.prefab
+    PathPreview: GameManager/AudioSourcePool
   - PathHash: 2040665978657513616
     AddressKey: e2d9fb0ff2abe3a4caac52a1c5bcc451
     fieldName: _prefab
@@ -133,12 +141,6 @@ MonoBehaviour:
     index: -1
     AssetPath: Assets/05_KGW_Folder/Prefabs/00_Characters/YHY.prefab
     PathPreview: GameManager/CSVDataContainer/CharacterData
-  - PathHash: 7084653306044793400
-    AddressKey: 292dcd9d46c1d4448813317db46e6d3b
-    fieldName: _audioSourcePrefab
-    index: -1
-    AssetPath: Assets/06_SDW_Folder/Prefabs/AudioSourcePrefab.prefab
-    PathPreview: GameManager/AudioSourcePool
   - PathHash: 5858093299389418050
     AddressKey: bd99561b9ab62854398e1eeab4ea558e
     fieldName: _prefab
@@ -284,6 +286,54 @@ MonoBehaviour:
     AssetPath: Assets/05_KGW_Folder/Prefabs/01_Monsters/NormalMonsters/GhostBat.prefab
     PathPreview: GameManager/MonsterListManager
   soEntries:
+  - PathHash: 15853811309187722038
+    AddressKey: 369e5127f0f54c1409cf1e4442ac5ecd
+    fieldName: _audioClip
+    index: -1
+    AssetPath: Assets/06_SDW_Folder/ScriptableObject/AudioClipSO.asset
+    PathPreview: GameManager/AudioManager
+  - PathHash: 14987253976204288962
+    AddressKey: 3187b59c549b7884e935f513a641ecad
+    fieldName: dailyQuests
+    index: 0
+    AssetPath: Assets/09_KSH_Folder/ScriptableObject/DailyQuests/GameLogin.asset
+    PathPreview: GameManager/QuestManager
+  - PathHash: 14987253976204288962
+    AddressKey: c7a45d0387a22c54281e1534426c729b
+    fieldName: dailyQuests
+    index: 1
+    AssetPath: Assets/09_KSH_Folder/ScriptableObject/DailyQuests/RoguelikeClear.asset
+    PathPreview: GameManager/QuestManager
+  - PathHash: 14987253976204288962
+    AddressKey: 64eb3dee0b6864d41b34002f1d2722e2
+    fieldName: dailyQuests
+    index: 2
+    AssetPath: Assets/09_KSH_Folder/ScriptableObject/DailyQuests/UseFood.asset
+    PathPreview: GameManager/QuestManager
+  - PathHash: 14987253976204288962
+    AddressKey: 0886ee9ff4efbab4ab197c78819beb7f
+    fieldName: dailyQuests
+    index: 3
+    AssetPath: Assets/09_KSH_Folder/ScriptableObject/DailyQuests/GetArtifact.asset
+    PathPreview: GameManager/QuestManager
+  - PathHash: 14987253976204288962
+    AddressKey: 9916a806d30a06c48a483207599aa6c1
+    fieldName: dailyQuests
+    index: 4
+    AssetPath: Assets/09_KSH_Folder/ScriptableObject/DailyQuests/Gacha.asset
+    PathPreview: GameManager/QuestManager
+  - PathHash: 14987253976204288962
+    AddressKey: 9b0206f3d9ca7bf42b3ed0217b7ab8ed
+    fieldName: dailyQuests
+    index: 5
+    AssetPath: Assets/09_KSH_Folder/ScriptableObject/DailyQuests/LevelUp.asset
+    PathPreview: GameManager/QuestManager
+  - PathHash: 14987253976204288962
+    AddressKey: 3aa106dd95fa11b44905de3cf8314f5e
+    fieldName: dailyQuests
+    index: 6
+    AssetPath: Assets/09_KSH_Folder/ScriptableObject/DailyQuests/Revive.asset
+    PathPreview: GameManager/QuestManager
   - PathHash: 2040665978657513616
     AddressKey: 0977072b4d0ff2c4bb1c250d908f0ba6
     fieldName: _characterLists
@@ -584,18 +634,6 @@ MonoBehaviour:
     index: -1
     AssetPath: Assets/05_KGW_Folder/Prefabs/03_Skills/CharacterSkills/SkillsSOData/Vanguard_Data.asset
     PathPreview: GameManager/CSVDataContainer/CharacterData
-  - PathHash: 3170264409181721597
-    AddressKey: f1d894912fd912c4fb4529ec6096ee61
-    fieldName: _videoClip
-    index: -1
-    AssetPath: Assets/06_SDW_Folder/ScriptableObject/VideoClipSO.asset
-    PathPreview: GameManager/VideoManager
-  - PathHash: 15853811309187722038
-    AddressKey: 369e5127f0f54c1409cf1e4442ac5ecd
-    fieldName: _audioClip
-    index: -1
-    AssetPath: Assets/06_SDW_Folder/ScriptableObject/AudioClipSO.asset
-    PathPreview: GameManager/AudioManager
   - PathHash: 5858093299389418050
     AddressKey: e40e68bac195a3d4ca495c39b3c68f55
     fieldName: _monsterList
@@ -920,6 +958,12 @@ MonoBehaviour:
     index: 11
     AssetPath: Assets/05_KGW_Folder/Prefabs/01_Monsters/MonstersSOData/GhostBat_Data.asset
     PathPreview: GameManager/MonsterListManager
+  - PathHash: 3170264409181721597
+    AddressKey: f1d894912fd912c4fb4529ec6096ee61
+    fieldName: _videoClipSO
+    index: -1
+    AssetPath: Assets/06_SDW_Folder/ScriptableObject/VideoClipSO.asset
+    PathPreview: GameManager/VideoManager
   - PathHash: 4642643693366977176
     AddressKey: db3c03ae950867b4eb4186e8c051091d
     fieldName: testRelic.Array.data[0].relic
@@ -932,45 +976,3 @@ MonoBehaviour:
     index: -1
     AssetPath: Assets/09_KSH_Folder/ScriptableObject/Relics/CouponBook_Data.asset
     PathPreview: GameManager/InGameItemManager
-  - PathHash: 14987253976204288962
-    AddressKey: 3187b59c549b7884e935f513a641ecad
-    fieldName: dailyQuests
-    index: 0
-    AssetPath: Assets/09_KSH_Folder/ScriptableObject/DailyQuests/GameLogin.asset
-    PathPreview: GameManager/QuestManager
-  - PathHash: 14987253976204288962
-    AddressKey: c7a45d0387a22c54281e1534426c729b
-    fieldName: dailyQuests
-    index: 1
-    AssetPath: Assets/09_KSH_Folder/ScriptableObject/DailyQuests/RoguelikeClear.asset
-    PathPreview: GameManager/QuestManager
-  - PathHash: 14987253976204288962
-    AddressKey: 64eb3dee0b6864d41b34002f1d2722e2
-    fieldName: dailyQuests
-    index: 2
-    AssetPath: Assets/09_KSH_Folder/ScriptableObject/DailyQuests/UseFood.asset
-    PathPreview: GameManager/QuestManager
-  - PathHash: 14987253976204288962
-    AddressKey: 0886ee9ff4efbab4ab197c78819beb7f
-    fieldName: dailyQuests
-    index: 3
-    AssetPath: Assets/09_KSH_Folder/ScriptableObject/DailyQuests/GetArtifact.asset
-    PathPreview: GameManager/QuestManager
-  - PathHash: 14987253976204288962
-    AddressKey: 9916a806d30a06c48a483207599aa6c1
-    fieldName: dailyQuests
-    index: 4
-    AssetPath: Assets/09_KSH_Folder/ScriptableObject/DailyQuests/Gacha.asset
-    PathPreview: GameManager/QuestManager
-  - PathHash: 14987253976204288962
-    AddressKey: 9b0206f3d9ca7bf42b3ed0217b7ab8ed
-    fieldName: dailyQuests
-    index: 5
-    AssetPath: Assets/09_KSH_Folder/ScriptableObject/DailyQuests/LevelUp.asset
-    PathPreview: GameManager/QuestManager
-  - PathHash: 14987253976204288962
-    AddressKey: 3aa106dd95fa11b44905de3cf8314f5e
-    fieldName: dailyQuests
-    index: 6
-    AssetPath: Assets/09_KSH_Folder/ScriptableObject/DailyQuests/Revive.asset
-    PathPreview: GameManager/QuestManager

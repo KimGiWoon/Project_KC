@@ -72,9 +72,11 @@ public class CharacterInfoSlotUI : MonoBehaviour
         var levelData = GameManager.Instance.CharacterData.ChaLevelUpStatData[character._characterState._chaLevel];
         var upgradeData = GameManager.Instance.CharacterData.ChaBeadsData[character._characterState._chaUpgrade];
 
-        float chaSaveHp = GameManager.Instance.CharacterBattleDataSave._chaHpSave[character._characterState._chaEnName];
+        float chaSaveHp = character._characterState._chaCurrentHP;
+        if (GameManager.Instance.CharacterBattleDataSave._chaHpSave.ContainsKey(character._characterState._chaEnName))
+            chaSaveHp = GameManager.Instance.CharacterBattleDataSave._chaHpSave[character._characterState._chaEnName];
 
-        _characterHp.value = (chaSaveHp * levelData.ChaHPIncrease * upgradeData.ChaHP) / character._characterState._chaMaxHP;
+        _characterHp.value = chaSaveHp * levelData.ChaHPIncrease * upgradeData.ChaHP / character._characterState._chaMaxHP;
         _characterMp.value = 0f;
     }
 
