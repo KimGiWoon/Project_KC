@@ -2,6 +2,7 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Video;
 
 namespace SDW
 {
@@ -11,6 +12,7 @@ namespace SDW
         [SerializeField] private Button _cancelButton;
         [SerializeField] private Button _acceptButton;
         [SerializeField] private TweenAlpha_Image _backgroundPanel;
+        [SerializeField] private VideoPlayer _videoPlayer;
 
         public Action<UIName, UIName> OnCloseButtonClicked;
         public Action OnDeleteAcceptButtonClicked;
@@ -66,6 +68,9 @@ namespace SDW
         {
             _acceptButton.interactable = false;
             _coroutine = StartCoroutine(ActiveDeleteButton());
+
+            _videoPlayer.Stop();
+            GameManager.Instance.Video.UnloadAllVideos();
             OnDeleteAcceptButtonClicked?.Invoke();
             OnCloseButtonClicked?.Invoke(UIName.DeleteAccountUI, UIName.LobbySettingUI);
         }

@@ -1,27 +1,34 @@
-﻿namespace SDW
-{
-    using System.Collections.Generic;
-    using UnityEngine;
+﻿using System;
+using System.Collections.Generic;
+using UnityEngine;
 
-    [CreateAssetMenu(menuName = "Addressables/PrefabAndSOMappingSO")]
+namespace SDW
+{
+    // PrefabAndSOMappingSO.cs
+    [CreateAssetMenu(fileName = "PrefabAndSOMapping", menuName = "SDW/PrefabAndSOMapping")]
     public class PrefabAndSOMappingSO : ScriptableObject
     {
-        [System.Serializable]
+        [Header("Scene Information")]
+        public string sceneName;
+        public string sceneLabel;
+
+        [Header("Mapping Data")]
+        public List<Entry> prefabEntries = new List<Entry>();
+        public List<Entry> soEntries = new List<Entry>();
+
+        [Serializable]
         public class Entry
         {
-            // public string Path; // Hierarchy 경로
-            //# 문자열 대신 Hash를 사용
             public ulong PathHash;
-            public string AddressKey; // Addressables GUID
-            public string fieldName; // 필드 이름
-            public int index = -1; // ✨추가: 리스트/배열 인덱스✨
+            public string AddressKey;
+            public string fieldName;
+            public int index = -1;
+
 #if UNITY_EDITOR
-            public string AssetPath; // Editor 프리뷰용
+            [Header("Editor Preview Only")]
+            public string AssetPath;
             public string PathPreview;
 #endif
         }
-
-        public List<Entry> prefabEntries = new List<Entry>();
-        public List<Entry> soEntries = new List<Entry>();
     }
 }

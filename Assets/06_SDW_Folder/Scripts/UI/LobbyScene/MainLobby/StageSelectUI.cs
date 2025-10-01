@@ -6,6 +6,7 @@ using DG.Tweening;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Video;
 
 namespace SDW
 {
@@ -30,6 +31,7 @@ namespace SDW
         [SerializeField] private float _tweenTime = 0.6f;
 
         [SerializeField] private GrowthManager _growthManager;
+        [SerializeField] private VideoPlayer _videoPlayer;
 
         private int _index = 0;
         private Vector2 _targetPos = new Vector2();
@@ -176,6 +178,8 @@ namespace SDW
 
         private void StartButtonClicked()
         {
+            _videoPlayer.Stop();
+            GameManager.Instance.Video.UnloadAllVideos();
             OnUICloseRequested?.Invoke(UIName.MainLobbyUI);
             GameManager.Instance.Scene.LoadSceneAsync(SceneName.SDW_RoguelikeScene);
         }
