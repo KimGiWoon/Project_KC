@@ -222,6 +222,16 @@ public class BattleManager : MonoBehaviour
     private IEnumerator DelayedInvoke()
     {
         yield return new WaitForSeconds(0.1f);
+
+        // 캐릭터의 체력바 갱신
+        for (int i = 0; i < 3; i++)
+        {
+            MyCharacterController character = _characters[i];
+
+            // 캐릭터 데이터 전달
+            _battleUI._infoSlot[i].HpRenewal(character);
+        }
+
         OnCharacterSpawned?.Invoke();
     }
 
