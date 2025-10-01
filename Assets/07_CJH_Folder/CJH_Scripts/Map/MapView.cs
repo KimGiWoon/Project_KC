@@ -174,6 +174,7 @@ namespace CJH
             if (currentMap.Path.Contains(selectedNode.nodeData)) return;
             currentMap.Path.Add(selectedNode.nodeData);
             UpdateMapState();
+            UpdateBottomPanel();
         }
 
         public void UpdateMapState()
@@ -208,7 +209,7 @@ namespace CJH
                     CreateArrow(currentNodeObject, mapNode);
                 }
             }
-            UpdateBottomPanel();
+            // UpdateBottomPanel();
         }
 
         // 두 노드 사이에 화살표를 생성하는 함수
@@ -231,7 +232,7 @@ namespace CJH
             arrow.transform.rotation = Quaternion.Euler(0, 0, angle - 90);
         }
 
-        private void UpdateBottomPanel()
+        public void UpdateBottomPanel()
         {
             foreach (Transform child in bottomPanelContainer)
             {
@@ -250,10 +251,17 @@ namespace CJH
                     nextMapNodes.Add(mapNode);
             }
 
+            StartCoroutine(DelayedDirectionSet(currentNode, nextMapNodes));
+        }
+
+        private IEnumerator DelayedDirectionSet(Node currentNode, List<MapNode> nextMapNodes)
+        {
             foreach (var targetNode in nextMapNodes)
             {
                 var arrowBtn = Instantiate(nodeButtonPrefab, bottomPanelContainer);
                 var moveDirection = arrowBtn.GetComponent<MoveDirection>();
+
+                yield return null;
 
                 // 화살표 방향 계산
                 var from = nodeObjects[currentNode.point].transform.position;

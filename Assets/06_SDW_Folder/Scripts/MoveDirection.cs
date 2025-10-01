@@ -11,9 +11,9 @@ namespace SDW
 
         private void Awake()
         {
-            _straightDiction.SetActive(false);
-            _leftDiction.SetActive(false);
-            _rightDiction.SetActive(false);
+            // _straightDiction.SetActive(false);
+            // _leftDiction.SetActive(false);
+            // _rightDiction.SetActive(false);
         }
 
         public void SetButtonFromDirection(ButtonDirection direction)
