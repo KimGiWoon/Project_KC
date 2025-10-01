@@ -19,6 +19,7 @@ namespace SDW
 
         [Header("Buttons")]
         [SerializeField] private Button _mainLobbyButton;
+        [SerializeField] private Button _levelUpButton;
         [SerializeField] private TextMeshProUGUI _mainTitleText;
 
         [Header("Animation")]
@@ -127,7 +128,15 @@ namespace SDW
         private void MainLobbyButtonClicked()
         {
             if (_mainTitleText.text.Equals("메인 로비")) return;
+            _levelUpButton.interactable = false;
+            StartCoroutine(DelayedInteractable());
             OnUICloseRequested?.Invoke(UIName.CharLevelUpMainUI, false);
+        }
+
+        private IEnumerator DelayedInteractable()
+        {
+            yield return new WaitForSeconds(_tweenAnimation.tweenTime);
+            _levelUpButton.interactable = true;
         }
 
         public void CharacterMoveAway()

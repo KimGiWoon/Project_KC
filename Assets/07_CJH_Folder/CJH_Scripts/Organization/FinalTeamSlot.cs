@@ -75,13 +75,13 @@ public class FinalTeamSlot : MonoBehaviour
         if (characterData == null ||
             !GameManager.Instance.CharacterBattleDataSave._chaHpSave.ContainsKey(characterData._chaBaseData.ChaEnName)) return;
 
-        var levelData = GameManager.Instance.CharacterData.ChaLevelUpStatData[characterData._modifiedCharacterState._chaLevel];
-            var beadData =
-                GameManager.Instance.CharacterData.ChaBeadsData[
-                    GameManager.Instance.CharacterData.BeadsInventory[characterData._chaBaseData.ChaEnName]];
+        var levelData =
+            GameManager.Instance.CharacterData.ChaLevelUpStatData[characterData.GetModifiedCharacterState()._chaLevel];
+        var beadData =
+            GameManager.Instance.CharacterData.ChaBeadsData[
+                GameManager.Instance.CharacterData.BeadsInventory[characterData._chaBaseData.ChaEnName]];
         float curHp = GameManager.Instance.CharacterBattleDataSave._chaHpSave[characterData._chaBaseData.ChaEnName];
-        float maxHp = GameManager.Instance.CharacterBattleDataSave._chaMaxHpSave[characterData._chaBaseData.ChaEnName] /
-                      levelData.ChaHPIncrease / beadData.ChaHP;
+        float maxHp = GameManager.Instance.CharacterBattleDataSave._chaCalculatedHpSave[characterData._chaBaseData.ChaEnName];
 
         _characterHp.fillAmount = curHp / maxHp;
     }

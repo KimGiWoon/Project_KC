@@ -60,7 +60,7 @@ namespace SDW
 
         public Action OnUserInfoUpdated;
 
-        private const bool _isQA = false;
+        private const bool _isQA = true;
 
         #region Firebase Intialize Methods
 

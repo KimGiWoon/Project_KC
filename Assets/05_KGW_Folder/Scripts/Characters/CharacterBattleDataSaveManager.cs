@@ -17,6 +17,7 @@ namespace KGW
 
         // 캐릭터의 현재 체력
         public Dictionary<CharacterEnName, float> _chaHpSave = new Dictionary<CharacterEnName, float>();
+        public Dictionary<CharacterEnName, float> _chaCalculatedHpSave = new Dictionary<CharacterEnName, float>();
 
         // 캐릭터의 최대 체력
         public Dictionary<CharacterEnName, float> _chaMaxHpSave = new Dictionary<CharacterEnName, float>();
@@ -32,6 +33,7 @@ namespace KGW
             _chaLevel.Clear();
             _chaUpgrade.Clear();
             _chaHpSave.Clear();
+            _chaCalculatedHpSave.Clear();
             _chaMaxHpSave.Clear();
         }
     }
