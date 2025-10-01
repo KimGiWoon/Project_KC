@@ -28,8 +28,8 @@ namespace CJH
         {
             if (!_gameManager.CompleteDownload || !_gameManager.ImageSpriteConnected || !_gameManager.PrefabAndSoConnected ||
                 _isDownloaded || !_prefabRandomizer.IsDownloaded) return;
-            Init();
             _isDownloaded = true;
+            Init();
         }
 
         private void Init()
@@ -50,6 +50,7 @@ namespace CJH
                 var preview = previewRenderer.CapturePreview();
                 previews.Add(preview);
             }
+            mapView.UpdateBottomPanel();
 
             // 4. 모든 맵 생성 및 미리보기 캡처가 끝난 후 UI를 초기화합니다.
             selectionManager.Initialize(maps, previews);

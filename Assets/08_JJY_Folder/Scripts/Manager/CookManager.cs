@@ -220,7 +220,8 @@ namespace JJY
 
                 var go = GetButtonFromPool(); // 풀에서 버튼 획득
                 var btn = go.GetComponent<Button>(); // 버튼 컴포넌트
-                var img = go.GetComponent<Image>(); // 아이콘용 이미지
+                var imgs = go.GetComponentsInChildren<Image>(); // 아이콘용 이미지
+                var img = imgs[1];
                 var txt = go.GetComponentInChildren<TextMeshProUGUI>(); // 카운트 텍스트(TMP)
 
                 IngredientData data = null;
@@ -263,7 +264,8 @@ namespace JJY
 
             // 버튼 갱신
             var btn = go.GetComponent<Button>();
-            var img = go.GetComponent<Image>();
+            var imgs = go.GetComponentsInChildren<Image>(); // 아이콘용 이미지
+            var img = imgs[1];
             var txt = go.GetComponentInChildren<TextMeshProUGUI>();
 
             // 아이콘 세팅
@@ -285,7 +287,6 @@ namespace JJY
         // 인벤토리 버튼 클릭 처리 (토글: 예약 추가/해제)
         private void OnInventoryButtonClicked(Ingredient ing)
         {
-            
             // 예약 시 실제 재고의 '가용 수량' 확인
             int available = GetDisplayCount(ing); // actual - reserved
             if (available <= 0) return;
@@ -476,6 +477,7 @@ namespace JJY
         #endregion
 
         #region 헬퍼
+
         // 마스크에서 포함된 재료 리스트 반환
         private Ingredient[] GetIngredientsFromMask(Ingredient mask)
         {
@@ -487,6 +489,7 @@ namespace JJY
             }
             return list.ToArray(); // 배열로 반환
         }
+
         #endregion
     }
 }

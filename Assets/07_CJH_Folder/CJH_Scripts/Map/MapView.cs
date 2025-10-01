@@ -174,6 +174,7 @@ namespace CJH
             if (currentMap.Path.Contains(selectedNode.nodeData)) return;
             currentMap.Path.Add(selectedNode.nodeData);
             UpdateMapState();
+            UpdateBottomPanel();
         }
 
         public void UpdateMapState()
@@ -208,7 +209,7 @@ namespace CJH
                     CreateArrow(currentNodeObject, mapNode);
                 }
             }
-            UpdateBottomPanel();
+            // UpdateBottomPanel();
         }
 
         // 두 노드 사이에 화살표를 생성하는 함수
@@ -231,7 +232,7 @@ namespace CJH
             arrow.transform.rotation = Quaternion.Euler(0, 0, angle - 90);
         }
 
-        private void UpdateBottomPanel()
+        public void UpdateBottomPanel()
         {
             foreach (Transform child in bottomPanelContainer)
             {
@@ -250,20 +251,30 @@ namespace CJH
                     nextMapNodes.Add(mapNode);
             }
 
+            StartCoroutine(DelayedDirectionSet(currentNode, nextMapNodes));
+        }
+
+        private IEnumerator DelayedDirectionSet(Node currentNode, List<MapNode> nextMapNodes)
+        {
             foreach (var targetNode in nextMapNodes)
             {
                 var arrowBtn = Instantiate(nodeButtonPrefab, bottomPanelContainer);
+                var moveDirection = arrowBtn.GetComponent<MoveDirection>();
+
+                yield return null;
 
                 // 화살표 방향 계산
                 var from = nodeObjects[currentNode.point].transform.position;
                 var to = targetNode.transform.position;
                 float angle = Mathf.Atan2(to.y - from.y, to.x - from.x) * Mathf.Rad2Deg;
 
-                var arrowImage = arrowBtn.GetComponentInChildren<Image>();
-                if (arrowImage != null)
-                {
-                    arrowImage.transform.rotation = Quaternion.Euler(0, 0, angle - 90f); // Sprite 기준 보정
-                }
+                if (angle - 90f > -10f && angle - 90f < 10f)
+                    moveDirection.SetButtonFromDirection(ButtonDirection.Stright);
+                else if (angle - 90f <= -10f)
+                    moveDirection.SetButtonFromDirection(ButtonDirection.Right);
+                else if (angle - 90f >= 10f)
+                    moveDirection.SetButtonFromDirection(ButtonDirection.Left);
+                // }
 
                 var button = arrowBtn.GetComponent<Button>();
                 _arrowButtons.Add(button);
