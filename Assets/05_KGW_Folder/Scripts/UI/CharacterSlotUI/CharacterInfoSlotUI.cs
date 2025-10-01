@@ -1,4 +1,6 @@
+using System;
 using JJY;
+using SDW;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -67,7 +69,12 @@ public class CharacterInfoSlotUI : MonoBehaviour
     // 체력 갱신
     public void HpRenewal(MyCharacterController character)
     {
-        _characterHp.value = character._characterState._chaCurrentHP / character._characterState._chaMaxHP;
+        var levelData = GameManager.Instance.CharacterData.ChaLevelUpStatData[character._characterState._chaLevel];
+        var upgradeData = GameManager.Instance.CharacterData.ChaBeadsData[character._characterState._chaUpgrade];
+
+        float chaSaveHp = GameManager.Instance.CharacterBattleDataSave._chaHpSave[character._characterState._chaEnName];
+
+        _characterHp.value = (chaSaveHp * levelData.ChaHPIncrease * upgradeData.ChaHP) / character._characterState._chaMaxHP;
         _characterMp.value = 0f;
     }
 
