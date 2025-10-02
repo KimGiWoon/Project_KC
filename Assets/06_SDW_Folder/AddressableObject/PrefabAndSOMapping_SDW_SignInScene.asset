@@ -286,12 +286,6 @@ MonoBehaviour:
     AssetPath: Assets/05_KGW_Folder/Prefabs/01_Monsters/NormalMonsters/GhostBat.prefab
     PathPreview: GameManager/MonsterListManager
   soEntries:
-  - PathHash: 15853811309187722038
-    AddressKey: 369e5127f0f54c1409cf1e4442ac5ecd
-    fieldName: _audioClip
-    index: -1
-    AssetPath: Assets/06_SDW_Folder/ScriptableObject/AudioClipSO.asset
-    PathPreview: GameManager/AudioManager
   - PathHash: 14987253976204288962
     AddressKey: 3187b59c549b7884e935f513a641ecad
     fieldName: dailyQuests
@@ -634,6 +628,30 @@ MonoBehaviour:
     index: -1
     AssetPath: Assets/05_KGW_Folder/Prefabs/03_Skills/CharacterSkills/SkillsSOData/Vanguard_Data.asset
     PathPreview: GameManager/CSVDataContainer/CharacterData
+  - PathHash: 15853811309187722038
+    AddressKey: 369e5127f0f54c1409cf1e4442ac5ecd
+    fieldName: _audioClip
+    index: -1
+    AssetPath: Assets/06_SDW_Folder/ScriptableObject/AudioClipSO.asset
+    PathPreview: GameManager/AudioManager
+  - PathHash: 4642643693366977176
+    AddressKey: db3c03ae950867b4eb4186e8c051091d
+    fieldName: testRelic.Array.data[0].relic
+    index: -1
+    AssetPath: Assets/09_KSH_Folder/ScriptableObject/Relics/LuckyReceipt_Data.asset
+    PathPreview: GameManager/InGameItemManager
+  - PathHash: 4642643693366977176
+    AddressKey: 230813fe2f4dca041b3079043220ef19
+    fieldName: testRelic.Array.data[1].relic
+    index: -1
+    AssetPath: Assets/09_KSH_Folder/ScriptableObject/Relics/CouponBook_Data.asset
+    PathPreview: GameManager/InGameItemManager
+  - PathHash: 3170264409181721597
+    AddressKey: f1d894912fd912c4fb4529ec6096ee61
+    fieldName: _videoClipSO
+    index: -1
+    AssetPath: Assets/06_SDW_Folder/ScriptableObject/VideoClipSO.asset
+    PathPreview: GameManager/VideoManager
   - PathHash: 5858093299389418050
     AddressKey: e40e68bac195a3d4ca495c39b3c68f55
     fieldName: _monsterList
@@ -958,21 +976,3 @@ MonoBehaviour:
     index: 11
     AssetPath: Assets/05_KGW_Folder/Prefabs/01_Monsters/MonstersSOData/GhostBat_Data.asset
     PathPreview: GameManager/MonsterListManager
-  - PathHash: 3170264409181721597
-    AddressKey: f1d894912fd912c4fb4529ec6096ee61
-    fieldName: _videoClipSO
-    index: -1
-    AssetPath: Assets/06_SDW_Folder/ScriptableObject/VideoClipSO.asset
-    PathPreview: GameManager/VideoManager
-  - PathHash: 4642643693366977176
-    AddressKey: db3c03ae950867b4eb4186e8c051091d
-    fieldName: testRelic.Array.data[0].relic
-    index: -1
-    AssetPath: Assets/09_KSH_Folder/ScriptableObject/Relics/LuckyReceipt_Data.asset
-    PathPreview: GameManager/InGameItemManager
-  - PathHash: 4642643693366977176
-    AddressKey: 230813fe2f4dca041b3079043220ef19
-    fieldName: testRelic.Array.data[1].relic
-    index: -1
-    AssetPath: Assets/09_KSH_Folder/ScriptableObject/Relics/CouponBook_Data.asset
-    PathPreview: GameManager/InGameItemManager

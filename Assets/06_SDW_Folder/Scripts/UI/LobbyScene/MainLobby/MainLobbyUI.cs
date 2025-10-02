@@ -234,23 +234,15 @@ namespace SDW
                 button.interactable = false;
             }
 
-            //todo 기본적으로 index로 적용하면 되지만 현재는 4번까지만 나왔으므로
+            PlayerPrefs.SetInt("LobbyMedia", index);
+            _curerntChaImage.sprite = _memoryImageList[index].sprite;
+            // _videoPlayer.clip = _gameManager.Video.VideoDictionary[(VideoClipName)index].Video;
+            PlayVideoByIndex(index);
+
             if (index < 4)
-            {
-                PlayerPrefs.SetInt("LobbyMedia", index);
-                _curerntChaImage.sprite = _memoryImageList[index].sprite;
-                // _videoPlayer.clip = _gameManager.Video.VideoDictionary[(VideoClipName)index].Video;
-                PlayVideoByIndex(index);
                 _gameManager.Audio.PlayBGM((AudioClipName)index);
-            }
             else
-            {
-                PlayerPrefs.SetInt("LobbyMedia", 3);
-                _curerntChaImage.sprite = _memoryImageList[index].sprite;
-                // _videoPlayer.clip = _gameManager.Video.VideoDictionary[(VideoClipName)3].Video;
-                PlayVideoByIndex(3);
-                _gameManager.Audio.PlayBGM((AudioClipName)3);
-            }
+                _gameManager.Audio.PlayBGM(AudioClipName.MemoryBW);
 
             StartCoroutine(DelayedInteractable());
             _prevIndex = index;
