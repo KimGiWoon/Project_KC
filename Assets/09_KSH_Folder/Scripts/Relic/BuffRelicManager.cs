@@ -176,6 +176,7 @@ public class BuffRelicManager : MonoBehaviour
 
         if (relic.chaHP != 0) //최대 체력
         {
+            p._characterState._chaCurrentHP += AddStat(p._characterState._chaCurrentHP, relic.chaHP);
             p._characterState._chaMaxHP += AddStat(p._characterState._chaMaxHP, relic.chaHP);
             // Debug.Log(
             //     $"캐릭터 이름 {p._characterState._chaEnName},{relic.relicName}: 최대 체력 +{relic.chaHP}% → 최종 {p._characterState._chaMaxHP}");

@@ -149,6 +149,7 @@ public class BattleUI : BaseUI
         // 게임 클리어
         if (result)
         {
+            MonsterTotalHpChange(0f, 1f);
             if (_battleManager._battleType == BattleEventType.BossFinal) OnUIOpenRequested?.Invoke(UIName.ClearChapterUI);
             else OnUIOpenRequested?.Invoke(UIName.ClearStageUI);
         }
@@ -175,6 +176,7 @@ public class BattleUI : BaseUI
         _totalHpText.text = totalCurrentHp.ToString("F0");
 
         _totalMonsterHp.value = totalCurrentHp / totalMaxHp;
+        Canvas.ForceUpdateCanvases();
     }
 
     // 보스 그로기 게이지 변화
