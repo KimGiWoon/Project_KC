@@ -20,14 +20,14 @@ public class GrowthManager : MonoBehaviour
 
     //노드 UI 저장 딕셔너리
     private Dictionary<int, GameObject> growthUIDic = new Dictionary<int, GameObject>();
-    
+
     //메인과 콘텐츠 딕셔너리
-    private Dictionary<int, int > mainContentDic = new Dictionary<int, int>()
+    private Dictionary<int, int> mainContentDic = new Dictionary<int, int>
     {
-        {80101, 80001},
-        {80102, 80002},
-        {80103, 80003},
-        {80104, 80004},
+        { 80101, 80001 },
+        { 80102, 80002 },
+        { 80103, 80003 },
+        { 80104, 80004 }
     };
 
     //해금된 노드 ID 중복없이 리스트에 저장 
@@ -53,7 +53,7 @@ public class GrowthManager : MonoBehaviour
         ConnectUIAndData();
         if (!_gameManager.GrowthUnlockNodes.Contains(80201))
             UnlockNode(80201); //처음 노드만 활성화
-        
+
         UpdateAllNode();
         StartCoroutine(DelayedSetNewCharacter());
         _isLoaded = true;
@@ -168,14 +168,14 @@ public class GrowthManager : MonoBehaviour
 
     public void CompleteNodeContent(int nodeId) //메인과 콘텐츠 연결 기능
     {
-        if(!mainContentDic.TryGetValue(nodeId, out int mainContentNode)) return;
-        
-        if(!_gameManager.GrowthCompleteNodes.Contains(mainContentNode))
-           _gameManager.AddGrowthCompleteNode(mainContentNode);
-        
+        if (!mainContentDic.TryGetValue(nodeId, out int mainContentNode)) return;
+
+        if (!_gameManager.GrowthCompleteNodes.Contains(mainContentNode))
+            _gameManager.AddGrowthCompleteNode(mainContentNode);
+
         if (GrowthDataDic.TryGetValue(mainContentNode, out var growthDatas))
             AllApplyGrowth(growthDatas);
-        
+
         UpdateAllNode();
     }
 
@@ -193,7 +193,7 @@ public class GrowthManager : MonoBehaviour
             }
             else
             {
-                modified = original * growthDatas.nodeAbilityValueMult;    
+                modified = original * growthDatas.nodeAbilityValueMult;
             }
         }
     }
@@ -201,56 +201,56 @@ public class GrowthManager : MonoBehaviour
     public void ApplyGrowthStat(GrowthDatas growthDatas, CharacterState modified, CharacterState original) //단일 스탯 적용
     {
         switch (growthDatas.nodeAbility)
-        {                 
-             case NodeAbility.chaAttack:
-                 float prevAttack = modified._chaAttack;
-                 AddGrowthStat(ref modified._chaAttack, original._chaAttack, growthDatas);
-                 Debug.Log($"{original._chaName} 공격력: {prevAttack} + {modified._chaAttack - prevAttack} = {modified._chaAttack}");
-                 break;
-             
-             case NodeAbility.chaAtkSpeed:
-                 float prevAtkSpeed = modified._chaAtkSpeed;
-                 AddGrowthStat(ref modified._chaAtkSpeed, original._chaAtkSpeed, growthDatas);
-                 Debug.Log($"{original._chaName} 공격속도: {prevAtkSpeed} + {modified._chaAtkSpeed - prevAtkSpeed} = {modified._chaAtkSpeed}");
-                 break;
-             
-             case NodeAbility.chaArmor:
-                 float prevArmor = modified._chaArmor;
-                 AddGrowthStat(ref modified._chaArmor, original._chaArmor, growthDatas);
-                 Debug.Log($"{original._chaName} 방어력: {prevArmor} + {modified._chaArmor - prevArmor} = {modified._chaArmor}");
-                 break;
-             
-             case NodeAbility.chaAvoid:
-                 float prevAvoid = modified._chaAvoid;
-                 AddGrowthStat(ref modified._chaAvoid, original._chaAvoid, growthDatas);
-                 Debug.Log($"{original._chaName} 회피율: {prevAvoid} + {modified._chaAvoid - prevAvoid} = {modified._chaAvoid}");
-                 break;
-             
-             case NodeAbility.chaCrit:
-                 float prevCrit = modified._chaCrit;
-                 AddGrowthStat(ref modified._chaCrit, original._chaCrit, growthDatas);
-                 Debug.Log($"{original._chaName} 치명타: {prevCrit} + {modified._chaCrit - prevCrit} = {modified._chaCrit}");
-                 break;
-             
-             case NodeAbility.chaCritDmg:
-                 float prevCritDmg = modified._chaCritDmg;
-                 AddGrowthStat(ref modified._chaCritDmg, original._chaCritDmg, growthDatas);
-                 Debug.Log($"{original._chaName} 치명타데미지: {prevCritDmg} + {modified._chaCritDmg - prevCritDmg} = {modified._chaCritDmg}");
-                 break;
-             
-             case NodeAbility.chaMPRecovery:
-                 float prevMPRec = modified._chaMPRecovery;
-                 AddGrowthStat(ref modified._chaMPRecovery, original._chaMPRecovery, growthDatas);
-                 Debug.Log($"{original._chaName} 마나회복: {prevMPRec} + {modified._chaMPRecovery - prevMPRec} = {modified._chaMPRecovery}");
-                 break;
-             
-             case NodeAbility.chaMP:
-                 float prevMaxMP = modified._chaMaxMP;
-                 modified._chaMaxMP = original._chaMaxMP;
-                 modified._chaCurrentMP = modified._chaMaxMP * growthDatas.nodeAbilityValueMult;
-                 Debug.Log($"{original._chaName} 최대 MP: {prevMaxMP} -> {modified._chaMaxMP}, 현재 MP: {modified._chaCurrentMP}");
-                 break;
-             
+        {
+            case NodeAbility.chaAttack:
+                float prevAttack = modified._chaAttack;
+                AddGrowthStat(ref modified._chaAttack, original._chaAttack, growthDatas);
+                // Debug.Log($"{original._chaName} 공격력: {prevAttack} + {modified._chaAttack - prevAttack} = {modified._chaAttack}");
+                break;
+
+            case NodeAbility.chaAtkSpeed:
+                float prevAtkSpeed = modified._chaAtkSpeed;
+                AddGrowthStat(ref modified._chaAtkSpeed, original._chaAtkSpeed, growthDatas);
+                // Debug.Log($"{original._chaName} 공격속도: {prevAtkSpeed} + {modified._chaAtkSpeed - prevAtkSpeed} = {modified._chaAtkSpeed}");
+                break;
+
+            case NodeAbility.chaArmor:
+                float prevArmor = modified._chaArmor;
+                AddGrowthStat(ref modified._chaArmor, original._chaArmor, growthDatas);
+                // Debug.Log($"{original._chaName} 방어력: {prevArmor} + {modified._chaArmor - prevArmor} = {modified._chaArmor}");
+                break;
+
+            case NodeAbility.chaAvoid:
+                float prevAvoid = modified._chaAvoid;
+                AddGrowthStat(ref modified._chaAvoid, original._chaAvoid, growthDatas);
+                // Debug.Log($"{original._chaName} 회피율: {prevAvoid} + {modified._chaAvoid - prevAvoid} = {modified._chaAvoid}");
+                break;
+
+            case NodeAbility.chaCrit:
+                float prevCrit = modified._chaCrit;
+                AddGrowthStat(ref modified._chaCrit, original._chaCrit, growthDatas);
+                // Debug.Log($"{original._chaName} 치명타: {prevCrit} + {modified._chaCrit - prevCrit} = {modified._chaCrit}");
+                break;
+
+            case NodeAbility.chaCritDmg:
+                float prevCritDmg = modified._chaCritDmg;
+                AddGrowthStat(ref modified._chaCritDmg, original._chaCritDmg, growthDatas);
+                // Debug.Log($"{original._chaName} 치명타데미지: {prevCritDmg} + {modified._chaCritDmg - prevCritDmg} = {modified._chaCritDmg}");
+                break;
+
+            case NodeAbility.chaMPRecovery:
+                float prevMPRec = modified._chaMPRecovery;
+                AddGrowthStat(ref modified._chaMPRecovery, original._chaMPRecovery, growthDatas);
+                // Debug.Log($"{original._chaName} 마나회복: {prevMPRec} + {modified._chaMPRecovery - prevMPRec} = {modified._chaMPRecovery}");
+                break;
+
+            case NodeAbility.chaMP:
+                float prevMaxMP = modified._chaMaxMP;
+                modified._chaMaxMP = original._chaMaxMP;
+                modified._chaCurrentMP = modified._chaMaxMP * growthDatas.nodeAbilityValueMult;
+                // Debug.Log($"{original._chaName} 최대 MP: {prevMaxMP} -> {modified._chaMaxMP}, 현재 MP: {modified._chaCurrentMP}");
+                break;
+
             case NodeAbility.None:
                 if (growthDatas.nodeID == 80002) //배속 기능 활성화
                 {
@@ -274,7 +274,7 @@ public class GrowthManager : MonoBehaviour
             var modified = cha._modifiedCharacterState;
             var original = cha._originalCharacterState;
             ModifiedStat(original, modified);
-            
+
             foreach (int nodeID in GameManager.Instance.GrowthCompleteNodes)
             {
                 if (GrowthDataDic.TryGetValue(nodeID, out growthDatas))
@@ -285,15 +285,14 @@ public class GrowthManager : MonoBehaviour
         }
         OnGrowthUpdate?.Invoke();
     }
-    
 
     private void SetNewCharacter(CharacterDataSO cha) //새로 뽑힌 캐릭터에 기존 스탯 적용
     {
         var modified = cha._modifiedCharacterState;
         var original = cha._originalCharacterState;
-        
+
         ModifiedStat(original, modified);
-        
+
         foreach (int nodeID in GameManager.Instance.GrowthCompleteNodes)
         {
             if (GrowthDataDic.TryGetValue(nodeID, out var growthDatas))
@@ -302,17 +301,17 @@ public class GrowthManager : MonoBehaviour
             }
         }
     }
-    
-    private void ModifiedStat(CharacterState original,CharacterState modified)
+
+    private void ModifiedStat(CharacterState original, CharacterState modified)
     {
-         modified._chaAttack = original._chaAttack;
-         modified._chaAtkSpeed = original._chaAtkSpeed;
-         modified._chaArmor = original._chaArmor;
-         modified._chaAvoid = original._chaAvoid;
-         modified._chaCrit  = original._chaCrit;
-         modified._chaCritDmg = original._chaCritDmg;
-         modified._chaMPRecovery = original._chaMPRecovery;
-         modified._chaMaxMP = original._chaMaxMP;
-         modified._chaCurrentMP = original._chaCurrentMP;    
+        modified._chaAttack = original._chaAttack;
+        modified._chaAtkSpeed = original._chaAtkSpeed;
+        modified._chaArmor = original._chaArmor;
+        modified._chaAvoid = original._chaAvoid;
+        modified._chaCrit = original._chaCrit;
+        modified._chaCritDmg = original._chaCritDmg;
+        modified._chaMPRecovery = original._chaMPRecovery;
+        modified._chaMaxMP = original._chaMaxMP;
+        modified._chaCurrentMP = original._chaCurrentMP;
     }
 }

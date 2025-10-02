@@ -26,6 +26,7 @@ public class MenuUI : BaseUI
     [SerializeField] private Button _lobbyButton; // 로비 이동 버튼
 
     [SerializeField] private GameObject _popupBackground;
+    [SerializeField] private BattleManager _battleManager;
 
     private RectTransform _panelRect;
 
@@ -188,6 +189,7 @@ public class MenuUI : BaseUI
 
     private void ConfirmButtonClicked()
     {
+        _battleManager.CharacterStatSave();
         OnUIOpenRequested?.Invoke(UIName.DefeatChapterUI);
         OnUICloseRequested?.Invoke(UIName.MenuUI);
         _isOkayContainer.SetActive(false);

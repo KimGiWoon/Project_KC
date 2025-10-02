@@ -226,7 +226,7 @@ public class BattleManager : MonoBehaviour
         // 캐릭터의 체력바 갱신
         for (int i = 0; i < 3; i++)
         {
-            MyCharacterController character = _characters[i];
+            var character = _characters[i];
 
             // 캐릭터 데이터 전달
             _battleUI._infoSlot[i].HpRenewal(character);
@@ -358,8 +358,9 @@ public class BattleManager : MonoBehaviour
             _monsterTotalCurrentHp = 0;
         }
 
-        // 통합 체력 변화
-        OnTotalHpChange?.Invoke(_monsterTotalCurrentHp, _monsterTotalMaxHp);
+        if (!_isClear)
+            // 통합 체력 변화
+            OnTotalHpChange?.Invoke(_monsterTotalCurrentHp, _monsterTotalMaxHp);
     }
 
     // 몬스터의 개별 체력 회복 확인
@@ -468,10 +469,11 @@ public class BattleManager : MonoBehaviour
         buffManager?.InitFoodIcon();
         _relicInventoryUI?.RelicUIAdd();
         _isBattleStarted = true;
+        _isClear = false;
     }
 
     // 캐릭터의 체력 저장
-    private void CharacterStatSave()
+    public void CharacterStatSave()
     {
         foreach (var cha in _characters)
         {

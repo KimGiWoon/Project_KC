@@ -27385,6 +27385,7 @@ MonoBehaviour:
   _continueButton: {fileID: 151428995}
   _lobbyButton: {fileID: 134492629}
   _popupBackground: {fileID: 1377780608}
+  _battleManager: {fileID: 1114898318}
 --- !u!222 &1192967025
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -28862,7 +28863,7 @@ RectTransform:
   m_Father: {fileID: 379084215}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 4.743988, y: 0}
   m_SizeDelta: {x: 19.48798, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -37919,7 +37920,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1632898759
 RectTransform:
   m_ObjectHideFlags: 0
@@ -38823,7 +38824,7 @@ RectTransform:
   m_Father: {fileID: 1083036314}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 3.5, y: 0}
   m_SizeDelta: {x: 0.37, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
