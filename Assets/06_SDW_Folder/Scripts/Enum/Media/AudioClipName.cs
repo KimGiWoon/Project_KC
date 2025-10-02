@@ -79,9 +79,11 @@ namespace SDW
         //# 로그라이크 BGM
         Stage1BGM,
         Stage2BGM,
-        Stage3BGM
+        Stage3BGM,
 
         // TODO : 스토리 사운드는 미정 -> 정해지면 추가 예정
         // 게임 스토리 오디오 클립 이름
+
+        MemoryBW
     }
 }

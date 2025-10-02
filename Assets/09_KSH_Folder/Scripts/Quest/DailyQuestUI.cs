@@ -10,7 +10,7 @@ using Button = UnityEngine.UI.Button;
 public class DailyQuestUI : BaseUI
 {
     [Header("Daily Quest Reward")]
-    [SerializeField] private int _rewardAmount = 100;
+    [SerializeField] private int _rewardAmount = 500;
 
     [Header("UI Components")]
     [SerializeField] private Button _rewardButton;

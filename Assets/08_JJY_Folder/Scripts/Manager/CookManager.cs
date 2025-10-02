@@ -75,7 +75,6 @@ namespace JJY
             }
             StartCoroutine(DelayedInit());
             _gameManager = GameManager.Instance;
-            ;
         }
 
         private IEnumerator DelayedInit()
