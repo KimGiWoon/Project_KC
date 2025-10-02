@@ -44,6 +44,7 @@ namespace SDW
         private int _iconNumber;
         private VideoPlayer _videoPlayer;
         private bool _isProgress;
+        private int _prevIndex;
 
         /// <summary>
         /// UI 컴포넌트 활성화 설정 및 이벤트 리스너 할당을 수행
@@ -226,6 +227,13 @@ namespace SDW
         }
         private void MemoryButtonClicked(int index)
         {
+            if (index == _prevIndex) return;
+
+            foreach (var button in _memoryButtonList)
+            {
+                button.interactable = false;
+            }
+
             //todo 기본적으로 index로 적용하면 되지만 현재는 4번까지만 나왔으므로
             if (index < 4)
             {
@@ -242,6 +250,19 @@ namespace SDW
                 // _videoPlayer.clip = _gameManager.Video.VideoDictionary[(VideoClipName)3].Video;
                 PlayVideoByIndex(3);
                 _gameManager.Audio.PlayBGM((AudioClipName)3);
+            }
+
+            StartCoroutine(DelayedInteractable());
+            _prevIndex = index;
+        }
+
+        private IEnumerator DelayedInteractable()
+        {
+            yield return new WaitForSeconds(2f);
+
+            foreach (var button in _memoryButtonList)
+            {
+                button.interactable = true;
             }
         }
 

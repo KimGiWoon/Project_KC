@@ -61,6 +61,7 @@ namespace JJY
         private Dictionary<Ingredient, GameObject> buttonByIngredient = new Dictionary<Ingredient, GameObject>(); // 재료 -> 버튼 매핑
 
         [SerializeField] private CookingUI _cookingUI;
+        private GameManager _gameManager;
 
         // ---------------------
         private void Awake()
@@ -73,11 +74,20 @@ namespace JJY
                 return;
             }
             StartCoroutine(DelayedInit());
+            _gameManager = GameManager.Instance;
+            ;
         }
 
         private IEnumerator DelayedInit()
         {
-            yield return new WaitForSeconds(1f);
+            while (true)
+            {
+                yield return null;
+                if (!_gameManager.CompleteDownload || !_gameManager.ImageSpriteConnected || !_gameManager.PrefabAndSoConnected ||
+                    !_gameManager.Firebase.IsLoaded) continue;
+
+                break;
+            }
 
             InitIngredients(); // 재료 초기화
             InitRecipes(); // 레시피 데이터 초기화
