@@ -14,6 +14,7 @@ public abstract class UnitBaseData : MonoBehaviour
     public bool _isAttack; // 유닛의 공격 여부
     public bool _isHalfHpSkill; // 유닛의 체력 절반 여부
     public bool _isStern; // 유닛의 그로기 상태확인
+    public bool _playSkillAni;  // 스킬 애니메이션 플레이
     public bool _isUseSkill; // 유닛의 스킬사용 확인
     public bool _isUseSkill2;
     public Vector3 _moveDir; // 유닛의 이동 방향

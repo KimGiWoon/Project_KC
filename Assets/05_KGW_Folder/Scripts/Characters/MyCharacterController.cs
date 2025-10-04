@@ -48,6 +48,7 @@ public class MyCharacterController : UnitBaseData
     public readonly int Walk_Hash = Animator.StringToHash("Walk");
     public readonly int Attack_Hash = Animator.StringToHash("Attack");
     public readonly int Critical_Hash = Animator.StringToHash("Critical");
+    public readonly int Skill_Hash = Animator.StringToHash("Skill");
 
     public EffectController effectController;
 
@@ -93,7 +94,7 @@ public class MyCharacterController : UnitBaseData
         _characterState._chaCurrentMP = _characterData.GetModifiedCharacterState()._chaCurrentMP;
         _characterState._chaMaxMP = _characterData.GetModifiedCharacterState()._chaMaxMP;
         _characterState._chaMPRecovery = (int)_characterData.GetModifiedCharacterState()._chaMPRecovery;
-        _characterState._chaAtkSpeed = MathF.Round(MathF.Max(0.15f, _characterData.GetModifiedCharacterState()._chaAtkSpeed), 2);
+        _characterState._chaAtkSpeed = MathF.Round(MathF.Max(0.3f, _characterData.GetModifiedCharacterState()._chaAtkSpeed), 2);
         _characterState._chaAttack = (int)_characterData.GetModifiedCharacterState()._chaAttack;
         _characterState._chaArmor = (int)_characterData.GetModifiedCharacterState()._chaArmor;
         _characterState._chaAtkIsMelee = _characterData.GetModifiedCharacterState()._chaAtkIsMelee;
@@ -113,6 +114,7 @@ public class MyCharacterController : UnitBaseData
         _moveDir = Vector3.right;
         _isAlive = true;
         _isFirstAttack = true;
+        _playSkillAni = false;
 
         // 캐릭터의 저장된 데이터 불러오기
         CharacterSaveDataLoad();
@@ -133,7 +135,7 @@ public class MyCharacterController : UnitBaseData
         _battleManager.OnAniChange += CharacterAniIdle;
 
         // 공격속도 감소 수치 제한
-        _limitAtkSpeed = Mathf.Max(0.15f, _characterState._chaAtkSpeed);
+        _limitAtkSpeed = Mathf.Max(0.3f, _characterState._chaAtkSpeed);
         _attackCoolTimer = _limitAtkSpeed;
 
         _manaChangeValue = _characterState._chaMPRecovery;
@@ -192,6 +194,8 @@ public class MyCharacterController : UnitBaseData
     {
         // 타겟이 없으면 공격하지 않기
         if (_attackTarget == null) return;
+        // 스킬 사용 애니메이션 플레이중 공격하지 않기
+        if (_playSkillAni) return;
 
         // 공격 전 대상 확인
         if (!_attackTarget._isAlive)
@@ -404,13 +408,28 @@ public class MyCharacterController : UnitBaseData
             if (_attackTarget == null) return;
 
             _isUseSkill = true;
+            _playSkillAni = true;
             // 유물 효과 적용
             OnRelicEffect?.Invoke();
+
+            // 스킬 애니메이션
+            _chaAnimatior.Play(Skill_Hash);
+
+            Invoke(nameof(ResetAnimation), 0.9f);
 
             // 스킬 사용
             _characterState._chaActiveSkill.UseSkill(_character, _characterData._chaActiveSkill, _attackTarget);
 
             CharacterManaState();
+        }
+    }
+
+    // 리셋 애니메이션
+    private void ResetAnimation()
+    {
+        if (_playSkillAni)
+        {
+            _playSkillAni = false;
         }
     }
 
