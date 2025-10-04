@@ -8767,7 +8767,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &369655275
 RectTransform:
   m_ObjectHideFlags: 0
@@ -13399,6 +13399,89 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 583108194}
   m_CullTransparentMesh: 1
+--- !u!1 &589897187
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 589897189}
+  - component: {fileID: 589897188}
+  m_Layer: 0
+  m_Name: FoodEffectUIManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &589897188
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 589897187}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2906005bddaee1d418317e861598283b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  effectIconPrefab: {fileID: 1853294745}
+  effectAssets:
+  - type: 1
+    sprite: {fileID: 21300000, guid: cbc1ed0717c49e247bca5ff7f2ae8172, type: 3}
+    secondarySprite: {fileID: 0}
+    behavior: 1
+  - type: 4
+    sprite: {fileID: 21300000, guid: 1f68782be8eaa9d4bafd7058a03dcc8d, type: 3}
+    secondarySprite: {fileID: 0}
+    behavior: 1
+  - type: 0
+    sprite: {fileID: 21300000, guid: cbc1ed0717c49e247bca5ff7f2ae8172, type: 3}
+    secondarySprite: {fileID: 0}
+    behavior: 1
+  - type: 6
+    sprite: {fileID: 21300000, guid: 89a62322845fb384daf4656350307416, type: 3}
+    secondarySprite: {fileID: 0}
+    behavior: 1
+  - type: 7
+    sprite: {fileID: 21300000, guid: cbc1ed0717c49e247bca5ff7f2ae8172, type: 3}
+    secondarySprite: {fileID: 0}
+    behavior: 1
+  - type: 3
+    sprite: {fileID: 21300000, guid: 721d68c39cccc6646b075c42250ffcaa, type: 3}
+    secondarySprite: {fileID: 0}
+    behavior: 1
+  - type: 8
+    sprite: {fileID: 21300000, guid: a828c1941e5e4614a9097dfcccb13806, type: 3}
+    secondarySprite: {fileID: 21300000, guid: 881c91d5e3e034549af437e8c88b2bee, type: 3}
+    behavior: 2
+  - type: 2
+    sprite: {fileID: 21300000, guid: 3a7344e91cddb1447b53bc09eb20c105, type: 3}
+    secondarySprite: {fileID: 0}
+    behavior: 1
+  - type: 5
+    sprite: {fileID: 21300000, guid: 1f68782be8eaa9d4bafd7058a03dcc8d, type: 3}
+    secondarySprite: {fileID: 0}
+    behavior: 1
+--- !u!4 &589897189
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 589897187}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -1.3643595, y: 0.45791134, z: 58.202164}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1853294748}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &596872535
 GameObject:
   m_ObjectHideFlags: 0
@@ -42013,7 +42096,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1829563049
 RectTransform:
   m_ObjectHideFlags: 0
@@ -42356,7 +42439,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1834190028
 RectTransform:
   m_ObjectHideFlags: 0
@@ -42935,6 +43018,64 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1849971184}
   m_CullTransparentMesh: 1
+--- !u!1 &1853294745
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1853294748}
+  - component: {fileID: 1853294747}
+  - component: {fileID: 1853294746}
+  m_Layer: 0
+  m_Name: EffectIconUI
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1853294746
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1853294745}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 05e747fbc2768e047b07e3d14592aca6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  iconImage: {fileID: 0}
+--- !u!225 &1853294747
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1853294745}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
+--- !u!4 &1853294748
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1853294745}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 589897189}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1860749940
 GameObject:
   m_ObjectHideFlags: 0
@@ -48536,3 +48677,4 @@ SceneRoots:
   - {fileID: 427818294}
   - {fileID: 1810702046}
   - {fileID: 553801619}
+  - {fileID: 589897189}
