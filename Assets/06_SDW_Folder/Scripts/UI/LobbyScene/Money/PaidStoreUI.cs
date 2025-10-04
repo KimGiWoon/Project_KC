@@ -1,17 +1,12 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace SDW
 {
     public class PaidStoreUI : BaseUI
     {
-        [Header("UI Components")]
-        [SerializeField] private List<Button> _itemButtonList;
-        [SerializeField] private List<int> _getStarList;
-        [SerializeField] private List<int> _paidPriceList;
+        [SerializeField] private IAPController _iapController;
 
         [Header("Panel")]
         [SerializeField] private TweenAlpha_Image _backgroundPanel;
@@ -25,7 +20,7 @@ namespace SDW
         [Header("Animations")]
         [SerializeField] private TweenAnimation _tweenAnimation;
 
-        public Action<int, int> OnItemSelected;
+        public Action<int, double, string> OnItemSelected;
         public Action<UIName> OnUIOpenRequested;
         public Action<UIName> OnUICloseRequested;
 
@@ -34,21 +29,6 @@ namespace SDW
             _panelContainer.SetActive(false);
             _rectTransform = _panelContainer.GetComponent<RectTransform>();
             _backgroundPanel.gameObject.SetActive(false);
-
-            foreach (var itemButton in _itemButtonList)
-            {
-                itemButton.interactable = false;
-            }
-        }
-
-        private void OnEnable()
-        {
-            for (int i = 0; i < _itemButtonList.Count; i++)
-            {
-                var buttonId = _itemButtonList[i].GetComponent<ButtonId>();
-
-                _itemButtonList[i].onClick.AddListener(() => { ItemButtonClicked(buttonId.Id); });
-            }
         }
 
         /// <summary>
@@ -105,20 +85,9 @@ namespace SDW
             _isProgress = false;
         }
 
-        private void OnDisable()
+        public void ItemSelected(int getStart, double paidPrice, string productId)
         {
-            for (int i = 0; i < _itemButtonList.Count; i++)
-            {
-                var buttonId = _itemButtonList[i].GetComponent<ButtonId>();
-
-                _itemButtonList[i].onClick.RemoveListener(() => { ItemButtonClicked(buttonId.Id); });
-            }
-        }
-
-        private void ItemButtonClicked(int buttonIdId)
-        {
-            //todo IAP 구현 이후 사용
-            OnItemSelected?.Invoke(_getStarList[buttonIdId], _paidPriceList[buttonIdId]);
+            OnItemSelected?.Invoke(getStart, paidPrice, productId);
             OnUIOpenRequested?.Invoke(UIName.NoticePaidConfirmUI);
         }
     }

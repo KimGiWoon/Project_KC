@@ -18,9 +18,11 @@ namespace SDW
 
         public Action<UIName> OnUIOpenRequested;
         public Action<UIName> OnUICloseRequested;
+        public Action<string> OnPayButtonClicked;
 
-        private int _price;
+        private double _price;
         private int _sugarStar;
+        private string _productId;
         private bool _isProgress;
         private bool _isPayButtonClicked;
 
@@ -102,20 +104,27 @@ namespace SDW
             _payButton.interactable = false;
             _isProgress = true;
             _isPayButtonClicked = true;
-            //todo 구글 인앱 결제 이후에 진행되어야 함
-            Debug.Log("IAP 관련 구현 필요");
-            //# 구매 성공시
+            OnPayButtonClicked?.Invoke(_productId);
+        }
+
+        public void Success()
+        {
             GameManager.Instance.Coin.AddShiningStarCandy(_sugarStar);
             OnUIOpenRequested?.Invoke(UIName.NoticePaidCompleteUI);
-            //# 구매 실패 시
-            // OnUIOpenRequested?.Invoke(UIName.NoticeNotPaidUI);
             OnUICloseRequested?.Invoke(UIName.NoticePaidConfirmUI);
         }
 
-        public void SetItemInfo(int sugarStar, int price)
+        public void Failed()
+        {
+            OnUIOpenRequested?.Invoke(UIName.NoticeNotPaidUI);
+            OnUICloseRequested?.Invoke(UIName.NoticePaidConfirmUI);
+        }
+
+        public void SetItemInfo(int sugarStar, double price, string productId)
         {
             _price = price;
             _sugarStar = sugarStar;
+            _productId = productId;
 
             _currencyValueText.text = $"{_price}냥";
         }
