@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using GoogleMobileAds.Api;
 using KSH;
 using SDW;
 using UnityEngine;
@@ -23,6 +24,7 @@ public class NonRemoveADUI : BaseUI
 
     public Action<UIName> OnUIOpenRequested;
     public Action<UIName> OnUICloseRequested;
+    private RewardedAd _rewardedAd;
 
     private void Awake()
     {
@@ -54,6 +56,11 @@ public class NonRemoveADUI : BaseUI
         _cancelButton.onClick.RemoveListener(CancelButtonClicked);
         _retryButton.onClick.RemoveListener(RetryButtonClick);
         _noButton.onClick.RemoveListener(NoButtonClick);
+
+        if (_rewardedAd != null)
+        {
+            _rewardedAd.Destroy();
+        }
     }
 
     // 즉시 부활 버튼 클릭
@@ -68,7 +75,6 @@ public class NonRemoveADUI : BaseUI
     // 노 버튼 클릭
     private void NoButtonClick()
     {
-        // TODO : 로비 확인 UI 오픈
         _isOkayContainer.SetActive(true);
     }
 
@@ -76,8 +82,30 @@ public class NonRemoveADUI : BaseUI
     private void PlayAdvertisement()
     {
         // TODO : 광고 시청
-        // 광고를 봤다고 치고 재시작
+        var adRequest = new AdRequest();
 
+        RewardedAd.Load("ca-app-pub-1840829268496787/3950877621", adRequest, (RewardedAd ad, LoadAdError error) =>
+        {
+            if (error != null)
+            {
+                Debug.LogWarning("광고 재생 실패");
+                return;
+            }
+            _rewardedAd = ad;
+            ShowAd(_rewardedAd);
+        });
+    }
+
+    private void ShowAd(RewardedAd rewardedAd)
+    {
+        if (rewardedAd != null && rewardedAd.CanShowAd())
+        {
+            rewardedAd.Show((Reward reward) => { GetReward(); });
+        }
+    }
+
+    private void GetReward()
+    {
         OnUICloseRequested?.Invoke(UIName.NonRemoveADUI);
         _popupBackground.SetActive(false);
 

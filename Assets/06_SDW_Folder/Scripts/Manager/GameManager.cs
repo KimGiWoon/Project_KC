@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using GoogleMobileAds.Api;
 using JJY;
 using UnityEngine;
 using KSH;
@@ -238,6 +239,8 @@ namespace SDW
 #endif
             FixPortrait();
             _firebase.OnUserInfoUpdated += ClearIsLoaded;
+
+            MobileAds.Initialize(OnInitialized);
         }
 
         private void Update()
@@ -247,6 +250,17 @@ namespace SDW
             SetEtcData(_firebase.EtcData);
             SetGrowthData(_firebase.GrowthData);
             _isLoaded = true;
+        }
+
+        private void OnInitialized(InitializationStatus status)
+        {
+            if (status == null)
+            {
+                Debug.LogError("Google Mobile Ads initialization failed.");
+                return;
+            }
+
+            Debug.Log("Google Mobile Ads initialization complete.");
         }
 
         /// <summary>

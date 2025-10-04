@@ -151,7 +151,10 @@ namespace SDW
                         OpenPanel(UIName.MainLobbyUI);
                     else
                         OpenPanel(targetUI);
-                    _gameManager.Audio.PlayBGM((AudioClipName)index);
+                    if (index < 4)
+                        _gameManager.Audio.PlayBGM((AudioClipName)index);
+                    else
+                        _gameManager.Audio.PlayBGM(AudioClipName.MemoryBW);
                     break;
                 case SceneName.SDW_RoguelikeScene:
                     if (targetUI == UIName.None)

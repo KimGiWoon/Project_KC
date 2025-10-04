@@ -50,7 +50,7 @@ namespace SDW
 
         private void OkButtonClicked()
         {
-            OnUICloseRequested?.Invoke(UIName.NoticePaidCompleteUI);
+            OnUICloseRequested?.Invoke(UIName.NoticeNotPaidUI);
         }
     }
 }

@@ -56,7 +56,7 @@ namespace SDW
             OnUICloseRequested?.Invoke(UIName.NoticePaidCompleteUI);
         }
 
-        public void SetItemInfo(int sugarStar, int price)
+        public void SetItemInfo(int sugarStar, double price, string productInfo)
         {
             _currencyValueText.text = $"{sugarStar}개";
         }
