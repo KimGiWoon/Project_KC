@@ -124,6 +124,7 @@ public class MonsterController : UnitBaseData
         _isAlive = true;
         _isFirstAttack = true;
         _isApplyPassive = false;
+        _playSkillAni = false;
         _skill1Timer = 0f;
         _skill2Timer = 0f;
         _breakCount = 0f;
@@ -206,6 +207,8 @@ public class MonsterController : UnitBaseData
         {
             // 타겟이 없으면 공격하지 않기
             if (_attackTarget == null) return;
+            // 스킬 사용 애니메이션 플레이중 공격하지 않기
+            if (_playSkillAni) return;
 
             // 공격 후 캐릭터가 사망
             if (!_attackTarget._isAlive)
@@ -290,12 +293,13 @@ public class MonsterController : UnitBaseData
             if (_monsterState._monActiveSkill_1._monSkillCd <= _skill1Timer && !_isUseSkill && !_isUseSkill2)
             {
                 _isUseSkill = true;
+                _playSkillAni = true;
 
                 _monAnimatior.speed = _gameSpeed;
                 // 스킬1 애니메이션
                 _monAnimatior.Play(Skill1_Hash);
 
-                Invoke(nameof(ResetAnimation), 0.8f);
+                Invoke(nameof(ResetAnimation), 0.9f);
 
                 // 액티브 스킬1 사용
                 _monsterState._monActiveSkill_1.UseSkill(_monster, _monsterState._monActiveSkill_1, _attackTarget);
@@ -313,7 +317,7 @@ public class MonsterController : UnitBaseData
                 // 스킬2 애니메이션
                 _monAnimatior.Play(Skill2_Hash);
 
-                Invoke(nameof(ResetAnimation), 2.8f);
+                Invoke(nameof(ResetAnimation), 2.9f);
 
                 // 액티브 스킬2 사용
                 _monsterState._monActiveSkill_2.UseSkill(_monster, _monsterState._monActiveSkill_2, _attackTarget);
@@ -335,6 +339,7 @@ public class MonsterController : UnitBaseData
             // 타이머 초기화
             _skill1Timer = 0f;
             _isUseSkill = false;
+            _playSkillAni = false;
         }
     }
 
