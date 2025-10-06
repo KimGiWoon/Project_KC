@@ -1,6 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using GoogleMobileAds.Api;
 using KSH;
 using SDW;
@@ -43,6 +41,7 @@ public class NonRemoveADUI : BaseUI
 
     public override void Open()
     {
+        _retryButton.interactable = true;
         base.Open();
 
         // 패배 사운드 플레이
@@ -66,10 +65,9 @@ public class NonRemoveADUI : BaseUI
     // 즉시 부활 버튼 클릭
     private void RetryButtonClick()
     {
-        // TODO : 광고 보기
-        PlayAdvertisement();
+        _retryButton.interactable = false;
 
-        // TODO : 캐릭터의 부활관련 코드는 배틀매니저의 스폰 메서드로 사용하여 선택한 캐릭터를 체력 100%으로 소환
+        PlayAdvertisement();
     }
 
     // 노 버튼 클릭
@@ -81,7 +79,6 @@ public class NonRemoveADUI : BaseUI
     // 광고 보기
     private void PlayAdvertisement()
     {
-        // TODO : 광고 시청
         var adRequest = new AdRequest();
 
         RewardedAd.Load("ca-app-pub-1840829268496787/3950877621", adRequest, (RewardedAd ad, LoadAdError error) =>
