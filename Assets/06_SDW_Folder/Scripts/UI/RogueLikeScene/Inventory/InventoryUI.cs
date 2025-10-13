@@ -38,6 +38,7 @@ namespace SDW
         {
             _panelContainer.SetActive(false);
             _tweenAnimation = GetComponent<TweenAnimation>();
+            _descriptionPanel.SetActive(false);
         }
 
         protected override void Start()
